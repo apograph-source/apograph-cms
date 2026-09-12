@@ -221,6 +221,18 @@ export function ContentEntryView({
     const presaveHandles = Object.fromEntries(
         presaveItems.map((item, index) => [item.id, presaves[index]?.handle])
     );
+    // Whether any presave step is holding staged state — an edited audience,
+    // say. Asked the same way the save asks it a few lines below, because it is
+    // the same question at a different moment: **will this press write a new
+    // version?** A publish guard that judged the stored head while the press
+    // was about to append a revision would unlock a button the API then
+    // refuses, and staged extensions are the half the form's own dirty flag
+    // cannot see. `extensions()` is a read of staged state by contract — the
+    // step returns undefined when it holds nothing — so calling it on render is
+    // the same query the write makes, not a side effect.
+    const extensionsStaged = presaves.some(
+        (step) => Object.keys(step.extensions?.() ?? {}).length > 0
+    );
 
     // The slot-owned list params (e.g. `?locale=de`) this editor was opened
     // under, as a query suffix. The records table puts them on every row link,
@@ -648,6 +660,7 @@ export function ContentEntryView({
                         ? { prefilledFromLocale: translateFromLocale }
                         : {})}
                     presave={presaveHandles}
+                    extensionsStaged={extensionsStaged}
                     tab={tab}
                     onTabChange={onTabChange}
                 />

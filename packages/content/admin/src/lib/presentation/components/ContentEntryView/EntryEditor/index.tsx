@@ -201,6 +201,7 @@ export function EntryEditor({
     availableTypeNames,
     prefilledFromLocale,
     presave,
+    extensionsStaged,
     tab,
     onTabChange
 }: {
@@ -264,6 +265,18 @@ export function EntryEditor({
      * them (staged media uploads) survives switching tab.
      */
     presave?: Record<string, unknown>;
+    /**
+     * Whether a presave contribution is holding staged state that this record's
+     * next Save will write — an audience edited on the Access tab, say.
+     *
+     * It is **not** part of `isDirty` below, and the difference is deliberate:
+     * `isDirty` means "the form holds unsaved values", which is what the locale
+     * switch and the navigation guard ask about. This means "pressing Publish
+     * will append a version", which is what a publish guard has to be told, and
+     * the two came apart the moment a plugin could stage something the form
+     * never sees.
+     */
+    extensionsStaged?: boolean;
     /**
      * The open tab, owned by the **route** (`/…/:entryId/relations`) rather than
      * by this component — so it survives the remount a locale switch causes.
@@ -583,6 +596,15 @@ export function EntryEditor({
         visible.some((field) => isFieldDirty(field.name)) ||
         Object.values(relationDeltas).some(isStagedDirty);
 
+    // What a press of Publish will actually **ship**, which is not the same
+    // question as whether the form is dirty. Publish saves first when there is
+    // anything to save, and a save appends a revision — so with a staged
+    // audience and untouched fields, judging the stored head would offer an
+    // ordinary publish for a version that is about to stop being the head. The
+    // approvals bound to it stop counting at that moment and the API answers
+    // 409, which is the one outcome a publish guard exists to prevent.
+    const willWriteVersion = isDirty || extensionsStaged === true;
+
     // The staged relation deltas to send with the save — only fields with a
     // pending change, serialized to the wire shape. Undefined when nothing staged.
     const relationsPayload = (): Record<string, RelationDelta> | undefined => {
@@ -843,7 +865,7 @@ export function EntryEditor({
                             isCreate={isCreate}
                             saving={saving}
                             mutating={mutating}
-                            dirty={isDirty}
+                            dirty={willWriteVersion}
                             onSaveDraft={() => save(false)}
                             onPublish={(options) => save(true, options)}
                             onUnpublish={onUnpublish}

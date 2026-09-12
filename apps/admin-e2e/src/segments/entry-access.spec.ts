@@ -23,6 +23,7 @@ import {
     type SegmentsApiSpy
 } from '../support/api/segments';
 import { mockEntryRevisionFlow } from '../support/api/revisions';
+import { mockEntryReview } from '../support/api/protection';
 import { expectNoA11yViolations } from '../support/a11y';
 
 const WS = RELATIONS_WORKSPACE.id;
@@ -152,6 +153,47 @@ test.describe('Entry editor — Access tab', () => {
         await expect
             .poll(() => saves.bodies.at(-1)?.extensions)
             .toEqual({ access: { allow: ['seg-acme'], deny: [] } });
+    });
+
+    /**
+     * The publish verdict has to answer for **the version Publish will ship**,
+     * and a staged audience is a version this record does not have yet: the
+     * press saves first, that save appends a revision, and the approvals bound
+     * to the old head stop counting at that moment.
+     *
+     * The editor's own dirty flag cannot see this — it is fields and staged
+     * links — so the guard was being handed `dirty: false` and judging the
+     * stored head, which is approved. The button unlocked and the API answered
+     * 409. This is the case `protection:I-18`'s checklist row calls "stage only
+     * a link **or an audience**"; the link half had a test and this half did
+     * not.
+     */
+    test('holds Publish for a staged audience alone [protection:I-18]', async ({
+        contentLibraryPage,
+        segmentsPage,
+        page
+    }) => {
+        // Approved as it stands, and blocked the moment anything is saved.
+        await mockEntryReview(page, {
+            required: 1,
+            given: 1,
+            blocked: false,
+            afterSave: { required: 1, given: 0, blocked: true }
+        });
+        await openAccessTab(contentLibraryPage);
+
+        // Nothing about the form is touched — the audience is the whole change.
+        await expect(contentLibraryPage.editorSave).not.toHaveAttribute(
+            'aria-disabled',
+            'true'
+        );
+
+        await segmentsPage.setAccess('Acme Corp', 'Can see');
+
+        await expect(contentLibraryPage.editorSave).toHaveAttribute(
+            'aria-disabled',
+            'true'
+        );
     });
 
     test('sends nothing about access when nothing was staged [segments:I-26]', async ({
