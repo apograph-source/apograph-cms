@@ -235,6 +235,13 @@ export type ReviewQueue = {
     items: ReviewQueueItem[];
     /** Open requests in the workspace, before the page window. */
     total: number;
+    /**
+     * After how many days an open ask reads as overdue — the server's own
+     * threshold, travelling with the rows it applies to rather than being
+     * restated in the client. The Insights card takes it off the wire for the
+     * same reason.
+     */
+    overdueAfterDays: number;
 };
 
 /** The queue split into the two questions the page asks. */

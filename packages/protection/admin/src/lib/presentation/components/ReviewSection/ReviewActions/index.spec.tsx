@@ -18,8 +18,9 @@ vi.mock('../RequestReviewDialog', () => ({
 const SCOPE = {
     workspaceId: 'ws',
     typeName: 'article',
-    entryId: 'entry-1'
-} as const;
+    entryId: 'entry-1',
+    updatedAt: '2026-09-09T09:00:00.000Z'
+};
 
 const review = (overrides: Partial<EntryReview> = {}): EntryReview => ({
     protected: true,

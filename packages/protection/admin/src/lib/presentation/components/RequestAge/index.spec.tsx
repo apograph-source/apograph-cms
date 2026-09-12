@@ -1,7 +1,15 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { IntlProvider } from 'react-intl';
-import { OVERDUE_AFTER_DAYS, RequestAge, ageInDays } from './index';
+import { RequestAge, ageInDays } from './index';
+
+/**
+ * The cut this component used to hold as a constant of its own. It is the
+ * server's now and arrives with the queue, so the tests state it as the input
+ * it is — and a server that moved the threshold moves these rows with it
+ * instead of leaving the page and the Insights card disagreeing.
+ */
+const OVERDUE_AFTER_DAYS = 3;
 
 /** `iso` for a request opened `days` ago. */
 const daysAgo = (days: number) =>
@@ -10,7 +18,10 @@ const daysAgo = (days: number) =>
 const show = (createdAt: string) =>
     render(
         <IntlProvider locale="en">
-            <RequestAge createdAt={createdAt} />
+            <RequestAge
+                createdAt={createdAt}
+                overdueAfterDays={OVERDUE_AFTER_DAYS}
+            />
         </IntlProvider>
     );
 

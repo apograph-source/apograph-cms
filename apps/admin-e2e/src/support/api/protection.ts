@@ -264,7 +264,7 @@ export function daysAgo(days: number): string {
 export async function mockReviewQueue(
     page: Page,
     items: ReviewQueueSeed[] = [],
-    options: { status?: number } = {}
+    options: { status?: number; overdueAfterDays?: number } = {}
 ): Promise<void> {
     await page.route('**/api/protection/queue*', async (route) => {
         if (options.status && options.status >= 400) {
@@ -289,7 +289,12 @@ export async function mockReviewQueue(
                     given: item.given ?? 0,
                     createdAt: item.createdAt ?? new Date().toISOString()
                 })),
-                total: items.length
+                total: items.length,
+                // The server's own cut, which the queue takes off the wire
+                // rather than restating — a mock that left it out would make
+                // every age compare against `undefined` and quietly never read
+                // as overdue.
+                overdueAfterDays: options.overdueAfterDays ?? 3
             })
         });
     });

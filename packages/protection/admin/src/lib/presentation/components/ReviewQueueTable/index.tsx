@@ -50,12 +50,15 @@ const messages = defineMessages({
  */
 export function ReviewQueueTable({
     items,
-    currentUserId
+    currentUserId,
+    overdueAfterDays
 }: {
     /** The rows for this tab, already split by `splitQueue`. */
     items: readonly ReviewQueueItem[];
     /** The signed-in person, so their own name reads "You". */
     currentUserId?: string;
+    /** The server's overdue cut, passed straight through to each age. */
+    overdueAfterDays: number;
 }) {
     const intl = useIntl();
 
@@ -124,7 +127,10 @@ export function ReviewQueueTable({
                             </ul>
                         </TableCell>
                         <TableCell>
-                            <RequestAge createdAt={item.createdAt} />
+                            <RequestAge
+                                createdAt={item.createdAt}
+                                overdueAfterDays={overdueAfterDays}
+                            />
                         </TableCell>
                         <TableCell>
                             {intl.formatMessage(messages.tally, {

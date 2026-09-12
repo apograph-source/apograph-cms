@@ -171,6 +171,16 @@ export interface ReviewQueueItemView {
 export interface ReviewQueueView {
     items: ReviewQueueItemView[];
     total: number;
+    /**
+     * After how many days an open ask reads as overdue.
+     *
+     * It travels **with the rows it applies to**, exactly as
+     * {@link ProtectionInsightsView} carries it with its figures: the queue page
+     * and the Insights card draw the same threshold, and a client holding its
+     * own copy is a page that can come to disagree with the number beside it
+     * without anything failing.
+     */
+    overdueAfterDays: number;
 }
 
 /**

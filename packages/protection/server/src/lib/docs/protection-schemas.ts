@@ -386,9 +386,17 @@ export function buildProtectionSchemas(): Record<string, OpenApiSchema> {
         },
         [REVIEW_QUEUE_SCHEMA]: {
             type: 'object',
-            required: ['items', 'total'],
+            required: ['items', 'total', 'overdueAfterDays'],
             properties: {
                 total: { type: 'integer' },
+                overdueAfterDays: {
+                    type: 'integer',
+                    example: 3,
+                    description:
+                        'After how many days an open request reads as overdue. Sent with ' +
+                        'the rows rather than restated by the client, so a page and the ' +
+                        'Insights card cannot draw two different thresholds.'
+                },
                 items: {
                     type: 'array',
                     items: {

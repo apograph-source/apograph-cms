@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { HeadRevisionQuery } from '../infrastructure/head-revision.query';
+import { OVERDUE_AFTER_DAYS } from './overdue';
 import { ProtectionRuleRepository } from '../infrastructure/protection-rule.repository';
 import { ReviewApprovalRepository } from '../infrastructure/review-approval.repository';
 import { ReviewRequestRepository } from '../infrastructure/review-request.repository';
@@ -47,7 +48,13 @@ export class ReviewQueueService {
             limit: options.limit ?? DEFAULT_PAGE_SIZE,
             offset: options.offset ?? 0
         });
-        if (!page.items.length) return { items: [], total: page.total };
+        if (!page.items.length) {
+            return {
+                items: [],
+                total: page.total,
+                overdueAfterDays: OVERDUE_AFTER_DAYS
+            };
+        }
 
         // The rule set is small (one row per protected type per workspace) and
         // read once for the whole page rather than once per line.
@@ -95,6 +102,10 @@ export class ReviewQueueService {
             };
         });
 
-        return { items, total: page.total };
+        return {
+            items,
+            total: page.total,
+            overdueAfterDays: OVERDUE_AFTER_DAYS
+        };
     }
 }

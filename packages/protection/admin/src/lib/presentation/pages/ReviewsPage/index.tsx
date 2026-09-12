@@ -159,10 +159,15 @@ export function ReviewsPage() {
                             </SegmentedControlItem>
                         </SegmentedControl>
 
-                        {rows.length ? (
+                        {/* `data` and a non-empty `rows` are the same
+                            condition — the rows come out of it — but the
+                            narrowing has to be written down for the threshold
+                            the table now takes from it. */}
+                        {rows.length && data ? (
                             <ReviewQueueTable
                                 items={rows}
                                 currentUserId={auth.user?.id}
+                                overdueAfterDays={data.overdueAfterDays}
                             />
                         ) : (
                             !isError && (

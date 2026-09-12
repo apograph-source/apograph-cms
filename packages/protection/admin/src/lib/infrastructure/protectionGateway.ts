@@ -142,6 +142,7 @@ type ReviewQueueItemResponse = {
 type ReviewQueueResponse = {
     items: ReviewQueueItemResponse[];
     total: number;
+    overdueAfterDays: number;
 };
 
 /** One approval as the wire returns it. */
@@ -351,7 +352,8 @@ export const httpProtectionGateway: ProtectionGateway = {
             );
             return {
                 items: data.items.map(toQueueItem),
-                total: data.total
+                total: data.total,
+                overdueAfterDays: data.overdueAfterDays
             };
         } catch (error) {
             throw toApiError(error);

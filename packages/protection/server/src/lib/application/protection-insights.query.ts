@@ -3,9 +3,9 @@ import { and, count, eq, isNull, lt, sql } from 'drizzle-orm';
 import { InjectDatabase, type Database } from '@orthacms/database';
 import { reviewRequests } from '../infrastructure/schema/review-requests';
 import type { ProtectionInsightsView } from '../types/protection-views';
+import { OVERDUE_AFTER_DAYS } from './overdue';
 
-/** How long an open request waits before the card calls it overdue. */
-export const OVERDUE_AFTER_DAYS = 3;
+export { OVERDUE_AFTER_DAYS };
 
 /**
  * The Insights card's two figures: how much review is outstanding, and how much

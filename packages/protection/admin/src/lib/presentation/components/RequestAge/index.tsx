@@ -14,9 +14,6 @@ const messages = defineMessages({
     overdue: { id: 'protection.queue.age.overdue', defaultMessage: 'overdue' }
 });
 
-/** After how long a request reads as overdue. Matches the Insights card's cut. */
-export const OVERDUE_AFTER_DAYS = 3;
-
 /** Whole days between `iso` and `now`, floored; clock skew reads as 0. */
 export function ageInDays(iso: string, now = Date.now()): number {
     const started = Date.parse(iso);
@@ -35,7 +32,7 @@ function ageInHours(iso: string, now = Date.now()): number {
  * How long an ask has been waiting.
  *
  * **The warning tone is never the only signal.** A request past
- * {@link OVERDUE_AFTER_DAYS} is coloured *and* carries the word "overdue" in
+ * `overdueAfterDays` is coloured *and* carries the word "overdue" in
  * its text, so the fact survives a greyscale screen, a colour-blind reader and
  * a screen reader alike. It is the rule a queue gets wrong most easily, because
  * "this one is old" feels like something red says by itself.
@@ -43,11 +40,29 @@ function ageInHours(iso: string, now = Date.now()): number {
  * The exact moment rides `<time datetime>` rather than the rounded phrase, so
  * nothing is lost to the rounding.
  */
-export function RequestAge({ createdAt }: { createdAt: string }) {
+export function RequestAge({
+    createdAt,
+    overdueAfterDays
+}: {
+    createdAt: string;
+    /**
+     * After how long an ask reads as overdue — **the server's threshold, sent
+     * with the queue**, not a constant restated here.
+     *
+     * It used to be a `3` in this file and a `3` in
+     * `protection-insights.query.ts`, which is two numbers that must agree and
+     * nothing making them: changing the server's to 7 left this queue calling
+     * five-day asks overdue while the Insights card said "waiting longer than 7
+     * days", with every suite green. The card already takes its threshold off
+     * the wire for exactly that reason; this is the same rule applied to the
+     * page the card links to.
+     */
+    overdueAfterDays: number;
+}) {
     const intl = useIntl();
     const days = ageInDays(createdAt);
     const hours = ageInHours(createdAt);
-    const overdue = days >= OVERDUE_AFTER_DAYS;
+    const overdue = days >= overdueAfterDays;
 
     const waited = days
         ? intl.formatMessage(messages.days, { days })
