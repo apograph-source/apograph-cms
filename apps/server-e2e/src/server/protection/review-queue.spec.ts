@@ -92,10 +92,21 @@ describe('/api/protection/queue', () => {
         return id;
     }
 
+    /**
+     * An empty page, **and nothing else** — `toEqual` rather than
+     * `toMatchObject` on purpose, so a field appearing in this response is a
+     * decision somebody has to make here rather than something that arrives
+     * unnoticed. `overdueAfterDays` is one: the queue carries the server's
+     * overdue cut with its rows instead of the client restating it, and it is
+     * present on an empty page too, because the page draws the threshold
+     * whether or not it has anything to draw it against.
+     */
+    const EMPTY_QUEUE = { items: [], total: 0, overdueAfterDays: 3 };
+
     it('is empty when nobody has asked for anything', async () => {
         const { agent } = await member(REVIEWER, 'contributor');
         const response = await agent.get('/api/protection/queue').expect(200);
-        expect(response.body).toEqual({ items: [], total: 0 });
+        expect(response.body).toEqual(EMPTY_QUEUE);
     });
 
     it('lists open requests across every content type in the workspace', async () => {
@@ -173,7 +184,7 @@ describe('/api/protection/queue', () => {
             .expect(204);
 
         const response = await agent.get('/api/protection/queue').expect(200);
-        expect(response.body).toEqual({ items: [], total: 0 });
+        expect(response.body).toEqual(EMPTY_QUEUE);
     });
 
     it('does not leak another workspace’s queue', async () => {
@@ -194,7 +205,7 @@ describe('/api/protection/queue', () => {
         const response = await outsider
             .get('/api/protection/queue')
             .expect(200);
-        expect(response.body).toEqual({ items: [], total: 0 });
+        expect(response.body).toEqual(EMPTY_QUEUE);
     });
 
     it('is refused without a session', async () => {
