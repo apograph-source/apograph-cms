@@ -280,16 +280,19 @@ stays as history and does not block the next ask.
 ## The batched status read
 
 `ReviewStatusQuery` answers "where does each of these entries stand" for a whole
-records page in **three queries whatever the page holds** — the heads (through
+records page in **four queries whatever the page holds** — the heads (through
 content's batched `RevisionStore.heads`), every vote on those entries (one query
-over the denormalised `entry_id`), and the workspace's rules (one, and the rule
-set is one row per protected type).
+over the denormalised `entry_id`), the open requests over those same ids (one,
+for the `requested` flag), and the workspace's rules (one, and the rule set is
+one row per protected type).
 
 The shape is the point. A column asking the single-entry review route per row is
 an N+1 over a page whose size the user chose, and it is the reason `heads` was
-added to content's port at all. `review-status.spec.ts` pins the count flat, and
-that test — not this paragraph — is what keeps it true: mutating the query into a
-per-entry read takes it from 8 to 17.
+added to content's port at all. `review-status.spec.ts` pins the count **flat** — one page against
+another, never a number — and that test, not this paragraph, is what keeps the
+shape true: mutating the query into a per-entry read takes it from 8 to 17. The
+number itself is documentation, which is how this paragraph said "three" for as
+long as the open-requests read has existed.
 
 It counts through **`countApprovals`**, the same kernel function
 `evaluateProtection` calls. A cell reading "2 of 2" beside a Publish button that
