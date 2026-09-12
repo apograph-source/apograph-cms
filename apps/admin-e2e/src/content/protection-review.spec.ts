@@ -166,13 +166,13 @@ test.describe('Publication protection in the entry editor', () => {
         });
         await contentLibraryPage.gotoEntry(WS, TYPE, ENTRY);
 
-        // Activated from the keyboard: the copilot dock is `fixed bottom-3
-        // right-4` with `z-40` and floats over the bottom of the properties
-        // rail, which is where this button sits — a pointer click never becomes
-        // actionable and the test times out waiting for it. The same workaround
-        // the records footer needs, for the same reason.
-        await page.getByRole('button', { name: 'Request review' }).focus();
-        await page.keyboard.press('Enter');
+        // A plain pointer click, and it is the assertion: the copilot dock is
+        // `fixed bottom-3 right-4` with `z-40` and floats over the bottom of the
+        // properties rail, which is where this button sits. It used to
+        // intercept the click and this test timed out. The scrollports now
+        // reserve `--ortha-fixed-bottom-gutter`, so the rail can be scrolled
+        // clear of the bar — if that regresses, this goes back to timing out.
+        await page.getByRole('button', { name: 'Request review' }).click();
         const dialog = page.getByRole('dialog', { name: 'Request review' });
         await expect(dialog).toBeVisible();
         await expect(dialog.getByRole('textbox')).toHaveCount(0);

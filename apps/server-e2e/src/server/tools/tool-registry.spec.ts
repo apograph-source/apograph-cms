@@ -162,6 +162,48 @@ describe('Tool registry (one registry, two surfaces)', () => {
             );
         });
 
+        /**
+         * `protection:I-17` — **no tool on any surface can record an approval**,
+         * asserted against the running registry rather than against one
+         * provider's own `tools()`.
+         *
+         * The assertion beside `ProtectionToolProvider` reads the catalogue that
+         * provider returns, so an approve-effect tool contributed from
+         * `content/server`, `copilot/server` or a plugin written next year would
+         * pass it while the invariant it claims to pin was broken. This is the
+         * altitude ADR-0017 §6 states the rule at: the approval is the step that
+         * unlocks publication, so handing a model one while withholding
+         * `publish` hands over the key and keeps the doorknob.
+         *
+         * It is a name scan, and a name scan is beatable by a tool called
+         * something else — but a tool that records an approval has to be
+         * discoverable by a model to be worth contributing, and the way a
+         * capability plugin makes one discoverable is by naming it. The second
+         * assertion closes the gap for this package: the protection tools in the
+         * catalogue are exactly the three that are meant to exist, so a fourth
+         * fails here whatever it is called.
+         */
+        it('offers no tool that could record an approval, on either surface [protection:I-17]', () => {
+            const approveish = /approve|approval|vote|sign.?off/i;
+            // Both catalogues were read in `beforeAll`; an empty one would make
+            // every assertion below pass by having nothing to filter.
+            expect(mounted?.mcp.length).toBeGreaterThan(0);
+            expect(mounted?.copilot.length).toBeGreaterThan(0);
+
+            for (const names of [mounted?.mcp ?? [], mounted?.copilot ?? []]) {
+                expect(names.filter((name) => approveish.test(name))).toEqual(
+                    []
+                );
+                expect(
+                    names.filter((name) => name.startsWith('protection_'))
+                ).toEqual([
+                    'protection_request_review',
+                    'protection_review_diff',
+                    'protection_review_status'
+                ]);
+            }
+        });
+
         // And each still keeps what is its own — otherwise "one registry" would
         // be indistinguishable from "one catalogue with no surface filtering".
         it('keeps each surface’s narrowed tools to itself', async () => {

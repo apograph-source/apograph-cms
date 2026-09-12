@@ -1,3 +1,4 @@
+import { useLayoutEffect, useRef } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { Plus, Sparkles, X } from 'lucide-react';
 import { cn, Kbd } from '@orthacms/design-system';
@@ -96,9 +97,51 @@ export function CopilotDock({
 }) {
     const intl = useIntl();
     const empty = sessions.length === 0;
+    const bar = useRef<HTMLDivElement | null>(null);
+
+    /**
+     * Publishes how much room this bar takes at the bottom of the viewport, so
+     * the page's scroll containers can reserve it.
+     *
+     * The dock is `fixed` and portalled to `<body>`, so it covers whatever is
+     * beneath it — and what is beneath it is the bottom of the page's
+     * scrollport and the bottom of the properties rail, which is where a
+     * records footer's pagination and the entry rail's own buttons sit. A
+     * control under this bar cannot be clicked at all: it is not hidden, it is
+     * *intercepted*, which reads to a mouse user as a button that does nothing.
+     *
+     * A variable rather than a constant in the shell, because the shell must
+     * not know that a copilot exists — with no dock mounted the variable is
+     * unset and every reader falls back to `0px`, which is the layout those
+     * deployments have today. Measured rather than hard-coded so the pills'
+     * own type scale cannot drift away from the gutter reserved for them.
+     */
+    useLayoutEffect(() => {
+        const node = bar.current;
+        if (!node) return;
+        const root = document.documentElement;
+        const publish = () => {
+            // The bar's own height, plus the `bottom-3` it floats above the
+            // edge, plus that much again so the last control clears it rather
+            // than touching it.
+            const gutter = node.offsetHeight + 12 * 2;
+            root.style.setProperty(
+                '--ortha-fixed-bottom-gutter',
+                `${gutter}px`
+            );
+        };
+        publish();
+        const observer = new ResizeObserver(publish);
+        observer.observe(node);
+        return () => {
+            observer.disconnect();
+            root.style.removeProperty('--ortha-fixed-bottom-gutter');
+        };
+    }, []);
 
     return (
         <div
+            ref={bar}
             // A **group**, not a `toolbar`. It was a toolbar, for the good
             // reason that a screen reader then announces one control group
             // rather than a loose row of buttons floating over the page — but

@@ -594,7 +594,13 @@ function SidebarInset({
                     // replaced.
                     role={scrollLabel ? 'group' : undefined}
                     aria-label={scrollLabel}
-                    className="flex min-h-0 flex-1 flex-col overflow-y-auto focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset focus-visible:outline-none"
+                    // The bottom gutter is reserved by whatever fixed chrome
+                    // the app floats over this scrollport — the copilot dock
+                    // sets it while it is mounted. Unset it is `0px`, which is
+                    // the layout an app without such chrome has: a scrollport
+                    // whose last row cannot be scrolled clear of a bar covering
+                    // it is a control a pointer cannot reach.
+                    className="flex min-h-0 flex-1 flex-col overflow-y-auto pb-[var(--ortha-fixed-bottom-gutter,0px)] focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset focus-visible:outline-none"
                 >
                     {children}
                 </div>
