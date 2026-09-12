@@ -142,6 +142,38 @@ describe('the token gate', () => {
      * It also buys the flow people actually want: a human writes, humans
      * approve, and a deploy key ships it.
      */
+    /**
+     * The third term of `bypassable`, and the only one no other test reaches.
+     *
+     * Every other token case short-circuits at `token-refused` before the
+     * bypass is computed, and every other bypass case uses a non-token actor —
+     * so `adminBypass && isAdmin` already decides them and `&& !actor.isToken`
+     * could be deleted with the whole suite staying green. It is here on
+     * purpose: `isAdmin` is read off a session today, but the gate must not
+     * depend on that staying true, because the failure it guards against is a
+     * key publishing past a rule with no name to write into the log row.
+     */
+    it('offers no bypass to an opted-in token that claims to be an administrator', () => {
+        expect(
+            evaluate({
+                rule: ruleWith({
+                    allowTokenPublish: true,
+                    adminBypass: true,
+                    requiredApprovals: 2
+                }),
+                approvals: [approved('boris')],
+                actor: { userId: null, isAdmin: true, isToken: true }
+            })
+        ).toEqual({
+            allowed: false,
+            reason: 'insufficient-approvals',
+            required: 2,
+            given: 1,
+            stale: 0,
+            bypassable: false
+        });
+    });
+
     it('still holds an opted-in token to the approval count', () => {
         expect(
             evaluate({

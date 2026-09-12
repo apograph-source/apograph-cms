@@ -358,15 +358,26 @@ describe('the publish guard', () => {
             expect(await auditCount(id, 'entry.publish_bypassed')).toBe(0);
         });
 
+        /**
+         * The `code` is the assertion, not the status. Three different guards
+         * can answer 403 on this route — the permission guard, the origin
+         * guard, and this one — so a bare `.expect(403)` passes for a
+         * regression that never reached the publish guard at all, and passes
+         * equally if the two bypass refusals below swap their branches.
+         */
         it('is 403 for a contributor, who may publish but may not excuse one', async () => {
             const { agent } = await member(AUTHOR, 'contributor');
             const id = await createEntry(agent);
 
-            await agent
+            const res = await agent
                 .post(`/api/content/test_article/${id}/publish`)
                 .send({ bypass: true })
                 .expect(403);
 
+            expect(res.body).toMatchObject({
+                code: 'protection.bypass_refused',
+                message: expect.stringContaining('protection:manage')
+            });
             expect(await statusOf(id)).toBe('draft');
         });
 
@@ -379,11 +390,19 @@ describe('the publish guard', () => {
             const { agent } = await member(ADMIN, 'admin');
             const id = await createEntry(agent);
 
-            await agent
+            const res = await agent
                 .post(`/api/content/test_article/${id}/publish`)
                 .send({ bypass: true })
                 .expect(403);
 
+            // The same code as above, the other message: this refusal is about
+            // the rule, the one above is about the caller. A single assertion
+            // on the status cannot tell them apart, and they are the two halves
+            // of "refusable" that the rule's `admin_bypass` switch decides.
+            expect(res.body).toMatchObject({
+                code: 'protection.bypass_refused',
+                message: expect.stringContaining('no bypass')
+            });
             expect(await statusOf(id)).toBe('draft');
         });
 

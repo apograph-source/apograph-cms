@@ -48,20 +48,21 @@ describe('/api/protection/entries/:typeName/status', () => {
 
     async function member(
         email: string,
-        role: 'admin' | 'contributor' | 'viewer'
+        role: 'admin' | 'contributor' | 'viewer',
+        ws: SeededWorkspace = workspace
     ) {
         const user = await seedActiveUser(harness.app, {
             email,
             password: PASSWORD,
             role
         });
-        await seedMembership(user.id, workspace.id);
+        await seedMembership(user.id, ws.id);
         const agent = request.agent(harness.server);
         await agent
             .post('/api/auth/login')
             .send({ email, password: PASSWORD })
             .expect(201);
-        agent.set('X-Workspace-Id', workspace.id);
+        agent.set('X-Workspace-Id', ws.id);
         return { user, agent };
     }
 
@@ -193,6 +194,38 @@ describe('/api/protection/entries/:typeName/status', () => {
         // Absent, not reported as unprotected: "there is no head here to read"
         // and "this type has no rule" are different facts.
         expect(byEntry[unknown]).toBeUndefined();
+    });
+
+    /**
+     * The **workspace** boundary, which the absent-id assertion above does not
+     * touch: an id nobody owns is absent from any implementation, scoped or
+     * not. This one asks for an entry that really exists, of a type both
+     * workspaces hold, from a session in the other workspace — and it is the
+     * only test here that fails if `ReviewStatusQuery` stops passing the
+     * workspace down to `RevisionStore.heads`, which is where all of its
+     * scoping lives.
+     */
+    it('does not report an entry that belongs to another workspace', async () => {
+        await protect({ enabled: true, requiredApprovals: 1 });
+        const { agent } = await member(AUTHOR, 'contributor');
+        const mine = await createEntry(agent, 'Ours');
+
+        const other = await seedWorkspace({ name: 'Other', slug: 'other' });
+        await seedContentGrants(other.id, ['test_article']);
+        const { agent: outsider } = await member(
+            REVIEWER,
+            'contributor',
+            other
+        );
+        const theirs = await createEntry(outsider, 'Theirs');
+
+        // Each side asks about both ids; each side may only see its own.
+        expect(await statusOf(agent, [mine, theirs])).toEqual({
+            [mine]: expect.objectContaining({ protected: true })
+        });
+        expect(await statusOf(outsider, [mine, theirs])).toEqual({
+            [theirs]: expect.objectContaining({ protected: false })
+        });
     });
 
     /**

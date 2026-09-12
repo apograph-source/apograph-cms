@@ -30,6 +30,7 @@ const ADMIN = 'review-admin@example.com';
  */
 const RULE_ADMIN = 'review-rule-admin@example.com';
 const VIEWER = 'review-viewer@example.com';
+const OUTSIDER = 'review-outsider@example.com';
 
 /**
  * `/api/protection/entries/:type/:id` — the review surface.
@@ -67,20 +68,21 @@ describe('/api/protection/entries', () => {
     /** Seed a member of `role`, log them in, and scope the agent to the workspace. */
     async function member(
         email: string,
-        role: 'admin' | 'contributor' | 'viewer'
+        role: 'admin' | 'contributor' | 'viewer',
+        ws: SeededWorkspace = workspace
     ): Promise<{ user: SeededUser; agent: ReturnType<typeof request.agent> }> {
         const user = await seedActiveUser(harness.app, {
             email,
             password: PASSWORD,
             role
         });
-        await seedMembership(user.id, workspace.id);
+        await seedMembership(user.id, ws.id);
         const agent = request.agent(harness.server);
         await agent
             .post('/api/auth/login')
             .send({ email, password: PASSWORD })
             .expect(201);
-        agent.set('X-Workspace-Id', workspace.id);
+        agent.set('X-Workspace-Id', ws.id);
         return { user, agent };
     }
 
@@ -613,17 +615,39 @@ describe('/api/protection/entries', () => {
 
         /**
          * Nobody may be left in a request as a pending reviewer with no way to
-         * approve: a viewer, the person asking, or somebody outside the
-         * workspace. One 422 for all three, naming nobody.
+         * approve: a viewer, the person asking, somebody who belongs to another
+         * workspace, or an id nobody owns. One 422 for all four, naming nobody.
+         *
+         * The **outsider** is the case worth seeding properly. A made-up uuid is
+         * refused by any implementation that so much as resolves the id against
+         * `users`; the person who could actually be smuggled into a
+         * `reviewer_ids` array is a real, active account holding
+         * `content:approve` — who is simply a member somewhere else. Only that
+         * one exercises the `memberships` join in `ReviewerCandidatesQuery`.
          */
         it('[protection:I-22] 422s a reviewer who could never approve it', async () => {
             await protect({ enabled: true });
             const { agent, user: author } = await member(AUTHOR, 'contributor');
             const { user: viewer } = await member(VIEWER, 'viewer');
             const id = await createEntry(agent);
-            const stranger = '00000000-0000-4000-8000-000000000001';
 
-            for (const reviewerIds of [[viewer.id], [author.id], [stranger]]) {
+            const elsewhere = await seedWorkspace({
+                name: 'Elsewhere',
+                slug: 'elsewhere'
+            });
+            const { user: outsider } = await member(
+                OUTSIDER,
+                'contributor',
+                elsewhere
+            );
+            const nobody = '00000000-0000-4000-8000-000000000001';
+
+            for (const reviewerIds of [
+                [viewer.id],
+                [author.id],
+                [outsider.id],
+                [nobody]
+            ]) {
                 const response = await ask(agent, id, reviewerIds).expect(422);
                 expect(response.body.code).toBe(
                     'protection.reviewer_not_eligible'
