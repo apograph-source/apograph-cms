@@ -6,7 +6,7 @@ import {
     OriginGuard,
     PermissionsGuard,
     Public
-} from '@orthacms/identity-server';
+} from '@apograph/identity-server';
 import { UsersModule } from './users.module';
 
 /** Nest's own metadata keys — string literals in `@nestjs/common/constants`. */

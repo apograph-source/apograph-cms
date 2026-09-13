@@ -5,7 +5,7 @@ import {
     type ModelRegistry,
     type ModelResolver,
     type ModelProvider
-} from '@orthacms/copilot-domain';
+} from '@apograph/copilot-domain';
 import { CopilotModule } from './copilot.module';
 import type { ProviderRegistration } from './infrastructure/model-registry';
 import type { CopilotPluginConfig } from './types/copilot-config';

@@ -7,14 +7,14 @@ import {
     CollapsibleTrigger,
     Input,
     Spinner
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 import {
     QueryBuilder,
     countRules,
     type FilterField,
     type FilterGroup,
     type RelationValueEditor
-} from '@orthacms/query-builder-admin';
+} from '@apograph/query-builder-admin';
 
 const messages = defineMessages({
     search: {

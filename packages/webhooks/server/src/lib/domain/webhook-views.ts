@@ -1,4 +1,4 @@
-import type { DeliveryStatus } from '@orthacms/webhooks-domain';
+import type { DeliveryStatus } from '@apograph/webhooks-domain';
 
 /**
  * The read shapes the application layer hands to the HTTP layer.

@@ -10,7 +10,7 @@ import {
     type Database,
     type DomainEvent,
     type DomainEventSubscriber
-} from '@orthacms/database';
+} from '@apograph/database';
 import {
     closeTestApp,
     createTestApp,

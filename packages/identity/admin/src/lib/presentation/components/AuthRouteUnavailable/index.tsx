@@ -7,7 +7,7 @@ import {
     CardDescription,
     CardHeader,
     CardTitle
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 
 /**
  * Intl descriptors for {@link AuthRouteUnavailable}, co-located with the

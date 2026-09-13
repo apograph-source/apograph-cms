@@ -5,7 +5,7 @@
  *
  * Content-server declares the port, calls it from `EntryWriterService`, and
  * records what it returns in the revision snapshot's `extra` bag;
- * `@orthacms/segments-server` binds one for reader entitlements, so who may read
+ * `@apograph/segments-server` binds one for reader entitlements, so who may read
  * a record is set on Save, committed with the record, captured by the version,
  * and put back when a version is restored.
  *

@@ -1,8 +1,8 @@
 import { Test } from '@nestjs/testing';
-import { UnitOfWork } from '@orthacms/database';
-import { ToolRegistry } from '@orthacms/tools-server';
-import { WorkspacePurgeRegistry } from '@orthacms/workspaces-server';
-import { STORAGE_PROVIDER } from '@orthacms/media-domain';
+import { UnitOfWork } from '@apograph/database';
+import { ToolRegistry } from '@apograph/tools-server';
+import { WorkspacePurgeRegistry } from '@apograph/workspaces-server';
+import { STORAGE_PROVIDER } from '@apograph/media-domain';
 import { AltTextProposalToolProvider } from './copilot/alt-text-proposal.provider';
 import { CreateFileProposalToolProvider } from './copilot/create-file-proposal.provider';
 import { MediaCopilotToolProvider } from './copilot/media-tool.provider';
@@ -14,9 +14,9 @@ import { ListFoldersQuery } from './infrastructure/queries/list-folders.query';
 
 /**
  * Media registers itself with two collaborators it does not depend on: the
- * shared tool registry (`@orthacms/tools-server`, present only when the copilot
+ * shared tool registry (`@apograph/tools-server`, present only when the copilot
  * or MCP is mounted) and the workspace purge registry
- * (`@orthacms/workspaces-server`). Both injections are `@Optional()`, so a
+ * (`@apograph/workspaces-server`). Both injections are `@Optional()`, so a
  * deployment that mounts neither still comes up with a working media library.
  *
  * **This has to go through Nest's container.** `@Optional()` is a decorator

@@ -10,18 +10,20 @@ jest.mock('jiti', () => ({
 import { createTsJiti } from './jiti';
 
 /** The transform hook `createTsJiti` handed jiti, pulled back out of the mock. */
-function capturedTransform(): (opts: {
-    source: string;
-    filename?: string;
-}) => { code: string; error?: unknown } {
+function capturedTransform(): (opts: { source: string; filename?: string }) => {
+    code: string;
+    error?: unknown;
+} {
     createTsJiti('/repo/packages/nx/src/executors/db-migrate/executor.ts');
 
     const [, options] = createJiti.mock.calls[0] as unknown as [
         string,
-        { transform: (opts: { source: string; filename?: string }) => {
-            code: string;
-            error?: unknown;
-        } }
+        {
+            transform: (opts: { source: string; filename?: string }) => {
+                code: string;
+                error?: unknown;
+            };
+        }
     ];
     return options.transform;
 }

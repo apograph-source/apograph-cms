@@ -1,4 +1,4 @@
-import { PERMISSIONS } from '@orthacms/identity-server';
+import { PERMISSIONS } from '@apograph/identity-server';
 import type { ActivityService } from '../activity/services/activity.service';
 import { ActivityCopilotToolProvider } from './activity-tool.provider';
 

@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { lookup as dnsLookup } from 'node:dns';
 import {
     DELIVERY_HEADERS,
+    LEGACY_DELIVERY_HEADERS,
     DELIVERY_USER_AGENT,
     WebhookUrlRejectedError,
     assertAddressAllowed,
@@ -9,7 +10,7 @@ import {
     isAllowedCustomHeader,
     parseRetryAfter,
     signatureHeader
-} from '@orthacms/webhooks-domain';
+} from '@apograph/webhooks-domain';
 import { Agent, request } from 'undici';
 import { InjectWebhooksConfig } from '../webhooks.tokens';
 import type { ResolvedWebhooksConfig } from '../types/webhooks-config';
@@ -26,7 +27,7 @@ export interface WebhookRequest {
     deliveryId: string;
     eventId: string;
     workspaceId: string | null;
-    /** 1-based, sent as `X-Ortha-Attempt`. */
+    /** 1-based, sent as `X-Apograph-Attempt`. */
     attempt: number;
 }
 
@@ -184,17 +185,29 @@ export class WebhookHttpClient {
 
         headers['content-type'] = 'application/json';
         headers['user-agent'] = DELIVERY_USER_AGENT;
-        headers[DELIVERY_HEADERS.EVENT] = delivery.eventKind;
-        headers[DELIVERY_HEADERS.DELIVERY] = delivery.deliveryId;
-        headers[DELIVERY_HEADERS.EVENT_ID] = delivery.eventId;
-        headers[DELIVERY_HEADERS.ATTEMPT] = String(delivery.attempt);
-        headers[DELIVERY_HEADERS.SIGNATURE] = signatureHeader(
-            delivery.secret,
-            timestamp,
-            body
-        );
-        if (delivery.workspaceId) {
-            headers[DELIVERY_HEADERS.WORKSPACE] = delivery.workspaceId;
+
+        // Every delivery header goes out under both spellings during the
+        // rename window. The values are computed once and written twice, so
+        // the two can never disagree — a receiver that verifies the signature
+        // against `X-Ortha-Signature` and one that reads `X-Apograph-Signature`
+        // are checking the same bytes.
+        const signature = signatureHeader(delivery.secret, timestamp, body);
+        const values: Record<keyof typeof DELIVERY_HEADERS, string | null> = {
+            EVENT: delivery.eventKind,
+            DELIVERY: delivery.deliveryId,
+            EVENT_ID: delivery.eventId,
+            ATTEMPT: String(delivery.attempt),
+            SIGNATURE: signature,
+            // Omitted entirely when the event has no workspace, rather than
+            // sent empty — the same as before the rename.
+            WORKSPACE: delivery.workspaceId
+        };
+
+        for (const [field, value] of Object.entries(values)) {
+            if (value === null) continue;
+            const key = field as keyof typeof DELIVERY_HEADERS;
+            headers[DELIVERY_HEADERS[key]] = value;
+            headers[LEGACY_DELIVERY_HEADERS[key]] = value;
         }
 
         return headers;

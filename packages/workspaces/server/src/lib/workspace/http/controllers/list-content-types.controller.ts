@@ -3,7 +3,7 @@ import {
     PERMISSIONS,
     PermissionsGuard,
     RequireAnyPermission
-} from '@orthacms/identity-server';
+} from '@apograph/identity-server';
 import { ContentCatalogReader } from '../../application/content/content-catalog.reader';
 import type { ContentTypeDescriptor } from '../../application/ports/content-type-descriptor';
 

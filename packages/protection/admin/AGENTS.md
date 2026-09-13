@@ -1,4 +1,4 @@
-# `@orthacms/protection-admin`
+# `@apograph/protection-admin`
 
 Publication protection as the people who use it meet it: three contributions
 into the Content Library's slots, where a requirement is met or missed, one into

@@ -14,7 +14,7 @@ import {
     PermissionsGuard,
     RequirePermissions,
     type PublicUser
-} from '@orthacms/identity-server';
+} from '@apograph/identity-server';
 import { UpdateMemberDto } from '../../application/dto/update-member.dto';
 import { UpdateMemberUseCase } from '../../application/use-cases/update-member.use-case';
 import {

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { and, eq } from 'drizzle-orm';
-import { InjectDatabase, type Database } from '@orthacms/database';
+import { InjectDatabase, type Database } from '@apograph/database';
 import { roles } from '../../schema';
 import { RoleNotFoundError, SystemRoleProtectedError } from '../errors';
 

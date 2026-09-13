@@ -20,7 +20,7 @@ import { buildCommand } from './build';
  * `--server` and `--admin` run one half on its own, which is what the monorepo
  * offers as `start:server` / `start:admin` — the API alone while the admin is
  * served from somewhere else, or the admin alone against an API already up.
- * Both were accepted and ignored here: `ortha dev --server` parsed, brought
+ * Both were accepted and ignored here: `apograph dev --server` parsed, brought
  * Vite up anyway, and said nothing about it.
  */
 export async function devCommand(
@@ -53,8 +53,8 @@ export async function devCommand(
     if (!options.serverOnly) {
         const hasAdmin = existsSync(join(root, LAYOUT.adminIndex));
 
-        // Without an admin, `ortha dev` runs the API and says nothing — but
-        // `ortha dev --admin` asked for the admin and nothing else, and
+        // Without an admin, `apograph dev` runs the API and says nothing — but
+        // `apograph dev --admin` asked for the admin and nothing else, and
         // supervising an empty set would exit 0 with no output at all.
         if (!hasAdmin && options.adminOnly) {
             throw new Error(

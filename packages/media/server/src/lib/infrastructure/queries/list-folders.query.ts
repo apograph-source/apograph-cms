@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { asc, eq, sql } from 'drizzle-orm';
-import { InjectDatabase, type Database } from '@orthacms/database';
+import { InjectDatabase, type Database } from '@apograph/database';
 import { mediaAsset } from '../schema/media-asset';
 import { mediaFolder } from '../schema/media-folder';
 import type { FoldersView } from '../../types/folder-view';

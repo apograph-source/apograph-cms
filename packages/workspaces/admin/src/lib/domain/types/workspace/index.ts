@@ -1,4 +1,4 @@
-import type { AvatarColor } from '@orthacms/design-system';
+import type { AvatarColor } from '@apograph/design-system';
 
 /** Lifecycle status of a workspace. */
 export type WorkspaceStatus = 'Active' | 'Archived';

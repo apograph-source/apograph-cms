@@ -16,7 +16,7 @@
  * operations came to be published with the admin's schemas.
  */
 
-import type { OpenApiDocument } from '@orthacms/bootstrap-server';
+import type { OpenApiDocument } from '@apograph/bootstrap-server';
 import {
     addErrorResponse,
     ref,

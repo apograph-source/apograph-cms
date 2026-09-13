@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { Languages } from 'lucide-react';
-import { useHasPermission } from '@orthacms/identity-admin';
+import { useHasPermission } from '@apograph/identity-admin';
 import {
     BulkPublishDialog,
     type EntryMenuEntry,
     type EntrySlotContext
-} from '@orthacms/content-admin';
+} from '@apograph/content-admin';
 import { CONTENT_PUBLISH } from '../../constants';
 import { localeName } from '../../domain/localePolicy';
 import { useEntryLocales } from '../../api/useEntryLocales';

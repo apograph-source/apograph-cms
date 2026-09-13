@@ -1,5 +1,5 @@
 import { defineMessages, type IntlShape } from 'react-intl';
-import { HTTP_STATUS, type ApiError } from '@orthacms/utils-admin';
+import { HTTP_STATUS, type ApiError } from '@apograph/utils-admin';
 
 /**
  * The rate-limit copy, in one place because three auth pages need the same

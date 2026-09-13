@@ -61,7 +61,7 @@ const DEFAULT_HEARTBEAT = 60_000;
  * so a lock stamped once at acquisition puts a ceiling on how long a publish
  * may legitimately take. That ceiling was reachable: the executor's own default
  * retry ladder sleeps 30+60+120+240+300s = 12.5 minutes before its sixth
- * upload attempt, and `ORTHA_PUBLISH_RETRIES=8` pushes it past twenty, both
+ * upload attempt, and `APOGRAPH_PUBLISH_RETRIES=8` pushes it past twenty, both
  * against a 15-minute window. A peer would then "steal" a lock whose holder was
  * mid-upload and publish alongside it, defeating the serialisation this whole
  * file exists for. Heartbeating decouples the two: `staleAfter` now bounds

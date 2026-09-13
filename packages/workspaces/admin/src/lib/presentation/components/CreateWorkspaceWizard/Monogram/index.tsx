@@ -1,5 +1,5 @@
-import { avatarColorVar, cn, type AvatarColor } from '@orthacms/design-system';
-import { initialsOf } from '@orthacms/utils-admin';
+import { avatarColorVar, cn, type AvatarColor } from '@apograph/design-system';
+import { initialsOf } from '@apograph/utils-admin';
 
 /** Props for {@link Monogram}. */
 export type MonogramProps = {

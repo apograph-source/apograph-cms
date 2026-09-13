@@ -18,7 +18,7 @@ import {
     SelectValue,
     Spinner,
     toast
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 import {
     DEFAULT_DEPTH,
     TRANSFER_FORMAT,
@@ -26,7 +26,7 @@ import {
     TRANSFER_FORMAT_CAPABILITIES,
     type TransferDepth,
     type TransferFormat
-} from '@orthacms/transfer-domain';
+} from '@apograph/transfer-domain';
 import { useExportPreview } from '../../api/useExportPreview';
 import { useExportDownload } from '../../api/useExportDownload';
 

@@ -1,4 +1,4 @@
-import { ApiError } from '@orthacms/utils-admin';
+import { ApiError } from '@apograph/utils-admin';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 import type { ReactNode } from 'react';
@@ -34,7 +34,7 @@ function withQueryClient() {
     };
 }
 
-const credentials = { email: 'ada@ortha.dev', password: 'correct horse' };
+const credentials = { email: 'ada@apograph.dev', password: 'correct horse' };
 
 /**
  * Signing in. The request itself is the gateway's business; what belongs to

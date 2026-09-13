@@ -1,6 +1,6 @@
-# @orthacms/shell-admin
+# @apograph/shell-admin
 
-The **shell plugin** for the Ortha CMS admin UI — the authenticated app chrome.
+The **shell plugin** for the Apograph CMS admin UI — the authenticated app chrome.
 It contributes the layout (a **left sidebar** — `AppSidebar` — beside a `<main>`
 inset) that wraps every private route, plus the home page at `/`. The sidebar is
 **collapsible (offcanvas)**: an in-header trigger hides it (`⌘B` also toggles);
@@ -38,7 +38,7 @@ does, from inside its own tree:
   the column is zero-width and `inert`. Collapsed, the column disappears and the
   reopen button appears in the top bar's actions region, because the panel has
   no width left to draw a control in. The open/collapsed state lives in
-  `PageChromeProvider` (persisted, `ortha:right-panel`) rather than with the
+  `PageChromeProvider` (persisted, `apograph:right-panel`) rather than with the
   filler, since the control that flips it is chrome.
 
   **The toggle pair hands focus between its halves**, and this is not optional.
@@ -77,7 +77,7 @@ target to exist, and keeping the panel host mounted means collapsing never
 unmounts the filler and throws away its state.
 
 It **owns the sidebar's slots** — all `createSlot` extension points (primitive
-from `@orthacms/utils-admin`):
+from `@apograph/utils-admin`):
 
 - `SIDEBAR_NAV_SLOT` — the primary nav, grouped Overview / Directory (each
   `SidebarItem` carries a `group` + `icon`). The shell contributes Home; feature
@@ -117,8 +117,8 @@ other overlay in the app.
 
 ## Package
 
-- Name: `@orthacms/shell-admin`
-- Import: `import { ShellPlugin } from '@orthacms/shell-admin'`
+- Name: `@apograph/shell-admin`
+- Import: `import { ShellPlugin } from '@apograph/shell-admin'`
 - Grouped package (`packages/shell/admin`), admin-only. Consumed from source
   (`exports` → `./src/index.ts`); no build step.
 
@@ -156,13 +156,13 @@ order, Component }`) — the home dashboard's tiles + panels.
 
 ## Architecture
 
-- **Layout _and_ gate.** The host (`@orthacms/bootstrap-admin`) owns only the
+- **Layout _and_ gate.** The host (`@apograph/bootstrap-admin`) owns only the
   public/private split and mounts the `layout` as the parent of private routes —
   it is auth-agnostic. This plugin makes the layout gated by composing identity's
   pieces: `<AuthProvider><RequireAuth><AppShell/></RequireAuth></AuthProvider>`.
   So `AuthProvider` (the `/auth/me` source) and `RequireAuth` (the gate) wrap the
   private subtree; private pages render in `AppShell`'s `<Outlet/>` behind one
-  check. This is why the shell **depends on `@orthacms/identity-admin`**.
+  check. This is why the shell **depends on `@apograph/identity-admin`**.
 - **Private by default.** The routes carry no `public` flag, so they mount under
   the gated layout. Public screens (sign-in) come from the identity plugin and
   sit outside the shell.
@@ -189,13 +189,13 @@ order, Component }`) — the home dashboard's tiles + panels.
   `components/AppSidebar/` (only `AppSidebar` uses them), not in `components/`.
 - User-facing strings go through `react-intl` (`defineMessages` + `useIntl`),
   co-located in the component file; ids namespaced `shell.<area>.<key>`
-- UI is built from `@orthacms/design-system` components, not bespoke markup
+- UI is built from `@apograph/design-system` components, not bespoke markup
 
 ## Commands
 
-- `npm exec nx typecheck @orthacms/shell-admin`
-- `npm exec nx lint @orthacms/shell-admin`
-- `npm exec nx test @orthacms/shell-admin` — vitest + jsdom (`vite.config.mts`,
+- `npm exec nx typecheck @apograph/shell-admin`
+- `npm exec nx lint @apograph/shell-admin`
+- `npm exec nx test @apograph/shell-admin` — vitest + jsdom (`vite.config.mts`,
   `src/test-setup.ts`). What lives here is the handful of rules a browser cannot
   attribute: the contextual area's ownership token and the `useSidebarContent`
   factory+deps contract, the portal hosts staying mounted across a collapse, the

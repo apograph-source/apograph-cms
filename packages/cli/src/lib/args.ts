@@ -1,5 +1,5 @@
 /**
- * Argv parsing for the `ortha` binary.
+ * Argv parsing for the `apograph` binary.
  *
  * Split out of `cli.ts` because that file runs `main()` on import: anything
  * left in it is untestable, and what is worth testing here is which arguments
@@ -7,9 +7,9 @@
  * first, and the two that answer before the app itself has to exist.
  */
 
-export const USAGE = `ortha — the Ortha CMS command line
+export const USAGE = `apograph — the Apograph CMS command line
 
-Usage: ortha <command> [options]
+Usage: apograph <command> [options]
 
 Commands:
   dev                    Run the API and admin dev servers together
@@ -61,7 +61,7 @@ export interface Halves {
  *
  * Both at once is refused rather than obeyed. `--server` means "skip the admin"
  * and `--admin` means "skip the server", so together they narrow the command to
- * nothing: `ortha build --server --admin` used to compile nothing, build
+ * nothing: `apograph build --server --admin` used to compile nothing, build
  * nothing and exit 0, which reads as a build that succeeded.
  */
 export function halves(argv: readonly string[], command: string): Halves {
@@ -70,7 +70,7 @@ export function halves(argv: readonly string[], command: string): Halves {
 
     if (serverOnly && adminOnly) {
         throw new Error(
-            `\`ortha ${command} --server --admin\` asks for neither half — ` +
+            `\`apograph ${command} --server --admin\` asks for neither half — ` +
                 `--server skips the admin and --admin skips the server. Pass ` +
                 `one, or neither for both.`
         );
@@ -108,7 +108,7 @@ export function numberOption(
  * Whether this invocation is asking for the usage text.
  *
  * Deliberately reads the **whole** argv rather than the arguments after the
- * command. `ortha --help` puts `--help` in the command position, and a check
+ * command. `apograph --help` puts `--help` in the command position, and a check
  * that only looked past it fell through to the `switch` and answered the most
  * common first command with `Unknown command "--help"` and exit code 1.
  *
@@ -127,7 +127,7 @@ export function wantsHelp(args: readonly string[]): boolean {
 /**
  * Whether this invocation is asking which version is installed.
  *
- * Checked before {@link wantsHelp}, so `ortha --version --help` answers with
+ * Checked before {@link wantsHelp}, so `apograph --version --help` answers with
  * the number — the same precedence `node` and `git` use.
  */
 export function wantsVersion(args: readonly string[]): boolean {

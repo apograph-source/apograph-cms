@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { Check, ChevronDown, ChevronRight, Copy } from 'lucide-react';
-import { Button } from '@orthacms/design-system';
+import { Button } from '@apograph/design-system';
 import type { FilterGroup } from '../../../types/filter-tree.type';
 import { treeToJsonNode } from '../../../utils/treeToJsonFilter';
 

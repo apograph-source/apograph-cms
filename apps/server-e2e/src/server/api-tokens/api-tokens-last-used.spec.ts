@@ -209,7 +209,7 @@ describe('API token last-used tracking', () => {
         // bearer would let anyone with the endpoint write into the audit log.
         await request(harness.server)
             .get('/api/v1/content-types')
-            .set('Authorization', 'Bearer orthacms_not-a-real-token')
+            .set('Authorization', 'Bearer apograph_not-a-real-token')
             .expect(401);
 
         expect(await usedRows()).toEqual([]);

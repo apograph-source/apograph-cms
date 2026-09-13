@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { attachActor, OutboxWriter, UnitOfWork } from '@orthacms/database';
+import { attachActor, OutboxWriter, UnitOfWork } from '@apograph/database';
 import { UserId } from '../../domain/value-objects/user-id';
 import { PasswordHash } from '../../domain/value-objects/password-hash';
 import { UserAccountNotFoundError } from '../../domain/errors';

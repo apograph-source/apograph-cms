@@ -1,6 +1,6 @@
 import { useEffect, useId, useState } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
-import { Button, InputField } from '@orthacms/design-system';
+import { Button, InputField } from '@apograph/design-system';
 import { FileText, Film, Music, Package, X } from 'lucide-react';
 import { formatBytes } from '../../../utils/formatBytes';
 

@@ -11,14 +11,14 @@ import {
     UnitOfWork,
     type Database,
     type EventActor
-} from '@orthacms/database';
-import type { AnyContentType } from '@orthacms/content-server';
+} from '@apograph/database';
+import type { AnyContentType } from '@apograph/content-server';
 import {
     isOfferedIn,
     isOpen,
     sameAccess,
     type EntryAccess
-} from '@orthacms/segments-domain';
+} from '@apograph/segments-domain';
 import { entryAccess } from '../schema/entry-access';
 import {
     entryBelongsTo,

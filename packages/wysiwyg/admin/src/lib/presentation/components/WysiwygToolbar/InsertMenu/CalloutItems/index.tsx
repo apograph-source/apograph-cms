@@ -5,7 +5,7 @@ import { CircleCheck, Info, OctagonAlert, TriangleAlert } from 'lucide-react';
 import {
     DropdownMenuItem,
     DropdownMenuSeparator
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 import {
     CALLOUT_TONE,
     CALLOUT_TONES,

@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { apiClient, STALE_TIME, toApiError } from '@orthacms/utils-admin';
+import { apiClient, STALE_TIME, toApiError } from '@apograph/utils-admin';
 import { LOCALES_PATH } from '../../constants';
 import type { Locale, LocalesResult } from '../../types/locale';
 

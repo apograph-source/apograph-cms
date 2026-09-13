@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import type { EventActor } from '@orthacms/database';
+import type { EventActor } from '@apograph/database';
 import type { AnyContentType } from '../../types/content-type';
 import { toRecord } from '../../entries/infrastructure/persistence/entry-row';
 import { EntryWriterService } from '../../entries/infrastructure/persistence/entry-writer.service';
@@ -396,12 +396,7 @@ export class PublicEntryWritesService {
             workspaceId,
             locale
         );
-        await this.writer.remove(
-            type,
-            row['id'] as string,
-            workspaceId,
-            actor
-        );
+        await this.writer.remove(type, row['id'] as string, workspaceId, actor);
     }
 
     /**

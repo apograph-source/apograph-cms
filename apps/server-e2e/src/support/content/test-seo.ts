@@ -1,4 +1,4 @@
-import { collection, field } from '@orthacms/content-server/define';
+import { collection, field } from '@apograph/content-server/define';
 
 /**
  * `test_seo` — the e2e-owned equivalent of the app's `seo_meta`. The far side of
@@ -13,11 +13,15 @@ import { collection, field } from '@orthacms/content-server/define';
  */
 export const testSeo = collection('test_seo', {
     label: 'Test SEO metadata',
-    description: 'Search-engine metadata attached one-to-one to a test article.',
+    description:
+        'Search-engine metadata attached one-to-one to a test article.',
     fields: {
         metaTitle: field.text({
             maxLength: 70,
-            admin: { label: 'Meta title', description: 'Title tag (≤ 70 chars).' }
+            admin: {
+                label: 'Meta title',
+                description: 'Title tag (≤ 70 chars).'
+            }
         }),
         metaDescription: field.text({
             maxLength: 160,

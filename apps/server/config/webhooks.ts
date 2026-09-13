@@ -1,6 +1,6 @@
 /** Outgoing webhooks — how hard the sender pushes, and where it may reach. */
-import type { WebhooksPluginConfig } from '@orthacms/webhooks-server';
-import { readFlag, readPositiveInt } from '@orthacms/utils-server';
+import type { WebhooksPluginConfig } from '@apograph/webhooks-server';
+import { readFlag, readPositiveInt } from '@apograph/utils-server';
 
 /**
  * Webhook delivery settings.

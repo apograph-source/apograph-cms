@@ -7,15 +7,15 @@ import {
     Tooltip,
     TooltipContent,
     TooltipTrigger
-} from '@orthacms/design-system';
-import { useHasPermission } from '@orthacms/identity-admin';
-import { useUnsavedChangesApi } from '@orthacms/utils-admin';
+} from '@apograph/design-system';
+import { useHasPermission } from '@apograph/identity-admin';
+import { useUnsavedChangesApi } from '@apograph/utils-admin';
 import {
     ENTRY_MODE,
     EntrySidebarSection,
     type EntryStatus,
     type EntrySlotContext
-} from '@orthacms/content-admin';
+} from '@apograph/content-admin';
 import {
     CONTENT_CREATE,
     LOCALE_GROUP_PARAM,

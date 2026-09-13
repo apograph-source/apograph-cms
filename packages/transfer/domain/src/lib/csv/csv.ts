@@ -61,10 +61,7 @@ export interface CsvParseLimits {
  * Accepts CRLF, LF and bare CR line endings, because all three arrive in
  * practice from Windows, Unix and older Mac exports respectively.
  */
-export function parseCsv(
-    text: string,
-    limits: CsvParseLimits
-): string[][] {
+export function parseCsv(text: string, limits: CsvParseLimits): string[][] {
     const source = text.startsWith(BOM) ? text.slice(1) : text;
     const rows: string[][] = [];
     let row: string[] = [];

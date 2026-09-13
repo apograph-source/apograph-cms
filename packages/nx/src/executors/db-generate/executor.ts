@@ -1,6 +1,6 @@
 import { join } from 'node:path';
 import type { ExecutorContext } from '@nx/devkit';
-import { runDrizzleKitGenerate } from '@orthacms/cli';
+import { runDrizzleKitGenerate } from '@apograph/cli';
 
 /** Options for the `db-generate` executor. */
 export interface DbGenerateExecutorOptions {

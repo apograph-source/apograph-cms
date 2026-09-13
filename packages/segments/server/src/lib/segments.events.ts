@@ -1,4 +1,4 @@
-import { createDomainEvent, type DomainEvent } from '@orthacms/database';
+import { createDomainEvent, type DomainEvent } from '@apograph/database';
 
 /**
  * The domain events the segments context raises.

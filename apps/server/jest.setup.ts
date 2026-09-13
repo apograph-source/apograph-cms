@@ -1,7 +1,7 @@
 /**
- * Supplies the one deploy value `ortha.config.ts` refuses to default.
+ * Supplies the one deploy value `apograph.config.ts` refuses to default.
  *
- * The specs here assert the **real** composition — `ortha.config.ts` and
+ * The specs here assert the **real** composition — `apograph.config.ts` and
  * `buildPlugins`, not a mirror of them — which means they import a module that
  * now fails fast on a missing `DATABASE_URL`. That check is the point (a
  * deployment that boots without one dies several seconds later on an error that
@@ -13,4 +13,4 @@
  * sourced keeps their own value.
  */
 process.env['DATABASE_URL'] ??=
-    'postgres://spec:spec@127.0.0.1:5432/ortha_cms_spec';
+    'postgres://spec:spec@127.0.0.1:5432/apograph_cms_spec';

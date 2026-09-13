@@ -1,7 +1,7 @@
 import type {
     ApiTokenScope,
     AuthenticatedRequest
-} from '@orthacms/identity-server';
+} from '@apograph/identity-server';
 
 /**
  * The token a public-API request authenticated with, as {@link ApiTokenGuard}

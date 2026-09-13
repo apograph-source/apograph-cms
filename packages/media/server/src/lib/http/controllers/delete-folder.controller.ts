@@ -13,8 +13,8 @@ import {
     PermissionsGuard,
     RequirePermissions,
     type PublicUser
-} from '@orthacms/identity-server';
-import { CurrentWorkspace, WorkspaceGuard } from '@orthacms/workspaces-server';
+} from '@apograph/identity-server';
+import { CurrentWorkspace, WorkspaceGuard } from '@apograph/workspaces-server';
 import { DeleteFolderUseCase } from '../../application/use-cases/delete-folder.use-case';
 import { toHttp } from '../to-http';
 

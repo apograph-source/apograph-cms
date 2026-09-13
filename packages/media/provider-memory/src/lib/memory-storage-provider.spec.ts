@@ -1,5 +1,5 @@
 import { Readable } from 'node:stream';
-import { describeStorageProvider } from '@orthacms/media-provider-testkit';
+import { describeStorageProvider } from '@apograph/media-provider-testkit';
 import {
     createMemoryStorageProvider,
     MemoryStoreFullError,

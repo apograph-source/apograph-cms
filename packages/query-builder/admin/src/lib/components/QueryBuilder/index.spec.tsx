@@ -89,7 +89,8 @@ describe('QueryBuilder', () => {
 
     describe('an unresolvable field', () => {
         /** A tree naming a field the schema no longer declares. */
-        const stale = () => group('root', [rule('r1', 'ghost', OP.Contains, 'x')]);
+        const stale = () =>
+            group('root', [rule('r1', 'ghost', OP.Contains, 'x')]);
 
         it('is reported, not silently replaced by the first field [query-builder:I-04]', () => {
             renderIntl(<ControlledBuilder initial={stale()} />);
@@ -177,7 +178,9 @@ describe('QueryBuilder', () => {
             const onChange = vi.fn();
             renderIntl(
                 <ControlledBuilder
-                    initial={group('root', [rule('r1', 'views', OP.Equals, '5')])}
+                    initial={group('root', [
+                        rule('r1', 'views', OP.Equals, '5')
+                    ])}
                     onChange={onChange}
                 />
             );
@@ -310,9 +313,7 @@ describe('QueryBuilder', () => {
             // `<body>` and the next Tab would restart at the top of the
             // document. The target is captured before the unmount, so it is the
             // row that was below — the direction the list is being read in.
-            expect(document.activeElement).toBe(
-                removeButton('Published at')
-            );
+            expect(document.activeElement).toBe(removeButton('Published at'));
         });
 
         it('falls back to the previous row when the last one goes [query-builder:I-18]', async () => {

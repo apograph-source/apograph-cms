@@ -1,4 +1,4 @@
-import { apiClient } from '@orthacms/utils-admin';
+import { apiClient } from '@apograph/utils-admin';
 import type {
     AlarmFinding,
     AlarmFindingList,

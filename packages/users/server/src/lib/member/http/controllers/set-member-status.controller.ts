@@ -13,7 +13,7 @@ import {
     PermissionsGuard,
     RequirePermissions,
     type PublicUser
-} from '@orthacms/identity-server';
+} from '@apograph/identity-server';
 import { SetMemberStatusUseCase } from '../../application/use-cases/set-member-status.use-case';
 import {
     MEMBER_ERROR_CODES,

@@ -8,7 +8,7 @@ import {
     DropdownMenuRadioGroup,
     DropdownMenuRadioItem,
     DropdownMenuTrigger
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 import {
     MEDIA_ALIGNS,
     WYSIWYG_MEDIA_KINDS,

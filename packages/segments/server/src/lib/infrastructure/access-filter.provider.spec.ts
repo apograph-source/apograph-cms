@@ -5,9 +5,9 @@ import type { SQL } from 'drizzle-orm';
 import type {
     AnyContentType,
     EntryFilterContext
-} from '@orthacms/content-server';
-import { FilterOperator, type ParsedRule } from '@orthacms/utils-server';
-import type { Segment } from '@orthacms/segments-domain';
+} from '@apograph/content-server';
+import { FilterOperator, type ParsedRule } from '@apograph/utils-server';
+import type { Segment } from '@apograph/segments-domain';
 import { SegmentCatalogService } from '../application/segment-catalog.service';
 import {
     ACCESS_FILTER_FIELD,

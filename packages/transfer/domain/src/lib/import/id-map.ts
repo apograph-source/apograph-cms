@@ -9,7 +9,10 @@
  * through this map before the database is asked anything.
  */
 
-import { keyFingerprint, type TransferRef } from '../document/transfer-document';
+import {
+    keyFingerprint,
+    type TransferRef
+} from '../document/transfer-document';
 
 /** How a reference was resolved — reported so a run can be explained. */
 export const RESOLVED_VIA = {
@@ -111,11 +114,7 @@ export class TransferAssetMap {
     private readonly bySourceId = new Map<string, string>();
     private readonly byChecksum = new Map<string, string>();
 
-    remember(
-        sourceId: string,
-        targetId: string,
-        checksum?: string
-    ): void {
+    remember(sourceId: string, targetId: string, checksum?: string): void {
         this.bySourceId.set(sourceId, targetId);
         if (checksum) this.byChecksum.set(checksum, targetId);
     }

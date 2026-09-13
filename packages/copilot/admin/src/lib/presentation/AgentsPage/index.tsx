@@ -7,21 +7,21 @@ import {
     EmptyHeader,
     EmptyMedia,
     EmptyTitle
-} from '@orthacms/design-system';
-import { useHasPermission } from '@orthacms/identity-admin';
-import { useCurrentWorkspace } from '@orthacms/workspaces-admin';
+} from '@apograph/design-system';
+import { useHasPermission } from '@apograph/identity-admin';
+import { useCurrentWorkspace } from '@apograph/workspaces-admin';
 import { useCopilotAvailable } from '../../application/useCopilotModels';
 import { useRouteContext } from '../../application/useRouteContext';
 import { COPILOT_USE, agentsPath } from '../../domain/agentsRoute';
 import { AgentsRail } from './AgentsRail';
 import { AgentsThread } from './AgentsThread';
 import { AgentsTopBar } from './AgentsTopBar';
-import { useDocumentTitle } from '@orthacms/utils-admin';
+import { useDocumentTitle } from '@apograph/utils-admin';
 
 const messages = defineMessages({
     heading: {
         id: 'copilot.agents.heading',
-        defaultMessage: 'Ortha AI'
+        defaultMessage: 'Apograph AI'
     },
     forbiddenTitle: {
         id: 'copilot.agents.forbiddenTitle',
@@ -29,16 +29,16 @@ const messages = defineMessages({
     },
     forbiddenBody: {
         id: 'copilot.agents.forbiddenBody',
-        defaultMessage: 'You don’t have permission to use Ortha AI here.'
+        defaultMessage: 'You don’t have permission to use Apograph AI here.'
     },
     offTitle: {
         id: 'copilot.agents.offTitle',
-        defaultMessage: 'Ortha AI is turned off'
+        defaultMessage: 'Apograph AI is turned off'
     },
     offBody: {
         id: 'copilot.agents.offBody',
         defaultMessage:
-            'This deployment doesn’t run Ortha AI. An administrator can turn it on.'
+            'This deployment doesn’t run Apograph AI. An administrator can turn it on.'
     }
 });
 

@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { attachActor, OutboxWriter, UnitOfWork } from '@orthacms/database';
-import type { PublicUser } from '@orthacms/identity-server';
+import { attachActor, OutboxWriter, UnitOfWork } from '@apograph/database';
+import type { PublicUser } from '@apograph/identity-server';
 import { Member } from '../../domain/member';
 import { Role } from '../../domain/value-objects/role';
 import { EmailTakenError } from '../../domain/errors';

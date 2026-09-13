@@ -17,7 +17,7 @@ import {
     htmlToRichTextDocument,
     isRichTextDocument,
     richTextPlainText
-} from '@orthacms/content-domain';
+} from '@apograph/content-domain';
 import type {
     TransferAssetRef,
     TransferRecord,
@@ -186,7 +186,8 @@ export function recordToRow(
 
         if (field.relation) {
             const value = record.relations[field.name];
-            const refs = value == null ? [] : Array.isArray(value) ? value : [value];
+            const refs =
+                value == null ? [] : Array.isArray(value) ? value : [value];
             row.push(
                 refs
                     .map((ref) =>
@@ -285,9 +286,7 @@ export function rowToRecord(
         const refs = splitEscaped(raw, REF_SEPARATOR)
             .map((token) => parseRefToken(token, identityFieldsOf))
             .filter((ref): ref is TransferRef => ref !== undefined);
-        relations[field.name] = field.relation?.many
-            ? refs
-            : (refs[0] ?? null);
+        relations[field.name] = field.relation?.many ? refs : (refs[0] ?? null);
     }
 
     for (const field of schema.fields) {
@@ -304,9 +303,7 @@ export function rowToRecord(
         $key: {},
         $depth: depth === 1 ? 1 : 0,
         ...(cell('$locale') ? { $locale: cell('$locale') } : {}),
-        ...(cell('$localeGroup')
-            ? { $localeGroup: cell('$localeGroup') }
-            : {}),
+        ...(cell('$localeGroup') ? { $localeGroup: cell('$localeGroup') } : {}),
         ...(cell('$status')
             ? { $status: cell('$status') as TransferRecord['$status'] }
             : {}),

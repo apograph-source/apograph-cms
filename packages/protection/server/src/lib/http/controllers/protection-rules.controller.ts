@@ -17,9 +17,9 @@ import {
     PermissionsGuard,
     RequirePermissions,
     type PublicUser
-} from '@orthacms/identity-server';
-import { CurrentWorkspace, WorkspaceGuard } from '@orthacms/workspaces-server';
-import type { EventActor } from '@orthacms/database';
+} from '@apograph/identity-server';
+import { CurrentWorkspace, WorkspaceGuard } from '@apograph/workspaces-server';
+import type { EventActor } from '@apograph/database';
 import { ProtectionRulesService } from '../../application/protection-rules.service';
 import { SaveProtectionRuleDto } from '../../application/dto/save-protection-rule.dto';
 import { UnknownProtectedContentTypeError } from '../../domain/errors';

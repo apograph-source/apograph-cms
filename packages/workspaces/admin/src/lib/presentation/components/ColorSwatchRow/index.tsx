@@ -6,7 +6,7 @@ import {
     avatarColorVar,
     cn,
     type AvatarColor
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 
 const messages = defineMessages({
     label: {

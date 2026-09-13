@@ -96,8 +96,8 @@ export type ModelStreamEvent = TextDeltaEvent | ToolCallEvent | DoneEvent;
 
 /**
  * The model boundary. Implementations live in separate packages
- * (`@orthacms/copilot-provider-anthropic`, `@orthacms/copilot-provider-openai`,
- * and the private test fixture `@orthacms/copilot-provider-fake`) and are
+ * (`@apograph/copilot-provider-anthropic`, `@apograph/copilot-provider-openai`,
+ * and the private test fixture `@apograph/copilot-provider-fake`) and are
  * registered at the composition root. The copilot core depends only on this
  * interface — **never** on a vendor SDK
  * ([ADR-0004](../../../../../docs/adr/0004-model-agnostic-copilot-provider.md) §1).

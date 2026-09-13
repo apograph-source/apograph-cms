@@ -10,9 +10,9 @@ database.
 
 | slot | API    | admin  | database       |
 | ---- | ------ | ------ | -------------- |
-| 0    | `3000` | `4200` | `ortha_cms`    |
-| 1    | `3001` | `4201` | `ortha_cms_a1` |
-| _n_  | `300n` | `420n` | `ortha_cms_an` |
+| 0    | `3000` | `4200` | `apograph_cms`    |
+| 1    | `3001` | `4201` | `apograph_cms_a1` |
+| _n_  | `300n` | `420n` | `apograph_cms_an` |
 
 Slot 0 is the main checkout and is managed by hand — the defaults every command
 already assumes. Slots 1–9 are provisioned by
@@ -35,13 +35,13 @@ npx nx run server:db:migrate
 
 ```sh
 # from the main checkout — one worktree per ticket
-git worktree add ../ortha-cms-ort-101 -b claude/ort-101-something
+git worktree add ../apograph-cms-ort-101 -b claude/ort-101-something
 
 # provision it: creates the database, writes a port-adjusted .env
-node tools/worktree/slot.mjs provision 1 --path ../ortha-cms-ort-101
+node tools/worktree/slot.mjs provision 1 --path ../apograph-cms-ort-101
 
 # then, inside that worktree
-cd ../ortha-cms-ort-101
+cd ../apograph-cms-ort-101
 npm install                     # worktrees start without node_modules
 npx nx run server:db:migrate
 npm run dev
@@ -57,8 +57,8 @@ whether anything is listening, plus any databases no worktree still claims.
 When a ticket is done:
 
 ```sh
-node tools/worktree/slot.mjs release 1 --yes   # drops ortha_cms_a1
-git worktree remove ../ortha-cms-ort-101
+node tools/worktree/slot.mjs release 1 --yes   # drops apograph_cms_a1
+git worktree remove ../apograph-cms-ort-101
 ```
 
 ## What reads the slot
@@ -72,7 +72,7 @@ checkout:
   admin would serve its own UI while reading and writing the **first**
   worktree's database. `strictPort` is on, so a taken port fails instead of
   drifting to the next free one behind an agent's back.
-- [`apps/server/ortha.config.ts`](../apps/server/ortha.config.ts) — the
+- [`apps/server/apograph.config.ts`](../apps/server/apograph.config.ts) — the
   `ALLOWED_ORIGINS` default follows `ADMIN_PORT`.
 - [`apps/admin-e2e/playwright.config.ts`](../apps/admin-e2e/playwright.config.ts)
   — `baseURL` and the `webServer` URL follow `ADMIN_PORT`, so a suite tests its
@@ -95,5 +95,5 @@ enforces the pool — it is a scheduling decision, and `list` is there to show
 who currently holds what.
 
 `npm install` per worktree is unavoidable: this is npm workspaces with
-`customConditions: ["@orthacms/source"]` resolution, and symlinking a shared
+`customConditions: ["@apograph/source"]` resolution, and symlinking a shared
 root `node_modules` breaks it.

@@ -16,7 +16,7 @@
  * left exactly as the scanner emitted it.
  */
 
-import type { OpenApiDocument } from '@orthacms/bootstrap-server';
+import type { OpenApiDocument } from '@apograph/bootstrap-server';
 import { ASSIGNABLE_ROLE_KEYS } from '../member/domain/value-objects/role';
 
 /** A JSON Schema fragment, as it appears in the OpenAPI document. */
@@ -73,7 +73,8 @@ const MEMBER_WORKSPACE_SCHEMA: OpenApiSchema = {
         },
         color: {
             type: 'string',
-            description: 'Accent colour key (a design-system `AVATAR_COLORS` value).'
+            description:
+                'Accent colour key (a design-system `AVATAR_COLORS` value).'
         }
     }
 };
@@ -116,7 +117,8 @@ const MEMBER_SCHEMA: OpenApiSchema = {
         createdAt: {
             type: 'string',
             format: 'date-time',
-            description: 'Membership creation date; the invite date while `pending`.'
+            description:
+                'Membership creation date; the invite date while `pending`.'
         },
         isLastAdmin: {
             type: 'boolean',
@@ -185,7 +187,11 @@ const MEMBER_PAGE_SCHEMA: OpenApiSchema = {
             minimum: 0,
             description: 'Total members matching the search, across all pages.'
         },
-        page: { type: 'integer', minimum: 1, description: '1-based, echoed back.' },
+        page: {
+            type: 'integer',
+            minimum: 1,
+            description: '1-based, echoed back.'
+        },
         pageSize: { type: 'integer', minimum: 1 }
     }
 };
@@ -214,7 +220,7 @@ const MEMBER = answers('Member', 'The member, as it now stands.');
  * `/{id}/invites` (DELETE) is absent because it answers `204` — it has no body
  * rather than an undescribed one. `/{id}/sessions` and
  * `/{id}/sessions/{sessionId}` are absent because they belong to
- * `@orthacms/identity-server`, which describes them itself.
+ * `@apograph/identity-server`, which describes them itself.
  */
 const MEMBER_ROUTES: Record<string, Record<string, OperationSpec>> = {
     '': { get: answers('MemberPage', 'One page of members.') },

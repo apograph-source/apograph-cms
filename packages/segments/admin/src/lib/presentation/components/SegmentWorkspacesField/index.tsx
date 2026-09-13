@@ -1,6 +1,6 @@
 import { defineMessages, useIntl } from 'react-intl';
 import { Globe } from 'lucide-react';
-import { useWorkspaces } from '@orthacms/workspaces-admin';
+import { useWorkspaces } from '@apograph/workspaces-admin';
 import {
     Badge,
     Checkbox,
@@ -8,7 +8,7 @@ import {
     FieldDescription,
     FieldLabel,
     Skeleton
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 
 const messages = defineMessages({
     label: {

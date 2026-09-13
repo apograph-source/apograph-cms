@@ -3,8 +3,8 @@ import {
     PERMISSIONS,
     PermissionsGuard,
     RequirePermissions
-} from '@orthacms/identity-server';
-import { CurrentWorkspace, WorkspaceGuard } from '@orthacms/workspaces-server';
+} from '@apograph/identity-server';
+import { CurrentWorkspace, WorkspaceGuard } from '@apograph/workspaces-server';
 import { ListFoldersQuery } from '../../infrastructure/queries/list-folders.query';
 import type { FoldersView } from '../../types/folder-view';
 

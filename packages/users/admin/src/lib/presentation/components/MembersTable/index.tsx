@@ -7,7 +7,7 @@ import {
     TableHead,
     TableHeader,
     TableRow
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 import { MemberAvatar } from '../MemberAvatar';
 import { MemberRoleChip } from './MemberRoleChip';
 import { MemberRowActions } from './MemberRowActions';

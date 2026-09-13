@@ -1,4 +1,4 @@
-import type { OpenApiDocument } from '@orthacms/bootstrap-server';
+import type { OpenApiDocument } from '@apograph/bootstrap-server';
 import { describeUsersApi, memberRouteTail } from './describe-users-api';
 
 /** An operation as the scanner leaves it: a status code and nothing else. */

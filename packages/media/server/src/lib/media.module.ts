@@ -1,10 +1,7 @@
 import { DynamicModule, Module } from '@nestjs/common';
 import { MulterModule } from '@nestjs/platform-express';
-import { MEDIA_ASSET_RESOLVER } from '@orthacms/content-server';
-import {
-    STORAGE_PROVIDER,
-    type StorageProvider
-} from '@orthacms/media-domain';
+import { MEDIA_ASSET_RESOLVER } from '@apograph/content-server';
+import { STORAGE_PROVIDER, type StorageProvider } from '@apograph/media-domain';
 import { MediaAssetResolverQuery } from './infrastructure/queries/media-asset-resolver.query';
 import { ASSET_REPOSITORY } from './domain/asset.repository';
 import { FOLDER_REPOSITORY } from './domain/folder.repository';
@@ -14,8 +11,8 @@ import { AssetMapper } from './infrastructure/persistence/asset.mapper';
 import { FolderMapper } from './infrastructure/persistence/folder.mapper';
 import { DrizzleAssetRepository } from './infrastructure/persistence/drizzle-asset.repository';
 import { DrizzleFolderRepository } from './infrastructure/persistence/drizzle-folder.repository';
-import { copilotAppliersRegistrar } from '@orthacms/copilot-server';
-import { COPILOT_ATTACHMENT_RESOLVER } from '@orthacms/copilot-domain';
+import { copilotAppliersRegistrar } from '@apograph/copilot-server';
+import { COPILOT_ATTACHMENT_RESOLVER } from '@apograph/copilot-domain';
 import { ListAssetsQuery } from './infrastructure/queries/list-assets.query';
 import { MediaInsightsQuery } from './infrastructure/queries/media-insights.query';
 import { MediaInsightsController } from './http/controllers/media-insights.controller';
@@ -215,7 +212,7 @@ export class MediaModule {
                 MEDIA_ASSET_RESOLVER,
                 COPILOT_ATTACHMENT_RESOLVER,
                 // The storage seam and the upload path, for a plugin that moves
-                // assets in and out of the library — `@orthacms/transfer-server`
+                // assets in and out of the library — `@apograph/transfer-server`
                 // reads bytes for an export and recreates them on import. Both
                 // are the same collaborators this module's own controllers use,
                 // which is what keeps a transferred asset indistinguishable from

@@ -1,11 +1,11 @@
-import { ApiError, apiClient } from '@orthacms/utils-admin';
+import { ApiError, apiClient } from '@apograph/utils-admin';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { httpAuthGateway } from './index';
 
 // Only the wire is stubbed: `toApiError`, `ApiError` and `HTTP_STATUS` stay
 // real, because how a failure is classified is precisely what is under test.
-vi.mock('@orthacms/utils-admin', async (importOriginal) => ({
-    ...(await importOriginal<typeof import('@orthacms/utils-admin')>()),
+vi.mock('@apograph/utils-admin', async (importOriginal) => ({
+    ...(await importOriginal<typeof import('@apograph/utils-admin')>()),
     apiClient: { get: vi.fn(), post: vi.fn() }
 }));
 
@@ -105,7 +105,7 @@ describe('httpAuthGateway', () => {
 
     describe('describeInvite', () => {
         it('asks for the invite the token names', async () => {
-            get.mockResolvedValue({ data: { email: 'ada@ortha.dev' } });
+            get.mockResolvedValue({ data: { email: 'ada@apograph.dev' } });
 
             await httpAuthGateway.describeInvite('tok_1');
 
@@ -122,7 +122,7 @@ describe('httpAuthGateway', () => {
             ['a space', 'a b', '/auth/invite/a%20b'],
             ['a traversal attempt', '../me', '/auth/invite/..%2Fme']
         ])('escapes %s in the token', async (_case, token, expected) => {
-            get.mockResolvedValue({ data: { email: 'ada@ortha.dev' } });
+            get.mockResolvedValue({ data: { email: 'ada@apograph.dev' } });
 
             await httpAuthGateway.describeInvite(token);
 

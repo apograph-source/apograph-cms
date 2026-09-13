@@ -23,7 +23,7 @@
  */
 
 import { inflateRawSync } from 'node:zlib';
-import type { TransferLimits } from '@orthacms/transfer-domain';
+import type { TransferLimits } from '@apograph/transfer-domain';
 
 /** Signatures. */
 const CENTRAL_HEADER = 0x02014b50;
@@ -110,10 +110,7 @@ export function readZipDirectory(
 
     // ZIP64 carries its counts elsewhere; rather than half-support it, say so.
     // An archive this large is over `maxArchiveTotalBytes` regardless.
-    if (
-        eocd >= 20 &&
-        buffer.readUInt32LE(eocd - 20) === ZIP64_LOCATOR
-    ) {
+    if (eocd >= 20 && buffer.readUInt32LE(eocd - 20) === ZIP64_LOCATOR) {
         throw new ZipReadError(
             'ZIP64 archives are not supported. Export in smaller batches.'
         );

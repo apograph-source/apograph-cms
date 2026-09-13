@@ -2,7 +2,7 @@ import { type Locator, type Page } from '@playwright/test';
 import { BasePage } from './BasePage';
 
 /**
- * Page object for `@orthacms/transfer-admin` — the export and import dialogs,
+ * Page object for `@apograph/transfer-admin` — the export and import dialogs,
  * and the three Content Library seams that reach them.
  *
  * The plugin contributes **no route of its own**: everything it does is an

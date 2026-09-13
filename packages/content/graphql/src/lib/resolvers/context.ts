@@ -5,8 +5,8 @@ import type {
     PublicApiToken,
     PublicEntriesQuery,
     PublicEntryWritesService
-} from '@orthacms/content-server';
-import type { PermissionKey } from '@orthacms/identity-server';
+} from '@apograph/content-server';
+import type { PermissionKey } from '@apograph/identity-server';
 import type { ContentGraphqlLimits } from '../types/config';
 import type { EntryLoader } from './entry-loader';
 

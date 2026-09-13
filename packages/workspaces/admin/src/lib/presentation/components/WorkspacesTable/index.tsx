@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { defineMessages, useIntl } from 'react-intl';
-import { initialsOf } from '@orthacms/utils-admin';
+import { initialsOf } from '@apograph/utils-admin';
 import {
     Table,
     TableBody,
@@ -9,7 +9,7 @@ import {
     TableHeader,
     TableRow,
     cn
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 import { WorkspaceAvatar } from '../WorkspaceAvatar';
 import { StatusChip } from '../StatusChip';
 import { isActiveWorkspace } from '../../../domain/isActiveWorkspace';

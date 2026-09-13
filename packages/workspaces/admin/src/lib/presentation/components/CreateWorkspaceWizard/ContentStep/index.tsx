@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { AlertCircle, Database, FileText } from 'lucide-react';
-import { Alert, AlertDescription, AlertTitle } from '@orthacms/design-system';
+import { Alert, AlertDescription, AlertTitle } from '@apograph/design-system';
 import { useContentTypes } from '../../../../application/useContentTypes';
 import { ContentTypesSkeleton } from '../../WorkspacesSkeleton';
 import type {

@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import type { EventActor } from '@orthacms/database';
+import type { EventActor } from '@apograph/database';
 import type { AnyContentType } from '../../../types/content-type';
 import { CONTENT_FIELD_TYPE } from '../../../types/fields';
 import { EntryWriterService } from '../../../entries/infrastructure/persistence/entry-writer.service';

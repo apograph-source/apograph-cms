@@ -1,5 +1,5 @@
 import type { CSSProperties, ReactNode } from 'react';
-import { Checkbox, cn } from '@orthacms/design-system';
+import { Checkbox, cn } from '@apograph/design-system';
 import type { EntryColumn } from '../../../../../domain/entryColumns';
 
 /**

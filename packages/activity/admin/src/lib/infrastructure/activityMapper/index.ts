@@ -3,7 +3,7 @@ import type { ActivityKind } from '../../types/activityKinds';
 
 // The wire→view anti-corruption layer for an audit event. The admin can't
 // import the server package (separate apps / module boundaries), so this wire
-// type mirrors `@orthacms/activity-server`'s `ActivityEventView`. The HTTP
+// type mirrors `@apograph/activity-server`'s `ActivityEventView`. The HTTP
 // gateway (`httpActivityGateway`) maps every event it fetches through
 // `toActivityEvent`, so the wire shape and its mapper live together here and the
 // rest of the plugin only ever sees the admin's `ActivityEvent` view model.

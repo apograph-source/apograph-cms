@@ -16,7 +16,7 @@
  */
 
 import { Mark, mergeAttributes } from '@tiptap/core';
-import { RICH_TEXT_MARK } from '@orthacms/content-domain';
+import { RICH_TEXT_MARK } from '@apograph/content-domain';
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {

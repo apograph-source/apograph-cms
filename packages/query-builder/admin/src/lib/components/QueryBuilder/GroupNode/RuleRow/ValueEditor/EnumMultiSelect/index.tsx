@@ -1,5 +1,5 @@
 import { useIntl } from 'react-intl';
-import { Checkbox } from '@orthacms/design-system';
+import { Checkbox } from '@apograph/design-system';
 import type { FilterEnumValue } from '../../../../../../types/filter-field.type';
 
 /** Props for {@link EnumMultiSelect}. */

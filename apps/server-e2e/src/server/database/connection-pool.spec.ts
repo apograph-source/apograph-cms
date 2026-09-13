@@ -3,7 +3,7 @@ import {
     DEFAULT_CONNECTION_TIMEOUT_MS,
     DEFAULT_POOL_MAX,
     getPool
-} from '@orthacms/database';
+} from '@apograph/database';
 import {
     closeTestApp,
     createTestApp,

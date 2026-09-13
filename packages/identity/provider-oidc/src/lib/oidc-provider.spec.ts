@@ -1,4 +1,4 @@
-import { SsoVerificationError } from '@orthacms/identity-domain';
+import { SsoVerificationError } from '@apograph/identity-domain';
 import { createOidcProvider } from './oidc-provider';
 import {
     BACKCHANNEL_LOGOUT_EVENT,
@@ -45,7 +45,7 @@ describe('createOidcProvider — configuration', () => {
     it('allows plain HTTP on localhost, for development', () => {
         expect(() =>
             createOidcProvider({
-                issuer: 'http://localhost:8080/realms/ortha',
+                issuer: 'http://localhost:8080/realms/apograph',
                 clientId: CLIENT_ID
             })
         ).not.toThrow();
@@ -93,7 +93,9 @@ describe('createOidcProvider — authorize', () => {
         expect(new URL(url).searchParams.get('code_challenge_method')).toBe(
             'S256'
         );
-        expect(new URL(url).searchParams.get('code_challenge')).toHaveLength(43);
+        expect(new URL(url).searchParams.get('code_challenge')).toHaveLength(
+            43
+        );
     });
 
     it('fetches discovery once and reuses it', async () => {
@@ -132,7 +134,13 @@ describe('createOidcProvider — authorize', () => {
         expect(new URL(url).searchParams.get('prompt')).toBe('select_account');
     });
 
-    it.each(['state', 'nonce', 'code_challenge', 'redirect_uri', 'response_type'])(
+    it.each([
+        'state',
+        'nonce',
+        'code_challenge',
+        'redirect_uri',
+        'response_type'
+    ])(
         'refuses to let configuration overwrite the reserved parameter %s',
         async (param) => {
             const idp = await stubIdp();
@@ -188,9 +196,7 @@ describe('createOidcProvider — complete', () => {
             emailVerified: true,
             name: 'Ada Lovelace'
         });
-        expect(idp.lastTokenBody?.get('grant_type')).toBe(
-            'authorization_code'
-        );
+        expect(idp.lastTokenBody?.get('grant_type')).toBe('authorization_code');
         expect(idp.lastTokenBody?.get('code_verifier')).toBe(
             CORE_SECRETS.codeVerifier
         );
@@ -225,14 +231,16 @@ describe('createOidcProvider — complete', () => {
     });
 
     it('rejects a token with no nonce at all', async () => {
-        const { provider } = await providerFor({ claims: { nonce: undefined } });
+        const { provider } = await providerFor({
+            claims: { nonce: undefined }
+        });
 
         await expect(provider.complete(callbackWith())).rejects.toThrow(
             /nonce from a different attempt/
         );
     });
 
-    it('rejects the provider\'s own error response before exchanging anything', async () => {
+    it("rejects the provider's own error response before exchanging anything", async () => {
         const { provider, idp } = await providerFor();
 
         await expect(
@@ -345,8 +353,9 @@ describe('createOidcProvider — complete', () => {
             groupsClaim: 'groups'
         });
 
-        expect((await withoutMapping.complete(callbackWith())).groups)
-            .toBeUndefined();
+        expect(
+            (await withoutMapping.complete(callbackWith())).groups
+        ).toBeUndefined();
         expect((await withMapping.complete(callbackWith())).groups).toEqual([
             'cms-editors'
         ]);
@@ -392,7 +401,10 @@ describe('createOidcProvider — back-channel logout', () => {
 
         const notice = await provider.verifyLogoutToken?.(token);
 
-        expect(notice).toMatchObject({ sessionId: null, subject: 'idp-subject-1' });
+        expect(notice).toMatchObject({
+            sessionId: null,
+            subject: 'idp-subject-1'
+        });
     });
 
     it('refuses an identity token presented as a logout token', async () => {
@@ -402,9 +414,9 @@ describe('createOidcProvider — back-channel logout', () => {
         const { provider, idp } = await providerFor();
         const token = await signLogoutToken(idp, { events: undefined });
 
-        await expect(
-            provider.verifyLogoutToken?.(token)
-        ).rejects.toThrow(/not a logout token/);
+        await expect(provider.verifyLogoutToken?.(token)).rejects.toThrow(
+            /not a logout token/
+        );
     });
 
     it('refuses a logout token carrying a nonce, which only an identity token has', async () => {

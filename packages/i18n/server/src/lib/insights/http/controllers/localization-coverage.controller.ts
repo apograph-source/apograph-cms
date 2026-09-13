@@ -3,8 +3,8 @@ import {
     PERMISSIONS,
     PermissionsGuard,
     RequirePermissions
-} from '@orthacms/identity-server';
-import { CurrentWorkspace, WorkspaceGuard } from '@orthacms/workspaces-server';
+} from '@apograph/identity-server';
+import { CurrentWorkspace, WorkspaceGuard } from '@apograph/workspaces-server';
 import { LocalizationCoverageQuery } from '../../infrastructure/queries/localization-coverage.query';
 import type { I18nCoverageView } from '../../types/i18n-insights-view';
 

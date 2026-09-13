@@ -4,8 +4,8 @@ import {
     PERMISSIONS,
     PermissionsGuard,
     RequirePermissions
-} from '@orthacms/identity-server';
-import { CurrentWorkspace, WorkspaceGuard } from '@orthacms/workspaces-server';
+} from '@apograph/identity-server';
+import { CurrentWorkspace, WorkspaceGuard } from '@apograph/workspaces-server';
 import { ReviewStatusQuery } from '../../application/review-status.query';
 import { ReviewStatusQueryDto } from '../../application/dto/review-status-query.dto';
 import type { EntryReviewStatusMapView } from '../../types/protection-views';

@@ -6,8 +6,8 @@ import {
     type MessageDescriptor
 } from 'react-intl';
 import { CircleAlert, TriangleAlert } from 'lucide-react';
-import { Alert, AlertDescription, AlertTitle } from '@orthacms/design-system';
-import type { ToolPermissionDecision } from '@orthacms/copilot-domain';
+import { Alert, AlertDescription, AlertTitle } from '@apograph/design-system';
+import type { ToolPermissionDecision } from '@apograph/copilot-domain';
 import type { ChatMessage, ChatToolStep } from '../../domain/types/chat';
 import { Markdown } from '../Markdown';
 import { ToolStep } from '../ToolStep';
@@ -34,7 +34,7 @@ const messages = defineMessages({
     emptyHint: {
         id: 'copilot.chat.emptyHint',
         defaultMessage:
-            'Ortha AI can only see and change what your own role allows. Every change it makes is recorded and can be undone.'
+            'Apograph AI can only see and change what your own role allows. Every change it makes is recorded and can be undone.'
     },
     thinking: {
         id: 'copilot.chat.thinking',
@@ -103,7 +103,7 @@ const messages = defineMessages({
     },
     assistantSaid: {
         id: 'copilot.chat.turn.assistant',
-        defaultMessage: 'Ortha AI'
+        defaultMessage: 'Apograph AI'
     },
     // The phases the status region announces.
     statusLabel: {

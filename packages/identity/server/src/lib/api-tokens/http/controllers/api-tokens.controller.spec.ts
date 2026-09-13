@@ -49,13 +49,13 @@ function makeService(options: { mintFails?: unknown } = {}) {
                     name: input.name,
                     workspaceIds: [...input.workspaceIds],
                     scope: input.scope,
-                    lookupPrefix: 'orthacms_abc',
+                    lookupPrefix: 'apograph_abc',
                     expiresAt: input.expiresAt ?? null,
                     lastUsedAt: null,
                     revokedAt: null,
                     createdAt: new Date('2026-01-01T00:00:00Z')
                 },
-                secret: 'orthacms_secret'
+                secret: 'apograph_secret'
             };
         },
         revoke: async (...args: unknown[]) => {
@@ -172,7 +172,7 @@ describe('ApiTokensController', () => {
 
             const response = await controller.create(body(), ADMIN);
 
-            expect(response.secret).toBe('orthacms_secret');
+            expect(response.secret).toBe('apograph_secret');
             expect(response.id).toBe('token-1');
         });
 

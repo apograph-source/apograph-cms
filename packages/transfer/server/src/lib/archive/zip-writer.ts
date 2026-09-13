@@ -162,7 +162,9 @@ function normalizePath(path: string): string {
         .replace(/\\/g, '/')
         .replace(/^\/+/, '')
         .split('/')
-        .filter((segment) => segment !== '' && segment !== '.' && segment !== '..')
+        .filter(
+            (segment) => segment !== '' && segment !== '.' && segment !== '..'
+        )
         .join('/');
 }
 
@@ -173,9 +175,7 @@ function normalizePath(path: string): string {
  * only when the writer reaches it — a thousand assets do not mean a thousand
  * simultaneously open storage reads.
  */
-export function createZipStream(
-    members: AsyncIterable<ZipMember>
-): Readable {
+export function createZipStream(members: AsyncIterable<ZipMember>): Readable {
     return Readable.from(zipChunks(members));
 }
 
@@ -259,9 +259,5 @@ async function* zipChunks(
         yield header;
         directorySize += header.length;
     }
-    yield endOfCentralDirectory(
-        central.length,
-        directorySize,
-        directoryOffset
-    );
+    yield endOfCentralDirectory(central.length, directorySize, directoryOffset);
 }

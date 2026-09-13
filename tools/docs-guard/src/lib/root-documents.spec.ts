@@ -1,9 +1,4 @@
-import {
-    asNumber,
-    claimIn,
-    numberClaimedIn,
-    projectMapRows
-} from './claim';
+import { asNumber, claimIn, numberClaimedIn, projectMapRows } from './claim';
 import {
     contractFields,
     documentedContractFields,
@@ -79,18 +74,15 @@ describe('the Content Library slot count', () => {
             /, (\w+) on the revision view, /,
             /, (\w+) route-level overlay/
         ]
-    ])('breaks down the way the slot ids do in %s', (
-        document,
-        records,
-        entry,
-        revision,
-        overlay
-    ) => {
-        expect(numberClaimedIn(document, records)).toBe(groups.records);
-        expect(numberClaimedIn(document, entry)).toBe(groups.entry);
-        expect(numberClaimedIn(document, revision)).toBe(groups.revision);
-        expect(numberClaimedIn(document, overlay)).toBe(groups.overlay);
-    });
+    ])(
+        'breaks down the way the slot ids do in %s',
+        (document, records, entry, revision, overlay) => {
+            expect(numberClaimedIn(document, records)).toBe(groups.records);
+            expect(numberClaimedIn(document, entry)).toBe(groups.entry);
+            expect(numberClaimedIn(document, revision)).toBe(groups.revision);
+            expect(numberClaimedIn(document, overlay)).toBe(groups.overlay);
+        }
+    );
 });
 
 describe('the plugin contracts ARCHITECTURE.md prints', () => {
@@ -190,7 +182,11 @@ describe('the tables the documents attribute to a plugin', () => {
     });
 
     it.each([
-        ['i18n/server', 'packages/i18n/server', /coverage.*?\)\. Owns no tables\./],
+        [
+            'i18n/server',
+            'packages/i18n/server',
+            /coverage.*?\)\. Owns no tables\./
+        ],
         [
             'transfer/server',
             'packages/transfer/server',
@@ -206,7 +202,9 @@ describe('the tables the documents attribute to a plugin', () => {
             CONTEXT_MAP,
             /Owns `(\w+)` \+ `(\w+)`; evaluates a rule/
         );
-        expect([...named].sort()).toEqual(tablesOwnedBy('packages/alarms/server'));
+        expect([...named].sort()).toEqual(
+            tablesOwnedBy('packages/alarms/server')
+        );
     });
 
     it('are named right for the platform tables content/server ships', () => {

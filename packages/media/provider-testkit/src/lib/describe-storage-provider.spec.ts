@@ -1,11 +1,11 @@
 import { createHash } from 'node:crypto';
 import { Readable } from 'node:stream';
-import { ObjectNotFoundError } from '@orthacms/media-domain';
+import { ObjectNotFoundError } from '@apograph/media-domain';
 import type {
     PutObject,
     StorageProvider,
     StoredObject
-} from '@orthacms/media-domain';
+} from '@apograph/media-domain';
 import { describeStorageProvider } from './describe-storage-provider';
 
 /**

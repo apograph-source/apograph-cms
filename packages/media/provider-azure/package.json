@@ -1,5 +1,5 @@
 {
-    "name": "@orthacms/media-provider-azure",
+    "name": "@apograph/media-provider-azure",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -17,9 +17,9 @@
     ],
     "dependencies": {
         "@azure/storage-blob": "^12.26.0",
-        "@orthacms/media-domain": "*"
+        "@apograph/media-domain": "*"
     },
     "devDependencies": {
-        "@orthacms/media-provider-testkit": "*"
+        "@apograph/media-provider-testkit": "*"
     }
 }

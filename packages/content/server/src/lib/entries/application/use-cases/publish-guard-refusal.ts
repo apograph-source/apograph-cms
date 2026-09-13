@@ -1,5 +1,5 @@
 import { HttpException } from '@nestjs/common';
-import { EVENT_ACTOR_TYPE, type EventActor } from '@orthacms/database';
+import { EVENT_ACTOR_TYPE, type EventActor } from '@apograph/database';
 import type {
     PublishActor,
     PublishRefused

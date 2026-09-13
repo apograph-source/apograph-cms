@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { PanelRightClose } from 'lucide-react';
-import { Button, cn, useIsMobile } from '@orthacms/design-system';
+import { Button, cn, useIsMobile } from '@apograph/design-system';
 import {
     RIGHT_PANEL_ID,
     usePageChromeHosts,
@@ -176,7 +176,7 @@ export function AppRightPanel() {
                         // Same gutter the main scrollport reserves: this column
                         // reaches the bottom of the viewport, and the entry
                         // rail's own controls sit at the bottom of it.
-                        className="min-h-0 flex-1 overflow-y-auto overscroll-contain pb-[var(--ortha-fixed-bottom-gutter,0px)]"
+                        className="min-h-0 flex-1 overflow-y-auto overscroll-contain pb-[var(--apograph-fixed-bottom-gutter,0px)]"
                     />
                 </div>
             </aside>

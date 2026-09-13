@@ -1,7 +1,7 @@
 /**
  * Reading `process.env` into typed configuration.
  *
- * A host's `ortha.config.ts` is the one file allowed to touch the environment,
+ * A host's `apograph.config.ts` is the one file allowed to touch the environment,
  * and every deployment writes the same handful of readers to do it: a required
  * string, a bounded number, a comma list, `TRUST_PROXY`, `NODE_ENV`. They were
  * duplicated between this repo's host and the scaffolder's template, where the
@@ -33,7 +33,53 @@
  * that is in the picker and fails on the first message.
  */
 export function readEnv(name: string): string | undefined {
-    return process.env[name]?.trim() || undefined;
+    const value = process.env[name]?.trim() || undefined;
+    return value ?? readLegacyEnv(name);
+}
+
+/** The pre-rename prefix, and what replaced it. */
+const LEGACY_ENV_PREFIX = 'ORTHA_';
+const ENV_PREFIX = 'APOGRAPH_';
+
+/** Variables already warned about, so a reader in a loop warns once. */
+const warnedLegacyNames = new Set<string>();
+
+/**
+ * The value a deployment set under the **pre-rename** name, if it set one.
+ *
+ * Every `APOGRAPH_*` variable was an `ORTHA_*` variable, and a deployment's
+ * `.env` is the one piece of its configuration this repository cannot edit.
+ * Renaming without this makes an upgrade look like a fresh install:
+ * `ORTHA_ROOT_ADMIN_PASSWORD` stops being read, `rootAdmin.password` falls back
+ * to `''`, and the failure surfaces as "no root administrator" rather than as
+ * "your variable is now spelled differently".
+ *
+ * Deliberately one-directional and prefix-scoped: only a lookup for a
+ * `APOGRAPH_*` name falls back, so this can never resurrect an unrelated
+ * variable, and a deployment that has moved pays one `process.env` miss.
+ *
+ * Deprecated: remove one major version after the rename. The warning is what
+ * makes that removal safe — an operator who never sees it has nothing to do.
+ */
+function readLegacyEnv(name: string): string | undefined {
+    if (!name.startsWith(ENV_PREFIX)) {
+        return undefined;
+    }
+    const legacyName = LEGACY_ENV_PREFIX + name.slice(ENV_PREFIX.length);
+    const legacyValue = process.env[legacyName]?.trim() || undefined;
+
+    if (legacyValue !== undefined && !warnedLegacyNames.has(legacyName)) {
+        warnedLegacyNames.add(legacyName);
+        // `console` rather than a Nest logger: this is a leaf helper with no
+        // dependencies by design, and it is read at config time — before the
+        // application, and therefore any logger, exists.
+        console.warn(
+            `${legacyName} is deprecated and will stop being read in the next ` +
+                `major version. Rename it to ${name}.`
+        );
+    }
+
+    return legacyValue;
 }
 
 /**
@@ -132,7 +178,7 @@ export function readList(name: string, fallback: string): string[] {
  * ignoring forwarded headers entirely.
  *
  * Returns the union structurally rather than importing `TrustProxySetting`
- * from `@orthacms/bootstrap-server`: this is a leaf helper package, and the
+ * from `@apograph/bootstrap-server`: this is a leaf helper package, and the
  * host importing it must not become a dependency of it. The host's own
  * `trustProxy?: TrustProxySetting` field is what checks the two agree.
  */
@@ -153,7 +199,7 @@ export function readTrustProxy(
     return raw;
 }
 
-/** The deployment modes an Ortha app recognises. */
+/** The deployment modes an Apograph app recognises. */
 export const NODE_ENVS = ['development', 'test', 'production'] as const;
 
 /** One of {@link NODE_ENVS}. */

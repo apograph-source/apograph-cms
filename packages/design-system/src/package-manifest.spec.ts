@@ -37,9 +37,9 @@ const dependencyNames = [
     ...Object.keys(manifest.peerDependencies ?? {})
 ];
 
-describe('@orthacms/design-system package manifest', () => {
+describe('@apograph/design-system package manifest', () => {
     it('is the package it claims to be', () => {
-        expect(manifest.name).toBe('@orthacms/design-system');
+        expect(manifest.name).toBe('@apograph/design-system');
     });
 
     it('publishes one root entry plus the stylesheet, and no other subpath [design-system:I-02]', () => {
@@ -84,7 +84,7 @@ describe('@orthacms/design-system package manifest', () => {
 
     it('depends on nothing server-side [design-system:I-37]', () => {
         const serverSide = dependencyNames.filter((name) =>
-            /^@nestjs\/|^drizzle|^pg$|^express$|^@orthacms\/(database|.*-server)$/.test(
+            /^@nestjs\/|^drizzle|^pg$|^express$|^@apograph\/(database|.*-server)$/.test(
                 name
             )
         );

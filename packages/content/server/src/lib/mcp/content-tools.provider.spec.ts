@@ -1,5 +1,5 @@
 import { NotFoundException } from '@nestjs/common';
-import type { ToolContext, ToolDefinition } from '@orthacms/tools-server';
+import type { ToolContext, ToolDefinition } from '@apograph/tools-server';
 import type { ContentTypeRegistry } from '../registry/content-type-registry';
 import type { WorkspaceGrantsQuery } from '../content-types/queries/workspace-grants.query';
 import type { PublicEntriesQuery } from '../public-api/infrastructure/public-entries.query';
@@ -28,7 +28,7 @@ import { ContentToolProvider } from './content-tools.provider';
  * it was never registered — and asks both for the same URI.
  *
  * That distinction is exactly what the server-e2e suite is missing today: its
- * `-32002` case reads `ortha://content-type/never_granted`, a name no registry
+ * `-32002` case reads `apograph://content-type/never_granted`, a name no registry
  * holds, which pins *unknown URI* and would pass unchanged against a
  * `readResource` that consulted no grant set at all. Only a type that exists
  * and was withheld can tell the gate apart from its absence.
@@ -60,7 +60,8 @@ function world(registered: string[], granted: string[]): World {
     const serializedNames: string[] = [];
 
     const registry = {
-        get: (name: string) => (registered.includes(name) ? { name } : undefined),
+        get: (name: string) =>
+            registered.includes(name) ? { name } : undefined,
         summaries: () => registered.map(serialized),
         serialize: (name: string) => {
             serializedNames.push(name);
@@ -98,12 +99,13 @@ function world(registered: string[], granted: string[]): World {
 }
 
 /** The type is registered but the workspace was never granted it. */
-const withheld = () => world(['test_granted', 'test_ungranted'], ['test_granted']);
+const withheld = () =>
+    world(['test_granted', 'test_ungranted'], ['test_granted']);
 
 /** The same name, in a deployment where no such content type was ever defined. */
 const nonexistent = () => world(['test_granted'], ['test_granted']);
 
-const UNGRANTED_URI = 'ortha://content-type/test_ungranted';
+const UNGRANTED_URI = 'apograph://content-type/test_ungranted';
 
 /** A context holding every permission, so nothing but the grant gate can refuse. */
 function context(): ToolContext {
@@ -140,11 +142,11 @@ describe('ContentToolProvider resource reads', () => {
 
         await expect(
             provider.readResource(
-                'ortha://content-type/test_granted',
+                'apograph://content-type/test_granted',
                 context()
             )
         ).resolves.toMatchObject({
-            uri: 'ortha://content-type/test_granted',
+            uri: 'apograph://content-type/test_granted',
             mimeType: 'application/json'
         });
         expect(serializedNames).toEqual(['test_granted']);
@@ -220,7 +222,7 @@ describe('ContentToolProvider resource reads', () => {
         // and what makes the registry's own "Unknown resource" 404 reachable.
         await expect(
             withheld().provider.readResource(
-                'ortha://media-asset/1',
+                'apograph://media-asset/1',
                 context()
             )
         ).resolves.toBeUndefined();
@@ -316,52 +318,56 @@ describe('ContentToolProvider delegates to the public API’s own services', () 
      * here — the first two because nothing was recorded, the last because the
      * sentinel did not come back.
      */
-    const cases: [string, Recorded['target'], string, Record<string, unknown>][] =
+    const cases: [
+        string,
+        Recorded['target'],
+        string,
+        Record<string, unknown>
+    ][] = [
+        ['content_list', 'entries', 'list', { typeName: 'article' }],
         [
-            ['content_list', 'entries', 'list', { typeName: 'article' }],
-            [
-                'content_get',
-                'entries',
-                'getOne',
-                { typeName: 'article', id: 'entry-1' }
-            ],
-            [
-                'content_relations',
-                'entries',
-                'relationField',
-                { typeName: 'article', id: 'entry-1', field: 'authors' }
-            ],
-            [
-                'content_create',
-                'writes',
-                'create',
-                { typeName: 'article', values: { title: 'Hello' } }
-            ],
-            [
-                'content_update',
-                'writes',
-                'update',
-                { typeName: 'article', id: 'entry-1', values: { title: 'Hi' } }
-            ],
-            [
-                'content_publish',
-                'writes',
-                'publish',
-                { typeName: 'article', id: 'entry-1' }
-            ],
-            [
-                'content_bulk_publish',
-                'writes',
-                'bulkPublish',
-                {
-                    typeName: 'article',
-                    ids: [
-                        '3f1a7c1e-9d2b-4a6f-8c11-5b8e2f0d7a91',
-                        '9c2e5b40-1a77-4f3d-b0e6-2d1c4a8f6b03'
-                    ]
-                }
-            ]
-        ];
+            'content_get',
+            'entries',
+            'getOne',
+            { typeName: 'article', id: 'entry-1' }
+        ],
+        [
+            'content_relations',
+            'entries',
+            'relationField',
+            { typeName: 'article', id: 'entry-1', field: 'authors' }
+        ],
+        [
+            'content_create',
+            'writes',
+            'create',
+            { typeName: 'article', values: { title: 'Hello' } }
+        ],
+        [
+            'content_update',
+            'writes',
+            'update',
+            { typeName: 'article', id: 'entry-1', values: { title: 'Hi' } }
+        ],
+        [
+            'content_publish',
+            'writes',
+            'publish',
+            { typeName: 'article', id: 'entry-1' }
+        ],
+        [
+            'content_bulk_publish',
+            'writes',
+            'bulkPublish',
+            {
+                typeName: 'article',
+                ids: [
+                    '3f1a7c1e-9d2b-4a6f-8c11-5b8e2f0d7a91',
+                    '9c2e5b40-1a77-4f3d-b0e6-2d1c4a8f6b03'
+                ]
+            }
+        ]
+    ];
 
     it.each(cases)(
         '%s runs through %s.%s [mcp:I-19]',
@@ -373,9 +379,7 @@ describe('ContentToolProvider delegates to the public API’s own services', () 
                 context()
             );
 
-            expect(log).toEqual([
-                { target, method, args: expect.any(Array) }
-            ]);
+            expect(log).toEqual([{ target, method, args: expect.any(Array) }]);
             // Verbatim: the tool maps arguments onto a call and returns what it
             // gets. Anything else here is a second implementation of a rule the
             // public API already owns.

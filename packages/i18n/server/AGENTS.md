@@ -1,4 +1,4 @@
-# @orthacms/i18n-server
+# @apograph/i18n-server
 
 > **Layout: layered (ADR-0003).** A **light** application of tactical DDD — this
 > is a small, low-invariant context, so it gets a `domain/` layer for value
@@ -52,7 +52,7 @@ gets the history entry it earned, instead of its timeline skipping the change
 side on purpose: numbering is serialized per entry by an advisory lock, so a
 second writer allocating numbers out-of-band is how duplicate versions happen.
 
-The content-**localization** plugin for the Ortha CMS server. It makes
+The content-**localization** plugin for the Apograph CMS server. It makes
 `i18n: true` content types multilingual — **one row per locale**, siblings
 sharing a `locale_group_id` — **without the content library knowing what a
 locale means**. It owns **no tables and no migrations**: the `locale` /
@@ -201,7 +201,7 @@ unique, well-formed slugs (`^[a-z]{2,3}(-[a-z0-9]+)*$`); **exactly one**
 default; a `dir` that is `ltr` or `rtl` if given. A misconfigured host fails
 before boot. `LocaleRegistryService` exposes `all()` / `get(slug)` /
 `default()` / `resolve(slug?)` (the uniform unknown-→400 gate). Register it in
-`apps/server/ortha.config.ts` under `plugins.i18n` and in `buildPlugins`
+`apps/server/apograph.config.ts` under `plugins.i18n` and in `buildPlugins`
 **after** `ContentPlugin` (it binds content's port and reads its
 `CONTENT_REGISTRY`).
 
@@ -478,18 +478,18 @@ Two rules the tools apply that the HTTP path does not:
 - Feature-then-kind layout (`locales/`, `content/{services,controllers,dto}`),
   thin controllers, permission-by-constant, `interface` for contracts, JSDoc on
   exports — the `server-plugin` skill.
-- Depends on `@orthacms/content-server` (the port + `toColumns`/`toRecord` +
+- Depends on `@apograph/content-server` (the port + `toColumns`/`toRecord` +
   `EntryValidationService` + `RelationLinkService` + the `relationLocaleSync`
-  helpers + `CONTENT_REGISTRY`), `@orthacms/identity-server`
-  (guards + `lockWorkspaceShared`), `@orthacms/database` (`@InjectDatabase()`),
-  `@orthacms/utils-server` (`isUniqueViolation`), `@orthacms/bootstrap-server`.
+  helpers + `CONTENT_REGISTRY`), `@apograph/identity-server`
+  (guards + `lockWorkspaceShared`), `@apograph/database` (`@InjectDatabase()`),
+  `@apograph/utils-server` (`isUniqueViolation`), `@apograph/bootstrap-server`.
 - **No `drizzle.config.ts`, no `migrations/`** — nothing to own. A future
   per-locale settings table would be the first candidate.
 
 ## Commands
 
-- `npx nx typecheck @orthacms/i18n-server` / `npx nx lint @orthacms/i18n-server`
-- `npx nx test @orthacms/i18n-server` (config-validation unit tests)
+- `npx nx typecheck @apograph/i18n-server` / `npx nx lint @apograph/i18n-server`
+- `npx nx test @apograph/i18n-server` (config-validation unit tests)
 - End-to-end: `apps/server-e2e/src/server/i18n/` (needs Docker), plus
   `apps/server-e2e/src/server/insights/localization-insights.spec.ts` for the
   coverage aggregate — the record-vs-row fold is exactly what a mocked admin

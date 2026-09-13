@@ -15,7 +15,7 @@ import {
     type SsoProfile,
     type SsoProvider,
     type SsoProviderDescriptor
-} from '@orthacms/identity-domain';
+} from '@apograph/identity-domain';
 import { toProfile, type IdTokenClaims } from './claims';
 import { resolveOidcConfig, type OidcProviderConfig } from './config';
 import { EndpointResolver } from './discovery';
@@ -74,9 +74,7 @@ interface TokenResponse {
  * independence — ADR-0012 permits the dependency here for exactly this reason,
  * and forbids it in `identity-domain` and `identity-server`.
  */
-export function createOidcProvider(
-    config: OidcProviderConfig
-): SsoProvider {
+export function createOidcProvider(config: OidcProviderConfig): SsoProvider {
     const resolved = resolveOidcConfig(config);
     const endpoints = new EndpointResolver(resolved);
     const descriptor: SsoProviderDescriptor = Object.freeze({
@@ -141,9 +139,9 @@ export function createOidcProvider(
             url.searchParams.set('redirect_uri', request.redirectUri);
             url.searchParams.set(
                 'scope',
-                [...new Set([...resolved.scopes, ...(request.scopes ?? [])])].join(
-                    ' '
-                )
+                [
+                    ...new Set([...resolved.scopes, ...(request.scopes ?? [])])
+                ].join(' ')
             );
             url.searchParams.set('state', request.state);
             url.searchParams.set('nonce', request.nonce);
@@ -195,10 +193,7 @@ export function createOidcProvider(
             }
             const url = new URL(endSession);
             url.searchParams.set('client_id', resolved.clientId);
-            url.searchParams.set(
-                'post_logout_redirect_uri',
-                request.returnTo
-            );
+            url.searchParams.set('post_logout_redirect_uri', request.returnTo);
             return url.toString();
         },
 

@@ -5,7 +5,7 @@ name: Release
 # here fires on push.
 #
 # Requires one repository secret: `NPM_TOKEN`, an npm automation token for an
-# account with publish rights on the `@orthacms` scope.
+# account with publish rights on the `@apograph` scope.
 on:
     workflow_dispatch:
         inputs:

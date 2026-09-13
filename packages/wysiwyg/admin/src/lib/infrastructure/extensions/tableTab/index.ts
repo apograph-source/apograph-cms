@@ -37,7 +37,7 @@ import type { Node as ProseMirrorNode } from '@tiptap/pm/model';
  * into the runaway this bounds.
  */
 export const TableTab = Extension.create({
-    name: 'orthaTableTab',
+    name: 'apographTableTab',
 
     // Above TableKit's default (100), so this is asked first.
     priority: 200,

@@ -12,7 +12,7 @@ import { UnitOfWork } from './uow/unit-of-work';
 import { OutboxWriter } from './outbox/outbox-writer';
 import { OutboxDispatcher } from './outbox/outbox-dispatcher';
 
-// Re-exported so the historical `@orthacms/database` barrel specifier
+// Re-exported so the historical `@apograph/database` barrel specifier
 // (`export { ..., DATABASE_TOKEN, InjectDatabase } from './lib/database.module'`)
 // stays valid; the definitions live in the dependency-free tokens module to
 // avoid an initialization cycle with the primitives below.

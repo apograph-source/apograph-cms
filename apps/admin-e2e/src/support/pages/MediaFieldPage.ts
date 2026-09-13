@@ -3,7 +3,7 @@ import { BasePage } from './BasePage';
 
 /**
  * Page object for the entry editor's **Media** tab — the media plugin's
- * `ENTRY_TAB_SLOT` contribution (`@orthacms/media-admin`): one card per media
+ * `ENTRY_TAB_SLOT` contribution (`@apograph/media-admin`): one card per media
  * field, each with attached-asset tiles, the library picker, and the upload
  * dialog. Drives the create editor at `/workspaces/:id/content/article/new`.
  *

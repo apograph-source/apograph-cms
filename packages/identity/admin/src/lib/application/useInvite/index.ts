@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { STALE_TIME, type ApiError } from '@orthacms/utils-admin';
+import { STALE_TIME, type ApiError } from '@apograph/utils-admin';
 import { httpAuthGateway } from '../../infrastructure/httpAuthGateway';
 import type { InviteDetails } from '../../../types/auth';
 

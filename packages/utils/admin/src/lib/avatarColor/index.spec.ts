@@ -1,4 +1,4 @@
-import { AVATAR_COLORS } from '@orthacms/design-system';
+import { AVATAR_COLORS } from '@apograph/design-system';
 import { describe, expect, it } from 'vitest';
 import { asAvatarColor, avatarColorForId } from '.';
 

@@ -1,4 +1,4 @@
-import type { ModelRequest, ModelStreamEvent } from '@orthacms/copilot-domain';
+import type { ModelRequest, ModelStreamEvent } from '@apograph/copilot-domain';
 import { createAnthropicProvider } from './anthropic-provider';
 
 const mockStream = jest.fn();

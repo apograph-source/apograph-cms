@@ -9,7 +9,7 @@ import {
     ConfirmDialog,
     Separator,
     toast
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 import type {
     Workspace,
     WorkspaceMember

@@ -1,6 +1,6 @@
 /**
  * Configuration for the identity plugin. Origins and lifetimes are supplied by
- * the host (see `apps/server/ortha.config.ts`) — identity never reads
+ * the host (see `apps/server/apograph.config.ts`) — identity never reads
  * `process.env`. Part of the package's public, SemVer'd API.
  *
  * **There is no signing secret here, and that is not an omission.** Sessions
@@ -86,7 +86,7 @@ export interface IdentitySsoConfig {
      * Just-in-time provisioning: creating an account the first time a verified
      * profile arrives with no matching one.
      *
-     * **Absent by default, and that is the safe answer.** Ortha is invite-only;
+     * **Absent by default, and that is the safe answer.** Apograph is invite-only;
      * SSO replaces the credential check rather than the way in. Turning this on
      * changes a property of the product, so it is an explicit decision with a
      * required domain allow-list attached.

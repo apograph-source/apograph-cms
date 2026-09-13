@@ -7,7 +7,7 @@ import {
     DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuTrigger
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 import { useConversations } from '../../application/useConversations';
 import { useOpenConversation } from '../../application/useConversation';
 import type { ChatMessage } from '../../domain/types/chat';

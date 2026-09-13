@@ -2,8 +2,8 @@ import type { ReactNode } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { IntlProvider } from 'react-intl';
 import { act, render, screen } from '@testing-library/react';
-import { toast } from '@orthacms/design-system';
-import { setUnauthorizedHandler } from '@orthacms/utils-admin';
+import { toast } from '@apograph/design-system';
+import { setUnauthorizedHandler } from '@apograph/utils-admin';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
     currentUserKey,
@@ -35,8 +35,8 @@ vi.mock('../../../application/sessionEnded', () => ({
 
 // The transport seam. Mocking it is what gives the test a handle on the `401`
 // callback the provider installs, without driving a real axios request.
-vi.mock('@orthacms/utils-admin', async (importOriginal) => ({
-    ...(await importOriginal<typeof import('@orthacms/utils-admin')>()),
+vi.mock('@apograph/utils-admin', async (importOriginal) => ({
+    ...(await importOriginal<typeof import('@apograph/utils-admin')>()),
     setUnauthorizedHandler: vi.fn()
 }));
 
@@ -136,7 +136,7 @@ describe('AuthProvider', () => {
             probeReturns({
                 data: {
                     id: 'usr_1',
-                    email: 'ada@ortha.dev',
+                    email: 'ada@apograph.dev',
                     name: 'Ada Lovelace',
                     permissions: ['workspaces:read', 'workspaces:create']
                 }
@@ -148,7 +148,7 @@ describe('AuthProvider', () => {
                 status: AuthStatus.Authenticated,
                 user: {
                     id: 'usr_1',
-                    email: 'ada@ortha.dev',
+                    email: 'ada@apograph.dev',
                     name: 'Ada Lovelace',
                     permissions: ['workspaces:read', 'workspaces:create']
                 }
@@ -215,7 +215,7 @@ describe('AuthProvider', () => {
             probeReturns({
                 data: {
                     id: 'usr_1',
-                    email: 'ada@ortha.dev',
+                    email: 'ada@apograph.dev',
                     name: null,
                     permissions: []
                 },
@@ -239,7 +239,7 @@ describe('AuthProvider', () => {
             const { queryClient } = renderProvider();
             queryClient.setQueryData(currentUserKey, {
                 id: 'usr_1',
-                email: 'ada@ortha.dev',
+                email: 'ada@apograph.dev',
                 name: 'Ada Lovelace',
                 permissions: []
             });
@@ -282,7 +282,7 @@ describe('AuthProvider', () => {
                 probeReturns({
                     data: {
                         id: 'usr_1',
-                        email: 'ada@ortha.dev',
+                        email: 'ada@apograph.dev',
                         name: 'Ada Lovelace',
                         permissions: []
                     }
@@ -321,7 +321,7 @@ describe('AuthProvider', () => {
                 probeReturns({
                     data: {
                         id: 'usr_1',
-                        email: 'ada@ortha.dev',
+                        email: 'ada@apograph.dev',
                         name: null,
                         permissions: []
                     }
@@ -343,7 +343,7 @@ describe('AuthProvider', () => {
                 probeReturns({
                     data: {
                         id: 'usr_1',
-                        email: 'ada@ortha.dev',
+                        email: 'ada@apograph.dev',
                         name: null,
                         permissions: []
                     }
@@ -365,7 +365,7 @@ describe('AuthProvider', () => {
                 probeReturns({
                     data: {
                         id: 'usr_1',
-                        email: 'ada@ortha.dev',
+                        email: 'ada@apograph.dev',
                         name: null,
                         permissions: []
                     }

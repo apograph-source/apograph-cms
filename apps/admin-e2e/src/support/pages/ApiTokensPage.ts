@@ -4,7 +4,7 @@ import type { BrowserGlobals } from '../browserGlobals';
 
 /**
  * Page object for the API tokens page at `/api-tokens` (from
- * `@orthacms/api-tokens-admin`) — the global directory page that lists, mints
+ * `@apograph/api-tokens-admin`) — the global directory page that lists, mints
  * and revokes the bearer tokens for the external content API.
  *
  * Data comes from the `**\/api/api-tokens**` mock (`mockApiTokensApi`); the

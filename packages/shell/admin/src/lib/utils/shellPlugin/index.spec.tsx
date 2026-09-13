@@ -11,7 +11,7 @@ import { ShellPlugin } from './index';
  * it renders: the sidebar's rows, sections, footer widgets and palette groups
  * all arrive through slots, the contextual area through an override, and the two
  * page regions through portals. One `import { ContentPlugin } from
- * '@orthacms/content-admin'` in here compiles, renders, and quietly makes the
+ * '@apograph/content-admin'` in here compiles, renders, and quietly makes the
  * shell un-droppable from any app that does not want content — and nothing in a
  * browser suite would ever notice.
  *
@@ -49,10 +49,10 @@ if (!existsSync(join(PACKAGE_ROOT, 'package.json'))) {
  * - `utils-admin` — the slot mechanism itself.
  */
 const ALLOWED = [
-    '@orthacms/bootstrap-admin',
-    '@orthacms/design-system',
-    '@orthacms/identity-admin',
-    '@orthacms/utils-admin'
+    '@apograph/bootstrap-admin',
+    '@apograph/design-system',
+    '@apograph/identity-admin',
+    '@apograph/utils-admin'
 ];
 
 /** Every source file the package ships, specs and the jsdom setup aside. */
@@ -72,7 +72,7 @@ function importedWorkspacePackages(): string[] {
     const found = new Set<string>();
     for (const file of sourceFiles(join(PACKAGE_ROOT, 'src'))) {
         const source = readFileSync(file, 'utf8');
-        for (const match of source.matchAll(/from\s+'(@orthacms\/[^'/]+)/g)) {
+        for (const match of source.matchAll(/from\s+'(@apograph\/[^'/]+)/g)) {
             found.add(match[1]);
         }
     }
@@ -93,7 +93,7 @@ describe('the shell plugin', () => {
 
         expect(
             Object.keys(manifest.dependencies ?? {})
-                .filter((name) => name.startsWith('@orthacms/'))
+                .filter((name) => name.startsWith('@apograph/'))
                 .sort()
         ).toEqual(ALLOWED);
     });

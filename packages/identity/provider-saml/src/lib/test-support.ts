@@ -1,6 +1,9 @@
 import { SignedXml } from 'xml-crypto';
 import { generate } from 'selfsigned';
-import type { SsoAuthorizeRequest, SsoCallback } from '@orthacms/identity-domain';
+import type {
+    SsoAuthorizeRequest,
+    SsoCallback
+} from '@apograph/identity-domain';
 
 export const ENTRY_POINT = 'https://idp.test/sso';
 export const SP_ISSUER = 'https://cms.test/saml';
@@ -58,8 +61,7 @@ export interface AssertionOptions {
     status?: string;
 }
 
-const PERSISTENT =
-    'urn:oasis:names:tc:SAML:2.0:nameid-format:persistent';
+const PERSISTENT = 'urn:oasis:names:tc:SAML:2.0:nameid-format:persistent';
 
 /** Builds a signed `Response`, base64-encoded as the form field carries it. */
 export function signedResponse(
@@ -68,9 +70,7 @@ export function signedResponse(
 ): string {
     const now = Date.now();
     const issued = new Date(options.expired ? now - 3_600_000 : now);
-    const expires = new Date(
-        options.expired ? now - 3_540_000 : now + 300_000
-    );
+    const expires = new Date(options.expired ? now - 3_540_000 : now + 300_000);
     const iso = (date: Date) => date.toISOString();
 
     const attributes = options.omitAttributes
@@ -157,8 +157,7 @@ function sign(
     const sig = new SignedXml({
         privateKey: identity.privateKey,
         publicCert: identity.cert,
-        signatureAlgorithm:
-            'http://www.w3.org/2001/04/xmldsig-more#rsa-sha256',
+        signatureAlgorithm: 'http://www.w3.org/2001/04/xmldsig-more#rsa-sha256',
         canonicalizationAlgorithm: 'http://www.w3.org/2001/10/xml-exc-c14n#'
     });
     sig.addReference({

@@ -5,7 +5,7 @@ import { mockWorkspaces } from '../support/api/workspaces';
 import { mockApiTokensApi } from '../support/api/apiTokens';
 
 /**
- * What `@orthacms/bootstrap-admin` mounts for itself.
+ * What `@apograph/bootstrap-admin` mounts for itself.
  *
  * Every admin plugin renders through this host, so its defects are whole-app
  * shaped — and until now nothing exercised it directly: the routing suites go
@@ -365,6 +365,6 @@ test.describe('the shell chrome is inside landmarks', () => {
         // is outside the primary `<nav>` and was therefore outside every
         // landmark until the panel itself became one.
         const sidebar = page.getByRole('complementary', { name: 'Sidebar' });
-        await expect(sidebar.getByText('Ortha CMS').first()).toBeVisible();
+        await expect(sidebar.getByText('Apograph CMS').first()).toBeVisible();
     });
 });

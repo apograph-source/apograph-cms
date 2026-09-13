@@ -1,4 +1,4 @@
-import type { CopilotRunEvent } from '@orthacms/copilot-domain';
+import type { CopilotRunEvent } from '@apograph/copilot-domain';
 import type { Test } from 'supertest';
 
 /**

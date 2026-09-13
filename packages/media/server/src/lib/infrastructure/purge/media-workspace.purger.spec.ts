@@ -1,5 +1,5 @@
-import { UnitOfWork } from '@orthacms/database';
-import type { StorageProvider } from '@orthacms/media-domain';
+import { UnitOfWork } from '@apograph/database';
+import type { StorageProvider } from '@apograph/media-domain';
 import { MediaWorkspacePurger } from './media-workspace.purger';
 
 /**

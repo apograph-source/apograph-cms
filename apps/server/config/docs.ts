@@ -1,7 +1,7 @@
 /** The OpenAPI document and the Scalar API reference it is served as. */
-import type { ApiDocsOptions } from '@orthacms/bootstrap-server';
+import type { ApiDocsOptions } from '@apograph/bootstrap-server';
 
-import { readFlag } from '@orthacms/utils-server';
+import { readFlag } from '@apograph/utils-server';
 
 import { isProduction } from './env';
 
@@ -12,10 +12,10 @@ export function docsConfig(): ApiDocsOptions {
         // `API_DOCS` overrides either way — set it to `true` to publish the
         // reference from a deployed instance.
         enabled: readFlag('API_DOCS', !isProduction),
-        title: 'Ortha CMS API',
+        title: 'Apograph CMS API',
         version: '1.0.0',
         description: [
-            'The Ortha CMS HTTP API, assembled from the plugins registered in',
+            'The Apograph CMS HTTP API, assembled from the plugins registered in',
             '`apps/server/src/plugins.ts`. Every route lives under the `/api`',
             'prefix and is authenticated by default — a browser session cookie',
             'from `POST /api/auth/login`, or a bearer API token for the',

@@ -10,7 +10,7 @@ import {
     CardTitle,
     Spinner,
     toast
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 import type { Workspace } from '../../../domain/types/workspace';
 import type { ContentType } from '../../../domain/types/wizard';
 import { isConflict } from '../../../infrastructure/isConflict';

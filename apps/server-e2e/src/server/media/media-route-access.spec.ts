@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { PERMISSIONS, PERMISSION_KEYS } from '@orthacms/identity-server';
+import { PERMISSIONS, PERMISSION_KEYS } from '@apograph/identity-server';
 import {
     closeTestApp,
     createTestApp,

@@ -6,7 +6,7 @@ import {
     Card,
     CardContent,
     Spinner
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 import type { UserSession } from '../../../application/useUserSessions';
 
 /** Intl descriptors for {@link SessionCard}. */

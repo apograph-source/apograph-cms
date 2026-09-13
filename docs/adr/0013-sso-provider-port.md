@@ -5,7 +5,7 @@
 - **Deciders:** Engineering
 
 > The feature this decision serves is described in
-> [`docs/design/sso.md`](../design/sso.md). This ADR settles only *how Ortha
+> [`docs/design/sso.md`](../design/sso.md). This ADR settles only *how Apograph
 > reaches an external identity provider, and what it may do with the person it
 > gets back*.
 
@@ -15,7 +15,7 @@ Operators want their staff to sign in to the admin with the directory they
 already run — Google Workspace, Entra ID, Okta, Auth0, Keycloak — and enterprise
 buyers ask for SAML on top of that.
 
-Ortha is self-hosted, so the same force that produced
+Apograph is self-hosted, so the same force that produced
 [ADR-0004](0004-model-agnostic-copilot-provider.md) applies: we do not know
 which IdP an operator runs, we cannot ask them to fork to add one, and a
 deployment must be able to run the whole login flow in CI with no network and no
@@ -24,7 +24,7 @@ tenant.
 Two things about the existing identity plugin constrain the design more than the
 protocols do:
 
-- **Ortha is invite-only.** There is no public registration; the only route into
+- **Apograph is invite-only.** There is no public registration; the only route into
   an account is an admin's invite. An SSO login that provisions accounts changes
   that property of the product, and does so silently if it is a default.
 - **Sessions and one-time tokens are opaque values checked against a row**, not
@@ -44,7 +44,7 @@ structurally identical to the model provider and the storage provider — and we
 will keep every security-critical step of the handshake in the core.
 
 1. **The core depends on an interface, never a vendor.** `SsoProvider` is
-   declared in a new framework-free package, `@orthacms/identity-domain`:
+   declared in a new framework-free package, `@apograph/identity-domain`:
    `authorize(request)` returning a redirect, and `complete(callback)` returning
    a verified, normalised `SsoProfile`. No protocol library may be imported by
    `identity/domain` or `identity/server`. Adapters may depend on one —
@@ -98,10 +98,10 @@ will keep every security-critical step of the handshake in the core.
 - **A second way into an account.** Every rule that protected the password path
   — `disabled` accounts stay locked out, credential changes evict sessions —
   now has to be enforced on a second path, and tested there.
-- **A new package on identity's critical path.** `@orthacms/identity-domain`
+- **A new package on identity's critical path.** `@apograph/identity-domain`
   exists so an adapter need not depend on Nest and Drizzle. Identity's public
   barrel stays untouched, but the workspace gains a package that
-  `create-ortha-app`'s coverage guard will require a decision about.
+  `create-apograph-app`'s coverage guard will require a decision about.
 - **Offboarding is not instant, and we must say so.** A session is a row with a
   TTL; an IdP disabling someone does not reach it. Until back-channel logout
   exists, the honest answer is `SESSION_TTL_SECONDS`.
@@ -118,7 +118,7 @@ default.
 
 - **Use an off-the-shelf auth framework** (Passport, Auth.js, Keycloak as the
   only front door). Rejected: each brings its own session and user model, and
-  Ortha already has both — opaque revocable session rows, a global role per
+  Apograph already has both — opaque revocable session rows, a global role per
   user, and an invite lifecycle. Adopting one would mean reconciling two
   identity models forever, for a surface that is one file plus adapters.
 - **Ship only a generic OIDC adapter, with no port.** Tempting, since nearly

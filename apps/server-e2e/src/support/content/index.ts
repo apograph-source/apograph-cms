@@ -22,7 +22,7 @@ import {
     contentEntryRevisions,
     joinTableOf,
     type AnyContentType
-} from '@orthacms/content-server/define';
+} from '@apograph/content-server/define';
 import { testArticle } from './test-article';
 import { testAuthor } from './test-author';
 import { testTag } from './test-tag';

@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { defineMessages, useIntl } from 'react-intl';
-import { useHasPermission } from '@orthacms/identity-admin';
-import { CommandGroup, CommandItem } from '@orthacms/design-system';
-import type { CommandSectionProps } from '@orthacms/shell-admin';
-import { useWorkspaces } from '@orthacms/workspaces-admin';
+import { useHasPermission } from '@apograph/identity-admin';
+import { CommandGroup, CommandItem } from '@apograph/design-system';
+import type { CommandSectionProps } from '@apograph/shell-admin';
+import { useWorkspaces } from '@apograph/workspaces-admin';
 import { useContentTypes } from '../../../application/useContentTypes';
 import { CONTENT_READ, CONTENT_SEGMENT } from '../../../domain/constants';
 

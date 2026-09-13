@@ -1,4 +1,4 @@
-# @orthacms/i18n-admin
+# @apograph/i18n-admin
 
 > **Layout: layered (ADR-0003).** A **light** application — the admin has no
 > independent source of truth (the server rejects invalid actions regardless),
@@ -24,9 +24,9 @@
 - The wire `type`s in `types/locale` still **mirror** the server without
   importing across the boundary (the FE anti-corruption convention).
 
-The admin counterpart to `@orthacms/i18n-server` — content localization in the
+The admin counterpart to `@apograph/i18n-server` — content localization in the
 Content Library UI. It contributes **no routes, no layout, no nav item**: eight
-of its nine contributions fill `@orthacms/content-admin`'s extension slots, and
+of its nine contributions fill `@apograph/content-admin`'s extension slots, and
 the ninth is the **Translation coverage** card on the Insights page (see below).
 Register it in `createAdmin({ plugins })` **after** `ContentPlugin()` (it fills
 slots the content plugin owns).
@@ -168,7 +168,7 @@ Three things the widget is careful about:
   content, and a reader who may not see entries must not learn how many there
   are by counting the gaps.
 
-It is the reason this package depends on `@orthacms/insights-admin` — the same
+It is the reason this package depends on `@apograph/insights-admin` — the same
 direction as any slot filler.
 
 ## Switch flourish (`LocaleSwitchOverlay` + `utils/localeTransition`)
@@ -299,7 +299,7 @@ pass-through in every branch of `EntryFieldInput` and is tracked separately.
 
 - `type` over `interface`; `<name>/index.ts(x)` folders; co-located
   `react-intl` messages namespaced `i18n.<area>.<key>`; UI from
-  `@orthacms/design-system` only; wire types **mirror** the server without
+  `@apograph/design-system` only; wire types **mirror** the server without
   importing across the boundary (`src/lib/types/locale`).
 - **One component per file.** A child used by one parent nests in its folder
   (e.g. `LocalesColumnCell/LocaleBadge`, `LocaleWidget/LocaleRow`).
@@ -327,7 +327,7 @@ second one refetches instead of serving the first one's numbers
 
 ## Commands
 
-- `npx nx typecheck @orthacms/i18n-admin` / `npx nx lint @orthacms/i18n-admin`
-- `npx nx test @orthacms/i18n-admin` — the unit tests (vitest, jsdom)
+- `npx nx typecheck @apograph/i18n-admin` / `npx nx lint @apograph/i18n-admin`
+- `npx nx test @apograph/i18n-admin` — the unit tests (vitest, jsdom)
 - E2E: `apps/admin-e2e/src/content/i18n.spec.ts` (mocked API, no backend), plus
   the coverage card in `apps/admin-e2e/src/insights/insights.spec.ts`.

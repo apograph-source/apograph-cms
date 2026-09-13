@@ -1,6 +1,6 @@
 import { defineMessages, useIntl } from 'react-intl';
 import { ChevronRight } from 'lucide-react';
-import { cn, TableCell, TableRow } from '@orthacms/design-system';
+import { cn, TableCell, TableRow } from '@apograph/design-system';
 import { ActivityActionCell } from '../ActivityActionCell';
 import { ActivityActorCell } from '../ActivityActorCell';
 import { ActivitySubjectCell } from '../ActivitySubjectCell';

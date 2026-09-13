@@ -65,7 +65,7 @@ Three details worth not re-discovering:
 ## Why `tools/` and why a `project.json`
 
 It is workspace tooling, not a package: nothing imports it and nothing publishes
-it, so `packages/` would have put it in front of `nx release`'s `@orthacms/*`
+it, so `packages/` would have put it in front of `nx release`'s `@apograph/*`
 glob for no reason.
 
 It carries a `project.json` rather than a `package.json` because `@nx/jest`

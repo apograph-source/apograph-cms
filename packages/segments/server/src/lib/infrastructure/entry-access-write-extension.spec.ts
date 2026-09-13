@@ -3,8 +3,8 @@ import {
     EntryWriteExtensionRegistry,
     type EntryWriteExtensionInput,
     type EntryWriteExtensionTarget
-} from '@orthacms/content-server';
-import { sameAccess, type EntryAccess } from '@orthacms/segments-domain';
+} from '@apograph/content-server';
+import { sameAccess, type EntryAccess } from '@apograph/segments-domain';
 import {
     ACCESS_EXTENSION_KEY,
     EntryAccessWriteExtension

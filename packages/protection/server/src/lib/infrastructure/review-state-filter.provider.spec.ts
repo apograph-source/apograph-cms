@@ -1,4 +1,4 @@
-import { FilterOperator } from '@orthacms/utils-server';
+import { FilterOperator } from '@apograph/utils-server';
 import {
     REVIEW_STATE,
     REVIEW_STATE_FIELD,

@@ -1,5 +1,5 @@
 /**
- * The admin route that redeems an invite. Owned by `@orthacms/identity-admin`
+ * The admin route that redeems an invite. Owned by `@apograph/identity-admin`
  * (its router mounts `accept-invite` under `/identity`); repeated here because
  * a path string is not worth a package dependency, and the e2e suites assert
  * the built link so a drift would fail loudly.

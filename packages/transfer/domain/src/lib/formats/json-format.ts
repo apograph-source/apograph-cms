@@ -167,7 +167,7 @@ function assertManifest(value: unknown): TransferManifest {
     }
     if (version > TRANSFER_FORMAT_VERSION) {
         throw new TransferParseError(
-            `This file was written by a newer version of Ortha (format ${version}; this installation reads ${TRANSFER_FORMAT_VERSION}). Upgrade before importing it.`
+            `This file was written by a newer version of Apograph (format ${version}; this installation reads ${TRANSFER_FORMAT_VERSION}). Upgrade before importing it.`
         );
     }
     if (typeof value['rootType'] !== 'string') {

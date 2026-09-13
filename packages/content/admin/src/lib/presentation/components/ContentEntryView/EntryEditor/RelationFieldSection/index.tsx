@@ -1,6 +1,6 @@
 import { defineMessages, useIntl } from 'react-intl';
 import { AlertCircle } from 'lucide-react';
-import { Spinner } from '@orthacms/design-system';
+import { Spinner } from '@apograph/design-system';
 import type {
     ContentField,
     RelationRef,

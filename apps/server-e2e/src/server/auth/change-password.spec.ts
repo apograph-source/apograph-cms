@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { ChangePasswordUseCase } from '@orthacms/identity-server';
+import { ChangePasswordUseCase } from '@apograph/identity-server';
 import {
     closeTestApp,
     createTestApp,

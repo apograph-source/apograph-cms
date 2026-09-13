@@ -32,13 +32,13 @@ import { webhookEndpoints } from './webhook-endpoints';
 export const webhookDeliveries = pgTable(
     'webhook_deliveries',
     {
-        /** Primary key, and the value sent as `X-Ortha-Delivery`. */
+        /** Primary key, and the value sent as `X-Apograph-Delivery`. */
         id: uuid('id').primaryKey().defaultRandom(),
         endpointId: uuid('endpoint_id')
             .notNull()
             .references(() => webhookEndpoints.id, { onDelete: 'cascade' }),
         /**
-         * The originating outbox event. Sent as `X-Ortha-Event-Id` and stable
+         * The originating outbox event. Sent as `X-Apograph-Event-Id` and stable
          * across redeliveries, so it is the value a receiver deduplicates on.
          * For a `ping` there is no outbox row, so this is a fresh uuid.
          */

@@ -1,11 +1,11 @@
 import { useMemo } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
-import { Spinner } from '@orthacms/design-system';
+import { Spinner } from '@apograph/design-system';
 import {
     EntrySidebarSection,
     type EntrySlotContext
-} from '@orthacms/content-admin';
-import { useHasPermission } from '@orthacms/identity-admin';
+} from '@apograph/content-admin';
+import { useHasPermission } from '@apograph/identity-admin';
 import { useFindingsByEntry } from '../../../application/useFindingsByEntry';
 import type { AlarmFinding } from '../../../types/alarm';
 import { SeverityBadge } from '../SeverityBadge';

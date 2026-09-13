@@ -1,8 +1,8 @@
 import { BadRequestException } from '@nestjs/common';
 import { PgDialect, pgTable, uuid } from 'drizzle-orm/pg-core';
 import type { SQL } from 'drizzle-orm';
-import type { AnyContentType } from '@orthacms/content-server';
-import type { Segment } from '@orthacms/segments-domain';
+import type { AnyContentType } from '@apograph/content-server';
+import type { Segment } from '@apograph/segments-domain';
 import { entryAccess } from '../schema/entry-access';
 import { EntryAccessService } from './entry-access.service';
 import { SegmentCatalogService } from './segment-catalog.service';

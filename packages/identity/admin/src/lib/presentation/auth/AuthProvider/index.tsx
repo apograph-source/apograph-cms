@@ -1,8 +1,8 @@
 import { useEffect, useRef, type ReactNode } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { defineMessages, useIntl } from 'react-intl';
-import { toast } from '@orthacms/design-system';
-import { setUnauthorizedHandler } from '@orthacms/utils-admin';
+import { toast } from '@apograph/design-system';
+import { setUnauthorizedHandler } from '@apograph/utils-admin';
 import {
     currentUserKey,
     useCurrentUser
@@ -154,7 +154,5 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         toast.warning(intl.formatMessage(messages.sessionEnded));
     }, [state.status, intl]);
 
-    return (
-        <AuthProviderContext value={state}>{children}</AuthProviderContext>
-    );
+    return <AuthProviderContext value={state}>{children}</AuthProviderContext>;
 }

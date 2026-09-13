@@ -26,7 +26,7 @@ export type MediaTrackKind = (typeof MEDIA_TRACK_KIND)[number];
  * points the layering the wrong way round: it makes `domain/` unusable without
  * the schema module, which is exactly what ADR-0003's one hard rule forbids.
  * The name keeps its `Stored` prefix because it is part of the published
- * surface of `@orthacms/media-server`.
+ * surface of `@apograph/media-server`.
  */
 export interface StoredMediaTrack {
     /** What the track carries — see {@link MEDIA_TRACK_KIND}. */

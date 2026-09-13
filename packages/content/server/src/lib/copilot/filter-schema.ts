@@ -1,9 +1,9 @@
-import type { FieldSchema } from '@orthacms/utils-server';
+import type { FieldSchema } from '@apograph/utils-server';
 import type { WireFilterField } from '../entries/types/filter-surface';
 
 /**
  * The operators the filter engine accepts, as the model sees them. Mirrors
- * `FilterOperator` in `@orthacms/utils-server` — restated rather than imported
+ * `FilterOperator` in `@apograph/utils-server` — restated rather than imported
  * so the descriptions can be written *for a model* instead of for a developer.
  */
 export const FILTER_OPERATORS = [

@@ -1,4 +1,4 @@
-# @orthacms/copilot-provider-fake
+# @apograph/copilot-provider-fake
 
 A scripted, deterministic `ModelProvider`, and a **test fixture only**
 ([ADR-0004](../../../docs/adr/0004-model-agnostic-copilot-provider.md) §3). It
@@ -15,7 +15,7 @@ failing. A host now registers exactly the backends it configured;
 `CopilotPlugin` accepts an empty list only while the copilot is switched off,
 and refuses to build an enabled copilot that has nothing to call.
 
-Depends only on `@orthacms/copilot-domain`. No network, no clock, no randomness
+Depends only on `@apograph/copilot-domain`. No network, no clock, no randomness
 — the run engine is a non-deterministic multi-step loop, and a flaky fake would
 make every assertion downstream of it flaky too.
 
@@ -100,6 +100,6 @@ const provider = createFakeProvider({
 
 ## Commands
 
-- `npx nx typecheck @orthacms/copilot-provider-fake`
-- `npx nx lint @orthacms/copilot-provider-fake`
-- `npx nx test @orthacms/copilot-provider-fake`
+- `npx nx typecheck @apograph/copilot-provider-fake`
+- `npx nx lint @apograph/copilot-provider-fake`
+- `npx nx test @apograph/copilot-provider-fake`

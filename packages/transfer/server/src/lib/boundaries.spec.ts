@@ -6,7 +6,7 @@ import { join } from 'node:path';
  *
  * Both are the kind that regress by convenience rather than by decision: an
  * `eq()` and a `db.update()` reached for while fixing an import bug, an
- * `import { LOCALE_HEADER } from '@orthacms/i18n-server'` because the constant
+ * `import { LOCALE_HEADER } from '@apograph/i18n-server'` because the constant
  * was right there. Each compiles and passes every other test.
  */
 
@@ -87,7 +87,7 @@ describe('every content write goes through EntryWriterService', () => {
 describe('transfer does not depend on the i18n plugin [transfer:I-21]', () => {
     const PACKAGES = ['domain', 'server', 'admin'];
 
-    it.each(PACKAGES)('%s imports nothing from @orthacms/i18n-*', (name) => {
+    it.each(PACKAGES)('%s imports nothing from @apograph/i18n-*', (name) => {
         // `locale` and `locale_group_id` are envelope columns `content/server`
         // defines for any `i18n: true` type, and the walk asks "the other rows
         // of this record" generically. Reaching into the i18n plugin for a
@@ -95,7 +95,7 @@ describe('transfer does not depend on the i18n plugin [transfer:I-21]', () => {
         // that has no locales — the common case.
         const offenders = sourceFiles(join(GROUP_ROOT, name, 'src'))
             .filter((path) =>
-                /from\s+'@orthacms\/i18n-/.test(readFileSync(path, 'utf8'))
+                /from\s+'@apograph\/i18n-/.test(readFileSync(path, 'utf8'))
             )
             .map((path) => path.slice(GROUP_ROOT.length + 1));
 
@@ -115,7 +115,7 @@ describe('transfer does not depend on the i18n plugin [transfer:I-21]', () => {
         ];
 
         expect(
-            declared.filter((name) => name.startsWith('@orthacms/i18n'))
+            declared.filter((name) => name.startsWith('@apograph/i18n'))
         ).toEqual([]);
     });
 

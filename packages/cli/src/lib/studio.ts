@@ -42,7 +42,7 @@ export function runDrizzleKitStudio(
     // resolve the package's main entry and locate the sibling bin.
     const bin = join(dirname(require.resolve('drizzle-kit')), 'bin.cjs');
 
-    const dir = mkdtempSync(join(tmpdir(), 'ortha-studio-'));
+    const dir = mkdtempSync(join(tmpdir(), 'apograph-studio-'));
     const configPath = join(dir, 'drizzle.config.ts');
     writeFileSync(
         configPath,
@@ -96,7 +96,7 @@ export function runDrizzleKitStudio(
  * database — on an ephemeral port, and announces a URL pointing at port 0.
  * Nothing in the output says where it actually is.
  *
- * `@orthacms/nx`'s `db:studio` executor already refused this input, so the same
+ * `@apograph/nx`'s `db:studio` executor already refused this input, so the same
  * flag on the same tool behaved two different ways depending on which half of
  * the workspace you were in. This is that refusal, moved to the shared
  * implementation both worlds call.

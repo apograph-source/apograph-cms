@@ -15,7 +15,7 @@ import {
     Collapsible,
     CollapsibleContent,
     CollapsibleTrigger
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 import type { BulkPublishVerdict } from '../../../../../domain/types/contentType';
 import { BULK_VERDICT } from '../../../../../domain/constants';
 

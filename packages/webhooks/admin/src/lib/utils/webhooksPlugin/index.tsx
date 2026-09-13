@@ -1,7 +1,7 @@
 import { Suspense, lazy } from 'react';
-import type { AdminPlugin } from '@orthacms/bootstrap-admin';
-import { SIDEBAR_NAV_SLOT } from '@orthacms/shell-admin';
-import { Spinner } from '@orthacms/design-system';
+import type { AdminPlugin } from '@apograph/bootstrap-admin';
+import { SIDEBAR_NAV_SLOT } from '@apograph/shell-admin';
+import { Spinner } from '@apograph/design-system';
 import { Webhook } from 'lucide-react';
 import { WebhooksPageSkeleton } from '../../presentation/components/WebhooksSkeleton';
 

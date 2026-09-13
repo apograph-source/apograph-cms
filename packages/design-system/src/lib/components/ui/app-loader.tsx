@@ -25,7 +25,7 @@ type AppLoaderProps = React.ComponentProps<'main'> & {
 };
 
 /**
- * Branded full-screen boot loader: the large Ortha CMS mark over a spinner and
+ * Branded full-screen boot loader: the large Apograph CMS mark over a spinner and
  * a short status line, centered on the muted background. Used for the "root"
  * load — the initial app boot and the auth probe — where there is no page
  * chrome yet to drape a skeleton over. The busy state announces once through a

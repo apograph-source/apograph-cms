@@ -7,7 +7,7 @@ import {
     CardDescription,
     CardHeader,
     CardTitle
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 
 /** Intl descriptors for {@link PasswordResetDone}, co-located with the component. */
 const messages = defineMessages({

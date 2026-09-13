@@ -1,15 +1,15 @@
 import { Injectable, Optional, type OnModuleInit } from '@nestjs/common';
-import { PERMISSIONS } from '@orthacms/identity-server';
+import { PERMISSIONS } from '@apograph/identity-server';
 import {
     BULK_MAX_SAVE_ITEMS,
     InjectContentRegistry,
     WorkspaceGrantsQuery,
     type ContentTypeRegistry,
     type SerializedField
-} from '@orthacms/content-server';
-import type { ProposalChange, ProposalDraft } from '@orthacms/copilot-domain';
-import { ToolRegistry } from '@orthacms/tools-server';
-import type { ToolDefinition, ToolProvider } from '@orthacms/tools-server';
+} from '@apograph/content-server';
+import type { ProposalChange, ProposalDraft } from '@apograph/copilot-domain';
+import { ToolRegistry } from '@apograph/tools-server';
+import type { ToolDefinition, ToolProvider } from '@apograph/tools-server';
 import { LocaleRegistryService } from '../locales/services/locale-registry.service';
 import {
     LocaleGroupService,

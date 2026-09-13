@@ -46,7 +46,7 @@ import {
 const WS = WYSIWYG_WORKSPACE.id;
 
 /**
- * The **rich-text field** (`@orthacms/wysiwyg-admin`, contributed through
+ * The **rich-text field** (`@apograph/wysiwyg-admin`, contributed through
  * content-admin's `ENTRY_FIELD_CONTROL_SLOT`): the entry form shows what was
  * written rather than the HTML behind it, pressing it expands the TipTap editor
  * into the work area, and everything the toolbar does ends up in the saved
@@ -122,7 +122,7 @@ test.describe('Entry editor — rich text field', () => {
             }
         });
         saves = await spyEntrySave(page);
-        // The Media Library sources come from `@orthacms/media-admin` through
+        // The Media Library sources come from `@apograph/media-admin` through
         // the editor's own slot, so the media endpoints have to answer too.
         uploads = await mockMediaApi(page);
     });

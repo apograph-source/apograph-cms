@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { type ApiError } from '@orthacms/utils-admin';
-import type { ThemePreference } from '@orthacms/design-system';
-import { AuthStatus, useAuth } from '@orthacms/identity-admin';
+import { type ApiError } from '@apograph/utils-admin';
+import type { ThemePreference } from '@apograph/design-system';
+import { AuthStatus, useAuth } from '@apograph/identity-admin';
 import {
     httpPreferencesGateway,
     preferencesKeys,

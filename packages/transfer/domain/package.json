@@ -1,5 +1,5 @@
 {
-    "name": "@orthacms/transfer-domain",
+    "name": "@apograph/transfer-domain",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -16,6 +16,6 @@
         "src"
     ],
     "dependencies": {
-        "@orthacms/content-domain": "*"
+        "@apograph/content-domain": "*"
     }
 }

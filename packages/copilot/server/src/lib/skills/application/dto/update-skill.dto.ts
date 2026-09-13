@@ -16,7 +16,7 @@ import {
     MAX_SKILL_TITLE_LENGTH,
     SKILL_NAME_PATTERN,
     type SkillMode
-} from '@orthacms/copilot-domain';
+} from '@apograph/copilot-domain';
 import { SKILL_MODES } from './create-skill.dto';
 
 const trimmed = () =>

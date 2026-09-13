@@ -1,7 +1,7 @@
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import type { ServerPlugin } from '@orthacms/bootstrap-server';
+import type { ServerPlugin } from '@apograph/bootstrap-server';
 import type { HostConfig } from '../project';
 
 /**
@@ -79,7 +79,7 @@ import { migrateCommand } from './migrate';
 import { startCommand } from './start';
 import { studioCommand } from './studio';
 
-const URL = 'postgresql://ortha:secret@db:5432/app';
+const URL = 'postgresql://apograph:secret@db:5432/app';
 const PLUGINS = [
     { name: 'database' },
     { name: 'identity' }
@@ -96,7 +96,7 @@ function tempApp(
         Record<'adminIndex' | 'serverEntry' | 'drizzleConfig', boolean>
     > = {}
 ): string {
-    const root = mkdtempSync(join(tmpdir(), 'ortha-cli-commands-'));
+    const root = mkdtempSync(join(tmpdir(), 'apograph-cli-commands-'));
     roots.push(root);
     writeFileSync(join(root, 'package.json'), '{"name":"my-cms"}', 'utf8');
 
@@ -172,7 +172,7 @@ describe('devCommand', () => {
      * somewhere else, or the admin alone against an API already up.
      *
      * Until this was implemented `devCommand` took no options at all, so
-     * `ortha dev --server` started Vite exactly as if the flag had not been
+     * `apograph dev --server` started Vite exactly as if the flag had not been
      * typed.
      */
     describe('one half at a time', () => {
@@ -362,7 +362,7 @@ describe('startCommand', () => {
         const root = tempApp();
 
         await expect(startCommand(root)).rejects.toThrow(
-            `${LAYOUT.serverEntry} does not exist — run \`ortha build\` first.`
+            `${LAYOUT.serverEntry} does not exist — run \`apograph build\` first.`
         );
         expect(run).not.toHaveBeenCalled();
     });

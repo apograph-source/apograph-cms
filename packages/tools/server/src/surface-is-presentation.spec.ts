@@ -53,9 +53,8 @@ function sources(dir: string): string[] {
 
 describe('surface is presentation, never authority', () => {
     /** Every file that supplies tools to the shared registry. */
-    const providers = sources(PACKAGES).filter(
-        (path) =>
-            /implements[^{]*\bToolProvider\b/.test(readFileSync(path, 'utf-8'))
+    const providers = sources(PACKAGES).filter((path) =>
+        /implements[^{]*\bToolProvider\b/.test(readFileSync(path, 'utf-8'))
     );
 
     it('finds the provider set it is scanning', () => {
@@ -63,9 +62,9 @@ describe('surface is presentation, never authority', () => {
         // below without looking at a line of anybody's handler — the shape of a
         // test that cannot fail.
         expect(providers.length).toBeGreaterThan(8);
-        expect(
-            providers.map((path) => relative(PACKAGES, path))
-        ).toContain('media/server/src/lib/copilot/media-tool.provider.ts');
+        expect(providers.map((path) => relative(PACKAGES, path))).toContain(
+            'media/server/src/lib/copilot/media-tool.provider.ts'
+        );
     });
 
     it('is read by exactly the handlers that render a link [tools:I-09]', () => {

@@ -1,4 +1,4 @@
-import type { UnitOfWork } from '@orthacms/database';
+import type { UnitOfWork } from '@apograph/database';
 import { Member } from '../../domain/member';
 import { Role } from '../../domain/value-objects/role';
 import { EmailTakenError } from '../../domain/errors';

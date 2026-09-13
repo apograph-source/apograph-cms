@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { apiClient, toApiError } from '@orthacms/utils-admin';
+import { apiClient, toApiError } from '@apograph/utils-admin';
 import { activityKeys } from '../../infrastructure/activityKeys';
 
 /** One event that could not be recorded, as the server reports it. */

@@ -1,5 +1,5 @@
 import { defineMessages, useIntl } from 'react-intl';
-import { Badge } from '@orthacms/design-system';
+import { Badge } from '@apograph/design-system';
 import type { RevisionExtraItem } from '../../../../../../slots/contentSlots';
 
 const messages = defineMessages({

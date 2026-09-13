@@ -9,7 +9,7 @@ import {
     SheetHeader,
     SheetTitle,
     Spinner
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 import type { WebhookDeliveryDetail } from '../../../../domain/types/webhook';
 import { DeliveryStatusBadge } from '../../DeliveryStatusBadge';
 

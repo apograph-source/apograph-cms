@@ -8,11 +8,8 @@
 
 import { Inject, Injectable, Optional } from '@nestjs/common';
 import { Readable } from 'node:stream';
-import {
-    STORAGE_PROVIDER,
-    type StorageProvider
-} from '@orthacms/media-server';
-import type { AnyContentType } from '@orthacms/content-server';
+import { STORAGE_PROVIDER, type StorageProvider } from '@apograph/media-server';
+import type { AnyContentType } from '@apograph/content-server';
 import {
     TRANSFER_FORMAT,
     TRANSFER_FORMAT_CAPABILITIES,
@@ -21,7 +18,7 @@ import {
     type TransferDepth,
     type TransferDocument,
     type TransferFormat
-} from '@orthacms/transfer-domain';
+} from '@apograph/transfer-domain';
 import { createZipStream, type ZipMember } from '../../archive/zip-writer';
 import { TransferSchemaCatalog } from '../../schema/schema-catalog.service';
 import {
@@ -106,7 +103,8 @@ export class ExportEntriesUseCase {
         const members = this.archiveMembers(files, result, carriesAssets);
         return {
             filename: `${command.type.name}-${stamp()}.zip`,
-            mimeType: TRANSFER_FORMAT_CAPABILITIES[TRANSFER_FORMAT.Zip].mimeType,
+            mimeType:
+                TRANSFER_FORMAT_CAPABILITIES[TRANSFER_FORMAT.Zip].mimeType,
             body: createZipStream(members),
             result
         };

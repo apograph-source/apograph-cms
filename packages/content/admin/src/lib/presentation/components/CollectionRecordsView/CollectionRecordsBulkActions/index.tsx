@@ -1,7 +1,7 @@
 import { Fragment, useState, type ComponentType, type ReactNode } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { MoreHorizontal, Send, Trash2, Undo2 } from 'lucide-react';
-import { useHasPermission } from '@orthacms/identity-admin';
+import { useHasPermission } from '@apograph/identity-admin';
 import {
     Button,
     ConfirmDialog,
@@ -12,7 +12,7 @@ import {
     DropdownMenuTrigger,
     Spinner,
     toast
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 import { CONTENT_DELETE, CONTENT_PUBLISH } from '../../../../domain/constants';
 import { useBulkEntryActions } from '../../../../application/useBulkEntryActions';
 import {

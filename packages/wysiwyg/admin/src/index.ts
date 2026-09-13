@@ -12,7 +12,7 @@ export { WYSIWYG_WIDGET } from './lib/domain/constants';
 
 // The media seam. A plugin that can browse or upload files fills
 // `WYSIWYG_MEDIA_SLOT`, and the editor gains "Insert ▸ Media ▸ …" entries for
-// it — `@orthacms/media-admin` contributes the Media Library picker and an
+// it — `@apograph/media-admin` contributes the Media Library picker and an
 // upload. All type-only but the slot and the kind constants, so importing this
 // costs a consumer nothing at runtime beyond the slot object itself.
 export {

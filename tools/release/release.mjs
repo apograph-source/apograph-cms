@@ -15,7 +15,7 @@
  * Credentials come from `.env` at the workspace root (git-ignored), which
  * this script loads before handing off to `nx release`:
  *
- *     NPM_TOKEN=npm_…             # automation token with publish rights on @orthacms
+ *     NPM_TOKEN=npm_…             # automation token with publish rights on @apograph
  *     GITHUB_TOKEN=ghp_…          # a token that can create a release on this repo
  *
  * Anything already exported in the shell wins over the file. `NPM_TOKEN` is

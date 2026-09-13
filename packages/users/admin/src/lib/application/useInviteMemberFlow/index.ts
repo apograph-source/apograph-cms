@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { HTTP_STATUS } from '@orthacms/utils-admin';
+import { HTTP_STATUS } from '@apograph/utils-admin';
 import { Email } from '../../domain/value-objects/email';
 import type { MemberRole } from '../../domain/types/member';
 import { inviteLinkFor } from '../../infrastructure/inviteLink';

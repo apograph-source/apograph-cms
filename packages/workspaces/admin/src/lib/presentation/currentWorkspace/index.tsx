@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, type ReactNode } from 'react';
-import { setActiveWorkspaceId } from '@orthacms/utils-admin';
+import { setActiveWorkspaceId } from '@apograph/utils-admin';
 import type { Workspace } from '../../domain/types/workspace';
 
 /**

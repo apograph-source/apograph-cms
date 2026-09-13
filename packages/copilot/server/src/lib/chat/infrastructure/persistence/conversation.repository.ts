@@ -1,11 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { and, asc, desc, eq, sql } from 'drizzle-orm';
-import { InjectDatabase, type Database } from '@orthacms/database';
+import { InjectDatabase, type Database } from '@apograph/database';
 import type {
     AttachmentRef,
     ModelContentBlock,
     SkillRef
-} from '@orthacms/copilot-domain';
+} from '@apograph/copilot-domain';
 import { copilotConversations } from '../schema/conversations';
 import { copilotMessages } from '../schema/messages';
 import { copilotToolCalls } from '../schema/tool-calls';

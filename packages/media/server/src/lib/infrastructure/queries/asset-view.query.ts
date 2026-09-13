@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { and, eq } from 'drizzle-orm';
-import { InjectDatabase, type Database } from '@orthacms/database';
+import { InjectDatabase, type Database } from '@apograph/database';
 import { mediaAsset } from '../schema/media-asset';
 import type { AssetView } from '../../types/asset-view';
 import { toAssetView } from './to-asset-view';

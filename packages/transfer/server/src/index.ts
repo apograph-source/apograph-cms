@@ -1,4 +1,4 @@
-/** Public API of @orthacms/transfer-server. */
+/** Public API of @apograph/transfer-server. */
 
 export { TransferPlugin } from './lib/utils/transfer-plugin';
 export type { TransferServerPluginType } from './lib/utils/transfer-plugin';

@@ -60,9 +60,11 @@ describe('useResetPasswordSchema', () => {
         });
 
         it('rejects 11 characters as too short', () => {
-            expect(messagesFor('password', bothFields('a'.repeat(11)))).toEqual([
-                'Use at least 12 characters — length is what keeps a password hard to guess'
-            ]);
+            expect(messagesFor('password', bothFields('a'.repeat(11)))).toEqual(
+                [
+                    'Use at least 12 characters — length is what keeps a password hard to guess'
+                ]
+            );
         });
 
         it('accepts 12 characters — the floor is inclusive', () => {
@@ -80,15 +82,19 @@ describe('useResetPasswordSchema', () => {
         // 72 characters, 144 bytes: the case a `.max(72)` on length would wave
         // through and bcrypt would then silently truncate in half.
         it('rejects 72 accented characters, because the ceiling counts bytes', () => {
-            expect(messagesFor('password', bothFields('é'.repeat(72)))).toEqual([
-                'Keep it under 72 bytes — accented letters and emoji each count for more than one'
-            ]);
+            expect(messagesFor('password', bothFields('é'.repeat(72)))).toEqual(
+                [
+                    'Keep it under 72 bytes — accented letters and emoji each count for more than one'
+                ]
+            );
         });
 
         it('rejects 73 ASCII characters', () => {
-            expect(messagesFor('password', bothFields('a'.repeat(73)))).toEqual([
-                'Keep it under 72 bytes — accented letters and emoji each count for more than one'
-            ]);
+            expect(messagesFor('password', bothFields('a'.repeat(73)))).toEqual(
+                [
+                    'Keep it under 72 bytes — accented letters and emoji each count for more than one'
+                ]
+            );
         });
 
         // 36 accented characters is 72 bytes: a non-ASCII passphrase that fits

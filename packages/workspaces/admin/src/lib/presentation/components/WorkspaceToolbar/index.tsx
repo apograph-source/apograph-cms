@@ -7,7 +7,7 @@ import {
     SegmentedControl,
     SegmentedControlCount,
     SegmentedControlItem
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 
 /** The status the list is filtered by. `Active` is the default view. */
 export type StatusFilter = 'All' | 'Active' | 'Archived';

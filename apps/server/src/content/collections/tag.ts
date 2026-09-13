@@ -13,7 +13,7 @@ import {
     collection,
     field,
     type AnyContentType
-} from '@orthacms/content-server/define';
+} from '@apograph/content-server/define';
 import { article } from './article';
 
 export const tag = collection('tag', {

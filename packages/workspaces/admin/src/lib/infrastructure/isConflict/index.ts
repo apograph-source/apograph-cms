@@ -1,4 +1,4 @@
-import { ApiError } from '@orthacms/utils-admin';
+import { ApiError } from '@apograph/utils-admin';
 
 /** HTTP 409 — the server's "still has content / entries" conflict response. */
 const CONFLICT = 409;

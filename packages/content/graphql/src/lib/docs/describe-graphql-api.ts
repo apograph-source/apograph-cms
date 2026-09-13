@@ -32,7 +32,7 @@
  * its 200 is a `text/plain` string and not JSON.
  */
 
-import type { OpenApiDocument } from '@orthacms/bootstrap-server';
+import type { OpenApiDocument } from '@apograph/bootstrap-server';
 
 /** A JSON Schema fragment, as it appears in the OpenAPI document. */
 type OpenApiSchema = Record<string, unknown>;

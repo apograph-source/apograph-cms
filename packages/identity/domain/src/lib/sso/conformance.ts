@@ -90,18 +90,14 @@ export async function runSsoProviderConformance(
     return {
         'descriptor-is-stable': await descriptorIsStable(testCase),
         'descriptor-declares-a-label': await descriptorHasLabel(testCase),
-        'authorize-returns-an-absolute-url': await authorizeIsAbsolute(
-            testCase
-        ),
-        'authorize-carries-the-core-state': await authorizeCarriesState(
-            testCase
-        ),
-        'authorize-never-sends-the-code-verifier': await authorizeHidesVerifier(
-            testCase
-        ),
-        'complete-returns-a-usable-profile': await completeReturnsProfile(
-            testCase
-        ),
+        'authorize-returns-an-absolute-url':
+            await authorizeIsAbsolute(testCase),
+        'authorize-carries-the-core-state':
+            await authorizeCarriesState(testCase),
+        'authorize-never-sends-the-code-verifier':
+            await authorizeHidesVerifier(testCase),
+        'complete-returns-a-usable-profile':
+            await completeReturnsProfile(testCase),
         'complete-reports-email-verification-as-a-boolean':
             await completeReportsVerification(testCase),
         'complete-subject-is-not-the-email': await subjectIsNotEmail(testCase),

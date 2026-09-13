@@ -1,8 +1,8 @@
 /**
- * Public API of `@orthacms/cli`.
+ * Public API of `@apograph/cli`.
  *
- * The commands themselves are reached through the `ortha` binary; what is
- * exported here is the layer underneath, so `@orthacms/nx` can drive the same
+ * The commands themselves are reached through the `apograph` binary; what is
+ * exported here is the layer underneath, so `@apograph/nx` can drive the same
  * implementations from its Nx executors. That sharing is the point: the
  * monorepo and every generated app then migrate through one code path, rather
  * than two that drift.

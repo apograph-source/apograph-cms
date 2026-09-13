@@ -2,7 +2,7 @@ import { McpPlugin } from './mcp-plugin';
 
 const CONFIG = {
     enabled: true,
-    name: 'ortha-cms',
+    name: 'apograph-cms',
     version: '1.0.0',
     callTimeoutMs: 30_000,
     maxResultBytes: 4_194_304

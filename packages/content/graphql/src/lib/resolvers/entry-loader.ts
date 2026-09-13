@@ -6,7 +6,7 @@ import {
     type PublicEntriesQuery,
     type PublicEntry,
     type PublicListEntriesQueryDto
-} from '@orthacms/content-server';
+} from '@apograph/content-server';
 
 /**
  * Re-reads entries **by id, with expansions**, batching every request made in

@@ -38,19 +38,19 @@ function stage(manifest: Record<string, unknown>): string {
 function context(): ExecutorContext {
     return {
         root,
-        projectName: '@orthacms/media-server',
+        projectName: '@apograph/media-server',
         isVerbose: false,
         projectsConfigurations: { projects: {} }
     } as unknown as ExecutorContext;
 }
 
-const manifest = { name: '@orthacms/media-server', version: '0.3.0' };
+const manifest = { name: '@apograph/media-server', version: '0.3.0' };
 
 beforeEach(() => {
     jest.clearAllMocks();
-    root = mkdtempSync(join(tmpdir(), 'ortha-publish-'));
-    delete process.env.ORTHA_PUBLISH_DELAY;
-    delete process.env.ORTHA_PUBLISH_RETRIES;
+    root = mkdtempSync(join(tmpdir(), 'apograph-publish-'));
+    delete process.env.APOGRAPH_PUBLISH_DELAY;
+    delete process.env.APOGRAPH_PUBLISH_RETRIES;
     delete process.env.NX_DRY_RUN;
     probeRegistry.mockResolvedValue('name-exists');
     publishWithRetry.mockResolvedValue({ status: 'published', output: 'ok' });
@@ -82,7 +82,7 @@ describe('skipping without a write', () => {
             {
                 packageRoot,
                 nxReleaseVersionData: {
-                    '@orthacms/media-server': { newVersion: null }
+                    '@apograph/media-server': { newVersion: null }
                 }
             },
             context()
@@ -171,13 +171,13 @@ describe('the creation-limit breaker', () => {
             releasePublishExecutor({ packageRoot }, context())
         ).resolves.toEqual({ success: false });
         expect(creationLimitTrippedBy(throttleStateDir(root))).toBe(
-            '@orthacms/media-server'
+            '@apograph/media-server'
         );
     });
 
     it('makes a later new name bow out without spending a request [nx:I-27]', async () => {
         probeRegistry.mockResolvedValue('name-absent');
-        tripCreationLimit(throttleStateDir(root), '@orthacms/other');
+        tripCreationLimit(throttleStateDir(root), '@apograph/other');
         const packageRoot = stage(manifest);
 
         await expect(
@@ -185,12 +185,12 @@ describe('the creation-limit breaker', () => {
         ).resolves.toEqual({ success: false });
         expect(publishWithRetry).not.toHaveBeenCalled();
         expect((console.error as jest.Mock).mock.calls[0][0]).toContain(
-            '@orthacms/other'
+            '@apograph/other'
         );
     });
 
     it('leaves an existing name publishing normally while the breaker is open', async () => {
-        tripCreationLimit(throttleStateDir(root), '@orthacms/other');
+        tripCreationLimit(throttleStateDir(root), '@apograph/other');
         const packageRoot = stage(manifest);
 
         await expect(
@@ -205,8 +205,8 @@ describe('numeric precedence — env beats the target option beats the default',
         env: string | undefined,
         option: number | undefined
     ): Promise<number> {
-        if (env === undefined) delete process.env.ORTHA_PUBLISH_RETRIES;
-        else process.env.ORTHA_PUBLISH_RETRIES = env;
+        if (env === undefined) delete process.env.APOGRAPH_PUBLISH_RETRIES;
+        else process.env.APOGRAPH_PUBLISH_RETRIES = env;
 
         const packageRoot = stage(manifest);
         await releasePublishExecutor(
@@ -265,7 +265,7 @@ describe('reporting', () => {
             releasePublishExecutor({ packageRoot }, context())
         ).resolves.toEqual({ success: false });
         expect((console.error as jest.Mock).mock.calls[0][0]).toContain(
-            '@orthacms/media-server@0.3.0'
+            '@apograph/media-server@0.3.0'
         );
     });
 });

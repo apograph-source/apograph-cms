@@ -7,8 +7,8 @@ import {
     type ModelRequest,
     type ModelStreamEvent,
     type Skill
-} from '@orthacms/copilot-domain';
-import type { ToolDefinition, ToolRegistry } from '@orthacms/tools-server';
+} from '@apograph/copilot-domain';
+import type { ToolDefinition, ToolRegistry } from '@apograph/tools-server';
 import { buildModelRegistry } from '../../infrastructure/model-registry';
 import type { CopilotPluginConfig } from '../../types/copilot-config';
 import type {

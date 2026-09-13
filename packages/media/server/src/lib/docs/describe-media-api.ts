@@ -11,7 +11,7 @@
  * Pure: it takes the document and mutates only the paths this plugin owns.
  */
 
-import type { OpenApiDocument } from '@orthacms/bootstrap-server';
+import type { OpenApiDocument } from '@apograph/bootstrap-server';
 import type { OpenApiSchema } from './media-schemas';
 import { buildMediaSchemas, ref } from './media-schemas';
 
@@ -185,9 +185,7 @@ function contentFor(response: ResponseKind): Record<string, unknown> {
 }
 
 /** Resolves a document path to its route table and the rest of the path. */
-function locate(
-    route: string
-): {
+function locate(route: string): {
     routes: Record<string, Record<string, OperationSpec>>;
     rest: string;
 } | null {

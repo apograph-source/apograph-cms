@@ -1,6 +1,6 @@
 import { describeContentApi } from './describe-content-api';
 import { pascalCase } from './content-schemas';
-import type { OpenApiDocument } from '@orthacms/bootstrap-server';
+import type { OpenApiDocument } from '@apograph/bootstrap-server';
 import type { SerializedContentType } from '../registry/content-type-registry';
 
 const article: SerializedContentType = {

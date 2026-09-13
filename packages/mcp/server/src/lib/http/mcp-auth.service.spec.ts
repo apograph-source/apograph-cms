@@ -3,7 +3,7 @@ import {
     ForbiddenException,
     UnauthorizedException
 } from '@nestjs/common';
-import { PERMISSIONS, type ApiTokenService } from '@orthacms/identity-server';
+import { PERMISSIONS, type ApiTokenService } from '@apograph/identity-server';
 import { McpAuthService } from './mcp-auth.service';
 
 const WORKSPACE_A = '11111111-1111-4111-8111-111111111111';

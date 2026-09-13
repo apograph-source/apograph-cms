@@ -1,5 +1,5 @@
 {
-    "name": "@orthacms/source",
+    "name": "@apograph/source",
     "version": "0.0.0",
     "license": "MIT",
     "scripts": {
@@ -16,7 +16,7 @@
     "private": true,
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/ortha-source/ortha-cms.git"
+        "url": "git+https://github.com/ortha-source/apograph-cms.git"
     },
     "dependencies": {
         "@graphql-yoga/render-graphiql": "^5.21.2",

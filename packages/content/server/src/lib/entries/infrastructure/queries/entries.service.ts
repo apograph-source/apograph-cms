@@ -10,8 +10,8 @@ import {
     type AnyColumn,
     type SQL
 } from 'drizzle-orm';
-import { InjectDatabase, type Database } from '@orthacms/database';
-import { applyFilterTree, parseFilterTree } from '@orthacms/utils-server';
+import { InjectDatabase, type Database } from '@apograph/database';
+import { applyFilterTree, parseFilterTree } from '@apograph/utils-server';
 import {
     CONTENT_ENTRY_EXTENSION,
     type ContentEntryExtension,

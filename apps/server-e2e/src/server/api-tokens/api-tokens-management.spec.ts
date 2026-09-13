@@ -76,7 +76,7 @@ describe('API token management (/api/api-tokens)', () => {
             .expect(201);
 
         expect(res.body.secret).toEqual(expect.any(String));
-        expect(res.body.secret.startsWith('orthacms_')).toBe(true);
+        expect(res.body.secret.startsWith('apograph_')).toBe(true);
         expect(res.body.scope).toBe('read');
         expect(res.body.workspaceIds).toEqual([workspaceId]);
 

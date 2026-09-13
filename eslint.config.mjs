@@ -15,7 +15,7 @@ export default [
             // source: they import packages this repo resolves from its own
             // `src/`, so linting them reports errors about an app that does
             // not exist here.
-            'packages/create-ortha-app/templates'
+            'packages/create-apograph-app/templates'
         ]
     },
     {

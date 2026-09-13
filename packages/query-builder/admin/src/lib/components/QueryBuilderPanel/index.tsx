@@ -6,7 +6,7 @@ import {
     AlertTitle,
     Button,
     Spinner
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 import type {
     FilterField,
     RelationValueEditor

@@ -7,7 +7,7 @@ import {
     DropdownMenuRadioGroup,
     DropdownMenuRadioItem,
     DropdownMenuTrigger
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 import { FONT_SIZES } from '../../../../domain/constants';
 import { useLiveEditorState } from '../../../hooks/useLiveEditorState';
 import { ToolbarMenuTrigger } from '../ToolbarMenuTrigger';

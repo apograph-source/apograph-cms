@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { apiClient, toApiError } from '@orthacms/utils-admin';
+import { apiClient, toApiError } from '@apograph/utils-admin';
 import { toActivityEvent } from '../../infrastructure/activityMapper';
 import type { ActivityEventResponse } from '../../infrastructure/activityMapper';
 import { activityKeys } from '../../infrastructure/activityKeys';

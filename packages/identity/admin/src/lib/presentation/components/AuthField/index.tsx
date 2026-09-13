@@ -1,5 +1,5 @@
 import { type AnyFieldApi } from '@tanstack/react-form';
-import { InputField } from '@orthacms/design-system';
+import { InputField } from '@apograph/design-system';
 
 /**
  * Props for {@link AuthField}. Adapts a TanStack field to the design-system

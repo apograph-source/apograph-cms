@@ -1,11 +1,7 @@
 import { createServer as createHttpServer, get, type Server } from 'node:http';
 import type { AddressInfo } from 'node:net';
 import request from 'supertest';
-import {
-    closeTestApp,
-    createTestApp,
-    type TestApp
-} from '../support/test-app';
+import { closeTestApp, createTestApp, type TestApp } from '../support/test-app';
 
 /**
  * Where the harness's HTTP server is bound — the fix for the instability that

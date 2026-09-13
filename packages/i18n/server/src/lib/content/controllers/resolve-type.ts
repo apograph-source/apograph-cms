@@ -2,7 +2,7 @@ import { BadRequestException, NotFoundException } from '@nestjs/common';
 import type {
     AnyContentType,
     ContentTypeRegistry
-} from '@orthacms/content-server';
+} from '@apograph/content-server';
 
 /**
  * Resolve a route's `:typeName` to a registered **i18n** content type: 404

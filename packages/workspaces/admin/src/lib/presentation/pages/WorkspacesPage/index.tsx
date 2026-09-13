@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { defineMessages, useIntl } from 'react-intl';
-import { useHasPermission } from '@orthacms/identity-admin';
-import { PageTopBar } from '@orthacms/shell-admin';
+import { useHasPermission } from '@apograph/identity-admin';
+import { PageTopBar } from '@apograph/shell-admin';
 import { Layers, Plus } from 'lucide-react';
 import {
     Alert,
@@ -10,8 +10,8 @@ import {
     Button,
     Container,
     ContainerHeader
-} from '@orthacms/design-system';
-import { useDocumentTitle } from '@orthacms/utils-admin';
+} from '@apograph/design-system';
+import { useDocumentTitle } from '@apograph/utils-admin';
 import { useWorkspaces } from '../../../application/useWorkspaces';
 import { WorkspacesTable } from '../../components/WorkspacesTable';
 import { WorkspacesTableSkeleton } from '../../components/WorkspacesSkeleton';

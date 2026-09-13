@@ -1,6 +1,6 @@
 /**
  * The lifecycle state of a single revision. Distinct from an entry's
- * `draft ↔ published` status (`@orthacms/content-domain`): that describes the
+ * `draft ↔ published` status (`@apograph/content-domain`): that describes the
  * live row, this describes one version in its history.
  *
  * - `draft` — a saved version that is not (yet) live.

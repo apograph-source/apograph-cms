@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { STALE_TIME } from '@orthacms/utils-admin';
+import { STALE_TIME } from '@apograph/utils-admin';
 import { httpAuthGateway } from '../../infrastructure/httpAuthGateway';
 
 /**

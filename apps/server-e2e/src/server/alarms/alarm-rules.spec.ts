@@ -168,7 +168,10 @@ describe('Alarm rules (/api/alarms/rules)', () => {
             await seedAllContentGrants(other.id);
 
             const here = await asAdmin();
-            await here.post('/api/alarms/rules').send(rulePayload()).expect(201);
+            await here
+                .post('/api/alarms/rules')
+                .send(rulePayload())
+                .expect(201);
 
             const there = await login(ADMIN_EMAIL, other.id);
             await there

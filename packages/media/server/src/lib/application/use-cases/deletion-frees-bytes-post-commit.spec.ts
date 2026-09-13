@@ -1,6 +1,6 @@
-import type { OutboxWriter, UnitOfWork } from '@orthacms/database';
-import type { PublicUser } from '@orthacms/identity-server';
-import type { StorageProvider } from '@orthacms/media-domain';
+import type { OutboxWriter, UnitOfWork } from '@apograph/database';
+import type { PublicUser } from '@apograph/identity-server';
+import type { StorageProvider } from '@apograph/media-domain';
 import type { Asset } from '../../domain/asset';
 import type { AssetRepository } from '../../domain/asset.repository';
 import type { Folder } from '../../domain/folder';
@@ -96,7 +96,9 @@ function harness(outcome: 'commit' | 'rollback' = 'commit') {
         }
     } as unknown as StorageProvider;
 
-    const outbox = { append: () => Promise.resolve() } as unknown as OutboxWriter;
+    const outbox = {
+        append: () => Promise.resolve()
+    } as unknown as OutboxWriter;
 
     return { state, uow, provider, outbox };
 }

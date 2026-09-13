@@ -14,7 +14,7 @@ import {
     PermissionsGuard,
     RequirePermissions,
     type PublicUser
-} from '@orthacms/identity-server';
+} from '@apograph/identity-server';
 import { CreateWorkspaceUseCase } from '../../application/use-cases/create-workspace.use-case';
 import { CreateWorkspaceDto } from '../../application/dto/create-workspace.dto';
 import { WorkspaceViewQuery } from '../../infrastructure/queries/workspace-view.query';

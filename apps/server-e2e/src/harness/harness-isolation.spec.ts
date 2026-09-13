@@ -1,10 +1,6 @@
 import request from 'supertest';
-import { getPool } from '@orthacms/database';
-import {
-    closeTestApp,
-    createTestApp,
-    type TestApp
-} from '../support/test-app';
+import { getPool } from '@apograph/database';
+import { closeTestApp, createTestApp, type TestApp } from '../support/test-app';
 import {
     resetDb,
     seedActiveUser,
@@ -136,7 +132,7 @@ describe('harness isolation (resetDb)', () => {
 /**
  * Two apps, one file, in sequence.
  *
- * `closeTestApp` used to end the `@orthacms/database` pool without clearing
+ * `closeTestApp` used to end the `@apograph/database` pool without clearing
  * `initDatabase`'s memo, so the second `createTestApp` in a file silently reused
  * the **ended** pool and every query threw "Cannot use a pool after calling end
  * on the pool" — a message naming neither the caller nor the cause. No suite did

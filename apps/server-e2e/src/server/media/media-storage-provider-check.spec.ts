@@ -1,5 +1,5 @@
 import { Pool } from 'pg';
-import { closeDatabase } from '@orthacms/database';
+import { closeDatabase } from '@apograph/database';
 import { closeTestApp, createTestApp } from '../../support/test-app';
 import { resolveDatabaseUrl } from '../../support/db-url';
 

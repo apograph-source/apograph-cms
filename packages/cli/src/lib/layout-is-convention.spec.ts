@@ -16,7 +16,7 @@ import { LAYOUT } from './project';
  *
  * What the checkable half buys is not tidiness. Every one of these paths is
  * load-bearing at a distance: `serverEntry` follows from `apps/server/
- * tsconfig.json`'s `rootDir`, and a copy that drifted would have `ortha start`
+ * tsconfig.json`'s `rootDir`, and a copy that drifted would have `apograph start`
  * report a missing entry point for an app that had built perfectly.
  */
 
@@ -53,9 +53,7 @@ describe('the application layout lives in exactly one place', () => {
             .filter((path) => path !== HOME)
             .flatMap((path) =>
                 literals(path)
-                    .filter((value) =>
-                        /^(apps|dist)(\/|$)/.test(value)
-                    )
+                    .filter((value) => /^(apps|dist)(\/|$)/.test(value))
                     .map((value) => `${relative(PACKAGE, path)}: ${value}`)
             );
 

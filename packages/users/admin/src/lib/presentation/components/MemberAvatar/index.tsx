@@ -5,7 +5,7 @@ import {
     avatarColorVar,
     cn,
     type AvatarColor
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 
 type MemberAvatarProps = {
     /** Initials rendered as the avatar content. */

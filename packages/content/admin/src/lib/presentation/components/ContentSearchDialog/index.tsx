@@ -8,7 +8,7 @@ import {
     CommandInput,
     CommandList,
     Kbd
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 import type { ContentType } from '../../../domain/types/contentType';
 import { groupContentTypes } from '../../../domain/groupContentTypes';
 import { ContentSearchItem } from './ContentSearchItem';

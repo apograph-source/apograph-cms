@@ -1,5 +1,5 @@
 {
-    "name": "@orthacms/media-provider-gcs",
+    "name": "@apograph/media-provider-gcs",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -17,9 +17,9 @@
     ],
     "dependencies": {
         "@google-cloud/storage": "^7.14.0",
-        "@orthacms/media-domain": "*"
+        "@apograph/media-domain": "*"
     },
     "devDependencies": {
-        "@orthacms/media-provider-testkit": "*"
+        "@apograph/media-provider-testkit": "*"
     }
 }

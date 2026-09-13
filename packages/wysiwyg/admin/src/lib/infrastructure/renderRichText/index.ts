@@ -34,7 +34,7 @@ import {
     Node as ProseMirrorNode,
     type Schema
 } from '@tiptap/pm/model';
-import { isRichTextDocument, richTextToHtml } from '@orthacms/content-domain';
+import { isRichTextDocument, richTextToHtml } from '@apograph/content-domain';
 import { editorExtensions } from '../editorExtensions';
 
 /**

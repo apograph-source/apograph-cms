@@ -10,7 +10,7 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 import { TriangleAlert } from 'lucide-react';
 import { InviteLinkPanel } from '../InviteLinkPanel';
 

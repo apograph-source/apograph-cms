@@ -1,5 +1,5 @@
 import { defineMessages, useIntl } from 'react-intl';
-import { Button, Field, FieldSeparator } from '@orthacms/design-system';
+import { Button, Field, FieldSeparator } from '@apograph/design-system';
 import { useSsoProviders } from '../../../application/useSsoProviders';
 
 /** Intl descriptors for {@link SsoProviders}, co-located with the component. */

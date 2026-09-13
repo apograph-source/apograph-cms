@@ -14,13 +14,13 @@ import {
     InjectContentRegistry,
     type ContentTypeRegistry,
     type SerializedContentType
-} from '@orthacms/content-server';
+} from '@apograph/content-server';
 import {
     resolveIdentityFields,
     type IdentityResolution,
     type TransferSchemas,
     type TransferTypeSchema
-} from '@orthacms/transfer-domain';
+} from '@apograph/transfer-domain';
 import { InjectTransferConfig } from '../transfer.tokens';
 import type { TransferPluginConfig } from '../types/transfer-config';
 

@@ -16,7 +16,7 @@ import {
     MAX_SKILL_TITLE_LENGTH,
     SKILL_NAME_PATTERN,
     type SkillMode
-} from '@orthacms/copilot-domain';
+} from '@apograph/copilot-domain';
 
 /** The two modes, as a value the strict pipe can check against. */
 export const SKILL_MODES: readonly SkillMode[] = ['manual', 'always'];
@@ -30,7 +30,7 @@ const trimmed = () =>
 /**
  * Body of `POST /api/copilot/skills`.
  *
- * The bounds come from `@orthacms/copilot-domain` rather than being repeated
+ * The bounds come from `@apograph/copilot-domain` rather than being repeated
  * here, because the same numbers govern the host's boot-time validation of
  * code-defined skills — one set of limits, whichever way a skill was written.
  */

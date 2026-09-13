@@ -34,7 +34,7 @@ function seed(overrides: Partial<WorkspaceView> = {}): WorkspaceView {
         color: 'violet',
         status: 'active',
         members: [
-            { id: 'u_ada', name: 'Ada Lovelace', email: 'ada@ortha.dev' }
+            { id: 'u_ada', name: 'Ada Lovelace', email: 'ada@apograph.dev' }
         ],
         content: ['blog_post'],
         ...overrides

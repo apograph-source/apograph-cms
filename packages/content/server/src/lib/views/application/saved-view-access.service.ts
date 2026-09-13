@@ -5,7 +5,7 @@ import {
     Permission,
     PermissionsService,
     type PublicUser
-} from '@orthacms/identity-server';
+} from '@apograph/identity-server';
 import { VIEW_VISIBILITY, type ViewVisibility } from '../domain/saved-view';
 import type { SavedViewRecord } from '../domain/saved-view.repository';
 import { SavedViewForbiddenError } from '../domain/errors';

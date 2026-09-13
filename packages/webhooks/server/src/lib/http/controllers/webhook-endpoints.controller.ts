@@ -20,8 +20,8 @@ import {
     PermissionsGuard,
     RequirePermissions,
     type PublicUser
-} from '@orthacms/identity-server';
-import { WebhookUrlRejectedError } from '@orthacms/webhooks-domain';
+} from '@apograph/identity-server';
+import { WebhookUrlRejectedError } from '@apograph/webhooks-domain';
 import { WebhookEndpointsService } from '../../application/webhook-endpoints.service';
 import { SaveWebhookEndpointDto } from '../../application/dto/save-webhook-endpoint.dto';
 import { WebhookEndpointNotFoundError } from '../../domain/errors';

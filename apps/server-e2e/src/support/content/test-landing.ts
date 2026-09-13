@@ -1,4 +1,4 @@
-import { field, single } from '@orthacms/content-server/define';
+import { field, single } from '@apograph/content-server/define';
 
 /**
  * `test_landing` — the e2e-owned single (equivalent of the app's `landing`),
@@ -39,7 +39,10 @@ export const testLanding = single('test_landing', {
         number: field.number({
             integer: true,
             min: 0,
-            admin: { label: 'Number', description: 'A non-negative whole number.' }
+            admin: {
+                label: 'Number',
+                description: 'A non-negative whole number.'
+            }
         }),
         money: field.money({
             min: 0,
@@ -50,17 +53,26 @@ export const testLanding = single('test_landing', {
         }),
         boolean: field.boolean({
             required: true,
-            admin: { label: 'Boolean', description: 'Toggle this section on/off.' }
+            admin: {
+                label: 'Boolean',
+                description: 'Toggle this section on/off.'
+            }
         }),
         date: field.date({
             admin: { label: 'Date', description: 'A calendar date, no time.' }
         }),
         datetime: field.datetime({
-            admin: { label: 'Datetime', description: 'A specific point in time.' }
+            admin: {
+                label: 'Datetime',
+                description: 'A specific point in time.'
+            }
         }),
         select: field.select({
             options: ['light', 'dark', 'auto'] as const,
-            admin: { label: 'Select', description: 'Pick the default color theme.' }
+            admin: {
+                label: 'Select',
+                description: 'Pick the default color theme.'
+            }
         }),
         multiselect: field.multiselect({
             options: ['hero', 'newsletter', 'banner', 'footer'] as const,

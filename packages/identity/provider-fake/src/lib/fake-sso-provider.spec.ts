@@ -1,4 +1,4 @@
-import { SsoVerificationError } from '@orthacms/identity-domain';
+import { SsoVerificationError } from '@apograph/identity-domain';
 import { createFakeSsoProvider } from './fake-sso-provider';
 import { CORE_SECRETS, callbackFrom } from './test-support';
 
@@ -37,7 +37,7 @@ describe('createFakeSsoProvider', () => {
         );
     });
 
-    it('reports the provider\'s own verification claim rather than assuming it', async () => {
+    it("reports the provider's own verification claim rather than assuming it", async () => {
         const provider = createFakeSsoProvider({ users: USERS });
         provider.signInAs('idp-grace');
 

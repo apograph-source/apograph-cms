@@ -3,7 +3,7 @@ import {
     runModelProviderConformance,
     type ModelProviderConformanceReport,
     type ModelRequest
-} from '@orthacms/copilot-domain';
+} from '@apograph/copilot-domain';
 import { createOpenAiProvider } from './openai-provider';
 
 const ANSWER = 'Hello there';

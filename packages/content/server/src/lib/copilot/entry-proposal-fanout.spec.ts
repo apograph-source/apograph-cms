@@ -6,7 +6,7 @@ import type {
     ContentEntryExtension,
     EntryWriteFanout
 } from '../extension/entry-extension';
-import type { ToolDefinition } from '@orthacms/tools-server';
+import type { ToolDefinition } from '@apograph/tools-server';
 
 /**
  * The **disclosure** the propose tools owe a localized type, exercised without

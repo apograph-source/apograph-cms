@@ -141,14 +141,12 @@ describe('naturalKeyOf', () => {
     it('omits a field with no usable value rather than writing an empty string', () => {
         // The distinction matters downstream: "no key" falls back to create,
         // while a key of "" would match every other keyless record.
-        expect(naturalKeyOf(['slug', 'code'], { slug: '', code: null })).toEqual(
-            {}
-        );
+        expect(
+            naturalKeyOf(['slug', 'code'], { slug: '', code: null })
+        ).toEqual({});
     });
 
     it('omits a value it cannot render deterministically', () => {
-        expect(
-            naturalKeyOf(['blob'], { blob: { nested: true } })
-        ).toEqual({});
+        expect(naturalKeyOf(['blob'], { blob: { nested: true } })).toEqual({});
     });
 });

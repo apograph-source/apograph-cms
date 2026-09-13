@@ -13,7 +13,7 @@ import {
     PermissionsGuard,
     RequirePermissions,
     type PublicUser
-} from '@orthacms/identity-server';
+} from '@apograph/identity-server';
 import { IssuePasswordResetUseCase } from '../../application/use-cases/issue-password-reset.use-case';
 import {
     InvalidMemberStateError,

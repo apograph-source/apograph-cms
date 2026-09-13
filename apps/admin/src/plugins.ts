@@ -1,21 +1,21 @@
-import type { AdminPlugin } from '@orthacms/bootstrap-admin';
-import { IdentityPlugin } from '@orthacms/identity-admin';
-import { ShellPlugin } from '@orthacms/shell-admin';
-import { WorkspacesPlugin } from '@orthacms/workspaces-admin';
-import { ContentPlugin } from '@orthacms/content-admin';
-import { I18nPlugin } from '@orthacms/i18n-admin';
-import { WysiwygPlugin } from '@orthacms/wysiwyg-admin';
-import { MediaPlugin } from '@orthacms/media-admin';
-import { InsightsPlugin } from '@orthacms/insights-admin';
-import { UsersPlugin } from '@orthacms/users-admin';
-import { ActivityPlugin } from '@orthacms/activity-admin';
-import { ApiTokensPlugin } from '@orthacms/api-tokens-admin';
-import { WebhooksPlugin } from '@orthacms/webhooks-admin';
-import { CopilotPlugin } from '@orthacms/copilot-admin';
-import { transferAdminPlugin } from '@orthacms/transfer-admin';
-import { AlarmsPlugin } from '@orthacms/alarms-admin';
-import { SegmentsPlugin } from '@orthacms/segments-admin';
-import { ProtectionPlugin } from '@orthacms/protection-admin';
+import type { AdminPlugin } from '@apograph/bootstrap-admin';
+import { IdentityPlugin } from '@apograph/identity-admin';
+import { ShellPlugin } from '@apograph/shell-admin';
+import { WorkspacesPlugin } from '@apograph/workspaces-admin';
+import { ContentPlugin } from '@apograph/content-admin';
+import { I18nPlugin } from '@apograph/i18n-admin';
+import { WysiwygPlugin } from '@apograph/wysiwyg-admin';
+import { MediaPlugin } from '@apograph/media-admin';
+import { InsightsPlugin } from '@apograph/insights-admin';
+import { UsersPlugin } from '@apograph/users-admin';
+import { ActivityPlugin } from '@apograph/activity-admin';
+import { ApiTokensPlugin } from '@apograph/api-tokens-admin';
+import { WebhooksPlugin } from '@apograph/webhooks-admin';
+import { CopilotPlugin } from '@apograph/copilot-admin';
+import { transferAdminPlugin } from '@apograph/transfer-admin';
+import { AlarmsPlugin } from '@apograph/alarms-admin';
+import { SegmentsPlugin } from '@apograph/segments-admin';
+import { ProtectionPlugin } from '@apograph/protection-admin';
 
 /**
  * Builds the admin's plugin list — the app's whole composition, mirroring

@@ -5,7 +5,7 @@ import type {
     EntryPublishOptions,
     EntryPublishVerdict,
     EntrySlotContext
-} from '@orthacms/content-admin';
+} from '@apograph/content-admin';
 import type { PublishOutlook } from '../../../domain/types';
 import {
     reviewScopeOf,

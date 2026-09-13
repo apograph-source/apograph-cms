@@ -1,5 +1,5 @@
-import type { AdminPlugin } from '@orthacms/bootstrap-admin';
-import { AuthProvider, RequireAuth } from '@orthacms/identity-admin';
+import type { AdminPlugin } from '@apograph/bootstrap-admin';
+import { AuthProvider, RequireAuth } from '@apograph/identity-admin';
 import { HomeIcon } from 'lucide-react';
 import { AppShell } from '../../components/AppShell';
 import { HomePage } from '../../pages/HomePage';

@@ -5,7 +5,7 @@ import {
     PERMISSIONS_KEY,
     PermissionsGuard,
     RequireAnyPermission
-} from '@orthacms/identity-server';
+} from '@apograph/identity-server';
 import { WorkspacesModule } from '../../../workspaces.module';
 import { WorkspaceMemberGuard } from '../guards/workspace-member.guard';
 

@@ -22,7 +22,7 @@ import {
     type ContentGrantsSource,
     type ContentTypeRegistry,
     type PublicApiToken
-} from '@orthacms/content-server';
+} from '@apograph/content-server';
 import {
     AccessPolicy,
     PERMISSIONS,
@@ -31,8 +31,8 @@ import {
     RequirePermissions,
     tokenActor,
     type PermissionKey
-} from '@orthacms/identity-server';
-import { CurrentWorkspace } from '@orthacms/workspaces-server';
+} from '@apograph/identity-server';
+import { CurrentWorkspace } from '@apograph/workspaces-server';
 import { printSchema, type ExecutionResult } from 'graphql';
 import { InjectGraphqlConfig } from '../../content-graphql.tokens';
 import { executeOperation } from '../../execution/execute-operation';

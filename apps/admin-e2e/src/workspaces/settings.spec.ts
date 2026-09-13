@@ -26,8 +26,8 @@ function seed(): WorkspaceView {
         color: 'violet',
         status: 'active',
         members: [
-            { id: 'u_ada', name: 'Ada Lovelace', email: 'ada@ortha.dev' },
-            { id: 'u_grace', name: 'Grace Hopper', email: 'grace@ortha.dev' }
+            { id: 'u_ada', name: 'Ada Lovelace', email: 'ada@apograph.dev' },
+            { id: 'u_grace', name: 'Grace Hopper', email: 'grace@apograph.dev' }
         ],
         // blog_post + product granted; home + about are addable. product is
         // "locked" (still has entries) in the not-empty test below.
@@ -36,7 +36,7 @@ function seed(): WorkspaceView {
 }
 
 /**
- * The workspace settings page (`@orthacms/workspaces-admin`), mounted in the
+ * The workspace settings page (`@apograph/workspaces-admin`), mounted in the
  * shell at `/workspaces/:id/settings`. Drives the four left-rail sections —
  * General, Members, Content, Danger zone — against the stateful
  * `mockWorkspaceSettingsApi`, plus the read-only (viewer) variant and an
@@ -149,7 +149,7 @@ test.describe('Workspace settings page', () => {
                 workspaceSettingsPage.toast(/was added to the workspace/)
             ).toBeVisible();
             await expect(
-                workspaceSettingsPage.memberRow('barbara@ortha.dev')
+                workspaceSettingsPage.memberRow('barbara@apograph.dev')
             ).toBeVisible();
 
             // Remove a member through the confirm dialog.
@@ -161,7 +161,7 @@ test.describe('Workspace settings page', () => {
                 workspaceSettingsPage.toast(/was removed from the workspace/)
             ).toBeVisible();
             await expect(
-                workspaceSettingsPage.memberRow('grace@ortha.dev')
+                workspaceSettingsPage.memberRow('grace@apograph.dev')
             ).toBeHidden();
         });
 
@@ -420,7 +420,7 @@ test.describe('Workspace settings page', () => {
 
             // The refusal left the roster alone.
             await expect(
-                workspaceSettingsPage.memberRow('ada@ortha.dev')
+                workspaceSettingsPage.memberRow('ada@apograph.dev')
             ).toBeVisible();
         });
     });

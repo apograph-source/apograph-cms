@@ -57,7 +57,9 @@ describe('portalContainer', () => {
         );
 
         fireEvent.click(
-            screen.getByRole('combobox', { name: 'Field for Author · Author record' })
+            screen.getByRole('combobox', {
+                name: 'Field for Author · Author record'
+            })
         );
 
         // Inside the container's own subtree — react-remove-scroll allow-lists
@@ -97,7 +99,9 @@ describe('portalContainer', () => {
         );
 
         fireEvent.click(
-            screen.getByRole('combobox', { name: 'Field for Author · Author record' })
+            screen.getByRole('combobox', {
+                name: 'Field for Author · Author record'
+            })
         );
 
         // The negative control the two assertions above need: with no

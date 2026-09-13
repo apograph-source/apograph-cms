@@ -7,14 +7,14 @@ import {
     TableHead,
     TableHeader,
     TableRow
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 import {
     IMPORT_ACTION,
     IMPORT_REASON,
     type ImportAction,
     type ImportReason,
     type ImportVerdict
-} from '@orthacms/transfer-domain';
+} from '@apograph/transfer-domain';
 
 const messages = defineMessages({
     record: { id: 'transfer.import.column.record', defaultMessage: 'Record' },

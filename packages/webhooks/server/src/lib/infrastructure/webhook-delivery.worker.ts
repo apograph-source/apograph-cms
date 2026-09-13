@@ -9,7 +9,7 @@ import {
     isExhausted,
     nextAttemptDelayMs,
     type DeliveryVerdict
-} from '@orthacms/webhooks-domain';
+} from '@apograph/webhooks-domain';
 import { InjectWebhooksConfig } from '../webhooks.tokens';
 import type { ResolvedWebhooksConfig } from '../types/webhooks-config';
 import {

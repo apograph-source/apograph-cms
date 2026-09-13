@@ -1,5 +1,5 @@
-import { initialsOf } from '@orthacms/utils-admin';
-import { AVATAR_COLORS, type AvatarColor } from '@orthacms/design-system';
+import { initialsOf } from '@apograph/utils-admin';
+import { AVATAR_COLORS, type AvatarColor } from '@apograph/design-system';
 import type {
     Workspace,
     WorkspaceMember,

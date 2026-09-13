@@ -9,12 +9,14 @@ import { exportJWK, generateKeyPair, SignJWT, type JWK } from 'jose';
  * and break the moment the lib set changed.
  */
 type FetchInput = Parameters<typeof globalThis.fetch>[0];
-import type { SsoAuthorizeRequest, SsoCallback } from '@orthacms/identity-domain';
+import type {
+    SsoAuthorizeRequest,
+    SsoCallback
+} from '@apograph/identity-domain';
 
 export const ISSUER = 'https://idp.test';
-export const CLIENT_ID = 'ortha-cms';
-export const REDIRECT_URI =
-    'https://cms.test/api/auth/sso/idp/callback';
+export const CLIENT_ID = 'apograph-cms';
+export const REDIRECT_URI = 'https://cms.test/api/auth/sso/idp/callback';
 
 /** The one-attempt secrets a core would have minted. */
 export const CORE_SECRETS: SsoAuthorizeRequest = {
@@ -82,7 +84,8 @@ export async function stubIdp(options: StubOptions = {}): Promise<StubIdp> {
     };
 
     const state: StubIdp = {
-        fetch: (() => Promise.reject(new Error('unset'))) as typeof globalThis.fetch,
+        fetch: (() =>
+            Promise.reject(new Error('unset'))) as typeof globalThis.fetch,
         privateKey,
         calls: { discovery: 0, jwks: 0, token: 0 },
         lastTokenBody: null,

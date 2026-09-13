@@ -31,7 +31,11 @@ const valueInput = () =>
 describe('QueryBuilderDrawer', () => {
     it('discards an un-applied edit when it is reopened [query-builder:I-14]', () => {
         renderIntl(
-            <Host initial={group('root', [rule('r1', 'title', OP.Contains, 'alpha')])} />
+            <Host
+                initial={group('root', [
+                    rule('r1', 'title', OP.Contains, 'alpha')
+                ])}
+            />
         );
 
         openDrawer();
@@ -49,7 +53,9 @@ describe('QueryBuilderDrawer', () => {
 
     it('clears the previous attempt’s error state on reopening [query-builder:I-14]', () => {
         renderIntl(
-            <Host initial={group('root', [rule('r1', 'title', OP.Contains, '')])} />
+            <Host
+                initial={group('root', [rule('r1', 'title', OP.Contains, '')])}
+            />
         );
 
         openDrawer();
@@ -69,7 +75,9 @@ describe('QueryBuilderDrawer', () => {
         renderIntl(
             <QueryBuilderDrawer
                 fields={FIELDS}
-                value={group('root', [rule('r1', 'title', OP.Contains, 'alpha')])}
+                value={group('root', [
+                    rule('r1', 'title', OP.Contains, 'alpha')
+                ])}
                 onApply={onApply}
                 trigger={<button type="button">Filters</button>}
             />

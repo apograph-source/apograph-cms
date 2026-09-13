@@ -1,5 +1,5 @@
 {
-    "name": "@orthacms/identity-provider-fake",
+    "name": "@apograph/identity-provider-fake",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -16,6 +16,6 @@
         "src"
     ],
     "dependencies": {
-        "@orthacms/identity-domain": "*"
+        "@apograph/identity-domain": "*"
     }
 }

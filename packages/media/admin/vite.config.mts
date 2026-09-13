@@ -13,7 +13,7 @@ export default defineConfig(() => ({
     cacheDir: '../../../node_modules/.vite/packages/media/admin',
     plugins: [react()],
     test: {
-        name: '@orthacms/media-admin',
+        name: '@apograph/media-admin',
         watch: false,
         globals: true,
         environment: 'jsdom',

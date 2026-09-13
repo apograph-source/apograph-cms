@@ -55,5 +55,5 @@ test-output
 # Local media storage (default MEDIA_LOCAL_ROOT)
 .storage/
 
-# Scratch apps rendered by create-ortha-app's specs (see .nxignore).
-packages/create-ortha-app/.rendered-*
+# Scratch apps rendered by create-apograph-app's specs (see .nxignore).
+packages/create-apograph-app/.rendered-*

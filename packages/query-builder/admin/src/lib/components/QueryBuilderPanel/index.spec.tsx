@@ -50,7 +50,11 @@ const toggle = () => screen.getByRole('button', { name: 'Filters' });
 describe('QueryBuilderPanel', () => {
     it('discards an un-applied edit when it is closed and reopened [query-builder:I-14]', () => {
         renderIntl(
-            <Host initial={group('root', [rule('r1', 'title', OP.Contains, 'alpha')])} />
+            <Host
+                initial={group('root', [
+                    rule('r1', 'title', OP.Contains, 'alpha')
+                ])}
+            />
         );
 
         expect(valueInput().value).toBe('alpha');
@@ -71,7 +75,9 @@ describe('QueryBuilderPanel', () => {
         const onApply = vi.fn();
         renderIntl(
             <Host
-                initial={group('root', [rule('r1', 'title', OP.Contains, 'alpha')])}
+                initial={group('root', [
+                    rule('r1', 'title', OP.Contains, 'alpha')
+                ])}
                 onApply={onApply}
             />
         );
@@ -90,7 +96,9 @@ describe('QueryBuilderPanel', () => {
 
     it('clears the previous attempt’s error state on reopening [query-builder:I-14]', () => {
         renderIntl(
-            <Host initial={group('root', [rule('r1', 'title', OP.Contains, '')])} />
+            <Host
+                initial={group('root', [rule('r1', 'title', OP.Contains, '')])}
+            />
         );
 
         fireEvent.click(screen.getByRole('button', { name: 'Apply' }));

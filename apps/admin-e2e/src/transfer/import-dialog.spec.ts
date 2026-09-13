@@ -17,7 +17,7 @@ import {
 } from '../support/api/transfer';
 
 /**
- * The import dialog (`@orthacms/transfer-admin`), in the collection's ⋯ menu.
+ * The import dialog (`@apograph/transfer-admin`), in the collection's ⋯ menu.
  *
  * The mechanics of an import — the depth rule, the natural keys, the verdicts
  * themselves, the revision counts — are pinned against a real database in
@@ -281,7 +281,7 @@ test.describe('Content import dialog', () => {
         await mockTransferImport(page, {
             applyStatus: 400,
             applyMessage:
-                'This file was written by a newer version of Ortha (2).'
+                'This file was written by a newer version of Apograph (2).'
         });
         await mockContentEntries(page, {
             entries: { blog_post: [row('post-1', 'Hello world')] }
@@ -297,7 +297,7 @@ test.describe('Content import dialog', () => {
         await transferPage.importButton.click();
 
         await expect(transferPage.importError).toHaveText(
-            /written by a newer version of Ortha/
+            /written by a newer version of Apograph/
         );
         await expect(transferPage.importDialog).toBeVisible();
         await expect(transferPage.importButton).toBeVisible();

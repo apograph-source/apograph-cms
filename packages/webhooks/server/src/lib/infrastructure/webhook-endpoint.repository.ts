@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { InjectDatabase, type Database } from '@orthacms/database';
+import { InjectDatabase, type Database } from '@apograph/database';
 import { desc, eq, inArray, sql } from 'drizzle-orm';
 import { secretHint } from '../domain/webhook-secret';
 import type {
     WebhookEndpointView,
     WebhookLastDeliveryView
 } from '../domain/webhook-views';
-import type { DeliveryStatus } from '@orthacms/webhooks-domain';
+import type { DeliveryStatus } from '@apograph/webhooks-domain';
 import { webhookDeliveries } from './schema/webhook-deliveries';
 import {
     webhookEndpoints,

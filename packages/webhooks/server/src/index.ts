@@ -1,11 +1,11 @@
 /**
- * `@orthacms/webhooks-server` — outgoing webhooks on content changes.
+ * `@apograph/webhooks-server` — outgoing webhooks on content changes.
  *
  * Subscribes to the transactional outbox, queues one delivery row per
  * subscribed endpoint, and sends them from a worker that holds no transaction
  * while it waits on someone else's server. Owns three tables and ships their
  * migrations; the rules about what a delivery *means* live in
- * `@orthacms/webhooks-domain`.
+ * `@apograph/webhooks-domain`.
  */
 
 export {

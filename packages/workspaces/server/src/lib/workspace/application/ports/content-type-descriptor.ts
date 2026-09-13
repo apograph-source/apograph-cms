@@ -1,6 +1,6 @@
 /**
  * A content type a workspace can be granted access to. The real source of truth
- * is the code-defined registry in `@orthacms/content-server`, surfaced to the
+ * is the code-defined registry in `@apograph/content-server`, surfaced to the
  * workspaces context through the {@link ContentCatalog} port; this descriptor is
  * the wire shape `GET /api/content-types` returns and the workspace create flow
  * expands an "all content" grant against.

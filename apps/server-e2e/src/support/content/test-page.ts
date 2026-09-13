@@ -1,5 +1,5 @@
-import { collection, field } from '@orthacms/content-server/define';
-import type { AnyContentType } from '@orthacms/content-server/define';
+import { collection, field } from '@apograph/content-server/define';
+import type { AnyContentType } from '@apograph/content-server/define';
 import { testAuthor } from './test-author';
 import { testSeo } from './test-seo';
 

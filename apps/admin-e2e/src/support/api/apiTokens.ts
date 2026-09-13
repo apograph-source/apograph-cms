@@ -19,11 +19,11 @@ const FUTURE = '2099-01-01T00:00:00.000Z';
 
 /**
  * The plaintext `POST /api/api-tokens` hands back once. Deliberately a fixed,
- * obviously-fake 52-character string in the real `orthacms_…` shape, so a spec
+ * obviously-fake 52-character string in the real `apograph_…` shape, so a spec
  * can assert on it without a live credential ever entering the repo.
  */
 export const REVEALED_SECRET =
-    'orthacms_e2eFAKEe2eFAKEe2eFAKEe2eFAKEe2eFAKEe2eFAKE00';
+    'apograph_e2eFAKEe2eFAKEe2eFAKEe2eFAKEe2eFAKEe2eFAKE00';
 
 /**
  * The fixed token list the suites assert against — one row of every state the
@@ -40,7 +40,7 @@ export const API_TOKENS_SEED: ApiTokenSeed[] = [
         name: 'Production website',
         workspaceIds: ['ws_marketing'],
         scope: 'read',
-        lookupPrefix: 'orthacms_aa11bb',
+        lookupPrefix: 'apograph_aa11bb',
         expiresAt: null,
         lastUsedAt: null,
         revokedAt: null,
@@ -51,7 +51,7 @@ export const API_TOKENS_SEED: ApiTokenSeed[] = [
         name: 'Build pipeline',
         workspaceIds: ['ws_marketing', 'ws_docs'],
         scope: 'full',
-        lookupPrefix: 'orthacms_cc22dd',
+        lookupPrefix: 'apograph_cc22dd',
         expiresAt: FUTURE,
         lastUsedAt: CREATED_AT,
         revokedAt: null,
@@ -62,7 +62,7 @@ export const API_TOKENS_SEED: ApiTokenSeed[] = [
         name: 'Old preview build',
         workspaceIds: ['ws_docs'],
         scope: 'read',
-        lookupPrefix: 'orthacms_ee33ff',
+        lookupPrefix: 'apograph_ee33ff',
         expiresAt: PAST,
         lastUsedAt: PAST,
         revokedAt: null,
@@ -73,7 +73,7 @@ export const API_TOKENS_SEED: ApiTokenSeed[] = [
         name: 'Leaked laptop token',
         workspaceIds: ['ws_support'],
         scope: 'full',
-        lookupPrefix: 'orthacms_gg44hh',
+        lookupPrefix: 'apograph_gg44hh',
         expiresAt: null,
         lastUsedAt: null,
         revokedAt: CREATED_AT,
@@ -86,7 +86,7 @@ export const API_TOKENS_SEED: ApiTokenSeed[] = [
         name: 'Retired importer',
         workspaceIds: ['ws_internal'],
         scope: 'read',
-        lookupPrefix: 'orthacms_ii55jj',
+        lookupPrefix: 'apograph_ii55jj',
         expiresAt: PAST,
         lastUsedAt: PAST,
         revokedAt: CREATED_AT,
@@ -99,7 +99,7 @@ export const API_TOKENS_SEED: ApiTokenSeed[] = [
         name: 'Orphaned bucket',
         workspaceIds: ['ws_deleted'],
         scope: 'read',
-        lookupPrefix: 'orthacms_kk66ll',
+        lookupPrefix: 'apograph_kk66ll',
         expiresAt: null,
         lastUsedAt: null,
         revokedAt: null,
@@ -114,7 +114,7 @@ export function manyApiTokens(count: number): ApiTokenSeed[] {
         name: `Bulk token ${String(index).padStart(2, '0')}`,
         workspaceIds: ['ws_marketing'],
         scope: 'read' as const,
-        lookupPrefix: `orthacms_b${String(index).padStart(5, '0')}`,
+        lookupPrefix: `apograph_b${String(index).padStart(5, '0')}`,
         expiresAt: null,
         lastUsedAt: null,
         revokedAt: null,
@@ -244,7 +244,7 @@ export async function mockApiTokensApi(
                 name: body.name ?? 'Untitled',
                 workspaceIds: body.workspaceIds ?? [],
                 scope: body.scope ?? 'read',
-                lookupPrefix: `orthacms_n${String(created).padStart(5, '0')}`,
+                lookupPrefix: `apograph_n${String(created).padStart(5, '0')}`,
                 expiresAt: body.expiresAt ?? null,
                 lastUsedAt: null,
                 revokedAt: null,

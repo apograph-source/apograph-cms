@@ -1,5 +1,5 @@
 import type { StopReason, Usage } from '@anthropic-ai/sdk/resources/messages';
-import type { ModelStopReason, ModelUsage } from '@orthacms/copilot-domain';
+import type { ModelStopReason, ModelUsage } from '@apograph/copilot-domain';
 
 /** Maps Anthropic's stop reasons onto the port's smaller vocabulary. */
 export function toStopReason(stopReason: StopReason | null): ModelStopReason {

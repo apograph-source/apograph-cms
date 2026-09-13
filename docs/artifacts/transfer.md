@@ -86,9 +86,9 @@ The `packages/transfer` group is three packages. The split is not cosmetic: the 
 
 | Package | npm name                  | Role                                                                                                                            | What it owns                                                                                                                                                                     |
 | ------- | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| domain  | @orthacms/transfer-domain | The framework-free kernel: the document contract, the format ports, the natural-key rules, the verdict vocabulary, the ceilings | `TransferDocument`, `ExportSerializer`/`ImportParser`, 4 formats, `keyFingerprint`, `TransferIdMap`, `DEFAULT_TRANSFER_LIMITS`. Its one dependency is `@orthacms/content-domain` |
-| server  | @orthacms/transfer-server | The NestJS plugin: the routes, the graph walk, a hand-rolled ZIP, reading the uploaded file, the two-phase import pipeline      | 5 routes, `EntryGraphWalker`, `zip-writer`/`zip-reader`/`crc32`, `TransferSchemaCatalog`, 2 events. **Zero tables, zero migrations**                                             |
-| admin   | @orthacms/transfer-admin  | Two dialogs and three contributions into the Content Library's slots. **Adds no routes**                                        | `ExportDialog`, `ImportDialog`, `ImportVerdictList`, 4 data hooks, 3 slot hooks                                                                                                  |
+| domain  | @apograph/transfer-domain | The framework-free kernel: the document contract, the format ports, the natural-key rules, the verdict vocabulary, the ceilings | `TransferDocument`, `ExportSerializer`/`ImportParser`, 4 formats, `keyFingerprint`, `TransferIdMap`, `DEFAULT_TRANSFER_LIMITS`. Its one dependency is `@apograph/content-domain` |
+| server  | @apograph/transfer-server | The NestJS plugin: the routes, the graph walk, a hand-rolled ZIP, reading the uploaded file, the two-phase import pipeline      | 5 routes, `EntryGraphWalker`, `zip-writer`/`zip-reader`/`crc32`, `TransferSchemaCatalog`, 2 events. **Zero tables, zero migrations**                                             |
+| admin   | @apograph/transfer-admin  | Two dialogs and three contributions into the Content Library's slots. **Adds no routes**                                        | `ExportDialog`, `ImportDialog`, `ImportVerdictList`, 4 data hooks, 3 slot hooks                                                                                                  |
 
 ### The layout inside the packages
 
@@ -106,7 +106,7 @@ The `packages/transfer` group is three packages. The split is not cosmetic: the 
 
 > **Neighbours easily confused with it**
 >
-> **`@orthacms/content-server`** owns the type registry, `EntriesService`, `EntryWriterService`, `RelationLinkService` and the admin slots — transfer is only their reader. **`@orthacms/media-server`** owns assets, storage and `UploadAssetUseCase`; without it the plugin still comes up, and media fields travel as references. **`@orthacms/i18n-server`** — transfer _does not depend_ on it at all: `locale` and `locale_group_id` are content's own envelope columns, and the walk reads “the other rows of this entry” generically.
+> **`@apograph/content-server`** owns the type registry, `EntriesService`, `EntryWriterService`, `RelationLinkService` and the admin slots — transfer is only their reader. **`@apograph/media-server`** owns assets, storage and `UploadAssetUseCase`; without it the plugin still comes up, and media fields travel as references. **`@apograph/i18n-server`** — transfer _does not depend_ on it at all: `locale` and `locale_group_id` are content's own envelope columns, and the walk reads “the other rows of this entry” generically.
 
 ## 03. Roles and permissions
 
@@ -203,7 +203,7 @@ There is one rule, and it is enforced in one loop of the walker rather than smea
 
 > **There are no tables**
 >
-> The plugin **owns no table and no migration**. It has no `drizzle.config.ts`, no `migrations/` directory and no migration-journal table of its own. Transfer reads and writes content that already exists; the only thing it adds is two audit events, which ride the shared outbox from `@orthacms/database`.
+> The plugin **owns no table and no migration**. It has no `drizzle.config.ts`, no `migrations/` directory and no migration-journal table of its own. Transfer reads and writes content that already exists; the only thing it adds is two audit events, which ride the shared outbox from `@apograph/database`.
 
 ### The model is a document, not a database schema
 
@@ -423,7 +423,7 @@ Note the first results column: **no match means a create under every policy**, `
 4. **The response.** `{ version, counts, verdicts, hasChanges }`. A run of nothing but skips is not an error, but offering an “Import” button for it would be a lie, so `hasChanges` is false and the button is disabled.
 5. **The apply's audit.** A `transfer.content.imported` event with the workspace and the counts, the actor attached by `attachActor`.
 6. **The admin UI refreshes the cache of every type touched.** The verdicts name them explicitly, so the set is exact rather than guessed: a run that created an article _and_ the author it points at must refresh both lists.
-7. **The refresh goes through `refreshEntryCaches` from `@orthacms/content-admin`, not through a key written here.** It used to invalidate `['content']`, which matches **nothing**: the library's roots are `content-entries` / `content-entry`, TanStack compares whole segments, and `'content' !== 'content-entries'`. The import went through, the toast confirmed it, and the table did not move.
+7. **The refresh goes through `refreshEntryCaches` from `@apograph/content-admin`, not through a key written here.** It used to invalidate `['content']`, which matches **nothing**: the library's roots are `content-entries` / `content-entry`, TanStack compares whole segments, and `'content' !== 'content-entries'`. The import went through, the toast confirmed it, and the table did not move.
 8. **The type that was imported into is always added** — even a run in which every entry errored leaves the list worth re-reading. Plus an invalidation of `['media']` by prefix: an archive import uploads assets.
 
 ### 8.9 The round trip: export, move, import
@@ -561,7 +561,7 @@ Separately, outside `TransferLimits`: `MAX_EXPORT_IDS = 1000`, the selection cei
 
 > **How these should be turned**
 >
-> `maxEntries` and `maxBytes` are raised for a deliberate bulk migration. The import archive ceilings are a **security boundary, not a capacity setting**: lowering them costs nothing, raising them must be deliberate. The template `create-ortha-app` lays down registers no content types, so there `identity: {}` and `limits: {}`.
+> `maxEntries` and `maxBytes` are raised for a deliberate bulk migration. The import archive ceilings are a **security boundary, not a capacity setting**: lowering them costs nothing, raising them must be deliberate. The template `create-apograph-app` lays down registers no content types, so there `identity: {}` and `limits: {}`.
 
 ### DI tokens
 
@@ -645,7 +645,7 @@ Statements that must always hold. This is at once a review list and a draft set 
 - **I-18** — The locale is part of the key fingerprint; `en`/`hello` and `de`/`hello` stay two rows.
 - **I-19** — The fingerprint is encoded as JSON, not joined with a separator.
 - **I-20** — One document's locale twins arrive in one translation group on the receiving side.
-- **I-21** — The package does not depend on `@orthacms/i18n-server`; the locale is read as an envelope column.
+- **I-21** — The package does not depend on `@apograph/i18n-server`; the locale is read as an envelope column.
 - **I-22** — An import never exceeds the caller's permissions: `content:create` / `content:update` are re-checked per entry.
 - **I-23** — No operation crosses a workspace boundary: the request's workspace is stamped onto every write, and the manifest's `sourceWorkspaceId` is not read.
 - **I-24** — A type not granted to the workspace is indistinguishable from one that does not exist — the same `404`.
@@ -661,7 +661,7 @@ Statements that must always hold. This is at once a review list and a draft set 
 - **I-34** — The export event is written before the response's first byte leaves.
 - **I-35** — An object missing from storage is a hole in the archive, not a failed export.
 - **I-36** — Assets are stored uncompressed in the archive, text members are deflated, and the timestamp is fixed — two exports of identical content match byte for byte.
-- **I-37** — The `transfer-domain` layer reads no clock and no database and imports neither NestJS, Drizzle nor React; its one dependency is `@orthacms/content-domain`.
+- **I-37** — The `transfer-domain` layer reads no clock and no database and imports neither NestJS, Drizzle nor React; its one dependency is `@apograph/content-domain`.
 - **I-38** — The plugin's module is not global and exports nothing: the dependency arrow points only away from transfer.
 - **I-39** — An empty export selection is rejected; “empty means everything” does not exist in the API.
 - **I-40** — Changing the file or either of the two policies clears the verdict table.
@@ -796,7 +796,7 @@ Phrased as “action → expected result”. Existing coverage: `apps/server-e2e
 | Area                                                         | Who owns it                                     | What Transfer does                                                                                                                                                            |
 | ------------------------------------------------------------ | ----------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | The content tables, the type registry, validation, revisions | `content-server`                                | Reads through `EntriesService`/`EntryWriterService`/`RelationLinkService` and writes **only** through `EntryWriterService`                                                    |
-| The database connection, transactions, the outbox            | `@orthacms/database`                            | Uses `UnitOfWork` and `OutboxWriter`; not one table of its own                                                                                                                |
+| The database connection, transactions, the outbox            | `@apograph/database`                            | Uses `UnitOfWork` and `OutboxWriter`; not one table of its own                                                                                                                |
 | Assets, storage, file uploads                                | `media-server`                                  | Reads `MediaAssetResolver`, `STORAGE_PROVIDER` and the `media_asset` table; creates through `UploadAssetUseCase`. The dependency is **optional**                              |
 | Locales, translation groups, the one-locale rule             | `i18n-server`, through content's extension port | Reads and passes the envelope columns without knowing what a locale is. **There is no dependency on i18n**                                                                    |
 | Permissions and roles                                        | `identity-server`                               | Owns two keys in meaning; checks them with the ordinary `PermissionsGuard`/`@RequirePermissions` and re-checks `content:create`/`content:update` through `PermissionsService` |
@@ -842,4 +842,4 @@ Found while reconciling this dossier with the sources. Some are the document div
 
 **The series' frame.** This dossier follows the `packages/identity` one: business description → composition → permissions → formats → what travels → data → lifecycle → scenarios → API → admin UI → configuration → security → invariants → checklist → boundaries → divergences. Two sections were added for this package's specifics — the format matrix and the “what travels and what stays a reference” table; the database-tables section is compressed into one box, because the plugin has no tables.
 
-The source is the source code: `packages/transfer/{domain,server,admin}`, `docs/adr/0014-transfer-as-a-separate-plugin.md`, the plugin registrations in `apps/server/src/plugins.ts` and `apps/admin/src/plugins.ts`, the configuration in `apps/server/ortha.config.ts`, the permission set in `packages/identity/server/src/lib/rbac/system-roles.ts`, and the tests in `apps/server-e2e/src/server/transfer/`. The `AGENTS.md` files were used as the frame, but every claim was checked against the implementation — the divergences are gathered in section 16.
+The source is the source code: `packages/transfer/{domain,server,admin}`, `docs/adr/0014-transfer-as-a-separate-plugin.md`, the plugin registrations in `apps/server/src/plugins.ts` and `apps/admin/src/plugins.ts`, the configuration in `apps/server/apograph.config.ts`, the permission set in `packages/identity/server/src/lib/rbac/system-roles.ts`, and the tests in `apps/server-e2e/src/server/transfer/`. The `AGENTS.md` files were used as the frame, but every claim was checked against the implementation — the divergences are gathered in section 16.

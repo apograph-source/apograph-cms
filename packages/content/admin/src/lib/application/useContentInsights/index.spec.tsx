@@ -46,13 +46,13 @@ vi.mock('../../infrastructure/httpContentInsightsGateway', () => ({
 /** The open workspace, swapped between renders by the cache-key cases. */
 const open = vi.hoisted(() => ({ id: 'workspace-1' }));
 
-vi.mock('@orthacms/workspaces-admin', () => ({
+vi.mock('@apograph/workspaces-admin', () => ({
     useCurrentWorkspace: () => ({ id: open.id, name: 'Docs' })
 }));
 
 const permission = vi.hoisted(() => ({ granted: true }));
 
-vi.mock('@orthacms/identity-admin', () => ({
+vi.mock('@apograph/identity-admin', () => ({
     useHasPermission: () => permission.granted
 }));
 

@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { getPool } from '@orthacms/database';
+import { getPool } from '@apograph/database';
 import {
     closeTestApp,
     createTestApp,

@@ -240,7 +240,7 @@ adds no duplicate for the happy path.
 | | |
 | --- | --- |
 | **identity / users** | The three use cases gain one write each, inside the transaction they already open. `InviteTokenService` is unchanged: mail consumes the plaintext it already returns. |
-| **create-ortha-app** | A fifth question — single-choice with **"Do not configure"** as the default, which is a group shape the wizard does not have yet (media is single-choice with no "none"; SSO and copilot are multi-choice). Entries: none, SMTP, Resend, with Postmark and SES greyed out through the existing `available: false`. `console` and `testkit` are offered nowhere. Every new package must be classified in `features.ts` or `features.spec.ts` fails. |
+| **create-apograph-app** | A fifth question — single-choice with **"Do not configure"** as the default, which is a group shape the wizard does not have yet (media is single-choice with no "none"; SSO and copilot are multi-choice). Entries: none, SMTP, Resend, with Postmark and SES greyed out through the existing `available: false`. `console` and `testkit` are offered nowhere. Every new package must be classified in `features.ts` or `features.spec.ts` fails. |
 | **protection (ORT-226)** | Review-request mail lands after this, not with it. |
 | **activity** | One new event kind and a dead-letter surface modelled on the outbox's. |
 | **webhooks** | Its URL policy — which decides where this server may be talked into connecting — does **not** apply. A mail host is operator configuration, not user input. Stated so nobody copies the policy defensively. |
@@ -308,6 +308,6 @@ adds no duplicate for the happy path.
    `appUrl`, reveal-link, and the three `TODO(users-email)` markers closed.
 2. **Self-service** — the recovery route with its four rules, rate limiting,
    dead letters, and the Resend and Postmark adapters.
-3. **Seams** — the `create-ortha-app` question, review-request mail after
+3. **Seams** — the `create-apograph-app` question, review-request mail after
    ORT-226, recipient locale as its own decision, the feature page and the docs
    section.

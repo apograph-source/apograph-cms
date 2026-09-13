@@ -6,10 +6,10 @@ import {
     AlertDescription,
     AlertTitle,
     Container
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 import { History, Trash2 } from 'lucide-react';
-import { useHasPermission } from '@orthacms/identity-admin';
-import { useCurrentWorkspace } from '@orthacms/workspaces-admin';
+import { useHasPermission } from '@apograph/identity-admin';
+import { useCurrentWorkspace } from '@apograph/workspaces-admin';
 import { useContentTypes } from '../../../application/useContentTypes';
 import { ContentTopBar } from '../../components/ContentTopBar';
 import { ContentTypeView } from '../../components/ContentTypeView';
@@ -32,7 +32,7 @@ import {
     TRASH_SEGMENT,
     TYPE_PARAM
 } from '../../../domain/constants';
-import { useDocumentTitle } from '@orthacms/utils-admin';
+import { useDocumentTitle } from '@apograph/utils-admin';
 
 /** Intl descriptors for the page-level states, co-located here. */
 const messages = defineMessages({

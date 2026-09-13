@@ -1,4 +1,4 @@
-import { CONTENT_TYPE_KIND } from '@orthacms/content-server';
+import { CONTENT_TYPE_KIND } from '@apograph/content-server';
 import {
     GraphQLBoolean,
     GraphQLEnumType,

@@ -9,18 +9,18 @@ import {
     Skeleton,
     TopBar,
     TopBarIcon
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 
-// The product is **Ortha AI**; the code keeps `copilot`. See the naming note in
+// The product is **Apograph AI**; the code keeps `copilot`. See the naming note in
 // `docs/design/copilot.md`.
 const messages = defineMessages({
     root: {
         id: 'copilot.agents.topbar.root',
-        defaultMessage: 'Ortha AI'
+        defaultMessage: 'Apograph AI'
     },
     loadingAgents: {
         id: 'copilot.agents.skeleton.loading',
-        defaultMessage: 'Loading Ortha AI…'
+        defaultMessage: 'Loading Apograph AI…'
     },
     loadingSkills: {
         id: 'copilot.skills.skeleton.loading',

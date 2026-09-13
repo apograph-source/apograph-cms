@@ -4,7 +4,7 @@ import type {
     ModelRequest,
     ModelStopReason,
     ModelUsage
-} from '@orthacms/copilot-domain';
+} from '@apograph/copilot-domain';
 
 /** A tool call the script asks the fake model to "decide" to make. */
 export interface FakeToolCall {

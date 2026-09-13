@@ -1,4 +1,4 @@
-import type { OpenApiDocument } from '@orthacms/bootstrap-server';
+import type { OpenApiDocument } from '@apograph/bootstrap-server';
 import { describeMediaApi } from './describe-media-api';
 
 /** One operation, as `@nestjs/swagger` leaves it: a 2xx key with no content. */

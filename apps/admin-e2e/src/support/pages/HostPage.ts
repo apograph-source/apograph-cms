@@ -14,7 +14,7 @@ function childElementCountOf(node: unknown): number {
 }
 
 /**
- * Page object for the things `@orthacms/bootstrap-admin` mounts itself, as
+ * Page object for the things `@apograph/bootstrap-admin` mounts itself, as
  * opposed to anything a plugin contributes: the app-wide error boundary, the
  * route announcer, the toast host, and the bypass-blocks path into `<main>`.
  *

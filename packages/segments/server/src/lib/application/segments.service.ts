@@ -12,14 +12,11 @@ import {
     type Database,
     type DomainEvent,
     type EventActor
-} from '@orthacms/database';
+} from '@apograph/database';
 import { segments } from '../schema/segments';
 import { entryAccess } from '../schema/entry-access';
 import { SegmentCatalogService } from './segment-catalog.service';
-import {
-    SEGMENT_EVENT_KINDS,
-    segmentEvent
-} from '../segments.events';
+import { SEGMENT_EVENT_KINDS, segmentEvent } from '../segments.events';
 
 /** One segment as the admin sees it. */
 export interface SegmentView {
@@ -190,10 +187,7 @@ export class SegmentsService {
      * Append one segment event to the outbox from inside the active unit of
      * work, stamped with the acting administrator when there is one.
      */
-    private async emit(
-        event: DomainEvent,
-        actor?: EventActor
-    ): Promise<void> {
+    private async emit(event: DomainEvent, actor?: EventActor): Promise<void> {
         await this.outbox.append(actor ? attachActor([event], actor) : [event]);
     }
 

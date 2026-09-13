@@ -1,5 +1,5 @@
 import { useIntl } from 'react-intl';
-import { Badge, cn } from '@orthacms/design-system';
+import { Badge, cn } from '@apograph/design-system';
 import type { AlarmSeverity } from '../../../types/alarm';
 import { severityLook } from '../../severityLook';
 

@@ -1,4 +1,4 @@
-import type { DomainEvent } from '@orthacms/database';
+import type { DomainEvent } from '@apograph/database';
 import { MemberId } from './value-objects/member-id';
 import { Role } from './value-objects/role';
 import { MemberStatus } from './value-objects/member-status';

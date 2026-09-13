@@ -1,4 +1,4 @@
-/** Public API of @orthacms/transfer-admin. */
+/** Public API of @apograph/transfer-admin. */
 
 export { transferAdminPlugin } from './lib/utils/transferAdminPlugin';
 
@@ -10,10 +10,7 @@ export { useImportAction } from './lib/hooks/useImportAction';
 export { useExportPreview } from './lib/api/useExportPreview';
 export type { ExportPreview } from './lib/api/useExportPreview';
 export { useExportDownload } from './lib/api/useExportDownload';
-export type {
-    ExportOutcome,
-    ExportRequest
-} from './lib/api/useExportDownload';
+export type { ExportOutcome, ExportRequest } from './lib/api/useExportDownload';
 export { useImportPreview } from './lib/api/useImportPreview';
 export { useImportApply } from './lib/api/useImportApply';
 

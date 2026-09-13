@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from 'react';
-import { apiClient } from '@orthacms/utils-admin';
+import { apiClient } from '@apograph/utils-admin';
 import type { ChatAttachment } from '../domain/types/chat';
 
 /**

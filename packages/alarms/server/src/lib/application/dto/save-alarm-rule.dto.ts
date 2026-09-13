@@ -32,7 +32,7 @@ import { NAME_MAX_LENGTH, TEXT_MAX_LENGTH } from '../../alarms.constants';
  * was the wrong inference twice over.
  *
  * The size of this tree is bounded where every caller meets it instead — the
- * engine's own budgets in `@orthacms/utils-server`'s `filters/budgets.ts`,
+ * engine's own budgets in `@apograph/utils-server`'s `filters/budgets.ts`,
  * which since they gained `maxValueLength` cap the tree's text as well as its
  * shape. That matters here more than on a `?filter=` route, because a rule is
  * **stored and replayed**: the sweep and the outbox subscriber hand this tree

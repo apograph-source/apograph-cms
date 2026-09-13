@@ -15,7 +15,7 @@ import {
     PopoverContent,
     PopoverTrigger,
     cn
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 import {
     FIELD_TYPE,
     type FieldType,

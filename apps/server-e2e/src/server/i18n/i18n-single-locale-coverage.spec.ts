@@ -28,7 +28,7 @@ const VALID = { text: 'Hello world', select: 'article' } as const;
  * three locales are configured.
  *
  * Its **own spec file**, not a second `describe` beside the rest of the i18n
- * suites: the `@orthacms/database` pool is a per-file singleton and
+ * suites: the `@apograph/database` pool is a per-file singleton and
  * `closeTestApp` ends it, so two apps in one file leave the second booting
  * against a closed pool. One app per file is the harness's rule.
  */

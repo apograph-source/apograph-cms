@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { eq } from 'drizzle-orm';
-import { UnitOfWork } from '@orthacms/database';
-import { users } from '@orthacms/identity-server';
+import { UnitOfWork } from '@apograph/database';
+import { users } from '@apograph/identity-server';
 
 /** A directory user resolved for a membership operation. */
 export interface LookedUpUser {

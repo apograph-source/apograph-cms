@@ -1,6 +1,6 @@
 import { Readable } from 'node:stream';
-import { ObjectNotFoundError } from '@orthacms/media-domain';
-import { describeStorageProvider } from '@orthacms/media-provider-testkit';
+import { ObjectNotFoundError } from '@apograph/media-domain';
+import { describeStorageProvider } from '@apograph/media-provider-testkit';
 import { FakeContainerClient } from './fake-container-client';
 import { createAzureStorageProvider } from './azure-storage-provider';
 

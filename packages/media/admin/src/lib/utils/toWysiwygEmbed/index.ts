@@ -1,5 +1,5 @@
-import type { WysiwygMediaEmbed } from '@orthacms/wysiwyg-admin';
-import { WYSIWYG_MEDIA_KIND } from '@orthacms/wysiwyg-admin';
+import type { WysiwygMediaEmbed } from '@apograph/wysiwyg-admin';
+import { WYSIWYG_MEDIA_KIND } from '@apograph/wysiwyg-admin';
 import { MEDIA_KIND } from '../../constants';
 import type { MediaAsset } from '../../types/mediaAsset';
 

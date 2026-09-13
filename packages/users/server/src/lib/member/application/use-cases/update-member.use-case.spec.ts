@@ -1,5 +1,5 @@
-import type { DomainEvent, OutboxWriter, UnitOfWork } from '@orthacms/database';
-import type { PublicUser } from '@orthacms/identity-server';
+import type { DomainEvent, OutboxWriter, UnitOfWork } from '@apograph/database';
+import type { PublicUser } from '@apograph/identity-server';
 import { Member } from '../../domain/member';
 import type { MemberRepository } from '../../domain/member.repository';
 import { SelfActionError } from '../../domain/errors';

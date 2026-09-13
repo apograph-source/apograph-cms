@@ -7,12 +7,12 @@ import {
     OutboxDispatcher,
     type DomainEvent,
     type DomainEventSubscriber
-} from '@orthacms/database';
+} from '@apograph/database';
 import {
     EntryMatchQuery,
     InjectContentRegistry,
     type ContentTypeRegistry
-} from '@orthacms/content-server';
+} from '@apograph/content-server';
 import { AlarmEvaluator } from './alarm-evaluator.service';
 import { AlarmFindingStore } from './alarm-finding.store';
 
@@ -167,9 +167,9 @@ export class EntryEventSubscriber
  * the lookup behind it.
  */
 function readWorkspaceId(event: DomainEvent): string | null {
-    const workspaceId = (event.payload as Record<string, unknown> | undefined)?.[
-        'workspaceId'
-    ];
+    const workspaceId = (
+        event.payload as Record<string, unknown> | undefined
+    )?.['workspaceId'];
     return typeof workspaceId === 'string' && workspaceId.length > 0
         ? workspaceId
         : null;

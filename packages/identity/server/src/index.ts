@@ -114,7 +114,7 @@ export type { WorkspaceDirectory } from './lib/api-tokens/application/ports/work
 export { UnknownWorkspaceError } from './lib/api-tokens/domain/unknown-workspace.error';
 // --- SSO ---
 //
-// The port itself lives in `@orthacms/identity-domain`, so an adapter can
+// The port itself lives in `@apograph/identity-domain`, so an adapter can
 // depend on it without depending on this package. What is re-exported here is
 // what a *host* or a sibling plugin needs: the registry builder (for a test
 // harness that wires its own module), the generic sign-in failure, and the

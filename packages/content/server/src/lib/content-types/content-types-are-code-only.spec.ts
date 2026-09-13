@@ -68,7 +68,16 @@ interface Route {
     at: string;
 }
 
-const VERBS = ['Get', 'Post', 'Put', 'Patch', 'Delete', 'All', 'Head', 'Options'];
+const VERBS = [
+    'Get',
+    'Post',
+    'Put',
+    'Patch',
+    'Delete',
+    'All',
+    'Head',
+    'Options'
+];
 
 /** Every route declared by `file`, read off its decorators. */
 function routesOf(file: string): Route[] {
@@ -163,9 +172,11 @@ describe('content types are declared in code, not over HTTP', () => {
             // a working, unreviewed content-type-creation API.
             const registry = new ContentTypeRegistry([author, home]);
 
-            registry.all().push(
-                collection('smuggled', { fields: { name: field.text() } })
-            );
+            registry
+                .all()
+                .push(
+                    collection('smuggled', { fields: { name: field.text() } })
+                );
 
             expect(registry.all().map((type) => type.name)).toEqual([
                 'author',
@@ -199,10 +210,7 @@ describe('content types are declared in code, not over HTTP', () => {
                     }
                 }
             };
-            for (const root of [
-                join(REPO, 'packages'),
-                join(REPO, 'apps')
-            ]) {
+            for (const root of [join(REPO, 'packages'), join(REPO, 'apps')]) {
                 walk(root);
             }
 

@@ -1,5 +1,5 @@
 /**
- * `@orthacms/webhooks-domain` — the framework-free kernel behind outgoing
+ * `@apograph/webhooks-domain` — the framework-free kernel behind outgoing
  * webhooks.
  *
  * Everything a delivery *means* lives here: which events can be subscribed to,
@@ -69,6 +69,7 @@ export {
 
 export {
     DELIVERY_HEADERS,
+    LEGACY_DELIVERY_HEADERS,
     DELIVERY_STATUSES,
     DELIVERY_USER_AGENT,
     RESERVED_HEADER_NAMES,

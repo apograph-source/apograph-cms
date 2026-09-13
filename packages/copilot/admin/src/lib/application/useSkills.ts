@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { apiClient, STALE_TIME } from '@orthacms/utils-admin';
+import { apiClient, STALE_TIME } from '@apograph/utils-admin';
 
 /**
  * One skill as the picker renders it.

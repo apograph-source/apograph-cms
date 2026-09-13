@@ -1,5 +1,5 @@
 import { defineMessages, useIntl } from 'react-intl';
-import type { RecordsColumnCellContext } from '@orthacms/content-admin';
+import type { RecordsColumnCellContext } from '@apograph/content-admin';
 import type { AlarmFinding, AlarmSeverity } from '../../../types/alarm';
 import { severityLook } from '../../severityLook';
 

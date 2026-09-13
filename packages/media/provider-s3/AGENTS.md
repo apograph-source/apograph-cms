@@ -1,4 +1,4 @@
-# @orthacms/media-provider-s3
+# @apograph/media-provider-s3
 
 The **S3-compatible** storage provider — written endpoint-first, not AWS-first.
 
@@ -60,7 +60,7 @@ it up is its own change, with its own e2e.
 
 ## Testing: what the fake proves, and what it does not
 
-`npx nx test @orthacms/media-provider-s3` runs the shared contract
+`npx nx test @apograph/media-provider-s3` runs the shared contract
 (`describeStorageProvider`) plus this adapter's own cases against
 **`FakeS3Client`** — a real `S3Client` with only its `send` replaced.
 
@@ -84,5 +84,5 @@ offline.
 
 ## Commands
 
-- `npx nx test @orthacms/media-provider-s3` / `npx nx typecheck @orthacms/media-provider-s3` /
-  `npx nx lint @orthacms/media-provider-s3`
+- `npx nx test @apograph/media-provider-s3` / `npx nx typecheck @apograph/media-provider-s3` /
+  `npx nx lint @apograph/media-provider-s3`

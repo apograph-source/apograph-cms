@@ -7,7 +7,7 @@ import {
     DropdownMenuItem,
     DropdownMenuSeparator,
     DropdownMenuTrigger
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 import {
     Copy,
     Download,

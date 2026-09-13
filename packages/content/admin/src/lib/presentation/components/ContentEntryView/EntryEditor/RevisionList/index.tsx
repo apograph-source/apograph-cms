@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
-import { ConfirmDialog, toast } from '@orthacms/design-system';
-import { useHasPermission } from '@orthacms/identity-admin';
+import { ConfirmDialog, toast } from '@apograph/design-system';
+import { useHasPermission } from '@apograph/identity-admin';
 import type {
     ContentTypeDetail,
     RevisionSummary

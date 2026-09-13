@@ -212,10 +212,9 @@ describe('AlarmSweepService', () => {
 
             await harness.service.sweep();
 
-            expect(harness.evaluator.rescan.mock.calls.map(([r]) => r.id)).toEqual([
-                'r1',
-                'r2'
-            ]);
+            expect(
+                harness.evaluator.rescan.mock.calls.map(([r]) => r.id)
+            ).toEqual(['r1', 'r2']);
         });
     });
 
@@ -294,7 +293,9 @@ describe('AlarmSweepService', () => {
         it('returns immediately when no sweep is running', async () => {
             const harness = sweeper([rule('r1')]);
 
-            await expect(harness.service.onModuleDestroy()).resolves.toBeUndefined();
+            await expect(
+                harness.service.onModuleDestroy()
+            ).resolves.toBeUndefined();
             expect(harness.started).toEqual([]);
         });
 

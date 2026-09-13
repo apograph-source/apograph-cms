@@ -1,39 +1,39 @@
 import { join } from 'node:path';
-import type { ServerPlugin } from '@orthacms/bootstrap-server';
-import { ActivityPlugin } from '@orthacms/activity-server';
-import { ContentPlugin, ContentViewsPlugin } from '@orthacms/content-server';
-import { ContentGraphqlPlugin } from '@orthacms/content-graphql';
+import type { ServerPlugin } from '@apograph/bootstrap-server';
+import { ActivityPlugin } from '@apograph/activity-server';
+import { ContentPlugin, ContentViewsPlugin } from '@apograph/content-server';
+import { ContentGraphqlPlugin } from '@apograph/content-graphql';
 import {
     CopilotPlugin,
     type ProviderRegistration
-} from '@orthacms/copilot-server';
-import { createAnthropicProvider } from '@orthacms/copilot-provider-anthropic';
-import { createOpenAiProvider } from '@orthacms/copilot-provider-openai';
-import { DatabasePlugin } from '@orthacms/database';
-import { I18nServerPlugin } from '@orthacms/i18n-server';
-import { IdentityPlugin } from '@orthacms/identity-server';
-import { createOidcProvider } from '@orthacms/identity-provider-oidc';
-import { createGithubProvider } from '@orthacms/identity-provider-github';
-import { createSamlProvider } from '@orthacms/identity-provider-saml';
-import { McpPlugin } from '@orthacms/mcp-server';
-import { MediaServerPlugin } from '@orthacms/media-server';
-import { TransferPlugin } from '@orthacms/transfer-server';
-import { AlarmsPlugin } from '@orthacms/alarms-server';
-import { SegmentsPlugin } from '@orthacms/segments-server';
-import { ProtectionPlugin } from '@orthacms/protection-server';
-import { WebhooksPlugin } from '@orthacms/webhooks-server';
-import { createLocalStorageProvider } from '@orthacms/media-provider-local';
-import { UsersPlugin } from '@orthacms/users-server';
-import { WorkspacesPlugin } from '@orthacms/workspaces-server';
-import type { OrthaConfig } from '../ortha.config';
-import type { SsoRegistration } from '@orthacms/identity-domain';
+} from '@apograph/copilot-server';
+import { createAnthropicProvider } from '@apograph/copilot-provider-anthropic';
+import { createOpenAiProvider } from '@apograph/copilot-provider-openai';
+import { DatabasePlugin } from '@apograph/database';
+import { I18nServerPlugin } from '@apograph/i18n-server';
+import { IdentityPlugin } from '@apograph/identity-server';
+import { createOidcProvider } from '@apograph/identity-provider-oidc';
+import { createGithubProvider } from '@apograph/identity-provider-github';
+import { createSamlProvider } from '@apograph/identity-provider-saml';
+import { McpPlugin } from '@apograph/mcp-server';
+import { MediaServerPlugin } from '@apograph/media-server';
+import { TransferPlugin } from '@apograph/transfer-server';
+import { AlarmsPlugin } from '@apograph/alarms-server';
+import { SegmentsPlugin } from '@apograph/segments-server';
+import { ProtectionPlugin } from '@apograph/protection-server';
+import { WebhooksPlugin } from '@apograph/webhooks-server';
+import { createLocalStorageProvider } from '@apograph/media-provider-local';
+import { UsersPlugin } from '@apograph/users-server';
+import { WorkspacesPlugin } from '@apograph/workspaces-server';
+import type { ApographConfig } from '../apograph.config';
+import type { SsoRegistration } from '@apograph/identity-domain';
 import { contentTypes } from './content';
 
 /**
  * The copilot backends this deployment can actually reach, in preference
  * order.
  *
- * **Only what is configured is registered.** `ortha.config.ts` omits a
+ * **Only what is configured is registered.** `apograph.config.ts` omits a
  * provider whose connection settings are absent, and an unconfigured backend
  * is not registered here either: the first entry is what a run that names no
  * provider gets, so a keyless `claude` at the top of the list would be the
@@ -41,7 +41,7 @@ import { contentTypes } from './content';
  *
  * **A clone with no keys gets an empty list**, and therefore no copilot: there
  * is no scripted offline adapter in this list any more. The fake provider is a
- * test fixture (`@orthacms/copilot-provider-fake`, private and unpublished) and
+ * test fixture (`@apograph/copilot-provider-fake`, private and unpublished) and
  * registering it here made a misconfigured production deployment answer every
  * question with a canned sentence instead of failing. `COPILOT_ENABLED` is off
  * by default, so an empty list is the ordinary state of a fresh clone and boots
@@ -55,7 +55,9 @@ import { contentTypes } from './content';
  * threaded into the wrong factory here would have passed every test in the
  * repo.
  */
-export function copilotProviders(config: OrthaConfig): ProviderRegistration[] {
+export function copilotProviders(
+    config: ApographConfig
+): ProviderRegistration[] {
     const { claude, ollama } = config.plugins.copilot.providers;
     return [
         ...(claude
@@ -70,13 +72,13 @@ export function copilotProviders(config: OrthaConfig): ProviderRegistration[] {
 /**
  * The identity providers this deployment can actually reach.
  *
- * **Only what is configured is registered.** `ortha.config.ts` omits a provider
+ * **Only what is configured is registered.** `apograph.config.ts` omits a provider
  * whose issuer or client id is missing, and an unconfigured provider is not
  * registered here either — it would appear on the sign-in page as a button that
  * can only fail, and every SSO failure deliberately looks the same, so the
  * person clicking it would learn nothing.
  *
- * No scripted provider is registered here. `@orthacms/identity-provider-fake`
+ * No scripted provider is registered here. `@apograph/identity-provider-fake`
  * ships and is what `server-e2e` registers, but a scripted identity provider in
  * a running deployment signs people in without anyone authenticating, so the
  * host does not register one — the same reason the copilot's fake adapter is
@@ -93,11 +95,11 @@ export function copilotProviders(config: OrthaConfig): ProviderRegistration[] {
  * The name is what `/api/auth/sso/<name>/start` and every `sso_identities` row
  * refer to the provider by, so renaming a registration orphans its links.
  * `ssoCallbackUrl(config.plugins.identity, name)` from
- * `@orthacms/identity-server` builds the exact callback URL to register with
+ * `@apograph/identity-server` builds the exact callback URL to register with
  * the provider — exact because most providers match that string byte for byte,
  * and a trailing slash makes it a different URL to them.
  */
-export function ssoProviders(config: OrthaConfig): SsoRegistration[] {
+export function ssoProviders(config: ApographConfig): SsoRegistration[] {
     const { oidc, github, saml } = config.plugins.identity.ssoProviders;
     const registrations: SsoRegistration[] = [];
 
@@ -155,7 +157,7 @@ export function ssoProviders(config: OrthaConfig): SsoRegistration[] {
  * silently rather than failing boot — which is what `plugins.spec.ts` pins the
  * membership of this list for.
  */
-export function buildPlugins(config: OrthaConfig): ServerPlugin[] {
+export function buildPlugins(config: ApographConfig): ServerPlugin[] {
     const content = ContentPlugin({
         types: contentTypes,
         // The HOST owns the generated collection tables (drizzle.config.ts
@@ -172,7 +174,7 @@ export function buildPlugins(config: OrthaConfig): ServerPlugin[] {
         // Identity, plus the identity providers this deployment offers.
         //
         // The second argument is where **constructed** adapters go, the same
-        // way the copilot's model backends do: `ortha.config.ts` holds the
+        // way the copilot's model backends do: `apograph.config.ts` holds the
         // typed view of the environment, and an adapter instance is not an
         // environment value. A default install configures none, so
         // `GET /api/auth/sso` answers `[]` and the sign-in page shows only the

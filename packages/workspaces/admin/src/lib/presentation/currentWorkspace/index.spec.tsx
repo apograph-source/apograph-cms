@@ -6,7 +6,7 @@ import type { Workspace } from '../../domain/types/workspace';
 
 // The provider syncs the shared apiClient header on render; the header itself is
 // the transport's business, not this unit's, so it is stubbed out.
-vi.mock('@orthacms/utils-admin', () => ({
+vi.mock('@apograph/utils-admin', () => ({
     setActiveWorkspaceId: vi.fn()
 }));
 

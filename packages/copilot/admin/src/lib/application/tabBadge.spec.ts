@@ -57,19 +57,21 @@ describe('badgedTitle', () => {
     it('prefixes the count', () => {
         // Prefixed, not appended: a tab is a few characters wide once several
         // are open, and the end of a title is the first thing thrown away.
-        expect(badgedTitle('Ortha CMS', 2)).toBe('(2) Ortha CMS');
+        expect(badgedTitle('Apograph CMS', 2)).toBe('(2) Apograph CMS');
     });
 
     it('leaves the title alone at zero', () => {
-        expect(badgedTitle('Ortha CMS', 0)).toBe('Ortha CMS');
+        expect(badgedTitle('Apograph CMS', 0)).toBe('Apograph CMS');
     });
 
     it('cannot stack, because it always builds from the base', () => {
-        const base = 'Ortha CMS';
-        expect(badgedTitle(badgedTitle(base, 1), 2)).toBe('(2) (1) Ortha CMS');
+        const base = 'Apograph CMS';
+        expect(badgedTitle(badgedTitle(base, 1), 2)).toBe(
+            '(2) (1) Apograph CMS'
+        );
         // …which is why the caller captures `base` once and never re-reads
         // `document.title`. Stated here so the rule has a test that fails if
         // someone "simplifies" it.
-        expect(badgedTitle(base, 2)).toBe('(2) Ortha CMS');
+        expect(badgedTitle(base, 2)).toBe('(2) Apograph CMS');
     });
 });

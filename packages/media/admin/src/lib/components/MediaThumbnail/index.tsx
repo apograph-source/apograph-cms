@@ -1,5 +1,5 @@
 import { Play } from 'lucide-react';
-import { cn } from '@orthacms/design-system';
+import { cn } from '@apograph/design-system';
 import { MEDIA_KIND } from '../../constants';
 import type { MediaAsset } from '../../types/mediaAsset';
 import { assetGradient } from '../../utils/assetGradient';

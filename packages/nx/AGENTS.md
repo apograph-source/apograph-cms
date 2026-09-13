@@ -1,13 +1,13 @@
-# @orthacms/nx
+# @apograph/nx
 
-The Ortha CMS **Nx plugin**. Adds first-class `nx` targets for database
-work and is the home for any future Ortha-specific Nx commands. Sits
+The Apograph CMS **Nx plugin**. Adds first-class `nx` targets for database
+work and is the home for any future Apograph-specific Nx commands. Sits
 alongside the `@nx/*` plugins in the root `nx.json`.
 
 ## Package
 
-- Name: `@orthacms/nx`
-- Registered in `nx.json` under `plugins` (`"@orthacms/nx"`).
+- Name: `@apograph/nx`
+- Registered in `nx.json` under `plugins` (`"@apograph/nx"`).
 - Consumed from source like the other workspace packages. Loaded directly
   as a TypeScript Nx plugin (no build step).
 
@@ -16,7 +16,7 @@ alongside the `@nx/*` plugins in the root `nx.json`.
 - **`createNodesV2` inference** (`src/index.ts`) — targets appear
   automatically, the same way `@nx/js` infers `typecheck`:
     - a project with a `drizzle.config.ts` gets **`db:generate`**
-    - a project with an `ortha.config.ts` (the host) gets **`db:migrate`** and
+    - a project with an `apograph.config.ts` (the host) gets **`db:migrate`** and
       **`db:studio`**
     - a package under `packages/` with a `tsconfig.lib.json` gets a cacheable
       **`build`** (`tsc --build`, emitting JS + `.d.ts` to `dist/`), and a
@@ -44,7 +44,7 @@ alongside the `@nx/*` plugins in the root `nx.json`.
       that was asked for and restored `migrations/` over the working tree. See
       the long note in `src/index.ts`.
     - `db-migrate` — applies every plugin's migrations. Loads the host's
-      `ortha.config.ts` + `buildPlugins()` via `jiti` (transpiling with `swc`
+      `apograph.config.ts` + `buildPlugins()` via `jiti` (transpiling with `swc`
       in **legacy-decorator** mode, since the plugin graph it pulls in uses
       `experimentalDecorators` and jiti's bundled babel otherwise defaults to
       stage-3 decorators and crashes), then applies each plugin's `migrations`
@@ -65,7 +65,7 @@ alongside the `@nx/*` plugins in the root `nx.json`.
         at the order as the usual cause.
 
     - `db-studio` — launches `drizzle-kit studio` against the host database.
-      Resolves the connection URL from the host's `ortha.config.ts` (loaded via
+      Resolves the connection URL from the host's `apograph.config.ts` (loaded via
       the same `jiti`+`swc` helper as `db-migrate`), the single place that reads
       `DATABASE_URL`. The committed drizzle configs are schema-only (no
       secrets), so this synthesizes an **ephemeral** config in a temp dir that
@@ -90,12 +90,12 @@ alongside the `@nx/*` plugins in the root `nx.json`.
       backoff. The holder **heartbeats** its lock while it works, because the
       staleness window that lets a peer reclaim a dead worker's slot (15min)
       is shorter than the retry ladder a live one may legitimately spend
-      (12.5min by default, longer with `ORTHA_PUBLISH_RETRIES` raised) — so
+      (12.5min by default, longer with `APOGRAPH_PUBLISH_RETRIES` raised) — so
       `staleAfter` bounds silence rather than work, and a finishing publisher
       only removes a lock that is still its own. Defaults — 5s gap, 5 retries
       from 30s, capped at 5min — are
-      target options, overridable per run with `ORTHA_PUBLISH_DELAY`,
-      `ORTHA_PUBLISH_RETRIES` and `ORTHA_PUBLISH_RETRY_BACKOFF`. A dry run
+      target options, overridable per run with `APOGRAPH_PUBLISH_DELAY`,
+      `APOGRAPH_PUBLISH_RETRIES` and `APOGRAPH_PUBLISH_RETRY_BACKOFF`. A dry run
       waits for nothing: it writes nothing to rate-limit.
 
         **Rehearse with `npm run release:dry-run`, never with `nx run-many`.**
@@ -126,7 +126,7 @@ alongside the `@nx/*` plugins in the root `nx.json`.
 ## Architecture
 
 - **Thin executors over a core lib — and the database half of that lib now
-  lives in [`@orthacms/cli`](../cli/AGENTS.md).** `db:generate`, `db:migrate`
+  lives in [`@apograph/cli`](../cli/AGENTS.md).** `db:generate`, `db:migrate`
   and `db:studio` are adapters over `runDrizzleKitGenerate`,
   `applyPluginMigrations` and `runDrizzleKitStudio`, imported from that package.
   They used to live here, in `src/lib/drizzle/`, where an app installed from npm
@@ -142,9 +142,9 @@ alongside the `@nx/*` plugins in the root `nx.json`.
 
     `src/lib/jiti.ts` also stays: it builds the `jiti`+`swc` (legacy-decorator)
     loader `db:migrate` and `db:studio` use to import the TypeScript
-    `ortha.config.ts` **from source**, which is a problem only this workspace
+    `apograph.config.ts` **from source**, which is a problem only this workspace
     has. A generated app compiles first and `require`s the JavaScript, so
-    `@orthacms/cli` needs neither jiti nor swc.
+    `@apograph/cli` needs neither jiti nor swc.
 - **Generate is per-plugin; apply is host-level.** Each workspace plugin
   owns its `drizzle.config.ts` and generates its own `migrations/`. The host
   applies all of them. npm-installed plugins ship their SQL pre-generated;

@@ -1,5 +1,5 @@
 import type { INestApplication } from '@nestjs/common';
-import { getPool, OutboxDispatcher } from '@orthacms/database';
+import { getPool, OutboxDispatcher } from '@apograph/database';
 
 /** One `outbox_events` row, as the durability assertions read it. */
 export interface OutboxRow {

@@ -28,9 +28,9 @@ import {
     TableHeader,
     TableRow,
     toast
-} from '@orthacms/design-system';
-import { useHasPermission } from '@orthacms/identity-admin';
-import { useCurrentWorkspace } from '@orthacms/workspaces-admin';
+} from '@apograph/design-system';
+import { useHasPermission } from '@apograph/identity-admin';
+import { useCurrentWorkspace } from '@apograph/workspaces-admin';
 import { useCopilotAvailable } from '../../application/useCopilotModels';
 import {
     skillWriteMessage,
@@ -43,18 +43,18 @@ import {
 import type { CopilotSkill } from '../../application/useSkills';
 import { COPILOT_SKILLS_MANAGE, agentsPath } from '../../domain/agentsRoute';
 import { SkillFormDialog, type SkillFormValues } from './SkillFormDialog';
-import { useDocumentTitle } from '@orthacms/utils-admin';
+import { useDocumentTitle } from '@apograph/utils-admin';
 
 const messages = defineMessages({
     title: { id: 'copilot.skills.page.title', defaultMessage: 'Skills' },
     intro: {
         id: 'copilot.skills.page.intro',
         defaultMessage:
-            'Reusable instructions Ortha AI can work under. People turn a skill on for a chat from the message box; an always-on skill applies to every chat in this workspace.'
+            'Reusable instructions Apograph AI can work under. People turn a skill on for a chat from the message box; an always-on skill applies to every chat in this workspace.'
     },
     back: {
         id: 'copilot.skills.page.back',
-        defaultMessage: 'Back to Ortha AI'
+        defaultMessage: 'Back to Apograph AI'
     },
     create: { id: 'copilot.skills.page.create', defaultMessage: 'New skill' },
     tableLabel: {
@@ -99,7 +99,7 @@ const messages = defineMessages({
     emptyBody: {
         id: 'copilot.skills.page.emptyBody',
         defaultMessage:
-            'A skill is a short set of instructions — a house style, a review checklist — that Ortha AI follows while it is on.'
+            'A skill is a short set of instructions — a house style, a review checklist — that Apograph AI follows while it is on.'
     },
     forbiddenTitle: {
         id: 'copilot.skills.page.forbiddenTitle',
@@ -112,12 +112,12 @@ const messages = defineMessages({
     },
     offTitle: {
         id: 'copilot.skills.page.offTitle',
-        defaultMessage: 'Ortha AI is turned off'
+        defaultMessage: 'Apograph AI is turned off'
     },
     offBody: {
         id: 'copilot.skills.page.offBody',
         defaultMessage:
-            'This deployment doesn’t run Ortha AI, so there are no skills to manage.'
+            'This deployment doesn’t run Apograph AI, so there are no skills to manage.'
     },
     deleteTitle: {
         id: 'copilot.skills.page.deleteTitle',

@@ -1,8 +1,8 @@
 import { ValidationPipe, type INestApplication } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import type { NestExpressApplication } from '@nestjs/platform-express';
-import { ServerModule, setupApiDocs } from '@orthacms/bootstrap-server';
-import { closeDatabase } from '@orthacms/database';
+import { ServerModule, setupApiDocs } from '@apograph/bootstrap-server';
+import { closeDatabase } from '@apograph/database';
 import type { Server } from 'node:http';
 import { buildTestPlugins } from './plugins';
 import { buildTestConfig, type TestConfigOverrides } from './test-config';
@@ -186,7 +186,7 @@ async function listenOnLoopback(server: Server): Promise<void> {
 
 /**
  * Tears down a harness: closes the Nest app and the database pool. Jest
- * isolates module registries per spec file, so the `@orthacms/database`
+ * isolates module registries per spec file, so the `@apograph/database`
  * singleton pool is per-file — closing it here keeps the worker free of
  * open handles between files.
  *

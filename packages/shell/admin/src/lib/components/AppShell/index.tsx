@@ -4,7 +4,7 @@ import {
     SidebarInset,
     SidebarProvider,
     useIsMobile
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 import { PageChromeProvider, useRightPanel } from '../../utils/pageChrome';
 import { SidebarContentProvider } from '../../utils/sidebarContent';
 import { AppRightPanel } from '../AppRightPanel';

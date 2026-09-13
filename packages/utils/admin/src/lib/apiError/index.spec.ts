@@ -121,9 +121,16 @@ describe('what a status is allowed to mean here', () => {
         // shape. Lifting a 401's `code` into a message here would decide, for
         // every caller at once, what that endpoint's 401 meant.
         for (const status of STATUSES) {
-            const body = { code: 'SOMETHING_SPECIFIC', message: 'from the API' };
+            const body = {
+                code: 'SOMETHING_SPECIFIC',
+                message: 'from the API'
+            };
             const normalized = toApiError(
-                axiosError(status, `Request failed with status code ${status}`, body)
+                axiosError(
+                    status,
+                    `Request failed with status code ${status}`,
+                    body
+                )
             );
             expect(normalized.status).toBe(status);
             expect(normalized.message).toBe(

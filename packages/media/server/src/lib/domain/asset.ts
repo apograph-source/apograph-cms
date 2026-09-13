@@ -1,4 +1,4 @@
-import type { DomainEvent } from '@orthacms/database';
+import type { DomainEvent } from '@apograph/database';
 import type { StoredMediaTrack } from './value-objects/media-track';
 import { AssetId } from './value-objects/asset-id';
 import { FolderId } from './value-objects/folder-id';

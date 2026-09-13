@@ -11,8 +11,8 @@ import {
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { PassThrough, Readable } from 'node:stream';
-import { ObjectNotFoundError } from '@orthacms/media-domain';
-import type { StorageProvider } from '@orthacms/media-domain';
+import { ObjectNotFoundError } from '@apograph/media-domain';
+import type { StorageProvider } from '@apograph/media-domain';
 import {
     createLocalStorageProvider,
     StorageKeyOutsideRootError
@@ -31,7 +31,7 @@ describe('createLocalStorageProvider', () => {
     let provider: StorageProvider;
 
     beforeEach(async () => {
-        root = await mkdtemp(join(tmpdir(), 'ortha-local-storage-'));
+        root = await mkdtemp(join(tmpdir(), 'apograph-local-storage-'));
         provider = createLocalStorageProvider({
             rootDir: root
         });
@@ -356,7 +356,7 @@ describe('createLocalStorageProvider', () => {
         });
 
         it('rejects a key that traverses outside the root instead of reading the file', async () => {
-            const outside = await mkdtemp(join(tmpdir(), 'ortha-outside-'));
+            const outside = await mkdtemp(join(tmpdir(), 'apograph-outside-'));
             await writeFile(join(outside, 'secret.txt'), 'TOP SECRET');
             try {
                 await expect(
@@ -428,7 +428,7 @@ describe('createLocalStorageProvider', () => {
         });
 
         it('rejects a key that traverses outside the root instead of deleting the file', async () => {
-            const outside = await mkdtemp(join(tmpdir(), 'ortha-outside-'));
+            const outside = await mkdtemp(join(tmpdir(), 'apograph-outside-'));
             await writeFile(join(outside, 'secret.txt'), 'TOP SECRET');
             try {
                 await expect(
@@ -480,7 +480,7 @@ describe('createLocalStorageProvider', () => {
         // escape — `resolve` is textual, so the link is never followed and the
         // key still lands "inside" the root it was given.
         it('works when rootDir is itself a symlink to another volume', async () => {
-            const volume = await mkdtemp(join(tmpdir(), 'ortha-volume-'));
+            const volume = await mkdtemp(join(tmpdir(), 'apograph-volume-'));
             const link = join(root, 'blobs');
             symlinkSync(volume, link);
             const linked = createLocalStorageProvider({
@@ -514,7 +514,9 @@ describe('createLocalStorageProvider', () => {
         // limit is a decision rather than a surprise: it assumes `rootDir` is a
         // volume no untrusted process can plant links in.
         it('does not resolve symlinks planted inside the root', async () => {
-            const elsewhere = await mkdtemp(join(tmpdir(), 'ortha-symlink-'));
+            const elsewhere = await mkdtemp(
+                join(tmpdir(), 'apograph-symlink-')
+            );
             await mkdir(join(root, WORKSPACE), { recursive: true });
             symlinkSync(elsewhere, join(root, WORKSPACE, ASSET));
             try {

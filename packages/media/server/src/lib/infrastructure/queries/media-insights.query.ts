@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { and, eq, sql, type SQL } from 'drizzle-orm';
-import { InjectDatabase, type Database } from '@orthacms/database';
+import { InjectDatabase, type Database } from '@apograph/database';
 import { mediaAsset } from '../schema/media-asset';
 import type {
     MediaAltCoverageView,

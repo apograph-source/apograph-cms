@@ -8,7 +8,7 @@
 import {
     isWellFormedLanguageTag,
     type RichTextDocument
-} from '@orthacms/content-domain';
+} from '@apograph/content-domain';
 import { CONTENT_FIELD_TYPE, MEDIA_KIND_VALUES } from '../types/fields';
 import type {
     BaseFieldOptions,
@@ -88,7 +88,7 @@ function text<const O extends TextFieldOptions = TextFieldOptions>(
  * bolding a word used to cost the author `<strong></strong>`.
  *
  * A body written before this change is an HTML string, and still reads and
- * validates as one — see `@orthacms/content-domain`'s rich-text module. It is
+ * validates as one — see `@apograph/content-domain`'s rich-text module. It is
  * rewritten as a document the next time the record is saved through the editor.
  */
 function richtext<const O extends RichTextFieldOptions = RichTextFieldOptions>(

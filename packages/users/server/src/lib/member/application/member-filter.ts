@@ -1,5 +1,5 @@
-import { ScalarFieldType, type FilterSchema } from '@orthacms/utils-server';
-import { roles, users } from '@orthacms/identity-server';
+import { ScalarFieldType, type FilterSchema } from '@apograph/utils-server';
+import { roles, users } from '@apograph/identity-server';
 
 /**
  * The filterable surface of the member list for the query-builder engine.

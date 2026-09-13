@@ -17,7 +17,7 @@ const ADA = DEFAULT_MEMBERS.find((member) => member.id === 'u_ada')!;
 const CUSTOM_ROLE_MEMBER = {
     ...GRACE,
     id: 'u_custom',
-    email: 'editor@ortha.dev',
+    email: 'editor@apograph.dev',
     name: 'Edie Editor',
     role: { id: 'role_editor', key: 'editor', name: 'Editor' }
 };

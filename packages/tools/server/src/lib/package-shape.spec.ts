@@ -114,7 +114,7 @@ const MANIFEST = JSON.parse(
     devDependencies?: Record<string, string>;
 };
 
-describe('the shape of @orthacms/tools-server [tools:I-24]', () => {
+describe('the shape of @apograph/tools-server [tools:I-24]', () => {
     it('reads the package at all', () => {
         // The guard on the guard. A walk that found nothing — a renamed
         // directory, a changed extension — would pass every check below while
@@ -125,13 +125,25 @@ describe('the shape of @orthacms/tools-server [tools:I-24]', () => {
 
     describe('imports nothing but the contract it is written against', () => {
         /**
+         * The only two packages this one may name. Compared **sorted** at both
+         * call sites below rather than in a fixed order: the scope's own name
+         * decides where it lands alphabetically, so a literal order would be a
+         * second thing to remember on a rename.
+         */
+        const ALLOWED = ['@nestjs/common', '@apograph/identity-server'];
+
+        /**
          * Every module specifier the package's own code imports or re-exports,
          * relative paths excluded.
          *
          * Matches `import … from 'x'`, `export … from 'x'`, bare `import 'x'`,
          * `import type`, and dynamic `import('x')`/`require('x')`.
          */
-        const externalImports = (): { file: string; line: number; module: string }[] => {
+        const externalImports = (): {
+            file: string;
+            line: number;
+            module: string;
+        }[] => {
             const out: { file: string; line: number; module: string }[] = [];
             for (const hit of CODE) {
                 for (const [, quoted] of hit.text.matchAll(
@@ -160,25 +172,23 @@ describe('the shape of @orthacms/tools-server [tools:I-24]', () => {
              * - `@nestjs/common` — `@Injectable`/`@Global` and the HTTP
              *   exception classes refusals are signalled with. Nest is the DI
              *   container both consumers already run in, not a transport.
-             * - `@orthacms/identity-server` — `PermissionKey` and
+             * - `@apograph/identity-server` — `PermissionKey` and
              *   `PERMISSION_KEYS`. The package keeps no dictionary of its own,
              *   which is the point of I-04's neighbour: rights are named by
              *   identity and *resolved* by whoever authenticated the caller.
              *
              * Adding a third is a decision, and it is made here.
              */
-            const ALLOWED = ['@nestjs/common', '@orthacms/identity-server'];
-
             const foreign = externalImports().filter(
                 (hit) => !ALLOWED.includes(hit.module)
             );
 
-            expect(
-                foreign.map((hit) => `${at(hit)} → ${hit.module}`)
-            ).toEqual([]);
+            expect(foreign.map((hit) => `${at(hit)} → ${hit.module}`)).toEqual(
+                []
+            );
             expect(
                 [...new Set(externalImports().map((hit) => hit.module))].sort()
-            ).toEqual(ALLOWED);
+            ).toEqual([...ALLOWED].sort());
         });
 
         it('declares the same two in its manifest, and nothing else [tools:I-24]', () => {
@@ -186,10 +196,9 @@ describe('the shape of @orthacms/tools-server [tools:I-24]', () => {
             // yet used — and a manifest is what a consumer installs. A
             // `drizzle-orm` here would reach every deployment that runs the
             // copilot whether or not a line of code imported it.
-            expect(Object.keys(MANIFEST.dependencies ?? {}).sort()).toEqual([
-                '@nestjs/common',
-                '@orthacms/identity-server'
-            ]);
+            expect(Object.keys(MANIFEST.dependencies ?? {}).sort()).toEqual(
+                [...ALLOWED].sort()
+            );
             expect(MANIFEST.peerDependencies ?? {}).toEqual({});
             expect(MANIFEST.devDependencies ?? {}).toEqual({});
         });

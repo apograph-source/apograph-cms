@@ -10,7 +10,7 @@ import {
     PopoverAnchor,
     PopoverContent,
     Spinner
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 import { useUsersSearch } from '../../../../../application/useUsersSearch';
 import type { MemberDraft } from '../../../../../domain/types/wizard';
 import { useComboboxList } from '../../../../hooks/useComboboxList';

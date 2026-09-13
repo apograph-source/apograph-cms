@@ -4,7 +4,7 @@ import {
     type SsoProviderSummary,
     type SsoRegistration,
     type SsoRegistry
-} from '@orthacms/identity-domain';
+} from '@apograph/identity-domain';
 
 /**
  * Builds an immutable {@link SsoRegistry} over the host's provider list. Bound

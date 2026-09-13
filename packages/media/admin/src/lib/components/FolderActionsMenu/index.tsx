@@ -7,7 +7,7 @@ import {
     DropdownMenuItem,
     DropdownMenuSeparator,
     DropdownMenuTrigger
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 import { FolderOpen, MoreVertical, Pencil, Trash2 } from 'lucide-react';
 
 /** Intl descriptors for {@link FolderActionsMenu}, co-located. */

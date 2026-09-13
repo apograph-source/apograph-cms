@@ -1,4 +1,4 @@
-import { SsoVerificationError } from '@orthacms/identity-domain';
+import { SsoVerificationError } from '@apograph/identity-domain';
 import { createSamlProvider } from './saml-provider';
 import {
     callbackWith,
@@ -149,9 +149,7 @@ describe('createSamlProvider — complete', () => {
 
     it('refuses a SAMLResponse that is not XML at all', async () => {
         await expect(
-            provider().complete(
-                callbackWith({ SAMLResponse: 'bm90LXhtbA==' })
-            )
+            provider().complete(callbackWith({ SAMLResponse: 'bm90LXhtbA==' }))
         ).rejects.toBeInstanceOf(SsoVerificationError);
     });
 
@@ -253,8 +251,11 @@ describe('createSamlProvider — complete', () => {
         });
 
         expect(
-            (await provider().complete(callbackWith({ SAMLResponse: response })))
-                .groups
+            (
+                await provider().complete(
+                    callbackWith({ SAMLResponse: response })
+                )
+            ).groups
         ).toBeUndefined();
         expect(
             (

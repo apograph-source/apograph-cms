@@ -1,5 +1,5 @@
 import { defineMessages, useIntl } from 'react-intl';
-import { StatWidget } from '@orthacms/insights-admin';
+import { StatWidget } from '@apograph/insights-admin';
 import { useContentTotals } from '../../../application/useContentInsights';
 
 /** Intl descriptors for the published stat tile, co-located here. */

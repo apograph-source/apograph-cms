@@ -1,5 +1,5 @@
 {
-    "name": "@orthacms/segments-domain",
+    "name": "@apograph/segments-domain",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",

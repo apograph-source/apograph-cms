@@ -12,7 +12,9 @@ export const repoRoot = ((): string => {
     while (!existsSync(join(dir, 'nx.json'))) {
         const parent = dirname(dir);
         if (parent === dir) {
-            throw new Error('workspace root (nx.json) not found above ' + __dirname);
+            throw new Error(
+                'workspace root (nx.json) not found above ' + __dirname
+            );
         }
         dir = parent;
     }

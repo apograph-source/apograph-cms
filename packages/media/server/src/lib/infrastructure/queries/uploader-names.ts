@@ -1,6 +1,6 @@
 import { inArray } from 'drizzle-orm';
-import { type Database } from '@orthacms/database';
-import { users } from '@orthacms/identity-server';
+import { type Database } from '@apograph/database';
+import { users } from '@apograph/identity-server';
 
 /**
  * Fallback shown when an uploader can't be resolved **at all** — the account was

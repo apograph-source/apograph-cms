@@ -1,5 +1,5 @@
 {
-    "name": "@orthacms/shell-admin",
+    "name": "@apograph/shell-admin",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -16,10 +16,10 @@
         "src"
     ],
     "dependencies": {
-        "@orthacms/bootstrap-admin": "*",
-        "@orthacms/design-system": "*",
-        "@orthacms/identity-admin": "*",
-        "@orthacms/utils-admin": "*",
+        "@apograph/bootstrap-admin": "*",
+        "@apograph/design-system": "*",
+        "@apograph/identity-admin": "*",
+        "@apograph/utils-admin": "*",
         "lucide-react": "^1.17.0",
         "react-intl": "^7.0.0"
     },

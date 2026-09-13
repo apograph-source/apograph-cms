@@ -6,14 +6,14 @@ import {
     AlertDescription,
     Button,
     Spinner
-} from '@orthacms/design-system';
-import type { ToolPermissionDecision } from '@orthacms/copilot-domain';
+} from '@apograph/design-system';
+import type { ToolPermissionDecision } from '@apograph/copilot-domain';
 import type { ChatPermissionRequest } from '../../domain/types/chat';
 
 const messages = defineMessages({
     asks: {
         id: 'copilot.permission.asks',
-        defaultMessage: 'Ortha AI wants to change your content'
+        defaultMessage: 'Apograph AI wants to change your content'
     },
     deciding: {
         id: 'copilot.permission.deciding',

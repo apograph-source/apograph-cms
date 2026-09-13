@@ -1,7 +1,7 @@
 import { defineMessages, useIntl } from 'react-intl';
 import { useSearchParams } from 'react-router-dom';
-import { Badge } from '@orthacms/design-system';
-import type { EntrySlotContext } from '@orthacms/content-admin';
+import { Badge } from '@apograph/design-system';
+import type { EntrySlotContext } from '@apograph/content-admin';
 import { LOCALE_PARAM } from '../../constants';
 import {
     localeAttrs,

@@ -1,6 +1,6 @@
-# @orthacms/wysiwyg-admin
+# @apograph/wysiwyg-admin
 
-The **rich-text editing plugin** for the Ortha CMS admin UI. It owns how a
+The **rich-text editing plugin** for the Apograph CMS admin UI. It owns how a
 `richtext` field looks and behaves in the entry form: the field shows the
 content **as it reads**, and pressing it expands a [TipTap](https://tiptap.dev)
 editor into the record's work area, with the formatting toolbar — text style and
@@ -15,7 +15,7 @@ tab and inside a localized type's Translated/Shared groups — without knowing
 about any of them.
 
 There is **no server counterpart**. `richtext` is an existing content field type
-(`@orthacms/content-server`); this plugin changes the _control_, not the
+(`@apograph/content-server`); this plugin changes the _control_, not the
 schema, the wire format, or the API.
 
 What it stores is the **document** — `editor.getJSON()`, the ProseMirror node
@@ -230,7 +230,7 @@ kB. If a change moves the first number, the lazy boundary has been broken.
 
 ## Styling: one scope, shared by the editor and the preview
 
-`src/styles.css` hangs everything off `.ortha-wysiwyg`, which the editor surface
+`src/styles.css` hangs everything off `.apograph-wysiwyg`, which the editor surface
 and every preview both carry. The host imports it once
 (`apps/admin/src/styles.css`), after the design-system's.
 
@@ -254,7 +254,7 @@ The editor knows how to **hold** an image or a video: `extensions/media` defines
 a resizable `<img>` and a resizable `<video controls>`, and ships one way to
 name one — paste a URL. It deliberately knows nothing about the Media Library.
 
-Browsing folders, filtering by kind, and uploading are `@orthacms/media-admin`'s
+Browsing folders, filtering by kind, and uploading are `@apograph/media-admin`'s
 whole job. Importing it here would make rich text unusable in an install without
 a media plugin, and pin the editor to one library's shape forever. So the editor
 declares `WYSIWYG_MEDIA_SLOT` and media-admin fills it — the same inversion
@@ -412,7 +412,7 @@ they now have none and lean on the bar's `gap`.
    moves focus out of the editor, collapsing the selection the command was about
    to act on — the classic "I selected a word, hit Bold, nothing happened".
 5. If it introduces a new element in the stored HTML, style it in
-   `src/styles.css` under `.ortha-wysiwyg`.
+   `src/styles.css` under `.apograph-wysiwyg`.
 
 The bar is a `role="group"`, not `role="toolbar"`, on purpose: the ARIA toolbar
 pattern promises arrow-key navigation with a single tab stop, and promising it
@@ -421,16 +421,16 @@ is an ordinary tab stop.
 
 ## Commands
 
-- `npx nx typecheck @orthacms/wysiwyg-admin`
-- `npx nx lint @orthacms/wysiwyg-admin`
-- `npx nx test @orthacms/wysiwyg-admin` — the unit suite (vitest + jsdom). It is
+- `npx nx typecheck @apograph/wysiwyg-admin`
+- `npx nx lint @apograph/wysiwyg-admin`
+- `npx nx test @apograph/wysiwyg-admin` — the unit suite (vitest + jsdom). It is
   deliberately **not** a second editor: what lives here is the pure rules
   (`domain/`), what the schema serializes into stored content, the document
   commands driven headlessly (clear-formatting, callout tones, column
   reshaping, media insertion — each a transform whose failure is invisible on
   screen and only shows in the stored document), and the structural claims a
   browser cannot see: the lazy boundary, the layering, and the single
-  `.ortha-wysiwyg` style scope. Anything about **pointers** belongs in
+  `.apograph-wysiwyg` style scope. Anything about **pointers** belongs in
   `admin-e2e`; so does anything about focus that a browser can actually be
   asked about. Where the caret *starts* is the exception, and it is here
   (`WysiwygEditorPanel/index.spec.tsx`): `autofocus` is resolved to a

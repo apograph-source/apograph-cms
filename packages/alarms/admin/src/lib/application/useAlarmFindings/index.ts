@@ -1,5 +1,5 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
-import { useCurrentWorkspace } from '@orthacms/workspaces-admin';
+import { useCurrentWorkspace } from '@apograph/workspaces-admin';
 import {
     alarmsKeys,
     type FindingsListParams

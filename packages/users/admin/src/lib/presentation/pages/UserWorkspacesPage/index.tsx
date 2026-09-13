@@ -9,13 +9,13 @@ import {
     CardHeader,
     CardTitle,
     toast
-} from '@orthacms/design-system';
-import { useHasPermission } from '@orthacms/identity-admin';
+} from '@apograph/design-system';
+import { useHasPermission } from '@apograph/identity-admin';
 import { useAddWorkspaceMember } from '../../../application/useAddWorkspaceMember';
 import { useRemoveWorkspaceMember } from '../../../application/useRemoveWorkspaceMember';
 import { useUserDetailContext } from '../../userDetailContext';
 import { AddToWorkspacesDialog } from '../../components/AddToWorkspacesDialog';
-import { ConfirmDialog } from '@orthacms/design-system';
+import { ConfirmDialog } from '@apograph/design-system';
 import { WorkspaceMembershipCard } from '../../components/WorkspaceMembershipCard';
 import type { MemberWorkspace } from '../../../domain/types/member';
 

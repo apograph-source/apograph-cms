@@ -1,18 +1,18 @@
 services:
     postgres:
         image: postgres:16-alpine
-        container_name: ortha-postgres
+        container_name: apograph-postgres
         restart: unless-stopped
         environment:
-            POSTGRES_USER: ortha
-            POSTGRES_PASSWORD: ortha
-            POSTGRES_DB: ortha_cms
+            POSTGRES_USER: apograph
+            POSTGRES_PASSWORD: apograph
+            POSTGRES_DB: apograph_cms
         ports:
             - '5432:5432'
         volumes:
-            - ortha-pgdata:/var/lib/postgresql/data
+            - apograph-pgdata:/var/lib/postgresql/data
         healthcheck:
-            test: ['CMD-SHELL', 'pg_isready -U ortha -d ortha_cms']
+            test: ['CMD-SHELL', 'pg_isready -U apograph -d apograph_cms']
             interval: 5s
             timeout: 5s
             retries: 5
@@ -26,14 +26,14 @@ services:
     #     docker compose --profile sso up -d
     #
     # Then, in the admin console at http://localhost:8080 (admin/admin), create
-    # a realm `ortha`, a confidential client `ortha-cms` with the redirect URI
+    # a realm `apograph`, a confidential client `apograph-cms` with the redirect URI
     # http://localhost:4200/api/auth/sso/keycloak/callback, and a user whose
-    # email matches a seeded Ortha account and is marked verified — the email
+    # email matches a seeded Apograph account and is marked verified — the email
     # must be verified or the first sign-in is refused, by design.
     #
     # Then set, in `.env`:
-    #     SSO_OIDC_ISSUER=http://localhost:8080/realms/ortha
-    #     SSO_OIDC_CLIENT_ID=ortha-cms
+    #     SSO_OIDC_ISSUER=http://localhost:8080/realms/apograph
+    #     SSO_OIDC_CLIENT_ID=apograph-cms
     #     SSO_OIDC_CLIENT_SECRET=<from the client's Credentials tab>
     #     SSO_OIDC_NAME=keycloak
     #     SSO_OIDC_LABEL=Keycloak
@@ -43,7 +43,7 @@ services:
     # clear text is exactly what the check exists to prevent.
     keycloak:
         image: quay.io/keycloak/keycloak:26.0
-        container_name: ortha-keycloak
+        container_name: apograph-keycloak
         profiles: ['sso']
         restart: unless-stopped
         command: ['start-dev']
@@ -54,8 +54,8 @@ services:
         ports:
             - '8080:8080'
         volumes:
-            - ortha-keycloak:/opt/keycloak/data
+            - apograph-keycloak:/opt/keycloak/data
 
 volumes:
-    ortha-pgdata:
-    ortha-keycloak:
+    apograph-pgdata:
+    apograph-keycloak:

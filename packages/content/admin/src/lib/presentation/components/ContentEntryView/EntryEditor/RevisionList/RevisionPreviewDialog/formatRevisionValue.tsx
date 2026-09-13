@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import type { IntlShape } from 'react-intl';
-import { Badge } from '@orthacms/design-system';
+import { Badge } from '@apograph/design-system';
 import type { ContentField } from '../../../../../../domain/types/contentType';
 import { CONTENT_FIELD_TYPE } from '../../../../../../domain/constants';
 import { richTextExcerpt } from '../../../../../../domain/richTextExcerpt';

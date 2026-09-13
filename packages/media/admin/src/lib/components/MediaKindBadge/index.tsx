@@ -1,5 +1,5 @@
 import { defineMessages, useIntl } from 'react-intl';
-import { Badge } from '@orthacms/design-system';
+import { Badge } from '@apograph/design-system';
 import { MEDIA_KIND, type MediaKind } from '../../constants';
 import { MediaKindIcon } from '../MediaKindIcon';
 

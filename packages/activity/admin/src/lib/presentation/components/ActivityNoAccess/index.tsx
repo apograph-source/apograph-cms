@@ -6,7 +6,7 @@ import {
     EmptyHeader,
     EmptyMedia,
     EmptyTitle
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 
 /** Intl descriptors for {@link ActivityNoAccess}, co-located. */
 const messages = defineMessages({

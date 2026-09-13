@@ -1,5 +1,5 @@
 import { join } from 'node:path';
-import type { ServerPlugin } from '@orthacms/bootstrap-server';
+import type { ServerPlugin } from '@apograph/bootstrap-server';
 import { SegmentsModule } from '../segments.module';
 import { describeSegmentsApi } from '../docs/describe-segments-api';
 import type { SegmentsPluginConfig } from '../types/segments-config';

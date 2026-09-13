@@ -1,6 +1,6 @@
 import { BadRequestException, ForbiddenException } from '@nestjs/common';
-import { PERMISSIONS } from '@orthacms/identity-server';
-import type { ToolContext } from '@orthacms/tools-server';
+import { PERMISSIONS } from '@apograph/identity-server';
+import type { ToolContext } from '@apograph/tools-server';
 import { PublicListEntriesQueryDto } from '../public-api/http/dto/public-list-entries-query.dto';
 import {
     assertDraftVisibility,

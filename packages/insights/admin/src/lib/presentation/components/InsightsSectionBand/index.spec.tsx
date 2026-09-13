@@ -183,7 +183,10 @@ describe('InsightsSectionBand widget isolation', () => {
                 <IntlProvider locale="en">
                     <MemoryRouter initialEntries={['/insights']}>
                         <InsightsRangeProvider>
-                            <button type="button" onClick={() => setTick(tick + 1)}>
+                            <button
+                                type="button"
+                                onClick={() => setTick(tick + 1)}
+                            >
                                 re-render
                             </button>
                             <InsightsSectionBand
@@ -261,7 +264,9 @@ describe('InsightsSectionBand widget width', () => {
         // The guard is `Object.hasOwn`, not a truthiness check on the lookup:
         // `SIZE_SPAN['constructor']` reads back a function, which `cn` also
         // drops, and the widget ends up in the same one-column sliver.
-        expect(wrapperClass('inherited')).toContain('col-span-12 lg:col-span-6');
+        expect(wrapperClass('inherited')).toContain(
+            'col-span-12 lg:col-span-6'
+        );
         expect(wrapperClass('stringly')).toContain('col-span-12 lg:col-span-6');
     });
 });

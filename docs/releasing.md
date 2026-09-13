@@ -1,6 +1,6 @@
 # Releasing to npm
 
-Every package under `packages/` is published to the `@orthacms` scope in one
+Every package under `packages/` is published to the `@apograph` scope in one
 lockstep release: one version, one tag, one GitHub Release, 37 tarballs.
 
 ## Running a release from your machine
@@ -28,7 +28,7 @@ wins over it.
 
 |                |                                                                                                                                                                                                                               |
 | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `NPM_TOKEN`    | An npm automation token with publish rights on the `@orthacms` scope. It is handed to npm as configuration in the child process, never written to an `.npmrc`. Leave it empty to publish as whoever `npm login` logged in as. |
+| `NPM_TOKEN`    | An npm automation token with publish rights on the `@apograph` scope. It is handed to npm as configuration in the child process, never written to an `.npmrc`. Leave it empty to publish as whoever `npm login` logged in as. |
 | `GITHUB_TOKEN` | A token with `repo` access. `nx release` creates the GitHub Release with it.                                                                                                                                                  |
 
 ### What it refuses to do
@@ -50,13 +50,13 @@ tick **dry-run** to rehearse. It needs one repository secret, `NPM_TOKEN`.
 
 |            |                                                                     |
 | ---------- | ------------------------------------------------------------------- |
-| Scope      | every project matching `@orthacms/*` except `@orthacms/nx`          |
+| Scope      | every project matching `@apograph/*` except `@apograph/nx`          |
 | Versioning | **fixed** — all packages move together, always the same version     |
 | Specifier  | conventional commits (`feat:` → minor, `fix:` → patch, `!` → major) |
 | Tag        | `v{version}`                                                        |
 | Changelog  | one workspace-level `CHANGELOG.md`, no per-project files            |
 
-`@orthacms/nx` is `private` and stays out: it is workspace tooling, wired
+`@apograph/nx` is `private` and stays out: it is workspace tooling, wired
 into this repo's `nx.json`, not something a consumer installs.
 
 The apps (`apps/admin`, `apps/server`) are private and never publish. They are
@@ -64,35 +64,35 @@ the reference host, not a distributable.
 
 ### The scaffolder's template needs no version edit
 
-`create-ortha-app` writes every `@orthacms/*` dependency as `__ORTHA_VERSION__`
+`create-apograph-app` writes every `@apograph/*` dependency as `__APOGRAPH_VERSION__`
 and stamps it with **its own version** at scaffold time, so a release carries
 the generated app forward with nothing to update by hand. There is no list of
 versions in the template to fall behind.
 
 What a release *does* assume is that the template knows about every package.
 Adding one to the workspace without classifying it in
-[`packages/create-ortha-app/src/lib/features.ts`](../packages/create-ortha-app/src/lib/features.ts)
-fails `create-ortha-app`'s tests — deliberately, so the decision "does a new app
+[`packages/create-apograph-app/src/lib/features.ts`](../packages/create-apograph-app/src/lib/features.ts)
+fails `create-apograph-app`'s tests — deliberately, so the decision "does a new app
 get this?" is made when the package is written rather than discovered by a user
 months later.
 
-`create-ortha-app` is the one published package **outside** the `@orthacms`
-scope — unscoped so `npx create-ortha-app` works — so it is named explicitly in
+`create-apograph-app` is the one published package **outside** the `@apograph`
+scope — unscoped so `npx create-apograph-app` works — so it is named explicitly in
 `release.projects` and in the `preVersionCommand` rather than being picked up by
-the `@orthacms/*` glob. It ships in lockstep for a reason beyond tidiness: it
-stamps its own version into every `@orthacms/*` dependency of the app it
+the `@apograph/*` glob. It ships in lockstep for a reason beyond tidiness: it
+stamps its own version into every `@apograph/*` dependency of the app it
 generates, so its version *is* the matching set.
 
 ## How a tarball is built
 
 Workspace packages are consumed **from source** — their `exports` point at
-`./src/index.ts` and `tsconfig.base.json` supplies the `@orthacms/source`
+`./src/index.ts` and `tsconfig.base.json` supplies the `@apograph/source`
 condition (see [AGENTS.md](../AGENTS.md), "How packages resolve"). A consumer
 installing from npm has neither, so the checked-in manifest is not the one
 that ships.
 
 Three inferred targets do the work; all three come from
-[`@orthacms/nx`](../packages/nx/AGENTS.md), so a new package gets them by
+[`@apograph/nx`](../packages/nx/AGENTS.md), so a new package gets them by
 existing.
 
 1. **`build`** — `tsc --build tsconfig.lib.json`, emitting JS and `.d.ts` into
@@ -114,7 +114,7 @@ existing.
     installs cleanly and dies on its first `npx`, on someone else's machine,
     with an error about the command not existing rather than about the file.
 3. **`nx-release-publish`** — publishes that staging directory rather than the
-   project root, via `packageRoot`. It runs `@orthacms/nx:release-publish`
+   project root, via `packageRoot`. It runs `@apograph/nx:release-publish`
    rather than the `@nx/js` one, because 37 publishes in a row is more than
    npm will take at full speed — see [Rate limits](#rate-limits) below.
 
@@ -145,10 +145,10 @@ doubling to a 5 minute ceiling. That adds roughly three minutes to a clean
 release. To go slower (or faster) for one run:
 
 ```sh
-ORTHA_PUBLISH_DELAY=10000 ORTHA_PUBLISH_RETRIES=8 npm run release
+APOGRAPH_PUBLISH_DELAY=10000 APOGRAPH_PUBLISH_RETRIES=8 npm run release
 ```
 
-`ORTHA_PUBLISH_RETRY_BACKOFF` moves the first backoff. A dry run waits for
+`APOGRAPH_PUBLISH_RETRY_BACKOFF` moves the first backoff. A dry run waits for
 nothing — it writes nothing there is a limit on.
 
 Two consequences worth knowing:
@@ -193,12 +193,12 @@ unanswered, stop letting the release be the thing that creates names.
 
 #### Seeding the names ahead of the release
 
-`npm run release:reserve` creates the missing `@orthacms/*` names on its own,
+`npm run release:reserve` creates the missing `@apograph/*` names on its own,
 in batches, so that by the time a release runs every publish is a version bump
 — the case the gap and the backoff above already handle.
 
 ```sh
-npx nx run-many -t build,pack --projects=@orthacms/*
+npx nx run-many -t build,pack --projects=@apograph/*
 npm run release:reserve -- --dry-run        # probe and report, write nothing
 npm run release:reserve -- --limit=20       # create at most 20 names
 ```
@@ -206,7 +206,7 @@ npm run release:reserve -- --limit=20       # create at most 20 names
 Each run probes the registry, skips every name that is already there, and
 publishes the **real staged tarball** at `0.0.0-reserve.0` under the `reserve`
 dist-tag. Two things follow from that choice. `latest` stays unset, so
-`npm install @orthacms/<name>` finds nothing until the real release rather
+`npm install @apograph/<name>` finds nothing until the real release rather
 than installing a husk; and what goes out is a genuine package rather than an
 empty placeholder, which is what an anti-abuse system reads as squatting — the
 last thing to do while rationed. The reserved version does not disturb

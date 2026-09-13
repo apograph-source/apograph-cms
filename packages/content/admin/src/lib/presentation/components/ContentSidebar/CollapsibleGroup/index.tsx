@@ -3,7 +3,7 @@ import {
     Collapsible,
     CollapsibleContent,
     CollapsibleTrigger
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 import { ChevronRight } from 'lucide-react';
 
 type CollapsibleGroupProps = {

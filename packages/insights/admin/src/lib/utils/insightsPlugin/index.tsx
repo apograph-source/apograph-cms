@@ -1,9 +1,9 @@
 import { Suspense, lazy } from 'react';
-import type { AdminPlugin } from '@orthacms/bootstrap-admin';
+import type { AdminPlugin } from '@apograph/bootstrap-admin';
 import {
     WORKSPACE_ROUTE_SLOT,
     WORKSPACE_NAV_SLOT
-} from '@orthacms/workspaces-admin';
+} from '@apograph/workspaces-admin';
 import { BarChart3 } from 'lucide-react';
 import {
     INSIGHTS_SECTION_IDS,
@@ -77,7 +77,7 @@ export type InsightsAdminPlugin = AdminPlugin;
  *
  * It lives **strictly inside a workspace**: no top-level route, no global nav
  * entry — just a rail button (`order: 30`) and an `insights/*` route on the
- * workspace shell's slots (owned by `@orthacms/workspaces-admin`).
+ * workspace shell's slots (owned by `@apograph/workspaces-admin`).
  *
  * The plugin contributes **no widgets**. Every card on the page arrives through
  * `INSIGHTS_WIDGET_SLOT` from whichever package owns that data, and every band

@@ -1,6 +1,6 @@
 import { defineMessages, useIntl } from 'react-intl';
-import { useCurrentWorkspace } from '@orthacms/workspaces-admin';
-import { Avatar, AvatarFallback } from '@orthacms/design-system';
+import { useCurrentWorkspace } from '@apograph/workspaces-admin';
+import { Avatar, AvatarFallback } from '@apograph/design-system';
 
 const messages = defineMessages({
     unknown: {

@@ -1,7 +1,7 @@
 import { defineMessages, useIntl } from 'react-intl';
 import { Globe, Lock } from 'lucide-react';
-import type { RevisionExtraValueContext } from '@orthacms/content-admin';
-import { Badge } from '@orthacms/design-system';
+import type { RevisionExtraValueContext } from '@apograph/content-admin';
+import { Badge } from '@apograph/design-system';
 import { useSegmentLookup } from '../../../application/hooks';
 import type { EntryAccess } from '../../../domain/types';
 

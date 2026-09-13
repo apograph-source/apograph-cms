@@ -1,6 +1,6 @@
 import { Logger } from '@nestjs/common';
-import { createServer } from '@orthacms/bootstrap-server';
-import config from '../ortha.config';
+import { createServer } from '@apograph/bootstrap-server';
+import config from '../apograph.config';
 import { buildPlugins } from './plugins';
 
 createServer({

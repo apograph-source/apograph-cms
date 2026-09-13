@@ -1,4 +1,4 @@
-import type { SsoProvider, SsoRegistration } from '@orthacms/identity-domain';
+import type { SsoProvider, SsoRegistration } from '@apograph/identity-domain';
 import { IdentityPlugin, type IdentityPluginOptions } from './identity-plugin';
 import type { IdentityPluginConfig } from '../types';
 

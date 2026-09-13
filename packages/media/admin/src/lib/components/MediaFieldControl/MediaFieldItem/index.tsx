@@ -14,8 +14,8 @@ import {
     FieldLabel,
     Input,
     cn
-} from '@orthacms/design-system';
-import { MEDIA_ALT_MAX_LENGTH } from '@orthacms/content-domain';
+} from '@apograph/design-system';
+import { MEDIA_ALT_MAX_LENGTH } from '@apograph/content-domain';
 import { MEDIA_KIND, type MediaKind } from '../../../constants';
 import type { MediaFieldDisplay } from '../../../types/mediaFieldDisplay';
 import { assetGradient } from '../../../utils/assetGradient';

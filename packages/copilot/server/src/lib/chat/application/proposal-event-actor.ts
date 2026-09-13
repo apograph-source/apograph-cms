@@ -1,5 +1,5 @@
-import type { EventActor } from '@orthacms/database';
-import type { ProposalActor } from '@orthacms/copilot-domain';
+import type { EventActor } from '@apograph/database';
+import type { ProposalActor } from '@apograph/copilot-domain';
 
 /**
  * The {@link EventActor} an applier stamps on the domain events its write
@@ -19,7 +19,7 @@ import type { ProposalActor } from '@orthacms/copilot-domain';
  * exactly the row this exists to prevent — with nothing failing anywhere.
  *
  * **It lives here, not in `copilot-domain`, because that package imports
- * nothing** — not even `@orthacms/database` — and `EventActor` would be an
+ * nothing** — not even `@apograph/database` — and `EventActor` would be an
  * import. Every package that binds an applier already depends on this one for
  * `copilotAppliersRegistrar`, so there is nothing new in the graph.
  */

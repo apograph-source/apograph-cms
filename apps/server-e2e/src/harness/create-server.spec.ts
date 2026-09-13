@@ -8,8 +8,8 @@ import {
     setupApiDocs,
     type ApiDocsOptions,
     type ServerPlugin
-} from '@orthacms/bootstrap-server';
-import { closeDatabase } from '@orthacms/database';
+} from '@apograph/bootstrap-server';
+import { closeDatabase } from '@apograph/database';
 import request from 'supertest';
 import { buildTestPlugins } from '../support/plugins';
 import { resolveDatabaseUrl } from '../support/db-url';
@@ -313,7 +313,7 @@ describe('createServer (the host bootstrap)', () => {
         let bundle: string;
 
         beforeEach(() => {
-            bundle = mkdtempSync(join(tmpdir(), 'ortha-admin-'));
+            bundle = mkdtempSync(join(tmpdir(), 'apograph-admin-'));
             writeFileSync(join(bundle, 'index.html'), '<!doctype html>ADMIN');
             mkdirSync(join(bundle, 'assets'));
             writeFileSync(join(bundle, 'assets/app.js'), 'export const x = 1;');

@@ -67,8 +67,6 @@ export function owningRelationFields(
 }
 
 /** Media fields of a type. */
-export function mediaFields(
-    schema: TransferTypeSchema
-): TransferFieldSchema[] {
+export function mediaFields(schema: TransferTypeSchema): TransferFieldSchema[] {
     return schema.fields.filter((field) => field.type === 'media');
 }

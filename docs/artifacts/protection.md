@@ -10,8 +10,8 @@ This dossier is the combined technical and business description, and every claim
 read out of the source rather than out of those two documents — where they disagree with
 the code, §16 says so.
 
-**Packages:** `@orthacms/protection-domain`, `@orthacms/protection-server`,
-`@orthacms/protection-admin`. **Tables owned:** three. **Configuration:** none.
+**Packages:** `@apograph/protection-domain`, `@apograph/protection-server`,
+`@apograph/protection-admin`. **Tables owned:** three. **Configuration:** none.
 
 ## Contents
 

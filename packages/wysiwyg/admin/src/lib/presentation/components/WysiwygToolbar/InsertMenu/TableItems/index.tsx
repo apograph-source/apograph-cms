@@ -4,7 +4,7 @@ import {
     DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuSeparator
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 import { useLiveEditorState } from '../../../../hooks/useLiveEditorState';
 
 const messages = defineMessages({

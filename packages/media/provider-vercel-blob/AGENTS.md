@@ -1,4 +1,4 @@
-# @orthacms/media-provider-vercel-blob
+# @apograph/media-provider-vercel-blob
 
 Vercel Blob — the smallest adapter in the set, and the one with a caveat that
 belongs in a deployment decision rather than in code.
@@ -62,7 +62,7 @@ same one a caller could substitute to route through their own transport.
 
 ## Testing
 
-`npx nx test @orthacms/media-provider-vercel-blob` runs the shared contract plus
+`npx nx test @apograph/media-provider-vercel-blob` runs the shared contract plus
 this adapter's own cases against `FakeBlobApi`, which also serves the blobs over
 a stubbed global `fetch` so `get` is exercised end to end.
 
@@ -73,6 +73,6 @@ person, that it is public.
 
 ## Commands
 
-- `npx nx test @orthacms/media-provider-vercel-blob` /
-  `npx nx typecheck @orthacms/media-provider-vercel-blob` /
-  `npx nx lint @orthacms/media-provider-vercel-blob`
+- `npx nx test @apograph/media-provider-vercel-blob` /
+  `npx nx typecheck @apograph/media-provider-vercel-blob` /
+  `npx nx lint @apograph/media-provider-vercel-blob`

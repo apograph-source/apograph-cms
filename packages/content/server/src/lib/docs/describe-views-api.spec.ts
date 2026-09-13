@@ -1,4 +1,4 @@
-import type { OpenApiDocument } from '@orthacms/bootstrap-server';
+import type { OpenApiDocument } from '@apograph/bootstrap-server';
 import type { SerializedContentType } from '../registry/content-type-registry';
 import { describeViewsApi } from './describe-views-api';
 

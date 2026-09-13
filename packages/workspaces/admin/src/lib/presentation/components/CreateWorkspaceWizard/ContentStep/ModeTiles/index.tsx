@@ -1,5 +1,5 @@
 import { defineMessages, useIntl } from 'react-intl';
-import { cn, RadioGroup, RadioGroupItem } from '@orthacms/design-system';
+import { cn, RadioGroup, RadioGroupItem } from '@apograph/design-system';
 import type { ContentMode } from '../../../../../domain/types/wizard';
 
 const messages = defineMessages({

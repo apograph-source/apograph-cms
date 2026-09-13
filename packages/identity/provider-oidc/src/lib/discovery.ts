@@ -1,4 +1,4 @@
-import { SsoVerificationError } from '@orthacms/identity-domain';
+import { SsoVerificationError } from '@apograph/identity-domain';
 import type { OidcEndpoints, ResolvedOidcConfig } from './config';
 
 /** The fields this adapter reads out of a discovery document. */

@@ -5,11 +5,7 @@ import {
     type TestApp
 } from '../../support/test-app';
 import { TEST_ALLOWED_ORIGIN } from '../../support/test-config';
-import {
-    resetDb,
-    seedActiveUser,
-    seedWorkspace
-} from '../../support/seed';
+import { resetDb, seedActiveUser, seedWorkspace } from '../../support/seed';
 import { webhookEndpoints } from '../../support/webhooks';
 
 const ADMIN_EMAIL = 'webhook-endpoints-admin@example.com';
@@ -161,7 +157,7 @@ describe('Webhook endpoints API', () => {
                     url: 'https://example.com/hooks',
                     // Setting this would let configuration claim a delivery was
                     // something it is not.
-                    headers: { 'X-Ortha-Event': 'entry.published' }
+                    headers: { 'X-Apograph-Event': 'entry.published' }
                 })
                 .expect(422);
         });

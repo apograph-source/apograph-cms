@@ -1,9 +1,12 @@
-import type { SsoAuthorizeRequest, SsoCallback } from '@orthacms/identity-domain';
+import type {
+    SsoAuthorizeRequest,
+    SsoCallback
+} from '@apograph/identity-domain';
 
 /** What `fetch` accepts as its first argument, from the platform's signature. */
 type FetchInput = Parameters<typeof globalThis.fetch>[0];
 
-export const CLIENT_ID = 'Iv1.ortha';
+export const CLIENT_ID = 'Iv1.apograph';
 export const REDIRECT_URI = 'https://cms.test/api/auth/sso/github/callback';
 
 /** The one-attempt secrets a core would have minted. */
@@ -41,7 +44,8 @@ export interface StubGithub {
 /** Builds a scripted GitHub. */
 export function stubGithub(options: StubOptions = {}): StubGithub {
     const state: StubGithub = {
-        fetch: (() => Promise.reject(new Error('unset'))) as typeof globalThis.fetch,
+        fetch: (() =>
+            Promise.reject(new Error('unset'))) as typeof globalThis.fetch,
         calls: { token: 0, user: 0, emails: 0 },
         lastTokenBody: null,
         lastAuthHeader: null

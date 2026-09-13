@@ -1,8 +1,8 @@
 import { Injectable, Optional, type OnModuleInit } from '@nestjs/common';
-import { PERMISSIONS } from '@orthacms/identity-server';
-import type { ProposalDraft } from '@orthacms/copilot-domain';
-import { ToolRegistry } from '@orthacms/tools-server';
-import type { ToolDefinition, ToolProvider } from '@orthacms/tools-server';
+import { PERMISSIONS } from '@apograph/identity-server';
+import type { ProposalDraft } from '@apograph/copilot-domain';
+import { ToolRegistry } from '@apograph/tools-server';
+import type { ToolDefinition, ToolProvider } from '@apograph/tools-server';
 import { AssetViewQuery } from '../infrastructure/queries/asset-view.query';
 import { MEDIA_PROPOSAL_KINDS } from './proposal-kinds';
 

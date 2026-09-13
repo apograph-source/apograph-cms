@@ -1,6 +1,6 @@
 import { defineMessages, useIntl } from 'react-intl';
 import type { DeliveryStatus } from '../../../domain/types/webhook';
-import { Badge } from '@orthacms/design-system';
+import { Badge } from '@apograph/design-system';
 
 const messages = defineMessages({
     pending: { id: 'webhooks.status.pending', defaultMessage: 'Queued' },

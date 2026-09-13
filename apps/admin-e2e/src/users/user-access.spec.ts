@@ -24,7 +24,7 @@ const KATHERINE = DEFAULT_MEMBERS[3];
 
 /**
  * The Access tab's **sign-in access** card (`/users/:id/access`,
- * `@orthacms/users-admin`) — the suspend/reactivate half. Its password half is
+ * `@apograph/users-admin`) — the suspend/reactivate half. Its password half is
  * `password-reset.spec.ts`.
  *
  * The same *operation* is driven from the members list in

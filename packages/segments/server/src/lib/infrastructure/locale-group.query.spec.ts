@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import type { SQL } from 'drizzle-orm';
 import { PgDialect, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
-import type { AnyContentType } from '@orthacms/content-server';
+import type { AnyContentType } from '@apograph/content-server';
 import { entryBelongsTo, localeGroupIds } from './locale-group.query';
 
 /** A localized content table, as content's builder produces one. */
@@ -198,11 +198,11 @@ describe('entryBelongsTo', () => {
 describe('the locale group is answered without i18n', () => {
     /**
      * An entitlement rule must not depend on a plugin the deployment may not
-     * have installed. If it did, an installation without `@orthacms/i18n-server`
+     * have installed. If it did, an installation without `@apograph/i18n-server`
      * would fail to resolve the group — and the failure would land on the write
      * that decides who may read published content.
      */
-    it('needs no dependency on @orthacms/i18n-server [segments:I-15]', () => {
+    it('needs no dependency on @apograph/i18n-server [segments:I-15]', () => {
         const manifest = JSON.parse(
             readFileSync(
                 join(__dirname, '..', '..', '..', 'package.json'),
@@ -215,9 +215,9 @@ describe('the locale group is answered without i18n', () => {
             ...manifest.devDependencies
         };
 
-        expect(Object.keys(declared)).not.toContain('@orthacms/i18n-server');
+        expect(Object.keys(declared)).not.toContain('@apograph/i18n-server');
         expect(
             readFileSync(join(__dirname, 'locale-group.query.ts'), 'utf-8')
-        ).not.toContain("from '@orthacms/i18n-server'");
+        ).not.toContain("from '@apograph/i18n-server'");
     });
 });

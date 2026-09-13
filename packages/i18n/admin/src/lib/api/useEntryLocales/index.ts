@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { apiClient, toApiError } from '@orthacms/utils-admin';
-import { useCurrentWorkspace } from '@orthacms/workspaces-admin';
+import { apiClient, toApiError } from '@apograph/utils-admin';
+import { useCurrentWorkspace } from '@apograph/workspaces-admin';
 import { I18N_CONTENT_PATH } from '../../constants';
 import type { EntryLocalesResult } from '../../types/locale';
 
