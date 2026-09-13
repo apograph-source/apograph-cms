@@ -2,7 +2,7 @@ import { createJiti } from 'jiti';
 import { transformSync } from '@swc/core';
 
 /**
- * jiti transform hook delegating to swc. Loading the host's `ortha.config.ts`
+ * jiti transform hook delegating to swc. Loading the host's `apograph.config.ts`
  * or its `buildPlugins` pulls in the plugin graph (NestJS modules, their
  * DTOs), which uses **legacy** decorators (`experimentalDecorators`). jiti's
  * bundled babel ignores our tsconfig and defaults to the stage-3 decorator

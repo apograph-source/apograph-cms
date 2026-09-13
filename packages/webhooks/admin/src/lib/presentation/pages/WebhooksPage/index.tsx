@@ -1,16 +1,16 @@
 import { defineMessages, useIntl } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
 import { Plus, Webhook } from 'lucide-react';
-import { PageTopBar } from '@orthacms/shell-admin';
-import { useHasPermission } from '@orthacms/identity-admin';
-import { useDocumentTitle } from '@orthacms/utils-admin';
+import { PageTopBar } from '@apograph/shell-admin';
+import { useHasPermission } from '@apograph/identity-admin';
+import { useDocumentTitle } from '@apograph/utils-admin';
 import {
     Alert,
     AlertDescription,
     Button,
     Container,
     ContainerHeader
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 import { useWebhookEndpoints } from '../../../application/useWebhookEndpoints';
 import { WebhooksTable } from '../../components/WebhooksTable';
 import { WebhooksEmpty } from '../../components/WebhooksEmpty';

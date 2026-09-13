@@ -9,7 +9,7 @@ import {
     Skeleton,
     TopBar,
     TopBarIcon
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 
 /** Intl descriptors for the insights skeleton, co-located here. */
 const messages = defineMessages({

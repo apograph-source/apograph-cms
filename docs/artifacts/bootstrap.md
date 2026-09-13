@@ -4,7 +4,7 @@ _Package group · packages/bootstrap_
 
 **The two hosts that turn a list of plugins into a running application**
 
-Bootstrap is the one part of OrthaCMS that has **no product feature in it at all**. No authentication, no content, no tables, no business routes. It is two composition roots — `createServer` for the NestJS API and `createAdmin` for the React admin UI — that take an array of plugins and assemble an application out of it, setting the cross-cutting rules exactly once along the way: the prefix, validation, proxy trust, the request-body ceiling, OpenAPI generation, the React root, the router, the providers, the error boundary and the announcing of navigation.
+Bootstrap is the one part of Apograph that has **no product feature in it at all**. No authentication, no content, no tables, no business routes. It is two composition roots — `createServer` for the NestJS API and `createAdmin` for the React admin UI — that take an array of plugins and assemble an application out of it, setting the cross-cutting rules exactly once along the way: the prefix, validation, proxy trust, the request-body ceiling, OpenAPI generation, the React root, the router, the providers, the error boundary and the announcing of navigation.
 
 - **2** packages in the group
 - **5** fields in the ServerPlugin contract
@@ -34,12 +34,12 @@ Bootstrap is the one part of OrthaCMS that has **no product feature in it at all
 
 ## 01. Business description
 
-OrthaCMS is not a monolith with features bolted on. It is a small, deliberately stupid **host** that turns a _list of plugins_ into an application. The host knows no domain at all: not what a user is, not what a content entry is, not what a workspace is. All of that lives in plugins. The decision is recorded in ADR-0002 “Plugin-based architecture” and is the defining one for the whole architecture.
+Apograph is not a monolith with features bolted on. It is a small, deliberately stupid **host** that turns a _list of plugins_ into an application. The host knows no domain at all: not what a user is, not what a content entry is, not what a workspace is. All of that lives in plugins. The decision is recorded in ADR-0002 “Plugin-based architecture” and is the defining one for the whole architecture.
 
 ### What it buys the product
 
 - **An installation is assembled for the customer, not trimmed down for them.** A deployment that needs neither the AI copilot nor MCP nor GraphQL simply does not register those plugins. Nothing is “switched off by a flag”, nothing hangs around as dead code in the bundle — the corresponding routes, tables and screens are physically absent from that build.
-- **The product can be handed out.** It is precisely because an application _is_ a list of plugins that `npx create-ortha-app` exists: the generated application is the same `createServer` and the same `createAdmin`, only with a different list. The host does not distinguish “a plugin from the monorepo” from “a plugin installed from npm”: both present one interface.
+- **The product can be handed out.** It is precisely because an application _is_ a list of plugins that `npx create-apograph-app` exists: the generated application is the same `createServer` and the same `createAdmin`, only with a different list. The host does not distinguish “a plugin from the monorepo” from “a plugin installed from npm”: both present one interface.
 - **A new capability does not touch existing code.** Adding a feature means adding a package and one line to `apps/server/src/plugins.ts` or `apps/admin/src/plugins.ts`. The host's own files are never opened. That is not an aesthetic point: it is the reason the fifteenth feature costs what the second one did.
 - **Cross-cutting rules apply once, to everyone.** Strict body validation, the ceiling on its size, the global prefix, proxy trust, a graceful shutdown on SIGTERM — all set in one place. A plugin cannot “forget” to apply them, because it has nothing to apply.
 
@@ -63,7 +63,7 @@ This is a case where the list of what is missing matters more than the list of w
 
 - **It is not authentication.** The server host contains not a single guard. The admin host does not know the words `RequireAuth`, `signInPath` or “current user”. Authentication lives entirely in `identity`, and its assembly into an application in `shell`.
 - **It is not a plugin registry.** There is no discovery, no manifests, no loading by name. The plugin list is an array in the application's code, and that is deliberate minimalism: an array can be read, sorted and covered by a test.
-- **It is not a data layer.** The database connection is opened by the `@orthacms/database` plugin in its own hook; the host merely calls the hooks in order. The TanStack Query client and the axios client live in `@orthacms/utils-admin`, and the host only mounts the provider.
+- **It is not a data layer.** The database connection is opened by the `@apograph/database` plugin in its own hook; the host merely calls the hooks in order. The TanStack Query client and the axios client live in `@apograph/utils-admin`, and the host only mounts the provider.
 - **It is not a set of slots.** The host can _wire up_ contributions into slots, but it defines none and reads none. All 26 slots belong to plugins.
 - **It is not migrations.** The host carries the `migrations` descriptor from a plugin over to the tooling; it applies nothing itself and does not even resolve the path at load time.
 
@@ -77,8 +77,8 @@ The `packages/bootstrap` group is exactly two packages, one per runtime. They do
 
 | Package | npm name                   | Entry point           | What it owns                                                                                                                                                                  |
 | ------- | -------------------------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| server  | @orthacms/bootstrap-server | createServer(options) | Assembling the Nest application, the global prefix, `ValidationPipe`, proxy trust, the body ceiling, OpenAPI + Scalar, serving the admin bundle, shutdown hooks               |
-| admin   | @orthacms/bootstrap-admin  | createAdmin(options)  | Mounting the React root, the router, the providers (theming, queries, i18n, tooltips), the error boundary, announcing navigation, the unsaved-changes dialog, wiring up slots |
+| server  | @apograph/bootstrap-server | createServer(options) | Assembling the Nest application, the global prefix, `ValidationPipe`, proxy trust, the body ceiling, OpenAPI + Scalar, serving the admin bundle, shutdown hooks               |
+| admin   | @apograph/bootstrap-admin  | createAdmin(options)  | Mounting the React root, the router, the providers (theming, queries, i18n, tooltips), the error boundary, announcing navigation, the unsaved-changes dialog, wiring up slots |
 
 ### The public surface
 
@@ -105,15 +105,15 @@ The server package exports **3 values and 7 types**, the admin one **1 value and
 
 The server package depends on `@nestjs/common`, `@nestjs/core`, `@nestjs/platform-express`, `@nestjs/swagger` and `@scalar/nestjs-api-reference` — and **does not depend on `express` directly**. The request and response types in the static-file serving are declared structurally rather than imported: an import would make `express` a phantom dependency — resolvable in the monorepo thanks to root hoisting and absent for a consumer. The `verifyDependenciesAreDeclared` check in `pack.mjs` will not publish such a build.
 
-The admin package depends on `@orthacms/design-system`, `@orthacms/utils-admin`, `@tanstack/react-query` and `react-intl`; React, ReactDOM and `react-router-dom` are declared as peer dependencies. Note what is not here: `@orthacms/identity-admin`. The host physically cannot import authentication.
+The admin package depends on `@apograph/design-system`, `@apograph/utils-admin`, `@tanstack/react-query` and `react-intl`; React, ReactDOM and `react-router-dom` are declared as peer dependencies. Note what is not here: `@apograph/identity-admin`. The host physically cannot import authentication.
 
 > **Neighbours easily confused with it**
 >
-> **`@orthacms/shell-admin`** is _not_ a host. Shell is an ordinary plugin that simply happens to be the only one contributing a `layout`: `AuthProvider` + `RequireAuth` + the application chrome are assembled inside it. **`@orthacms/utils-admin`** is the shared leaf library: the `createSlot` primitive, `queryClient`, `apiClient`. The host takes `queryClient` and `wireSlotContributions` from there, but plugins go there directly, bypassing the host. **`@orthacms/cli`** and **`@orthacms/nx`** are the consumers of the `migrations` descriptor: they, not the host, are what applies migrations.
+> **`@apograph/shell-admin`** is _not_ a host. Shell is an ordinary plugin that simply happens to be the only one contributing a `layout`: `AuthProvider` + `RequireAuth` + the application chrome are assembled inside it. **`@apograph/utils-admin`** is the shared leaf library: the `createSlot` primitive, `queryClient`, `apiClient`. The host takes `queryClient` and `wireSlotContributions` from there, but plugins go there directly, bypassing the host. **`@apograph/cli`** and **`@apograph/nx`** are the consumers of the `migrations` descriptor: they, not the host, are what applies migrations.
 
 ## 03. The `ServerPlugin` contract
 
-This is the central interface of the entire system: everything the server side of OrthaCMS can do arrives in the application through it. There are exactly **five** fields, of which **two** are required. That narrowness is deliberate: the less the host knows about a plugin, the fewer reasons a plugin has to depend on the host.
+This is the central interface of the entire system: everything the server side of Apograph can do arrives in the application through it. There are exactly **five** fields, of which **two** are required. That narrowness is deliberate: the less the host knows about a plugin, the fewer reasons a plugin has to depend on the host.
 
 ```
 export interface ServerPlugin {
@@ -133,7 +133,7 @@ export interface ServerPlugin {
 | name         | yes  | Does not affect the application's behaviour. Used in the logs, in the message about a failed `onPluginInit`, in the message about a failed `decorate`, in the migration-application line and in the composition tests                          | A duplicate name is checked by nothing: two plugins named `content` will assemble and start. The price is unreadable diagnostics: the message “Plugin "content" failed” will not say which of the two                                        |
 | module       | yes  | The only thing that actually reaches Nest: `ServerModule.forRoot` puts the value into the root module's `imports`. It accepts both a class and a dynamic module — the latter being the standard way to thread a plugin's configuration through | A module whose provider requires an unavailable dependency brings the graph build down inside `NestFactory.create` — **after** every `onPluginInit`, so by that point open resources already exist                                           |
 | onPluginInit | no   | Called **before** the Nest application is created, in array order, with `await`. This is the place for one-off preparation that has to finish before the first provider is instantiated                                                        | A throw is wrapped: the host logs `Plugin "X" failed in onPluginInit; the server cannot start.` and rethrows. `main.ts` catches it and exits with code 1. This used to be a bare unhandled rejection with no plugin name                     |
-| migrations   | no   | The host **does nothing with it at startup**. The descriptor is read by the tooling: `applyPluginMigrations` in `@orthacms/cli` and the `db:migrate` executor from `@orthacms/nx`, walking the same plugin array                               | A `table` shared by two plugins glues their migration histories into one bookkeeping table — and the second plugin will conclude its migrations are already applied. That is exactly why `plugins.spec.ts` checks that the tables are unique |
+| migrations   | no   | The host **does nothing with it at startup**. The descriptor is read by the tooling: `applyPluginMigrations` in `@apograph/cli` and the `db:migrate` executor from `@apograph/nx`, walking the same plugin array                               | A `table` shared by two plugins glues their migration histories into one bookkeeping table — and the second plugin will conclude its migrations are already applied. That is exactly why `plugins.spec.ts` checks that the tables are unique |
 | docs         | no   | A contribution to the shared OpenAPI document: authentication schemes, document-level requirements and a final `decorate` pass. Assembled in `setupApiDocs` in registration order                                                              | A throw in `decorate` is caught **per plugin**: only that plugin's contribution is lost, the error is logged, and the server carries on coming up. Before that guard, one bad `decorate` brought all of `createServer` down                  |
 
 ### 3.1 `name` — an identifier for a human, not for a machine
@@ -156,7 +156,7 @@ export class ServerModule {
 }
 ```
 
-There is no filtering here, no sorting, no duplicate check. Which is exactly why **a plugin's position in the array decides almost nothing for DI**: plugin modules in OrthaCMS are global, and Nest builds the whole graph before instantiating. Measured: moving `IdentityPlugin` above `DatabasePlugin` yields a fully working server.
+There is no filtering here, no sorting, no duplicate check. Which is exactly why **a plugin's position in the array decides almost nothing for DI**: plugin modules in Apograph are global, and Nest builds the whole graph before instantiating. Measured: moving `IdentityPlugin` above `DatabasePlugin` yields a fully working server.
 
 The standard form is a factory returning a dynamic module with the configuration inside:
 
@@ -242,7 +242,7 @@ docs: {
         apiToken: {
             type: 'http',
             scheme: 'bearer',
-            bearerFormat: 'orthacms_<random>',
+            bearerFormat: 'apograph_<random>',
             description: 'External API token minted by `POST /api/api-tokens` …'
         }
     },
@@ -381,7 +381,7 @@ All of `createServer` is about a hundred lines, but the order within them is car
 
 1. **Parsing the options and their defaults.** `port = 3000`, `globalPrefix = 'api'`, `bodyLimit = '1mb'`. `trustProxy`, `docs` and `staticDir` have no defaults — their absence is itself a mode.
    _1 MB is spelled out so as not to inherit express's 100 kB_
-2. **The `onPluginInit` hooks, in array order, awaited.** Each in a `try/catch` that names the plugin. This is where `@orthacms/database` opens the pool, so by the next step the connection is already live.
+2. **The `onPluginInit` hooks, in array order, awaited.** Each in a `try/catch` that names the plugin. This is where `@apograph/database` opens the pool, so by the next step the connection is already live.
    _a failure here = the server does not start, exit code 1_
 3. **`NestFactory.create(ServerModule.forRoot(plugins))`.** The whole graph of modules and providers is built. The application exists, but is not listening on anything yet.
    _typed as NestExpressApplication — the adapter's methods are needed further down_
@@ -548,7 +548,7 @@ The subtlety is that naively reading the `<h1>` right after a path change announ
 
 ## 07. The slot system
 
-A slot is a named extension point into which plugins put **pure data**. The primitive lives in `@orthacms/utils-admin`, slots are defined by the consuming plugins, and the host does exactly one thing: it wires the contributions up before the first render. Today's build defines **26 slots across six packages**.
+A slot is a named extension point into which plugins put **pure data**. The primitive lives in `@apograph/utils-admin`, slots are defined by the consuming plugins, and the host does exactly one thing: it wires the contributions up before the first render. Today's build defines **26 slots across six packages**.
 
 | Owner            | Slots | What is extended                                                                                                                                                                                                                       |
 | ---------------- | ----- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -685,7 +685,7 @@ The order in `apps/admin/src/plugins.ts`: identity first (the only contributor o
 
 ## 09. Configuration and environment
 
-Neither host **reads `process.env` even once** — with one exception, covered below. The typed configuration is assembled by the application: `apps/server/ortha.config.ts` is the only place that touches the environment, and it hands `createServer` finished values.
+Neither host **reads `process.env` even once** — with one exception, covered below. The typed configuration is assembled by the application: `apps/server/apograph.config.ts` is the only place that touches the environment, and it hands `createServer` finished values.
 
 ```
 // apps/server/src/main.ts
@@ -705,13 +705,13 @@ createServer({
 
 | Variable         | Read by                                | What it becomes                                                                | Default                           |
 | ---------------- | -------------------------------------- | ------------------------------------------------------------------------------ | --------------------------------- |
-| PORT             | ortha.config.ts                        | `createServer.port`                                                            | 3000                              |
-| TRUST_PROXY      | ortha.config.ts                        | `trustProxy`: a hop count → a boolean → a preset string, checked in that order | unset — proxy headers are ignored |
-| MAX_REQUEST_BODY | ortha.config.ts                        | `bodyLimit`                                                                    | `'1mb'`                           |
-| API_DOCS         | ortha.config.ts                        | `docs.enabled`                                                                 | `NODE_ENV !== 'production'`       |
+| PORT             | apograph.config.ts                        | `createServer.port`                                                            | 3000                              |
+| TRUST_PROXY      | apograph.config.ts                        | `trustProxy`: a hop count → a boolean → a preset string, checked in that order | unset — proxy headers are ignored |
+| MAX_REQUEST_BODY | apograph.config.ts                        | `bodyLimit`                                                                    | `'1mb'`                           |
+| API_DOCS         | apograph.config.ts                        | `docs.enabled`                                                                 | `NODE_ENV !== 'production'`       |
 | NODE_ENV         | **the host itself**, in `setupApiDocs` | the default for `docs.enabled` when the option is not passed                   | —                                 |
-| DATABASE_URL     | ortha.config.ts                        | the `database` plugin's configuration, not the host's                          | required                          |
-| ADMIN_PORT       | ortha.config.ts                        | the dev admin UI's origin, for plugin settings; nothing to do with the host    | 4200                              |
+| DATABASE_URL     | apograph.config.ts                        | the `database` plugin's configuration, not the host's                          | required                          |
+| ADMIN_PORT       | apograph.config.ts                        | the dev admin UI's origin, for plugin settings; nothing to do with the host    | 4200                              |
 
 > **The one environment read inside the host**
 >
@@ -778,7 +778,7 @@ The `decorate` pass is wrapped per plugin, and the reasoning is exactly one line
 - **There is no migration-table uniqueness.** It is checked by an application test.
 - **There is no check that a `layout` actually protects anything.** The host sees an opaque `ReactNode` and cannot know what is inside.
 - **There is no sanitisation of contributions to the OpenAPI document.** `decorate` can rewrite anything, including somebody else's part.
-- **There is no connection-pool drain on shutdown.** The host enables the hooks, but `@orthacms/database` does not bind `onModuleDestroy`: the pool is not closed on shutdown. For a process that is exiting anyway this is harmless, and it is also the reason an embedding host that keeps running must call `closeDatabase()` itself.
+- **There is no connection-pool drain on shutdown.** The host enables the hooks, but `@apograph/database` does not bind `onModuleDestroy`: the pool is not closed on shutdown. For a process that is exiting anyway this is harmless, and it is also the reason an embedding host that keeps running must call `closeDatabase()` itself.
 
 ## 11. Invariants
 
@@ -923,11 +923,11 @@ Phrased as “action → expected result”, so they can go into a test case wit
 | ------------------------------------------------------------ | ------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Authentication and permissions                               | `identity-server` / `identity-admin`                               | Nothing. There are no guards; the server host even takes the document's authentication schemes from a plugin's contribution                                           |
 | Gating the admin UI's private routes                         | `shell-admin` (which assembles `AuthProvider` + `RequireAuth`)     | Mounts the first `layout` found as the single parent, without knowing what is inside                                                                                  |
-| The database connection                                      | `@orthacms/database`                                               | Calls `onPluginInit` in order — which is enough for the pool to be open before the graph is built                                                                     |
-| Applying migrations                                          | `@orthacms/cli` and `@orthacms/nx`                                 | Carries the `migrations` descriptor from the plugin over to the tooling; applies nothing itself                                                                       |
+| The database connection                                      | `@apograph/database`                                               | Calls `onPluginInit` in order — which is enough for the pool to be open before the graph is built                                                                     |
+| Applying migrations                                          | `@apograph/cli` and `@apograph/nx`                                 | Carries the `migrations` descriptor from the plugin over to the tooling; applies nothing itself                                                                       |
 | The database schema                                          | each plugin its own                                                | Zero tables. Even the generated content collection tables belong to the _application_, not to the host and not to the package                                         |
-| The HTTP client and the query client                         | `@orthacms/utils-admin`                                            | Imports `queryClient` to mount the provider; does not touch `apiClient` at all — plugins go there directly                                                            |
-| The slot primitive                                           | `@orthacms/utils-admin`                                            | Calls `wireSlotContributions`; defines and reads not one slot                                                                                                         |
+| The HTTP client and the query client                         | `@apograph/utils-admin`                                            | Imports `queryClient` to mount the provider; does not touch `apiClient` at all — plugins go there directly                                                            |
+| The slot primitive                                           | `@apograph/utils-admin`                                            | Calls `wireSlotContributions`; defines and reads not one slot                                                                                                         |
 | The specific slots and navigation items                      | `shell`, `content`, `workspaces`, `insights`, `copilot`, `wysiwyg` | Does not know the application has a sidebar                                                                                                                           |
 | Interface strings                                            | each plugin its own, next to the component                         | Provides the one `IntlProvider` and the missing-translation handler; has almost no strings of its own (the crash card, the unsaved-changes dialog, the “Close” label) |
 | The document title                                           | pages, via `documentTitle`                                         | Does not touch `document.title`; touches only `lang` and `dir`                                                                                                        |
@@ -956,7 +956,7 @@ Found while reconciling this dossier with the sources. Not product bugs in thems
 | ARCHITECTURE.md, §2                                                 | The `ServerPlugin` contract is given as four fields: `name`, `module`, `onPluginInit?`, `migrations?`                                                    | There are **five** fields: `docs?: PluginApiDocs` is missing — the only way to describe authentication and the only way for a plugin with a runtime contract (content) to reach the reference at all. A reader of that section will not learn the mechanism exists                                                                            |
 | packages/bootstrap/server/AGENTS.md, “Key exports”                  | “`ServerPlugin` — the plugin contract: `{ name, module, onPluginInit? }`”                                                                                | The same thing, only worse: **two** fields are missing at once — `migrations` and `docs` — even though the same document describes both in detail further down. The document contradicts itself                                                                                                                                               |
 | ARCHITECTURE.md, §4                                                 | “`packages/database` … It owns **no schemas and no migrations**”                                                                                         | It owns one table — the transactional outbox `outbox_events` — and carries its own migrations under `__drizzle_migrations_database`. This is the sanctioned exception, and the root `AGENTS.md` describes it correctly                                                                                                                        |
-| docs/adr/0002-plugin-based-architecture.md                          | “the shared `@orthacms/database` plugin owns the single connection **but no schema**”                                                                    | The same divergence as above. The ADR is marked “Accepted” and has not been updated since                                                                                                                                                                                                                                                     |
+| docs/adr/0002-plugin-based-architecture.md                          | “the shared `@apograph/database` plugin owns the single connection **but no schema**”                                                                    | The same divergence as above. The ADR is marked “Accepted” and has not been updated since                                                                                                                                                                                                                                                     |
 | ARCHITECTURE.md, §6                                                 | “The Content Library defines **five** of its own (records toolbar/columns/filter-fields, entry sidebar/params)”                                          | `content/admin` has **14** slots today: the listed ones plus the records list's menu and bulk actions, the entry's tabs, menu and header, overlays, pre-save, the extra revision block and the field control. The system-wide total is 26                                                                                                     |
 | ARCHITECTURE.md, §7 and §8                                          | “Sessions: … **signed** token in an httpOnly cookie”; “there is **no content model** … no LLM integration”                                               | A session is an opaque 256 bits of randomness, verified against a database row; there is no signature at all. And content, media and the copilot have long since shipped — the “what does not exist yet” section is stale in its entirety, and dangerous precisely because it reads as a current overview                                     |
 | packages/bootstrap/admin/AGENTS.md, “Architecture”                  | The provider tree is described as “`createRoot` + `<StrictMode>` + `<QueryClientProvider>` + `<IntlProvider>` + `<TooltipProvider>` + `<BrowserRouter>`” | The real tree also has `AppearanceProvider` (the outermost) and `DesignSystemLabels`. The neighbouring “Not owned here” section mentions `AppearanceProvider`, but also forgets `DesignSystemLabels`, even though it is the very layer that localises the library's labels                                                                    |
@@ -972,4 +972,4 @@ Found while reconciling this dossier with the sources. Not product bugs in thems
 
 **A dossier on the `packages/bootstrap` group.** The structure: business description → composition → the `ServerPlugin` contract → the `AdminPlugin` contract → starting the server → starting the admin UI → slots → order and collisions → configuration → security → invariants → checklist → boundaries → divergences. The “data model”, “HTTP API” and “roles and permissions” sections are deliberately absent: the hosts have no tables, no routes and no permissions — and that is the main thing to know about them.
 
-The source is the source code: all of `packages/bootstrap/server/src/**` and `packages/bootstrap/admin/src/**`, `packages/utils/admin/src/lib/slot`, the composition roots `apps/server/src/{main.ts,plugins.ts}`, `apps/admin/src/{main.tsx,plugins.ts}`, `apps/server/ortha.config.ts`, the migration-descriptor consumer `packages/cli/src/lib/migrate.ts`, the `docs` contributions from `identity-server` and `content-server`, plus the `apps/server-e2e/src/harness/*` and `apps/admin-e2e/src/host/*` suites. The `AGENTS.md` and `ARCHITECTURE.md` documents and ADR-0002 were used as the frame, but every claim was checked against the implementation — the divergences are gathered in section 14.
+The source is the source code: all of `packages/bootstrap/server/src/**` and `packages/bootstrap/admin/src/**`, `packages/utils/admin/src/lib/slot`, the composition roots `apps/server/src/{main.ts,plugins.ts}`, `apps/admin/src/{main.tsx,plugins.ts}`, `apps/server/apograph.config.ts`, the migration-descriptor consumer `packages/cli/src/lib/migrate.ts`, the `docs` contributions from `identity-server` and `content-server`, plus the `apps/server-e2e/src/harness/*` and `apps/admin-e2e/src/host/*` suites. The `AGENTS.md` and `ARCHITECTURE.md` documents and ADR-0002 were used as the frame, but every claim was checked against the implementation — the divergences are gathered in section 14.

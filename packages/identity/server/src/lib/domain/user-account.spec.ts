@@ -1,4 +1,4 @@
-import type { DomainEvent } from '@orthacms/database';
+import type { DomainEvent } from '@apograph/database';
 import { UserAccount } from './user-account';
 import { PasswordHash } from './value-objects/password-hash';
 import { IDENTITY_EVENT_KINDS } from './events/identity-events';

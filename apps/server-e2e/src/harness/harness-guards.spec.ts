@@ -273,8 +273,8 @@ describe('harness guards', () => {
     });
 
     describe('external database safety (assertDisposableExternalDatabase)', () => {
-        const DISPOSABLE = 'postgres://u:p@127.0.0.1:5432/ortha_e2e';
-        const WORKING = 'postgres://u:p@127.0.0.1:5432/ortha_cms';
+        const DISPOSABLE = 'postgres://u:p@127.0.0.1:5432/apograph_e2e';
+        const WORKING = 'postgres://u:p@127.0.0.1:5432/apograph_cms';
 
         it('accepts a database whose name reads as disposable', () => {
             expect(() =>
@@ -282,7 +282,7 @@ describe('harness guards', () => {
             ).not.toThrow();
             expect(() =>
                 assertDisposableExternalDatabase(
-                    'postgres://u@h/test_ortha',
+                    'postgres://u@h/test_apograph',
                     WORKING
                 )
             ).not.toThrow();
@@ -299,8 +299,8 @@ describe('harness guards', () => {
         it('refuses it even when the two URLs are spelled differently', () => {
             expect(() =>
                 assertDisposableExternalDatabase(
-                    'postgres://u:p@127.0.0.1:5432/ortha_cms/',
-                    'postgres://other:pw@127.0.0.1:5432/ortha_cms?sslmode=disable'
+                    'postgres://u:p@127.0.0.1:5432/apograph_cms/',
+                    'postgres://other:pw@127.0.0.1:5432/apograph_cms?sslmode=disable'
                 )
             ).toThrow(/same database as DATABASE_URL/);
         });

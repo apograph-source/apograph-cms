@@ -5,7 +5,7 @@ import {
     Button,
     Container,
     ContainerHeader
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 import type { ContentType } from '../../../domain/types/contentType';
 import { useContentSchema } from '../../../application/useContentSchema';
 import { CollectionRecordsSkeleton } from './CollectionRecordsSkeleton';

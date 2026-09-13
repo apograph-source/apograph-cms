@@ -4,8 +4,8 @@ import {
     PERMISSIONS,
     PermissionsGuard,
     RequirePermissions
-} from '@orthacms/identity-server';
-import { CurrentWorkspace, WorkspaceGuard } from '@orthacms/workspaces-server';
+} from '@apograph/identity-server';
+import { CurrentWorkspace, WorkspaceGuard } from '@apograph/workspaces-server';
 import { ProtectionInsightsQuery } from '../../application/protection-insights.query';
 import type { ProtectionInsightsView } from '../../types/protection-views';
 

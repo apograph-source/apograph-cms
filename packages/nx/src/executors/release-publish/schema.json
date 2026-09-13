@@ -11,17 +11,17 @@
         },
         "delay": {
             "type": "number",
-            "description": "Milliseconds to leave between two publishes across the whole release. Overridden by ORTHA_PUBLISH_DELAY.",
+            "description": "Milliseconds to leave between two publishes across the whole release. Overridden by APOGRAPH_PUBLISH_DELAY.",
             "default": 5000
         },
         "retries": {
             "type": "number",
-            "description": "Extra attempts a rate-limited or transient failure gets. Overridden by ORTHA_PUBLISH_RETRIES.",
+            "description": "Extra attempts a rate-limited or transient failure gets. Overridden by APOGRAPH_PUBLISH_RETRIES.",
             "default": 5
         },
         "retryBackoff": {
             "type": "number",
-            "description": "Backoff before the first retry, in milliseconds; doubles after that. Overridden by ORTHA_PUBLISH_RETRY_BACKOFF.",
+            "description": "Backoff before the first retry, in milliseconds; doubles after that. Overridden by APOGRAPH_PUBLISH_RETRY_BACKOFF.",
             "default": 30000
         },
         "maxRetryBackoff": {

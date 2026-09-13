@@ -10,7 +10,7 @@ import {
     DialogHeader,
     DialogTitle,
     Spinner
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 import type {
     ContentTypeDetail,
     RevisionStatus,

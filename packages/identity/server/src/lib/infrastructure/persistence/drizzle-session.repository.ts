@@ -1,7 +1,7 @@
 import { randomBytes } from 'node:crypto';
 import { Injectable } from '@nestjs/common';
 import { and, desc, eq, gt, isNull, ne } from 'drizzle-orm';
-import { UnitOfWork } from '@orthacms/database';
+import { UnitOfWork } from '@apograph/database';
 import { sessions } from '../../schema';
 import { SessionPolicy } from '../../domain/session-policy';
 import type { SessionContext } from '../../domain/session';
@@ -41,10 +41,7 @@ export class DrizzleSessionRepository implements SessionRepository {
         options: IssueSessionOptions = {}
     ): Promise<CreatedSession> {
         const token = randomBytes(32).toString('base64url');
-        const expiresAt = this.policy.expiresAt(
-            new Date(),
-            options.ttlSeconds
-        );
+        const expiresAt = this.policy.expiresAt(new Date(), options.ttlSeconds);
 
         await this.uow
             .current()

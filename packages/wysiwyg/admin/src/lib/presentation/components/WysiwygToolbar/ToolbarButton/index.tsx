@@ -5,7 +5,7 @@ import {
     TooltipContent,
     TooltipTrigger,
     cn
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 
 /**
  * One icon control in the editor toolbar. The icon is decorative, so the label

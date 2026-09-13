@@ -5,7 +5,7 @@ import {
     type Database,
     type DomainEvent,
     type DomainEventSubscriber
-} from '@orthacms/database';
+} from '@apograph/database';
 import { activityEvents } from '../../schema';
 import { AUDITED_EVENT_KINDS, toAuditRow } from './audit-event-mapping';
 

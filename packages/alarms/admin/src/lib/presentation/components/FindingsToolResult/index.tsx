@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { defineMessages, useIntl } from 'react-intl';
-import type { CopilotToolResultContext } from '@orthacms/copilot-admin';
-import { useCurrentWorkspace } from '@orthacms/workspaces-admin';
+import type { CopilotToolResultContext } from '@apograph/copilot-admin';
+import { useCurrentWorkspace } from '@apograph/workspaces-admin';
 import { severityLook } from '../../severityLook';
 import { FindingAgeBar } from './FindingAgeBar';
 import { oldestOf, readToolFindings } from './toolOutput';

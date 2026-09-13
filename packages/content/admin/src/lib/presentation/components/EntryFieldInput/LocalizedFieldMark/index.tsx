@@ -4,7 +4,7 @@ import {
     Tooltip,
     TooltipContent,
     TooltipTrigger
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 
 const messages = defineMessages({
     localized: {

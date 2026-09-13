@@ -129,7 +129,7 @@ export class SaveEntryDto {
      * State a **different plugin** owns about this entry, keyed by that plugin's
      * extension key — opaque here, exactly like {@link locale}: content-server
      * forwards the bag to the bound entry-write extensions and never looks
-     * inside it. `@orthacms/segments-server` reads `access` from it.
+     * inside it. `@apograph/segments-server` reads `access` from it.
      *
      * It rides the save body rather than a second request so the entry, its
      * links, the plugin's state and the version recording all of them commit in

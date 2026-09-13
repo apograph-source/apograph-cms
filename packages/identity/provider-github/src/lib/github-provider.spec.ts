@@ -1,4 +1,4 @@
-import { SsoVerificationError } from '@orthacms/identity-domain';
+import { SsoVerificationError } from '@apograph/identity-domain';
 import { createGithubProvider } from './github-provider';
 import {
     callbackWith,
@@ -129,7 +129,11 @@ describe('createGithubProvider — complete', () => {
     it('prefers the primary verified address', async () => {
         const { provider } = providerFor({
             emails: [
-                { email: 'secondary@example.com', primary: false, verified: true },
+                {
+                    email: 'secondary@example.com',
+                    primary: false,
+                    verified: true
+                },
                 { email: 'primary@example.com', primary: true, verified: true }
             ]
         });
@@ -154,7 +158,11 @@ describe('createGithubProvider — complete', () => {
     it('refuses an account with no verified address at all', async () => {
         const { provider } = providerFor({
             emails: [
-                { email: 'unverified@example.com', primary: true, verified: false }
+                {
+                    email: 'unverified@example.com',
+                    primary: true,
+                    verified: false
+                }
             ]
         });
 

@@ -1,8 +1,8 @@
 import { randomUUID } from 'node:crypto';
 import request from 'supertest';
 import { eq } from 'drizzle-orm';
-import { getDatabase } from '@orthacms/database';
-import { workspaceContent } from '@orthacms/workspaces-server';
+import { getDatabase } from '@apograph/database';
+import { workspaceContent } from '@apograph/workspaces-server';
 import {
     closeTestApp,
     createTestApp,

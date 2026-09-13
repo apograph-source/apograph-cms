@@ -1,11 +1,8 @@
 import { useState } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { Download } from 'lucide-react';
-import { useHasPermission } from '@orthacms/identity-admin';
-import type {
-    EntryMenuEntry,
-    EntrySlotContext
-} from '@orthacms/content-admin';
+import { useHasPermission } from '@apograph/identity-admin';
+import type { EntryMenuEntry, EntrySlotContext } from '@apograph/content-admin';
 import { CONTENT_EXPORT } from '../../constants';
 import { ExportDialog } from '../../components/ExportDialog';
 

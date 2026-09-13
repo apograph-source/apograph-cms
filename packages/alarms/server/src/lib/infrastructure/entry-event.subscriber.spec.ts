@@ -1,4 +1,4 @@
-import type { DomainEvent } from '@orthacms/database';
+import type { DomainEvent } from '@apograph/database';
 import { EntryEventSubscriber } from './entry-event.subscriber';
 
 /**
@@ -17,7 +17,10 @@ import { EntryEventSubscriber } from './entry-event.subscriber';
 const WORKSPACE = '11111111-1111-4111-8111-111111111111';
 const ENTRY = '33333333-3333-4333-8333-333333333333';
 
-function event(kind: string, payload: Record<string, unknown> = {}): DomainEvent {
+function event(
+    kind: string,
+    payload: Record<string, unknown> = {}
+): DomainEvent {
     return {
         eventId: 'event-1',
         kind,

@@ -1,6 +1,6 @@
 import { defineMessages, useIntl } from 'react-intl';
 import { FileText, Layers, X } from 'lucide-react';
-import { Badge, Button } from '@orthacms/design-system';
+import { Badge, Button } from '@apograph/design-system';
 import type { ContentType } from '../../../../domain/types/wizard';
 import { isPage } from '..';
 

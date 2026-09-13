@@ -1,4 +1,4 @@
-import type { OpenApiDocument } from '@orthacms/bootstrap-server';
+import type { OpenApiDocument } from '@apograph/bootstrap-server';
 import { describeI18nInsightsApi } from './describe-i18n-insights-api';
 
 /** The 2xx JSON schema of one operation, or undefined when it has none. */

@@ -1,6 +1,6 @@
 import type { SQL } from 'drizzle-orm';
 import { PgDialect, QueryBuilder } from 'drizzle-orm/pg-core';
-import { applyFilterTree, parseFilterTree } from '@orthacms/utils-server';
+import { applyFilterTree, parseFilterTree } from '@apograph/utils-server';
 import { collection } from '../../../collection/define';
 import { field } from '../../../fields';
 import type { AnyContentType } from '../../../types/content-type';

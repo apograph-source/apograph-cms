@@ -9,7 +9,7 @@ import {
     TriangleAlert,
     X
 } from 'lucide-react';
-import { Button, cn } from '@orthacms/design-system';
+import { Button, cn } from '@apograph/design-system';
 
 const messages = defineMessages({
     remove: {

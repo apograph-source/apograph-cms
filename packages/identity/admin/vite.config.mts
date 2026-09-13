@@ -10,7 +10,7 @@ export default defineConfig(() => ({
     cacheDir: '../../../node_modules/.vite/packages/identity/admin',
     plugins: [react()],
     test: {
-        name: '@orthacms/identity-admin',
+        name: '@apograph/identity-admin',
         watch: false,
         globals: true,
         environment: 'jsdom',

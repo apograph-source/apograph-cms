@@ -18,7 +18,7 @@ import {
     richTextPlainText,
     walkRichText,
     type RichTextNode
-} from '@orthacms/content-domain';
+} from '@apograph/content-domain';
 
 /**
  * The saved value as a document, failing the test if it is not one — so a spec

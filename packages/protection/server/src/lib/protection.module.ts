@@ -2,7 +2,7 @@ import { Module, type DynamicModule } from '@nestjs/common';
 import {
     contentPublishGuardRegistrar,
     entryFilterProviderRegistrar
-} from '@orthacms/content-server';
+} from '@apograph/content-server';
 import { EntryReviewService } from './application/entry-review.service';
 import { ProtectionRulesService } from './application/protection-rules.service';
 import { ReviewQueueService } from './application/review-queue.service';

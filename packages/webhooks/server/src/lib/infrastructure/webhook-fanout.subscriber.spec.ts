@@ -1,4 +1,4 @@
-import type { DomainEvent } from '@orthacms/database';
+import type { DomainEvent } from '@apograph/database';
 import { WebhookFanoutSubscriber } from './webhook-fanout.subscriber';
 import type {
     DeliveryToQueue,

@@ -23,7 +23,7 @@ import {
     Popover,
     PopoverContent,
     PopoverTrigger
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 import type { EntryColumn } from '../../../../domain/entryColumns';
 import { useColumnLabel } from '../../../hooks/useColumnLabel';
 import { ColumnRow } from './ColumnRow';

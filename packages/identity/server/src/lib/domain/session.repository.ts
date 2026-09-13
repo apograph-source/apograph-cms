@@ -87,10 +87,7 @@ export interface SessionRepository {
      * session ids are opaque strings with no shared namespace, and two
      * providers colliding on one is not something to leave to luck.
      */
-    revokeBySsoSession(
-        provider: string,
-        ssoSessionId: string
-    ): Promise<number>;
+    revokeBySsoSession(provider: string, ssoSessionId: string): Promise<number>;
 
     /**
      * Resolves an opaque token to its owner, or `null` when the session is

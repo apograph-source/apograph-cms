@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { and, count, eq, ilike, inArray, or } from 'drizzle-orm';
-import { InjectDatabase, type Database } from '@orthacms/database';
-import { applyFilterTree, parseFilterTree } from '@orthacms/utils-server';
-import { roles, users } from '@orthacms/identity-server';
-import { memberships, workspaces } from '@orthacms/workspaces-server';
+import { InjectDatabase, type Database } from '@apograph/database';
+import { applyFilterTree, parseFilterTree } from '@apograph/utils-server';
+import { roles, users } from '@apograph/identity-server';
+import { memberships, workspaces } from '@apograph/workspaces-server';
 import { DEFAULT_PAGE_SIZE } from '../../member.constants';
 import { MEMBER_FILTER_SCHEMA } from '../../application/member-filter';
 import type { ListMembersQueryDto } from '../../application/dto/list-members-query.dto';

@@ -1,5 +1,5 @@
 /**
- * Creates the `@orthacms/*` **package names** on npm, ahead of a release and
+ * Creates the `@apograph/*` **package names** on npm, ahead of a release and
  * separately from it.
  *
  * npm meters two different things. How fast an account *writes* is handled by
@@ -15,14 +15,14 @@
  * release is left to do only what it is good at: bumping versions on names
  * that already exist.
  *
- *     npx nx run-many -t build,pack --projects=@orthacms/*
+ *     npx nx run-many -t build,pack --projects=@apograph/*
  *     node tools/release/reserve-names.mjs --limit=20
  *
  * What goes out is the **real staged tarball** at a prerelease version under a
  * non-`latest` dist-tag — not an empty placeholder. Two reasons: an empty stub
  * is what an anti-abuse system reads as name squatting, which is the last
  * thing to do while rationed; and `latest` stays unset, so
- * `npm install @orthacms/<name>` finds nothing until the real release rather
+ * `npm install @apograph/<name>` finds nothing until the real release rather
  * than installing a husk.
  *
  * The reserved version does not disturb versioning: `nx.json` derives the next
@@ -76,7 +76,7 @@ const staged = findStaged(join(workspaceRoot, 'dist', 'pack'));
 if (staged.length === 0) {
     fail(
         'reserve: nothing staged under dist/pack.\n' +
-            '        Run `npx nx run-many -t build,pack --projects=@orthacms/*` first.'
+            '        Run `npx nx run-many -t build,pack --projects=@apograph/*` first.'
     );
 }
 

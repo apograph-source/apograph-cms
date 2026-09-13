@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { SSO_REQUEST_COOKIE } from '@orthacms/identity-server';
+import { SSO_REQUEST_COOKIE } from '@apograph/identity-server';
 import {
     closeTestApp,
     createTestApp,
@@ -161,7 +161,7 @@ describe('SSO sign-in', () => {
 
             const session = (
                 done.headers['set-cookie'] as unknown as string[]
-            ).find((cookie) => cookie.startsWith('ortha_session='));
+            ).find((cookie) => cookie.startsWith('apograph_session='));
             expect(session).toBeDefined();
             expect(session).toContain('HttpOnly');
 

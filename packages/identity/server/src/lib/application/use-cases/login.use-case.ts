@@ -1,6 +1,6 @@
 import { randomBytes } from 'node:crypto';
 import { Inject, Injectable } from '@nestjs/common';
-import { attachActor, OutboxWriter, UnitOfWork } from '@orthacms/database';
+import { attachActor, OutboxWriter, UnitOfWork } from '@apograph/database';
 import {
     IDENTITY_EVENT_KINDS,
     identityEvent,

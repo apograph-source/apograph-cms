@@ -1,5 +1,5 @@
-import type { EventActor } from '@orthacms/database';
-import type { PublicUser } from '@orthacms/identity-server';
+import type { EventActor } from '@apograph/database';
+import type { PublicUser } from '@apograph/identity-server';
 
 /**
  * The signed-in user as the {@link EventActor} an entry write stamps onto its

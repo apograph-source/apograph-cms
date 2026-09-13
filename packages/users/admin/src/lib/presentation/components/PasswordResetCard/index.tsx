@@ -12,9 +12,9 @@ import {
     CardTitle,
     Spinner,
     toast
-} from '@orthacms/design-system';
-import { useHasPermission } from '@orthacms/identity-admin';
-import { HTTP_STATUS } from '@orthacms/utils-admin';
+} from '@apograph/design-system';
+import { useHasPermission } from '@apograph/identity-admin';
+import { HTTP_STATUS } from '@apograph/utils-admin';
 import { useIssuePasswordReset } from '../../../application/useIssuePasswordReset';
 import { passwordResetLinkFor } from '../../../infrastructure/passwordResetLink';
 import type { Member } from '../../../domain/types/member';

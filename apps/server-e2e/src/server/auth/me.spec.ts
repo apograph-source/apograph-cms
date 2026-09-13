@@ -1,6 +1,6 @@
 import request from 'supertest';
 import type { Response } from 'supertest';
-import { PERMISSION_KEYS } from '@orthacms/identity-server';
+import { PERMISSION_KEYS } from '@apograph/identity-server';
 import {
     closeTestApp,
     createTestApp,
@@ -20,11 +20,11 @@ const EMAIL = 'me-test@example.com';
 const PASSWORD = 'SecurePass123!';
 const NAME = 'Me Test';
 
-/** Extract the `ortha_session=value` pair from a login response. */
+/** Extract the `apograph_session=value` pair from a login response. */
 function sessionCookie(res: Response): string {
     const setCookie = res.headers['set-cookie'] as unknown as string[];
     const cookie = setCookie
-        .find((c) => c.startsWith('ortha_session='))
+        .find((c) => c.startsWith('apograph_session='))
         ?.split(';')[0];
     if (!cookie) {
         throw new Error('login did not set a session cookie');
@@ -73,12 +73,12 @@ describe('GET /api/auth/me', () => {
 
         it('rejects a bogus session token', async () => {
             await get()
-                .set('Cookie', 'ortha_session=not-a-real-token')
+                .set('Cookie', 'apograph_session=not-a-real-token')
                 .expect(401);
         });
 
         it('rejects an empty session cookie value', async () => {
-            await get().set('Cookie', 'ortha_session=').expect(401);
+            await get().set('Cookie', 'apograph_session=').expect(401);
         });
 
         it('rejects when only unrelated cookies are present', async () => {

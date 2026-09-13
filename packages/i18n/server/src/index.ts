@@ -1,4 +1,4 @@
-/** Public API of @orthacms/i18n-server. */
+/** Public API of @apograph/i18n-server. */
 
 export { I18nServerPlugin } from './lib/utils/i18n-plugin';
 export type { I18nServerPluginType } from './lib/utils/i18n-plugin';

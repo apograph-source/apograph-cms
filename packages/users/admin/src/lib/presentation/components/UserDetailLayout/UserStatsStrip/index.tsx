@@ -1,7 +1,7 @@
 import type { ComponentType } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { Building2, CalendarDays, ShieldCheck } from 'lucide-react';
-import { Card, CardContent } from '@orthacms/design-system';
+import { Card, CardContent } from '@apograph/design-system';
 import { MemberRoleChip } from '../../MembersTable/MemberRoleChip';
 import type { Member } from '../../../../domain/types/member';
 

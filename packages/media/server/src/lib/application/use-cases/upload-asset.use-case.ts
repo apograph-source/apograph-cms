@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Readable } from 'node:stream';
-import { attachActor, OutboxWriter, UnitOfWork } from '@orthacms/database';
-import type { EventActor } from '@orthacms/database';
+import { attachActor, OutboxWriter, UnitOfWork } from '@apograph/database';
+import type { EventActor } from '@apograph/database';
 import { Asset, type AssetMedia, type AssetVariants } from '../../domain/asset';
 import { AssetId } from '../../domain/value-objects/asset-id';
 import { FolderId } from '../../domain/value-objects/folder-id';
@@ -21,10 +21,7 @@ import {
     FOLDER_REPOSITORY,
     type FolderRepository
 } from '../../domain/folder.repository';
-import {
-    STORAGE_PROVIDER,
-    type StorageProvider
-} from '@orthacms/media-domain';
+import { STORAGE_PROVIDER, type StorageProvider } from '@apograph/media-domain';
 
 /** Inputs for one upload — the file stream plus its metadata. */
 export interface UploadAssetCommand {

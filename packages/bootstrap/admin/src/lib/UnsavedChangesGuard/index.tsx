@@ -1,7 +1,7 @@
 import { type ReactNode } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
-import { ConfirmDialog } from '@orthacms/design-system';
-import { UnsavedChangesProvider } from '@orthacms/utils-admin';
+import { ConfirmDialog } from '@apograph/design-system';
+import { UnsavedChangesProvider } from '@apograph/utils-admin';
 
 const messages = defineMessages({
     title: {

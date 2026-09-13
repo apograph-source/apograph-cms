@@ -5,7 +5,7 @@ import { join } from 'node:path';
  * Loads the app's `.env` into `process.env`.
  *
  * Nothing else does this. In the monorepo, Nx loads `.env` before a target
- * runs, so `ortha.config.ts` can simply read `process.env` — but a generated
+ * runs, so `apograph.config.ts` can simply read `process.env` — but a generated
  * app has no task runner, and without this every command that needs config
  * fails on a `DATABASE_URL` that is sitting right there in the file.
  *

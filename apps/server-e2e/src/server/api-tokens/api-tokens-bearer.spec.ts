@@ -157,7 +157,7 @@ describe('API token management refuses bearer tokens (/api/api-tokens)', () => {
         await request(harness.server)
             .get('/api/api-tokens')
             .set('Authorization', `Bearer ${secret}`)
-            .set('Cookie', `ortha_session=${secret}`)
+            .set('Cookie', `apograph_session=${secret}`)
             .expect(401);
     });
 

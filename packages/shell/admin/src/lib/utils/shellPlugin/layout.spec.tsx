@@ -3,8 +3,8 @@ import { render, screen } from '@testing-library/react';
 import { IntlProvider } from 'react-intl';
 import { MemoryRouter } from 'react-router-dom';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { AuthProvider, RequireAuth } from '@orthacms/identity-admin';
-import { wireSlotContributions } from '@orthacms/utils-admin';
+import { AuthProvider, RequireAuth } from '@apograph/identity-admin';
+import { wireSlotContributions } from '@apograph/utils-admin';
 import { AppShell } from '../../components/AppShell';
 import { SIDEBAR_NAV_SLOT } from '../../slots/sidebarSlots';
 import { ShellPlugin } from './index';
@@ -40,9 +40,9 @@ import { ShellPlugin } from './index';
 
 const gate = vi.hoisted(() => ({ open: false }));
 
-vi.mock('@orthacms/identity-admin', async (importOriginal) => {
+vi.mock('@apograph/identity-admin', async (importOriginal) => {
     const actual =
-        await importOriginal<typeof import('@orthacms/identity-admin')>();
+        await importOriginal<typeof import('@apograph/identity-admin')>();
     return {
         ...actual,
         AuthProvider: ({ children }: { children: ReactNode }) => children,

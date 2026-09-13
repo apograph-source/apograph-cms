@@ -7,7 +7,7 @@ import { run, tscBin, viteBin } from '../run';
  * Compiles the server with the app's `tsc` and, unless told otherwise, builds
  * the admin bundle with the app's Vite.
  *
- * **Deliberately not bundled.** Every Ortha plugin locates its migrations as
+ * **Deliberately not bundled.** Every Apograph plugin locates its migrations as
  * `join(__dirname, '../../../migrations')`, which resolves to its own package
  * root inside `node_modules` — and stops resolving the moment a bundler
  * flattens those files into one. The monorepo's `apps/server` gets away with

@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { type ApiError } from '@orthacms/utils-admin';
-import { useCurrentWorkspace } from '@orthacms/workspaces-admin';
+import { type ApiError } from '@apograph/utils-admin';
+import { useCurrentWorkspace } from '@apograph/workspaces-admin';
 import type {
     BulkActionResult,
     BulkPublishPreview,

@@ -8,7 +8,7 @@ import {
     CardHeader,
     CardTitle,
     Spinner
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 
 /** Intl descriptors for {@link InviteLookupFailed}, co-located with the component. */
 const messages = defineMessages({

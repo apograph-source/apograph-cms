@@ -1,11 +1,11 @@
 import { defineMessages, useIntl } from 'react-intl';
 import { AlertTriangle, CircleAlert } from 'lucide-react';
-import { RICH_TEXT_ISSUE } from '@orthacms/content-domain';
+import { RICH_TEXT_ISSUE } from '@apograph/content-domain';
 import type {
     RichTextIssueCode,
     RichTextStructureIssue
-} from '@orthacms/content-domain';
-import { cn } from '@orthacms/design-system';
+} from '@apograph/content-domain';
+import { cn } from '@apograph/design-system';
 
 const messages = defineMessages({
     heading: {

@@ -1,6 +1,6 @@
 import type { UIEvent } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
-import { Spinner } from '@orthacms/design-system';
+import { Spinner } from '@apograph/design-system';
 import type { RelationCandidate } from '../../../../../../../application/useRelationCandidates';
 import { RelationCandidateRow } from './RelationCandidateRow';
 

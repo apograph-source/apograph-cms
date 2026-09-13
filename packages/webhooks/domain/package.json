@@ -1,5 +1,5 @@
 {
-    "name": "@orthacms/webhooks-domain",
+    "name": "@apograph/webhooks-domain",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",

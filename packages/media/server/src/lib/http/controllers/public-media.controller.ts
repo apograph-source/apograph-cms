@@ -28,20 +28,17 @@ import {
     PERMISSIONS,
     Public,
     RequirePermissions
-} from '@orthacms/identity-server';
+} from '@apograph/identity-server';
 import {
     ApiTokenGuard,
     ApiTokenWorkspaceGuard,
     CurrentApiToken,
     type PublicApiToken
-} from '@orthacms/content-server';
-import { CurrentWorkspace } from '@orthacms/workspaces-server';
+} from '@apograph/content-server';
+import { CurrentWorkspace } from '@apograph/workspaces-server';
 import { UploadAssetUseCase } from '../../application/use-cases/upload-asset.use-case';
 import { AssetViewQuery } from '../../infrastructure/queries/asset-view.query';
-import {
-    STORAGE_PROVIDER,
-    type StorageProvider
-} from '@orthacms/media-domain';
+import { STORAGE_PROVIDER, type StorageProvider } from '@apograph/media-domain';
 import { DownloadAssetQuery } from '../../infrastructure/queries/download-asset.query';
 import {
     DIRECT_SERVE,

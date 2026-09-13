@@ -303,7 +303,9 @@ export class OutboxDispatcher
      * `newerThan` narrows to recent failures, for a caller that has already
      * acknowledged older ones.
      */
-    async deadLetters(options: { limit?: number; newerThan?: Date } = {}): Promise<{
+    async deadLetters(
+        options: { limit?: number; newerThan?: Date } = {}
+    ): Promise<{
         total: number;
         items: DeadLetter[];
     }> {
@@ -316,10 +318,7 @@ export class OutboxDispatcher
                 : undefined
         );
         const [[counted], rows] = await Promise.all([
-            this.db
-                .select({ total: count() })
-                .from(outboxEvents)
-                .where(where),
+            this.db.select({ total: count() }).from(outboxEvents).where(where),
             this.db
                 .select({
                     id: outboxEvents.id,

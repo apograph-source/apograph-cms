@@ -9,12 +9,12 @@ import {
 } from 'react-router-dom';
 import { IntlProvider } from 'react-intl';
 import { QueryClientProvider } from '@tanstack/react-query';
-import { queryClient, wireSlotContributions } from '@orthacms/utils-admin';
+import { queryClient, wireSlotContributions } from '@apograph/utils-admin';
 import {
     AppearanceProvider,
     TooltipProvider,
     Toaster
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 import { UnsavedChangesGuard } from '../UnsavedChangesGuard';
 import { AppErrorBoundary } from '../AppErrorBoundary';
 import { RouteAnnouncer } from '../RouteAnnouncer';
@@ -178,7 +178,7 @@ function makeIntlErrorHandler(
 }
 
 /**
- * Bootstraps the Ortha CMS admin app: mounts the React root, wraps it in
+ * Bootstraps the Apograph CMS admin app: mounts the React root, wraps it in
  * the data, i18n, and router providers, and renders the routes contributed by
  * every plugin.
  *

@@ -15,7 +15,7 @@ import { expectNoA11yViolations } from '../support/a11y';
 
 /**
  * The self-only **Preferences** tab on the user detail page
- * (`/users/:id/preferences`, `@orthacms/users-admin`): the colour-theme picker
+ * (`/users/:id/preferences`, `@apograph/users-admin`): the colour-theme picker
  * (Light / Dark / System). Signed in as Ada (a member in the roster) so viewing
  * her own detail page is "self"; viewing another member is not. Theme reads/
  * writes go through the `mockPreferences` stub. `mockSignedIn` satisfies the
@@ -25,7 +25,7 @@ test.describe('User preferences (theme)', () => {
     const SELF = {
         id: 'u_ada',
         name: 'Ada Lovelace',
-        email: 'ada@ortha.dev'
+        email: 'ada@apograph.dev'
     };
 
     test.beforeEach(async ({ page }) => {

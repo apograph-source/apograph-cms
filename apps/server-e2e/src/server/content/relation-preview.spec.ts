@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { getPool } from '@orthacms/database';
+import { getPool } from '@apograph/database';
 import {
     closeTestApp,
     createTestApp,
@@ -85,10 +85,7 @@ describe('Content relation preview (GET /api/content/:typeName?relations=preview
         await seedMembership(admin.id, workspaceId);
         await seedAllContentGrants(workspaceId);
 
-        [authorId] = await seedAuthors(
-            [{ name: 'Ada Lovelace' }],
-            workspaceId
-        );
+        [authorId] = await seedAuthors([{ name: 'Ada Lovelace' }], workspaceId);
         const articleIds = await seedArticles(
             [
                 { text: 'Alpha', select: 'article', author: authorId },
@@ -275,7 +272,10 @@ describe('Content relation preview (GET /api/content/:typeName?relations=preview
             expect(res.body.total).toBe(RELATION_PAGE_SIZE + 2);
             expect(
                 (res.body.items as RelationRef[]).map((item) => item.title)
-            ).toEqual([`Tag ${RELATION_PAGE_SIZE}`, `Tag ${RELATION_PAGE_SIZE + 1}`]);
+            ).toEqual([
+                `Tag ${RELATION_PAGE_SIZE}`,
+                `Tag ${RELATION_PAGE_SIZE + 1}`
+            ]);
         });
     });
 

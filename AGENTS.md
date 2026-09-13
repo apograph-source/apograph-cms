@@ -1,4 +1,4 @@
-# OrthaCms — Nx monorepo
+# Apograph — Nx monorepo
 
 > **This is the canonical context file for AI agents.** It is tool-agnostic and
 > read natively by Cursor, OpenAI Codex, Gemini CLI, and others. Claude Code
@@ -20,15 +20,15 @@
 
 - `apps/admin` — React 19 + Vite SPA (admin UI)
 - `apps/server` — NestJS API
-- `packages/design-system` — `@orthacms/design-system`, shadcn/ui library
+- `packages/design-system` — `@apograph/design-system`, shadcn/ui library
 - `packages/bootstrap/{admin,server}` — the application **hosts** that turn a
   list of plugins into a running app
-    - `@orthacms/bootstrap-admin` — `createAdmin({ plugins })`: mounts the React
+    - `@apograph/bootstrap-admin` — `createAdmin({ plugins })`: mounts the React
       root, router, and plugin-contributed routes
-    - `@orthacms/bootstrap-server` — `createServer({ plugins })`: runs each
+    - `@apograph/bootstrap-server` — `createServer({ plugins })`: runs each
       plugin's `onPluginInit`, imports its module, applies global prefix +
       `ValidationPipe`
-- `packages/database` — `@orthacms/database`, the database **plugin**:
+- `packages/database` — `@apograph/database`, the database **plugin**:
   owns one Drizzle/`pg` connection, opens it in `onPluginInit`, and exposes
   it via DI (`@InjectDatabase()`, global `DatabaseModule`) and plain
   `getDatabase()`/`getPool()`. Also provides the shared tactical-DDD
@@ -36,7 +36,7 @@
   `UnitOfWork`, the transactional outbox (`OutboxWriter` / `OutboxDispatcher`),
   and the `DomainEvent` contract. It owns exactly **one** table — `outbox_events`
   — the sanctioned exception to "no schema", shipped with its own migrations.
-- `packages/identity/server` — `@orthacms/identity-server`, the identity
+- `packages/identity/server` — `@apograph/identity-server`, the identity
   **plugin**: owns the auth/RBAC schema (Drizzle tables in `src/lib/schema`)
   and **ships its own migrations** (`drizzle.config.ts` + committed
   `migrations/`). Opens no connection; the host applies its migrations.
@@ -59,7 +59,7 @@
   ([ADR-0004](docs/adr/0004-model-agnostic-copilot-provider.md)). Its tools live
   in the shared registry, marked `surfaces: ['copilot']`
   ([ADR-0007](docs/adr/0007-one-tool-registry-two-surfaces.md)).
-- `packages/tools/server` — `@orthacms/tools-server`, the shared agent **tool
+- `packages/tools/server` — `@apograph/tools-server`, the shared agent **tool
   registry**: the transport-neutral `ToolDefinition` contract and the one place
   a tool call is authorized. Two consumers import its global `ToolsModule` — the
   MCP endpoint and the copilot's run loop — so both see one instance, and a tool
@@ -68,7 +68,7 @@
   field means both**, so adding a tool anywhere means deciding who it is for —
   the checklist is in
   [`packages/tools/server/AGENTS.md`](packages/tools/server/AGENTS.md#adding-a-tool-decide-surfaces-deliberately).
-- `packages/content/graphql` — `@orthacms/content-graphql`, the public content
+- `packages/content/graphql` — `@apograph/content-graphql`, the public content
   API over **GraphQL** (`POST /api/v1/graphql`). A protocol **adapter** over
   `content/server`'s `public-api/`, not a second API: same bearer tokens, same
   guards, same scopes, same visibility rules, and resolvers that assemble the
@@ -138,9 +138,9 @@
   `OutboxDispatcher` calls subscribers inside its claim transaction, so fan-out
   only queues delivery rows and a worker claims them, commits, and then POSTs
   with nothing open. Delivery is at-least-once and unordered; receivers
-  deduplicate on `X-Ortha-Event-Id`. Administrator-only, because an endpoint
+  deduplicate on `X-Apograph-Event-Id`. Administrator-only, because an endpoint
   spans every workspace it names and holds a signing secret.
-- `packages/mcp/server` — `@orthacms/mcp-server`, the **MCP plugin**: the
+- `packages/mcp/server` — `@apograph/mcp-server`, the **MCP plugin**: the
   Model Context Protocol endpoint (`POST /api/v1/mcp`) that lets an external
   agent do content CRUD with an API token
   ([ADR-0006](docs/adr/0006-cms-as-an-mcp-server.md)). Owns the protocol and
@@ -148,27 +148,27 @@
   `content/server`, which is what lets a handler call `PublicEntriesQuery`
   directly instead of re-implementing the rules it enforces. Off unless
   `MCP_ENABLED=true`.
-- `packages/nx` — `@orthacms/nx`, the workspace **Nx plugin**: infers and
+- `packages/nx` — `@apograph/nx`, the workspace **Nx plugin**: infers and
   implements the `db:generate` / `db:migrate` targets (Drizzle migration
   tooling) plus the release targets. Registered in `nx.json`. The database
-  executors are adapters over `@orthacms/cli`, so this repo and a generated app
+  executors are adapters over `@apograph/cli`, so this repo and a generated app
   migrate through one implementation.
-- `packages/cli` — `@orthacms/cli`, the **`ortha` command**: how an app
+- `packages/cli` — `@apograph/cli`, the **`apograph` command**: how an app
   installed from npm is built, run and migrated (`dev` / `build` / `start` /
   `migrate` / `generate` / `studio`). Compiles first and reads the compiled
   config, so it needs none of the jiti/swc machinery the Nx executors use to
   read TypeScript from source.
-- `packages/create-ortha-app` — the **scaffolder** behind
-  `npx create-ortha-app my-cms`. One template, no sample content types, plus a
+- `packages/create-apograph-app` — the **scaffolder** behind
+  `npx create-apograph-app my-cms`. One template, no sample content types, plus a
   keyboard wizard for the three genuine choices (storage adapter, hosted copilot
   backends, and which protocols the content API speaks — REST always, GraphQL
   and MCP optional); everything else, the copilot included, is installed
   unconditionally. Stamps
-  its own version into every `@orthacms/*` dependency it writes, which is what
+  its own version into every `@apograph/*` dependency it writes, which is what
   makes a generated app a consistent lockstep set — so a release needs no
   template edit, while **adding a package does**: every published package must
   be classified in its `features.ts`, and a test fails until it is. The only
-  published package outside the `@orthacms` scope.
+  published package outside the `@apograph` scope.
 
 ## Package layout
 
@@ -176,7 +176,7 @@ Packages are either **flat** (`packages/<name>`, e.g. `design-system`) or
 **grouped** by domain with an `admin`/`server` split
 (`packages/<group>/{admin,server}`, e.g. `bootstrap`). The npm package name
 stays hyphenated regardless of nesting: `packages/bootstrap/admin` is published
-as `@orthacms/bootstrap-admin`. The root `workspaces` globs (`packages/*` and
+as `@apograph/bootstrap-admin`. The root `workspaces` globs (`packages/*` and
 `packages/*/*`) cover both shapes.
 
 A group is not limited to `admin`/`server`: it holds however many packages the
@@ -188,7 +188,7 @@ second protocol); `copilot` has six.
 
 Workspace packages are consumed **from source** — their `exports` point at
 `./src/index.ts` and `tsconfig.base.json` sets
-`customConditions: ["@orthacms/source"]`. No build step is needed to consume a
+`customConditions: ["@apograph/source"]`. No build step is needed to consume a
 package; the admin app's Vite transpiles the design-system source directly.
 
 ## Commands
@@ -221,7 +221,7 @@ package; the admin app's Vite transpiles the design-system source directly.
 
 - **Parallel stacks** — `npm run dev` is not limited to one checkout. A **slot**
   fixes a worktree's ports and database (slot _n_: API `:300n`, admin `:420n`,
-  database `ortha_cms_an`), so several tickets can each hold a live app to
+  database `apograph_cms_an`), so several tickets can each hold a live app to
   verify against. `npm run worktree -- provision <slot> --path <worktree>`
   creates the database and writes the port-adjusted `.env`; `-- list` shows who
   holds what; `-- release <slot> --yes` drops the database. Slots share **one**
@@ -245,13 +245,13 @@ package; the admin app's Vite transpiles the design-system source directly.
   account's writes and 37 tarballs go out in one run, so they are serialised
   with a gap and a 429 is backed off rather than failing the release. See
   [`docs/releasing.md`](docs/releasing.md)
-- **Database / migrations** (provided by `@orthacms/nx`; needs a `.env` with
+- **Database / migrations** (provided by `@apograph/nx`; needs a `.env` with
   `DATABASE_URL`, and Postgres via `docker compose up -d`):
     - `npx nx run <plugin>:db:generate --name=<name>` — generate that plugin's
       Drizzle migration from its schema (per-plugin; commit the emitted SQL).
       Inferred on any project with a `drizzle.config.ts`. Needs no database.
     - `npx nx run server:db:migrate` — apply every plugin's pending migrations.
-      Inferred on the host (the project with `ortha.config.ts`).
+      Inferred on the host (the project with `apograph.config.ts`).
     - `npx nx run server:db:studio` — open Drizzle Studio on the host database
       (introspects the live DB; needs `DATABASE_URL`). Also inferred on the
       host. Optional `--host` / `--port` to change where Studio binds.

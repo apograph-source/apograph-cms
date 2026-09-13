@@ -19,8 +19,8 @@
 import { Injectable, Optional } from '@nestjs/common';
 import { and, eq, inArray, isNull, type AnyColumn } from 'drizzle-orm';
 import type { PgColumn } from 'drizzle-orm/pg-core';
-import { InjectDatabase, type Database } from '@orthacms/database';
-import { mediaAsset } from '@orthacms/media-server';
+import { InjectDatabase, type Database } from '@apograph/database';
+import { mediaAsset } from '@apograph/media-server';
 import {
     CONTENT_FIELD_TYPE,
     EntryWriterService,
@@ -30,7 +30,7 @@ import {
     type AnyContentType,
     type ContentTypeRegistry,
     type MediaAssetResolver
-} from '@orthacms/content-server';
+} from '@apograph/content-server';
 import {
     TransferLimitError,
     naturalKeyOf,
@@ -43,7 +43,7 @@ import {
     type TransferRecord,
     type TransferRef,
     type TransferTypeSchema
-} from '@orthacms/transfer-domain';
+} from '@apograph/transfer-domain';
 import { TransferSchemaCatalog } from '../../schema/schema-catalog.service';
 import { InjectTransferLimits } from '../../transfer.tokens';
 
@@ -265,11 +265,7 @@ export class EntryGraphWalker {
                     } else {
                         const targetId = row[field.name] as string | null;
                         relationRefs[field.name] = targetId
-                            ? this.pendingRef(
-                                  relation.to,
-                                  targetId,
-                                  neighbours
-                              )
+                            ? this.pendingRef(relation.to, targetId, neighbours)
                             : null;
                     }
                     continue;
@@ -449,7 +445,8 @@ export class EntryGraphWalker {
 
         for (const record of records) {
             for (const value of Object.values(record.relations)) {
-                const refs = value == null ? [] : Array.isArray(value) ? value : [value];
+                const refs =
+                    value == null ? [] : Array.isArray(value) ? value : [value];
                 for (const ref of refs) {
                     if (!ref.$id) continue;
                     const node = nodeKey(ref.$type, ref.$id);
@@ -517,8 +514,7 @@ export class EntryGraphWalker {
         id: string,
         workspaceId: string
     ): Promise<
-        | { size: number; checksum?: string; storageKey: string }
-        | undefined
+        { size: number; checksum?: string; storageKey: string } | undefined
     > {
         const rows = (await this.db
             .select({
@@ -585,10 +581,7 @@ function mediaIdsOf(value: unknown): string[] {
 }
 
 /** The bare media references of one row, before asset detail is filled in. */
-function mediaRefsOf(
-    schema: TransferTypeSchema,
-    row: Row
-): TransferAssetRef[] {
+function mediaRefsOf(schema: TransferTypeSchema, row: Row): TransferAssetRef[] {
     const refs: TransferAssetRef[] = [];
     for (const field of schema.fields) {
         if (field.type !== CONTENT_FIELD_TYPE.Media) continue;

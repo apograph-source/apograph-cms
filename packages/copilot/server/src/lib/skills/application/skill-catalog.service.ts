@@ -3,7 +3,7 @@ import {
     mergeSkills,
     type Skill,
     type SkillRegistry
-} from '@orthacms/copilot-domain';
+} from '@apograph/copilot-domain';
 import { COPILOT_SKILL_REGISTRY } from '../../copilot.tokens';
 import {
     SkillRepository,

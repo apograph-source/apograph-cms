@@ -8,7 +8,7 @@ import {
     Skeleton,
     TopBar,
     TopBarIcon
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 
 /** Intl descriptors for the content-library skeleton, co-located here. */
 const messages = defineMessages({

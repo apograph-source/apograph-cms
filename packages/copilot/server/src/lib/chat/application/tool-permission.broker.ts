@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import type { ToolPermissionDecision } from '@orthacms/copilot-domain';
+import type { ToolPermissionDecision } from '@apograph/copilot-domain';
 
 /**
  * How long a parked run waits for an answer before giving up — **for the whole

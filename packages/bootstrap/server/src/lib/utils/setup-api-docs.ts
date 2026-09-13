@@ -43,7 +43,7 @@ const OPERATION_KEYS = [
 
 const DEFAULT_PATH = '/reference';
 const DEFAULT_JSON_PATH = '/reference/json';
-const DEFAULT_TITLE = 'Ortha CMS API';
+const DEFAULT_TITLE = 'Apograph CMS API';
 const DEFAULT_VERSION = '1.0.0';
 
 /** Ensures a mount path has exactly one leading slash. */

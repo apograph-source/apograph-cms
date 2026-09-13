@@ -1,11 +1,11 @@
-import { proposalEventActor } from '@orthacms/copilot-server';
+import { proposalEventActor } from '@apograph/copilot-server';
 import { Injectable } from '@nestjs/common';
 import type {
     ProposalActor,
     ProposalApplier,
     ProposalApplyResult,
     ProposalTarget
-} from '@orthacms/copilot-domain';
+} from '@apograph/copilot-domain';
 import { InjectContentRegistry } from '../content.tokens';
 import type { ContentTypeRegistry } from '../registry/content-type-registry';
 import { EntryWriterService } from '../entries/infrastructure/persistence/entry-writer.service';

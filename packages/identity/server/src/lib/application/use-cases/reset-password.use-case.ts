@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { attachActor, OutboxWriter, UnitOfWork } from '@orthacms/database';
+import { attachActor, OutboxWriter, UnitOfWork } from '@apograph/database';
 import {
     PASSWORD_RESET_REPOSITORY,
     type PasswordResetRepository

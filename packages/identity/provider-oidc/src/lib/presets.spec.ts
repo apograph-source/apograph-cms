@@ -127,12 +127,12 @@ describe('presets build the right issuer', () => {
     });
 
     it('Keycloak, from base URL and realm', async () => {
-        const issuer = 'https://sso.acme.com/realms/ortha';
+        const issuer = 'https://sso.acme.com/realms/apograph';
         const { fetchStub, seen } = await discoveryFor(issuer);
         const provider = createKeycloakProvider({
             clientId: CLIENT_ID,
             baseUrl: 'https://sso.acme.com/',
-            realm: 'ortha',
+            realm: 'apograph',
             fetch: fetchStub
         });
 
@@ -144,7 +144,7 @@ describe('presets build the right issuer', () => {
     });
 });
 
-describe('presets do not lose the caller\'s settings', () => {
+describe("presets do not lose the caller's settings", () => {
     it('keeps an explicit label', async () => {
         const { fetchStub } = await discoveryFor('https://accounts.google.com');
         const provider = createGoogleProvider({
@@ -156,7 +156,7 @@ describe('presets do not lose the caller\'s settings', () => {
         expect(provider.descriptor().label).toBe('Acme Workspace');
     });
 
-    it('keeps extra authorization parameters alongside a preset\'s own', async () => {
+    it("keeps extra authorization parameters alongside a preset's own", async () => {
         const { fetchStub } = await discoveryFor('https://accounts.google.com');
         const provider = createGoogleProvider({
             clientId: CLIENT_ID,

@@ -1,11 +1,11 @@
 import { Inject, Injectable, Optional } from '@nestjs/common';
 import { eq } from 'drizzle-orm';
-import { InjectDatabase, type Database } from '@orthacms/database';
+import { InjectDatabase, type Database } from '@apograph/database';
 import {
     CONTENT_CATALOG,
     workspaceContent,
     type ContentCatalog
-} from '@orthacms/workspaces-server';
+} from '@apograph/workspaces-server';
 
 /**
  * The content-type summaries the system prompt is built from — `name — label

@@ -1,5 +1,5 @@
 import type { ComponentType } from 'react';
-import { createSlot } from '@orthacms/utils-admin';
+import { createSlot } from '@apograph/utils-admin';
 
 /** Props a {@link CommandSection} component receives from the palette. */
 export type CommandSectionProps = {

@@ -1,5 +1,5 @@
-import { PERMISSIONS, PERMISSION_KEYS } from '@orthacms/identity-server';
-import type { PermissionKey } from '@orthacms/identity-server';
+import { PERMISSIONS, PERMISSION_KEYS } from '@apograph/identity-server';
+import type { PermissionKey } from '@apograph/identity-server';
 import { createToolContext } from './tool-context';
 import type { ToolActor } from './tool';
 

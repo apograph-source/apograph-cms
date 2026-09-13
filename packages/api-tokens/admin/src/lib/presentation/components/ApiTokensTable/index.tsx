@@ -15,7 +15,7 @@ import {
     TableHead,
     TableHeader,
     TableRow
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 import type {
     ApiToken,
     ApiTokenScope,

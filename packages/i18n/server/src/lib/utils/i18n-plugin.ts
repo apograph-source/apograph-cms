@@ -1,4 +1,4 @@
-import type { ServerPlugin } from '@orthacms/bootstrap-server';
+import type { ServerPlugin } from '@apograph/bootstrap-server';
 import type { I18nPluginConfig } from '../types/locale';
 import { LocaleSet } from '../domain/value-objects/locale-set';
 import { describeI18nApi } from '../docs/describe-i18n-api';

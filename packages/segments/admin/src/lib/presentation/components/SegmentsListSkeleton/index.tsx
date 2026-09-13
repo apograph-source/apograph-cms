@@ -1,5 +1,5 @@
 import { defineMessages, useIntl } from 'react-intl';
-import { Skeleton } from '@orthacms/design-system';
+import { Skeleton } from '@apograph/design-system';
 
 const messages = defineMessages({
     loading: {

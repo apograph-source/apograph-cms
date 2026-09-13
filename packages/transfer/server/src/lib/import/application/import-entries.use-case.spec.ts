@@ -9,7 +9,7 @@ import {
     type ImportAction,
     type ImportReason,
     type RelationPolicy
-} from '@orthacms/transfer-domain';
+} from '@apograph/transfer-domain';
 import { ImportEntriesUseCase } from './import-entries.use-case';
 
 /**

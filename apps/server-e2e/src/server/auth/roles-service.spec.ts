@@ -1,10 +1,10 @@
-import { getDatabase } from '@orthacms/database';
+import { getDatabase } from '@apograph/database';
 import {
     RoleNotFoundError,
     RolesService,
     SystemRoleProtectedError,
     roles
-} from '@orthacms/identity-server';
+} from '@apograph/identity-server';
 import { eq } from 'drizzle-orm';
 import {
     closeTestApp,

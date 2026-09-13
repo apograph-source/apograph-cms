@@ -7,12 +7,12 @@ import type {
     EntryWriteExtension,
     EntryWriteExtensionInput,
     EntryWriteExtensionTarget
-} from '@orthacms/content-server';
-import { PERMISSIONS, PermissionsService } from '@orthacms/identity-server';
-import type { Database } from '@orthacms/database';
-import { isOpen, type EntryAccess } from '@orthacms/segments-domain';
+} from '@apograph/content-server';
+import { PERMISSIONS, PermissionsService } from '@apograph/identity-server';
+import type { Database } from '@apograph/database';
+import { isOpen, type EntryAccess } from '@apograph/segments-domain';
 import { EntryAccessService } from '../application/entry-access.service';
-import type { EventActor } from '@orthacms/database';
+import type { EventActor } from '@apograph/database';
 import { PrincipalStore } from '../application/principal.store';
 import { ENTRY_ACCESS_IDS_MAX } from '../http/segments.dto';
 

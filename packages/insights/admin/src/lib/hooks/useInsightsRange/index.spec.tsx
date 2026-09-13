@@ -1,9 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import {
-    MemoryRouter,
-    useLocation,
-    useNavigationType
-} from 'react-router-dom';
+import { MemoryRouter, useLocation, useNavigationType } from 'react-router-dom';
 import { InsightsRangeProvider, useInsightsRange } from './index';
 import { DEFAULT_RANGE, RANGE_DAYS } from '../../utils/insightsRange';
 

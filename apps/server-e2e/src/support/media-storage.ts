@@ -1,8 +1,8 @@
-import type { StorageProvider } from '@orthacms/media-server';
+import type { StorageProvider } from '@apograph/media-server';
 import {
     createMemoryStorageProvider,
     type MemoryStorageProvider
-} from '@orthacms/media-provider-memory';
+} from '@apograph/media-provider-memory';
 
 /**
  * The provider backing the most recently booted app.
@@ -29,7 +29,7 @@ export function resetBlobStore(): void {
 }
 
 /**
- * The harness's storage backend: `@orthacms/media-provider-memory`, a shipped
+ * The harness's storage backend: `@apograph/media-provider-memory`, a shipped
  * package rather than the inline `Map` this module used to be.
  *
  * That inline version was a second implementation of the port that no rule held

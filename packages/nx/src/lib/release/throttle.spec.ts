@@ -21,7 +21,7 @@ let dir: string;
 const lock = () => join(dir, 'lock');
 
 beforeEach(() => {
-    dir = mkdtempSync(join(tmpdir(), 'ortha-throttle-'));
+    dir = mkdtempSync(join(tmpdir(), 'apograph-throttle-'));
 });
 
 afterEach(() => {
@@ -197,7 +197,7 @@ describe('withPublishSlot', () => {
      * Regression for the window this file exists to close: `staleAfter`
      * defaulted to 15 minutes while the executor's own retry ladder sleeps
      * 12.5 of them before its sixth upload attempt (and much longer with
-     * `ORTHA_PUBLISH_RETRIES` raised). A slow-but-alive publisher would have
+     * `APOGRAPH_PUBLISH_RETRIES` raised). A slow-but-alive publisher would have
      * its slot stolen mid-upload and two publishes would run at once. The
      * holder now refreshes the lock while it works, so `staleAfter` bounds
      * silence rather than work.
@@ -264,9 +264,9 @@ describe('withPublishSlot', () => {
 
 describe('the new-name circuit breaker', () => {
     it('reads back the package that first hit the limit', () => {
-        tripCreationLimit(dir, '@orthacms/media-server');
+        tripCreationLimit(dir, '@apograph/media-server');
 
-        expect(creationLimitTrippedBy(dir)).toBe('@orthacms/media-server');
+        expect(creationLimitTrippedBy(dir)).toBe('@apograph/media-server');
     });
 
     it('is closed until something trips it', () => {
@@ -275,8 +275,8 @@ describe('the new-name circuit breaker', () => {
 
     it('creates its directory rather than failing a publish over bookkeeping', () => {
         const fresh = join(dir, 'not', 'there', 'yet');
-        tripCreationLimit(fresh, '@orthacms/x');
+        tripCreationLimit(fresh, '@apograph/x');
 
-        expect(creationLimitTrippedBy(fresh)).toBe('@orthacms/x');
+        expect(creationLimitTrippedBy(fresh)).toBe('@apograph/x');
     });
 });

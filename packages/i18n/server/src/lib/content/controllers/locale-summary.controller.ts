@@ -11,10 +11,10 @@ import {
     PERMISSIONS,
     PermissionsGuard,
     RequirePermissions
-} from '@orthacms/identity-server';
-import { CurrentWorkspace, WorkspaceGuard } from '@orthacms/workspaces-server';
-import { InjectContentRegistry } from '@orthacms/content-server';
-import type { ContentTypeRegistry } from '@orthacms/content-server';
+} from '@apograph/identity-server';
+import { CurrentWorkspace, WorkspaceGuard } from '@apograph/workspaces-server';
+import { InjectContentRegistry } from '@apograph/content-server';
+import type { ContentTypeRegistry } from '@apograph/content-server';
 import { LocaleSummaryDto } from '../dto/locale-summary.dto';
 import {
     LocaleGroupService,

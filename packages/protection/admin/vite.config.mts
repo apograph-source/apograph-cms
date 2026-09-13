@@ -11,7 +11,7 @@ export default defineConfig(() => ({
     cacheDir: '../../../node_modules/.vite/packages/protection/admin',
     plugins: [react()],
     test: {
-        name: '@orthacms/protection-admin',
+        name: '@apograph/protection-admin',
         watch: false,
         globals: true,
         environment: 'jsdom',

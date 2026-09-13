@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { IntlProvider } from 'react-intl';
 import { vi } from 'vitest';
-import type { EntryFieldControlContext } from '@orthacms/content-admin';
+import type { EntryFieldControlContext } from '@apograph/content-admin';
 import { WysiwygFieldControl } from '.';
 
 /** A `richtext` field the schema marks required — the case that discriminates. */

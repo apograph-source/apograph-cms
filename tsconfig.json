@@ -130,7 +130,7 @@
             "path": "./packages/content/graphql"
         },
         {
-            "path": "./packages/create-ortha-app"
+            "path": "./packages/create-apograph-app"
         },
         {
             "path": "./packages/cli"

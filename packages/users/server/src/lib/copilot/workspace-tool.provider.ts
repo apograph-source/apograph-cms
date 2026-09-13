@@ -1,7 +1,7 @@
 import { Injectable, Optional, type OnModuleInit } from '@nestjs/common';
-import { PERMISSIONS } from '@orthacms/identity-server';
-import { ToolRegistry } from '@orthacms/tools-server';
-import type { ToolDefinition, ToolProvider } from '@orthacms/tools-server';
+import { PERMISSIONS } from '@apograph/identity-server';
+import { ToolRegistry } from '@apograph/tools-server';
+import type { ToolDefinition, ToolProvider } from '@apograph/tools-server';
 import { WorkspaceMembersQuery } from '../member/infrastructure/queries/workspace-members.query';
 
 /** Members a single `workspace_members_list` call may return. */

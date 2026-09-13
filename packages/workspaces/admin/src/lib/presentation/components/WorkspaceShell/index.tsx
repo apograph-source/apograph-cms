@@ -10,8 +10,8 @@ import {
     EmptyHeader,
     EmptyMedia,
     EmptyTitle
-} from '@orthacms/design-system';
-import { useSidebarContent } from '@orthacms/shell-admin';
+} from '@apograph/design-system';
+import { useSidebarContent } from '@apograph/shell-admin';
 import { useWorkspaces } from '../../../application/useWorkspaces';
 import { CurrentWorkspaceProvider } from '../../currentWorkspace';
 import { WORKSPACE_ROUTE_SLOT } from '../../slots/workspaceSlots';

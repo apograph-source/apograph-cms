@@ -7,9 +7,9 @@ import {
     McpError,
     ReadResourceRequestSchema
 } from '@modelcontextprotocol/sdk/types.js';
-import type { ToolOutput, ToolRegistry } from '@orthacms/tools-server';
-import { toToolError } from '@orthacms/tools-server';
-import type { ToolContext, ToolError } from '@orthacms/tools-server';
+import type { ToolOutput, ToolRegistry } from '@apograph/tools-server';
+import { toToolError } from '@apograph/tools-server';
+import type { ToolContext, ToolError } from '@apograph/tools-server';
 
 /**
  * MCP's own code for "the resource you named is not there". It is in the

@@ -3,7 +3,7 @@ import {
     SSO_PROVIDER_CONFORMANCE_CHECKS,
     type SsoProviderConformanceCase,
     type SsoProviderConformanceReport
-} from '@orthacms/identity-domain';
+} from '@apograph/identity-domain';
 import { createOidcProvider } from './oidc-provider';
 import {
     callbackWith,
@@ -43,7 +43,9 @@ const testCase: SsoProviderConformanceCase = {
         callback: callbackWith()
     }),
     mismatchedNonce: async () => ({
-        provider: await armed({ claims: { nonce: 'nonce-from-another-attempt' } }),
+        provider: await armed({
+            claims: { nonce: 'nonce-from-another-attempt' }
+        }),
         callback: callbackWith()
     }),
     providerError: async () => ({

@@ -4,14 +4,14 @@ import {
     type ToolContext,
     type ToolDefinition,
     type ToolProvider
-} from '@orthacms/tools-server';
+} from '@apograph/tools-server';
 import {
     InjectContentRegistry,
     toToolEventActor,
     type ContentTypeRegistry
-} from '@orthacms/content-server';
-import { PERMISSIONS } from '@orthacms/identity-server';
-import { isOfferedIn, isOpen, type Segment } from '@orthacms/segments-domain';
+} from '@apograph/content-server';
+import { PERMISSIONS } from '@apograph/identity-server';
+import { isOfferedIn, isOpen, type Segment } from '@apograph/segments-domain';
 import { EntryAccessService } from '../application/entry-access.service';
 import { SegmentCatalogService } from '../application/segment-catalog.service';
 

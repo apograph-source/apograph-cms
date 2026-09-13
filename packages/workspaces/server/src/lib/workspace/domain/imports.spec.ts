@@ -7,7 +7,7 @@ import { join } from 'node:path';
  * shape, so a leak here is copied into every context extracted after it.
  *
  * `domain/` must import nothing from `@nestjs/*`, `drizzle-orm`,
- * `class-validator`, or `../infrastructure`. The `@orthacms/nx` layer-boundary
+ * `class-validator`, or `../infrastructure`. The `@apograph/nx` layer-boundary
  * lint is not wired up (the package `AGENTS.md` says as much: "self-enforce
  * it"), and the violation is always a one-line convenience — an `@Injectable()`
  * to make a value object injectable, an `eq()` reached for while writing an
@@ -15,7 +15,7 @@ import { join } from 'node:path';
  * to a framework.
  *
  * **The accurate claim is "framework-free", not "dependency-free."** `domain/`
- * *does* import two things: `@orthacms/database`, for the framework-free
+ * *does* import two things: `@apograph/database`, for the framework-free
  * `DomainEvent` / `createDomainEvent` contract (`events/workspace-events.ts`),
  * and `node:crypto` for `randomUUID` (`value-objects/workspace-id.ts`), which
  * is what lets the aggregate mint its own id instead of reading one back from a
@@ -79,7 +79,7 @@ describe('domain layer imports', () => {
 
     it('does depend on the shared kernel — framework-free, not dependency-free', () => {
         const kernelUsers = FILES.filter((path) =>
-            specifiersOf(path).includes('@orthacms/database')
+            specifiersOf(path).includes('@apograph/database')
         );
         expect(kernelUsers.length).toBeGreaterThan(0);
     });

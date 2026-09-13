@@ -171,7 +171,7 @@ describe('The webhook transaction boundary', () => {
             onRequest: async (delivery) => {
                 observations.push(
                     await observeDeliveryRow(
-                        delivery.headers['x-ortha-delivery'] as string
+                        delivery.headers['x-apograph-delivery'] as string
                     )
                 );
             }

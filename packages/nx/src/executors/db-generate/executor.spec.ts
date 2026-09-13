@@ -11,11 +11,11 @@ jest.mock('node:child_process', () => ({
 /**
  * The driver, replaced by constructors that refuse to be built.
  *
- * `@orthacms/cli`'s barrel pulls `pg` in for `applyPluginMigrations`, so the
+ * `@apograph/cli`'s barrel pulls `pg` in for `applyPluginMigrations`, so the
  * module is loaded on this path whatever `db:generate` does — what must never
  * happen is a client being *constructed*. This is the trip wire for that, and
  * it is the reason this suite drives the real `runDrizzleKitGenerate` instead
- * of a mock of it: a mocked `@orthacms/cli` would prove only that the executor
+ * of a mock of it: a mocked `@apograph/cli` would prove only that the executor
  * itself opens nothing, which is the half of the path nobody suspected.
  */
 jest.mock('pg', () => {
@@ -84,7 +84,10 @@ describe('db-generate executor', () => {
             }
             try {
                 return await dbGenerateExecutor(
-                    { cwd: 'packages/media/server', config: 'drizzle.config.ts' },
+                    {
+                        cwd: 'packages/media/server',
+                        config: 'drizzle.config.ts'
+                    },
                     context
                 );
             } finally {
@@ -113,7 +116,7 @@ describe('db-generate executor', () => {
 
         it('opens no connection on the way [nx:I-05]', async () => {
             // The `pg` mock above throws from either constructor, so a client
-            // built anywhere on this path — executor or `@orthacms/cli` —
+            // built anywhere on this path — executor or `@apograph/cli` —
             // surfaces as a rejection rather than as a passing test.
             await expect(runWithoutCredentials()).resolves.toEqual({
                 success: true
@@ -140,15 +143,15 @@ describe('db-generate executor', () => {
             expect(argv.some((arg) => /postgres(ql)?:\/\//.test(arg))).toBe(
                 false
             );
-            expect(argv.some((arg) => /--url|--driver|DATABASE_URL/.test(arg))).toBe(
-                false
-            );
+            expect(
+                argv.some((arg) => /--url|--driver|DATABASE_URL/.test(arg))
+            ).toBe(false);
         });
 
         it('names no credential anywhere on the implementation path [nx:I-05] [nx:I-32]', () => {
             // The behavioural checks above run one shape of one call. This
             // reads the two files the target is actually made of — the thin
-            // executor and the `@orthacms/cli` function it delegates to, which
+            // executor and the `@apograph/cli` function it delegates to, which
             // is the *single* implementation shared with a generated app — and
             // fails on a credential or a driver appearing in either.
             const sources = [
@@ -156,7 +159,10 @@ describe('db-generate executor', () => {
                 'packages/cli/src/lib/generate.ts'
             ].map((path) => ({
                 path,
-                text: readFileSync(join(__dirname, '../../../../..', path), 'utf8')
+                text: readFileSync(
+                    join(__dirname, '../../../../..', path),
+                    'utf8'
+                )
             }));
 
             // The guard on the guard: an empty read would satisfy every

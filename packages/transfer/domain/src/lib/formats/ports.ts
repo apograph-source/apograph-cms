@@ -73,5 +73,8 @@ export class TransferParseError extends Error {
 /** Reads a document back from one format. */
 export interface ImportParser {
     readonly format: TransferFormat;
-    parse(files: readonly TransferFile[], context: ParseContext): TransferDocument;
+    parse(
+        files: readonly TransferFile[],
+        context: ParseContext
+    ): TransferDocument;
 }

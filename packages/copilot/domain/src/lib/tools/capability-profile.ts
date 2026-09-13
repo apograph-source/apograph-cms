@@ -1,7 +1,7 @@
 /**
  * A `resource:action` permission key, as a plain string.
  *
- * Deliberately **not** imported from `@orthacms/identity-server`: this package
+ * Deliberately **not** imported from `@apograph/identity-server`: this package
  * imports nothing, and the binder that declares a tool passes the real
  * `PERMISSIONS.*` constant, so the concrete union is still enforced at the one
  * place that matters — the tool declaration.
@@ -11,7 +11,7 @@ export type ToolPermissionKey = string;
 /**
  * The least this decision needs to know about a tool.
  *
- * Structural rather than an import of `@orthacms/tools-server`'s
+ * Structural rather than an import of `@apograph/tools-server`'s
  * `ToolDefinition`, because this package imports nothing — and because the
  * decision genuinely only reads these three fields. A real `ToolDefinition`
  * satisfies it, so the server passes the shared registry's tools straight in

@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { defineMessages, useIntl } from 'react-intl';
 import { useQueryClient } from '@tanstack/react-query';
-import { useCurrentWorkspace } from '@orthacms/workspaces-admin';
+import { useCurrentWorkspace } from '@apograph/workspaces-admin';
 import {
     Alert,
     AlertDescription,
@@ -11,7 +11,7 @@ import {
     ContainerHeader,
     Spinner,
     toast
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 import type {
     ContentType,
     ContentTypeDetail,

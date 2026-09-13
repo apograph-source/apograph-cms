@@ -1,5 +1,5 @@
 {
-    "name": "@orthacms/database",
+    "name": "@apograph/database",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -18,7 +18,7 @@
     ],
     "dependencies": {
         "@nestjs/common": "^11.0.0",
-        "@orthacms/bootstrap-server": "*",
+        "@apograph/bootstrap-server": "*",
         "drizzle-orm": "^0.45.0",
         "pg": "^8.13.0"
     },

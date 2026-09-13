@@ -7,7 +7,7 @@ import {
     WidgetChip,
     toneBackground,
     type BarRowSpec
-} from '@orthacms/insights-admin';
+} from '@apograph/insights-admin';
 import { useLocalizationCoverage } from '../../api/useLocalizationCoverage';
 import { CoverageFigure } from './CoverageFigure';
 import { CoverageModeToggle, type CoverageMode } from './CoverageModeToggle';

@@ -12,7 +12,7 @@
  * Pure: it takes the document and mutates only the paths this plugin owns.
  */
 
-import type { OpenApiDocument } from '@orthacms/bootstrap-server';
+import type { OpenApiDocument } from '@apograph/bootstrap-server';
 import type { OpenApiSchema } from './workspace-schemas';
 import { buildWorkspaceSchemas, ref } from './workspace-schemas';
 

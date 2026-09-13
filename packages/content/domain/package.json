@@ -1,5 +1,5 @@
 {
-    "name": "@orthacms/content-domain",
+    "name": "@apograph/content-domain",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",

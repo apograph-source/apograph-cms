@@ -7,7 +7,7 @@
 ## Context
 
 A `richtext` value was an **HTML string** in a `text` column. The kernel
-(`@orthacms/content-domain`) — the one place both runtimes agree on what a
+(`@apograph/content-domain`) — the one place both runtimes agree on what a
 value *is* — validated it with `typeof === 'string'` plus `minLength` /
 `maxLength` / `pattern`, and the admin editor produced HTML with `getHTML()`.
 

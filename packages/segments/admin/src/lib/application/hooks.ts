@@ -4,7 +4,7 @@ import {
     useQuery,
     useQueryClient
 } from '@tanstack/react-query';
-import { useHasPermission } from '@orthacms/identity-admin';
+import { useHasPermission } from '@apograph/identity-admin';
 import {
     httpSegmentsGateway,
     segmentsKeys,

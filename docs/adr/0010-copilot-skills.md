@@ -14,7 +14,7 @@
 ## Context
 
 Every run assembles a system prompt from the same fixed text. That text is
-right about how Ortha works and necessarily silent about how _your_ team
+right about how Apograph works and necessarily silent about how _your_ team
 works — house style, the checklist before a page is published, which fields
 matter in a release note. So people paste those instructions into the message
 box, once per question, and the copy drifts across whoever remembers to paste

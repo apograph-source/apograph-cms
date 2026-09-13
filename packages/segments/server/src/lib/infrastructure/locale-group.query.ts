@@ -1,6 +1,6 @@
 import { and, eq } from 'drizzle-orm';
 import type { PgColumn } from 'drizzle-orm/pg-core';
-import type { AnyContentType } from '@orthacms/content-server';
+import type { AnyContentType } from '@apograph/content-server';
 import type { AccessExecutor } from '../application/entry-access.service';
 
 /** The locale columns content's table builder adds to an `i18n: true` type. */
@@ -19,7 +19,7 @@ type Columns = Record<string, PgColumn | undefined>;
  * **This reads content's own columns, not i18n's service.** `locale` and
  * `locale_group_id` are added by content's table builder when a type declares
  * `i18n: true`, so the group is answerable from the type in hand; going through
- * `@orthacms/i18n-server` would make an entitlement rule depend on a plugin the
+ * `@apograph/i18n-server` would make an entitlement rule depend on a plugin the
  * deployment may not have installed, and the honest fallback there — treat the
  * entry as alone — is the same thing a non-localized type already gets.
  *

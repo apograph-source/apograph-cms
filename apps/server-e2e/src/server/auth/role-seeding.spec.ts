@@ -1,4 +1,4 @@
-import { getDatabase, getPool } from '@orthacms/database';
+import { getDatabase, getPool } from '@apograph/database';
 import {
     PERMISSION_KEYS,
     SYSTEM_ROLES,
@@ -6,7 +6,7 @@ import {
     permissions,
     rolePermissions,
     roles
-} from '@orthacms/identity-server';
+} from '@apograph/identity-server';
 import { and, eq } from 'drizzle-orm';
 import {
     closeTestApp,

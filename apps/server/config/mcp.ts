@@ -1,7 +1,7 @@
 /** The MCP front door — kill switch, identity, and the two result ceilings. */
-import type { McpPluginConfig } from '@orthacms/mcp-server';
+import type { McpPluginConfig } from '@apograph/mcp-server';
 
-import { readFlag, readPositiveInt } from '@orthacms/utils-server';
+import { readFlag, readPositiveInt } from '@apograph/utils-server';
 
 /** The MCP front door — kill switch, identity, and the two result ceilings. */
 export function mcpConfig(): McpPluginConfig {
@@ -15,7 +15,7 @@ export function mcpConfig(): McpPluginConfig {
         enabled: readFlag('MCP_ENABLED', false),
         // Stable product configuration, so literals: this is the identity MCP
         // clients display in their connector lists.
-        name: 'ortha-cms',
+        name: 'apograph-cms',
         version: '1.0.0',
         // A request/response transport owes its caller an answer. The registry
         // has no deadline of its own, so without this the only bound on a

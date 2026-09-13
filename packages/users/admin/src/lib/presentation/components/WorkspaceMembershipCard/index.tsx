@@ -1,6 +1,6 @@
 import { defineMessages, useIntl } from 'react-intl';
 import { Trash2 } from 'lucide-react';
-import { Button, Card, CardContent, Spinner } from '@orthacms/design-system';
+import { Button, Card, CardContent, Spinner } from '@apograph/design-system';
 import { MemberAvatar } from '../MemberAvatar';
 import type { MemberWorkspace } from '../../../domain/types/member';
 

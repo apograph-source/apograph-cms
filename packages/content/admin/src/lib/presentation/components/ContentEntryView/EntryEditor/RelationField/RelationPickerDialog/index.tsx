@@ -18,8 +18,8 @@ import {
     DialogHeader,
     DialogTitle,
     Spinner
-} from '@orthacms/design-system';
-import { countRules, type FilterGroup } from '@orthacms/query-builder-admin';
+} from '@apograph/design-system';
+import { countRules, type FilterGroup } from '@apograph/query-builder-admin';
 import { useContentSchema } from '../../../../../../application/useContentSchema';
 import {
     useRelationCandidates,

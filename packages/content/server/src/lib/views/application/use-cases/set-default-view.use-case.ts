@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import type { PublicUser } from '@orthacms/identity-server';
+import type { PublicUser } from '@apograph/identity-server';
 import { VIEW_VISIBILITY } from '../../domain/saved-view';
 import {
     SAVED_VIEW_REPOSITORY,

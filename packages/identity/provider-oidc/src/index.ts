@@ -1,8 +1,5 @@
 export { createOidcProvider } from './lib/oidc-provider';
-export type {
-    OidcProviderConfig,
-    OidcEndpoints
-} from './lib/config';
+export type { OidcProviderConfig, OidcEndpoints } from './lib/config';
 export {
     createAuth0Provider,
     createEntraProvider,

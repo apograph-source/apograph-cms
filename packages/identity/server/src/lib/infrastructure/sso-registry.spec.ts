@@ -1,7 +1,7 @@
 import {
     UnknownSsoProviderError,
     type SsoProvider
-} from '@orthacms/identity-domain';
+} from '@apograph/identity-domain';
 import { buildSsoRegistry } from './sso-registry';
 
 const provider = (label = 'Fake'): SsoProvider => ({
@@ -13,7 +13,9 @@ const provider = (label = 'Fake'): SsoProvider => ({
 describe('buildSsoRegistry', () => {
     it('resolves a registered provider by name', () => {
         const google = provider('Google');
-        const registry = buildSsoRegistry([{ name: 'google', provider: google }]);
+        const registry = buildSsoRegistry([
+            { name: 'google', provider: google }
+        ]);
 
         expect(registry.get('google')).toBe(google);
         expect(registry.has('google')).toBe(true);

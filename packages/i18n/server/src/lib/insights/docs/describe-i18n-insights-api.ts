@@ -10,7 +10,7 @@
  * Pure: it takes the document and mutates only this plugin's own operation.
  */
 
-import type { OpenApiDocument } from '@orthacms/bootstrap-server';
+import type { OpenApiDocument } from '@apograph/bootstrap-server';
 
 /** A JSON Schema fragment, as it appears in the OpenAPI document. */
 type OpenApiSchema = Record<string, unknown>;

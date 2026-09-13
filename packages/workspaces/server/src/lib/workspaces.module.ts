@@ -1,5 +1,5 @@
 import { DynamicModule, Module } from '@nestjs/common';
-import { WORKSPACE_DIRECTORY } from '@orthacms/identity-server';
+import { WORKSPACE_DIRECTORY } from '@apograph/identity-server';
 import { CreateWorkspaceController } from './workspace/http/controllers/create-workspace.controller';
 import { ListWorkspacesController } from './workspace/http/controllers/list-workspaces.controller';
 import { CheckSlugController } from './workspace/http/controllers/check-slug.controller';
@@ -52,8 +52,8 @@ import { WorkspaceExistenceQuery } from './workspace/infrastructure/queries/work
  * Wires the aggregate's ports to their adapters: {@link WORKSPACE_REPOSITORY} →
  * {@link DrizzleWorkspaceRepository}, {@link MEMBER_PROVISIONER} →
  * {@link DrizzleMemberProvisioner}. The unit-of-work / outbox primitives come
- * from `@orthacms/database`'s global module; identity's tables are reached
- * through `@orthacms/identity-server`.
+ * from `@apograph/database`'s global module; identity's tables are reached
+ * through `@apograph/identity-server`.
  */
 @Module({})
 export class WorkspacesModule {

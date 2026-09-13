@@ -11,7 +11,7 @@
  * carries one.
  */
 
-import type { EntryStatus } from '@orthacms/content-domain';
+import type { EntryStatus } from '@apograph/content-domain';
 
 /**
  * Wire version of the document. Bumped when a change would make an older
@@ -212,7 +212,9 @@ export interface TransferDocument {
 }
 
 /** Merges a partial depth request onto {@link DEFAULT_DEPTH}. */
-export function resolveDepth(requested?: Partial<TransferDepth>): TransferDepth {
+export function resolveDepth(
+    requested?: Partial<TransferDepth>
+): TransferDepth {
     return { ...DEFAULT_DEPTH, ...(requested ?? {}) };
 }
 

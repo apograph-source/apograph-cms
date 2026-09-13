@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { getPool } from '@orthacms/database';
+import { getPool } from '@apograph/database';
 import {
     closeTestApp,
     createTestApp,
@@ -214,9 +214,7 @@ describe('Entry activity (GET /api/activity/entries/:entryId)', () => {
             roleKey: 'entry-activity-nothing'
         });
         await seedMembership(noPermission.id, home.id);
-        await (
-            await agentFor('entry-activity-nothing@example.com')
-        )
+        await (await agentFor('entry-activity-nothing@example.com'))
             .get(`/api/activity/entries/${entryId}`)
             .expect(403);
 
@@ -231,9 +229,7 @@ describe('Entry activity (GET /api/activity/entries/:entryId)', () => {
         const outsiderAgent = await agentFor(
             'entry-activity-outsider@example.com'
         );
-        await outsiderAgent
-            .get(`/api/activity/entries/${entryId}`)
-            .expect(403);
+        await outsiderAgent.get(`/api/activity/entries/${entryId}`).expect(403);
 
         // Give that same principal the membership it was missing and the same
         // request succeeds — so the 403 above was the membership and nothing

@@ -73,9 +73,9 @@ describe('the admin host’s boundaries', () => {
         // the shell contributes, and the host mounts that layout without knowing
         // what is inside it — which is what lets an installation replace or omit
         // the gate without touching `packages/bootstrap`.
-        expect(declared).not.toContain('@orthacms/identity-admin');
+        expect(declared).not.toContain('@apograph/identity-admin');
 
-        expect(matching(/@orthacms\/identity-admin/)).toEqual([]);
+        expect(matching(/@apograph\/identity-admin/)).toEqual([]);
         // The three words the dossier names, as imported symbols rather than
         // prose: `createAdmin`'s comments discuss `RequireAuth` at length, and
         // must go on being able to.
@@ -103,15 +103,15 @@ describe('the admin host’s boundaries', () => {
  * primitives) and `utils-admin` (the slot mechanism).
  */
 describe('the admin host holds no domain logic', () => {
-    /** The `@orthacms/*` packages the host is allowed to know about. */
-    const CHROME = ['@orthacms/design-system', '@orthacms/utils-admin'];
+    /** The `@apograph/*` packages the host is allowed to know about. */
+    const CHROME = ['@apograph/design-system', '@apograph/utils-admin'];
 
     it('imports only the two domain-free packages [bootstrap:I-01]', () => {
         const imported = new Set(
             sourceFiles().flatMap((file) =>
                 [
                     ...readFileSync(file, 'utf8').matchAll(
-                        /from '(@orthacms\/[a-z0-9-]+)'/g
+                        /from '(@apograph\/[a-z0-9-]+)'/g
                     )
                 ].map(([, specifier]) => specifier)
             )
@@ -137,8 +137,8 @@ describe('the admin host holds no domain logic', () => {
             ...manifest['devDependencies']
         });
 
-        expect(declared.filter((name) => name.startsWith('@orthacms/'))).toEqual(
-            CHROME
-        );
+        expect(
+            declared.filter((name) => name.startsWith('@apograph/'))
+        ).toEqual(CHROME);
     });
 });

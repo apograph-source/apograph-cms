@@ -1,4 +1,4 @@
-import type { SsoProvider } from '@orthacms/identity-domain';
+import type { SsoProvider } from '@apograph/identity-domain';
 import { createOidcProvider } from './oidc-provider';
 import type { OidcProviderConfig } from './config';
 

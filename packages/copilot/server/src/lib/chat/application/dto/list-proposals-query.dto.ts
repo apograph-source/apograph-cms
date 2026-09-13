@@ -1,6 +1,6 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsIn, IsOptional, IsUUID } from 'class-validator';
-import type { ProposalStatus } from '@orthacms/copilot-domain';
+import type { ProposalStatus } from '@apograph/copilot-domain';
 
 /** The statuses a caller may filter the queue by. */
 const STATUSES = ['pending', 'accepted', 'rejected'] as const;

@@ -1,5 +1,5 @@
 /**
- * Public API of `@orthacms/segments-domain` — who may **read** published
+ * Public API of `@apograph/segments-domain` — who may **read** published
  * content, decided by one pure function over two lists.
  *
  * Deliberately small. A segment is a named set of reader tags; an entry names

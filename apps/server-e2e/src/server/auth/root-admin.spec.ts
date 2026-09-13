@@ -17,9 +17,9 @@ const ROOT_PASSWORD = 'RootSecret123!';
 /**
  * Root-admin bootstrap (Option B, self-hosted). The app boots WITH a
  * `rootAdmin` config, so `RootAdminSeeder` provisions the account during
- * `app.init()` — exactly as a real boot with `ORTHA_ROOT_ADMIN_EMAIL` set.
+ * `app.init()` — exactly as a real boot with `APOGRAPH_ROOT_ADMIN_EMAIL` set.
  *
- * One app per spec file: the `@orthacms/database` pool is a per-file
+ * One app per spec file: the `@apograph/database` pool is a per-file
  * singleton, so this suite does not `resetDb` (that would wipe the
  * boot-provisioned admin); the idempotency/non-destructive cases use distinct
  * emails to stay independent of the boot account.
@@ -124,7 +124,10 @@ describe('Root admin bootstrap (RootAdminSeeder)', () => {
             // or closed, so the shared pool stays open for the suite.
             await expect(
                 createTestApp({
-                    rootAdmin: { email: 'no-password@example.com', password: '' }
+                    rootAdmin: {
+                        email: 'no-password@example.com',
+                        password: ''
+                    }
                 })
             ).rejects.toThrow(/password/i);
         });

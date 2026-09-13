@@ -27,7 +27,7 @@ const MCP_PATH = '/api/v1/mcp';
 const ACCEPT = 'application/json, text/event-stream';
 
 /**
- * `@orthacms/tools-server`'s cross-consumer invariant: **one registry, two
+ * `@apograph/tools-server`'s cross-consumer invariant: **one registry, two
  * surfaces**.
  *
  * The other suites drive one consumer each — `mcp/mcp.spec.ts` the endpoint,

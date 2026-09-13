@@ -23,12 +23,12 @@ import { join } from 'node:path';
  * **A manifest scan alone is not enough**, and this is the bug that proved it.
  * Every adapter imports `ObjectNotFoundError` as a *value* — the port promises
  * a particular rejection from `get`, not merely some rejection — and it used to
- * come from `@orthacms/media-server`, whose root barrel re-exports
- * `MediaModule`. So `provider-local/src/index.ts` → `@orthacms/media-server` →
+ * come from `@apograph/media-server`, whose root barrel re-exports
+ * `MediaModule`. So `provider-local/src/index.ts` → `@apograph/media-server` →
  * `lib/utils/media-plugin` → `../media.module` → `@nestjs/common`: an adapter
  * that declared no framework and imported no framework loaded one anyway, and
- * `npm i @orthacms/media-provider-s3` installed NestJS, Drizzle, Express and
- * Sharp. The port now lives in `@orthacms/media-domain`, which declares no
+ * `npm i @apograph/media-provider-s3` installed NestJS, Drizzle, Express and
+ * Sharp. The port now lives in `@apograph/media-domain`, which declares no
  * dependencies at all.
  *
  * `the require graph` below is what keeps that true. It walks every import out
@@ -96,7 +96,7 @@ describe('the storage adapter packages', () => {
         name === 'drizzle-orm' ||
         name === 'class-validator' ||
         name === 'express' ||
-        name === '@orthacms/database';
+        name === '@apograph/database';
 
     it('found every adapter package', () => {
         // A wrong path, or a rename, would leave `it.each` iterating an empty
@@ -153,21 +153,21 @@ describe('the storage adapter packages', () => {
 
     // covers: media:I-34
     it.each(ADAPTERS.map((a) => [a.name, a] as const))(
-        '%s reaches for one Ortha package — the port, and nothing else',
+        '%s reaches for one Apograph package — the port, and nothing else',
         (_name, adapter) => {
             // The testkit is the exception the manifests already record: an
             // adapter keeps it in `devDependencies` to run the shared contract
             // suite, so it never travels with the shipped package.
-            const ortha = adapter.sources.flatMap((path) =>
+            const apograph = adapter.sources.flatMap((path) =>
                 specifiersOf(path)
                     .map(packageOf)
-                    .filter((name) => name.startsWith('@orthacms/'))
+                    .filter((name) => name.startsWith('@apograph/'))
                     .filter(
-                        (name) => name !== '@orthacms/media-provider-testkit'
+                        (name) => name !== '@apograph/media-provider-testkit'
                     )
             );
 
-            expect([...new Set(ortha)]).toEqual(['@orthacms/media-domain']);
+            expect([...new Set(apograph)]).toEqual(['@apograph/media-domain']);
         }
     );
 
@@ -176,7 +176,7 @@ describe('the storage adapter packages', () => {
     /** `packages/` — the workspace's package root. */
     const PACKAGES = join(GROUP, '..');
 
-    /** Every `@orthacms/*` package in the workspace, name → directory. */
+    /** Every `@apograph/*` package in the workspace, name → directory. */
     const WORKSPACE_PACKAGES: Map<string, string> = (() => {
         const found = new Map<string, string>();
         const consider = (dir: string) => {
@@ -289,7 +289,7 @@ describe('the storage adapter packages', () => {
             const { visited, externals } = reachableFrom(entry);
 
             // The walk left the adapter: it followed the port into
-            // `@orthacms/media-domain` and read the port's own sources.
+            // `@apograph/media-domain` and read the port's own sources.
             expect(
                 [...visited].some((path) =>
                     path.includes(join('media', 'domain', 'src'))
@@ -302,23 +302,23 @@ describe('the storage adapter packages', () => {
 
     // covers: media:I-34
     it.each(ADAPTERS.map((a) => [a.name, a] as const))(
-        '%s pulls in one Ortha package transitively — the port, and what it needs',
+        '%s pulls in one Apograph package transitively — the port, and what it needs',
         (_name, adapter) => {
             const entry = fileFor(
                 join(GROUP, adapter.name, 'src', 'index.ts')
             ) as string;
 
-            const ortha = [...reachableFrom(entry).externals]
-                .filter((name) => name.startsWith('@orthacms/'))
-                .filter((name) => name !== '@orthacms/media-provider-testkit')
+            const apograph = [...reachableFrom(entry).externals]
+                .filter((name) => name.startsWith('@apograph/'))
+                .filter((name) => name !== '@apograph/media-provider-testkit')
                 .sort();
 
-            // Not "no Ortha package but the port": "no Ortha package the port
-            // does not itself pull in". `@orthacms/media-domain` declares no
+            // Not "no Apograph package but the port": "no Apograph package the port
+            // does not itself pull in". `@apograph/media-domain` declares no
             // dependencies (asserted in its own `package-manifest.spec.ts`), so
             // today those are the same list — and if the port ever grows one,
             // this fails here rather than in someone's install.
-            expect(ortha).toEqual(['@orthacms/media-domain']);
+            expect(apograph).toEqual(['@apograph/media-domain']);
         }
     );
 });

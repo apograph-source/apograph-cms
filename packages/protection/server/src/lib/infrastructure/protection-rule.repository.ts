@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { and, eq } from 'drizzle-orm';
-import { UnitOfWork, type Database } from '@orthacms/database';
+import { UnitOfWork, type Database } from '@apograph/database';
 import type { ProtectionRuleView } from '../types/protection-views';
 import { protectionRules } from './schema/protection-rules';
 
@@ -27,7 +27,7 @@ type Row = typeof protectionRules.$inferSelect;
  * ADR-0003 is explicit that a thin context gets mappers, not an aggregate and a
  * repository interface with one implementation.
  *
- * The **decision** the rules feed lives in `@orthacms/protection-domain` and is
+ * The **decision** the rules feed lives in `@apograph/protection-domain` and is
  * not re-implemented here; this class only stores and reads.
  */
 @Injectable()

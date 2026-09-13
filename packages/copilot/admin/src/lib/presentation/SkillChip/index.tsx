@@ -1,6 +1,6 @@
 import { defineMessages, useIntl } from 'react-intl';
 import { BookOpen, Lock, X } from 'lucide-react';
-import { Badge, cn } from '@orthacms/design-system';
+import { Badge, cn } from '@apograph/design-system';
 
 const messages = defineMessages({
     remove: {

@@ -57,7 +57,7 @@ test.describe('Entry activity tab', () => {
         // Localized action labels, not the raw `entry.published` wire tokens.
         await expect(page.getByText('Published content')).toBeVisible();
         await expect(page.getByText('Edited content')).toBeVisible();
-        await expect(page.getByText('ada@ortha.dev')).toBeVisible();
+        await expect(page.getByText('ada@apograph.dev')).toBeVisible();
         // An event nobody performed reads as "System", not as a blank actor.
         await expect(page.getByText('System', { exact: true })).toBeVisible();
         await expect(page.getByText('3 recorded actions')).toBeVisible();

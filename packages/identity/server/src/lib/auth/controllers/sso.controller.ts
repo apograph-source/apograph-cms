@@ -19,15 +19,12 @@ import {
     UnknownSsoProviderError,
     type SsoProviderSummary,
     type SsoRegistry
-} from '@orthacms/identity-domain';
+} from '@apograph/identity-domain';
 import { Inject } from '@nestjs/common';
 import { CompleteSsoUseCase } from '../../application/use-cases/complete-sso.use-case';
 import { StartSsoUseCase } from '../../application/use-cases/start-sso.use-case';
 import { SsoBackchannelLogoutUseCase } from '../../application/use-cases/sso-backchannel-logout.use-case';
-import {
-    SsoLoginFailedError,
-    SsoLogoutFailedError
-} from '../../domain/errors';
+import { SsoLoginFailedError, SsoLogoutFailedError } from '../../domain/errors';
 import type { IdentityPluginConfig } from '../../types';
 import { InjectIdentityConfig } from '../../identity.tokens';
 import { ssoFailureUrl, ssoSuccessUrl } from '../../sso/sso-settings';
@@ -194,7 +191,7 @@ export class SsoController {
      * `POST /api/auth/sso/:provider/backchannel-logout` — the identity provider
      * telling us, with no browser involved, that a session on its side ended.
      *
-     * The one mechanism that ends an Ortha session promptly when somebody is
+     * The one mechanism that ends an Apograph session promptly when somebody is
      * offboarded: a session here is a row with a TTL, and a directory disabling
      * an account does not otherwise reach it.
      *

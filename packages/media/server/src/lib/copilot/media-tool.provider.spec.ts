@@ -1,5 +1,5 @@
 import { BadRequestException, HttpException } from '@nestjs/common';
-import type { ToolContext, ToolDefinition } from '@orthacms/tools-server';
+import type { ToolContext, ToolDefinition } from '@apograph/tools-server';
 import { InvalidAssetFilterError } from '../domain/errors';
 import type { DownloadAssetQuery } from '../infrastructure/queries/download-asset.query';
 import type { ListAssetsQuery } from '../infrastructure/queries/list-assets.query';
@@ -219,12 +219,19 @@ describe('MediaCopilotToolProvider — surface changes the link, not the answer'
         } as unknown as ListAssetsQuery;
         const provider = new MediaCopilotToolProvider(
             assets,
-            { execute: jest.fn().mockResolvedValue([]) } as unknown as ListFoldersQuery,
-            { locate: jest.fn(), open: jest.fn() } as unknown as DownloadAssetQuery
+            {
+                execute: jest.fn().mockResolvedValue([])
+            } as unknown as ListFoldersQuery,
+            {
+                locate: jest.fn(),
+                open: jest.fn()
+            } as unknown as DownloadAssetQuery
         );
         const tool = provider
             .tools()
-            .find((one) => one.name === 'media_assets_search') as ToolDefinition;
+            .find(
+                (one) => one.name === 'media_assets_search'
+            ) as ToolDefinition;
 
         const result = (await tool.handler({}, { ...caller, surface })) as {
             total: number;
@@ -240,9 +247,9 @@ describe('MediaCopilotToolProvider — surface changes the link, not the answer'
         const viaMcp = await searchAs('mcp');
         const viaCopilot = await searchAs('copilot');
 
-        expect(
-            (viaMcp.assets.execute as jest.Mock).mock.calls
-        ).toEqual((viaCopilot.assets.execute as jest.Mock).mock.calls);
+        expect((viaMcp.assets.execute as jest.Mock).mock.calls).toEqual(
+            (viaCopilot.assets.execute as jest.Mock).mock.calls
+        );
     });
 
     it('discloses the identical fields on either surface [tools:I-09]', async () => {

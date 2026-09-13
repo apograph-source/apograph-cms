@@ -1,5 +1,5 @@
 import { Suspense, lazy } from 'react';
-import type { AdminPlugin } from '@orthacms/bootstrap-admin';
+import type { AdminPlugin } from '@apograph/bootstrap-admin';
 import {
     ENTRY_HEADER_SLOT,
     ENTRY_PUBLISH_GUARD_SLOT,
@@ -8,16 +8,16 @@ import {
     RECORDS_FILTER_FIELDS_SLOT,
     type ContentTypeDetail,
     type EntryRecord
-} from '@orthacms/content-admin';
+} from '@apograph/content-admin';
 import {
     INSIGHTS_SECTION_IDS,
     INSIGHTS_WIDGET_SLOT
-} from '@orthacms/insights-admin';
+} from '@apograph/insights-admin';
 import {
     WORKSPACE_NAV_SLOT,
     WORKSPACE_ROUTE_SLOT,
     WORKSPACE_SETTINGS_TAB_SLOT
-} from '@orthacms/workspaces-admin';
+} from '@apograph/workspaces-admin';
 import { Shield, ShieldCheck } from 'lucide-react';
 import { ProtectionSettings } from '../components/ProtectionSettings';
 import { ReviewsSkeleton } from '../components/ReviewsSkeleton';

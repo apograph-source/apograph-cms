@@ -1,11 +1,11 @@
 import { Suspense, lazy } from 'react';
-import type { AdminPlugin } from '@orthacms/bootstrap-admin';
+import type { AdminPlugin } from '@apograph/bootstrap-admin';
 import {
     COMMAND_SLOT,
     HOME_SECTION_SLOT,
     SIDEBAR_NAV_SLOT,
     SIDEBAR_SECTION_SLOT
-} from '@orthacms/shell-admin';
+} from '@apograph/shell-admin';
 import { Layers, Settings } from 'lucide-react';
 import {
     CreateWorkspacePageSkeleton,

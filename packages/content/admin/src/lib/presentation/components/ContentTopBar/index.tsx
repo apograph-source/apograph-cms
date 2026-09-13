@@ -11,8 +11,8 @@ import {
     BreadcrumbSeparator,
     TopBar,
     TopBarIcon
-} from '@orthacms/design-system';
-import { PageActions } from '@orthacms/shell-admin';
+} from '@apograph/design-system';
+import { PageActions } from '@apograph/shell-admin';
 import type { ContentType } from '../../../domain/types/contentType';
 import {
     CONTENT_SEGMENT,

@@ -1,6 +1,6 @@
 import { defineMessages, useIntl } from 'react-intl';
 import { FilePlus, FileText, Plus, Table2, X } from 'lucide-react';
-import { Badge, Button, cn } from '@orthacms/design-system';
+import { Badge, Button, cn } from '@apograph/design-system';
 import type { RouteContext } from '../../application/readRouteContext';
 
 const messages = defineMessages({

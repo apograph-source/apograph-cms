@@ -11,7 +11,7 @@ export default defineConfig(() => ({
     cacheDir: '../../../node_modules/.vite/packages/query-builder/admin',
     plugins: [react()],
     test: {
-        name: '@orthacms/query-builder-admin',
+        name: '@apograph/query-builder-admin',
         watch: false,
         globals: true,
         environment: 'jsdom',

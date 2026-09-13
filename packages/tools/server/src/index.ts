@@ -1,5 +1,5 @@
 /**
- * Public API of `@orthacms/tools-server` — the shared, transport-neutral
+ * Public API of `@apograph/tools-server` — the shared, transport-neutral
  * catalogue of everything an agent can do to this CMS, and the single place a
  * tool call is authorized.
  *

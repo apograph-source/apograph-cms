@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { attachActor, OutboxWriter, UnitOfWork } from '@orthacms/database';
-import type { PublicUser } from '@orthacms/identity-server';
+import { attachActor, OutboxWriter, UnitOfWork } from '@apograph/database';
+import type { PublicUser } from '@apograph/identity-server';
 import { WorkspaceId } from '../../domain/value-objects/workspace-id';
 import { WorkspaceColor } from '../../domain/value-objects/workspace-color';
 import { WorkspaceNotFoundError } from '../../domain/errors';

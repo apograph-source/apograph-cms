@@ -13,7 +13,7 @@ import {
     UseGuards
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import type { EventActor } from '@orthacms/database';
+import type { EventActor } from '@apograph/database';
 import {
     CurrentUser,
     OriginGuard,
@@ -21,7 +21,7 @@ import {
     PermissionsGuard,
     RequirePermissions,
     type PublicUser
-} from '@orthacms/identity-server';
+} from '@apograph/identity-server';
 import {
     SegmentsService,
     type SegmentListView,

@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { attachActor, OutboxWriter, UnitOfWork } from '@orthacms/database';
-import type { PublicUser } from '@orthacms/identity-server';
+import { attachActor, OutboxWriter, UnitOfWork } from '@apograph/database';
+import type { PublicUser } from '@apograph/identity-server';
 import { Asset, type AssetVariants } from '../../domain/asset';
 import { AssetId } from '../../domain/value-objects/asset-id';
 import { FileName } from '../../domain/value-objects/file-name';
@@ -10,10 +10,7 @@ import {
     ASSET_REPOSITORY,
     type AssetRepository
 } from '../../domain/asset.repository';
-import {
-    STORAGE_PROVIDER,
-    type StorageProvider
-} from '@orthacms/media-domain';
+import { STORAGE_PROVIDER, type StorageProvider } from '@apograph/media-domain';
 
 /** Inserts " copy" before the extension (or appends it when there is none). */
 function duplicateName(name: string): string {

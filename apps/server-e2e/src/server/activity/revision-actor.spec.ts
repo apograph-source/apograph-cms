@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { getPool } from '@orthacms/database';
+import { getPool } from '@apograph/database';
 import {
     closeTestApp,
     createTestApp,
@@ -103,9 +103,7 @@ describe('Revision authorship vs audit actor (a token is not a user)', () => {
     }
 
     /** The audit rows recorded for one entry, with the actor columns. */
-    async function auditOf(
-        entryId: string
-    ): Promise<
+    async function auditOf(entryId: string): Promise<
         {
             kind: string;
             actorId: string | null;

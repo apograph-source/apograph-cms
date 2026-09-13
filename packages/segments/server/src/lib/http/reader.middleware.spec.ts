@@ -1,6 +1,6 @@
 import { Logger } from '@nestjs/common';
 import type { NextFunction, Request, Response } from 'express';
-import type { SegmentResolver } from '@orthacms/segments-domain';
+import type { SegmentResolver } from '@apograph/segments-domain';
 import { ReaderMiddleware } from './reader.middleware';
 import { ReaderStore } from '../application/reader.store';
 import { SegmentCatalogService } from '../application/segment-catalog.service';

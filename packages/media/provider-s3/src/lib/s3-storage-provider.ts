@@ -9,13 +9,13 @@ import {
 } from '@aws-sdk/client-s3';
 import { Upload } from '@aws-sdk/lib-storage';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
-import { ObjectNotFoundError } from '@orthacms/media-domain';
+import { ObjectNotFoundError } from '@apograph/media-domain';
 import type {
     DirectUrlOptions,
     PutObject,
     StorageProvider,
     StoredObject
-} from '@orthacms/media-domain';
+} from '@apograph/media-domain';
 
 /**
  * Settings for an **S3-compatible** object store.

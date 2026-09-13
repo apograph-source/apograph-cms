@@ -26,7 +26,8 @@ function repoRoot(): string {
     let dir = resolve(process.cwd());
     while (!existsSync(join(dir, 'nx.json'))) {
         const parent = dirname(dir);
-        if (parent === dir) throw new Error('no nx.json above ' + process.cwd());
+        if (parent === dir)
+            throw new Error('no nx.json above ' + process.cwd());
         dir = parent;
     }
     return dir;
@@ -66,7 +67,7 @@ const isSpec = (file: string) => /\.(spec|test)\.tsx?$/.test(file);
 /**
  * Line and block comments removed. Every one of these packages documents its
  * reasoning at length in prose, and that prose names the very things the
- * assertions below look for — `@orthacms/bootstrap-server`, `react-intl`,
+ * assertions below look for — `@apograph/bootstrap-server`, `react-intl`,
  * `axios`. Matching against raw text would make the tests fail on a sentence
  * and pass on a violation whose comment happened to be short.
  */
@@ -97,14 +98,14 @@ describe('the leaf’s dependencies', () => {
                 ...manifest.dependencies,
                 ...manifest.peerDependencies,
                 ...manifest.devDependencies
-            }).filter((name) => name.startsWith('@orthacms/'));
+            }).filter((name) => name.startsWith('@apograph/'));
         };
 
         // The design system is the one exception, and only on the admin side.
         // Anything else here is a cycle waiting to happen: every plugin imports
         // this package, so a plugin it imported back would make the two
         // unloadable in either order.
-        expect(workspaceDeps(ADMIN)).toEqual(['@orthacms/design-system']);
+        expect(workspaceDeps(ADMIN)).toEqual(['@apograph/design-system']);
         expect(workspaceDeps(SERVER)).toEqual([]);
     });
 
@@ -114,23 +115,21 @@ describe('the leaf’s dependencies', () => {
                 importsOf(read(file))
                     .filter(
                         (spec) =>
-                            spec.startsWith('@orthacms/') &&
-                            spec !== '@orthacms/design-system'
+                            spec.startsWith('@apograph/') &&
+                            spec !== '@apograph/design-system'
                     )
                     .map((spec) => `${rel(file)} → ${spec}`)
         );
 
         // A manifest can be right while the code is not: the workspace resolves
-        // every `@orthacms/*` from source through `tsconfig.base.json`, so an
+        // every `@apograph/*` from source through `tsconfig.base.json`, so an
         // undeclared import compiles and runs.
         expect(offenders).toEqual([]);
     });
 
     it('keeps the design-system dependency on the admin side only [utils:I-01]', () => {
         const serverOffenders = SERVER_SOURCES.filter((file) =>
-            importsOf(read(file)).some((spec) =>
-                spec.startsWith('@orthacms/')
-            )
+            importsOf(read(file)).some((spec) => spec.startsWith('@apograph/'))
         ).map(rel);
 
         expect(serverOffenders).toEqual([]);

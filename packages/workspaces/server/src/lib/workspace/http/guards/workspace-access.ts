@@ -3,7 +3,7 @@ import {
     ForbiddenException,
     UnauthorizedException
 } from '@nestjs/common';
-import type { AuthenticatedRequest } from '@orthacms/identity-server';
+import type { AuthenticatedRequest } from '@apograph/identity-server';
 import type { MembershipCheckQuery } from '../../infrastructure/queries/membership-check.query';
 
 /** RFC 4122 UUID shape — the workspace id format the schema stores. */

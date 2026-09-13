@@ -13,7 +13,7 @@ import {
     FieldLabel,
     Input,
     Spinner
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 import type { CopilotConversation } from '../../../../application/useConversations';
 
 /** Mirrors the server's `MAX_TITLE_LENGTH`, so the two agree on the limit. */

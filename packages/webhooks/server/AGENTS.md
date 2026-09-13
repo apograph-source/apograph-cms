@@ -1,4 +1,4 @@
-# @orthacms/webhooks-server
+# @apograph/webhooks-server
 
 The **webhooks plugin** — outgoing HTTP notifications about content changes.
 Owns three tables, subscribes to the transactional outbox, and sends from a
@@ -43,7 +43,7 @@ keeps the original `event_id` on purpose, because that is what a receiver
 deduplicates on — is exempt.
 
 The delivery id is minted by the **caller**, not by the database, because the
-envelope carries it: the body and the `X-Ortha-Delivery` header have to name the
+envelope carries it: the body and the `X-Apograph-Delivery` header have to name the
 same delivery.
 
 ### 3. The secret is stored in the clear, and that is the honest answer
@@ -123,7 +123,7 @@ Two things in it are load-bearing:
   `responseSnippet` come back with it. If that method is ever narrowed to match
   its type, narrow the route table with it.
 
-The delivery vocabularies come from `@orthacms/webhooks-domain` rather than
+The delivery vocabularies come from `@apograph/webhooks-domain` rather than
 being restated, so an enum in the reference cannot drift from the one the server
 enforces.
 
@@ -171,6 +171,6 @@ Two things about the e2e harness are worth knowing before you change it:
 
 ## Commands
 
-- `npx nx test @orthacms/webhooks-server`
-- `npx nx run @orthacms/webhooks-server:db:generate --name=<change>`
-- `npx nx run-many -t typecheck lint -p @orthacms/webhooks-server`
+- `npx nx test @apograph/webhooks-server`
+- `npx nx run @apograph/webhooks-server:db:generate --name=<change>`
+- `npx nx run-many -t typecheck lint -p @apograph/webhooks-server`

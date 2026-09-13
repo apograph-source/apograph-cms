@@ -16,7 +16,7 @@ import {
  * delivers them to subscribers — decoupling side effects from the write
  * without a two-phase commit.
  *
- * This is the **one** table `@orthacms/database` owns (the sanctioned
+ * This is the **one** table `@apograph/database` owns (the sanctioned
  * exception to "database owns no schema"): the outbox is infrastructure
  * shared by every bounded context, not any one domain's data.
  */

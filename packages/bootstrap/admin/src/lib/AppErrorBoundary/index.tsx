@@ -14,7 +14,7 @@ import {
     CardHeader,
     CardTitle,
     Logo
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 
 /** Intl descriptors for the fallback, co-located with it. */
 const messages = defineMessages({

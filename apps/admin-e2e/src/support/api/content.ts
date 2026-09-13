@@ -457,7 +457,7 @@ export const WYSIWYG_HOSTILE_ENTRY_ID = 'article-hostile';
 export const WYSIWYG_HOSTILE_IMAGE_SRC = '/wysiwyg-hostile-pixel.png';
 
 /** The global {@link WYSIWYG_HOSTILE_BODY}'s payloads set if anything runs. */
-export const WYSIWYG_HOSTILE_FLAG = '__orthaWysiwygXss';
+export const WYSIWYG_HOSTILE_FLAG = '__apographWysiwygXss';
 
 /**
  * The stored HTML {@link WYSIWYG_HOSTILE_ENTRY_ID} comes back with — the
@@ -504,8 +504,8 @@ export const READ_ONLY_SCHEMA_SEED: ContentTypeSummary[] = [
  * going inert: a plain text input, a `color`-widget text input (an `admin.widget`
  * hint the built-in control renders as text — the field this whole suite was
  * written for), a select, a boolean segmented control, a date picker, a rich-text
- * body (a *contributed* control, `@orthacms/wysiwyg-admin`), and a media field
- * (a *contributed tab*, `@orthacms/media-admin`). A regression that reaches only
+ * body (a *contributed* control, `@apograph/wysiwyg-admin`), and a media field
+ * (a *contributed tab*, `@apograph/media-admin`). A regression that reaches only
  * the built-ins would pass a single-field seed.
  */
 export const READ_ONLY_DETAIL_SEED: Record<string, ContentTypeDetail> = {
@@ -815,22 +815,22 @@ export const RELATIONS_ENTRIES_SEED: Record<string, EntryRecord[]> = {
     article: [
         seedRow(
             'article-getting-started',
-            { text: 'Getting started with Ortha' },
+            { text: 'Getting started with Apograph' },
             'published'
         ),
         seedRow('article-scaling', { text: 'Scaling Postgres' }, 'draft'),
         seedRow('article-design', { text: 'Designing the CMS' }, 'published')
     ],
     seo_meta: [
-        seedRow('seo-home', { metaTitle: 'Home — Ortha' }),
-        seedRow('seo-blog', { metaTitle: 'Blog — Ortha' })
+        seedRow('seo-home', { metaTitle: 'Home — Apograph' }),
+        seedRow('seo-blog', { metaTitle: 'Blog — Apograph' })
     ]
 };
 
 const ADA: WorkspaceView['members'][number] = {
     id: 'u_ada',
     name: 'Ada Lovelace',
-    email: 'ada@ortha.dev'
+    email: 'ada@apograph.dev'
 };
 
 /** A workspace granted every content type — the default Content Library seed. */
@@ -892,7 +892,7 @@ export const READ_ONLY_ENTRIES_SEED: Record<string, EntryRecord[]> = {
         seedRow(
             READ_ONLY_ENTRY_ID,
             {
-                title: 'Welcome to Ortha',
+                title: 'Welcome to Apograph',
                 subtitle: 'The CMS that gets out of the way',
                 accentColor: '#4f46e5',
                 variant: 'b',

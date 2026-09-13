@@ -1,5 +1,5 @@
 import { join } from 'node:path';
-import type { ServerPlugin } from '@orthacms/bootstrap-server';
+import type { ServerPlugin } from '@apograph/bootstrap-server';
 import { AlarmsModule } from '../alarms.module';
 import { describeAlarmsApi } from '../docs/describe-alarms-api';
 import type { AlarmsPluginConfig } from '../types/alarms-config';

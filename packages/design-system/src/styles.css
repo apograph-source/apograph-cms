@@ -1,4 +1,4 @@
-/* Global stylesheet shipped by @orthacms/design-system. Import it once from the
+/* Global stylesheet shipped by @apograph/design-system. Import it once from the
    host (after `@import 'tailwindcss'`). Holds the few rules that can't be plain
    Tailwind utilities — the wizard step entrance used by `WizardStepCard`, and
    the dropdown entrance motion below. */

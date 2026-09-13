@@ -4,7 +4,7 @@ import { BasePage } from './BasePage';
 /**
  * Page object for content alarms — the workspace page at
  * `/workspaces/:id/alarms` and the rule editor at `.../alarms/rules/:ruleId`
- * (from `@orthacms/alarms-admin`). Seed it with `mockSignedIn`,
+ * (from `@apograph/alarms-admin`). Seed it with `mockSignedIn`,
  * `mockWorkspaces` and `mockAlarmsApi`.
  *
  * Locators go through roles and visible text throughout: the condition editor's

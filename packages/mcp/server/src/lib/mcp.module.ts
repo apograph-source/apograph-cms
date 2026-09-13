@@ -1,5 +1,5 @@
 import { DynamicModule, Module } from '@nestjs/common';
-import { ToolRegistry, ToolsModule } from '@orthacms/tools-server';
+import { ToolRegistry, ToolsModule } from '@apograph/tools-server';
 import { McpAuthService } from './http/mcp-auth.service';
 import { McpController } from './http/mcp.controller';
 import { MCP_CONFIG } from './mcp.tokens';

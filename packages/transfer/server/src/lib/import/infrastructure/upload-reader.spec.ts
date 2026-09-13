@@ -4,7 +4,7 @@ import {
     TRANSFER_FORMAT,
     type TransferDocument,
     type TransferTypeSchema
-} from '@orthacms/transfer-domain';
+} from '@apograph/transfer-domain';
 import { createZipStream, type ZipMember } from '../../archive/zip-writer';
 import { readUpload, type UploadedTransferFile } from './upload-reader';
 

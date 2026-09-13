@@ -69,7 +69,7 @@ test.describe('Logout', () => {
         await mockSignedIn(page, {
             id: 'u_ada',
             name: 'Ada Lovelace',
-            email: 'ada@ortha.dev'
+            email: 'ada@apograph.dev'
         });
         await mockMembers(page);
         await spyLogout(page);
@@ -89,10 +89,10 @@ test.describe('Logout', () => {
         await mockSignedIn(page, {
             id: 'u_grace',
             name: 'Grace Hopper',
-            email: 'grace@ortha.dev'
+            email: 'grace@apograph.dev'
         });
         await mockMembers(page, [], { delayMs: 30_000 });
-        await loginPage.login('grace@ortha.dev', PASSWORD);
+        await loginPage.login('grace@apograph.dev', PASSWORD);
 
         await expect(page).toHaveURL(/\/users$/);
         await expect(membersPage.tableSkeleton()).toBeVisible();
@@ -115,7 +115,7 @@ test.describe('Signing in after a session ended on its own', () => {
         await mockSignedIn(page, {
             id: 'u_ada',
             name: 'Ada Lovelace',
-            email: 'ada@ortha.dev'
+            email: 'ada@apograph.dev'
         });
         await mockMembers(page);
         await membersPage.goto();
@@ -130,10 +130,10 @@ test.describe('Signing in after a session ended on its own', () => {
         await mockSignedIn(page, {
             id: 'u_grace',
             name: 'Grace Hopper',
-            email: 'grace@ortha.dev'
+            email: 'grace@apograph.dev'
         });
         await mockMembers(page, [], { delayMs: 30_000 });
-        await loginPage.login('grace@ortha.dev', PASSWORD);
+        await loginPage.login('grace@apograph.dev', PASSWORD);
 
         await expect(page).toHaveURL(/\/users$/);
         await expect(membersPage.tableSkeleton()).toBeVisible();

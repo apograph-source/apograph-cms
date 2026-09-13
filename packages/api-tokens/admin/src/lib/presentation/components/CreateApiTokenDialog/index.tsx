@@ -19,7 +19,7 @@ import {
     SelectTrigger,
     SelectValue,
     Spinner
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 import type { ApiTokenScope } from '../../../domain/types/apiToken';
 import type { CreateApiTokenInput } from '../../../infrastructure/apiTokenGateway';
 import { useWorkspaceOptions } from '../../../application/useWorkspaceOptions';

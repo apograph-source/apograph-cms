@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { Label, RadioGroupItem, cn } from '@orthacms/design-system';
+import { Label, RadioGroupItem, cn } from '@apograph/design-system';
 
 /**
  * One selectable destination row inside {@link MoveAssetsDialog}'s radio list —

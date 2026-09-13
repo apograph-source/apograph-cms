@@ -1,4 +1,4 @@
-import { ApiError } from '@orthacms/utils-admin';
+import { ApiError } from '@apograph/utils-admin';
 
 /** The error envelope Nest sends: `message` is a string, or an array for DTOs. */
 type ErrorBody = { message?: unknown };

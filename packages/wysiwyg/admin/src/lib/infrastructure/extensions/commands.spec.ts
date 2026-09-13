@@ -270,9 +270,9 @@ describe('where media sits across the measure', () => {
         expect(open_.getHTML()).not.toContain('data-align');
         // …and the node still knows where it sits, so nothing was lost — the
         // default simply isn't serialized.
-        expect(
-            nodesOfType(open_.getJSON(), 'image')[0].attrs?.['align']
-        ).toBe('left');
+        expect(nodesOfType(open_.getJSON(), 'image')[0].attrs?.['align']).toBe(
+            'left'
+        );
     });
 
     it('reads a stored left back without writing it out again [wysiwyg:I-24]', () => {
@@ -283,9 +283,9 @@ describe('where media sits across the measure', () => {
             '<img src="/api/media/assets/a1/raw" data-align="left">'
         );
 
-        expect(
-            nodesOfType(open_.getJSON(), 'image')[0].attrs?.['align']
-        ).toBe('left');
+        expect(nodesOfType(open_.getJSON(), 'image')[0].attrs?.['align']).toBe(
+            'left'
+        );
         expect(open_.getHTML()).not.toContain('data-align');
     });
 });

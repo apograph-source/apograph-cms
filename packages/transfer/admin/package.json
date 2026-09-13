@@ -1,5 +1,5 @@
 {
-    "name": "@orthacms/transfer-admin",
+    "name": "@apograph/transfer-admin",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -16,12 +16,12 @@
         "src"
     ],
     "dependencies": {
-        "@orthacms/bootstrap-admin": "*",
-        "@orthacms/content-admin": "*",
-        "@orthacms/design-system": "*",
-        "@orthacms/identity-admin": "*",
-        "@orthacms/transfer-domain": "*",
-        "@orthacms/utils-admin": "*",
+        "@apograph/bootstrap-admin": "*",
+        "@apograph/content-admin": "*",
+        "@apograph/design-system": "*",
+        "@apograph/identity-admin": "*",
+        "@apograph/transfer-domain": "*",
+        "@apograph/utils-admin": "*",
         "@tanstack/react-query": "^5.0.0",
         "lucide-react": "^1.17.0",
         "react-intl": "^7.0.0"

@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import {
     InjectRevisionStore,
     type RevisionStore
-} from '@orthacms/content-server';
-import { countApprovals } from '@orthacms/protection-domain';
+} from '@apograph/content-server';
+import { countApprovals } from '@apograph/protection-domain';
 import { ReviewApprovalRepository } from '../infrastructure/review-approval.repository';
 import { ReviewRequestRepository } from '../infrastructure/review-request.repository';
 import { ProtectionRuleRepository } from '../infrastructure/protection-rule.repository';

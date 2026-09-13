@@ -3,10 +3,10 @@ import {
     ToolRegistry,
     type ToolDefinition,
     type ToolProvider
-} from '@orthacms/tools-server';
-import type { ProposalChange, ProposalDraft } from '@orthacms/copilot-domain';
-import { PERMISSIONS } from '@orthacms/identity-server';
-import { isOfferedIn } from '@orthacms/segments-domain';
+} from '@apograph/tools-server';
+import type { ProposalChange, ProposalDraft } from '@apograph/copilot-domain';
+import { PERMISSIONS } from '@apograph/identity-server';
+import { isOfferedIn } from '@apograph/segments-domain';
 import { EntryAccessService } from '../application/entry-access.service';
 import { SegmentCatalogService } from '../application/segment-catalog.service';
 

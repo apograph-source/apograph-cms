@@ -9,7 +9,7 @@ export class HomePage extends BasePage {
      */
     readonly heading: Locator;
     /**
-     * The authenticated shell's primary nav (from `@orthacms/shell-admin`'s
+     * The authenticated shell's primary nav (from `@apograph/shell-admin`'s
      * `AppShell` toolbar). Present only when a private route renders inside the
      * shell, so it doubles as proof the gated layout wrapped the page.
      */

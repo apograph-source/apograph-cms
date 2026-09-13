@@ -1,10 +1,7 @@
 import { useState, type ReactElement } from 'react';
 import { IntlProvider, defineMessages } from 'react-intl';
 import { act, render } from '@testing-library/react';
-import {
-    FIELD_TYPE,
-    type FilterField
-} from '../../types/filter-field.type';
+import { FIELD_TYPE, type FilterField } from '../../types/filter-field.type';
 import {
     COMBINATOR,
     type FilterGroup,
@@ -102,10 +99,10 @@ export function ControlledBuilder({
     initial,
     onChange,
     ...rest
-}: { initial: FilterGroup | null; onChange?: (next: FilterGroup) => void } & Omit<
-    QueryBuilderProps,
-    'value' | 'onChange' | 'fields'
-> &
+}: {
+    initial: FilterGroup | null;
+    onChange?: (next: FilterGroup) => void;
+} & Omit<QueryBuilderProps, 'value' | 'onChange' | 'fields'> &
     Partial<Pick<QueryBuilderProps, 'fields'>>) {
     const [value, setValue] = useState<FilterGroup | null>(initial);
     return (

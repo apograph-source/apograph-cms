@@ -1,5 +1,5 @@
-import type { Database } from '@orthacms/database';
-import type { StorageProvider } from '@orthacms/media-domain';
+import type { Database } from '@apograph/database';
+import type { StorageProvider } from '@apograph/media-domain';
 import { StorageProviderCheck } from './storage-provider.check';
 
 /** A provider that only has to answer `id` and, sometimes, `verify()`. */

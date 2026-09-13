@@ -1,6 +1,6 @@
 import request from 'supertest';
 import { sql } from 'drizzle-orm';
-import { getDatabase } from '@orthacms/database';
+import { getDatabase } from '@apograph/database';
 import {
     closeTestApp,
     createTestApp,

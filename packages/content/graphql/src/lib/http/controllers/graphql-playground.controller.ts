@@ -1,6 +1,6 @@
 import { Controller, Get, Header, Req } from '@nestjs/common';
 import { ApiExcludeEndpoint } from '@nestjs/swagger';
-import { Public } from '@orthacms/identity-server';
+import { Public } from '@apograph/identity-server';
 import { renderGraphiQL } from '@graphql-yoga/render-graphiql';
 import type { Request } from 'express';
 
@@ -61,7 +61,7 @@ export class GraphqlPlaygroundController {
                 endpoint,
                 html: renderGraphiQL({
                     endpoint,
-                    title: 'Ortha CMS — content API',
+                    title: 'Apograph CMS — content API',
                     defaultQuery: DEFAULT_QUERY
                 })
             };
@@ -98,10 +98,10 @@ function endpointFor(request: Request): string {
  * otherwise has to discover: the endpoint needs an `Authorization` header, and
  * the schema they see is scoped to their workspace's content grants.
  */
-const DEFAULT_QUERY = `# Ortha CMS content API
+const DEFAULT_QUERY = `# Apograph CMS content API
 #
 # 1. Add your bearer token in the "Headers" tab below:
-#      { "Authorization": "Bearer orthacms_…" }
+#      { "Authorization": "Bearer apograph_…" }
 #    Mint one in the admin under API Tokens.
 #
 # 2. If the token covers more than one workspace, also send:

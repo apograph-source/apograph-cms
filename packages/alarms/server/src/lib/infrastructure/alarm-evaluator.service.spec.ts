@@ -2,10 +2,13 @@ import { Logger } from '@nestjs/common';
 import {
     CONTENT_FIELD_TYPE,
     type AnyContentType
-} from '@orthacms/content-server';
+} from '@apograph/content-server';
 import { AlarmEvaluator } from './alarm-evaluator.service';
 import type { AlarmRuleRecord } from './alarm-rule.repository';
-import { ALARMS_DEFAULTS, type ResolvedAlarmsConfig } from '../types/alarms-config';
+import {
+    ALARMS_DEFAULTS,
+    type ResolvedAlarmsConfig
+} from '../types/alarms-config';
 
 /**
  * The three evaluation paths, driven against a recording matcher and a
@@ -278,7 +281,10 @@ describe('AlarmEvaluator', () => {
                 // comes back full.
                 respond: (call) =>
                     isEnumeration(call)
-                        ? [`p${call.options.offset}a`, `p${call.options.offset}b`]
+                        ? [
+                              `p${call.options.offset}a`,
+                              `p${call.options.offset}b`
+                          ]
                         : []
             });
 

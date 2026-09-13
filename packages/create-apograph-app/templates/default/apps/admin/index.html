@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>__APP_TITLE__</title>
+        <base href="/" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script>
+            /* Apply the persisted theme before first paint, so a dark-mode user
+               never sees a flash of the light canvas. Mirrors the design-system
+               AppearanceProvider, which takes over on mount. */
+            (function () {
+                try {
+                    var stored = localStorage.getItem('apograph.theme');
+                    var theme =
+                        stored === 'light' ||
+                        stored === 'dark' ||
+                        stored === 'system'
+                            ? stored
+                            : 'system';
+                    var dark =
+                        theme === 'dark' ||
+                        (theme === 'system' &&
+                            window.matchMedia('(prefers-color-scheme: dark)')
+                                .matches);
+                    document.documentElement.classList.toggle('dark', dark);
+                    document.documentElement.style.colorScheme = dark
+                        ? 'dark'
+                        : 'light';
+                } catch (e) {}
+            })();
+        </script>
+    </head>
+    <body>
+        <div id="root"></div>
+        <script type="module" src="/src/main.tsx"></script>
+    </body>
+</html>

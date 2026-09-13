@@ -88,7 +88,8 @@ describe('production parity', () => {
                 .expect(201);
             const header = res.headers['set-cookie'] as unknown as string[];
             return (
-                header.find((value) => value.startsWith('ortha_session=')) ?? ''
+                header.find((value) => value.startsWith('apograph_session=')) ??
+                ''
             );
         }
 

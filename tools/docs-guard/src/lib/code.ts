@@ -148,7 +148,9 @@ export const tablesOwnedBy = (packageRelative: string): string[] => {
         )) {
             owned.add(table);
         }
-        for (const [, table] of sql.matchAll(/DROP TABLE (?:IF EXISTS )?"([^"]+)"/g)) {
+        for (const [, table] of sql.matchAll(
+            /DROP TABLE (?:IF EXISTS )?"([^"]+)"/g
+        )) {
             owned.delete(table);
         }
     }

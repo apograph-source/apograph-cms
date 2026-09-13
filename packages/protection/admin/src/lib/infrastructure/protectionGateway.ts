@@ -1,4 +1,4 @@
-import { apiClient, toApiError } from '@orthacms/utils-admin';
+import { apiClient, toApiError } from '@apograph/utils-admin';
 import type {
     EntryReviewStatus,
     ProtectionInsights,

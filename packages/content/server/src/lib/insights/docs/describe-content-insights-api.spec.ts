@@ -1,4 +1,4 @@
-import type { OpenApiDocument } from '@orthacms/bootstrap-server';
+import type { OpenApiDocument } from '@apograph/bootstrap-server';
 import { describeContentInsightsApi } from './describe-content-insights-api';
 
 /** The six widget routes, as the swagger scanner leaves them. */

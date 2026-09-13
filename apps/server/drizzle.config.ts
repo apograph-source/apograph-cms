@@ -3,7 +3,7 @@ import { defineConfig } from 'drizzle-kit';
 /**
  * Generation config for the HOST-owned content tables (the code-defined
  * collections in `src/content/collections/` and pages in `src/content/pages/`,
- * aggregated by `src/content/index.ts`). `db:generate` (the @orthacms/nx
+ * aggregated by `src/content/index.ts`). `db:generate` (the @apograph/nx
  * plugin) runs drizzle-kit against this. Generation only diffs the schema
  * against the snapshot — it never connects to a database, so no
  * `dbCredentials` (and no secret) is needed here. The emitted SQL is

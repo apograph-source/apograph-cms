@@ -10,4 +10,4 @@ skills-lock.json
 **/migrations/meta
 # Scaffolding templates carry placeholder tokens (__APP_NAME__) inside JSON
 # and are rendered, not compiled — formatting them here means nothing.
-/packages/create-ortha-app/templates
+/packages/create-apograph-app/templates

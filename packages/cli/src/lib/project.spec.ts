@@ -18,7 +18,7 @@ import {
 const roots: string[] = [];
 
 function tempApp(): string {
-    const root = mkdtempSync(join(tmpdir(), 'ortha-cli-project-'));
+    const root = mkdtempSync(join(tmpdir(), 'apograph-cli-project-'));
     roots.push(root);
     writeFileSync(
         join(root, 'package.json'),
@@ -50,7 +50,7 @@ afterAll(() => {
 
 describe('findProjectRoot', () => {
     /**
-     * People run `ortha migrate` from wherever they happen to be — most often
+     * People run `apograph migrate` from wherever they happen to be — most often
      * `apps/server`, because that is where they were editing. Trusting
      * `process.cwd()` would make the app's own relative paths (`migrations/`,
      * `dist/`) mean something different depending on which terminal tab was
@@ -86,11 +86,11 @@ describe('findProjectRoot', () => {
     it('says to run inside an app when the walk reaches the filesystem root [cli:I-24]', () => {
         // A temp dir with no package.json of its own and none above it: the
         // walk runs out of parents rather than finding something to migrate.
-        const orphan = mkdtempSync(join(tmpdir(), 'ortha-cli-orphan-'));
+        const orphan = mkdtempSync(join(tmpdir(), 'apograph-cli-orphan-'));
         roots.push(orphan);
 
         expect(() => findProjectRoot(orphan)).toThrow(
-            /No package\.json in .* run this inside an Ortha app/s
+            /No package\.json in .* run this inside an Apograph app/s
         );
     });
 });
@@ -98,7 +98,7 @@ describe('findProjectRoot', () => {
 describe('loadHost', () => {
     const CONFIG_SOURCE = `
         exports.default = {
-            database: { url: 'postgresql://ortha:secret@db:5432/app' },
+            database: { url: 'postgresql://apograph:secret@db:5432/app' },
             staticDir: 'dist/admin'
         };
     `;
@@ -128,7 +128,7 @@ describe('loadHost', () => {
         // The wrapper's signature is a `default` key holding the real config.
         expect(config).not.toHaveProperty('default');
         expect(config.database?.url).toBe(
-            'postgresql://ortha:secret@db:5432/app'
+            'postgresql://apograph:secret@db:5432/app'
         );
     });
 
@@ -146,7 +146,7 @@ describe('loadHost', () => {
         expect(plugins).toEqual([
             {
                 name: 'database',
-                url: 'postgresql://ortha:secret@db:5432/app'
+                url: 'postgresql://apograph:secret@db:5432/app'
             }
         ]);
     });
@@ -169,7 +169,7 @@ describe('loadHost', () => {
         );
     });
 
-    it('names the missing default export when ortha.config.ts has none', () => {
+    it('names the missing default export when apograph.config.ts has none', () => {
         const root = tempApp();
         writeCompiledHost(root, {
             config: `exports.somethingElse = {};`,
@@ -220,8 +220,8 @@ describe('requireDatabaseUrl', () => {
     it('returns a configured url unchanged [cli:I-03]', () => {
         expect(
             requireDatabaseUrl({
-                database: { url: 'postgresql://ortha:secret@db:5432/app' }
+                database: { url: 'postgresql://apograph:secret@db:5432/app' }
             })
-        ).toBe('postgresql://ortha:secret@db:5432/app');
+        ).toBe('postgresql://apograph:secret@db:5432/app');
     });
 });

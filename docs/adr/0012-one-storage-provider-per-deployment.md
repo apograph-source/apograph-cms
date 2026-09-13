@@ -62,7 +62,7 @@ MediaServerPlugin({
 ## Consequences
 
 Easier: writing a provider (one function, one `describeStorageProvider` call
-from `@orthacms/media-provider-testkit`, one line in `plugins.ts`); reading the
+from `@apograph/media-provider-testkit`, one line in `plugins.ts`); reading the
 media package; validating the wiring, which is now a handful of eager checks
 with nothing to cross-reference.
 

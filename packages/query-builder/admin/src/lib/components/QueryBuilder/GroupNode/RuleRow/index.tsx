@@ -1,7 +1,7 @@
 import { useId } from 'react';
 import { defineMessages, useIntl, type MessageDescriptor } from 'react-intl';
 import { X } from 'lucide-react';
-import { Button } from '@orthacms/design-system';
+import { Button } from '@apograph/design-system';
 import type {
     FilterField,
     RelationValueEditor

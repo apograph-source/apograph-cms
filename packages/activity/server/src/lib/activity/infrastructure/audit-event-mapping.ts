@@ -1,5 +1,5 @@
-import type { DomainEvent } from '@orthacms/database';
-import { IDENTITY_ACTIVITY_KINDS } from '@orthacms/identity-server';
+import type { DomainEvent } from '@apograph/database';
+import { IDENTITY_ACTIVITY_KINDS } from '@apograph/identity-server';
 
 /**
  * The values one audit row needs, derived purely from a {@link DomainEvent}.

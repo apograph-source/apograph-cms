@@ -11,8 +11,8 @@ import {
     PERMISSIONS,
     PermissionsGuard,
     RequirePermissions
-} from '@orthacms/identity-server';
-import { CurrentWorkspace, WorkspaceGuard } from '@orthacms/workspaces-server';
+} from '@apograph/identity-server';
+import { CurrentWorkspace, WorkspaceGuard } from '@apograph/workspaces-server';
 import { ActivityService } from '../services/activity.service';
 import { EntryActivityQueryDto } from '../dto/entry-activity-query.dto';
 import type { ActivityListView } from '../types/activity-view';

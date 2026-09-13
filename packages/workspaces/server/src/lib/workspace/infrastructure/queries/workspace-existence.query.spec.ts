@@ -1,6 +1,6 @@
 import { getTableName } from 'drizzle-orm';
 import { PgDialect } from 'drizzle-orm/pg-core';
-import type { Database } from '@orthacms/database';
+import type { Database } from '@apograph/database';
 import { WorkspaceExistenceQuery } from './workspace-existence.query';
 
 const ACTIVE = '11111111-1111-4111-8111-111111111111';

@@ -1,5 +1,5 @@
 import { defineMessages, useIntl } from 'react-intl';
-import { Checkbox, cn } from '@orthacms/design-system';
+import { Checkbox, cn } from '@apograph/design-system';
 import type { MediaAsset } from '../../../types/mediaAsset';
 import { formatBytes } from '../../../utils/formatBytes';
 import { buildAssetHandlers } from '../../../utils/assetHandlers';

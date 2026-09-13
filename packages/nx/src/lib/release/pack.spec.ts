@@ -14,7 +14,7 @@ import { join } from 'node:path';
 
 /**
  * `tools/release/pack.mjs` staging a package that ships a **`bin`** and
- * **`templates/`** — what `create-ortha-app` and `@orthacms/cli` need.
+ * **`templates/`** — what `create-apograph-app` and `@apograph/cli` need.
  *
  * Driven as a subprocess against a throwaway workspace rather than imported:
  * the script is an ESM entry point that reads `process.cwd()`, writes to
@@ -45,14 +45,14 @@ function writeText(path: string, contents: string): void {
  * real repo.
  */
 function workspace(manifest: Record<string, unknown>): string {
-    const dir = mkdtempSync(join(tmpdir(), 'ortha-pack-'));
+    const dir = mkdtempSync(join(tmpdir(), 'apograph-pack-'));
 
     writeJson(join(dir, 'package.json'), {
-        name: '@orthacms/source',
+        name: '@apograph/source',
         license: 'MIT',
         repository: {
             type: 'git',
-            url: 'git+https://github.com/ortha-source/ortha-cms.git'
+            url: 'git+https://github.com/ortha-source/apograph-cms.git'
         },
         devDependencies: { tslib: '^2.3.0' }
     });
@@ -89,7 +89,7 @@ function stagedManifest(): Record<string, never> {
 }
 
 const baseManifest = {
-    name: 'create-ortha-app',
+    name: 'create-apograph-app',
     version: '1.2.3',
     license: 'MIT',
     main: './src/index.ts',
@@ -106,11 +106,14 @@ afterEach(() => rmSync(root, { recursive: true, force: true }));
 
 describe('pack.mjs, for a package that ships a bin', () => {
     it('remaps a bin map onto the build output', () => {
-        root = workspace({ ...baseManifest, bin: { ortha: './src/cli.ts' } });
+        root = workspace({
+            ...baseManifest,
+            bin: { apograph: './src/cli.ts' }
+        });
 
         pack();
 
-        expect(stagedManifest().bin).toEqual({ ortha: './dist/cli.js' });
+        expect(stagedManifest().bin).toEqual({ apograph: './dist/cli.js' });
     });
 
     it('remaps the bare-string spelling too', () => {
@@ -137,7 +140,7 @@ describe('pack.mjs, for a package that ships a bin', () => {
     it('refuses to stage a bin the build never emitted', () => {
         root = workspace({
             ...baseManifest,
-            bin: { ortha: './src/missing.ts' }
+            bin: { apograph: './src/missing.ts' }
         });
 
         expect(pack).toThrow();
@@ -320,7 +323,7 @@ describe('pack.mjs, for a plugin that ships migrations', () => {
 
         // Install the staged package the way npm would, and ask the plugin
         // itself where its migrations are.
-        const installed = join(root, 'consumer/node_modules/@orthacms/thing');
+        const installed = join(root, 'consumer/node_modules/@apograph/thing');
         mkdirSync(join(installed, '..'), { recursive: true });
         cpSync(join(root, 'dist/pack/packages/scaffolder'), installed, {
             recursive: true
@@ -373,10 +376,10 @@ describe('pack.mjs, resolving what a package depends on', () => {
     it('pins a workspace dependency declared as "*" to its version', () => {
         root = workspace({
             ...baseManifest,
-            dependencies: { '@orthacms/database': '*' }
+            dependencies: { '@apograph/database': '*' }
         });
         writeJson(join(root, 'packages/database/package.json'), {
-            name: '@orthacms/database',
+            name: '@apograph/database',
             version: '4.5.6'
         });
 
@@ -385,7 +388,7 @@ describe('pack.mjs, resolving what a package depends on', () => {
         // "*" on the registry means "whatever is latest", never what this
         // was built against.
         expect(stagedManifest().dependencies).toEqual({
-            '@orthacms/database': '^4.5.6',
+            '@apograph/database': '^4.5.6',
             tslib: '^2.3.0'
         });
     });
@@ -400,7 +403,7 @@ describe('pack.mjs, resolving what a package depends on', () => {
  * That reasoning applies to what the tarball *contains*. Test scaffolding a
  * package excludes from its build — `__test__/harness.tsx`, `test-setup.ts` —
  * is compiled nowhere and shipped nowhere, and reading it refused
- * `@orthacms/query-builder-admin` over a `@testing-library/react` import no
+ * `@apograph/query-builder-admin` over a `@testing-library/react` import no
  * consumer could ever reach. The excludes differ per package, so the package's
  * own `tsconfig.lib.json` is what decides.
  */

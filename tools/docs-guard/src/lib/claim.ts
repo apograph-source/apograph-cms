@@ -50,7 +50,12 @@ export const asNumber = (stated: string): number => {
 export const claimIn = (relative: string, pattern: RegExp): string[] => {
     const matches = [
         ...readDocument(relative).matchAll(
-            new RegExp(pattern.source, pattern.flags.includes('g') ? pattern.flags : pattern.flags + 'g')
+            new RegExp(
+                pattern.source,
+                pattern.flags.includes('g')
+                    ? pattern.flags
+                    : pattern.flags + 'g'
+            )
         )
     ];
     if (matches.length !== 1) {

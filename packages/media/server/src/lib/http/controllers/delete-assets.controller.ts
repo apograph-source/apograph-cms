@@ -6,8 +6,8 @@ import {
     PermissionsGuard,
     RequirePermissions,
     type PublicUser
-} from '@orthacms/identity-server';
-import { CurrentWorkspace, WorkspaceGuard } from '@orthacms/workspaces-server';
+} from '@apograph/identity-server';
+import { CurrentWorkspace, WorkspaceGuard } from '@apograph/workspaces-server';
 import { DeleteAssetsUseCase } from '../../application/use-cases/delete-assets.use-case';
 import { DeleteAssetsDto } from '../../application/dto/delete-assets.dto';
 import { toHttp } from '../to-http';

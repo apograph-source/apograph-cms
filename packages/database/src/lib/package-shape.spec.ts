@@ -113,7 +113,7 @@ function codeLines(
     return out;
 }
 
-describe('the shape of @orthacms/database', () => {
+describe('the shape of @apograph/database', () => {
     const PACKAGE_CODE = codeLines(sourceFiles(PACKAGE_SRC));
 
     it('reads the package at all', () => {
@@ -151,9 +151,11 @@ describe('the shape of @orthacms/database', () => {
                 'utf8'
             );
 
-            expect([...source.matchAll(/pgTable\(\s*'([^']+)'/g)].map(
-                ([, name]) => name
-            )).toEqual(['outbox_events']);
+            expect(
+                [...source.matchAll(/pgTable\(\s*'([^']+)'/g)].map(
+                    ([, name]) => name
+                )
+            ).toEqual(['outbox_events']);
         });
 
         it('ships migrations that touch no other table [database:I-23]', () => {
@@ -247,9 +249,9 @@ describe('the shape of @orthacms/database', () => {
                 'utf8'
             );
 
-            const imports = [
-                ...envelope.matchAll(/from\s+'([^']+)'/g)
-            ].map(([, specifier]) => specifier);
+            const imports = [...envelope.matchAll(/from\s+'([^']+)'/g)].map(
+                ([, specifier]) => specifier
+            );
 
             expect(imports.length).toBeGreaterThan(0);
             expect(

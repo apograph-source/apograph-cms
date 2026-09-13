@@ -8,7 +8,7 @@ import {
 } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { Activity, ChevronDown, Filter } from 'lucide-react';
-import { PageTopBar } from '@orthacms/shell-admin';
+import { PageTopBar } from '@apograph/shell-admin';
 import {
     QueryBuilderPanel,
     QueryBuilderSummary,
@@ -16,9 +16,9 @@ import {
     jsonFilterToTree,
     treeToJsonFilter,
     type FilterGroup
-} from '@orthacms/query-builder-admin';
-import { useHasPermission } from '@orthacms/identity-admin';
-import { useTableUrlState, useDocumentTitle } from '@orthacms/utils-admin';
+} from '@apograph/query-builder-admin';
+import { useHasPermission } from '@apograph/identity-admin';
+import { useTableUrlState, useDocumentTitle } from '@apograph/utils-admin';
 import {
     Alert,
     AlertDescription,
@@ -26,7 +26,7 @@ import {
     Container,
     ContainerHeader,
     cn
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 import {
     useActivityLog,
     DEFAULT_PAGE_SIZE

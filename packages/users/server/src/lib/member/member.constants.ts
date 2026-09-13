@@ -11,9 +11,9 @@ export const MAX_PAGE_SIZE = 100;
  * Re-exported rather than declared: the number belongs to the engine that
  * enforces the rest of the filter's limits, and four packages each declaring
  * their own copy is how one of them (`alarms`) came to say 8192 while the other
- * three said 4096. See `filters/budgets.ts` in `@orthacms/utils-server`.
+ * three said 4096. See `filters/budgets.ts` in `@apograph/utils-server`.
  */
-export { FILTER_MAX_LENGTH } from '@orthacms/utils-server';
+export { FILTER_MAX_LENGTH } from '@apograph/utils-server';
 
 /**
  * How long after issuing an invite a **resend** is refused.

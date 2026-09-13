@@ -1,7 +1,7 @@
 import config, {
-    type OrthaConfig,
-    type OrthaCopilotConfig
-} from '../ortha.config';
+    type ApographConfig,
+    type ApographCopilotConfig
+} from '../apograph.config';
 import { buildPlugins, copilotProviders, ssoProviders } from './plugins';
 
 /**
@@ -125,8 +125,8 @@ describe('buildPlugins()', () => {
 describe('ssoProviders()', () => {
     /** The shipped config with an identity provider set substituted in. */
     const withSso = (
-        ssoProviders: OrthaConfig['plugins']['identity']['ssoProviders']
-    ): OrthaConfig => ({
+        ssoProviders: ApographConfig['plugins']['identity']['ssoProviders']
+    ): ApographConfig => ({
         ...config,
         plugins: {
             ...config.plugins,
@@ -136,8 +136,8 @@ describe('ssoProviders()', () => {
 
     const oidc = {
         name: 'keycloak',
-        issuer: 'https://sso.example.com/realms/ortha',
-        clientId: 'ortha-cms',
+        issuer: 'https://sso.example.com/realms/apograph',
+        clientId: 'apograph-cms',
         clientSecret: 'secret',
         label: 'Keycloak'
     };
@@ -194,8 +194,8 @@ describe('ssoProviders()', () => {
 describe('copilotProviders()', () => {
     /** The shipped config with a copilot provider set substituted in. */
     const withProviders = (
-        providers: OrthaCopilotConfig['providers']
-    ): OrthaConfig => ({
+        providers: ApographCopilotConfig['providers']
+    ): ApographConfig => ({
         ...config,
         plugins: {
             ...config.plugins,

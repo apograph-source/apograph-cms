@@ -1,23 +1,23 @@
 import { join } from 'node:path';
-import type { ServerPlugin } from '@orthacms/bootstrap-server';
-import { ActivityPlugin } from '@orthacms/activity-server';
-import { ContentPlugin, ContentViewsPlugin } from '@orthacms/content-server';
-import { ContentGraphqlPlugin } from '@orthacms/content-graphql';
-import { CopilotPlugin } from '@orthacms/copilot-server';
-import { DatabasePlugin } from '@orthacms/database';
-import { I18nServerPlugin } from '@orthacms/i18n-server';
-import { TransferPlugin } from '@orthacms/transfer-server';
-import { AlarmsPlugin } from '@orthacms/alarms-server';
-import { IdentityPlugin } from '@orthacms/identity-server';
-import { McpPlugin } from '@orthacms/mcp-server';
-import { SegmentsPlugin } from '@orthacms/segments-server';
-import { ProtectionPlugin } from '@orthacms/protection-server';
-import { createLocalStorageProvider } from '@orthacms/media-provider-local';
-import { MediaServerPlugin } from '@orthacms/media-server';
-import { UsersPlugin } from '@orthacms/users-server';
-import { WebhooksPlugin } from '@orthacms/webhooks-server';
-import { WorkspacesPlugin } from '@orthacms/workspaces-server';
-import type { OrthaConfig } from '../../../server/ortha.config';
+import type { ServerPlugin } from '@apograph/bootstrap-server';
+import { ActivityPlugin } from '@apograph/activity-server';
+import { ContentPlugin, ContentViewsPlugin } from '@apograph/content-server';
+import { ContentGraphqlPlugin } from '@apograph/content-graphql';
+import { CopilotPlugin } from '@apograph/copilot-server';
+import { DatabasePlugin } from '@apograph/database';
+import { I18nServerPlugin } from '@apograph/i18n-server';
+import { TransferPlugin } from '@apograph/transfer-server';
+import { AlarmsPlugin } from '@apograph/alarms-server';
+import { IdentityPlugin } from '@apograph/identity-server';
+import { McpPlugin } from '@apograph/mcp-server';
+import { SegmentsPlugin } from '@apograph/segments-server';
+import { ProtectionPlugin } from '@apograph/protection-server';
+import { createLocalStorageProvider } from '@apograph/media-provider-local';
+import { MediaServerPlugin } from '@apograph/media-server';
+import { UsersPlugin } from '@apograph/users-server';
+import { WebhooksPlugin } from '@apograph/webhooks-server';
+import { WorkspacesPlugin } from '@apograph/workspaces-server';
+import type { ApographConfig } from '../../../server/apograph.config';
 import { testContentTypes } from './content';
 import { fakeAltProvider, fakeProvider, testCodeSkills } from './copilot';
 import { fakeSsoProvider, ssoRoleResolver } from './sso';
@@ -88,7 +88,7 @@ export interface BuildTestPluginsOptions {
  * ports), and i18n after content (binds content's extension port).
  */
 export function buildTestPlugins(
-    config: OrthaConfig,
+    config: ApographConfig,
     options: BuildTestPluginsOptions = {}
 ): ServerPlugin[] {
     if (options.omitContent) {

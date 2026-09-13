@@ -139,16 +139,19 @@ export function buildWorkspaceSchemas(): Record<string, OpenApiSchema> {
             properties: {
                 name: {
                     type: 'string',
-                    description: 'Stable machine name, and the slug in every content route.'
+                    description:
+                        'Stable machine name, and the slug in every content route.'
                 },
                 kind: {
                     type: 'string',
                     enum: ['collection', 'single'],
-                    description: 'A multi-entry collection, or a standalone page.'
+                    description:
+                        'A multi-entry collection, or a standalone page.'
                 },
                 label: {
                     type: 'string',
-                    description: 'Human label. Falls back to the name when the type declares none.'
+                    description:
+                        'Human label. Falls back to the name when the type declares none.'
                 },
                 description: {
                     type: 'string',
@@ -156,19 +159,23 @@ export function buildWorkspaceSchemas(): Record<string, OpenApiSchema> {
                 },
                 path: {
                     type: 'string',
-                    description: 'Route path. Pages only \u2014 absent on a collection.'
+                    description:
+                        'Route path. Pages only \u2014 absent on a collection.'
                 },
                 publishable: {
                     type: 'boolean',
-                    description: 'Tracks publish time through a `publishedAt` envelope column.'
+                    description:
+                        'Tracks publish time through a `publishedAt` envelope column.'
                 },
                 paranoid: {
                     type: 'boolean',
-                    description: 'Soft-deletes through a `deletedAt` envelope column.'
+                    description:
+                        'Soft-deletes through a `deletedAt` envelope column.'
                 },
                 i18n: {
                     type: 'boolean',
-                    description: 'One row per locale, through `locale` and `localeGroupId` envelope columns.'
+                    description:
+                        'One row per locale, through `locale` and `localeGroupId` envelope columns.'
                 }
             },
             required: ['name', 'kind']

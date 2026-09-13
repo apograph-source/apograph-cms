@@ -7,7 +7,7 @@ import { mockContentSchema } from '../support/api/content';
 import { type BrowserGlobals } from '../support/browserGlobals';
 
 /**
- * The global command palette (`SidebarSearch`, from `@orthacms/shell-admin`):
+ * The global command palette (`SidebarSearch`, from `@apograph/shell-admin`):
  * the sidebar's search trigger opens a ⌘K `CommandDialog`. Its suggestions are
  * the primary-nav destinations (`SIDEBAR_NAV_SLOT`) plus plugin-contributed
  * groups via `COMMAND_SLOT` — active workspaces (`workspaces-admin`) and each
@@ -18,7 +18,7 @@ test.describe('Command palette', () => {
         await mockSignedIn(page, {
             id: 'u_amara',
             name: 'Amara Okafor',
-            email: 'amara@ortha.dev'
+            email: 'amara@apograph.dev'
         });
         await mockWorkspaces(page);
         await mockMembers(page);
@@ -156,7 +156,7 @@ test.describe('the ⌘K binding', () => {
         await mockSignedIn(page, {
             id: 'u_amara',
             name: 'Amara Okafor',
-            email: 'amara@ortha.dev'
+            email: 'amara@apograph.dev'
         });
         await mockWorkspaces(page);
         await mockMembers(page);

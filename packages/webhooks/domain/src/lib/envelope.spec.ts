@@ -63,8 +63,8 @@ describe('isAllowedCustomHeader', () => {
     );
 
     it.each([
-        'X-Ortha-Event',
-        'x-ortha-signature',
+        'X-Apograph-Event',
+        'x-apograph-signature',
         'Host',
         'Content-Length',
         'content-type',

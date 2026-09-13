@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { apiClient, STALE_TIME } from '@orthacms/utils-admin';
-import type { TransferDepth, TransferFormat } from '@orthacms/transfer-domain';
+import { apiClient, STALE_TIME } from '@apograph/utils-admin';
+import type { TransferDepth, TransferFormat } from '@apograph/transfer-domain';
 import { transferKeys } from '../../constants';
 
 /** What the server reports an export would carry. */

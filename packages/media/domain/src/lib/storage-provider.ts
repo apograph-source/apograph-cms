@@ -69,7 +69,7 @@ export interface DirectUrlOptions {
 /**
  * The storage boundary — **one** implementation per deployment, constructed at
  * the composition root and passed to `MediaServerPlugin` as a plain object
- * (`@orthacms/media-provider-local`, `-s3`, …). The media core depends only on
+ * (`@apograph/media-provider-local`, `-s3`, …). The media core depends only on
  * this interface and never on a concrete backend.
  */
 export interface StorageProvider {

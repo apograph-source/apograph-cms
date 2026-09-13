@@ -5,7 +5,7 @@ import {
     type DomainEvent,
     type EventActor,
     type OutboxDispatcher
-} from '@orthacms/database';
+} from '@apograph/database';
 import { activityEvents } from '../../schema';
 import { AUDITED_EVENT_KINDS } from './audit-event-mapping';
 import { AuditEventSubscriber } from './audit-event.subscriber';

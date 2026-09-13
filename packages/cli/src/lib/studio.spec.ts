@@ -9,7 +9,7 @@ jest.mock('node:child_process', () => ({
 
 import { runDrizzleKitStudio } from './studio';
 
-const URL = 'postgresql://ortha:secret@localhost:5432/ortha_cms';
+const URL = 'postgresql://apograph:secret@localhost:5432/apograph_cms';
 
 /** The temp config path drizzle-kit was pointed at, and its contents. */
 function ephemeralConfig(): { path: string; contents: string } {
@@ -42,7 +42,7 @@ describe('runDrizzleKitStudio', () => {
 
         expect(contents).toContain('process.env.DATABASE_URL');
         expect(contents).not.toContain('secret');
-        expect(contents).not.toContain('ortha_cms');
+        expect(contents).not.toContain('apograph_cms');
     });
 
     it('passes the URL through the child’s environment instead [cli:I-10] [nx:I-10]', () => {
@@ -86,7 +86,7 @@ describe('runDrizzleKitStudio', () => {
      * The port that used to disappear.
      *
      * `if (options.port)` treated `0` as "not given", so `--port=0` started
-     * Studio on 4983 and said nothing — while `@orthacms/nx`'s `db:studio`
+     * Studio on 4983 and said nothing — while `@apograph/nx`'s `db:studio`
      * executor refused the same input with an explanation, so one flag on one
      * tool meant two different things depending on which half of the workspace
      * you were standing in.
@@ -127,14 +127,14 @@ describe('runDrizzleKitStudio', () => {
 
         it('refuses before it writes the ephemeral config, so nothing is left behind', () => {
             const before = readdirSync(tmpdir()).filter((entry) =>
-                entry.startsWith('ortha-studio-')
+                entry.startsWith('apograph-studio-')
             );
 
             expect(() => runDrizzleKitStudio(URL, { port: 0 })).toThrow();
 
             expect(
                 readdirSync(tmpdir()).filter((entry) =>
-                    entry.startsWith('ortha-studio-')
+                    entry.startsWith('apograph-studio-')
                 )
             ).toEqual(before);
         });

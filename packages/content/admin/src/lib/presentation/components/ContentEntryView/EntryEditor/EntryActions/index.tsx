@@ -8,8 +8,8 @@ import {
     TooltipContent,
     TooltipTrigger,
     cn
-} from '@orthacms/design-system';
-import { useHasPermission } from '@orthacms/identity-admin';
+} from '@apograph/design-system';
+import { useHasPermission } from '@apograph/identity-admin';
 import type { EntryRecord } from '../../../../../domain/types/contentType';
 import {
     CONTENT_CREATE,

@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { attachActor, OutboxWriter, UnitOfWork } from '@orthacms/database';
-import type { PublicUser } from '@orthacms/identity-server';
+import { attachActor, OutboxWriter, UnitOfWork } from '@apograph/database';
+import type { PublicUser } from '@apograph/identity-server';
 import { INVITE_RESEND_COOLDOWN_SECONDS } from '../../member.constants';
 import { MemberId } from '../../domain/value-objects/member-id';
 import { MemberNotFoundError } from '../../domain/errors';

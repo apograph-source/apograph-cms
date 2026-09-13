@@ -2,7 +2,7 @@ import { mkdtempSync, rmSync } from 'node:fs';
 import { readdir } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join, relative, sep } from 'node:path';
-import { describeStorageProvider } from '@orthacms/media-provider-testkit';
+import { describeStorageProvider } from '@apograph/media-provider-testkit';
 import { createLocalStorageProvider } from './local-storage-provider';
 
 /** Every file under `dir`, as provider-style keys, sorted. */
@@ -35,7 +35,7 @@ const roots = new Map<string, string>();
 // covers: media:I-06, media:I-09
 describeStorageProvider('media-provider-local', {
     create() {
-        const rootDir = mkdtempSync(join(tmpdir(), 'ortha-media-contract-'));
+        const rootDir = mkdtempSync(join(tmpdir(), 'apograph-media-contract-'));
         const provider = createLocalStorageProvider({ rootDir });
         roots.set(provider.id, rootDir);
         return provider;

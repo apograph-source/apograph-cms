@@ -11,12 +11,12 @@ import {
     CardHeader,
     CardTitle,
     toast
-} from '@orthacms/design-system';
-import { useAuth, useHasPermission } from '@orthacms/identity-admin';
+} from '@apograph/design-system';
+import { useAuth, useHasPermission } from '@apograph/identity-admin';
 import { useUpdateMember } from '../../../application/useUpdateMember';
 import { useUserDetailContext } from '../../userDetailContext';
 import { RolePicker } from '../../components/RolePicker';
-import { ConfirmDialog } from '@orthacms/design-system';
+import { ConfirmDialog } from '@apograph/design-system';
 import { MemberEntity, type MemberBlockReason } from '../../../domain/member';
 import type { MemberRole } from '../../../domain/types/member';
 

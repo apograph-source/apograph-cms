@@ -13,8 +13,8 @@ import {
     PermissionsGuard,
     RequirePermissions,
     type PublicUser
-} from '@orthacms/identity-server';
-import { CurrentWorkspace, WorkspaceGuard } from '@orthacms/workspaces-server';
+} from '@apograph/identity-server';
+import { CurrentWorkspace, WorkspaceGuard } from '@apograph/workspaces-server';
 import { DuplicateAssetUseCase } from '../../application/use-cases/duplicate-asset.use-case';
 import { AssetViewQuery } from '../../infrastructure/queries/asset-view.query';
 import type { AssetView } from '../../types/asset-view';

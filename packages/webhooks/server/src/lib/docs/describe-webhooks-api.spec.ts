@@ -1,4 +1,4 @@
-import type { OpenApiDocument } from '@orthacms/bootstrap-server';
+import type { OpenApiDocument } from '@apograph/bootstrap-server';
 import { describeWebhooksApi } from './describe-webhooks-api';
 
 /** The shape the swagger scanner produces before this pass runs. */

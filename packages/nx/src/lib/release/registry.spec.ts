@@ -19,7 +19,7 @@ function packument(...versions: string[]) {
 }
 
 describe('probeRegistry', () => {
-    const request = { name: '@orthacms/media-server', version: '0.3.0' };
+    const request = { name: '@apograph/media-server', version: '0.3.0' };
 
     it('escapes a scoped name the way npm’s own clients do', async () => {
         fetchMock.mockResolvedValue(packument('0.3.0'));
@@ -27,7 +27,7 @@ describe('probeRegistry', () => {
         await probeRegistry(request);
 
         expect(String(fetchMock.mock.calls[0][0])).toBe(
-            'https://registry.npmjs.org/@orthacms%2fmedia-server'
+            'https://registry.npmjs.org/@apograph%2fmedia-server'
         );
     });
 
@@ -37,7 +37,7 @@ describe('probeRegistry', () => {
         await probeRegistry({ ...request, registry: 'https://r.example' });
 
         expect(String(fetchMock.mock.calls[0][0])).toBe(
-            'https://r.example/@orthacms%2fmedia-server'
+            'https://r.example/@apograph%2fmedia-server'
         );
     });
 

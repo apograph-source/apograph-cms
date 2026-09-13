@@ -1,6 +1,6 @@
 import type * as React from 'react';
 import { defineMessages, useIntl } from 'react-intl';
-import { SidebarTrigger, useSidebar } from '@orthacms/design-system';
+import { SidebarTrigger, useSidebar } from '@apograph/design-system';
 
 /** Intl descriptors for {@link SidebarToggle}, co-located with the component. */
 const messages = defineMessages({

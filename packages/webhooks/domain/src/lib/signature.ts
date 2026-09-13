@@ -2,7 +2,7 @@
  * How a receiver knows a delivery came from this CMS.
  *
  * HMAC-SHA256 over `"{timestamp}.{raw body}"`, carried as
- * `X-Ortha-Signature: t=<unix seconds>,v1=<hex>`. The timestamp is **inside**
+ * `X-Apograph-Signature: t=<unix seconds>,v1=<hex>`. The timestamp is **inside**
  * the signed string, not merely beside it: signing the body alone would let
  * anyone who captured one delivery replay it verbatim for as long as the secret
  * lives, and the receiver would have no way to tell.
@@ -14,7 +14,7 @@
 import { createHmac, timingSafeEqual } from 'node:crypto';
 
 /** The header a delivery carries its signature in. */
-export const SIGNATURE_HEADER = 'x-ortha-signature';
+export const SIGNATURE_HEADER = 'x-apograph-signature';
 
 /** How old a signed timestamp may be before a receiver should reject it. */
 export const DEFAULT_TOLERANCE_SECONDS = 300;
@@ -43,7 +43,7 @@ export function computeSignature(
         .digest('hex');
 }
 
-/** The full `X-Ortha-Signature` header value for one delivery. */
+/** The full `X-Apograph-Signature` header value for one delivery. */
 export function signatureHeader(
     secret: string,
     timestamp: number,

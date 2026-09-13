@@ -1,5 +1,5 @@
 {
-    "name": "@orthacms/server-e2e",
+    "name": "@apograph/server-e2e",
     "version": "0.0.1",
     "private": true,
     "nx": {
@@ -21,8 +21,8 @@
         }
     },
     "devDependencies": {
-        "@orthacms/copilot-provider-fake": "*",
-        "@orthacms/media-provider-memory": "*",
+        "@apograph/copilot-provider-fake": "*",
+        "@apograph/media-provider-memory": "*",
         "@testcontainers/postgresql": "^12.0.1",
         "@types/supertest": "^7.2.0",
         "sharp": "^0.33.5",
@@ -30,9 +30,9 @@
         "testcontainers": "^12.0.1"
     },
     "dependencies": {
-        "@orthacms/segments-domain": "*",
-        "@orthacms/segments-server": "*",
-        "@orthacms/transfer-domain": "*",
-        "@orthacms/transfer-server": "*"
+        "@apograph/segments-domain": "*",
+        "@apograph/segments-server": "*",
+        "@apograph/transfer-domain": "*",
+        "@apograph/transfer-server": "*"
     }
 }

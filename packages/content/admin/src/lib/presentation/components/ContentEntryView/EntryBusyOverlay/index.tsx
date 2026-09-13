@@ -1,7 +1,7 @@
 import { createPortal } from 'react-dom';
 import { defineMessages, useIntl } from 'react-intl';
 import { Rocket, Save } from 'lucide-react';
-import { Spinner } from '@orthacms/design-system';
+import { Spinner } from '@apograph/design-system';
 
 /** Which write the editor is running — picks the glyph and the copy. */
 export const ENTRY_BUSY = {

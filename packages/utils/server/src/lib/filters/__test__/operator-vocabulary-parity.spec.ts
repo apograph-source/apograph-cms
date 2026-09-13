@@ -8,7 +8,7 @@ import { FilterOperator } from '../types';
  * step.
  *
  * `FilterOperator` here is what `parseFilterTree` accepts; `WIRE_OP` in
- * `@orthacms/query-builder-admin` is what the admin's query builder writes and
+ * `@apograph/query-builder-admin` is what the admin's query builder writes and
  * reads back. The duplication is forced — the SPA cannot import a package that
  * drags in NestJS and Drizzle — but forced duplication is still duplication,
  * and it has already cost something: `like` went missing from the client's
@@ -20,7 +20,7 @@ import { FilterOperator } from '../types';
  *
  * `utils:I-01` — "the leaf does not import its consumers" — is the reason.
  * `utils-server` depends on no plugin and no host, and an `import` here would
- * put `@orthacms/query-builder-admin` in this package's **project graph**:
+ * put `@apograph/query-builder-admin` in this package's **project graph**:
  * `nx sync` would immediately write a TypeScript project reference and the
  * filter engine would start depending on a React package. Reading the file
  * creates no such edge. This is the same trade
@@ -34,7 +34,7 @@ import { FilterOperator } from '../types';
  * passing on nothing.
  *
  * One caveat worth knowing locally: nothing in Nx's graph connects the admin
- * file to this project, so a **cached** `nx test @orthacms/utils-server` will
+ * file to this project, so a **cached** `nx test @apograph/utils-server` will
  * not re-run after an edit to `wireOp.ts` alone. CI restores no Nx cache, so
  * the gate is real there; run `--skip-nx-cache` when checking by hand.
  */

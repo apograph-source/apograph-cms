@@ -4,13 +4,13 @@ import {
     PERMISSIONS,
     Permission,
     PermissionsService
-} from '@orthacms/identity-server';
+} from '@apograph/identity-server';
 import type {
     ContentPublishGuard,
     ContentPublishGuardContext,
     PublishVerdict
-} from '@orthacms/content-server';
-import { evaluateProtection } from '@orthacms/protection-domain';
+} from '@apograph/content-server';
+import { evaluateProtection } from '@apograph/protection-domain';
 import { ProtectionRuleRepository } from './protection-rule.repository';
 import { ReviewApprovalRepository } from './review-approval.repository';
 import { HeadRevisionQuery } from './head-revision.query';

@@ -8,7 +8,7 @@ import { MAX_PASSWORD_LENGTH } from '../auth.constants';
  * The DTOs reject an over-long password long before this, so reaching it means
  * a path that skipped validation entirely: the routeless
  * `ChangePasswordUseCase`, or the root-admin bootstrap reading
- * `ORTHA_ROOT_ADMIN_PASSWORD` straight from the environment. Failing loudly is
+ * `APOGRAPH_ROOT_ADMIN_PASSWORD` straight from the environment. Failing loudly is
  * the point — the alternative is hashing the first 72 bytes and leaving the
  * account protected by a passphrase its owner never chose.
  *

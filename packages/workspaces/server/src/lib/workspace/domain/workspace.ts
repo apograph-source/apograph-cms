@@ -1,4 +1,4 @@
-import type { DomainEvent } from '@orthacms/database';
+import type { DomainEvent } from '@apograph/database';
 import { WorkspaceId } from './value-objects/workspace-id';
 import { Slug } from './value-objects/slug';
 import { WorkspaceColor } from './value-objects/workspace-color';

@@ -3,7 +3,7 @@ import {
     asAvatarColor,
     initialsOf,
     toApiError
-} from '@orthacms/utils-admin';
+} from '@apograph/utils-admin';
 import type {
     InvitedMember,
     Member,

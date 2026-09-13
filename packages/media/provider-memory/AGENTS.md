@@ -1,4 +1,4 @@
-# @orthacms/media-provider-memory
+# @apograph/media-provider-memory
 
 An in-memory `StorageProvider` — blobs in a `Map`, plus the three inspection
 methods that make that useful (`keys()`, `totalBytes()`, `clear()`).
@@ -53,7 +53,7 @@ opaque, so this is not required — but a key that reads the same in both makes 
 
 ## Commands
 
-- `npx nx test @orthacms/media-provider-memory` — its own suite plus
-  `describeStorageProvider` from `@orthacms/media-provider-testkit`, the same
+- `npx nx test @apograph/media-provider-memory` — its own suite plus
+  `describeStorageProvider` from `@apograph/media-provider-testkit`, the same
   contract `provider-local` runs.
-- `npx nx typecheck @orthacms/media-provider-memory` / `npx nx lint @orthacms/media-provider-memory`
+- `npx nx typecheck @apograph/media-provider-memory` / `npx nx lint @apograph/media-provider-memory`

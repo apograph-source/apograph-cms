@@ -1,11 +1,11 @@
-# @orthacms/media-admin
+# @apograph/media-admin
 
-The **Media Library feature plugin** for the Ortha CMS admin UI. It mounts
+The **Media Library feature plugin** for the Apograph CMS admin UI. It mounts
 **inside a workspace** at `/workspaces/:id/media` and ships the asset-management
 experience: a folders sidebar beside a searchable/filterable/sortable asset
 browser (grid **and** list views), an asset detail drawer, and the
 create-folder / upload / rename / move / duplicate / delete flows — now **wired
-to `@orthacms/media-server`** over `apiClient`.
+to `@apograph/media-server`** over `apiClient`.
 
 ## Data layer (wired to the API)
 
@@ -146,7 +146,7 @@ of the server's RBAC, which is the real enforcer).
 
 Beyond the library page, this plugin contributes the **Media tab** of the
 content entry editor via content-admin's **`ENTRY_TAB_SLOT`** (hence the
-`@orthacms/content-admin` dependency; the tab appears only when the open type
+`@apograph/content-admin` dependency; the tab appears only when the open type
 has a `media` field — `appliesTo` checks `CONTENT_FIELD_TYPE.Media`). Pieces:
 
 - **`EntryMediaTab`** — the slot `Component`. Reads the schema's media fields and
@@ -157,7 +157,7 @@ has a `media` field — `appliesTo` checks `CONTENT_FIELD_TYPE.Media`). Pieces:
 - **`MediaFieldSection`** — one field as a **titled card**, deliberately the same
   shape as the Relations tab's `RelationFieldSection` so the two contributed tabs
   read as one editor: header (heading + required mark, the localized globe in a
-  `Tooltip`, the **shared** `ChangedBadge` imported from `@orthacms/content-admin`
+  `Tooltip`, the **shared** `ChangedBadge` imported from `@apograph/content-admin`
   — not a look-alike that would drift — and an error alert icon) over a one-line
   description of what the field holds, then the control; an error tints the card
   border. The field is named as a **group** (`aria-labelledby` → its `<h3>`), not
@@ -238,7 +238,7 @@ first describes attaching, and the second would blame the wrong permission.
 ## The rich-text editor's media sources
 
 Beyond the Media tab, this plugin also fills **`WYSIWYG_MEDIA_SLOT`**, declared
-by `@orthacms/wysiwyg-admin` (hence that dependency; it runs media → wysiwyg,
+by `@apograph/wysiwyg-admin` (hence that dependency; it runs media → wysiwyg,
 never the reverse — the editor must stay usable with no media plugin installed).
 Two contributions, because they are different acts:
 
@@ -307,7 +307,7 @@ picked fills the Media Library with assets for a record the user then abandons.
 ## Insights widgets
 
 This plugin contributes the **media cards** on the Insights page via
-`@orthacms/insights-admin`'s `INSIGHTS_WIDGET_SLOT` — media owns `media_asset`,
+`@apograph/insights-admin`'s `INSIGHTS_WIDGET_SLOT` — media owns `media_asset`,
 so it owns the cards reading it. Four contributions: a **Media storage** stat
 tile in Overview, **What's using the storage**, **Uploads**, and **Images
 missing alt text**. Data layer follows the package's shape —
@@ -341,7 +341,7 @@ JSDoc on exports; **one component per file** with `<name>/index.ts(x)` folders
 (pages in `src/lib/pages/`, components in `src/lib/components/`, the data layer in
 `src/lib/infrastructure/`); no magic string literals (route segment, enums,
 permissions, root-folder id in `src/lib/constants/`); co-located `react-intl`
-messages namespaced `media.<area>.<key>`; UI from `@orthacms/design-system` only.
+messages namespaced `media.<area>.<key>`; UI from `@apograph/design-system` only.
 
 ## Thumbnails — the grid never loads a full-size original
 
@@ -413,6 +413,6 @@ lives here is the state a browser has no handle on:
 
 ## Commands
 
-- `npm exec nx typecheck @orthacms/media-admin`
-- `npm exec nx lint @orthacms/media-admin`
-- `npm exec nx test @orthacms/media-admin`
+- `npm exec nx typecheck @apograph/media-admin`
+- `npm exec nx lint @apograph/media-admin`
+- `npm exec nx test @apograph/media-admin`

@@ -15,7 +15,10 @@
  * ```
  */
 
-import type { TransferDocument, TransferRecord } from '../document/transfer-document';
+import type {
+    TransferDocument,
+    TransferRecord
+} from '../document/transfer-document';
 import { TRANSFER_FORMAT } from './format';
 import { parseNdjsonLines } from './json-format';
 import {
@@ -96,11 +99,8 @@ export const zipParser: ImportParser = {
         const records = [...first.records];
         for (const file of entryFiles.slice(1)) {
             records.push(
-                ...parseNdjsonLines(
-                    linesOf(file),
-                    context,
-                    first.manifest
-                ).records
+                ...parseNdjsonLines(linesOf(file), context, first.manifest)
+                    .records
             );
         }
         if (records.length > context.limits.maxRecords) {

@@ -86,29 +86,29 @@
             },
             "exclude": ["apps/server-e2e/**/*"]
         },
-        "@orthacms/nx"
+        "@apograph/nx"
     ],
     "targetDefaults": {
         "test": {
             "dependsOn": ["^build"]
         },
         "nx-release-publish": {
-            "executor": "@orthacms/nx:release-publish",
+            "executor": "@apograph/nx:release-publish",
             "dependsOn": ["pack"]
         }
     },
     "release": {
         "projects": [
-            "@orthacms/*",
-            "create-ortha-app",
-            "!@orthacms/nx",
-            "!@orthacms/copilot-provider-fake"
+            "@apograph/*",
+            "create-apograph-app",
+            "!@apograph/nx",
+            "!@apograph/copilot-provider-fake"
         ],
         "projectsRelationship": "fixed",
         "releaseTagPattern": "v{version}",
         "version": {
             "conventionalCommits": true,
-            "preVersionCommand": "npx nx run-many -t build --projects=@orthacms/*,create-ortha-app",
+            "preVersionCommand": "npx nx run-many -t build --projects=@apograph/*,create-apograph-app",
             "fallbackCurrentVersionResolver": "disk"
         },
         "changelog": {

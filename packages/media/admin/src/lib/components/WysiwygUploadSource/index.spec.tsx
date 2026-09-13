@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import { IntlProvider } from 'react-intl';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { WYSIWYG_MEDIA_KIND } from '@orthacms/wysiwyg-admin';
+import { WYSIWYG_MEDIA_KIND } from '@apograph/wysiwyg-admin';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { MediaAsset } from '../../types/mediaAsset';
 import { httpMediaGateway } from '../../infrastructure/httpMediaGateway';
@@ -12,11 +12,11 @@ vi.mock('../../infrastructure/httpMediaGateway', () => ({
     httpMediaGateway: { uploadFile: vi.fn() }
 }));
 
-vi.mock('@orthacms/design-system', () => ({
+vi.mock('@apograph/design-system', () => ({
     toast: { error: vi.fn(), success: vi.fn() }
 }));
 
-vi.mock('@orthacms/workspaces-admin', () => ({
+vi.mock('@apograph/workspaces-admin', () => ({
     useCurrentWorkspace: () => ({ id: 'ws-1', name: 'Alpha', slug: 'a' })
 }));
 

@@ -16,7 +16,7 @@ export default defineConfig(() => ({
     cacheDir: '../../../node_modules/.vite/packages/bootstrap/admin',
     plugins: [react()],
     test: {
-        name: '@orthacms/bootstrap-admin',
+        name: '@apograph/bootstrap-admin',
         watch: false,
         globals: true,
         environment: 'jsdom',

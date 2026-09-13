@@ -2,8 +2,8 @@ import { act, render, waitFor } from '@testing-library/react';
 import { IntlProvider } from 'react-intl';
 import { vi } from 'vitest';
 import type { Editor } from '@tiptap/core';
-import type { RichTextDocument } from '@orthacms/content-domain';
-import { TooltipProvider } from '@orthacms/design-system';
+import type { RichTextDocument } from '@apograph/content-domain';
+import { TooltipProvider } from '@apograph/design-system';
 import { WysiwygEditorPanel } from '.';
 
 /**
@@ -103,9 +103,9 @@ function open({
         </IntlProvider>
     );
 
-    const surface = view.container.querySelector(
-        '.tiptap'
-    ) as HTMLElement & { editor?: Editor };
+    const surface = view.container.querySelector('.tiptap') as HTMLElement & {
+        editor?: Editor;
+    };
 
     return { view, surface, editor: () => surface.editor as Editor };
 }
@@ -151,9 +151,7 @@ describe('an image with no alt, inside the editor [wysiwyg:I-26]', () => {
         const { view, editor } = open({ content: IMAGES });
         await settled();
 
-        const [described, bare] = [
-            ...view.container.querySelectorAll('img')
-        ];
+        const [described, bare] = [...view.container.querySelectorAll('img')];
 
         // The author's own description is never replaced by the fallback.
         expect(described.getAttribute('alt')).toBe('A chart');

@@ -37,7 +37,7 @@ async function main(): Promise<void> {
 
     const root = findProjectRoot();
 
-    // Before any command runs, so `ortha.config.ts` finds its settings and the
+    // Before any command runs, so `apograph.config.ts` finds its settings and the
     // processes `dev`/`start` spawn inherit them.
     loadEnv(root);
 

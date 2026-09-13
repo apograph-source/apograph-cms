@@ -2,12 +2,12 @@ import { createHash } from 'node:crypto';
 import { PassThrough, Readable } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
 import { BlobNotFoundError, del, head, put } from '@vercel/blob';
-import { ObjectNotFoundError } from '@orthacms/media-domain';
+import { ObjectNotFoundError } from '@apograph/media-domain';
 import type {
     PutObject,
     StorageProvider,
     StoredObject
-} from '@orthacms/media-domain';
+} from '@apograph/media-domain';
 
 /**
  * The three calls this adapter makes, as an injectable seam.
@@ -192,7 +192,7 @@ export function createVercelBlobStorageProvider(
             // the store are good, while a bad token raises something else and
             // fails the boot.
             try {
-                await api.head('__ortha_verify__/does-not-exist', token);
+                await api.head('__apograph_verify__/does-not-exist', token);
             } catch (error) {
                 if (isMissing(error)) return;
                 throw error;

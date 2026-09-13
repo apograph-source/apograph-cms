@@ -61,7 +61,7 @@ A subscription is three sets intersected — workspaces × event kinds × conten
 
 #### Delivery is at-least-once and unordered
 
-A retry can duplicate; two endpoints and two workers give no ordering. The envelope carries a stable `X-Ortha-Event-Id` for exactly this — the receiver deduplicates, and the CMS does not pretend to a guarantee it cannot keep.
+A retry can duplicate; two endpoints and two workers give no ordering. The envelope carries a stable `X-Apograph-Event-Id` for exactly this — the receiver deduplicates, and the CMS does not pretend to a guarantee it cannot keep.
 
 > **The main engineering decision · ADR-0016**
 >
@@ -75,7 +75,7 @@ Registers endpoints and reads the delivery log. This is the **only** human surfa
 
 #### The integrator
 
-Never opens the admin UI. They receive the request, verify `X-Ortha-Signature`, deduplicate on `X-Ortha-Event-Id`, and answer `2xx` fast.
+Never opens the admin UI. They receive the request, verify `X-Apograph-Signature`, deduplicate on `X-Apograph-Event-Id`, and answer `2xx` fast.
 
 #### The editor
 
@@ -95,9 +95,9 @@ Three packages. Unlike `alarms`, the kernel here earned a package of its own: th
 
 | Package                                                 | Owns                                                                                                                                                                       | Depends on                                                      |
 | ------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
-| `@orthacms/webhooks-domain`<br>packages/webhooks/domain | The event catalogue, the subscription filter, the HMAC envelope and its verification, the retry policy, the URL policy, the delivery vocabulary. **No framework, no I/O.** | Nothing but `node:crypto`                                       |
-| `@orthacms/webhooks-server`<br>packages/webhooks/server | Three tables and one migration, the outbox subscriber, the delivery worker, the HTTP client, the three controllers.                                                        | `database`, `identity-server`, `webhooks-domain`, `undici`      |
-| `@orthacms/webhooks-admin`<br>packages/webhooks/admin   | Four routes in the sidebar's `directory` group: the endpoint list, the editor (create and edit), the endpoint page with its two tabs.                                      | `design-system`, `identity-admin`, `shell-admin`, `utils-admin` |
+| `@apograph/webhooks-domain`<br>packages/webhooks/domain | The event catalogue, the subscription filter, the HMAC envelope and its verification, the retry policy, the URL policy, the delivery vocabulary. **No framework, no I/O.** | Nothing but `node:crypto`                                       |
+| `@apograph/webhooks-server`<br>packages/webhooks/server | Three tables and one migration, the outbox subscriber, the delivery worker, the HTTP client, the three controllers.                                                        | `database`, `identity-server`, `webhooks-domain`, `undici`      |
+| `@apograph/webhooks-admin`<br>packages/webhooks/admin   | Four routes in the sidebar's `directory` group: the endpoint list, the editor (create and edit), the endpoint page with its two tabs.                                      | `design-system`, `identity-admin`, `shell-admin`, `utils-admin` |
 
 > **The admin does not import the domain package**
 >
@@ -129,7 +129,7 @@ Three tables, one migration (`0000_init_webhooks.sql`), applied under `__drizzle
 | `enabled`                                 | boolean                | Fan-out selects on it; the worker re-checks it before sending                                                                                       |
 | `event_kinds`, `content_types`            | jsonb, default `[]`    | Empty means **all**, including kinds and types that do not exist yet                                                                                |
 | `all_workspaces`                          | boolean, default false | The one filter whose “all” is an explicit flag rather than an empty set — a record with no workspace can only reach an endpoint that takes them all |
-| `headers`                                 | jsonb, default `{}`    | Static custom headers; `X-Ortha-*` and the transport's own are refused                                                                              |
+| `headers`                                 | jsonb, default `{}`    | Static custom headers; `X-Apograph-*` and the transport's own are refused                                                                              |
 | `disabled_reason`, `consecutive_failures` | text, integer          | Auto-disable state. Re-enabling by hand clears both                                                                                                 |
 | `created_by`, `created_at`, `updated_at`  | uuid, timestamptz      |                                                                                                                                                     |
 
@@ -139,7 +139,7 @@ Plus `webhook_endpoint_workspaces`: a composite-PK join of `(endpoint_id, worksp
 
 | Column                                                              | Type                  | Notes                                                                                                                                    |
 | ------------------------------------------------------------------- | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| `id`                                                                | uuid PK               | Minted by fan-out rather than by the database, so the id inside the frozen envelope and the one in `X-Ortha-Delivery` are the same value |
+| `id`                                                                | uuid PK               | Minted by fan-out rather than by the database, so the id inside the frozen envelope and the one in `X-Apograph-Delivery` are the same value |
 | `endpoint_id`                                                       | uuid → endpoints      | `ON DELETE CASCADE`                                                                                                                      |
 | `event_id`, `event_kind`                                            | uuid, text            | `event_id` is the outbox event's id and is **stable across redeliveries**                                                                |
 | `workspace_id`, `content_type`                                      | uuid, text — nullable | Copied off the event so the log can be filtered without re-reading content                                                               |
@@ -202,7 +202,7 @@ The first attempt times out after `timeoutMs` (10s). The row goes `failed` with 
 
 ### 6.3 An administrator resends one delivery
 
-A new row is inserted with the **same** `event_id`, a new `id`, and `redelivery_of` pointing at the original — which is what lets it past the partial unique index. The payload is the one that was frozen at fan-out. The receiver sees a new `X-Ortha-Delivery` and the **same** `X-Ortha-Event-Id`, which is exactly the pair it needs to recognise a repeat.
+A new row is inserted with the **same** `event_id`, a new `id`, and `redelivery_of` pointing at the original — which is what lets it past the partial unique index. The payload is the one that was frozen at fan-out. The receiver sees a new `X-Apograph-Delivery` and the **same** `X-Apograph-Event-Id`, which is exactly the pair it needs to recognise a repeat.
 
 ### 6.4 An entry is purged
 
@@ -255,7 +255,7 @@ Two independent predicates, not one flag: `scopedByContentType` says whether a c
 
 ### What a receiver gets
 
-Six `X-Ortha-*` headers plus a fixed `User-Agent`, and one envelope shape. `X-Ortha-Workspace` is **omitted** rather than sent empty when the event has no workspace. The signature is `t=<unix seconds>,v1=<hex hmac>`, computed with HMAC-SHA256 over `"{timestamp}.{raw body}"` — the timestamp is inside the signed string, which is what makes the 300-second tolerance a replay defence rather than a decoration.
+Six `X-Apograph-*` headers plus a fixed `User-Agent`, and one envelope shape. `X-Apograph-Workspace` is **omitted** rather than sent empty when the event has no workspace. The signature is `t=<unix seconds>,v1=<hex hmac>`, computed with HMAC-SHA256 over `"{timestamp}.{raw body}"` — the timestamp is inside the signed string, which is what makes the 300-second tolerance a replay defence rather than a decoration.
 
 ## 08. The admin UI
 
@@ -329,7 +329,7 @@ The private-range test covers IPv4 (`10/8`, `172.16/12`, `192.168/16`, `127/8`, 
 
 ### The signature
 
-`X-Ortha-Signature: t=1756468320,v1=<hex>`, HMAC-SHA256 over `"{t}.{raw body}"`. Verification is a constant-time comparison with a 300-second default tolerance. Because `t` is inside the signed string, a captured request cannot be replayed later with a fresh timestamp.
+`X-Apograph-Signature: t=1756468320,v1=<hex>`, HMAC-SHA256 over `"{t}.{raw body}"`. Verification is a constant-time comparison with a 300-second default tolerance. Because `t` is inside the signed string, a captured request cannot be replayed later with a fresh timestamp.
 
 > **The secret is stored in plaintext, deliberately**
 >
@@ -337,7 +337,7 @@ The private-range test covers IPv4 (`10/8`, `172.16/12`, `192.168/16`, `127/8`, 
 
 ### Custom headers
 
-Two families are refused, in the editor and again on every write: anything starting with `X-Ortha-`, and the transport's own (`Host`, `Content-Type`, `Content-Length`, `Transfer-Encoding`, `Connection`, `User-Agent`). The first would let a delivery claim to be a different event or to carry someone else's signature; `Host` is how a request aimed at one virtual host gets served by another. A header **value** is a credential for somebody else's system and the API returns it in full to anyone holding `webhooks:read` — administrators, the same people who can rotate the signing secret — which is why the read-only view lists names only.
+Two families are refused, in the editor and again on every write: anything starting with `X-Apograph-`, and the transport's own (`Host`, `Content-Type`, `Content-Length`, `Transfer-Encoding`, `Connection`, `User-Agent`). The first would let a delivery claim to be a different event or to carry someone else's signature; `Host` is how a request aimed at one virtual host gets served by another. A header **value** is a credential for somebody else's system and the API returns it in full to anyone holding `webhooks:read` — administrators, the same people who can rotate the signing secret — which is why the read-only view lists names only.
 
 ### What survives what
 
@@ -355,12 +355,12 @@ Statements that must always hold. At once a review checklist and a draft set of 
 - **I-03** — An empty `event_kinds`, `content_types` or workspace set matches **everything**, including kinds, types and workspaces that do not exist yet.
 - **I-04** — An event with no workspace reaches only endpoints with `all_workspaces = true`.
 - **I-05** — An unknown event kind matches nothing. The subscriber declares the subscribable set, and `ping` is not in it.
-- **I-06** — `event_id` is stable across redeliveries; `id` (and therefore `X-Ortha-Delivery`) is not. The receiver deduplicates on the former.
+- **I-06** — `event_id` is stable across redeliveries; `id` (and therefore `X-Apograph-Delivery`) is not. The receiver deduplicates on the former.
 - **I-07** — The envelope inside `payload` is frozen at fan-out. A redelivery sends what happened, never what is true now.
 - **I-08** — The partial unique index makes fan-out idempotent: a redelivered outbox event cannot queue the same `(endpoint, event)` twice, while a manual resend is not blocked by it.
 - **I-09** — The plaintext secret is returned by exactly two routes — create and rotate — and by nothing else, ever.
 - **I-10** — The URL policy is applied at write time **and** at connect time, the second against the resolved address. Redirects are not followed.
-- **I-11** — A custom header may not begin with `X-Ortha-` nor name a transport header. Enforced on every write, not only in the UI.
+- **I-11** — A custom header may not begin with `X-Apograph-` nor name a transport header. Enforced on every write, not only in the UI.
 - **I-12** — `4xx` other than `408` and `429` is terminal; `5xx`, `408`, `429` and transport failures retry. `Retry-After` is honoured up to one hour.
 - **I-13** — Auto-disable increments the counter and flips `enabled` in one statement, so concurrent workers cannot both step over the threshold and leave the endpoint on.
 - **I-14** — Re-enabling an endpoint by hand clears `disabled_reason` and zeroes `consecutive_failures`: the reason on screen can never outlive the condition.
@@ -382,7 +382,7 @@ The wording is “action → expected result”. The existing suites are `apps/s
 - **A URL with embedded credentials (`https://u:p@host/`)** → `422`.
 - **`https://127.0.0.1/hooks` and `https://[::1]/hooks`** → `422` from the literal-address check.
 - **A hostname that resolves to a private address** → the write succeeds; the **send** fails with the policy's error, and the delivery is `dead` rather than retried.
-- **A header named `X-Ortha-Signature`** → `422` naming the header. Same for `Host` and `User-Agent`.
+- **A header named `X-Apograph-Signature`** → `422` naming the header. Same for `Host` and `User-Agent`.
 - **An unknown event kind in `eventKinds`** → `400` from the DTO's `IsIn`.
 - **An extra field in the body** → `400` from the global `ValidationPipe`.
 - **Any write as a non-administrator** → `403`; the read routes too.
@@ -415,11 +415,11 @@ The wording is “action → expected result”. The existing suites are `apps/s
 
 ### What the receiver sees
 
-- **Verify `X-Ortha-Signature` with the minted secret** → it matches over `"{t}.{raw body}"`. Re-verifying against a re-serialised body must be tried too — it should be done against the **raw** bytes.
+- **Verify `X-Apograph-Signature` with the minted secret** → it matches over `"{t}.{raw body}"`. Re-verifying against a re-serialised body must be tried too — it should be done against the **raw** bytes.
 - **Replay a captured request 10 minutes later** → the reference verifier refuses it: the timestamp is signed and outside tolerance.
 - **Rotate the secret, then send a test** → the old secret no longer verifies; the new one does.
-- **An event with no workspace** → `X-Ortha-Workspace` is absent, not empty.
-- **Redeliver** → a new `X-Ortha-Delivery`, the same `X-Ortha-Event-Id`, and a byte-identical body.
+- **An event with no workspace** → `X-Apograph-Workspace` is absent, not empty.
+- **Redeliver** → a new `X-Apograph-Delivery`, the same `X-Apograph-Event-Id`, and a byte-identical body.
 - **A custom `Authorization` header** → present on the request, alongside the signature rather than instead of it.
 
 ### The admin UI

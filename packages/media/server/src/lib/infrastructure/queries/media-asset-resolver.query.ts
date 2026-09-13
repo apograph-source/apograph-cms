@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { and, eq, inArray } from 'drizzle-orm';
-import { InjectDatabase, type Database } from '@orthacms/database';
+import { InjectDatabase, type Database } from '@apograph/database';
 import type {
     MediaAssetResolver,
     ResolvedMediaAsset
-} from '@orthacms/content-server';
+} from '@apograph/content-server';
 import { mediaAsset } from '../schema/media-asset';
 
 /**

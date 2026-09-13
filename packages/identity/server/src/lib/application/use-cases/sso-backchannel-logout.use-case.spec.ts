@@ -1,10 +1,10 @@
-import type { DomainEvent, OutboxWriter, UnitOfWork } from '@orthacms/database';
+import type { DomainEvent, OutboxWriter, UnitOfWork } from '@apograph/database';
 import {
     SsoVerificationError,
     type SsoLogoutNotice,
     type SsoProvider,
     type SsoRegistry
-} from '@orthacms/identity-domain';
+} from '@apograph/identity-domain';
 import { SsoBackchannelLogoutUseCase } from './sso-backchannel-logout.use-case';
 import { SsoLogoutFailedError } from '../../domain/errors';
 import type { SessionRepository } from '../../domain/session.repository';

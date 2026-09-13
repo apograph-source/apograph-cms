@@ -10,7 +10,7 @@ import {
     PopoverContent,
     PopoverTrigger,
     cn
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 
 const messages = defineMessages({
     edit: { id: 'wysiwyg.alt.edit', defaultMessage: 'Alt text' },

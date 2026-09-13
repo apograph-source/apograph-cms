@@ -10,7 +10,7 @@ import { defineConfig } from 'drizzle-kit';
  * config covers the fixed platform tables that ship with the plugin, applied by
  * the host under `__drizzle_migrations_content_views`.
  *
- * `db:generate` (the @orthacms/nx plugin) runs drizzle-kit against this; it only
+ * `db:generate` (the @apograph/nx plugin) runs drizzle-kit against this; it only
  * diffs the schema against the snapshot and never connects to a database, so no
  * `dbCredentials` (and no secret) is needed here.
  *

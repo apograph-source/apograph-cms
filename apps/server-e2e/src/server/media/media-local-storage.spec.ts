@@ -11,7 +11,7 @@ import {
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import request from 'supertest';
-import { getPool } from '@orthacms/database';
+import { getPool } from '@apograph/database';
 import {
     closeTestApp,
     createTestApp,
@@ -33,7 +33,7 @@ const DOC = Buffer.from('the quick brown fox jumps over the lazy dog\n');
 
 /**
  * The media routes against the **real** filesystem provider
- * (`@orthacms/media-provider-local`) rather than the harness's in-memory
+ * (`@apograph/media-provider-local`) rather than the harness's in-memory
  * `Map`, rooted at a throwaway temp directory.
  *
  * Everything here is a claim about the disk that a `Map` cannot answer: where
@@ -48,7 +48,7 @@ describe('media assets on the local filesystem provider', () => {
     let workspace: SeededWorkspace;
 
     beforeAll(async () => {
-        root = await mkdtemp(join(tmpdir(), 'ortha-e2e-media-'));
+        root = await mkdtemp(join(tmpdir(), 'apograph-e2e-media-'));
         // This app boots on the filesystem provider, and the server refuses to
         // start when the library already holds assets written by a different
         // one — which is exactly what a previous spec file's rows are, having
@@ -168,7 +168,7 @@ describe('media assets on the local filesystem provider', () => {
     it('refuses to serve a file outside the storage root when the stored key traverses [media:I-18]', async () => {
         const agent = await login();
         const asset = await upload(agent);
-        const outside = await mkdtemp(join(tmpdir(), 'ortha-e2e-outside-'));
+        const outside = await mkdtemp(join(tmpdir(), 'apograph-e2e-outside-'));
         await writeFile(join(outside, 'secret.txt'), 'TOP SECRET');
         // The database is the one source of storage keys the provider does not
         // mint itself: a bad migration, an import script, or anything else that
@@ -196,7 +196,7 @@ describe('media assets on the local filesystem provider', () => {
     it('refuses to delete a file outside the storage root when the stored key traverses', async () => {
         const agent = await login();
         const asset = await upload(agent);
-        const outside = await mkdtemp(join(tmpdir(), 'ortha-e2e-outside-'));
+        const outside = await mkdtemp(join(tmpdir(), 'apograph-e2e-outside-'));
         await writeFile(join(outside, 'secret.txt'), 'TOP SECRET');
         await getPool().query(
             'UPDATE media_asset SET storage_key = $1 WHERE id = $2',

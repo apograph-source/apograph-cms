@@ -8,7 +8,7 @@ import {
     Sidebar,
     SidebarMenu,
     SidebarProvider
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 import type { SidebarItem } from '../../slots/sidebarSlots';
 import { SidebarNavButton } from './SidebarNavButton';
 import { SidebarCommandItem } from './SidebarSearch/SidebarCommandItem';
@@ -42,9 +42,9 @@ const identity = vi.hoisted(() => ({
     useHasPermission: vi.fn((_permission: string) => true)
 }));
 
-vi.mock('@orthacms/identity-admin', async (importOriginal) => {
+vi.mock('@apograph/identity-admin', async (importOriginal) => {
     const actual =
-        await importOriginal<typeof import('@orthacms/identity-admin')>();
+        await importOriginal<typeof import('@apograph/identity-admin')>();
     return { ...actual, useHasPermission: identity.useHasPermission };
 });
 

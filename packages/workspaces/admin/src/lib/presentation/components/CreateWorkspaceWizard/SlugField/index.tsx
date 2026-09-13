@@ -8,7 +8,7 @@ import {
     FieldLabel,
     Input,
     Spinner
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 import { SlugStatus } from '../../../../domain/types/wizard';
 
 const messages = defineMessages({

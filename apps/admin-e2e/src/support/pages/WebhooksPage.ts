@@ -3,7 +3,7 @@ import { BasePage } from './BasePage';
 import type { BrowserGlobals } from '../browserGlobals';
 
 /**
- * Page object for the webhooks pages (from `@orthacms/webhooks-admin`) — the
+ * Page object for the webhooks pages (from `@apograph/webhooks-admin`) — the
  * global directory surface that configures where this CMS posts when content
  * changes, and shows whether it arrived.
  *

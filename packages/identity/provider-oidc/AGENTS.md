@@ -1,4 +1,4 @@
-# @orthacms/identity-provider-oidc
+# @apograph/identity-provider-oidc
 
 The **generic OpenID Connect adapter**: authorization code flow, PKCE, and
 identity tokens verified against the provider's published keys. Plus five thin
@@ -59,7 +59,7 @@ Two notes on the dependency:
   omitting it is the single most common way to get a working discovery document
   and a token that will not verify.
 - **The discovery path is appended to the issuer's path**, not to its origin.
-  `https://sso.acme.com/realms/ortha` discovers at `…/realms/ortha/.well-known/…`.
+  `https://sso.acme.com/realms/apograph` discovers at `…/realms/apograph/.well-known/…`.
   Treating an issuer as a bare origin is how this works against Google and fails
   against Keycloak, Auth0 custom domains, and every multi-tenant provider.
 - **A failed discovery is never cached.** Caching it would turn a transient
@@ -83,7 +83,7 @@ Two notes on the dependency:
 
 ## Tests
 
-`conformance.spec.ts` runs the shared kit from `@orthacms/identity-domain`
+`conformance.spec.ts` runs the shared kit from `@apograph/identity-domain`
 against a stubbed provider that **signs real tokens** with a generated key pair.
 That is what makes the tampering case mean something: the "tampered" scenario is
 a token signed by a key the provider does not publish, and it fails because
@@ -94,6 +94,6 @@ common but the port, held to one contract.
 
 ## Package
 
-- Name: `@orthacms/identity-provider-oidc`
-- Import: `import { createOidcProvider, createKeycloakProvider } from '@orthacms/identity-provider-oidc'`
-- Depends on `@orthacms/identity-domain` (the port) and `jose`.
+- Name: `@apograph/identity-provider-oidc`
+- Import: `import { createOidcProvider, createKeycloakProvider } from '@apograph/identity-provider-oidc'`
+- Depends on `@apograph/identity-domain` (the port) and `jose`.

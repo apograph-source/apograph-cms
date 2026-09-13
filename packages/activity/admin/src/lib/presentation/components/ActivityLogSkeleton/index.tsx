@@ -8,7 +8,7 @@ import {
     TableHead,
     TableHeader,
     TableRow
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 
 /** Intl descriptors for the activity skeletons, co-located here. */
 const messages = defineMessages({
@@ -109,9 +109,7 @@ export function ActivityLogPageSkeleton() {
                 mounts, so it fails the `page-has-heading-one` axe rule and is
                 unnavigable by heading (`ORT-167`). It names the state, not the
                 page, matching the Members and Content library skeletons. */}
-            <h1 className="sr-only">
-                {intl.formatMessage(messages.heading)}
-            </h1>
+            <h1 className="sr-only">{intl.formatMessage(messages.heading)}</h1>
             <div className="mb-6 flex flex-col gap-2">
                 <Skeleton className="h-8 w-32" />
                 <Skeleton className="h-4 w-64 max-w-full" />

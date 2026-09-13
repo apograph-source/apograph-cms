@@ -1,4 +1,4 @@
-import type { WysiwygMediaSourceContext } from '@orthacms/wysiwyg-admin';
+import type { WysiwygMediaSourceContext } from '@apograph/wysiwyg-admin';
 import type { MediaAsset } from '../../types/mediaAsset';
 import { MediaPickerDialog } from '../MediaPickerDialog';
 import { toWysiwygEmbed } from '../../utils/toWysiwygEmbed';

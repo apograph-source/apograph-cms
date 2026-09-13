@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { and, eq } from 'drizzle-orm';
-import { InjectDatabase, type Database } from '@orthacms/database';
+import { InjectDatabase, type Database } from '@apograph/database';
 import { users } from '../../schema';
 import { RefreshSessionUseCase } from '../../application/use-cases/refresh-session.use-case';
 

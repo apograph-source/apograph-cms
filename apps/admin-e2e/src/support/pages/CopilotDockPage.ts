@@ -2,7 +2,7 @@ import { type Locator, type Page } from '@playwright/test';
 import { BasePage } from './BasePage';
 
 /**
- * Page object for the **docked panel** (`@orthacms/copilot-admin`) — the
+ * Page object for the **docked panel** (`@apograph/copilot-admin`) — the
  * bottom-right dock, the windows it opens, and their chrome. Seed it with
  * `mockSignedIn`, `mockWorkspaces` and `mockCopilotApi`, then open any page
  * inside a workspace: the dock is contributed to the sidebar's footer slot and
@@ -13,7 +13,7 @@ import { BasePage } from './BasePage';
  * window — several at once, tiled, collapsible to a pill, movable, and each one
  * carrying a run that must not be cancelled by anything except closing it.
  *
- * **Every window answers to the same accessible name** ("Ortha AI"), because the
+ * **Every window answers to the same accessible name** ("Apograph AI"), because the
  * header's visible title is a heading rather than the dialog's label. So windows
  * are addressed by index, in the order they were opened.
  */
@@ -30,18 +30,18 @@ export class CopilotDockPage extends BasePage {
         // `group` because the dock is portalled to `<body>`, so without one its
         // pills sat outside every landmark on the page (`ORT-170`).
         this.dock = page.getByRole('complementary', {
-            name: 'Ortha AI chats'
+            name: 'Apograph AI chats'
         });
     }
 
     // --- the dock ---------------------------------------------------------
 
     /**
-     * The dock's start control. With no chats open it is a labelled Ortha AI
+     * The dock's start control. With no chats open it is a labelled Apograph AI
      * button carrying the platform's shortcut hint; once there are pills it
      * shrinks to a `+`.
      *
-     * Its accessible name is "Ortha AI — new chat" while it shows that label and
+     * Its accessible name is "Apograph AI — new chat" while it shows that label and
      * "New chat" once it is a bare `+`. Matched by substring (Playwright's
      * default, case-insensitively), so one locator covers both — and the empty
      * form deliberately *contains* its visible text, which is the 2.5.3 property
@@ -90,13 +90,13 @@ export class CopilotDockPage extends BasePage {
      * Resolved by the move grip rather than by name: a window is now named by
      * its own `<h2>` — the thread's title — so that three open windows are
      * distinguishable in a screen reader's dialog list instead of being three
-     * identical "Ortha AI"s. That means the name is no longer a constant to
+     * identical "Apograph AI"s. That means the name is no longer a constant to
      * match on, and the grip is the one control every panel has and nothing
      * else does.
      */
     windows(): Locator {
         return this.page.getByRole('dialog').filter({
-            has: this.page.getByRole('button', { name: 'Move Ortha AI' })
+            has: this.page.getByRole('button', { name: 'Move Apograph AI' })
         });
     }
 
@@ -112,10 +112,10 @@ export class CopilotDockPage extends BasePage {
 
     /** The keyboard move grip at the head of the header. */
     moveHandle(index = 0): Locator {
-        return this.headerButton('Move Ortha AI', index);
+        return this.headerButton('Move Apograph AI', index);
     }
 
-    /** The window's visible title — the thread's name, or "Ortha AI". */
+    /** The window's visible title — the thread's name, or "Apograph AI". */
     panelTitle(index = 0): Locator {
         return this.panel(index).getByRole('heading');
     }
@@ -259,6 +259,6 @@ export class CopilotDockPage extends BasePage {
             };
             const raw = localStorage.getItem(key);
             return raw ? (JSON.parse(raw) as unknown) : null;
-        }, `ortha.copilot.panel-frame.${slot}`);
+        }, `apograph.copilot.panel-frame.${slot}`);
     }
 }

@@ -1,4 +1,4 @@
-import type { OpenApiDocument } from '@orthacms/bootstrap-server';
+import type { OpenApiDocument } from '@apograph/bootstrap-server';
 import { describeWorkspacesApi } from './describe-workspaces-api';
 
 /** One operation, as `@nestjs/swagger` leaves it: a 2xx key with no content. */
@@ -176,7 +176,9 @@ describe('describeWorkspacesApi', () => {
             // claiming somebody else's `…/settings/content-types`.
             const document: OpenApiDocument = {
                 paths: {
-                    '/api/workspaces/{id}/content-types': { get: scanned('200') }
+                    '/api/workspaces/{id}/content-types': {
+                        get: scanned('200')
+                    }
                 }
             };
 

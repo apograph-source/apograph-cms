@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsIn, IsString, MaxLength, MinLength } from 'class-validator';
-import type { ToolPermissionDecision } from '@orthacms/copilot-domain';
+import type { ToolPermissionDecision } from '@apograph/copilot-domain';
 
 /** The three answers a parked run accepts. */
 const DECISIONS = ['once', 'chat', 'deny'] as const;

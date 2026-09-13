@@ -11,7 +11,7 @@ export interface PasswordResetSeed {
 
 /** The default account the reset suite works with. */
 export const DEFAULT_RESET: PasswordResetSeed = {
-    email: 'grace@ortha.dev',
+    email: 'grace@apograph.dev',
     name: 'Grace Hopper'
 };
 

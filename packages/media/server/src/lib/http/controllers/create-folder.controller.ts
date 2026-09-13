@@ -6,8 +6,8 @@ import {
     PermissionsGuard,
     RequirePermissions,
     type PublicUser
-} from '@orthacms/identity-server';
-import { CurrentWorkspace, WorkspaceGuard } from '@orthacms/workspaces-server';
+} from '@apograph/identity-server';
+import { CurrentWorkspace, WorkspaceGuard } from '@apograph/workspaces-server';
 import { CreateFolderUseCase } from '../../application/use-cases/create-folder.use-case';
 import { CreateFolderDto } from '../../application/dto/create-folder.dto';
 import { toHttp } from '../to-http';

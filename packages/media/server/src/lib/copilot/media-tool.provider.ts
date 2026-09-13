@@ -5,13 +5,13 @@ import {
     Optional,
     type OnModuleInit
 } from '@nestjs/common';
-import { PERMISSIONS } from '@orthacms/identity-server';
-import { ToolRegistry } from '@orthacms/tools-server';
+import { PERMISSIONS } from '@apograph/identity-server';
+import { ToolRegistry } from '@apograph/tools-server';
 import type {
     ToolDefinition,
     ToolProvider,
     ToolSurface
-} from '@orthacms/tools-server';
+} from '@apograph/tools-server';
 import { AssetId } from '../domain/value-objects/asset-id';
 import { toHttp } from '../http/to-http';
 import { ListAssetsQuery } from '../infrastructure/queries/list-assets.query';

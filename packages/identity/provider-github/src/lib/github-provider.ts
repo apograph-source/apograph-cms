@@ -6,7 +6,7 @@ import {
     type SsoProfile,
     type SsoProvider,
     type SsoProviderDescriptor
-} from '@orthacms/identity-domain';
+} from '@apograph/identity-domain';
 import {
     resolveGithubConfig,
     type GithubProviderConfig,
@@ -65,19 +65,14 @@ export function createGithubProvider(
     return {
         descriptor: () => descriptor,
 
-        authorize(
-            request: SsoAuthorizeRequest
-        ): Promise<SsoAuthorizeRedirect> {
+        authorize(request: SsoAuthorizeRequest): Promise<SsoAuthorizeRedirect> {
             const url = new URL(resolved.authorizeUrl);
             url.searchParams.set('client_id', resolved.clientId);
             url.searchParams.set('redirect_uri', request.redirectUri);
             url.searchParams.set(
                 'scope',
                 [
-                    ...new Set([
-                        ...resolved.scopes,
-                        ...(request.scopes ?? [])
-                    ])
+                    ...new Set([...resolved.scopes, ...(request.scopes ?? [])])
                 ].join(' ')
             );
             url.searchParams.set('state', request.state);
@@ -185,7 +180,9 @@ async function exchange(
     if (!response.ok || payload.error) {
         throw new SsoVerificationError(
             `the token exchange failed${
-                payload.error ? ` (${String(payload.error)})` : ` with ${response.status}`
+                payload.error
+                    ? ` (${String(payload.error)})`
+                    : ` with ${response.status}`
             }`
         );
     }
@@ -268,9 +265,7 @@ async function apiGet<T>(
         );
     }
     if (!response.ok) {
-        throw new SsoVerificationError(
-            `${url} answered ${response.status}`
-        );
+        throw new SsoVerificationError(`${url} answered ${response.status}`);
     }
     return (await response.json()) as T;
 }

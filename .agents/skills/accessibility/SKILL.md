@@ -1,11 +1,11 @@
 ---
 name: accessibility
-description: Building accessible (WCAG 2.1 AA) admin UI in Ortha CMS — semantic HTML first, labels via the design-system Field/InputField, ARIA only as a last resort, focus management, keyboard support, accessible tables/pagination/dialogs/menus, landmarks + skip link, live-region announcements (toasts), color-contrast caveats, and intl. Use when authoring or reviewing admin components, forms, tables, dialogs, menus, or any interactive UI. Verify with the admin-e2e a11y/keyboard suites.
+description: Building accessible (WCAG 2.1 AA) admin UI in Apograph CMS — semantic HTML first, labels via the design-system Field/InputField, ARIA only as a last resort, focus management, keyboard support, accessible tables/pagination/dialogs/menus, landmarks + skip link, live-region announcements (toasts), color-contrast caveats, and intl. Use when authoring or reviewing admin components, forms, tables, dialogs, menus, or any interactive UI. Verify with the admin-e2e a11y/keyboard suites.
 user-invocable: false
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash(npx nx *), Bash(npm exec nx *)
 ---
 
-# Ortha CMS accessibility (admin UI)
+# Apograph CMS accessibility (admin UI)
 
 Target: **WCAG 2.1 Level AA**, as a best-practice goal (not a formal Section 508 /
 VPAT obligation today). Build it accessible by default; **verify** with the

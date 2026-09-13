@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { apiClient } from '@orthacms/utils-admin';
-import { refreshEntryCaches } from '@orthacms/content-admin';
-import type { ImportResult } from '@orthacms/transfer-domain';
+import { apiClient } from '@apograph/utils-admin';
+import { refreshEntryCaches } from '@apograph/content-admin';
+import type { ImportResult } from '@apograph/transfer-domain';
 import { importFormData, type ImportOptions } from '../useImportPreview';
 
 /** One apply request. */

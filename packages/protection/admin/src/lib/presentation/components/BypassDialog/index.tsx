@@ -8,7 +8,7 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 import type { PublishOutlook } from '../../../domain/types';
 
 const messages = defineMessages({

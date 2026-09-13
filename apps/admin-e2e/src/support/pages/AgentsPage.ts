@@ -2,7 +2,7 @@ import { type Locator, type Page } from '@playwright/test';
 import { BasePage } from './BasePage';
 
 /**
- * Page object for the **Agents view** (`@orthacms/copilot-admin`) — the
+ * Page object for the **Agents view** (`@apograph/copilot-admin`) — the
  * full-page chat at `/workspaces/:id/agents`, its thread rail, the composer, and
  * the sidebar's CMS ⇄ Agents switcher. Seed it with `mockSignedIn`,
  * `mockWorkspaces` and `mockCopilotApi`.
@@ -34,7 +34,7 @@ export class AgentsPage extends BasePage {
         // A `complementary`, not a `toolbar` or a bare `group` — see
         // `CopilotDockPage` for both halves of why.
         this.dock = page.getByRole('complementary', {
-            name: 'Ortha AI chats'
+            name: 'Apograph AI chats'
         });
     }
 

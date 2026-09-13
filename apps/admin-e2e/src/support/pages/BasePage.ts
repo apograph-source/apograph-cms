@@ -2,7 +2,7 @@ import { expect, type Locator, type Page } from '@playwright/test';
 
 /**
  * Common base for all page objects: holds the Playwright `page` and the shared
- * query-builder filter helpers (`@orthacms/query-builder-admin`), since the
+ * query-builder filter helpers (`@apograph/query-builder-admin`), since the
  * builder is the same component wherever a list page mounts it. Each page
  * points {@link BasePage.filterSurface} at the surface it mounts — every list
  * page now uses the inline panel — and the helpers below work unchanged.

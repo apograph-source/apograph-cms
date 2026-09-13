@@ -7,14 +7,14 @@ import {
     PERMISSIONS,
     PERMISSIONS_KEY,
     PermissionsGuard
-} from '@orthacms/identity-server';
+} from '@apograph/identity-server';
 import {
     ApiTokenGuard,
     ApiTokenWorkspaceGuard
-} from '@orthacms/content-server';
-import { WorkspaceGuard } from '@orthacms/workspaces-server';
+} from '@apograph/content-server';
+import { WorkspaceGuard } from '@apograph/workspaces-server';
 import { MediaModule } from '../../media.module';
-import type { StorageProvider } from '@orthacms/media-domain';
+import type { StorageProvider } from '@apograph/media-domain';
 
 /** Nest's own metadata keys — string literals in `@nestjs/common/constants`. */
 const GUARDS_METADATA = '__guards__';

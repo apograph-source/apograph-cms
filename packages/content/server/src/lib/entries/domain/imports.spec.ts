@@ -4,7 +4,7 @@ import { join } from 'node:path';
 /**
  * ADR-0003's one hard rule for the entries feature, read off the files rather
  * than left to review — the second half of `content:I-37`, whose first half
- * (`@orthacms/content-domain` declares no dependencies) is pinned in that
+ * (`@apograph/content-domain` declares no dependencies) is pinned in that
  * package's `kernel-shape.spec.ts`.
  *
  * `domain/` here holds the publish lifecycle: the `Entry` model, the gate
@@ -13,13 +13,13 @@ import { join } from 'node:path';
  * `@Injectable()` to make the model injectable, an `eq()` reached for while
  * writing an invariant, an import of `entry-row` to reuse a mapper) that
  * compiles, passes every test, and welds the lifecycle to the persistence
- * engine it was extracted from. The `@orthacms/nx` layer-boundary lint is not
+ * engine it was extracted from. The `@apograph/nx` layer-boundary lint is not
  * wired up; this is what enforces the rule. Same shape and same reason as
  * `packages/workspaces/server/src/lib/workspace/domain/imports.spec.ts`.
  *
  * **The accurate claim is "framework-free", not "dependency-free."** This layer
- * *does* import `@orthacms/content-domain` (the status state machine and the
- * publish gate — the whole point of a shared kernel) and `@orthacms/database`
+ * *does* import `@apograph/content-domain` (the status state machine and the
+ * publish gate — the whole point of a shared kernel) and `@apograph/database`
  * for the framework-free `createDomainEvent` / `DomainEvent` contract. Both are
  * outside the four prohibitions rather than exceptions to them; do not "fix"
  * this test by banning either.
@@ -89,12 +89,12 @@ describe('entries/domain layer imports', () => {
         // anything anyone would actually write. The publish lifecycle is
         // *supposed* to reach for the kernel's gate and status machine.
         const kernelUsers = FILES.filter((path) =>
-            specifiersOf(path).includes('@orthacms/content-domain')
+            specifiersOf(path).includes('@apograph/content-domain')
         );
         expect(kernelUsers.length).toBeGreaterThan(0);
 
         const eventUsers = FILES.filter((path) =>
-            specifiersOf(path).includes('@orthacms/database')
+            specifiersOf(path).includes('@apograph/database')
         );
         expect(eventUsers.length).toBeGreaterThan(0);
     });

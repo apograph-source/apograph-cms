@@ -19,9 +19,9 @@ Utils is the one group in the monorepo that **does nothing itself**. It boots no
 
 - [01. Business description](#01-business-description)
 - [02. Composition of the group](#02-composition-of-the-group)
-- [03. Inventory of the exports: @orthacms/utils-admin](#03-inventory-of-the-exports-orthacmsutils-admin)
+- [03. Inventory of the exports: @apograph/utils-admin](#03-inventory-of-the-exports-apographutils-admin)
 - [04. The admin UI's load-bearing seams](#04-the-admin-uis-load-bearing-seams)
-- [05. Inventory of the exports: @orthacms/utils-server](#05-inventory-of-the-exports-orthacmsutils-server)
+- [05. Inventory of the exports: @apograph/utils-server](#05-inventory-of-the-exports-apographutils-server)
 - [06. The filter grammar and its limits](#06-the-filter-grammar-and-its-limits)
 - [07. Scenarios — how it works, step by step](#07-scenarios-how-it-works-step-by-step)
 - [08. Rules for authors: what belongs here and what does not](#08-rules-for-authors-what-belongs-here-and-what-does-not)
@@ -32,7 +32,7 @@ Utils is the one group in the monorepo that **does nothing itself**. It boots no
 
 ## 01. Business description
 
-The monorepo has two categories of code that are easy to confuse. There is the **host** — the composition root that knows about every plugin and assembles an application out of them (`@orthacms/bootstrap-admin`, `@orthacms/bootstrap-server`). And there are the **plugins** — self-contained pieces of the product that bring routes, screens, tables and permissions. Utils is neither. It is a **leaf of the dependency tree**: a package everyone imports and which imports none of its consumers.
+The monorepo has two categories of code that are easy to confuse. There is the **host** — the composition root that knows about every plugin and assembles an application out of them (`@apograph/bootstrap-admin`, `@apograph/bootstrap-server`). And there are the **plugins** — self-contained pieces of the product that bring routes, screens, tables and permissions. Utils is neither. It is a **leaf of the dependency tree**: a package everyone imports and which imports none of its consumers.
 
 ### Why a separate leaf was needed
 
@@ -75,12 +75,12 @@ Two packages, no shared codebase between them, different runtimes and different 
 
 | Package               | npm name               | Runtime                | Dependencies                                                                                                   | Modules | Exports |
 | --------------------- | ---------------------- | ---------------------- | -------------------------------------------------------------------------------------------------------------- | ------- | ------- |
-| packages/utils/admin  | @orthacms/utils-admin  | The browser (React 19) | `axios` ^1.6, `@tanstack/react-query` ^5, `react` ^19, `@orthacms/design-system`; peer — `react-router-dom` ^6 | 15      | 31      |
-| packages/utils/server | @orthacms/utils-server | Node (NestJS)          | `@nestjs/common` ^11, `drizzle-orm` ^0.45                                                                      | 13      | 28      |
+| packages/utils/admin  | @apograph/utils-admin  | The browser (React 19) | `axios` ^1.6, `@tanstack/react-query` ^5, `react` ^19, `@apograph/design-system`; peer — `react-router-dom` ^6 | 15      | 31      |
+| packages/utils/server | @apograph/utils-server | Node (NestJS)          | `@nestjs/common` ^11, `drizzle-orm` ^0.45                                                                      | 13      | 28      |
 
 ### Who consumes them
 
-The dependency is declared in the `package.json` of 16 admin packages and 7 server ones (`utils` itself does not count). In the sources there are 127 import sites for `@orthacms/utils-admin` and 25 for `@orthacms/utils-server`.
+The dependency is declared in the `package.json` of 16 admin packages and 7 server ones (`utils` itself does not count). In the sources there are 127 import sites for `@apograph/utils-admin` and 25 for `@apograph/utils-server`.
 
 | Side           | Consumers                                                                                                                                                                         |
 | -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -91,11 +91,11 @@ Note who is absent from those lists. `query-builder/admin` builds the very filte
 
 ### How it resolves
 
-Both packages are consumed **from source**: their `exports` point at `./src/index.ts`, and `tsconfig.base.json` sets `customConditions: ["@orthacms/source"]`. There is no build step to consume them — the admin UI's Vite transpiles the leaf's TypeScript directly. The practical consequence: an edit in `utils-admin` shows up in the dev stack instantly, and a type error in it breaks `typecheck` for all sixteen consumers at once.
+Both packages are consumed **from source**: their `exports` point at `./src/index.ts`, and `tsconfig.base.json` sets `customConditions: ["@apograph/source"]`. There is no build step to consume them — the admin UI's Vite transpiles the leaf's TypeScript directly. The practical consequence: an edit in `utils-admin` shows up in the dev stack instantly, and a type error in it breaks `typecheck` for all sixteen consumers at once.
 
 > **Both packages are the scaffolder's CORE_PACKAGES**
 >
-> In `packages/create-ortha-app/src/lib/features.ts` both are listed in the unconditional core, even though the template barely uses them. The reason is named right there: it is the first thing the author of their own page or their own plugin reaches for, and relying on npm hoisting is a phantom dependency that works until the first version conflict and never works under pnpm.
+> In `packages/create-apograph-app/src/lib/features.ts` both are listed in the unconditional core, even though the template barely uses them. The reason is named right there: it is the first thing the author of their own page or their own plugin reaches for, and relying on npm hoisting is a phantom dependency that works until the first version conflict and never works under pnpm.
 
 ### File layout
 
@@ -121,9 +121,9 @@ packages/utils/admin/src/          packages/utils/server/src/
 
 The admin convention: one concern, one `camelCase` folder with an `index.ts`, the spec sitting next to it (`index.spec.ts(x)`). The server convention: flat files, tests in `__test__/`. Both conventions are pinned in their own `AGENTS.md` and diverge from each other deliberately — these are two packages, not two faces of one.
 
-## 03. Inventory of the exports: `@orthacms/utils-admin`
+## 03. Inventory of the exports: `@apograph/utils-admin`
 
-The `src/index.ts` barrel serves **31 symbols**: 25 values and 6 types. Below is the full list, with no omissions; the “import sites” column counts files importing the symbol from `@orthacms/utils-admin` (`utils` itself and the specs do not count).
+The `src/index.ts` barrel serves **31 symbols**: 25 values and 6 types. Below is the full list, with no omissions; the “import sites” column counts files importing the symbol from `@apograph/utils-admin` (`utils` itself and the specs do not count).
 
 | Symbol                 | Kind        | What it does                                                                                                                                                        | Who uses it                                                                                                                                                                         | Sites |
 | ---------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
@@ -297,7 +297,7 @@ The package deliberately consists of singletons. For an SPA with no SSR that is 
 >
 > `CurrentWorkspaceProvider` sets it **during render** (the parent renders before its children, otherwise a child hook's first request would go out without the header) and updates it in an effect when the workspace changes. There is deliberately no cleanup on unmount: clearing it would race with background refetches (for instance a content-list refetch on window focus after you have already left for the workspace grid), which would go out without `X-Workspace-Id` and get a 400 from the guard. A lingering id is harmless: the header is read only by workspace-scoped routes, and those always live inside the shell, which resets it on entry.
 
-## 05. Inventory of the exports: `@orthacms/utils-server`
+## 05. Inventory of the exports: `@apograph/utils-server`
 
 The barrel serves **28 symbols**: 15 values and 13 types. Five of the values are “constant object + same-named type” pairs (`FilterOperator`, `ScalarFieldType`, `RelationKind`, `WithinLastUnit`, `FilterErrorCode`): the code uses them both as a value in a `switch` and as a type in a signature. The package has no NestJS module — it is a plain library anyone can import.
 
@@ -686,7 +686,7 @@ A package named `utils` is a natural candidate for a junk drawer. The criteria b
 
 > **The one exception to “a leaf imports nothing”**
 >
-> `avatarColor` imports `AVATAR_COLORS` from `@orthacms/design-system`, so `utils-admin` depends on the design system. This is not a violation — the design system is a leaf too, and no cycle arises — but it is the package's only dependency on another monorepo package, and adding a second must be a deliberate act.
+> `avatarColor` imports `AVATAR_COLORS` from `@apograph/design-system`, so `utils-admin` depends on the design system. This is not a violation — the design system is a leaf too, and no cycle arises — but it is the package's only dependency on another monorepo package, and adding a second must be a deliberate act.
 
 ### How to add an export properly
 
@@ -721,7 +721,7 @@ Statements where violating any one is a defect rather than a change in behaviour
 
 #### General
 
-- **I-01** — **The leaf does not import its consumers.** Neither `utils-admin` nor `utils-server` depends on any plugin or any host. The only internal dependency is admin's `@orthacms/design-system`.
+- **I-01** — **The leaf does not import its consumers.** Neither `utils-admin` nor `utils-server` depends on any plugin or any host. The only internal dependency is admin's `@apograph/design-system`.
 - **I-02** — **The packages contain no user-facing strings.** Not one piece of text a human will see, and no `react-intl`. The copy is brought by whoever mounts it.
 - **I-03** — **Neither package owns tables, routes or permissions.** Zero migrations, zero controllers, zero permission keys.
 
@@ -882,7 +882,7 @@ Every statement in both `AGENTS.md` files was checked against the implementation
 | admin/AGENTS.md · Layout           | “One concern, one folder: `apiClient/`, `queryClient/`, `staleTime/`, `apiError/`, `httpStatus/`, `slot/`”   | There are fifteen folders. Not listed: `avatarColor`, `byOrder`, `documentTitle`, `initials`, `isComposingText`, `slugify`, `unsavedChanges`, `useDebouncedValue`, `useTableUrlState`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | admin/AGENTS.md · Key exports      | The section describes 12 symbols                                                                             | The barrel serves 31. Undescribed: `setActiveWorkspaceId`, `byOrder`, `isComposingText`, `asAvatarColor`, `initialsOf`, `initialsFromEmail` and the whole tab-title trio (`useDocumentTitle`, `setDocumentTitle`, `setTitleDecorator`) — even though `useDocumentTitle` is the package's third most-used symbol                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | admin/AGENTS.md · HTTP_STATUS      | “named codes (`UNAUTHORIZED`, `FORBIDDEN`, `TOO_MANY_REQUESTS`)”                                             | There are six codes: `BAD_REQUEST`, `NOT_FOUND` and `CONFLICT` have been added                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| admin/AGENTS.md · dependencies     | “that is the reason the package takes a `react` dependency (alongside the existing `@tanstack/react-query`)” | There are four dependencies, and two are unnamed: `@orthacms/design-system` (needed by `avatarColor`) and the peer dependency `react-router-dom` ^6 (needed by `useTableUrlState` and `unsavedChanges`). The second matters: it is what makes “the provider mounts inside the router” a requirement                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| admin/AGENTS.md · dependencies     | “that is the reason the package takes a `react` dependency (alongside the existing `@tanstack/react-query`)” | There are four dependencies, and two are unnamed: `@apograph/design-system` (needed by `avatarColor`) and the peer dependency `react-router-dom` ^6 (needed by `useTableUrlState` and `unsavedChanges`). The second matters: it is what makes “the provider mounts inside the router” a requirement                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | server/AGENTS.md · Filter pipeline | “`applyFilterTree(…)` → `SQL \| undefined`”                                                                  | The function is async: `Promise<SQL \| undefined>`. This is mentioned further down the document, but not in the pipeline diagram                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | server/AGENTS.md · FilterSchema    | “…and the `maxDepth` / `maxNodes` / `maxGroupDepth` guards”                                                  | There are four guards: `maxInListLength` (default 100) is unnamed, even though both of its error codes exist in the package                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | server/AGENTS.md · pg-errors       | “two functions — `isUniqueViolation` and `violatedConstraint`”                                               | Three: `isForeignKeyViolation` (`23503`) is also exported, and `EntryWriterService` uses it                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |

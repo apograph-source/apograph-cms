@@ -5,12 +5,12 @@ import {
     type OnApplicationBootstrap
 } from '@nestjs/common';
 import { notInArray, sql, type AnyColumn } from 'drizzle-orm';
-import { InjectDatabase, type Database } from '@orthacms/database';
+import { InjectDatabase, type Database } from '@apograph/database';
 import {
     InjectContentRegistry,
     type AnyContentType,
     type ContentTypeRegistry
-} from '@orthacms/content-server';
+} from '@apograph/content-server';
 import { I18N_CONFIG } from '../../i18n.constants';
 import type { I18nPluginConfig } from '../../types/locale';
 import { LocaleRegistryService } from './locale-registry.service';

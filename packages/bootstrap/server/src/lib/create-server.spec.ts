@@ -408,7 +408,7 @@ describe('createServer (the composition root)', () => {
         let staticDir: string;
 
         beforeEach(() => {
-            staticDir = mkdtempSync(join(tmpdir(), 'ortha-bootstrap-'));
+            staticDir = mkdtempSync(join(tmpdir(), 'apograph-bootstrap-'));
             writeFileSync(join(staticDir, 'index.html'), '<!doctype html>');
         });
 

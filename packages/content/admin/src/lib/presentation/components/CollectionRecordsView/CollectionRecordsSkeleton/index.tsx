@@ -1,5 +1,5 @@
 import { defineMessages, useIntl } from 'react-intl';
-import { Skeleton, SkeletonRegion } from '@orthacms/design-system';
+import { Skeleton, SkeletonRegion } from '@apograph/design-system';
 
 /** How many placeholder rows the loading state renders. */
 const ROWS = 8;

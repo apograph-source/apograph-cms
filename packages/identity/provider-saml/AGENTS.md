@@ -1,4 +1,4 @@
-# @orthacms/identity-provider-saml
+# @apograph/identity-provider-saml
 
 SAML 2.0 — HTTP-Redirect for the request, HTTP-POST for the response.
 
@@ -74,6 +74,6 @@ reason anyone found out.
 
 ## Package
 
-- Name: `@orthacms/identity-provider-saml`
-- Import: `import { createSamlProvider } from '@orthacms/identity-provider-saml'`
-- Depends on `@orthacms/identity-domain` and `@node-saml/node-saml`.
+- Name: `@apograph/identity-provider-saml`
+- Import: `import { createSamlProvider } from '@apograph/identity-provider-saml'`
+- Depends on `@apograph/identity-domain` and `@node-saml/node-saml`.

@@ -1,4 +1,7 @@
-import { SsoVerificationError, type SsoProfile } from '@orthacms/identity-domain';
+import {
+    SsoVerificationError,
+    type SsoProfile
+} from '@apograph/identity-domain';
 import {
     DEFAULT_EMAIL_ATTRIBUTES,
     DEFAULT_NAME_ATTRIBUTES,
@@ -20,8 +23,7 @@ export interface SamlAssertionProfile {
 }
 
 /** The `NameID` format that is explicitly *not* stable. */
-const TRANSIENT_FORMAT =
-    'urn:oasis:names:tc:SAML:2.0:nameid-format:transient';
+const TRANSIENT_FORMAT = 'urn:oasis:names:tc:SAML:2.0:nameid-format:transient';
 
 /**
  * Turns a validated assertion into the normalised profile the CMS resolves
@@ -63,7 +65,11 @@ export function toProfile(
         emailVerified: config.emailVerified,
         name: readName(assertion, config),
         ...(config.groupsAttribute
-            ? { groups: readGroups(attribute(assertion, config.groupsAttribute)) }
+            ? {
+                  groups: readGroups(
+                      attribute(assertion, config.groupsAttribute)
+                  )
+              }
             : {}),
         sessionId:
             typeof assertion.sessionIndex === 'string'
@@ -138,10 +144,7 @@ function readName(
  * One attribute, looked for in both places node-saml puts them: the
  * `attributes` bag, and lifted onto the profile itself.
  */
-function attribute(
-    assertion: SamlAssertionProfile,
-    name: string
-): unknown {
+function attribute(assertion: SamlAssertionProfile, name: string): unknown {
     return assertion.attributes?.[name] ?? assertion[name];
 }
 

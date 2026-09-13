@@ -1,5 +1,5 @@
 import type { ComponentType } from 'react';
-import { createSlot } from '@orthacms/utils-admin';
+import { createSlot } from '@apograph/utils-admin';
 
 /**
  * What a {@link CopilotToolResultItem}'s component is handed — one finished
@@ -61,7 +61,7 @@ export type CopilotToolResultItem = {
  * an addition to that, not a replacement for it.
  *
  * The inversion is the usual one: this package owns the slot and knows no
- * plugin; the plugin that owns the tool owns the rendering. `@orthacms/alarms-admin`
+ * plugin; the plugin that owns the tool owns the rendering. `@apograph/alarms-admin`
  * is the first filler.
  */
 export const COPILOT_TOOL_RESULT_SLOT = createSlot<CopilotToolResultItem>(

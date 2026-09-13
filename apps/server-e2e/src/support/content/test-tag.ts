@@ -2,7 +2,7 @@ import {
     collection,
     field,
     type AnyContentType
-} from '@orthacms/content-server/define';
+} from '@apograph/content-server/define';
 import { testArticle } from './test-article';
 
 /**
@@ -47,7 +47,8 @@ export const testTag = collection('test_tag', {
             field: 'tags',
             admin: {
                 label: 'Articles',
-                description: 'Articles tagged with this tag (editable both ways).'
+                description:
+                    'Articles tagged with this tag (editable both ways).'
             }
         })
     }

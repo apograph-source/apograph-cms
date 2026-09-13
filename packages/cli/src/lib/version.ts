@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 /**
- * This package's own version, for `ortha --version`.
+ * This package's own version, for `apograph --version`.
  *
  * Read from `package.json` at runtime rather than baked into the source, so
  * the number the command prints is the one npm installed — `nx release`

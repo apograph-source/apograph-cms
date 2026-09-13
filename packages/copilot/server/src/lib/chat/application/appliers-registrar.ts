@@ -4,7 +4,7 @@ import {
     type Provider,
     type Type
 } from '@nestjs/common';
-import type { ProposalApplier } from '@orthacms/copilot-domain';
+import type { ProposalApplier } from '@apograph/copilot-domain';
 import { ProposalApplierRegistry } from './proposal-applier.registry';
 
 /** Registers a plugin's proposal appliers with the copilot at bootstrap. */

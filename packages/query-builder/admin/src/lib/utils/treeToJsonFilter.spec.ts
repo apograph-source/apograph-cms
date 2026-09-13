@@ -100,9 +100,7 @@ describe('treeToJsonNode', () => {
             // `'toString'` with a *function* — truthy, so the throw below never
             // fires and `JSON.stringify` drops the key, quietly widening the
             // filter to everything.
-            const inherited = group(
-                rule('title', 'toString' as OpId, 'Ada')
-            );
+            const inherited = group(rule('title', 'toString' as OpId, 'Ada'));
 
             expect(() => treeToJsonNode(inherited, NOW)).toThrow(
                 /no wire op for toString/

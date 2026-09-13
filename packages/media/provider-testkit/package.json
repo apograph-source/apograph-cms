@@ -1,5 +1,5 @@
 {
-    "name": "@orthacms/media-provider-testkit",
+    "name": "@apograph/media-provider-testkit",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -16,6 +16,6 @@
         "src"
     ],
     "dependencies": {
-        "@orthacms/media-domain": "*"
+        "@apograph/media-domain": "*"
     }
 }

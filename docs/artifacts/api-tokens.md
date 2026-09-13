@@ -37,7 +37,7 @@ An external application — a site builder, a migration script, an AI agent — 
 
 A CMS does not store content only so that it can be looked at in the admin UI. The site's front end pulls it, a mobile app reads it, a migration script edits it, an external agent pages through it over MCP. All of these consumers need access, and none of them should go in under a living employee's account: that person will leave, change their password or lose a permission — and production goes down with them.
 
-**An API token is a separate identity for a machine.** It has a name ("Production storefront"), a list of workspaces it is allowed to work in, an access level (read-only or full CRUD), an optional expiry, and exactly one operation that cuts it off — revocation. The `@orthacms/api-tokens-admin` package is the interface over all of that: the `/api-tokens` page in the global sidebar.
+**An API token is a separate identity for a machine.** It has a name ("Production storefront"), a list of workspaces it is allowed to work in, an access level (read-only or full CRUD), an optional expiry, and exactly one operation that cuts it off — revocation. The `@apograph/api-tokens-admin` package is the interface over all of that: the `/api-tokens` page in the global sidebar.
 
 ### The problem it solves
 
@@ -54,7 +54,7 @@ The only role that sees the "API Tokens" item in the sidebar at all. Issues a to
 
 #### Integration developer
 
-Never sees this page. Receives a string of the form `orthacms_…` from an administrator and puts it in their secret manager. From then on they call with `Authorization: Bearer` and, if the token covers more than one workspace, with an `X-Workspace-Id` header.
+Never sees this page. Receives a string of the form `apograph_…` from an administrator and puts it in their secret manager. From then on they call with `Authorization: Bearer` and, if the token covers more than one workspace, with an `X-Workspace-Id` header.
 
 #### Contributor and viewer
 
@@ -64,8 +64,8 @@ They hold no `tokens:*` permission at all. There is no sidebar item; navigating 
 
 The boundaries matter more than the capabilities here: tokens are a topic smeared across three packages, and confusing them is expensive.
 
-- **It is not the token server.** The `POST`/`GET`/`DELETE /api/api-tokens` routes, the `api_tokens` and `api_token_workspaces` tables, secret generation, hashing, verification and revocation live in `@orthacms/identity-server` (the `src/lib/api-tokens/` folder). What lives here is only a client to them. The server mechanics are described in detail in the Identity dossier; this document retells them only as far as is needed to understand the lifecycle.
-- **It is not the public API.** What a token is spent against is `/api/v1/…` from `@orthacms/content-server` (plus media, segments, GraphQL and MCP). The bearer guard, the workspace resolution and the content-grant check are there.
+- **It is not the token server.** The `POST`/`GET`/`DELETE /api/api-tokens` routes, the `api_tokens` and `api_token_workspaces` tables, secret generation, hashing, verification and revocation live in `@apograph/identity-server` (the `src/lib/api-tokens/` folder). What lives here is only a client to them. The server mechanics are described in detail in the Identity dossier; this document retells them only as far as is needed to understand the lifecycle.
+- **It is not the public API.** What a token is spent against is `/api/v1/…` from `@apograph/content-server` (plus media, segments, GraphQL and MCP). The bearer guard, the workspace resolution and the content-grant check are there.
 - **It is not workspaces.** The list for the selector comes from `GET /api/workspaces`; the package itself knows nothing about workspaces beyond their `id` and `name`.
 - **It is not the activity log.** The events are produced by `identity-server`, the log rows are written by `activity`, and the `/activity` page displays them.
 - **It is not a second credential store.** MCP and GraphQL do not mint keys of their own: they accept exactly the same tokens, verified by the same `ApiTokenService.verify`. Revoking on this page kills access there too.
@@ -104,7 +104,7 @@ The package's public API (`src/index.ts`) is deliberately narrow: the plugin fac
 
 > **Neighbours that are easy to confuse**
 >
-> **`@orthacms/identity-server`** — `ApiTokenService`, `DrizzleApiTokenRepository`, `ApiTokensController`, both tables, both migrations, the `scopePermissions` function. **`@orthacms/content-server`** — `ApiTokenGuard` and `ApiTokenWorkspaceGuard`, that is, _spending_ a token. **`@orthacms/workspaces-server`** — the `WORKSPACE_HEADER` constant (`x-workspace-id`) and the adapter for the `WORKSPACE_DIRECTORY` port. **`@orthacms/activity`** — the log rows.
+> **`@apograph/identity-server`** — `ApiTokenService`, `DrizzleApiTokenRepository`, `ApiTokensController`, both tables, both migrations, the `scopePermissions` function. **`@apograph/content-server`** — `ApiTokenGuard` and `ApiTokenWorkspaceGuard`, that is, _spending_ a token. **`@apograph/workspaces-server`** — the `WORKSPACE_HEADER` constant (`x-workspace-id`) and the adapter for the `WORKSPACE_DIRECTORY` port. **`@apograph/activity`** — the log rows.
 
 ## 03. Permissions and token scope
 
@@ -239,7 +239,7 @@ Not an idle question: the page is global, while all the rest of the CMS's conten
 8. **Submission.** `POST /api/api-tokens` with `{ name, workspaceIds, scope, expiresAt? }`. While the request is in flight the button is disabled and shows a spinner — there will be no double issue.
 9. **The server collapses duplicates and checks the workspaces.** `[...new Set(workspaceIds)]`, then `assertWorkspacesExist` through the port. A non-existent id → `UnknownWorkspaceError` → `400` listing the "bad" ids.
    _naming them is safe: the caller sent them, and only an administrator can get this far_
-10. **The secret is generated.** `'orthacms_'` + 32 random bytes in base64url — 256 bits of entropy. What goes into the database is the SHA-256 of that value and a `lookup_prefix` — the first 15 characters (`orthacms_` plus 6 characters of the secret).
+10. **The secret is generated.** `'apograph_'` + 32 random bytes in base64url — 256 bits of entropy. What goes into the database is the SHA-256 of that value and a `lookup_prefix` — the first 15 characters (`apograph_` plus 6 characters of the secret).
 11. **The token row and its workspace set are written in one transaction**, and into the same transaction's **outbox** goes the `api_token.created` event. A token that exists with no audit row behind it is exactly the key nobody can account for.
     _in the event payload: name, scope, workspaceIds, lookupPrefix, expiresAt — and never the secret or its hash_
 12. **The response carries the metadata plus the `secret`.** The issue dialog closes, the secret goes into page state, and the reveal dialog opens immediately.
@@ -273,7 +273,7 @@ The same outcome follows from any break between the server and the eye: if the `
 
 This half belongs to `content-server` and its neighbours; it is here so the lifecycle is described end to end.
 
-1. **The client sends `Authorization: Bearer orthacms_…`** to `/api/v1/…`. The routes are marked `@Public()`, so the global session `AuthGuard` lets them through, and all of the authentication is `ApiTokenGuard`.
+1. **The client sends `Authorization: Bearer apograph_…`** to `/api/v1/…`. The routes are marked `@Public()`, so the global session `AuthGuard` lets them through, and all of the authentication is `ApiTokenGuard`.
 2. **The header scheme is parsed case-insensitively.** No header, a different scheme, an empty value — all give one and the same bare `401`.
 3. **The token is verified by hash.** `ApiTokenService.verify` computes the SHA-256 of the presented value, looks up the row, and rejects a revoked or expired one. **Unknown, revoked and expired are indistinguishable** — otherwise the endpoint would become an enumeration tool.
 4. **A session cookie is not accepted in place of a token.** Deliberately: a cookie rides along with the request by itself, which is what makes CSRF possible; a bearer never does. Accepting both on an endpoint whose purpose is to let an agent write content would put CSRF back where it was removed from.
@@ -369,7 +369,7 @@ They belong to other packages; they are listed because without them the token's 
 | POST /v1/graphql<br>GET /v1/graphql (sandbox)                                                 | `bearer` | `content:read` at the door, then per resolver             | content-graphql                       |
 | POST /v1/mcp                                                                                  | `bearer` | per each tool's `requires`                                | mcp-server (enabled by `MCP_ENABLED`) |
 
-The `X-Workspace-Id` header applies to all of the surfaces listed; MCP has an equivalent alternative, `?workspaceId=` on the endpoint URL. The header constant (`WORKSPACE_HEADER`) and the id-validation pattern live in `@orthacms/workspaces-server`, so that the session path and the token path name a workspace the same way.
+The `X-Workspace-Id` header applies to all of the surfaces listed; MCP has an equivalent alternative, `?workspaceId=` on the endpoint URL. The header constant (`WORKSPACE_HEADER`) and the id-validation pattern live in `@apograph/workspaces-server`, so that the session path and the token path name a workspace the same way.
 
 ## 08. Admin UI: the screen, its states, its behaviour
 
@@ -396,7 +396,7 @@ The plugin contributes **one** private route and **one** sidebar item. Everythin
 | ---------- | -------------- | --------------------------------------------------------------------------------------------------------------------- |
 | Name       | `name`         | Bold text                                                                                                             |
 | Workspaces | `workspaceIds` | **One badge per workspace.** The name is resolved from the `useWorkspaceOptions` cache; on a miss the raw id is shown |
-| Token      | `lookupPrefix` | `orthacms_ab12cd…` in monospace — recognise the key without seeing the secret                                         |
+| Token      | `lookupPrefix` | `apograph_ab12cd…` in monospace — recognise the key without seeing the secret                                         |
 | Access     | `scope`        | A badge: `full` is the accented `default`, `read` the muted `secondary`                                               |
 | Status     | derived        | A badge: active → `default`, expired → `secondary`, revoked → `outline`                                               |
 | Expires    | `expiresAt`    | `dateStyle: 'medium'` in the locale, or "Never"                                                                       |
@@ -427,7 +427,7 @@ This package has no configuration at all: `ApiTokensPlugin()` takes no arguments
 
 | Quantity                     | Value                        | Where it is declared                      | Meaning                                                                                                    |
 | ---------------------------- | ---------------------------- | ----------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| TOKEN_PREFIX                 | `orthacms_`                  | identity-server                           | A human-readable prefix: the string is recognisable as an Ortha key in somebody else's config              |
+| TOKEN_PREFIX                 | `apograph_`                  | identity-server                           | A human-readable prefix: the string is recognisable as an Apograph key in somebody else's config              |
 | TOKEN_ENTROPY_BYTES          | `32` (256 bits)              | identity-server                           | The random part of the secret, in base64url                                                                |
 | LOOKUP_PREFIX_LENGTH         | `15` = 9 + 6                 | identity-server                           | How many characters of the raw token are kept as a non-secret label                                        |
 | LAST_USED_TOUCH_INTERVAL_MS  | `60 000`                     | identity-server                           | Throttling of the `last_used_at` write: a burst of calls must not write a row per request                  |
@@ -520,7 +520,7 @@ Phrased as "action → expected result". The server side is exercised with `curl
 
 ### Issuing
 
-- **Issue a token for one workspace** → the response contains a `secret` starting with `orthacms_`; the database holds only the hash and the prefix; the log holds a `token.created` row.
+- **Issue a token for one workspace** → the response contains a `secret` starting with `apograph_`; the database holds only the hash and the prefix; the log holds a `token.created` row.
 - **Issue a token for several workspaces** → `api_token_workspaces` holds as many rows as were selected; the table shows as many badges.
 - **Pass the same id twice** → the duplicate is collapsed and the response set has no repeats.
 - **An empty `workspaceIds`** → 400; and the form's submit button is not even enabled.
@@ -662,6 +662,6 @@ The other defects: an unparseable `expiresAt` reached `mint` as an Invalid Date 
 
 ---
 
-**The second artifact in the series.** Written from the `packages/api-tokens/admin` package in the same frame as the Identity dossier: business description → composition → permissions → data → lifecycle → flows → API → admin UI → constants → security → invariants → checklist → boundaries → discrepancies. The server-side mechanics of tokens belong to `@orthacms/identity-server` and are described in the Identity dossier; here they are retold only as far as the token's lifecycle needs to hold together.
+**The second artifact in the series.** Written from the `packages/api-tokens/admin` package in the same frame as the Identity dossier: business description → composition → permissions → data → lifecycle → flows → API → admin UI → constants → security → invariants → checklist → boundaries → discrepancies. The server-side mechanics of tokens belong to `@apograph/identity-server` and are described in the Identity dossier; here they are retold only as far as the token's lifecycle needs to hold together.
 
 The source is the source code: all of `packages/api-tokens/admin/**`, `packages/identity/server/src/lib/api-tokens/**` (the service, the repository, the controller, the DTOs, the domain scope function), `packages/identity/server/src/lib/schema/api-tokens.ts` and migrations `0002`/`0003`, the guards in `packages/content/server/src/lib/public-api/http/guards/**`, the event mapping in `packages/activity/server`, plus the e2e suites in `apps/admin-e2e/src/api-tokens/` and `apps/server-e2e/src/server/api-tokens/`. The `AGENTS.md` files were used as a skeleton, but every claim was checked against the implementation — discrepancies went into section 14.

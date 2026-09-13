@@ -9,7 +9,7 @@ export default defineConfig(() => ({
     //  plugins: [],
     // },
     test: {
-        name: '@orthacms/design-system',
+        name: '@apograph/design-system',
         watch: false,
         globals: true,
         environment: 'jsdom',

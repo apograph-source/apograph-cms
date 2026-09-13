@@ -2,7 +2,7 @@ import { defineMessages, useIntl } from 'react-intl';
 import {
     SegmentedControl,
     SegmentedControlItem
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 
 /** Which axis the coverage card breaks its bars down by. */
 export type CoverageMode = 'locale' | 'type';

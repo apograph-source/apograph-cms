@@ -2,7 +2,7 @@ import type {
     ModelMessage,
     ModelRequest,
     ModelTool
-} from '@orthacms/copilot-domain';
+} from '@apograph/copilot-domain';
 import { DEFAULT_MAX_TOKENS_FIELD, type OpenAiProviderConfig } from '../config';
 import type { ChatMessage } from './types';
 

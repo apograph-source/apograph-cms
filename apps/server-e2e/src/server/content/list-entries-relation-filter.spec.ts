@@ -33,7 +33,7 @@ const textsOf = (res: { body: { items: EntryItem[] } }): string[] =>
 
 /**
  * ONE app per spec FILE, not per `describe`. `closeTestApp` ends the
- * `@orthacms/database` pool, which Jest scopes to the module registry — i.e.
+ * `@apograph/database` pool, which Jest scopes to the module registry — i.e.
  * to the file — so a second `describe` booting its own app finds the pool
  * already closed and dies in the system-roles seeder. Both suites below share
  * this harness.

@@ -1,6 +1,6 @@
 /**
  * The read-side port over the host's stored content entries: how many entries of
- * a given content type a workspace holds. `@orthacms/content-server` implements
+ * a given content type a workspace holds. `@apograph/content-server` implements
  * it over its generated `content_<name>` tables and binds it to
  * {@link CONTENT_ENTRY_COUNTER}; the workspaces context injects the **token**,
  * never the content package, keeping the graph acyclic (same inversion as

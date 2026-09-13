@@ -42,14 +42,14 @@ describe('environment readers', () => {
 
     describe('requireEnv', () => {
         it('returns the trimmed value', () => {
-            set('ORTHA_TEST_URL', '  postgres://x  ');
-            expect(requireEnv('ORTHA_TEST_URL')).toBe('postgres://x');
+            set('APOGRAPH_TEST_URL', '  postgres://x  ');
+            expect(requireEnv('APOGRAPH_TEST_URL')).toBe('postgres://x');
         });
 
         it('names the variable when it is missing', () => {
-            set('ORTHA_TEST_URL', undefined);
-            expect(() => requireEnv('ORTHA_TEST_URL')).toThrow(
-                /ORTHA_TEST_URL/
+            set('APOGRAPH_TEST_URL', undefined);
+            expect(() => requireEnv('APOGRAPH_TEST_URL')).toThrow(
+                /APOGRAPH_TEST_URL/
             );
         });
 
@@ -57,39 +57,41 @@ describe('environment readers', () => {
             // Left to pass through, an empty DATABASE_URL reaches pg as "use
             // the libpq defaults" and fails several seconds later with a
             // message naming SASL rather than the variable.
-            set('ORTHA_TEST_URL', '   ');
-            expect(() => requireEnv('ORTHA_TEST_URL')).toThrow(
-                /ORTHA_TEST_URL/
+            set('APOGRAPH_TEST_URL', '   ');
+            expect(() => requireEnv('APOGRAPH_TEST_URL')).toThrow(
+                /APOGRAPH_TEST_URL/
             );
         });
 
         it('carries a caller-supplied hint into the message', () => {
-            set('ORTHA_TEST_URL', undefined);
-            expect(() => requireEnv('ORTHA_TEST_URL', 'Copy `.env.example`.')) //
+            set('APOGRAPH_TEST_URL', undefined);
+            expect(() =>
+                requireEnv('APOGRAPH_TEST_URL', 'Copy `.env.example`.')
+            ) //
                 .toThrow(/Copy `\.env\.example`\./);
         });
     });
 
     describe('readPositiveInt', () => {
         it('falls back when unset or empty', () => {
-            set('ORTHA_TEST_N', undefined);
-            expect(readPositiveInt('ORTHA_TEST_N', 7)).toBe(7);
+            set('APOGRAPH_TEST_N', undefined);
+            expect(readPositiveInt('APOGRAPH_TEST_N', 7)).toBe(7);
             // Empty is not an error: `.env.example` ships keys with no value
             // and a fresh clone has to boot from it unchanged.
-            set('ORTHA_TEST_N', '');
-            expect(readPositiveInt('ORTHA_TEST_N', 7)).toBe(7);
+            set('APOGRAPH_TEST_N', '');
+            expect(readPositiveInt('APOGRAPH_TEST_N', 7)).toBe(7);
         });
 
         it('reads a plain decimal integer', () => {
-            set('ORTHA_TEST_N', '42');
-            expect(readPositiveInt('ORTHA_TEST_N', 7)).toBe(42);
+            set('APOGRAPH_TEST_N', '42');
+            expect(readPositiveInt('APOGRAPH_TEST_N', 7)).toBe(42);
         });
 
         it('rejects zero rather than substituting the default', () => {
             // `0` is falsy, so `Number(x) || default` read "block every login"
             // as "allow ten a minute".
-            set('ORTHA_TEST_N', '0');
-            expect(() => readPositiveInt('ORTHA_TEST_N', 7)).toThrow(
+            set('APOGRAPH_TEST_N', '0');
+            expect(() => readPositiveInt('APOGRAPH_TEST_N', 7)).toThrow(
                 /positive whole number/
             );
         });
@@ -98,16 +100,16 @@ describe('environment readers', () => {
             // A negative is truthy, so it went through: a negative session TTL
             // issues every session already expired — login answers 201 and the
             // very next request 401.
-            set('ORTHA_TEST_N', '-1');
-            expect(() => readPositiveInt('ORTHA_TEST_N', 7)).toThrow(
+            set('APOGRAPH_TEST_N', '-1');
+            expect(() => readPositiveInt('APOGRAPH_TEST_N', 7)).toThrow(
                 /positive whole number/
             );
         });
 
         it('rejects exponent and hex notation, which `Number` would take', () => {
             for (const raw of ['1e9', '0x20', 'Infinity', '3.5']) {
-                set('ORTHA_TEST_N', raw);
-                expect(() => readPositiveInt('ORTHA_TEST_N', 7)).toThrow(
+                set('APOGRAPH_TEST_N', raw);
+                expect(() => readPositiveInt('APOGRAPH_TEST_N', 7)).toThrow(
                     /positive whole number/
                 );
             }
@@ -116,13 +118,13 @@ describe('environment readers', () => {
 
     describe('readOptionalPositiveInt', () => {
         it('is undefined when unset, so a plugin default survives a spread', () => {
-            set('ORTHA_TEST_N', undefined);
-            expect(readOptionalPositiveInt('ORTHA_TEST_N')).toBeUndefined();
+            set('APOGRAPH_TEST_N', undefined);
+            expect(readOptionalPositiveInt('APOGRAPH_TEST_N')).toBeUndefined();
         });
 
         it('applies the same refusals as the defaulted form', () => {
-            set('ORTHA_TEST_N', '0');
-            expect(() => readOptionalPositiveInt('ORTHA_TEST_N')).toThrow(
+            set('APOGRAPH_TEST_N', '0');
+            expect(() => readOptionalPositiveInt('APOGRAPH_TEST_N')).toThrow(
                 /positive whole number/
             );
         });
@@ -130,20 +132,24 @@ describe('environment readers', () => {
 
     describe('readList', () => {
         it('splits, trims and drops blanks', () => {
-            set('ORTHA_TEST_LIST', ' a , b ,, c ');
-            expect(readList('ORTHA_TEST_LIST', 'z')).toEqual(['a', 'b', 'c']);
+            set('APOGRAPH_TEST_LIST', ' a , b ,, c ');
+            expect(readList('APOGRAPH_TEST_LIST', 'z')).toEqual([
+                'a',
+                'b',
+                'c'
+            ]);
         });
 
         it('uses the fallback only when the variable is absent', () => {
-            set('ORTHA_TEST_LIST', undefined);
-            expect(readList('ORTHA_TEST_LIST', 'z')).toEqual(['z']);
+            set('APOGRAPH_TEST_LIST', undefined);
+            expect(readList('APOGRAPH_TEST_LIST', 'z')).toEqual(['z']);
         });
 
         it('reads an explicitly empty value as an empty list', () => {
             // "Allow no origins" is a setting somebody means; falling back to
             // the default there would quietly re-admit the dev origin.
-            set('ORTHA_TEST_LIST', '');
-            expect(readList('ORTHA_TEST_LIST', 'z')).toEqual([]);
+            set('APOGRAPH_TEST_LIST', '');
+            expect(readList('APOGRAPH_TEST_LIST', 'z')).toEqual([]);
         });
     });
 
@@ -208,65 +214,141 @@ describe('environment readers', () => {
 
     describe('readEnv', () => {
         it('trims the value', () => {
-            set('ORTHA_TEST_S', '  hello  ');
-            expect(readEnv('ORTHA_TEST_S')).toBe('hello');
+            set('APOGRAPH_TEST_S', '  hello  ');
+            expect(readEnv('APOGRAPH_TEST_S')).toBe('hello');
         });
 
         it('is undefined when unset', () => {
-            set('ORTHA_TEST_S', undefined);
-            expect(readEnv('ORTHA_TEST_S')).toBeUndefined();
+            set('APOGRAPH_TEST_S', undefined);
+            expect(readEnv('APOGRAPH_TEST_S')).toBeUndefined();
         });
 
         it('reads an empty value as unset, not as an empty setting', () => {
             // `ANTHROPIC_API_KEY=` has to leave a deployment with no Claude
             // backend, rather than one registered with an empty key — which is
             // in the picker and fails on the first message.
-            set('ORTHA_TEST_S', '');
-            expect(readEnv('ORTHA_TEST_S')).toBeUndefined();
-            set('ORTHA_TEST_S', '   ');
-            expect(readEnv('ORTHA_TEST_S')).toBeUndefined();
+            set('APOGRAPH_TEST_S', '');
+            expect(readEnv('APOGRAPH_TEST_S')).toBeUndefined();
+            set('APOGRAPH_TEST_S', '   ');
+            expect(readEnv('APOGRAPH_TEST_S')).toBeUndefined();
+        });
+    });
+
+    /**
+     * The rename window. A deployment's `.env` is the one piece of its
+     * configuration this repository cannot edit, so every `APOGRAPH_*` read
+     * falls back to the `ORTHA_*` name it used to have. Without this an
+     * upgrade reads as a fresh install — `rootAdmin.password` falls back to
+     * `''` and the failure surfaces as "no root administrator".
+     */
+    describe('readEnv — the pre-rename name', () => {
+        let warn: jest.SpyInstance;
+
+        beforeEach(() => {
+            warn = jest.spyOn(console, 'warn').mockImplementation(() => {
+                /* the warning is asserted, not printed */
+            });
+        });
+
+        afterEach(() => {
+            warn.mockRestore();
+        });
+
+        it('reads the old name when the new one is unset', () => {
+            set('APOGRAPH_TEST_RENAMED', undefined);
+            set('ORTHA_TEST_RENAMED', 'from the old name');
+            expect(readEnv('APOGRAPH_TEST_RENAMED')).toBe('from the old name');
+        });
+
+        it('prefers the new name when a deployment set both', () => {
+            // A half-migrated `.env` must not have the stale value win.
+            set('APOGRAPH_TEST_RENAMED', 'new');
+            set('ORTHA_TEST_RENAMED', 'old');
+            expect(readEnv('APOGRAPH_TEST_RENAMED')).toBe('new');
+        });
+
+        it('warns once per variable, naming both spellings', () => {
+            // A name no other test reads: the warning is deduplicated for the
+            // life of the process, which is the point — a reader called per
+            // request must not warn per request — so a shared name would make
+            // this assert whichever test ran first.
+            set('APOGRAPH_TEST_WARN_ONCE', undefined);
+            set('ORTHA_TEST_WARN_ONCE', 'value');
+
+            readEnv('APOGRAPH_TEST_WARN_ONCE');
+            readEnv('APOGRAPH_TEST_WARN_ONCE');
+
+            expect(warn).toHaveBeenCalledTimes(1);
+            expect(warn.mock.calls[0][0]).toContain('ORTHA_TEST_WARN_ONCE');
+            expect(warn.mock.calls[0][0]).toContain('APOGRAPH_TEST_WARN_ONCE');
+        });
+
+        it('says nothing when the new name is set', () => {
+            set('APOGRAPH_TEST_QUIET', 'value');
+            expect(readEnv('APOGRAPH_TEST_QUIET')).toBe('value');
+            expect(warn).not.toHaveBeenCalled();
+        });
+
+        it('leaves a name outside the prefix alone', () => {
+            // The fallback is prefix-scoped so it can never resurrect an
+            // unrelated variable that merely happens to share a suffix.
+            set('DATABASE_URL', undefined);
+            set('ORTHA_DATABASE_URL', 'postgres://nope');
+            expect(readEnv('DATABASE_URL')).toBeUndefined();
+        });
+
+        it('applies to every reader built on readEnv', () => {
+            // `readEnv` is the one reader the others are built on, which is
+            // what makes this one fallback cover the whole surface.
+            set('APOGRAPH_TEST_N', undefined);
+            set('ORTHA_TEST_N', '42');
+            expect(readPositiveInt('APOGRAPH_TEST_N', 7)).toBe(42);
+
+            set('APOGRAPH_TEST_FLAG', undefined);
+            set('ORTHA_TEST_FLAG', 'true');
+            expect(readFlag('APOGRAPH_TEST_FLAG', false)).toBe(true);
         });
     });
 
     describe('readOptionalList', () => {
         it('is undefined when unset, so a consumer default survives', () => {
-            set('ORTHA_TEST_LIST', undefined);
-            expect(readOptionalList('ORTHA_TEST_LIST')).toBeUndefined();
+            set('APOGRAPH_TEST_LIST', undefined);
+            expect(readOptionalList('APOGRAPH_TEST_LIST')).toBeUndefined();
         });
 
         it('splits, trims and drops blanks when set', () => {
-            set('ORTHA_TEST_LIST', ' a , , b ');
-            expect(readOptionalList('ORTHA_TEST_LIST')).toEqual(['a', 'b']);
+            set('APOGRAPH_TEST_LIST', ' a , , b ');
+            expect(readOptionalList('APOGRAPH_TEST_LIST')).toEqual(['a', 'b']);
         });
 
         it('treats an empty value as unset rather than as an empty list', () => {
             // Unlike `readList`, where an explicit empty means "allow nothing":
             // here there is no fallback to override, so the only two answers
             // are a list the deployment named and "it named none".
-            set('ORTHA_TEST_LIST', '');
-            expect(readOptionalList('ORTHA_TEST_LIST')).toBeUndefined();
+            set('APOGRAPH_TEST_LIST', '');
+            expect(readOptionalList('APOGRAPH_TEST_LIST')).toBeUndefined();
         });
     });
 
     describe('readFlag', () => {
         it('falls back when unset or empty', () => {
-            set('ORTHA_TEST_FLAG', undefined);
-            expect(readFlag('ORTHA_TEST_FLAG', true)).toBe(true);
-            set('ORTHA_TEST_FLAG', '');
-            expect(readFlag('ORTHA_TEST_FLAG', true)).toBe(true);
+            set('APOGRAPH_TEST_FLAG', undefined);
+            expect(readFlag('APOGRAPH_TEST_FLAG', true)).toBe(true);
+            set('APOGRAPH_TEST_FLAG', '');
+            expect(readFlag('APOGRAPH_TEST_FLAG', true)).toBe(true);
         });
 
         it('is true only for exactly "true"', () => {
-            set('ORTHA_TEST_FLAG', 'true');
-            expect(readFlag('ORTHA_TEST_FLAG', false)).toBe(true);
+            set('APOGRAPH_TEST_FLAG', 'true');
+            expect(readFlag('APOGRAPH_TEST_FLAG', false)).toBe(true);
         });
 
         it('turns the switch off for anything else, including a typo', () => {
             // These gate surfaces that send content to a third party or open a
             // door for an external agent. A misspelling must not open one.
             for (const raw of ['TRUE', 'yes', '1', 'ture']) {
-                set('ORTHA_TEST_FLAG', raw);
-                expect(readFlag('ORTHA_TEST_FLAG', true)).toBe(false);
+                set('APOGRAPH_TEST_FLAG', raw);
+                expect(readFlag('APOGRAPH_TEST_FLAG', true)).toBe(false);
             }
         });
     });
@@ -304,7 +386,7 @@ describe('environment readers', () => {
             // overwrites the default with nothing.
             const DEFAULTS = { maxSteps: 12, wallClockMs: 60_000 };
             const configured = defined({
-                maxSteps: readOptionalPositiveInt('ORTHA_TEST_UNSET'),
+                maxSteps: readOptionalPositiveInt('APOGRAPH_TEST_UNSET'),
                 wallClockMs: 500
             });
             expect({ ...DEFAULTS, ...configured }).toEqual({

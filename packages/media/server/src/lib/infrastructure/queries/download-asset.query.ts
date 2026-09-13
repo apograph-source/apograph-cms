@@ -1,11 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import type { Readable } from 'node:stream';
 import { eq } from 'drizzle-orm';
-import { InjectDatabase, type Database } from '@orthacms/database';
-import {
-    STORAGE_PROVIDER,
-    type StorageProvider
-} from '@orthacms/media-domain';
+import { InjectDatabase, type Database } from '@apograph/database';
+import { STORAGE_PROVIDER, type StorageProvider } from '@apograph/media-domain';
 import { mediaAsset } from '../schema/media-asset';
 
 /** Where an asset's bytes live, plus the workspace that owns it. */

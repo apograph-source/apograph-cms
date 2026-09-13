@@ -9,9 +9,9 @@ import {
     FieldDescription,
     FieldError,
     FieldLabel
-} from '@orthacms/design-system';
-import { initialsOf } from '@orthacms/utils-admin';
-import { useCurrentWorkspace } from '@orthacms/workspaces-admin';
+} from '@apograph/design-system';
+import { initialsOf } from '@apograph/utils-admin';
+import { useCurrentWorkspace } from '@apograph/workspaces-admin';
 import type {
     ContentField,
     RelationRef

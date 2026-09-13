@@ -1,7 +1,7 @@
 import {
     CONTENT_FIELD_TYPE,
     type AnyFieldSpec
-} from '@orthacms/content-server';
+} from '@apograph/content-server';
 import {
     GraphQLBoolean,
     GraphQLEnumType,

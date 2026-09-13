@@ -1,4 +1,4 @@
-import type { SegmentResolver } from '@orthacms/segments-domain';
+import type { SegmentResolver } from '@apograph/segments-domain';
 
 /**
  * What a host configures — one thing.

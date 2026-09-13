@@ -1,6 +1,6 @@
 import { defineMessages, useIntl } from 'react-intl';
-import { useCurrentWorkspace } from '@orthacms/workspaces-admin';
-import { WidgetCard } from '@orthacms/insights-admin';
+import { useCurrentWorkspace } from '@apograph/workspaces-admin';
+import { WidgetCard } from '@apograph/insights-admin';
 import { useProtectionInsights } from '../../../application/hooks';
 
 const messages = defineMessages({

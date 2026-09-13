@@ -3,7 +3,7 @@ import {
     AuthStatus,
     useAuth,
     useHasPermission
-} from '@orthacms/identity-admin';
+} from '@apograph/identity-admin';
 import { UserDetailLayout } from '../UserDetailLayout';
 import { UserGeneralPage } from '../../pages/UserGeneralPage';
 import { UserRolesPage } from '../../pages/UserRolesPage';

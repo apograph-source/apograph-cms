@@ -1,11 +1,11 @@
 import type {
     SsoRoleContext,
     SsoRoleResolver
-} from '@orthacms/identity-domain';
+} from '@apograph/identity-domain';
 import {
     createFakeSsoProvider,
     type FakeSsoProvider
-} from '@orthacms/identity-provider-fake';
+} from '@apograph/identity-provider-fake';
 
 /** The scripted people the e2e identity provider can sign in. */
 export const SSO_SUBJECTS = {
@@ -13,7 +13,7 @@ export const SSO_SUBJECTS = {
     linked: 'idp-subject-linked',
     /** Matches a seeded account, but the provider will not vouch for the address. */
     unverified: 'idp-subject-unverified',
-    /** Verified, but no Ortha account holds the address. */
+    /** Verified, but no Apograph account holds the address. */
     stranger: 'idp-subject-stranger',
     /**
      * Verified, no account — and in a domain that merely *ends with* an allowed

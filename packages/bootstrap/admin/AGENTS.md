@@ -1,13 +1,13 @@
-# @orthacms/bootstrap-admin
+# @apograph/bootstrap-admin
 
-The admin-side **host** for the Ortha CMS. Turns a list of plugins into a
+The admin-side **host** for the Apograph CMS. Turns a list of plugins into a
 running React SPA. Owns the mount + router shell that must exist exactly once;
 contains no features.
 
 ## Package
 
-- Name: `@orthacms/bootstrap-admin`
-- Import: `import { createAdmin, type AdminPlugin } from '@orthacms/bootstrap-admin'`
+- Name: `@apograph/bootstrap-admin`
+- Import: `import { createAdmin, type AdminPlugin } from '@apograph/bootstrap-admin'`
 - Admin-only. Consumed from source; the admin app's Vite transpiles it directly.
 - Lives at `packages/bootstrap/admin` (grouped layout); npm name stays
   hyphenated.
@@ -34,7 +34,7 @@ contains no features.
 
 The host is **auth-agnostic** — it owns no `RequireAuth`, no auth context, no
 `signInPath`. Authentication (state + gate) lives entirely in
-[`@orthacms/identity-admin`](../../identity/admin/AGENTS.md); the shell composes
+[`@apograph/identity-admin`](../../identity/admin/AGENTS.md); the shell composes
 identity's `AuthProvider` + `RequireAuth` inside the `layout` it contributes.
 
 ## Architecture
@@ -85,14 +85,14 @@ identity's `AuthProvider` + `RequireAuth` inside the `layout` it contributes.
   not guarantee a gate. This keeps the host free of any auth code; the trade is
   that gating is an application choice (the shell opts in), not a host guarantee.
 - **Data.** The `QueryClient` and the axios `apiClient` live in
-  [`@orthacms/utils-admin`](../../utils/admin/AGENTS.md), a shared leaf library.
+  [`@apograph/utils-admin`](../../utils/admin/AGENTS.md), a shared leaf library.
   The host only imports `queryClient` to mount `<QueryClientProvider>`; plugins
   import `apiClient`/`queryClient` from there directly. Keeping these out of the
   host means a plugin never depends on the composition root just to make a
   request — the host stays purely the app shell.
 - **Slots.** The plugin contract carries an optional `slots` — each a
   `{ slot, items }` contribution to a `createSlot` extension point (the primitive
-  lives in `@orthacms/utils-admin`). Before render, `createAdmin` wires every
+  lives in `@apograph/utils-admin`). Before render, `createAdmin` wires every
   plugin's contributions into their target slots, through
   `wireSlotContributions`. The host is **slot-agnostic**: it only wires; it
   never defines or reads a slot. A consuming plugin owns each concrete slot
@@ -120,7 +120,7 @@ identity's `AuthProvider` + `RequireAuth` inside the `layout` it contributes.
 
 ```typescript
 // apps/admin/src/main.tsx
-import { createAdmin } from '@orthacms/bootstrap-admin';
+import { createAdmin } from '@apograph/bootstrap-admin';
 import './styles.css';
 
 createAdmin({
@@ -133,9 +133,9 @@ createAdmin({
 ## Not owned here (deferred until a plugin needs it)
 
 - Anything auth — state, gate, and `/api/auth/me` all live in
-  `@orthacms/identity-admin`; the host never imports them
+  `@apograph/identity-admin`; the host never imports them
 - The authenticated shell/chrome — contributed via a plugin's `layout`
-  (see `@orthacms/shell-admin`); the host only mounts it
+  (see `@apograph/shell-admin`); the host only mounts it
 - Concrete slots & nav items — the host wires `slots` contributions but defines
   none; the shell owns the sidebar's `SIDEBAR_NAV_SLOT` and its nav items
 - Providers beyond `AppearanceProvider`, `QueryClientProvider`, `IntlProvider`,
@@ -155,7 +155,7 @@ boundary's card, the live region, the announcement on a second navigation.
 contributor, and it is the shell.
 
 **The package's own unit specs** (vitest + jsdom;
-`npm exec nx test @orthacms/bootstrap-admin`) cover what neither can. Both of the
+`npm exec nx test @apograph/bootstrap-admin`) cover what neither can. Both of the
 above run in the direction where nothing is wrong, so between them every
 diagnostic in `createAdmin` could be deleted unnoticed — and the diagnostics
 exist for the composition nobody has assembled yet:
@@ -179,5 +179,5 @@ exist for the composition nobody has assembled yet:
 
 ## Commands
 
-- `npm exec nx typecheck @orthacms/bootstrap-admin`
-- `npm exec nx build @orthacms/bootstrap-admin`
+- `npm exec nx typecheck @apograph/bootstrap-admin`
+- `npm exec nx build @apograph/bootstrap-admin`

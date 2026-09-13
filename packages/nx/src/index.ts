@@ -7,7 +7,7 @@ import type { CreateNodesV2, TargetConfiguration } from '@nx/devkit';
  * infers `typecheck` from a tsconfig:
  *
  * - a project with a `drizzle.config.ts` gets `db:generate`
- * - a project with an `ortha.config.ts` (the host) gets `db:migrate` and
+ * - a project with an `apograph.config.ts` (the host) gets `db:migrate` and
  *   `db:studio`
  * - a package under `packages/` gets `build`, and a publishable one also
  *   gets `pack` plus an `nx-release-publish` pointed at what `pack` staged
@@ -45,7 +45,7 @@ import type { CreateNodesV2, TargetConfiguration } from '@nx/devkit';
  * reason: they are side-effecting.
  */
 export const createNodesV2: CreateNodesV2 = [
-    '**/{drizzle.config.ts,ortha.config.ts,package.json}',
+    '**/{drizzle.config.ts,apograph.config.ts,package.json}',
     async (configFiles, _, context) => {
         return configFiles.map((file) => {
             const projectRoot = dirname(file);
@@ -67,7 +67,7 @@ export const createNodesV2: CreateNodesV2 = [
             const targets: Record<string, TargetConfiguration> = isDrizzleConfig
                 ? {
                       'db:generate': {
-                          executor: '@orthacms/nx:db-generate',
+                          executor: '@apograph/nx:db-generate',
                           options: {
                               cwd: projectRoot,
                               config: 'drizzle.config.ts'
@@ -78,7 +78,7 @@ export const createNodesV2: CreateNodesV2 = [
                   }
                 : {
                       'db:migrate': {
-                          executor: '@orthacms/nx:db-migrate',
+                          executor: '@apograph/nx:db-migrate',
                           options: {
                               config: file,
                               plugins: `${projectRoot}/src/plugins.ts`
@@ -86,7 +86,7 @@ export const createNodesV2: CreateNodesV2 = [
                           cache: false
                       },
                       'db:studio': {
-                          executor: '@orthacms/nx:db-studio',
+                          executor: '@apograph/nx:db-studio',
                           options: {
                               config: file
                           },
@@ -181,7 +181,7 @@ function packageTargets(
         // `pack` staged. `dependsOn` is absent for the same reason: Nx would
         // overwrite it, so it lives in `targetDefaults` alone.
         'nx-release-publish': {
-            executor: '@orthacms/nx:release-publish',
+            executor: '@apograph/nx:release-publish',
             options: { packageRoot: `dist/pack/${projectRoot}` }
         }
     };

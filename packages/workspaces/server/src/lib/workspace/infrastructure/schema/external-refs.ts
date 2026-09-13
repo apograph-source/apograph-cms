@@ -9,7 +9,7 @@ import { pgTable, uuid } from 'drizzle-orm/pg-core';
  *    `memberships.user_id → users(id)` — the host applies identity's migration
  *    first, so the physical `users` table already exists when this one runs; and
  *  - `drizzle-kit generate` bundles a **pure-Drizzle** schema graph. Importing
- *    identity's runtime barrel (`@orthacms/identity-server`) here would pull
+ *    identity's runtime barrel (`@apograph/identity-server`) here would pull
  *    its NestJS providers into drizzle-kit's esbuild pass, which has no
  *    `experimentalDecorators` and fails on their parameter decorators.
  *

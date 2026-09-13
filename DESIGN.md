@@ -10,7 +10,7 @@ opposed to the *how* of [`ARCHITECTURE.md`](ARCHITECTURE.md).
 
 ## Product vision
 
-<!-- TODO: One paragraph — what is OrthaCms for, and who is it for? -->
+<!-- TODO: One paragraph — what is Apograph for, and who is it for? -->
 
 ## Target users & jobs-to-be-done
 
@@ -33,7 +33,7 @@ opposed to the *how* of [`ARCHITECTURE.md`](ARCHITECTURE.md).
 
 ## Visual language
 
-The component layer is the `@orthacms/design-system` (shadcn/ui + Tailwind),
+The component layer is the `@apograph/design-system` (shadcn/ui + Tailwind),
 governed by the `shadcn` skill.
 
 <!-- TODO: brand tokens, color, typography, spacing, tone of voice, motion. -->

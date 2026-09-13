@@ -4,7 +4,7 @@ import { type BrowserGlobals } from '../browserGlobals';
 
 /**
  * Page object for the Content Library at `/workspaces/:id/content` (from
- * `@orthacms/content-admin`) — the second-sidebar nav (collapsible Collections
+ * `@apograph/content-admin`) — the second-sidebar nav (collapsible Collections
  * and Pages groups, a Favorites section), the ⌘K search palette, and the
  * selected-type pane. Seed it with
  * `mockSignedIn`, `mockWorkspaces`, and `mockContentSchema`.
@@ -643,7 +643,7 @@ export class ContentLibraryPage extends BasePage {
             .getByRole('button', { name: 'Try again' });
     }
 
-    // --- i18n (from @orthacms/i18n-admin, via the content library slots) ---
+    // --- i18n (from @apograph/i18n-admin, via the content library slots) ---
 
     /**
      * The records-toolbar locale switcher trigger (label reads "Locale: {name}").
@@ -812,7 +812,7 @@ export class ContentLibraryPage extends BasePage {
     }
 
     /**
-     * The shell's persisted right-panel preference (`ortha:right-panel`).
+     * The shell's persisted right-panel preference (`apograph:right-panel`).
      *
      * Read from storage rather than inferred from the column, because the defect
      * this exists for is invisible on screen at the moment it happens: a narrow
@@ -822,7 +822,7 @@ export class ContentLibraryPage extends BasePage {
     async storedRightPanelState(): Promise<string | null> {
         return this.page.evaluate(() =>
             (globalThis as unknown as BrowserGlobals).localStorage.getItem(
-                'ortha:right-panel'
+                'apograph:right-panel'
             )
         );
     }
@@ -840,7 +840,7 @@ export class ContentLibraryPage extends BasePage {
             .locator('dd');
     }
 
-    // --- alarms (from @orthacms/alarms-admin, via the content library slots) ---
+    // --- alarms (from @apograph/alarms-admin, via the content library slots) ---
 
     /**
      * The records toolbar's "Save as alarm" action.

@@ -1,4 +1,7 @@
-import { SsoVerificationError, type SsoProfile } from '@orthacms/identity-domain';
+import {
+    SsoVerificationError,
+    type SsoProfile
+} from '@apograph/identity-domain';
 import type { ResolvedOidcConfig } from './config';
 
 /** An identity token's verified payload, as far as this adapter reads it. */
@@ -85,7 +88,9 @@ function readName(claims: IdTokenClaims): string | null {
     const given = claims['given_name'];
     const family = claims['family_name'];
     const joined = [given, family]
-        .filter((part): part is string => typeof part === 'string' && !!part.trim())
+        .filter(
+            (part): part is string => typeof part === 'string' && !!part.trim()
+        )
         .join(' ')
         .trim();
     return joined || null;

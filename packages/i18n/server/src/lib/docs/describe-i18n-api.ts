@@ -11,7 +11,7 @@
  * the paths this plugin owns.
  */
 
-import type { OpenApiDocument } from '@orthacms/bootstrap-server';
+import type { OpenApiDocument } from '@apograph/bootstrap-server';
 import { buildI18nSchemas, ref, type OpenApiSchema } from './i18n-schemas';
 
 /** An operation object, as far as this pass needs to see one. */

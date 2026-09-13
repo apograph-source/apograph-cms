@@ -1,4 +1,4 @@
-import type { PermissionKey } from '@orthacms/identity-server';
+import type { PermissionKey } from '@apograph/identity-server';
 
 /**
  * A JSON Schema fragment. Tools declare their input shape as **plain JSON
@@ -201,7 +201,7 @@ export interface ToolDefinition {
 
 /** One readable resource — a document a client can pull in without a call. */
 export interface ResourceDefinition {
-    /** Stable URI, e.g. `ortha://content-type/article`. */
+    /** Stable URI, e.g. `apograph://content-type/article`. */
     uri: string;
     /** Short human name. */
     name: string;

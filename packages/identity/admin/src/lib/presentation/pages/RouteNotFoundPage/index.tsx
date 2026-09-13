@@ -1,5 +1,5 @@
 import { defineMessages, useIntl } from 'react-intl';
-import { useDocumentTitle } from '@orthacms/utils-admin';
+import { useDocumentTitle } from '@apograph/utils-admin';
 import { AuthLayout } from '../../components/AuthLayout';
 import { AuthRouteUnavailable } from '../../components/AuthRouteUnavailable';
 

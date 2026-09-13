@@ -1,4 +1,4 @@
-import type { DomainEvent, OutboxWriter, UnitOfWork } from '@orthacms/database';
+import type { DomainEvent, OutboxWriter, UnitOfWork } from '@apograph/database';
 import { HashingService } from '../../auth/services/hashing.service';
 import { ApiTokenService } from './api-token.service';
 import { UnknownWorkspaceError } from '../domain/unknown-workspace.error';
@@ -145,7 +145,7 @@ describe('ApiTokenService', () => {
                 createdBy: 'user-1'
             });
 
-            expect(secret.startsWith('orthacms_')).toBe(true);
+            expect(secret.startsWith('apograph_')).toBe(true);
             const insert = (repo.insert as jest.Mock).mock.calls[0][0];
             // The raw secret is never persisted — only its SHA-256 hash.
             expect(insert.tokenHash).toBe(hashing.hashToken(secret));
@@ -340,7 +340,7 @@ describe('ApiTokenService', () => {
             workspaceIds: ['ws-1'],
             name: 'temp',
             tokenHash: 'x'.repeat(64),
-            lookupPrefix: 'orthacms_tmp',
+            lookupPrefix: 'apograph_tmp',
             scope: 'full',
             expiresAt: null,
             createdBy: 'user-1'
@@ -379,7 +379,7 @@ describe('ApiTokenService', () => {
                 payload: {
                     name: 'temp',
                     scope: 'full',
-                    lookupPrefix: 'orthacms_tmp',
+                    lookupPrefix: 'apograph_tmp',
                     actor: { id: 'user-9', email: 'admin@example.com' }
                 }
             });
@@ -418,12 +418,12 @@ describe('ApiTokenService', () => {
     });
 
     describe('verify', () => {
-        const secret = 'orthacms_secret';
+        const secret = 'apograph_secret';
         const baseInsert: NewApiToken = {
             workspaceIds: ['ws-1', 'ws-2'],
             name: 't',
             tokenHash: hashing.hashToken(secret),
-            lookupPrefix: 'orthacms_sec',
+            lookupPrefix: 'apograph_sec',
             scope: 'read',
             expiresAt: null,
             createdBy: 'user-1'
@@ -483,12 +483,12 @@ describe('ApiTokenService', () => {
      * failed bookkeeping write from failing a valid API call.
      */
     describe('last-used refresh', () => {
-        const secret = 'orthacms_secret';
+        const secret = 'apograph_secret';
         const baseInsert: NewApiToken = {
             workspaceIds: ['ws-1', 'ws-2'],
             name: 't',
             tokenHash: hashing.hashToken(secret),
-            lookupPrefix: 'orthacms_sec',
+            lookupPrefix: 'apograph_sec',
             scope: 'read',
             expiresAt: null,
             createdBy: 'user-1'
@@ -617,7 +617,7 @@ describe('ApiTokenService', () => {
                     name: 't',
                     scope: 'read',
                     workspaceIds: ['ws-1', 'ws-2'],
-                    lookupPrefix: 'orthacms_sec'
+                    lookupPrefix: 'apograph_sec'
                 }
             });
             // A `last_used_at` that moved without a row, or a row claiming a

@@ -42,7 +42,7 @@ const roots: string[] = [];
 function tempApp(packages: Record<string, unknown>): string {
     // `realpathSync`, because Node's resolver answers with the real path and
     // macOS's temp directory is reached through a symlink.
-    const root = realpathSync(mkdtempSync(join(tmpdir(), 'ortha-cli-run-')));
+    const root = realpathSync(mkdtempSync(join(tmpdir(), 'apograph-cli-run-')));
     roots.push(root);
     writeFileSync(
         join(root, 'package.json'),
@@ -95,7 +95,7 @@ describe('resolving the app’s binaries', () => {
     /**
      * Two rules in one assertion, because they fail in the same place.
      *
-     * From the *app*: `ortha` is installed into the app it builds, so the
+     * From the *app*: `apograph` is installed into the app it builds, so the
      * TypeScript and Vite that app declares are the ones that must run — this
      * repo has both in its own `node_modules`, and a resolution anchored on the
      * CLI would return those instead of the fixture's.
@@ -172,14 +172,14 @@ describe('spawnNode', () => {
      */
     it('hands the child this process’s environment [cli:I-15]', () => {
         fakeChild();
-        process.env.ORTHA_SPEC_INHERITED = 'yes';
+        process.env.APOGRAPH_SPEC_INHERITED = 'yes';
 
         try {
             spawnNode(['/app/dist/server/src/main.js'], '/app', {
                 NODE_ENV: 'production'
             });
         } finally {
-            delete process.env.ORTHA_SPEC_INHERITED;
+            delete process.env.APOGRAPH_SPEC_INHERITED;
         }
 
         const [command, argv, options] = spawn.mock.calls[0];
@@ -187,7 +187,7 @@ describe('spawnNode', () => {
         expect(argv).toEqual(['/app/dist/server/src/main.js']);
         expect(options.cwd).toBe('/app');
         expect(options.stdio).toBe('inherit');
-        expect(options.env.ORTHA_SPEC_INHERITED).toBe('yes');
+        expect(options.env.APOGRAPH_SPEC_INHERITED).toBe('yes');
         expect(options.env.NODE_ENV).toBe('production');
     });
 
@@ -307,8 +307,8 @@ describe('superviseUntilExit', () => {
     }
 
     /**
-     * Without the teardown, ending `ortha dev` leaves an orphaned `tsc --watch`
-     * and a `node --watch` still holding the API port — so the *next* `ortha
+     * Without the teardown, ending `apograph dev` leaves an orphaned `tsc --watch`
+     * and a `node --watch` still holding the API port — so the *next* `apograph
      * dev` fails on a port in use, blamed on a process the user cannot see.
      */
     it('takes the others down when any one child exits [cli:I-17]', async () => {

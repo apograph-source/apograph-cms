@@ -2,8 +2,8 @@ import { render, screen } from '@testing-library/react';
 import { IntlProvider } from 'react-intl';
 import { MemoryRouter } from 'react-router-dom';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { SidebarProvider } from '@orthacms/design-system';
-import { useHasPermission } from '@orthacms/identity-admin';
+import { SidebarProvider } from '@apograph/design-system';
+import { useHasPermission } from '@apograph/identity-admin';
 import { useWorkspaces } from '../../../application/useWorkspaces';
 import type { Workspace } from '../../../domain/types/workspace';
 import { WorkspacesNavSection } from './index';
@@ -47,7 +47,7 @@ vi.mock('../../../application/useWorkspaces', () => ({
     useWorkspaces: vi.fn()
 }));
 
-vi.mock('@orthacms/identity-admin', () => ({
+vi.mock('@apograph/identity-admin', () => ({
     useHasPermission: vi.fn()
 }));
 

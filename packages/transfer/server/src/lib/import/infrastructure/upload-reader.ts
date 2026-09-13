@@ -24,7 +24,7 @@ import {
     type TransferFile,
     type TransferFormat,
     type TransferLimits
-} from '@orthacms/transfer-domain';
+} from '@apograph/transfer-domain';
 import {
     ZipReadError,
     looksLikeZip,
@@ -83,11 +83,10 @@ export function readUpload(
             return readArchive(file.buffer, parseContext, limits);
         }
         const format =
-            formatFromFilename(file.originalname) ?? sniffTextFormat(file.buffer);
+            formatFromFilename(file.originalname) ??
+            sniffTextFormat(file.buffer);
         const text = decodeText(file.buffer);
-        const files: TransferFile[] = [
-            { path: file.originalname, text }
-        ];
+        const files: TransferFile[] = [{ path: file.originalname, text }];
         return {
             document: parserFor(format).parse(files, parseContext),
             assets: new Map(),
@@ -171,7 +170,10 @@ function sniffTextFormat(buffer: Buffer): TransferFormat {
         // A JSON document starts with the manifest key; NDJSON's first line is
         // a complete object followed by a newline and another one.
         const firstBreak = head.indexOf('\n');
-        if (firstBreak > 0 && head.slice(0, firstBreak).trimEnd().endsWith('}')) {
+        if (
+            firstBreak > 0 &&
+            head.slice(0, firstBreak).trimEnd().endsWith('}')
+        ) {
             return TRANSFER_FORMAT.Ndjson;
         }
         return TRANSFER_FORMAT.Json;

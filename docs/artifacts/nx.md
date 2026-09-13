@@ -4,7 +4,7 @@ _Package · packages/nx_
 
 **A build-tool plugin: migrations and releases without a single line of manual configuration**
 
-`@orthacms/nx` is the one package in the monorepo that serves not an application but the **build pipeline**. It **infers** targets onto projects from the presence of a file: drop in a `drizzle.config.ts` and you get `db:generate`; put a package under `packages/` and you get `build`, `pack` and publishing to npm. There is no per-project configuration, and there should not be.
+`@apograph/nx` is the one package in the monorepo that serves not an application but the **build pipeline**. It **infers** targets onto projects from the presence of a file: drop in a `drizzle.config.ts` and you get `db:generate`; put a package under `packages/` and you get `build`, `pack` and publishing to npm. There is no per-project configuration, and there should not be.
 
 - **4** executors
 - **6** inferred targets
@@ -37,7 +37,7 @@ No user of the CMS ever sees this package. Its audience is the developer adding 
 ### The problem it solves
 
 - **Zero per-project configuration.** The monorepo has 12 projects with their own database schema and 60 publishable packages. If each described its own targets, those descriptions would drift apart — one mistyped path per ten packages. Instead targets are **inferred from the presence of a file**: a new plugin gets migration generation, a build and publishing simply because it exists.
-- **One migration implementation for the monorepo and for a generated app.** The database executors are thin adapters over `@orthacms/cli`. Applying migrations is the most destructive operation in the system; having two implementations of it that drift apart over time costs more than tolerating one layer of indirection.
+- **One migration implementation for the monorepo and for a generated app.** The database executors are thin adapters over `@apograph/cli`. Applying migrations is the most destructive operation in the system; having two implementations of it that drift apart over time costs more than tolerating one layer of indirection.
 - **A release that does not fall apart halfway through.** npm rate-limits a single account's writes, and a lockstep release asks it to accept several dozen tarballs back to back. Nx's stock executor does not survive that: the version is already committed, tagged and pushed while the registry holds half the set. Here publishing is serialised behind a file lock, spaced out by a delay, and retried with exponential backoff.
 - **Refusal instead of quiet trouble.** Three places where the tool had better stop: a migration without `DATABASE_URL`, Studio on port 0, publishing a name npm refused to create. In each case what used to happen was a "green" result with nothing useful behind it.
 
@@ -57,18 +57,18 @@ Runs `npm run release` from a clean `main`. Inside: the build, staging of a rewr
 
 ### What this package is not
 
-- **It is not a CLI.** The implementations of `generate`, `migrate` and `studio` live in `@orthacms/cli`. What lives here are only the wrappers that know how to get a path from Nx and read a TypeScript config from source.
-- **It is not a project generator.** The package ships no Nx generator at all: its `package.json` declares only the `executors` key. Scaffolding an application is `create-ortha-app`.
-- **It is not part of the product.** The package is marked `private: true` and excluded from the release by an explicit `!@orthacms/nx` in `nx.json`. It lives only inside this repository.
+- **It is not a CLI.** The implementations of `generate`, `migrate` and `studio` live in `@apograph/cli`. What lives here are only the wrappers that know how to get a path from Nx and read a TypeScript config from source.
+- **It is not a project generator.** The package ships no Nx generator at all: its `package.json` declares only the `executors` key. Scaffolding an application is `create-apograph-app`.
+- **It is not part of the product.** The package is marked `private: true` and excluded from the release by an explicit `!@apograph/nx` in `nx.json`. It lives only inside this repository.
 - **It is not a schema owner.** It has not one table and not one migration of its own. It knows _how_ to apply someone else's migrations, but not _which_.
 
 > **The key architectural idea**
 >
-> **Thin executors over a shared core, and half of that core lives outside the package.** `db:generate`, `db:migrate` and `db:studio` are adapters over `runDrizzleKitGenerate`, `applyPluginMigrations` and `runDrizzleKitStudio` from `@orthacms/cli`. These functions used to live here, in `src/lib/drizzle/`, where an application installed from npm could not reach them at all — the package is private and unpublished, so a generated app had no way to migrate its own database. The release logic (`src/lib/release/`) stayed here: only this repository runs it.
+> **Thin executors over a shared core, and half of that core lives outside the package.** `db:generate`, `db:migrate` and `db:studio` are adapters over `runDrizzleKitGenerate`, `applyPluginMigrations` and `runDrizzleKitStudio` from `@apograph/cli`. These functions used to live here, in `src/lib/drizzle/`, where an application installed from npm could not reach them at all — the package is private and unpublished, so a generated app had no way to migrate its own database. The release logic (`src/lib/release/`) stayed here: only this repository runs it.
 
 ## 02. Composition and place in the system
 
-The package is flat — `packages/nx`, npm name `@orthacms/nx`, version `0.0.1`, flagged `private: true`. It is registered in the root `nx.json` by the line `"@orthacms/nx"` in the `plugins` list, next to `@nx/js/typescript`, `@nx/eslint/plugin`, `@nx/vite/plugin`, `@nx/vitest`, `@nx/playwright/plugin`, `@nx/webpack/plugin` and `@nx/jest/plugin`. Like the rest of the workspace packages it is consumed **from source**: `main` and `types` point at `./src/index.ts`, and Nx loads it as a TypeScript plugin with no build step.
+The package is flat — `packages/nx`, npm name `@apograph/nx`, version `0.0.1`, flagged `private: true`. It is registered in the root `nx.json` by the line `"@apograph/nx"` in the `plugins` list, next to `@nx/js/typescript`, `@nx/eslint/plugin`, `@nx/vite/plugin`, `@nx/vitest`, `@nx/playwright/plugin`, `@nx/webpack/plugin` and `@nx/jest/plugin`. Like the rest of the workspace packages it is consumed **from source**: `main` and `types` point at `./src/index.ts`, and Nx loads it as a TypeScript plugin with no build step.
 
 ### File structure
 
@@ -89,8 +89,8 @@ The package is flat — `packages/nx`, npm name `@orthacms/nx`, version `0.0.1`,
 #### What it imports
 
 - `@nx/devkit` — the `CreateNodesV2`, `TargetConfiguration` and `ExecutorContext` types
-- `@orthacms/cli` — three database functions
-- `@orthacms/bootstrap-server` — the `ServerPlugin` type (type only)
+- `@apograph/cli` — three database functions
+- `@apograph/bootstrap-server` — the `ServerPlugin` type (type only)
 - `jiti` + `@swc/core` — loading the host's TypeScript at runtime
 
 #### What depends on it
@@ -111,8 +111,8 @@ The central section. The package infers **six** targets and implements **four** 
 | Target             | Where it is inferred, and from what                                                                                                                                                                                            | What it does                                                                                                                                       | Cache |
 | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
 | db:generate        | Any project with a `drizzle.config.ts` at its root. Today there are **12**: `apps/server`, `apps/server-e2e`, and the activity, alarms, content, copilot, database, identity, media, segments, webhooks and workspaces plugins | Runs `drizzle-kit generate` at the project root. Diffs the schema against the `migrations/meta/*_snapshot.json` snapshot and writes a new SQL file | `no`  |
-| db:migrate         | A project with an `ortha.config.ts` at its root — that is, the host. Today that is **one** project, `apps/server`                                                                                                              | Loads the host config and its `buildPlugins()`, and applies each plugin's migrations in turn, each under its own journal table                     | `no`  |
-| db:studio          | The same marker — an `ortha.config.ts` at the project root                                                                                                                                                                     | Brings up Drizzle Studio against the host's live database through an ephemeral config in a temporary directory                                     | `no`  |
+| db:migrate         | A project with an `apograph.config.ts` at its root — that is, the host. Today that is **one** project, `apps/server`                                                                                                              | Loads the host config and its `buildPlugins()`, and applies each plugin's migrations in turn, each under its own journal table                     | `no`  |
+| db:studio          | The same marker — an `apograph.config.ts` at the project root                                                                                                                                                                     | Brings up Drizzle Studio against the host's live database through an ephemeral config in a temporary directory                                     | `no`  |
 | build              | A package under `packages/` whose manifest has a `name` and that has a `tsconfig.lib.json` beside it                                                                                                                           | `tsc --build tsconfig.lib.json --pretty`: JS and `.d.ts` into `dist/`, building project references along the way                                   | `yes` |
 | pack               | The same, but **only for a non-private** manifest — that is, one without `private: true`                                                                                                                                       | `node tools/release/pack.mjs <projectRoot>` — stages the package's publishable root into `dist/pack/<projectRoot>/`                                | `no`  |
 | nx-release-publish | The same marker as `pack`                                                                                                                                                                                                      | Publishes to npm what `pack` staged: `packageRoot` is redirected to `dist/pack/<projectRoot>` rather than the project root                         | `no`  |
@@ -121,12 +121,12 @@ The central section. The package infers **six** targets and implements **four** 
 
 | Target / executor                                  | Options                                                                                                                                                                                                                                     | What it needs in the environment                                                                                                                       |
 | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| db:generate<br>@orthacms/nx:db-generate            | `cwd` (required, filled in by inference = the project root) · `config` (required, `drizzle.config.ts` relative to `cwd`) · `name` (optional, the migration name)                                                                            | **Nothing.** No database, no secrets: generation only diffs the schema against the snapshot. It needs `drizzle-kit` installed                          |
-| db:migrate<br>@orthacms/nx:db-migrate              | `config` (required, path to `ortha.config.ts` from the workspace root) · `plugins` (required, path to the module exporting `buildPlugins(config)`; inference fills in `<projectRoot>/src/plugins.ts`)                                       | `DATABASE_URL` in `.env` — **required**, an empty string is rejected. A live Postgres (`docker compose up -d`)                                         |
-| db:studio<br>@orthacms/nx:db-studio                | `config` (required) · `host` (optional, defaults to `127.0.0.1`) · `port` (optional, defaults to `4983`; the value `0` is rejected)                                                                                                         | `DATABASE_URL` and a live database: Studio introspects it directly and does not need the schema                                                        |
+| db:generate<br>@apograph/nx:db-generate            | `cwd` (required, filled in by inference = the project root) · `config` (required, `drizzle.config.ts` relative to `cwd`) · `name` (optional, the migration name)                                                                            | **Nothing.** No database, no secrets: generation only diffs the schema against the snapshot. It needs `drizzle-kit` installed                          |
+| db:migrate<br>@apograph/nx:db-migrate              | `config` (required, path to `apograph.config.ts` from the workspace root) · `plugins` (required, path to the module exporting `buildPlugins(config)`; inference fills in `<projectRoot>/src/plugins.ts`)                                       | `DATABASE_URL` in `.env` — **required**, an empty string is rejected. A live Postgres (`docker compose up -d`)                                         |
+| db:studio<br>@apograph/nx:db-studio                | `config` (required) · `host` (optional, defaults to `127.0.0.1`) · `port` (optional, defaults to `4983`; the value `0` is rejected)                                                                                                         | `DATABASE_URL` and a live database: Studio introspects it directly and does not need the schema                                                        |
 | build<br>nx:run-commands                           | `command`, `cwd`. Plus `dependsOn: ['^build']`, `inputs: ['production', '^production']`, `outputs: ['{projectRoot}/dist']`                                                                                                                  | Nothing beyond TypeScript. Cacheable and deterministic                                                                                                 |
 | pack<br>nx:run-commands                            | `command`. `dependsOn: ['build']`, `outputs: ['{workspaceRoot}/dist/pack/<projectRoot>']`                                                                                                                                                   | Nothing. But it is **deliberately not cached**: it reads `dist`, which is not among its declared inputs, and a cache hit would restore a stale tarball |
-| nx-release-publish<br>@orthacms/nx:release-publish | `packageRoot` · `delay` (5000) · `retries` (5) · `retryBackoff` (30000) · `maxRetryBackoff` (300000) · and the pass-through from `nx release publish`: `registry`, `tag`, `otp`, `access`, `dryRun`, `firstRelease`, `nxReleaseVersionData` | npm credentials (`NPM_TOKEN` or `npm login`). `dependsOn: ['pack']` lives in `targetDefaults`, not here                                                |
+| nx-release-publish<br>@apograph/nx:release-publish | `packageRoot` · `delay` (5000) · `retries` (5) · `retryBackoff` (30000) · `maxRetryBackoff` (300000) · and the pass-through from `nx release publish`: `registry`, `tag`, `otp`, `access`, `dryRun`, `firstRelease`, `nxReleaseVersionData` | npm credentials (`NPM_TOKEN` or `npm login`). `dependsOn: ['pack']` lives in `targetDefaults`, not here                                                |
 
 ### Where the targets physically hang today
 
@@ -134,7 +134,7 @@ Not one line below is declared anywhere — it is simply a consequence of which 
 
 | Project                               | Marker                                          | Targets                                  | `schema` in the drizzle config                     |
 | ------------------------------------- | ----------------------------------------------- | ---------------------------------------- | -------------------------------------------------- |
-| apps/server                           | `drizzle.config.ts` + `ortha.config.ts`         | `db:generate`, `db:migrate`, `db:studio` | ./src/content/index.ts                             |
+| apps/server                           | `drizzle.config.ts` + `apograph.config.ts`         | `db:generate`, `db:migrate`, `db:studio` | ./src/content/index.ts                             |
 | apps/server-e2e                       | `drizzle.config.ts`                             | `db:generate`                            | ./src/support/content/index.ts                     |
 | packages/activity/server              | `drizzle.config.ts`                             | `db:generate`, `build`, `pack`, publish  | ./src/lib/schema/index.ts                          |
 | packages/alarms/server                | `drizzle.config.ts`                             | the same                                 | ./src/lib/infrastructure/schema/index.ts           |
@@ -165,7 +165,7 @@ All of the inference is a single exported constant, `createNodesV2`: a pair of a
 
 ```
 export const createNodesV2: CreateNodesV2 = [
-    '**/{drizzle.config.ts,ortha.config.ts,package.json}',
+    '**/{drizzle.config.ts,apograph.config.ts,package.json}',
     async (configFiles, _, context) => { /* … */ }
 ];
 ```
@@ -176,7 +176,7 @@ Dispatch inside the function is by file name, exactly three branches:
    _if the function returned undefined, an empty object is handed back — the project simply gets nothing_
 2. **`drizzle.config.ts`** → one `db:generate` target with `cwd` = the project root and `config: 'drizzle.config.ts'`.
    _config is given relative to cwd because drizzle-kit resolves schema/out against the working directory, not against the config's location_
-3. **`ortha.config.ts`** → two targets, `db:migrate` and `db:studio`. The first also gets `plugins: <projectRoot>/src/plugins.ts`.
+3. **`apograph.config.ts`** → two targets, `db:migrate` and `db:studio`. The first also gets `plugins: <projectRoot>/src/plugins.ts`.
    _the path to the plugin factory is fixed by convention, not read from the config_
 
 ### The four safety catches in packageTargets
@@ -190,7 +190,7 @@ The function returns `undefined` — meaning the project gets no targets at all 
 | The manifest has no `name`                       | A nameless package can neither be wired into references nor published                                                          |
 | There is no `tsconfig.lib.json` beside it        | Nothing to build with: the `build` command is `tsc --build tsconfig.lib.json`                                                  |
 
-A fifth case — `private: true` — is not a refusal but a narrowing: the package gets `build` but not `pack` and not publishing. That is precisely how `@orthacms/nx` itself ends up buildable but unpublishable.
+A fifth case — `private: true` — is not a refusal but a narrowing: the package gets `build` but not `pack` and not publishing. That is precisely how `@apograph/nx` itself ends up buildable but unpublishable.
 
 ### Why build is inferred here rather than by the @nx/js plugin
 
@@ -202,11 +202,11 @@ A fifth case — `private: true` — is not a refusal but a narrowing: the packa
 
 > **The scaffolder templates are hidden from inference**
 >
-> `packages/create-ortha-app/templates` is listed in the root `.nxignore`. Inside the template sits a real `ortha.config.ts`, and inference would dutifully hang `db:migrate` on it — on a directory that has no project name, after which the graph would stop building entirely. The ignore file is not written for this plugin but for all of them at once: `@nx/js/typescript` would infer `typecheck` from the template tsconfigs just as eagerly.
+> `packages/create-apograph-app/templates` is listed in the root `.nxignore`. Inside the template sits a real `apograph.config.ts`, and inference would dutifully hang `db:migrate` on it — on a directory that has no project name, after which the graph would stop building entirely. The ignore file is not written for this plugin but for all of them at once: `@nx/js/typescript` would infer `typecheck` from the template tsconfigs just as eagerly.
 
 ## 05. Reading TypeScript from source
 
-Two executors — `db:migrate` and `db:studio` — have to read the host's `ortha.config.ts`, and the first also `src/plugins.ts` with its `buildPlugins(config)` factory. Both files are TypeScript, and in this monorepo they are **not compiled**: the workspace resolves everything from source. Hence `src/lib/jiti.ts`.
+Two executors — `db:migrate` and `db:studio` — have to read the host's `apograph.config.ts`, and the first also `src/plugins.ts` with its `buildPlugins(config)` factory. Both files are TypeScript, and in this monorepo they are **not compiled**: the workspace resolves everything from source. Hence `src/lib/jiti.ts`.
 
 ```
 export function createTsJiti(referenceFile: string) {
@@ -229,7 +229,7 @@ Loading the config drags in the whole plugin graph — NestJS modules and their 
 
 > **Why the CLI has none of this**
 >
-> This is a problem **of this workspace only**. A generated application has its own build step, so `@orthacms/cli` simply builds first and `require`s the finished JavaScript: `dist/server/ortha.config.js` and `dist/server/src/plugins.js` (the `LAYOUT.compiledConfig` and `LAYOUT.compiledPlugins` constants). The whole transform problem never arises on the consumer side — the CLI needs neither jiti nor swc. The same place also chose `require` over `await import()`: the application compiles to CommonJS, and importing a CJS module from ESM puts the entire `module.exports` into the namespace's `default`, so `module.default` turns out to be `{ default: config }` and the very first property access fails on `undefined`.
+> This is a problem **of this workspace only**. A generated application has its own build step, so `@apograph/cli` simply builds first and `require`s the finished JavaScript: `dist/server/apograph.config.js` and `dist/server/src/plugins.js` (the `LAYOUT.compiledConfig` and `LAYOUT.compiledPlugins` constants). The whole transform problem never arises on the consumer side — the CLI needs neither jiti nor swc. The same place also chose `require` over `await import()`: the application compiles to CommonJS, and importing a CJS module from ESM puts the entire `module.exports` into the namespace's `default`, so `module.default` turns out to be `{ default: config }` and the very first property access fails on `undefined`.
 
 ## 06. Step-by-step flows
 
@@ -244,7 +244,7 @@ npx nx run identity-server:db:generate --name=add_sso_identities
 1. **Nx found the target from a file.** `packages/identity/server` holds a `drizzle.config.ts` — so the project already has `db:generate`, having declared nothing.
    _inferred options: cwd = packages/identity/server, config = drizzle.config.ts_
 2. **The executor builds an absolute path.** `join(context.root, options.cwd)` — and passes it on as the working directory.
-3. **`runDrizzleKitGenerate(cwd, config, name)` from `@orthacms/cli` is called.** It resolves the binary: drizzle-kit's `exports` do not let you reach `./bin.cjs` directly, so the package's main entry is resolved and the neighbouring file is taken.
+3. **`runDrizzleKitGenerate(cwd, config, name)` from `@apograph/cli` is called.** It resolves the binary: drizzle-kit's `exports` do not let you reach `./bin.cjs` directly, so the package's main entry is resolved and the neighbouring file is taken.
 4. **drizzle-kit runs with `stdio: 'inherit'`.** Its output goes straight to the terminal: the work happens in the plugin's `cwd`, because `schema` and `out` resolve against the working directory rather than the config's location.
 5. **The schema is diffed against the snapshot.** `migrations/meta/*_snapshot.json` is the reference; no database connection is opened at all.
 6. **On failure the message is rewritten.** `execFileSync` throws an error whose text is the entire argv (the node path, the binary path, every flag), and Nx prints that as a multi-frame stack. Instead a short "drizzle-kit generate failed in \<cwd> (exit N) — its output is above" is thrown, telling you to check the `schema` paths and that the schema compiles.
@@ -261,7 +261,7 @@ npx nx run server:db:migrate  # apply everything
 ```
 
 1. **A jiti loader is created** — `createTsJiti(__filename)`, the one with swc in legacy-decorator mode.
-2. **The host's `ortha.config.ts` is imported** from `join(context.root, options.config)`; the `default` export is taken.
+2. **The host's `apograph.config.ts` is imported** from `join(context.root, options.config)`; the `default` export is taken.
 3. **The plugins module is imported** — `apps/server/src/plugins.ts`, which exports `buildPlugins(config)`.
 4. **The database URL is checked — and this is a refusal, not a warning.** If `config.database?.url` is empty, an error is thrown with a blunt message: "db:migrate needs to know which database to migrate, and will not fall back to the local defaults".
    _the check runs BEFORE the plugin list is built — a dedicated test pins that down_
@@ -288,7 +288,7 @@ npx nx run server:db:studio --port=5000        # a different port
 npx nx run server:db:studio --host=0.0.0.0     # prints a warning
 ```
 
-1. **The URL is resolved from the host config** by the same jiti loader — `ortha.config.ts` remains the only place that reads `DATABASE_URL`.
+1. **The URL is resolved from the host config** by the same jiti loader — `apograph.config.ts` remains the only place that reads `DATABASE_URL`.
 2. **An empty URL is a refusal.** "Drizzle Studio needs a live database connection."
 3. **`--port=0` is a refusal.** drizzle-kit will indeed take an ephemeral port, but it prints the one it was _asked_ for, and Studio ends up at an address nobody reports. A refusal beats both the silent shrug that used to be here and drizzle-kit's useless success.
 4. **An ephemeral config is synthesised in a temporary directory.** The committed drizzle configs deliberately contain only the schema and no secrets, so the config is created on the fly — and it references `process.env.DATABASE_URL` rather than inlining the URL.
@@ -309,7 +309,7 @@ npm run release -- 1.2.0    # force a version instead of the inferred one
 1. **Pre-flight checks.** `tools/release/release.mjs` loads `.env` and refuses to start if you are not on `main` (bypass with `--allow-branch`), the tree is dirty, the branch is behind `origin/main`, npm has no usable credentials, or `GITHUB_TOKEN` is missing.
    _nx release commits, tags and PUSHES before publishing — a problem found late leaves a tag and an empty registry_
 2. **The version.** `nx release` derives it from conventional commits (`feat:` → minor, `fix:` → patch, `!` → major), in `fixed` mode: all packages move together.
-3. **`preVersionCommand` builds everything:** `npx nx run-many -t build --projects=@orthacms/*,create-ortha-app`.
+3. **`preVersionCommand` builds everything:** `npx nx run-many -t build --projects=@apograph/*,create-apograph-app`.
 4. **`pack` stages each package** into `dist/pack/<projectRoot>/` with a rewritten manifest. The target depends on `build`.
 5. **Confirmation.** `nx release` asks before publishing, and that prompt is left in deliberately: a publish cannot be undone, and a version number cannot be reused.
 6. **Publishing one at a time.** Each package goes through a work slot behind a file lock, is probed against the registry with a `GET`, and published with `npm publish <packageRoot> --json`.
@@ -318,11 +318,11 @@ npm run release -- 1.2.0    # force a version instead of the inferred one
 
 ## 07. The release process in detail
 
-Every package under `packages/` is published **in one pass, at one version, under one tag**. In `nx.json` that reads: `projects: ["@orthacms/*", "create-ortha-app", "!@orthacms/nx", "!@orthacms/copilot-provider-fake"]`, `projectsRelationship: "fixed"`, `releaseTagPattern: "v{version}"`. The applications (`apps/admin`, `apps/server`) are private and never published: they are the reference host, not a distribution.
+Every package under `packages/` is published **in one pass, at one version, under one tag**. In `nx.json` that reads: `projects: ["@apograph/*", "create-apograph-app", "!@apograph/nx", "!@apograph/copilot-provider-fake"]`, `projectsRelationship: "fixed"`, `releaseTagPattern: "v{version}"`. The applications (`apps/admin`, `apps/server`) are private and never published: they are the reference host, not a distribution.
 
 ### Why the tarball is not the committed manifest
 
-The workspace resolves packages **from source**: `exports` points at `./src/index.ts`, and `tsconfig.base.json` supplies the `@orthacms/source` condition. A consumer installing the package from npm has neither, and no way to compile our TypeScript. So the release has to _undo_ exactly the thing that is convenient in development. Three inferred targets do that, and all three come from this package — meaning a new package gets them by the fact of existing.
+The workspace resolves packages **from source**: `exports` points at `./src/index.ts`, and `tsconfig.base.json` supplies the `@apograph/source` condition. A consumer installing the package from npm has neither, and no way to compile our TypeScript. So the release has to _undo_ exactly the thing that is convenient in development. Three inferred targets do that, and all three come from this package — meaning a new package gets them by the fact of existing.
 
 | Step               | What happens                                                                                                              | What ends up in the result                                                                                                                                                                                                          |
 | ------------------ | ------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -355,7 +355,7 @@ Nx runs `nx-release-publish` as ordinary tasks — in parallel, in forked worker
 | withPublishSlot | A `lock` file is created with the `wx` flag (failing when it exists is the mutex) and holds the owner's pid. The lock is held **through the pause as well**, so that packages queue up instead of all sleeping at once and then racing | Serialising publishes on top of Nx's task parallelism                                                                                 |
 | spacing         | The minimum interval between two publishes. It may be a function — evaluated only _after_ the slot is taken, so that a package which already knows it will not publish does not sit out the pause                                      | The write rate limit                                                                                                                  |
 | heartbeat       | The holder touches its lock's mtime every 60 s (the timer is `unref`'d so that a stuck publish does not hold the worker's event loop open)                                                                                             | Tells "dead" apart from "still working"                                                                                               |
-| staleAfter      | 15 minutes of **silence**, after which the lock may be stolen. Silence, not age: the default retry ladder sleeps 30+60+120+240+300 s = 12.5 minutes before the sixth attempt, and `ORTHA_PUBLISH_RETRIES=8` takes it past twenty       | A hung worker does not jam every subsequent release                                                                                   |
+| staleAfter      | 15 minutes of **silence**, after which the lock may be stolen. Silence, not age: the default retry ladder sleeps 30+60+120+240+300 s = 12.5 minutes before the sixth attempt, and `APOGRAPH_PUBLISH_RETRIES=8` takes it past twenty       | A hung worker does not jam every subsequent release                                                                                   |
 | holderIsAlive   | A pid check with signal `0`, **before** the age check. `ESRCH` is proof that nobody holds it; `EPERM` means "alive and someone else's". An unreadable or corrupt lock is treated as alive, so that a genuine race still waits          | A release interrupted with Ctrl-C leaves a lock behind — otherwise every resumed release would start with a fifteen-minute hang       |
 | release         | Removes the lock **only if it is still ours** (the pid matches)                                                                                                                                                                        | If the lock was in fact stolen, removing it from here would hand the slot to a _third_ publisher — one overlap would become a cascade |
 
@@ -418,18 +418,18 @@ A dry run does not probe the registry and does not wait for anything: it writes 
 
 | Variable                    | Who reads it                                             | Purpose                                                                                                                                                                                                      |
 | --------------------------- | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| DATABASE_URL                | the host's `ortha.config.ts` → `db:migrate`, `db:studio` | The only source of the database address. An empty value is a refusal in both executors                                                                                                                       |
-| NPM_TOKEN                   | `release.mjs`, the registry probe                        | An automation token with publish rights in the `@orthacms` scope. Passed to npm as child-process configuration, **never written into `.npmrc`**. It may be left empty and the publish done under `npm login` |
+| DATABASE_URL                | the host's `apograph.config.ts` → `db:migrate`, `db:studio` | The only source of the database address. An empty value is a refusal in both executors                                                                                                                       |
+| NPM_TOKEN                   | `release.mjs`, the registry probe                        | An automation token with publish rights in the `@apograph` scope. Passed to npm as child-process configuration, **never written into `.npmrc`**. It may be left empty and the publish done under `npm login` |
 | NODE_AUTH_TOKEN             | the registry probe                                       | A fallback source for the token (typical in CI)                                                                                                                                                              |
 | GITHUB_TOKEN                | `release.mjs` → `nx release`                             | A token with `repo` access, used to create the GitHub Release                                                                                                                                                |
-| ORTHA_PUBLISH_DELAY         | `release-publish`                                        | The interval between publishes, in ms. Defaults to 5000                                                                                                                                                      |
-| ORTHA_PUBLISH_RETRIES       | `release-publish`                                        | Extra attempts on a retryable error. Defaults to 5                                                                                                                                                           |
-| ORTHA_PUBLISH_RETRY_BACKOFF | `release-publish`                                        | The first backoff, in ms; doubles thereafter. Defaults to 30000                                                                                                                                              |
+| APOGRAPH_PUBLISH_DELAY         | `release-publish`                                        | The interval between publishes, in ms. Defaults to 5000                                                                                                                                                      |
+| APOGRAPH_PUBLISH_RETRIES       | `release-publish`                                        | Extra attempts on a retryable error. Defaults to 5                                                                                                                                                           |
+| APOGRAPH_PUBLISH_RETRY_BACKOFF | `release-publish`                                        | The first backoff, in ms; doubles thereafter. Defaults to 30000                                                                                                                                              |
 | NX_DRY_RUN                  | `release-publish`                                        | Set by `nx release publish --dry-run`; enables a dry run on equal footing with the `dryRun` option                                                                                                           |
 
 ```
 # slow the publishes down for a single run
-ORTHA_PUBLISH_DELAY=10000 ORTHA_PUBLISH_RETRIES=8 npm run release
+APOGRAPH_PUBLISH_DELAY=10000 APOGRAPH_PUBLISH_RETRIES=8 npm run release
 ```
 
 **Precedence for the numeric settings:** environment → target option → built-in default. Any finite non-negative integer is accepted from the environment, `0` included: zero is meaningful (no pause at all) and must not silently fall through to the default.
@@ -438,12 +438,12 @@ ORTHA_PUBLISH_DELAY=10000 ORTHA_PUBLISH_RETRIES=8 npm run release
 
 | File                         | What it sets                                                                                                          |
 | ---------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| nx.json → plugins            | The line `"@orthacms/nx"` — the only thing that switches target inference on                                          |
+| nx.json → plugins            | The line `"@apograph/nx"` — the only thing that switches target inference on                                          |
 | nx.json → targetDefaults     | `nx-release-publish`: the duplicated `executor` and the **only place** `dependsOn: ['pack']` lives                    |
 | nx.json → release            | The project list, `fixed` mode, the tag pattern, conventional commits, `preVersionCommand`, one shared `CHANGELOG.md` |
-| .nxignore                    | Hides `packages/create-ortha-app/templates` from every plugin's inference at once                                     |
+| .nxignore                    | Hides `packages/create-apograph-app/templates` from every plugin's inference at once                                     |
 | \<plugin>/drizzle.config.ts  | The marker for `db:generate` and at the same time the source of the `schema` / `out` paths. Schema only, no secrets   |
-| apps/server/ortha.config.ts  | The marker for `db:migrate` / `db:studio`; the only place that reads `DATABASE_URL`                                   |
+| apps/server/apograph.config.ts  | The marker for `db:migrate` / `db:studio`; the only place that reads `DATABASE_URL`                                   |
 | apps/server/src/plugins.ts   | `buildPlugins(config)` — the list of plugins and, more importantly, their **order**                                   |
 | \<package>/tsconfig.lib.json | The file's presence is a precondition for `build`; the file itself says what is compiled and where to                 |
 
@@ -451,10 +451,10 @@ ORTHA_PUBLISH_DELAY=10000 ORTHA_PUBLISH_RETRIES=8 npm run release
 <summary>The minimal `.env` that is enough to work with the database</summary>
 
 ```
-DATABASE_URL=postgres://ortha:ortha@localhost:5432/ortha_cms
+DATABASE_URL=postgres://apograph:apograph@localhost:5432/apograph_cms
 ```
 
-`db:generate`, `db:migrate` and `db:studio` need nothing more. The first does not even need that. For parallel stacks, slot _n_ fixes its own port and database (`ortha_cms_an`), and `npm run worktree -- provision <slot>` writes an already adjusted `.env` — the database targets do not change at all, they simply read a different URL.
+`db:generate`, `db:migrate` and `db:studio` need nothing more. The first does not even need that. For parallel stacks, slot _n_ fixes its own port and database (`apograph_cms_an`), and `npm run worktree -- provision <slot>` writes an already adjusted `.env` — the database targets do not change at all, they simply read a different URL.
 
 </details>
 
@@ -468,9 +468,9 @@ DATABASE_URL=postgres://ortha:ortha@localhost:5432/ortha_cms
 
 Statements that must always hold. This doubles as a review list and as a starting set of test assertions.
 
-- **I-01** — The inference glob is exactly `**/{drizzle.config.ts,ortha.config.ts,package.json}`; not one target of this package is written onto a project by hand.
+- **I-01** — The inference glob is exactly `**/{drizzle.config.ts,apograph.config.ts,package.json}`; not one target of this package is written onto a project by hand.
 - **I-02** — A project with a `drizzle.config.ts` gets `db:generate` and **does not get** `db:migrate` or `db:studio`.
-- **I-03** — A project with an `ortha.config.ts` gets `db:migrate` and `db:studio` — both uncacheable.
+- **I-03** — A project with an `apograph.config.ts` gets `db:migrate` and `db:studio` — both uncacheable.
 - **I-04** — `db:generate` is uncacheable and **declares neither inputs nor outputs** against which it could be cached.
 - **I-05** — `db:generate` opens no database connection and requires no secret at all.
 - **I-06** — `db:migrate` and `db:studio` refuse to run with an empty database URL and **never** fall through to libpq's local defaults.
@@ -498,8 +498,8 @@ Statements that must always hold. This doubles as a review list and as a startin
 - **I-28** — An error that is not the registry's (a broken manifest, a missing entry point, a rejected token) fails on the first attempt.
 - **I-29** — A dry run neither probes the registry nor waits out the pause.
 - **I-30** — Precedence for the numeric settings: environment → target option → default; `0` from the environment is accepted as a value.
-- **I-31** — The `@orthacms/nx` package stays `private` and is excluded from the release by an explicit `!@orthacms/nx`.
-- **I-32** — The database executors contain no implementation of their own: `db:generate`, `db:migrate` and `db:studio` call `@orthacms/cli` functions, and that is the single implementation for the monorepo and for a generated application.
+- **I-31** — The `@apograph/nx` package stays `private` and is excluded from the release by an explicit `!@apograph/nx`.
+- **I-32** — The database executors contain no implementation of their own: `db:generate`, `db:migrate` and `db:studio` call `@apograph/cli` functions, and that is the single implementation for the monorepo and for a generated application.
 - **I-33** — The host's TypeScript is loaded through `createTsJiti` with legacy decorators; both executors use the same loader.
 - **I-34** — The package stays CommonJS: `require`/`__dirname`/`__filename`, never `import.meta`.
 
@@ -510,7 +510,7 @@ Phrased as "action → expected result", so they can go into a test case without
 ### Target inference
 
 - **A project with a `drizzle.config.ts`** → exactly one `db:generate` target, `cache: false`, `cwd` = the project root, `config` = `drizzle.config.ts`.
-- **A project with an `ortha.config.ts`** → two targets, both `cache: false`; `db:migrate` has `plugins` in its options, `db:studio` does not.
+- **A project with an `apograph.config.ts`** → two targets, both `cache: false`; `db:migrate` has `plugins` in its options, `db:studio` does not.
 - **A publishable package under `packages/`** → exactly three targets: `build`, `pack`, `nx-release-publish`; `packageRoot` = `dist/pack/<projectRoot>`.
 - **A package with `private: true`** → exactly one target — `build`.
 - **A manifest outside `packages/` (apps, the workspace root)** → an empty target object.
@@ -563,7 +563,7 @@ Phrased as "action → expected result", so they can go into a test case without
 - **Two concurrent `nx-release-publish` runs** → the second waits and prints "waiting for another package to finish publishing"; there is no overlap.
 - **Kill the process holding the lock** → the next one takes the slot immediately, with no fifteen-minute wait.
 - **A holder running longer than `staleAfter` but refreshing the lock** → the lock is not stolen.
-- **`ORTHA_PUBLISH_DELAY=0`** → the pause really is zero, not replaced by the 5000 default.
+- **`APOGRAPH_PUBLISH_DELAY=0`** → the pause really is zero, not replaced by the 5000 default.
 - **Wipe `dist/` between runs** → the lock and the safety catch are cleared — both live under `dist/.release-publish`.
 
 ### Tarball staging
@@ -571,15 +571,15 @@ Phrased as "action → expected result", so they can go into a test case without
 - **`nx run <pkg>:pack`, then inspect `dist/pack/<projectRoot>/package.json`** → `exports` points at `./dist`, workspace dependencies are pinned to the release version, `publishConfig.access: 'public'`.
 - **A package with a `bin`** → the path is rewritten to the build output; both forms (string and map) are handled; a non-existent bin fails `pack`.
 - **A plugin with `migrations/`** → the folder is copied verbatim and listed in `files`.
-- **`create-ortha-app`** → `templates/` is copied and listed in `files`.
+- **`create-apograph-app`** → `templates/` is copied and listed in `files`.
 - **A package importing a dependency declared only in the root manifest** → `pack` refuses: a phantom dependency never reaches the registry.
-- **A new package added under `packages/` but not classified in `features.ts`** → the `create-ortha-app` tests fail — by design.
+- **A new package added under `packages/` but not classified in `features.ts`** → the `create-apograph-app` tests fail — by design.
 
 ## 11. Boundaries of responsibility
 
-The main line in this package runs between it and `@orthacms/cli`. The rule is simple: **what only this repository runs stays here; what has to work in an app installed from npm moves into the CLI**.
+The main line in this package runs between it and `@apograph/cli`. The rule is simple: **what only this repository runs stays here; what has to work in an app installed from npm moves into the CLI**.
 
-| Area                                        | What `@orthacms/nx` does                                                                                   | What `@orthacms/cli` does                                                                                                    |
+| Area                                        | What `@apograph/nx` does                                                                                   | What `@apograph/cli` does                                                                                                    |
 | ------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
 | Generating migrations                       | Infers the target, builds the absolute `cwd`, passes the options                                           | `runDrizzleKitGenerate`: resolves the drizzle-kit binary, runs it, rewrites the error message                                |
 | Applying migrations                         | Infers the target, loads the host's TypeScript through jiti+swc, refuses on an empty URL                   | `applyPluginMigrations`: the `pg` pool, the loop over plugins, the journal tables, `describeTarget`, the failure diagnostics |
@@ -593,11 +593,11 @@ The main line in this package runs between it and `@orthacms/cli`. The rule is s
 | Area                                                        | Who owns it                                                  | What this plugin does                                                       |
 | ----------------------------------------------------------- | ------------------------------------------------------------ | --------------------------------------------------------------------------- |
 | The database schema and the SQL migrations                  | Each plugin separately (`drizzle.config.ts` + `migrations/`) | Knows _how_ to generate and apply, never _what_                             |
-| The runtime database connection                             | `@orthacms/database`                                         | Opens a pool of its own only for the duration of a migration, and closes it |
+| The runtime database connection                             | `@apograph/database`                                         | Opens a pool of its own only for the duration of a migration, and closes it |
 | The plugin order                                            | `apps/server/src/plugins.ts`                                 | Applies in the order it was given, and points at the order on failure       |
 | Assembling the staging directory and rewriting the manifest | `tools/release/pack.mjs`                                     | Invokes the script through the `pack` target and declares its output        |
 | Pre-flight, `.env`, the GitHub Release                      | `tools/release/release.mjs` + `nx release`                   | Is responsible only for one `npm publish` at a time                         |
-| Scaffolding an application                                  | `create-ortha-app`                                           | Nothing: this package ships no Nx generators                                |
+| Scaffolding an application                                  | `create-apograph-app`                                           | Nothing: this package ships no Nx generators                                |
 | Building the applications                                   | webpack (server) and Vite (admin)                            | Infers `build` only for `packages/`, and never touches the apps             |
 
 ### What is not here
@@ -616,18 +616,18 @@ Found while checking this dossier against the source. Not product bugs in themse
 | ---------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | packages/nx/src/executors/<br>db-generate/executor.ts            | The function docstring: "Cacheable — inputs are the schema files, output is the plugin's migrations directory."                                                                           | **Directly contradicts the target inference in the same package.** `createNodesV2` sets `cache: false` and accompanies it with a long comment on why a cache here is both impossible and harmful. The docstring is left over from the old behaviour                                                                                                                                      |
 | packages/nx/AGENTS.md                                            | "five of this workspace's **eight** \[drizzle configs\] point outside `src/lib/schema/`". The same count of "eight" is repeated in the `src/index.ts` comment                             | There are now **twelve** configs, and **eight** of them point outside `src/lib/schema/`: `apps/server`, `apps/server-e2e`, alarms, content, copilot, media, webhooks, workspaces. Four point inside: activity, database, identity, segments. The argument only gets stronger, but the numbers are stale — and have gone stale again since, which is the point                            |
-| docs/releasing.md · packages/nx/AGENTS.md · comments in the code | "one lockstep release: one version, one tag, one GitHub Release, **37 tarballs**" — and the same figure five more times: "~37 of them", "37 packages in one release", "12 writes, not 37" | There are now **60** publishable packages (every non-private manifest under `packages/*` and `packages/*/*`, `create-ortha-app` included, out of 62 manifests). Two are private — `@orthacms/nx` and `@orthacms/copilot-provider-fake`. The figure 37 reflects an earlier state of the repository; the arithmetic of the "resume with 12 packages instead of 37" example rests on it too |
+| docs/releasing.md · packages/nx/AGENTS.md · comments in the code | "one lockstep release: one version, one tag, one GitHub Release, **37 tarballs**" — and the same figure five more times: "~37 of them", "37 packages in one release", "12 writes, not 37" | There are now **60** publishable packages (every non-private manifest under `packages/*` and `packages/*/*`, `create-apograph-app` included, out of 62 manifests). Two are private — `@apograph/nx` and `@apograph/copilot-provider-fake`. The figure 37 reflects an earlier state of the repository; the arithmetic of the "resume with 12 packages instead of 37" example rests on it too |
 | packages/nx/src/executors/<br>db-migrate/executor.ts             | In a comment: "reported "Migrations complete." after creating all **37 tables** in a database nobody named"                                                                               | The coincidence with the tarball count is accidental — that was the number of tables at the time of the measurement. The schema is wider today; the measurement was never repeated. The phrasing looks like a current fact about the system when it is a historical record                                                                                                               |
-| .nxignore                                                        | "`@orthacms/nx` infers a `db:migrate` target onto `templates/default/src/server`"                                                                                                         | The path in the template is different — `templates/default/apps/server/ortha.config.ts`. The exclusion mechanism itself is described correctly; only the path in the explanation is wrong                                                                                                                                                                                                |
+| .nxignore                                                        | "`@apograph/nx` infers a `db:migrate` target onto `templates/default/src/server`"                                                                                                         | The path in the template is different — `templates/default/apps/server/apograph.config.ts`. The exclusion mechanism itself is described correctly; only the path in the explanation is wrong                                                                                                                                                                                                |
 | packages/nx/AGENTS.md, "Architecture"                            | "Release logic (`src/lib/release/`: `publish.ts`, `throttle.ts`, `registry.ts`) stays here"                                                                                               | The same directory holds a fourth spec — `pack.spec.ts` — which tests `tools/release/pack.mjs`, a file **outside** the package. The list in AGENTS.md does not mention it, and from the document it is not obvious that the `pack` tests live here                                                                                                                                       |
 | packages/nx/AGENTS.md, "What it provides"                        | On `db:migrate`: "It **refuses to run without a database URL**" — and that is all                                                                                                         | The thing that matters most to a tester is left out: the check runs **before** `buildPlugins()` is called, so with an empty URL the plugin list is not even built. A dedicated test pins that down ("refuses before building the plugin list"), but the document says nothing about it                                                                                                   |
 | packages/nx/AGENTS.md, "Commands"                                | Three commands are listed — `db:generate`, `db:migrate`, `db:studio`                                                                                                                      | There are **six** inferred targets: also `build`, `pack` and `nx-release-publish`. They are described further down the document, but not in the "Commands" section, which is where a person looks first                                                                                                                                                                                  |
-| nx.json → plugins                                                | `@nx/js/typescript` is configured with `build: { targetName: "build", configName: "tsconfig.lib.json" }`                                                                                  | That setting infers nothing: the workspace manifests point at source, so `@nx/js` does not infer `build` here at all — `@orthacms/nx` does. The configuration looks live but is inert, and reading `nx.json` leaves the impression of two sources for one target                                                                                                                         |
+| nx.json → plugins                                                | `@nx/js/typescript` is configured with `build: { targetName: "build", configName: "tsconfig.lib.json" }`                                                                                  | That setting infers nothing: the workspace manifests point at source, so `@nx/js` does not infer `build` here at all — `@apograph/nx` does. The configuration looks live but is inert, and reading `nx.json` leaves the impression of two sources for one target                                                                                                                         |
 
 <details>
 <summary>Why the numbers in this artifact were counted rather than copied</summary>
 
-Every quantitative claim above comes from enumerating the working tree at the time of writing: 12 `drizzle.config.ts` files outside `node_modules`; 1 `ortha.config.ts` outside the ignored templates; 60 manifests under `packages/*` and `packages/*/*` without `private: true`; 4 entries in `executors.json`; 6 targets in `createNodesV2`; 127 `it(...)` cases across the package's eleven spec files. Re-counted 2026-09-05: every figure in this paragraph had drifted, which is the argument for counting them rather than quoting them. Where the documentation claimed otherwise, the discrepancy went into the table above rather than being bent to fit the document.
+Every quantitative claim above comes from enumerating the working tree at the time of writing: 12 `drizzle.config.ts` files outside `node_modules`; 1 `apograph.config.ts` outside the ignored templates; 60 manifests under `packages/*` and `packages/*/*` without `private: true`; 4 entries in `executors.json`; 6 targets in `createNodesV2`; 127 `it(...)` cases across the package's eleven spec files. Re-counted 2026-09-05: every figure in this paragraph had drifted, which is the argument for counting them rather than quoting them. Where the documentation claimed otherwise, the discrepancy went into the table above rather than being bent to fit the document.
 
 </details>
 
@@ -635,4 +635,4 @@ Every quantitative claim above comes from enumerating the working tree at the ti
 
 **A dossier of the build plugin.** Written from the `packages/nx` group in the series' common frame: business description → composition → target catalogue → the inference mechanism → loading TypeScript → flows → the release → configuration → invariants → checklist → boundaries → discrepancies. The sections this package does not have by nature (data model, HTTP API, admin screens, permissions) have been dropped: it owns not one table, serves not one route, and has no user interface.
 
-The source is the source code: `src/index.ts`, the four executors with their option schemas, `src/lib/jiti.ts`, the three `src/lib/release/` modules and the eight spec files beside them; plus the root `nx.json`, `.nxignore`, `docs/releasing.md`, `tools/release/{release,pack}.mjs` and the public API of `@orthacms/cli`. The `AGENTS.md` files were used as a skeleton, but every claim was checked against the implementation — discrepancies went into section 12.
+The source is the source code: `src/index.ts`, the four executors with their option schemas, `src/lib/jiti.ts`, the three `src/lib/release/` modules and the eight spec files beside them; plus the root `nx.json`, `.nxignore`, `docs/releasing.md`, `tools/release/{release,pack}.mjs` and the public API of `@apograph/cli`. The `AGENTS.md` files were used as a skeleton, but every claim was checked against the implementation — discrepancies went into section 12.

@@ -97,7 +97,9 @@ export function resolveGithubConfig(
         // Enterprise Server serves its API under `/api/v3`; github.com has its
         // own host. Getting this wrong is a 404 on the profile read, one step
         // after a token exchange that appeared to work.
-        apiBaseUrl: enterprise ? `${enterprise}/api/v3` : 'https://api.github.com',
+        apiBaseUrl: enterprise
+            ? `${enterprise}/api/v3`
+            : 'https://api.github.com',
         fetch: config.fetch ?? globalThis.fetch
     };
 }

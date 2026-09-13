@@ -1,5 +1,5 @@
 /**
- * `@orthacms/webhooks-admin` — the global webhooks surface.
+ * `@apograph/webhooks-admin` — the global webhooks surface.
  *
  * Two pages in the sidebar's directory group: the endpoint list, and one
  * endpoint with its settings and its delivery log. Both are administrator-only,

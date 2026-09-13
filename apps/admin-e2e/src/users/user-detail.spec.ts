@@ -11,7 +11,7 @@ import {
 } from '../support/api/userDetail';
 
 /**
- * The user detail page (`/users/:id`, `@orthacms/users-admin`): the hero +
+ * The user detail page (`/users/:id`, `@apograph/users-admin`): the hero +
  * stats + side-rail shell, tab navigation, the General name edit, session
  * revocation, and permission-gated tabs. Backed by the `mockUserDetail` /
  * `mockUserSessions` / activity mocks; `mockSignedIn` satisfies the shell's
@@ -158,7 +158,7 @@ test.describe('User detail page', () => {
                 subjectType: 'user',
                 subjectId: 'u_grace',
                 actorId: 'u_ada',
-                actorEmail: 'ada@ortha.dev',
+                actorEmail: 'ada@apograph.dev',
                 meta: { from: 'viewer', to: 'contributor' },
                 at: '2026-06-10T10:00:00.000Z'
             }
@@ -170,7 +170,7 @@ test.describe('User detail page', () => {
         // shared with the global Activity Log — this tab used to keep its own
         // twelve-kind map and print the raw wire kind for everything else.
         await expect(page.getByText('Changed role')).toBeVisible();
-        await expect(page.getByText('by ada@ortha.dev')).toBeVisible();
+        await expect(page.getByText('by ada@apograph.dev')).toBeVisible();
     });
 
     test('names every kind the member touched, not just the user.* ones', async ({
@@ -194,7 +194,7 @@ test.describe('User detail page', () => {
                 subjectType: 'user',
                 subjectId: 'u_grace',
                 actorId: 'u_grace',
-                actorEmail: 'grace@ortha.dev',
+                actorEmail: 'grace@apograph.dev',
                 meta: null,
                 at: `2026-06-1${index}T09:00:00.000Z`
             }))
@@ -222,8 +222,8 @@ test.describe('User detail page', () => {
                 subjectType: 'user',
                 subjectId: 'u_grace',
                 actorId: 'u_ada',
-                actorEmail: 'ada@ortha.dev',
-                meta: { workspaceId: 'ws_docs', email: 'grace@ortha.dev' },
+                actorEmail: 'ada@apograph.dev',
+                meta: { workspaceId: 'ws_docs', email: 'grace@apograph.dev' },
                 at: '2026-06-11T09:00:00.000Z'
             }
         ]);

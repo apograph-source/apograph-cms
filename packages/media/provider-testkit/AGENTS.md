@@ -1,4 +1,4 @@
-# @orthacms/media-provider-testkit
+# @apograph/media-provider-testkit
 
 The **`StorageProvider` contract, as a runnable suite**. One export,
 `describeStorageProvider(name, harness)`, which any provider package calls from
@@ -53,9 +53,9 @@ remote provider ends up failing for the wrong reason.
 
 ## Commands
 
-- `npx nx typecheck @orthacms/media-provider-testkit` /
-  `npx nx lint @orthacms/media-provider-testkit`
-- `npx nx test @orthacms/media-provider-testkit` — the kit against its own
+- `npx nx typecheck @apograph/media-provider-testkit` /
+  `npx nx lint @apograph/media-provider-testkit`
+- `npx nx test @apograph/media-provider-testkit` — the kit against its own
   reference in-memory provider, so a suite no correct implementation passes
   cannot ship unnoticed. All six adapters call it: local, memory, s3, gcs,
   azure and vercel-blob.
@@ -66,18 +66,18 @@ Beside the runnable contract sits the claim the contract cannot make — that an
 application picking one backend does not pay for the other five. It reads every
 `packages/media/provider-*` manifest and source and asserts that none declares
 or imports `@nestjs/*`, `react`, `drizzle-orm`, `class-validator`, `express` or
-`@orthacms/database`; that every non-relative import is a node built-in or a
+`@apograph/database`; that every non-relative import is a node built-in or a
 package that manifest declares (a denylist only bans what someone thought of);
-and that the one Ortha package an adapter reaches for is `@orthacms/media-domain`.
+and that the one Apograph package an adapter reaches for is `@apograph/media-domain`.
 
 Then it walks the **whole import graph** out of each adapter's entry point,
 through the workspace packages it reaches, and fails if a forbidden package
 turns up anywhere in the closure. That half exists because the manifest scan
 missed the real breach: every adapter imported `ObjectNotFoundError` — a *value*
-— from `@orthacms/media-server`, whose barrel re-exports `MediaModule`, so
-`require('@orthacms/media-provider-local')` loaded `@nestjs/common` three hops
+— from `@apograph/media-server`, whose barrel re-exports `MediaModule`, so
+`require('@apograph/media-provider-local')` loaded `@nestjs/common` three hops
 away while declaring and importing no framework at all. The port moved to
-`@orthacms/media-domain`; the walk is what stops it coming back by some other
+`@apograph/media-domain`; the walk is what stops it coming back by some other
 route.
 
 It lives here rather than in `server` because it is a statement about the

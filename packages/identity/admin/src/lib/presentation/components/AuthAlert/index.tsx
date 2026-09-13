@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { Alert, AlertTitle, AlertDescription } from '@orthacms/design-system';
+import { Alert, AlertTitle, AlertDescription } from '@apograph/design-system';
 
 /** Props for the {@link AuthAlert} component. */
 type AuthAlertProps = {

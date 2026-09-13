@@ -68,9 +68,7 @@ describe('the tool contract is transport-neutral', () => {
         // node's own `http`, would be something else entirely: a package that
         // could read a header.
         expect(
-            matching(
-                /from '(express|node:http|http|@nestjs\/platform-[a-z]+)'/
-            )
+            matching(/from '(express|node:http|http|@nestjs\/platform-[a-z]+)'/)
         ).toEqual([]);
     });
 

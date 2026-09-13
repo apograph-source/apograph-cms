@@ -1,28 +1,28 @@
-# @orthacms/cli
+# @apograph/cli
 
-The `ortha` command — how an **installed** Ortha CMS app is built, run and
-migrated. The counterpart to [`@orthacms/nx`](../nx/AGENTS.md), which does the
+The `apograph` command — how an **installed** Apograph CMS app is built, run and
+migrated. The counterpart to [`@apograph/nx`](../nx/AGENTS.md), which does the
 same jobs inside this monorepo.
 
 ## Package
 
-- Name: `@orthacms/cli`
-- Binary: `ortha`
+- Name: `@apograph/cli`
+- Binary: `apograph`
 - A devDependency of a generated app (see
-  [`create-ortha-app`](../create-ortha-app/AGENTS.md)), and a dependency of
-  `@orthacms/nx`.
+  [`create-apograph-app`](../create-apograph-app/AGENTS.md)), and a dependency of
+  `@apograph/nx`.
 - **CommonJS** (no `"type": "module"`), so `require`/`__dirname` are available
   and `import.meta` is not.
 
 ## Why it exists
 
-Everything a consumer needs to *operate* an app used to live in `@orthacms/nx`,
+Everything a consumer needs to *operate* an app used to live in `@apograph/nx`,
 which is `private` and will never be published: `applyPluginMigrations` was
 reachable only through an Nx executor, so an app installed from npm had no way
 to migrate its database at all.
 
 The core rule this package encodes: **the monorepo and every generated app go
-through one implementation.** `@orthacms/nx`'s `db:migrate`, `db:generate` and
+through one implementation.** `@apograph/nx`'s `db:migrate`, `db:generate` and
 `db:studio` executors are thin adapters over the functions exported here. Two
 implementations of "apply migrations in plugin order" would be two chances to
 get the most destructive operation in the system wrong.
@@ -31,29 +31,29 @@ get the most destructive operation in the system wrong.
 
 | Command | Notes |
 | --- | --- |
-| `ortha dev` | `tsc --watch`, `node --watch`, and Vite in one terminal. `--server` / `--admin` run one half |
-| `ortha build` | `tsc` for the server, Vite for the admin. `--server` / `--admin` narrow it |
-| `ortha start` | Runs `dist/server/main.js` |
-| `ortha migrate` | Builds the server, then applies every plugin's migrations |
-| `ortha generate --name=<n>` | drizzle-kit against the app's own `drizzle.config.ts` |
-| `ortha studio` | Drizzle Studio on the app's database. `--port=0` is refused, not dropped — drizzle-kit prints the port it was asked for, never the one it bound |
-| `ortha --help` | Usage — also `-h` and a bare `help`. Answered before `findProjectRoot`, so it works outside an app |
-| `ortha --version` | The installed version, read from the package manifest at runtime. Also `-v`, and checked before `--help` |
+| `apograph dev` | `tsc --watch`, `node --watch`, and Vite in one terminal. `--server` / `--admin` run one half |
+| `apograph build` | `tsc` for the server, Vite for the admin. `--server` / `--admin` narrow it |
+| `apograph start` | Runs `dist/server/main.js` |
+| `apograph migrate` | Builds the server, then applies every plugin's migrations |
+| `apograph generate --name=<n>` | drizzle-kit against the app's own `drizzle.config.ts` |
+| `apograph studio` | Drizzle Studio on the app's database. `--port=0` is refused, not dropped — drizzle-kit prints the port it was asked for, never the one it bound |
+| `apograph --help` | Usage — also `-h` and a bare `help`. Answered before `findProjectRoot`, so it works outside an app |
+| `apograph --version` | The installed version, read from the package manifest at runtime. Also `-v`, and checked before `--help` |
 
 ## Architecture
 
 - **Thin commands over a core lib.** Logic lives in `src/lib/`
   (`migrate.ts`, `generate.ts`, `studio.ts`); `src/lib/commands/` adapts it to
-  argv, and `src/index.ts` re-exports it for `@orthacms/nx`. The specs sit
+  argv, and `src/index.ts` re-exports it for `@apograph/nx`. The specs sit
   beside the code and mock at the process boundary (`node:child_process`, `pg`),
   so the package tests without a database.
-- **Compile first, then read JavaScript.** `ortha migrate` builds the server and
-  `require`s `dist/server/{ortha.config,plugins}.js`. The monorepo cannot do
+- **Compile first, then read JavaScript.** `apograph migrate` builds the server and
+  `require`s `dist/server/{apograph.config,plugins}.js`. The monorepo cannot do
   this — Nx runs against source, so it needs `jiti` plus an swc transform hook
   configured for legacy decorators, because the plugin graph is full of
   decorated Nest classes and jiti's bundled babel crashes on them. A generated
   app has its own build step, so **that whole problem stays out of the consumer
-  path**; `jiti` remains a dependency of `@orthacms/nx` alone.
+  path**; `jiti` remains a dependency of `@apograph/nx` alone.
 
     Two details that are easy to get wrong here, both measured:
 
@@ -69,7 +69,7 @@ get the most destructive operation in the system wrong.
       here stop resolving.
 
 - **`.env` is loaded by this package.** Nothing else does it. Nx loads `.env`
-  before a target runs, so `ortha.config.ts` can just read `process.env` — a
+  before a target runs, so `apograph.config.ts` can just read `process.env` — a
   generated app has no task runner, and without `loadEnv` every command fails on
   a `DATABASE_URL` sitting in the file. `process.loadEnvFile` does not overwrite
   variables already exported, which is the precedence a deployment needs.
@@ -91,9 +91,9 @@ get the most destructive operation in the system wrong.
 
 ## Tests
 
-`npx nx test @orthacms/cli` — jest, `.spec.ts` beside the source.
+`npx nx test @apograph/cli` — jest, `.spec.ts` beside the source.
 
 ## Commands
 
-- `npm exec nx typecheck @orthacms/cli`
-- `npm exec nx build @orthacms/cli`
+- `npm exec nx typecheck @apograph/cli`
+- `npm exec nx build @apograph/cli`

@@ -1,6 +1,6 @@
-# @orthacms/utils-server
+# @apograph/utils-server
 
-Server-side shared utilities for Ortha CMS. Three concerns:
+Server-side shared utilities for Apograph CMS. Three concerns:
 
 - the **filter query builder** — translates a REST-style `?filter=` payload into
   a Drizzle SQL fragment that callers splice into their `WHERE` clause (the bulk
@@ -14,7 +14,7 @@ Server-side shared utilities for Ortha CMS. Three concerns:
 - **Environment readers** (`env.ts`) — `readEnv`, `requireEnv`,
   `readPositiveInt` / `readOptionalPositiveInt`, `readList` /
   `readOptionalList`, `readFlag`, `readTrustProxy`, `readNodeEnv` /
-  `isProduction`, plus `when` and `defined`. What a host's `ortha.config.ts`
+  `isProduction`, plus `when` and `defined`. What a host's `apograph.config.ts`
   turns `process.env` into. Here rather than in each host because this repo's
   host and the scaffolder's template had a copy each and they had already
   drifted; see below.
@@ -24,8 +24,8 @@ plugin can import.
 
 ## Package
 
-- Name: `@orthacms/utils-server`
-- Import: `import { applyFilterTree, parseFilterTree } from '@orthacms/utils-server'`
+- Name: `@apograph/utils-server`
+- Import: `import { applyFilterTree, parseFilterTree } from '@apograph/utils-server'`
 
 ## Environment readers (`env.ts`)
 
@@ -57,7 +57,7 @@ Four things here are decisions rather than details:
   the duplication this module exists to end — and the shape that made the
   erasure above easy to get wrong.
 - **`readTrustProxy` returns `boolean | number | string` structurally**, rather
-  than importing `TrustProxySetting` from `@orthacms/bootstrap-server`. This is
+  than importing `TrustProxySetting` from `@apograph/bootstrap-server`. This is
   a leaf helper package and the host that imports it must not become a
   dependency of it; the host's own `trustProxy?: TrustProxySetting` field is
   what checks the two still agree.
@@ -228,5 +228,5 @@ Internal files (not exported): `parse-filter-tree.ts`, `tree-to-drizzle.ts`,
 
 ## Commands
 
-- `npx nx typecheck @orthacms/utils-server`
-- `npx nx test @orthacms/utils-server`
+- `npx nx typecheck @apograph/utils-server`
+- `npx nx test @apograph/utils-server`

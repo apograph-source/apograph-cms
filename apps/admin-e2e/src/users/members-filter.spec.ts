@@ -6,7 +6,7 @@ import { mockMembers } from '../support/api/members';
 import { expectNoA11yViolations } from '../support/a11y';
 
 /**
- * The Members query-builder filter (`@orthacms/query-builder-admin`): building a
+ * The Members query-builder filter (`@apograph/query-builder-admin`): building a
  * condition narrows the roster, the choice deep-links into the URL as
  * `?filter=<json>`, and Reset clears it. The `GET /api/users` mock honours the
  * `filter` param (AND-ed with search), mirroring the server.

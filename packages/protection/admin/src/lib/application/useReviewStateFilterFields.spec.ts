@@ -1,4 +1,4 @@
-import { OP } from '@orthacms/query-builder-admin';
+import { OP } from '@apograph/query-builder-admin';
 import {
     REVIEW_STATE_FILTER_FIELD,
     useReviewStateFilterFields

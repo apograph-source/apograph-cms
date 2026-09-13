@@ -8,7 +8,7 @@ import {
     contentReadScopeRegistrar,
     entryFilterProviderRegistrar,
     entryWriteExtensionRegistrar
-} from '@orthacms/content-server';
+} from '@apograph/content-server';
 import { SEGMENTS_CONFIG } from './segments.tokens';
 import type { SegmentsPluginConfig } from './types/segments-config';
 import { SegmentCatalogService } from './application/segment-catalog.service';
@@ -22,7 +22,7 @@ import { EntryAccessWriteExtension } from './infrastructure/entry-access-write-e
 import { AccessFilterProvider } from './infrastructure/access-filter.provider';
 import { ReaderMiddleware } from './http/reader.middleware';
 import { PrincipalMiddleware } from './http/principal.middleware';
-import { copilotAppliersRegistrar } from '@orthacms/copilot-server';
+import { copilotAppliersRegistrar } from '@apograph/copilot-server';
 import { SegmentsController } from './http/segments.controller';
 import { EntryAccessController } from './http/entry-access.controller';
 import { PublicEntryAccessController } from './http/public-entry-access.controller';

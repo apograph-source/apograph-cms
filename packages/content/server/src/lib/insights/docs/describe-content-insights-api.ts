@@ -15,7 +15,7 @@
  * Pure: it takes the document and mutates only these six operations.
  */
 
-import type { OpenApiDocument } from '@orthacms/bootstrap-server';
+import type { OpenApiDocument } from '@apograph/bootstrap-server';
 import type { OpenApiSchema } from '../../docs/field-schema';
 import { ref } from '../../docs/content-schemas';
 

@@ -1,6 +1,6 @@
 import { createServer, type Server } from 'node:http';
 import type { AddressInfo } from 'node:net';
-import { assertUrlShape } from '@orthacms/webhooks-domain';
+import { assertUrlShape } from '@apograph/webhooks-domain';
 import {
     resolveWebhooksConfig,
     type WebhooksPluginConfig
@@ -19,6 +19,8 @@ interface Receiver {
     port: number;
     /** The path of every request that reached it, in order. */
     paths: string[];
+    /** The headers of every request that reached it, in the same order. */
+    headers: Array<Record<string, string | string[] | undefined>>;
     /** What to answer with. Replaced per test. */
     reply: (path: string) => {
         status: number;
@@ -29,14 +31,16 @@ interface Receiver {
 }
 
 async function startReceiver(): Promise<Receiver> {
-    const state: Pick<Receiver, 'paths' | 'reply'> = {
+    const state: Pick<Receiver, 'paths' | 'headers' | 'reply'> = {
         paths: [],
+        headers: [],
         reply: () => ({ status: 200, body: 'ok' })
     };
 
     const server: Server = createServer((request, response) => {
         const path = request.url ?? '';
         state.paths.push(path);
+        state.headers.push(request.headers);
         // Drain the request body so the socket is not half-read from our end.
         request.resume();
         request.on('end', () => {
@@ -55,6 +59,9 @@ async function startReceiver(): Promise<Receiver> {
         port: (server.address() as AddressInfo).port,
         get paths() {
             return state.paths;
+        },
+        get headers() {
+            return state.headers;
         },
         get reply() {
             return state.reply;
@@ -188,6 +195,72 @@ describe('WebhookHttpClient — the connect-time address check', () => {
         // The second hop was never made — following one is how a receiver
         // walks us past the address check it already passed.
         expect(receiver.paths).toEqual(['/hooks']);
+    });
+});
+
+/**
+ * The rename window. Renaming the header prefix in place would have every
+ * existing receiver start failing its signature check the moment this shipped
+ * — and silently, because a failed check is indistinguishable from an attack.
+ * Both spellings go out until the deprecation window closes.
+ */
+describe('WebhookHttpClient — the pre-rename headers', () => {
+    let receiver: Receiver;
+
+    beforeAll(async () => {
+        receiver = await startReceiver();
+    });
+
+    afterAll(async () => {
+        await receiver.close();
+    });
+
+    beforeEach(() => {
+        receiver.paths.length = 0;
+        receiver.headers.length = 0;
+    });
+
+    const OPEN: WebhooksPluginConfig = {
+        allowInsecureUrls: true,
+        allowPrivateNetworks: true
+    };
+
+    it('sends every delivery header under both spellings, with the same value', async () => {
+        const url = `http://localhost:${receiver.port}/hooks`;
+        await client(OPEN).send({
+            ...delivery(url),
+            workspaceId: 'workspace-1'
+        });
+
+        const sent = receiver.headers[0];
+        expect(sent).toBeDefined();
+
+        for (const field of [
+            'event',
+            'delivery',
+            'event-id',
+            'workspace',
+            'attempt',
+            'signature'
+        ]) {
+            const current = sent[`x-apograph-${field}`];
+            const legacy = sent[`x-ortha-${field}`];
+            expect(current).toBeDefined();
+            // Equal, not merely both present: a receiver that verifies the
+            // signature against the old name must be checking the same bytes.
+            expect(legacy).toBe(current);
+        }
+    });
+
+    it('omits the workspace header under both spellings when there is none', async () => {
+        const url = `http://localhost:${receiver.port}/hooks`;
+        await client(OPEN).send({ ...delivery(url), workspaceId: null });
+
+        const sent = receiver.headers[0];
+        expect(sent['x-apograph-workspace']).toBeUndefined();
+        expect(sent['x-ortha-workspace']).toBeUndefined();
+        // Still sent, so an absent workspace is not mistaken for no headers.
+        expect(sent['x-apograph-event']).toBe('entry.published');
     });
 });
 

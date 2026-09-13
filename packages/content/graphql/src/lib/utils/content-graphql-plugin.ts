@@ -1,5 +1,5 @@
-import type { ServerPlugin } from '@orthacms/bootstrap-server';
-import type { ContentServerPlugin } from '@orthacms/content-server';
+import type { ServerPlugin } from '@apograph/bootstrap-server';
+import type { ContentServerPlugin } from '@apograph/content-server';
 import { ContentGraphqlModule } from '../content-graphql.module';
 import { describeGraphqlApi } from '../docs/describe-graphql-api';
 import { assertNoEnvelopeCollisions } from '../schema/build-schema';
@@ -44,7 +44,7 @@ export interface ContentGraphqlServerPlugin extends ServerPlugin {
 
 /**
  * The public content API over GraphQL — a second protocol in front of the
- * surface `@orthacms/content-server` already serves over REST, with the same
+ * surface `@apograph/content-server` already serves over REST, with the same
  * bearer tokens, the same workspace bucket, the same scopes, and the same
  * visibility rules.
  *

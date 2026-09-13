@@ -8,7 +8,7 @@
  * this file, and everything import does downstream rests on it.
  */
 
-import { CONTENT_FIELD_TYPE } from '@orthacms/content-domain';
+import { CONTENT_FIELD_TYPE } from '@apograph/content-domain';
 import type { TransferTypeSchema } from '../schema/type-schema';
 
 /** Where a type's identity fields came from. */
@@ -159,8 +159,6 @@ function keyValueToString(value: unknown): string | undefined {
         return Number.isFinite(value) ? String(value) : undefined;
     if (typeof value === 'boolean') return String(value);
     if (value instanceof Date)
-        return Number.isNaN(value.getTime())
-            ? undefined
-            : value.toISOString();
+        return Number.isNaN(value.getTime()) ? undefined : value.toISOString();
     return undefined;
 }

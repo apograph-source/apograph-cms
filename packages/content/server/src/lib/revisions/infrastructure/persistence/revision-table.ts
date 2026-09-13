@@ -19,7 +19,7 @@ import {
  *
  * Like every `content_<name>` table, this is **HOST-owned**: content-server
  * emits no migrations. The table is defined here (and re-exported from the
- * decorator-free `@orthacms/content-server/define` barrel) so the host's
+ * decorator-free `@apograph/content-server/define` barrel) so the host's
  * drizzle-kit schema entry can re-export it into the migration diff, while the
  * persistence layer imports the same object directly. It is scoped to a
  * workspace and keyed **per-locale** (`entry_id` is the live row, one per

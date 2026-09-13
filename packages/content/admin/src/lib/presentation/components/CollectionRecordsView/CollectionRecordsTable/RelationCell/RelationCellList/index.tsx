@@ -1,7 +1,7 @@
 import { type UIEvent } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { ExternalLink } from 'lucide-react';
-import { Badge, Spinner } from '@orthacms/design-system';
+import { Badge, Spinner } from '@apograph/design-system';
 import type {
     ContentField,
     RelationFieldView

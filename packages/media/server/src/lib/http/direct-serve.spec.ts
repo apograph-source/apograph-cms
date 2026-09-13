@@ -1,4 +1,4 @@
-import type { StorageProvider } from '@orthacms/media-domain';
+import type { StorageProvider } from '@apograph/media-domain';
 import type { AssetLocation } from '../infrastructure/queries/download-asset.query';
 import {
     DEFAULT_DIRECT_SERVE_TTL_SECONDS,

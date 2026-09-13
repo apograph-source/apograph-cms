@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { getPool } from '@orthacms/database';
+import { getPool } from '@apograph/database';
 import {
     closeTestApp,
     createTestApp,
@@ -360,7 +360,9 @@ describe('Public reads, scoped by segment (/api/v1)', () => {
             };
 
             const anonymous = await ask([]);
-            expect(anonymous.items.map((tag) => tag.name)).toEqual(['Open tag']);
+            expect(anonymous.items.map((tag) => tag.name)).toEqual([
+                'Open tag'
+            ]);
             expect(anonymous.total).toBe(1);
 
             // The control: the same query, the same page, one more tag —
@@ -475,7 +477,9 @@ describe('Public reads, scoped by segment (/api/v1)', () => {
             const token = await mintToken();
             const textsFor = async (tags: string[]) =>
                 (await readAs(token, tags)).body.items
-                    .map((item: { values: { text: string } }) => item.values.text)
+                    .map(
+                        (item: { values: { text: string } }) => item.values.text
+                    )
                     .sort();
 
             // Before: an anonymous reader sees only the denied-to-Acme one, and

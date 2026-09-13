@@ -2,10 +2,10 @@ import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js';
 import { McpError } from '@modelcontextprotocol/sdk/types.js';
 import { ForbiddenException, Logger, NotFoundException } from '@nestjs/common';
-import type { ToolContext, ToolRegistry } from '@orthacms/tools-server';
+import type { ToolContext, ToolRegistry } from '@apograph/tools-server';
 import { buildMcpServer, type McpServerLimits } from './build-mcp-server';
 
-const INFO = { name: 'ortha-cms-test', version: '0.0.0-test' };
+const INFO = { name: 'apograph-cms-test', version: '0.0.0-test' };
 const LIMITS: McpServerLimits = {
     callTimeoutMs: 30_000,
     maxResultBytes: 4_194_304
@@ -300,14 +300,14 @@ describe('buildMcpServer', () => {
                 registry({
                     readResource: async () => {
                         throw new NotFoundException(
-                            'Unknown resource "ortha://content-type/nope".'
+                            'Unknown resource "apograph://content-type/nope".'
                         );
                     }
                 })
             );
 
             const error = await client
-                .readResource({ uri: 'ortha://content-type/nope' })
+                .readResource({ uri: 'apograph://content-type/nope' })
                 .catch((thrown: unknown) => thrown);
 
             expect(error).toBeInstanceOf(McpError);
@@ -328,7 +328,7 @@ describe('buildMcpServer', () => {
             );
 
             const error = (await client
-                .readResource({ uri: 'ortha://content-type/x' })
+                .readResource({ uri: 'apograph://content-type/x' })
                 .catch((thrown: unknown) => thrown)) as McpError;
 
             expect(error.code).toBe(-32002);
@@ -349,7 +349,7 @@ describe('buildMcpServer', () => {
             );
 
             const error = (await client
-                .readResource({ uri: 'ortha://content-type/x' })
+                .readResource({ uri: 'apograph://content-type/x' })
                 .catch((thrown: unknown) => thrown)) as McpError;
 
             expect(error.code).toBe(-32603);

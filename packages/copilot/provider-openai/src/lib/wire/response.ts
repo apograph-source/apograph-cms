@@ -1,4 +1,4 @@
-import type { ModelStopReason, ModelUsage } from '@orthacms/copilot-domain';
+import type { ModelStopReason, ModelUsage } from '@apograph/copilot-domain';
 import type { ChatCompletionChunk } from './types';
 
 /** Maps OpenAI's finish reasons onto the port's vocabulary. */

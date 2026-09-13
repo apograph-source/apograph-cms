@@ -3,7 +3,7 @@ import {
     runModelProviderConformance,
     type ModelProviderConformanceReport,
     type ModelRequest
-} from '@orthacms/copilot-domain';
+} from '@apograph/copilot-domain';
 import type { FakeProvider } from './config';
 import { createFakeProvider } from './fake-provider';
 
@@ -17,7 +17,7 @@ const request: ModelRequest = {
 
 /**
  * The port's contract, driven identically against all three adapters
- * (`@orthacms/copilot-domain`'s conformance kit).
+ * (`@apograph/copilot-domain`'s conformance kit).
  *
  * This is the adapter every `server-e2e` suite runs against, so a divergence
  * here is a divergence between what CI proves and what production does — which

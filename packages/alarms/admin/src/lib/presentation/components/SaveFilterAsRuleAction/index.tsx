@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { defineMessages, useIntl } from 'react-intl';
-import { Button } from '@orthacms/design-system';
-import type { RecordsToolbarContext } from '@orthacms/content-admin';
-import { useHasPermission } from '@orthacms/identity-admin';
+import { Button } from '@apograph/design-system';
+import type { RecordsToolbarContext } from '@apograph/content-admin';
+import { useHasPermission } from '@apograph/identity-admin';
 import { BellPlus } from 'lucide-react';
 import { SaveFilterAsRuleDialog } from './SaveFilterAsRuleDialog';
 

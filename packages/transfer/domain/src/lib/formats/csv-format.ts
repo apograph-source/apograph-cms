@@ -95,7 +95,11 @@ export const csvParser: ImportParser = {
             if (rows.length === 0) continue;
 
             const columns = rows[0].map((header) => header.trim());
-            assertKnownColumns(columns, schema.fields.map((f) => f.name), file.path);
+            assertKnownColumns(
+                columns,
+                schema.fields.map((f) => f.name),
+                file.path
+            );
 
             for (const row of rows.slice(1)) {
                 // A row of nothing but empty cells is what a trailing blank

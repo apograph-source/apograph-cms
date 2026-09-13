@@ -49,7 +49,7 @@ describe('cliVersion', () => {
     });
 
     it('says so rather than throwing when the manifest has no version', () => {
-        readFileSync.mockReturnValue('{"name":"@orthacms/cli"}');
+        readFileSync.mockReturnValue('{"name":"@apograph/cli"}');
 
         expect(cliVersion()).toBe('unknown');
     });

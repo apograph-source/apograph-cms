@@ -9,7 +9,7 @@ import {
     DialogHeader,
     DialogTitle,
     cn
-} from '@orthacms/design-system';
+} from '@apograph/design-system';
 import { UploadCloud } from 'lucide-react';
 import type { StagedUpload } from '../../infrastructure/mediaGateway';
 import { StagedFileRow } from './StagedFileRow';

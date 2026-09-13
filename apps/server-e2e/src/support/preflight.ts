@@ -312,7 +312,7 @@ export function assertDisposableExternalDatabase(
             `[e2e] Refusing to run: E2E_DATABASE_URL names "${name || externalUrl}", which does not look disposable.\n\n` +
                 'This suite TRUNCATEs every mutable table before every test, so the database it\n' +
                 'names must be one you are happy to lose. Name it with `e2e` or `test` in it\n' +
-                '(e.g. `ortha_e2e`), or set E2E_ALLOW_UNSAFE_DATABASE=true if you are certain.'
+                '(e.g. `apograph_e2e`), or set E2E_ALLOW_UNSAFE_DATABASE=true if you are certain.'
         );
     }
 }

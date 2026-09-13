@@ -1,6 +1,6 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react';
 import { defineMessages, FormattedMessage } from 'react-intl';
-import { Card, CardContent } from '@orthacms/design-system';
+import { Card, CardContent } from '@apograph/design-system';
 
 /**
  * Intl descriptors for the boundary's fallback, co-located here.

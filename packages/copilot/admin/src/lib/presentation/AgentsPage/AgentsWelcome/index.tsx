@@ -2,7 +2,7 @@ import { defineMessages, useIntl, type MessageDescriptor } from 'react-intl';
 import { ArrowUpRight } from 'lucide-react';
 import { HoneycombBackdrop } from './HoneycombBackdrop';
 
-// The product is **Ortha AI**; the code keeps `copilot`. See the naming note in
+// The product is **Apograph AI**; the code keeps `copilot`. See the naming note in
 // `docs/design/copilot.md`.
 const messages = defineMessages({
     title: {
@@ -12,7 +12,7 @@ const messages = defineMessages({
     subtitle: {
         id: 'copilot.agents.welcome.subtitle',
         defaultMessage:
-            'Ortha AI can only see and change what your own role allows. Every change it makes is recorded.'
+            'Apograph AI can only see and change what your own role allows. Every change it makes is recorded.'
     },
     suggestions: {
         id: 'copilot.agents.welcome.suggestions',

@@ -1,4 +1,4 @@
-import type { ScalarFieldType } from '@orthacms/utils-server';
+import type { ScalarFieldType } from '@apograph/utils-server';
 
 /**
  * One filterable path offered to the admin's query builder, produced by
