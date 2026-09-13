@@ -800,7 +800,7 @@ Two traps, both hit while building this:
   keyframe animation can leave it stuck invisible.
 - **Transition `translate` and `scale`, not `transform`.** Tailwind v4 emits
   those as standalone CSS properties rather than folding them into the
-  `transform` shorthand, so `transition-[opacity,transform]` fades the opacity
+  `transform` shapographnd, so `transition-[opacity,transform]` fades the opacity
   while the movement snaps. It looks subtly broken and reads as a timing bug.
 
 The panel keeps a `rendered`/`visible` state pair so the exit transition can

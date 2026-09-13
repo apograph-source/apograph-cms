@@ -16,7 +16,7 @@
     "private": true,
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/ortha-source/apograph-cms.git"
+        "url": "git+https://github.com/apograph-source/apograph-cms.git"
     },
     "dependencies": {
         "@graphql-yoga/render-graphiql": "^5.21.2",

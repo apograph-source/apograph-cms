@@ -61,12 +61,12 @@ export const DELIVERY_HEADERS = {
  * @deprecated Read `DELIVERY_HEADERS` instead.
  */
 export const LEGACY_DELIVERY_HEADERS = {
-    EVENT: 'X-Ortha-Event',
-    DELIVERY: 'X-Ortha-Delivery',
-    EVENT_ID: 'X-Ortha-Event-Id',
-    WORKSPACE: 'X-Ortha-Workspace',
-    ATTEMPT: 'X-Ortha-Attempt',
-    SIGNATURE: 'X-Ortha-Signature'
+    EVENT: 'X-apograph-Event',
+    DELIVERY: 'X-apograph-Delivery',
+    EVENT_ID: 'X-apograph-Event-Id',
+    WORKSPACE: 'X-apograph-Workspace',
+    ATTEMPT: 'X-apograph-Attempt',
+    SIGNATURE: 'X-apograph-Signature'
 } as const satisfies Record<keyof typeof DELIVERY_HEADERS, string>;
 
 /** The User-Agent every delivery is sent with. */
@@ -79,13 +79,13 @@ export const DELIVERY_USER_AGENT = 'Apograph-Webhooks/1';
  * make a delivery claim to be something it is not — and `Host` is how a request
  * aimed at one virtual host is served by another.
  *
- * `x-ortha-` stays reserved for as long as {@link LEGACY_DELIVERY_HEADERS} is
+ * `x-apograph-` stays reserved for as long as {@link LEGACY_DELIVERY_HEADERS} is
  * sent: it is still a delivery's own metadata, and letting an endpoint set it
  * would be the same forgery under the older name.
  */
 export const RESERVED_HEADER_PREFIXES: readonly string[] = [
     'x-apograph-',
-    'x-ortha-'
+    'x-apograph-'
 ];
 
 /** Header names an endpoint's custom headers may never set, in full. */

@@ -1,4 +1,4 @@
-# Renaming OrthaCms to Apograph
+# Renaming apographCms to Apograph
 
 The project is called **Apograph**. An _apograph_ is a copy made from a
 canonical original — which is what this CMS does with content: one authored
@@ -11,13 +11,13 @@ needs nothing from here.
 
 | Before                | After                 |
 | --------------------- | --------------------- |
-| `@orthacms/*`         | `@apograph/*`         |
-| `create-ortha-app`    | `create-apograph-app` |
-| `ortha` (CLI)         | `apograph`            |
-| `ortha.config.ts`     | `apograph.config.ts`  |
-| `ORTHA_*` (env)       | `APOGRAPH_*`          |
-| `X-Ortha-*` (headers) | `X-Apograph-*`        |
-| `ortha://` (MCP URIs) | `apograph://`         |
+| `@apographcms/*`         | `@apograph/*`         |
+| `create-apograph-app`    | `create-apograph-app` |
+| `apograph` (CLI)         | `apograph`            |
+| `apograph.config.ts`     | `apograph.config.ts`  |
+| `apograph_*` (env)       | `APOGRAPH_*`          |
+| `X-apograph-*` (headers) | `X-Apograph-*`        |
+| `apograph://` (MCP URIs) | `apograph://`         |
 
 No table, column, index or migration was renamed. **The database is untouched**,
 and no migration is needed for the rename itself.
@@ -29,7 +29,7 @@ one major version. Each warns rather than failing quietly.
 
 ### Environment variables
 
-Every `APOGRAPH_*` read falls back to the `ORTHA_*` name, and warns once per
+Every `APOGRAPH_*` read falls back to the `apograph_*` name, and warns once per
 variable naming both spellings. An existing `.env` boots unchanged.
 
 The new name wins when both are set, so a half-migrated `.env` cannot have the
@@ -37,42 +37,42 @@ stale value take precedence.
 
 ### Webhook headers
 
-Every delivery carries **both** header sets — `X-Apograph-*` and `X-Ortha-*` —
+Every delivery carries **both** header sets — `X-Apograph-*` and `X-apograph-*` —
 with identical values, signature included. A receiver written against either
 name keeps verifying.
 
 This matters more than the env fallback: renaming the prefix in place would have
 every existing receiver start rejecting deliveries the moment it shipped, and a
 failed signature check is indistinguishable from an attack, so nothing would say
-why. `x-ortha-` also stays **reserved** for endpoint-supplied custom headers, or
+why. `x-apograph-` also stays **reserved** for endpoint-supplied custom headers, or
 an operator could overwrite the older spelling of the signature.
 
 Move receivers to `X-Apograph-*` before the next major version.
 
 ## What you must do yourself
 
-1. **Update the dependency names** in your `package.json`: `@orthacms/x` →
+1. **Update the dependency names** in your `package.json`: `@apographcms/x` →
    `@apograph/x`, same version.
-2. **Rename your host config** — `ortha.config.ts` → `apograph.config.ts`. The
+2. **Rename your host config** — `apograph.config.ts` → `apograph.config.ts`. The
    CLI and the Nx plugin both locate the host by this filename, so this one is
    not optional.
-3. **Rename the CLI in your scripts** — `ortha dev` → `apograph dev`, and the
+3. **Rename the CLI in your scripts** — `apograph dev` → `apograph dev`, and the
    same for `build` / `start` / `migrate` / `generate` / `studio`.
 4. **Local Postgres**, for a development checkout only: `docker-compose.yml` now
    creates the database `apograph_cms` with the role `apograph`. An existing
-   volume still holds `ortha_cms`, and Postgres only runs its init scripts on an
+   volume still holds `apograph_cms`, and Postgres only runs its init scripts on an
    empty data directory — so `docker compose down -v && docker compose up -d`,
    then `npx nx run server:db:migrate`. A **deployed** database needs none of
    this: point `DATABASE_URL` at it as before.
 5. **Rename the env variables** when convenient — the fallback buys time, it is
    not a destination.
-6. **MCP clients** that hardcode an `ortha://` resource URI need the new scheme.
+6. **MCP clients** that hardcode an `apograph://` resource URI need the new scheme.
    A client that discovers resources through `resources/list` needs nothing.
 
-## Still named `ortha-source`
+## Still named `apograph-source`
 
 The GitHub and Linear organisation slug is unchanged, so
-`github.com/ortha-source/...` and `linear.app/ortha-source/...` are left as they
+`github.com/apograph-source/...` and `linear.app/apograph-source/...` are left as they
 are throughout the repository. Commit links and `ORT-` ticket references still
 resolve.
 

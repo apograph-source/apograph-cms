@@ -37,7 +37,7 @@ Two further consequences of the same category error:
   smaller. A `lang` an author typed as raw HTML was neither validated nor
   guaranteed to survive an edit, which is the **504.2.1** preservation question.
 
-Reported as [ORT-84](https://linear.app/ortha-source/issue/ORT-84), spun out of
+Reported as [ORT-84](https://linear.app/apograph-source/issue/ORT-84), spun out of
 the `content-domain` QA pass.
 
 ## Decision

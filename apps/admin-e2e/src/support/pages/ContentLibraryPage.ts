@@ -847,7 +847,7 @@ export class ContentLibraryPage extends BasePage {
      *
      * By its accessible name rather than its visible text: the label the
      * component gives it says what pressing it *does* ("Watch for the records
-     * this filter matches"), and the visible words are a shorthand that also
+     * this filter matches"), and the visible words are a shapographnd that also
      * appear as the dialog's own title once it opens.
      */
     get saveAsAlarm(): Locator {

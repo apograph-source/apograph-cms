@@ -189,7 +189,7 @@ export class WebhookHttpClient {
         // Every delivery header goes out under both spellings during the
         // rename window. The values are computed once and written twice, so
         // the two can never disagree — a receiver that verifies the signature
-        // against `X-Ortha-Signature` and one that reads `X-Apograph-Signature`
+        // against `X-apograph-Signature` and one that reads `X-Apograph-Signature`
         // are checking the same bytes.
         const signature = signatureHeader(delivery.secret, timestamp, body);
         const values: Record<keyof typeof DELIVERY_HEADERS, string | null> = {

@@ -28,7 +28,7 @@ draft` is unpublish. There is **no** separate `unpublished`/`archived` status
   produces), not an opaque HTML string, which is what makes its heading order,
   table headers, link text and language markers checkable
   (WCAG 1.3.1 / 2.4.6 / 3.1.2 — see
-  [ORT-84](https://linear.app/ortha-source/issue/ORT-84)). Five modules:
+  [ORT-84](https://linear.app/apograph-source/issue/ORT-84)). Five modules:
     - `rich-text-node.ts` — the vocabulary (`RICH_TEXT_NODE`, `RICH_TEXT_MARK`),
       the types, the guards (`isRichTextDocument`) and the walk. The vocabulary
       is **open**: it names what the kernel reasons about, not what a document

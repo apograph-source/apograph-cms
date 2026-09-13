@@ -38,7 +38,7 @@ export function readEnv(name: string): string | undefined {
 }
 
 /** The pre-rename prefix, and what replaced it. */
-const LEGACY_ENV_PREFIX = 'ORTHA_';
+const LEGACY_ENV_PREFIX = 'apograph_';
 const ENV_PREFIX = 'APOGRAPH_';
 
 /** Variables already warned about, so a reader in a loop warns once. */
@@ -47,10 +47,10 @@ const warnedLegacyNames = new Set<string>();
 /**
  * The value a deployment set under the **pre-rename** name, if it set one.
  *
- * Every `APOGRAPH_*` variable was an `ORTHA_*` variable, and a deployment's
+ * Every `APOGRAPH_*` variable was an `apograph_*` variable, and a deployment's
  * `.env` is the one piece of its configuration this repository cannot edit.
  * Renaming without this makes an upgrade look like a fresh install:
- * `ORTHA_ROOT_ADMIN_PASSWORD` stops being read, `rootAdmin.password` falls back
+ * `apograph_ROOT_ADMIN_PASSWORD` stops being read, `rootAdmin.password` falls back
  * to `''`, and the failure surfaces as "no root administrator" rather than as
  * "your variable is now spelled differently".
  *

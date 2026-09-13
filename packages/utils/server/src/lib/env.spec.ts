@@ -237,7 +237,7 @@ describe('environment readers', () => {
     /**
      * The rename window. A deployment's `.env` is the one piece of its
      * configuration this repository cannot edit, so every `APOGRAPH_*` read
-     * falls back to the `ORTHA_*` name it used to have. Without this an
+     * falls back to the `apograph_*` name it used to have. Without this an
      * upgrade reads as a fresh install — `rootAdmin.password` falls back to
      * `''` and the failure surfaces as "no root administrator".
      */
@@ -256,14 +256,14 @@ describe('environment readers', () => {
 
         it('reads the old name when the new one is unset', () => {
             set('APOGRAPH_TEST_RENAMED', undefined);
-            set('ORTHA_TEST_RENAMED', 'from the old name');
+            set('apograph_TEST_RENAMED', 'from the old name');
             expect(readEnv('APOGRAPH_TEST_RENAMED')).toBe('from the old name');
         });
 
         it('prefers the new name when a deployment set both', () => {
             // A half-migrated `.env` must not have the stale value win.
             set('APOGRAPH_TEST_RENAMED', 'new');
-            set('ORTHA_TEST_RENAMED', 'old');
+            set('apograph_TEST_RENAMED', 'old');
             expect(readEnv('APOGRAPH_TEST_RENAMED')).toBe('new');
         });
 
@@ -273,13 +273,13 @@ describe('environment readers', () => {
             // request must not warn per request — so a shared name would make
             // this assert whichever test ran first.
             set('APOGRAPH_TEST_WARN_ONCE', undefined);
-            set('ORTHA_TEST_WARN_ONCE', 'value');
+            set('apograph_TEST_WARN_ONCE', 'value');
 
             readEnv('APOGRAPH_TEST_WARN_ONCE');
             readEnv('APOGRAPH_TEST_WARN_ONCE');
 
             expect(warn).toHaveBeenCalledTimes(1);
-            expect(warn.mock.calls[0][0]).toContain('ORTHA_TEST_WARN_ONCE');
+            expect(warn.mock.calls[0][0]).toContain('apograph_TEST_WARN_ONCE');
             expect(warn.mock.calls[0][0]).toContain('APOGRAPH_TEST_WARN_ONCE');
         });
 
@@ -293,7 +293,7 @@ describe('environment readers', () => {
             // The fallback is prefix-scoped so it can never resurrect an
             // unrelated variable that merely happens to share a suffix.
             set('DATABASE_URL', undefined);
-            set('ORTHA_DATABASE_URL', 'postgres://nope');
+            set('apograph_DATABASE_URL', 'postgres://nope');
             expect(readEnv('DATABASE_URL')).toBeUndefined();
         });
 
@@ -301,11 +301,11 @@ describe('environment readers', () => {
             // `readEnv` is the one reader the others are built on, which is
             // what makes this one fallback cover the whole surface.
             set('APOGRAPH_TEST_N', undefined);
-            set('ORTHA_TEST_N', '42');
+            set('apograph_TEST_N', '42');
             expect(readPositiveInt('APOGRAPH_TEST_N', 7)).toBe(42);
 
             set('APOGRAPH_TEST_FLAG', undefined);
-            set('ORTHA_TEST_FLAG', 'true');
+            set('apograph_TEST_FLAG', 'true');
             expect(readFlag('APOGRAPH_TEST_FLAG', false)).toBe(true);
         });
     });

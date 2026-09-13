@@ -861,7 +861,7 @@ Found while reconciling this dossier with the sources. Not product bugs in thems
 
 ## 17. What the QA pass found
 
-This dossier was written from the code, and the code has since been read again — against a live database, a compiled server, the e2e suites and the units. What follows is what that pass changed, so the document and the implementation do not drift apart again. PR [#231](https://github.com/ortha-source/apograph-cms/pull/231); the full write-up is [here](https://claude.ai/code/artifact/8a114b1a-ae60-4c81-9865-821650da79df).
+This dossier was written from the code, and the code has since been read again — against a live database, a compiled server, the e2e suites and the units. What follows is what that pass changed, so the document and the implementation do not drift apart again. PR [#231](https://github.com/apograph-source/apograph-cms/pull/231); the full write-up is [here](https://claude.ai/code/artifact/8a114b1a-ae60-4c81-9865-821650da79df).
 
 > **A write could cross the workspace boundary**
 >

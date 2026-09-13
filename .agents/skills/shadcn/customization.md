@@ -67,7 +67,7 @@ import { ThemeProvider } from "next-themes"
 # Apply a preset code from ui.shadcn.com.
 npx shadcn@latest apply --preset a2r6bw
 
-# Positional shorthand also works.
+# Positional shapographnd also works.
 npx shadcn@latest apply a2r6bw
 
 # Switch to a named preset and overwrite existing components.

@@ -22,7 +22,7 @@ What it stores is the **document** — `editor.getJSON()`, the ProseMirror node
 tree — because a `richtext` value is a structured document rather than an
 opaque HTML string (see
 [`content-domain`](../../content/domain/AGENTS.md) and
-[ORT-84](https://linear.app/ortha-source/issue/ORT-84)). A body written before
+[ORT-84](https://linear.app/apograph-source/issue/ORT-84)). A body written before
 that change is still an HTML string in the column; opening it seeds TipTap,
 which parses it through this editor's own schema, and the first save commits the
 document — so content upgrades as it is edited rather than in one migration that

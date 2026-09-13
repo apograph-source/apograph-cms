@@ -244,7 +244,7 @@ describe('WebhookHttpClient — the pre-rename headers', () => {
             'signature'
         ]) {
             const current = sent[`x-apograph-${field}`];
-            const legacy = sent[`x-ortha-${field}`];
+            const legacy = sent[`x-apograph-${field}`];
             expect(current).toBeDefined();
             // Equal, not merely both present: a receiver that verifies the
             // signature against the old name must be checking the same bytes.
@@ -258,7 +258,7 @@ describe('WebhookHttpClient — the pre-rename headers', () => {
 
         const sent = receiver.headers[0];
         expect(sent['x-apograph-workspace']).toBeUndefined();
-        expect(sent['x-ortha-workspace']).toBeUndefined();
+        expect(sent['x-apograph-workspace']).toBeUndefined();
         // Still sent, so an absent workspace is not mistaken for no headers.
         expect(sent['x-apograph-event']).toBe('entry.published');
     });
