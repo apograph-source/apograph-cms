@@ -8,15 +8,8 @@
  * copy only turns a `422` into an error beside the field that caused it.
  */
 
-/**
- * Header prefixes reserved for the delivery's own metadata.
- *
- * `x-apograph-` is the pre-rename prefix, still sent alongside the new one — see
- * `LEGACY_DELIVERY_HEADERS`. It stays reserved for as long as it is sent, or an
- * endpoint could overwrite the older spelling of the signature and forge a
- * delivery under the name half the receivers are still reading.
- */
-const RESERVED_PREFIXES = ['x-apograph-', 'x-apograph-'];
+/** Header prefixes reserved for the delivery's own metadata. */
+const RESERVED_PREFIXES = ['x-apograph-'];
 
 /** Headers the transport owns, which an endpoint may never overwrite. */
 const RESERVED_NAMES = [

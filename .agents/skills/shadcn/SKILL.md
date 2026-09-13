@@ -54,7 +54,7 @@ These rules are **always enforced**. Each links to a file with Incorrect/Correct
 - **`className` for layout, not styling.** Never override component colors or typography.
 - **No `space-x-*` or `space-y-*`.** Use `flex` with `gap-*`. For vertical stacks, `flex flex-col gap-*`.
 - **Use `size-*` when width and height are equal.** `size-10` not `w-10 h-10`.
-- **Use `truncate` shapographnd.** Not `overflow-hidden text-ellipsis whitespace-nowrap`.
+- **Use `truncate` shorthand.** Not `overflow-hidden text-ellipsis whitespace-nowrap`.
 - **No manual `dark:` color overrides.** Use semantic tokens (`bg-background`, `text-muted-foreground`).
 - **Use `cn()` for conditional classes.** Don't write manual template literal ternaries.
 - **No manual `z-index` on overlay components.** Dialog, Sheet, Popover, etc. handle their own stacking.

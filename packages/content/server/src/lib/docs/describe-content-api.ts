@@ -58,7 +58,7 @@ interface OperationSpec {
     ownedElsewhere?: boolean;
 }
 
-/** The entry read/write shapographnds, since most operations return one. */
+/** The entry read/write shorthands, since most operations return one. */
 const ENTRY: OperationSpec = { response: { kind: 'entry' } };
 const VALIDATED_ENTRY: OperationSpec = {
     response: { kind: 'entry' },

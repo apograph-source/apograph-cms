@@ -9,7 +9,7 @@ See [customization.md](../customization.md) for theming, CSS variables, and addi
 - className for layout only
 - No space-x-* / space-y-*
 - Prefer size-* over w-* h-* when equal
-- Prefer truncate shapographnd
+- Prefer truncate shorthand
 - No manual dark: color overrides
 - Use cn() for conditional classes
 - No manual z-index on overlay components
@@ -125,7 +125,7 @@ Use `gap-*` instead. `space-y-4` → `flex flex-col gap-4`. `space-x-2` → `fle
 
 ---
 
-## Prefer truncate shapographnd
+## Prefer truncate shorthand
 
 `truncate` not `overflow-hidden text-ellipsis whitespace-nowrap`.
 

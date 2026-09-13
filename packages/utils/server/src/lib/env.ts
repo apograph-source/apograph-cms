@@ -33,53 +33,7 @@
  * that is in the picker and fails on the first message.
  */
 export function readEnv(name: string): string | undefined {
-    const value = process.env[name]?.trim() || undefined;
-    return value ?? readLegacyEnv(name);
-}
-
-/** The pre-rename prefix, and what replaced it. */
-const LEGACY_ENV_PREFIX = 'apograph_';
-const ENV_PREFIX = 'APOGRAPH_';
-
-/** Variables already warned about, so a reader in a loop warns once. */
-const warnedLegacyNames = new Set<string>();
-
-/**
- * The value a deployment set under the **pre-rename** name, if it set one.
- *
- * Every `APOGRAPH_*` variable was an `apograph_*` variable, and a deployment's
- * `.env` is the one piece of its configuration this repository cannot edit.
- * Renaming without this makes an upgrade look like a fresh install:
- * `apograph_ROOT_ADMIN_PASSWORD` stops being read, `rootAdmin.password` falls back
- * to `''`, and the failure surfaces as "no root administrator" rather than as
- * "your variable is now spelled differently".
- *
- * Deliberately one-directional and prefix-scoped: only a lookup for a
- * `APOGRAPH_*` name falls back, so this can never resurrect an unrelated
- * variable, and a deployment that has moved pays one `process.env` miss.
- *
- * Deprecated: remove one major version after the rename. The warning is what
- * makes that removal safe — an operator who never sees it has nothing to do.
- */
-function readLegacyEnv(name: string): string | undefined {
-    if (!name.startsWith(ENV_PREFIX)) {
-        return undefined;
-    }
-    const legacyName = LEGACY_ENV_PREFIX + name.slice(ENV_PREFIX.length);
-    const legacyValue = process.env[legacyName]?.trim() || undefined;
-
-    if (legacyValue !== undefined && !warnedLegacyNames.has(legacyName)) {
-        warnedLegacyNames.add(legacyName);
-        // `console` rather than a Nest logger: this is a leaf helper with no
-        // dependencies by design, and it is read at config time — before the
-        // application, and therefore any logger, exists.
-        console.warn(
-            `${legacyName} is deprecated and will stop being read in the next ` +
-                `major version. Rename it to ${name}.`
-        );
-    }
-
-    return legacyValue;
+    return process.env[name]?.trim() || undefined;
 }
 
 /**

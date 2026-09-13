@@ -2,7 +2,6 @@ import { Injectable, Logger } from '@nestjs/common';
 import { lookup as dnsLookup } from 'node:dns';
 import {
     DELIVERY_HEADERS,
-    LEGACY_DELIVERY_HEADERS,
     DELIVERY_USER_AGENT,
     WebhookUrlRejectedError,
     assertAddressAllowed,
@@ -186,28 +185,21 @@ export class WebhookHttpClient {
         headers['content-type'] = 'application/json';
         headers['user-agent'] = DELIVERY_USER_AGENT;
 
-        // Every delivery header goes out under both spellings during the
-        // rename window. The values are computed once and written twice, so
-        // the two can never disagree — a receiver that verifies the signature
-        // against `X-apograph-Signature` and one that reads `X-Apograph-Signature`
-        // are checking the same bytes.
-        const signature = signatureHeader(delivery.secret, timestamp, body);
         const values: Record<keyof typeof DELIVERY_HEADERS, string | null> = {
             EVENT: delivery.eventKind,
             DELIVERY: delivery.deliveryId,
             EVENT_ID: delivery.eventId,
             ATTEMPT: String(delivery.attempt),
-            SIGNATURE: signature,
+            SIGNATURE: signatureHeader(delivery.secret, timestamp, body),
             // Omitted entirely when the event has no workspace, rather than
-            // sent empty — the same as before the rename.
+            // sent empty.
             WORKSPACE: delivery.workspaceId
         };
 
         for (const [field, value] of Object.entries(values)) {
             if (value === null) continue;
-            const key = field as keyof typeof DELIVERY_HEADERS;
-            headers[DELIVERY_HEADERS[key]] = value;
-            headers[LEGACY_DELIVERY_HEADERS[key]] = value;
+            headers[DELIVERY_HEADERS[field as keyof typeof DELIVERY_HEADERS]] =
+                value;
         }
 
         return headers;

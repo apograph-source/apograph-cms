@@ -57,7 +57,7 @@ Applies a preset to an existing project, overwriting preset-driven config, fonts
 | `--cwd <cwd>`       | `-c`  | Working directory                          | current |
 | `--silent`          | `-s`  | Mute output                                | `false` |
 
-`[preset]` is a shapographnd for `--preset <preset>`. If both are provided, they must match.
+`[preset]` is a shorthand for `--preset <preset>`. If both are provided, they must match.
 If no preset is provided, the CLI offers to open the custom preset builder on `ui.shadcn.com/create`.
 
 ### `add` — Add components

@@ -198,13 +198,7 @@ describe('WebhookHttpClient — the connect-time address check', () => {
     });
 });
 
-/**
- * The rename window. Renaming the header prefix in place would have every
- * existing receiver start failing its signature check the moment this shipped
- * — and silently, because a failed check is indistinguishable from an attack.
- * Both spellings go out until the deprecation window closes.
- */
-describe('WebhookHttpClient — the pre-rename headers', () => {
+describe('WebhookHttpClient — the delivery headers', () => {
     let receiver: Receiver;
 
     beforeAll(async () => {
@@ -225,7 +219,7 @@ describe('WebhookHttpClient — the pre-rename headers', () => {
         allowPrivateNetworks: true
     };
 
-    it('sends every delivery header under both spellings, with the same value', async () => {
+    it('sends every delivery header', async () => {
         const url = `http://localhost:${receiver.port}/hooks`;
         await client(OPEN).send({
             ...delivery(url),
@@ -243,21 +237,15 @@ describe('WebhookHttpClient — the pre-rename headers', () => {
             'attempt',
             'signature'
         ]) {
-            const current = sent[`x-apograph-${field}`];
-            const legacy = sent[`x-apograph-${field}`];
-            expect(current).toBeDefined();
-            // Equal, not merely both present: a receiver that verifies the
-            // signature against the old name must be checking the same bytes.
-            expect(legacy).toBe(current);
+            expect(sent[`x-apograph-${field}`]).toBeDefined();
         }
     });
 
-    it('omits the workspace header under both spellings when there is none', async () => {
+    it('omits the workspace header when there is none', async () => {
         const url = `http://localhost:${receiver.port}/hooks`;
         await client(OPEN).send({ ...delivery(url), workspaceId: null });
 
         const sent = receiver.headers[0];
-        expect(sent['x-apograph-workspace']).toBeUndefined();
         expect(sent['x-apograph-workspace']).toBeUndefined();
         // Still sent, so an absent workspace is not mistaken for no headers.
         expect(sent['x-apograph-event']).toBe('entry.published');

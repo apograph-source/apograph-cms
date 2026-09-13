@@ -397,7 +397,7 @@ export function CopilotPanel({
                 // keyframe animation could leave it stuck invisible.
                 // `translate` and `scale`, NOT `transform`: Tailwind v4 emits
                 // those as standalone CSS properties rather than folding them
-                // into the `transform` shapographnd, so transitioning `transform`
+                // into the `transform` shorthand, so transitioning `transform`
                 // fades the opacity while the movement snaps.
                 'origin-bottom-right transition-[opacity,translate,scale] duration-200 ease-out',
                 'motion-reduce:transition-none',

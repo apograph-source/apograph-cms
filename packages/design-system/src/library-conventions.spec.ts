@@ -449,7 +449,7 @@ describe('motion', () => {
 
     /**
      * The innermost rules of a stylesheet fragment, each with the value of its
-     * `animation` shapographnd. `[^{}]` never crosses a brace, so an at-rule's own
+     * `animation` shorthand. `[^{}]` never crosses a brace, so an at-rule's own
      * header is skipped and only the rules inside it come back.
      */
     function rulesIn(css: string) {

@@ -34,7 +34,7 @@ import {
  */
 export const ENTRY_ACCESS_IDS_MAX = 200;
 
-/** Shapographnd, so the decorators below read as they did. */
+/** Shorthand, so the decorators below read as they did. */
 const IDS_MAX = ENTRY_ACCESS_IDS_MAX;
 
 /** Workspaces one segment may be scoped to. Empty means every one. */

@@ -45,30 +45,6 @@ export const DELIVERY_HEADERS = {
     SIGNATURE: 'X-Apograph-Signature'
 } as const;
 
-/**
- * The pre-rename spelling of {@link DELIVERY_HEADERS}, sent **alongside** it.
- *
- * A receiver verifies the signature against a header name it was written
- * against, so renaming the prefix in place would have every existing endpoint
- * start rejecting deliveries at the moment this ships — silently, because a
- * failed signature check looks exactly like an attack. Both sets carry the same
- * values, so a receiver can move at its own pace and drop the old one when it
- * has.
- *
- * Deprecated: remove one major version after the rename, once receivers have
- * had a release to move to `X-Apograph-*`.
- *
- * @deprecated Read `DELIVERY_HEADERS` instead.
- */
-export const LEGACY_DELIVERY_HEADERS = {
-    EVENT: 'X-apograph-Event',
-    DELIVERY: 'X-apograph-Delivery',
-    EVENT_ID: 'X-apograph-Event-Id',
-    WORKSPACE: 'X-apograph-Workspace',
-    ATTEMPT: 'X-apograph-Attempt',
-    SIGNATURE: 'X-apograph-Signature'
-} as const satisfies Record<keyof typeof DELIVERY_HEADERS, string>;
-
 /** The User-Agent every delivery is sent with. */
 export const DELIVERY_USER_AGENT = 'Apograph-Webhooks/1';
 
@@ -78,15 +54,8 @@ export const DELIVERY_USER_AGENT = 'Apograph-Webhooks/1';
  * Without this an operator could overwrite `X-Apograph-Event` or the signature and
  * make a delivery claim to be something it is not — and `Host` is how a request
  * aimed at one virtual host is served by another.
- *
- * `x-apograph-` stays reserved for as long as {@link LEGACY_DELIVERY_HEADERS} is
- * sent: it is still a delivery's own metadata, and letting an endpoint set it
- * would be the same forgery under the older name.
  */
-export const RESERVED_HEADER_PREFIXES: readonly string[] = [
-    'x-apograph-',
-    'x-apograph-'
-];
+export const RESERVED_HEADER_PREFIXES: readonly string[] = ['x-apograph-'];
 
 /** Header names an endpoint's custom headers may never set, in full. */
 export const RESERVED_HEADER_NAMES: readonly string[] = [
