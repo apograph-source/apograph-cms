@@ -874,7 +874,12 @@ const RESET_SQL = [
         // Protection's three. None has a foreign key into another plugin's
         // schema, so nothing else's truncate reaches them — and left out, a
         // rule written by one suite would still be in force for the next.
-        'protection_rules, review_requests, review_approvals ' +
+        'protection_rules, review_requests, review_approvals, ' +
+        // Mail's queue. `user_id` is a plain uuid with no foreign key, so the
+        // `users` cascade never reaches it — and left out, a message queued by
+        // one test is sent by the next test's `drainMail`, which then counts
+        // three invitations where it made one.
+        'mail_deliveries ' +
         'RESTART IDENTITY CASCADE',
     // After the TRUNCATE: `users` is gone, so nothing references these any
     // more. `role_permissions` is ON DELETE CASCADE.

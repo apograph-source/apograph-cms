@@ -119,6 +119,26 @@ describe('harness isolation (resetDb)', () => {
         );
     });
 
+    it('clears mail_deliveries, so a queued message is not sent by a later test', async () => {
+        // `mail_deliveries.user_id` has no foreign key, so the `users` cascade
+        // never reaches it. Before it was truncated explicitly, the invites
+        // queued by two earlier tests in `mail-delivery.spec.ts` were still
+        // there when a third ran `drainMail`, and it received three messages.
+        // The table exists in every run: global setup migrates the mail plugin
+        // even though most suites boot without it.
+        await getPool().query(
+            `INSERT INTO mail_deliveries (kind, to_address, subject, body_text, expires_at)
+             VALUES ('invite', 'leftover@example.com', 'Leftover', 'Leftover', now() + interval '1 day')`
+        );
+
+        await resetDb();
+
+        const { rows } = await getPool().query<{ total: number }>(
+            'SELECT count(*)::int AS total FROM mail_deliveries'
+        );
+        expect(rows[0].total).toBe(0);
+    });
+
     it('leaves no workspace behind', async () => {
         await seedWorkspace({ name: 'Leftover', slug: 'leftover' });
         await resetDb();
