@@ -56,6 +56,7 @@ import { mcpConfig } from './config/mcp';
 import { transferConfig } from './config/transfer';
 import { segmentsConfig } from './config/segments';
 import { webhooksConfig } from './config/webhooks';
+import { mailConfig, type ApographMailConfig } from './config/mail';
 
 /**
  * Re-exported so `import type { ApographIdentityConfig } from '../apograph.config'`
@@ -65,7 +66,8 @@ import { webhooksConfig } from './config/webhooks';
 export type {
     ApographIdentityConfig,
     ApographMediaConfig,
-    ApographCopilotConfig
+    ApographCopilotConfig,
+    ApographMailConfig
 };
 
 /** Database connection settings. */
@@ -116,6 +118,16 @@ export interface ApographConfig {
         segments: SegmentsPluginConfig;
         /** Webhooks plugin settings — delivery pacing and the URL policy. */
         webhooks: WebhooksPluginConfig;
+        /**
+         * Mail plugin settings — the sender, the app URL every link is built
+         * from, and the backend `plugins.ts` constructs.
+         *
+         * **`undefined` is the default and a complete configuration**: with no
+         * `MAIL_PROVIDER` set the host registers no mail plugin, nothing is
+         * sent, and the invite and reset routes keep returning the raw token
+         * for an administrator to relay (ADR-0018).
+         */
+        mail?: ApographMailConfig;
     };
 }
 
@@ -138,6 +150,7 @@ const config: ApographConfig = {
         transfer: transferConfig(),
         segments: segmentsConfig(),
         webhooks: webhooksConfig(),
+        mail: mailConfig(),
         media: mediaConfig(),
         contentGraphql: contentGraphqlConfig(),
         copilot: copilotConfig(),

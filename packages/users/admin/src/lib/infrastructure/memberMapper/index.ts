@@ -54,9 +54,13 @@ export type MemberResponse = {
  * A member as returned by the two endpoints that mint an invite token
  * (`POST /users/invites` and `POST /users/:id/invites/resend`). Identical to
  * {@link MemberResponse} plus the raw token — the only responses that carry one.
+ *
+ * **Optional on the wire.** Once the server has a mail provider it delivers the
+ * link itself and omits the field entirely (ADR-0018 §4), so a client that
+ * assumed a string would build a link ending in `undefined`.
  */
 export type InvitedMemberResponse = MemberResponse & {
-    inviteToken: string;
+    inviteToken?: string;
 };
 
 /** Maps a workspace from the wire to the admin's presentational shape. */
@@ -99,7 +103,10 @@ export function toMember(dto: MemberResponse): Member {
  * mapped member plus the one-time token, carried through verbatim.
  */
 export function toInvitedMember(dto: InvitedMemberResponse): InvitedMember {
-    return { ...toMember(dto), inviteToken: dto.inviteToken };
+    // `null` — not `''` and not a guess — is "the server sent it; there is no
+    // link for you to hand over", which the UI renders as its own outcome
+    // rather than as a broken link.
+    return { ...toMember(dto), inviteToken: dto.inviteToken ?? null };
 }
 
 /**
@@ -108,7 +115,7 @@ export function toInvitedMember(dto: InvitedMemberResponse): InvitedMember {
  * the raw token — the only response that carries one.
  */
 export type PasswordResetMemberResponse = MemberResponse & {
-    resetToken: string;
+    resetToken?: string;
 };
 
 /**
@@ -118,7 +125,7 @@ export type PasswordResetMemberResponse = MemberResponse & {
 export function toMemberWithResetToken(
     dto: PasswordResetMemberResponse
 ): MemberWithResetToken {
-    return { ...toMember(dto), resetToken: dto.resetToken };
+    return { ...toMember(dto), resetToken: dto.resetToken ?? null };
 }
 
 /** Whether a wire role key is one of the admin's assignable roles. */

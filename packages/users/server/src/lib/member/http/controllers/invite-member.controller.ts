@@ -24,8 +24,8 @@ import type { InvitedMemberView } from '../../application/queries/member.view';
  * `POST /api/users/invites` — invites a person by email. Creates the pending
  * member and issues their invite token; requires `users:create`. Returns the
  * new member row so the admin list can show it immediately with its
- * "Invited" status, plus the raw `inviteToken` — the admin's only chance to
- * capture the link, since no mailer sends it yet (identity epic #11).
+ * "Invited" status, plus the raw `inviteToken` when — and only when — no mail
+ * provider is configured to deliver it (ADR-0018 §4).
  */
 @UseGuards(OriginGuard, PermissionsGuard)
 @RequirePermissions(PERMISSIONS.USERS_CREATE)
@@ -50,7 +50,9 @@ export class InviteMemberController {
             if (!view) {
                 throw new NotFoundException();
             }
-            return { ...view, inviteToken };
+            // Absent rather than null when a mailer has it: a client reading
+            // the field blindly should fail, not build a link to `undefined`.
+            return { ...view, ...(inviteToken ? { inviteToken } : {}) };
         } catch (error) {
             if (error instanceof EmailTakenError) {
                 throw conflict(

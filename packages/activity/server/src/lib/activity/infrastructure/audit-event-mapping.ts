@@ -69,6 +69,14 @@ const USER_AUDIT_KINDS = {
      * actored by the account holder.
      */
     PASSWORD_RESET_ISSUED: 'user.password_reset_issued',
+    /**
+     * An admin asked to see the link of a message that never arrived. Once a
+     * mail provider is configured no route returns a raw token any more, so
+     * this is the only way one is read — and the reason it is audited: the
+     * operation happened silently before the mailer existed, and ADR-0018 §4
+     * makes it visible as the exception it is.
+     */
+    INVITE_LINK_REVEALED: 'user.invite_link_revealed',
     INVITE_REVOKED: 'user.invite_revoked',
     PROFILE_UPDATED: 'user.profile_updated',
     ROLE_CHANGED: 'user.role_changed',
@@ -599,6 +607,7 @@ function payloadWithoutActor(event: DomainEvent): Record<string, unknown> {
  * | `member.invited`           | `user.invited`            | user / `{ email }`                               |
  * | `member.invite_resent`     | `user.invite_resent`      | user / `{ email }`                               |
  * | `member.password_reset_issued` | `user.password_reset_issued` | user / `{ email }`                     |
+ * | `member.invite_link_revealed` | `user.invite_link_revealed` | user / `{ email, mailKind }`             |
  * | `member.removed`           | `user.invite_revoked`     | user / `{ email }`                               |
  * | `member.profile_updated`   | `user.profile_updated`    | user / `{ name: { from, to } }`                  |
  * | `member.role_changed`      | `user.role_changed`       | user / `{ from, to }`                            |
@@ -690,6 +699,14 @@ const FACET_MAPPERS: Record<string, (event: DomainEvent) => AuditFacet> = {
     'member.password_reset_issued': (e) =>
         userSubject(e, USER_AUDIT_KINDS.PASSWORD_RESET_ISSUED, {
             email: nullableString(e.payload.email)
+        }),
+    'member.invite_link_revealed': (e) =>
+        userSubject(e, USER_AUDIT_KINDS.INVITE_LINK_REVEALED, {
+            email: nullableString(e.payload.email),
+            // Which message was revealed, never the link itself: the audit
+            // trail is stamped and never pruned, and a secret does not belong
+            // in a table with those properties.
+            mailKind: nullableString(e.payload.mailKind)
         }),
     'member.removed': (e) =>
         userSubject(e, USER_AUDIT_KINDS.INVITE_REVOKED, {
@@ -959,6 +976,7 @@ export const AUDIT_KINDS = [
     'user.invite_resent',
     'user.invite_revoked',
     'user.password_reset_issued',
+    'user.invite_link_revealed',
     'user.activated',
     'user.profile_updated',
     'user.role_changed',

@@ -6,6 +6,7 @@ import { UpdateMemberController } from './member/http/controllers/update-member.
 import { SetMemberStatusController } from './member/http/controllers/set-member-status.controller';
 import { ResendInviteController } from './member/http/controllers/resend-invite.controller';
 import { IssuePasswordResetController } from './member/http/controllers/issue-password-reset.controller';
+import { RevealLinkController } from './member/http/controllers/reveal-link.controller';
 import { RevokeInviteController } from './member/http/controllers/revoke-invite.controller';
 import { InviteMemberUseCase } from './member/application/use-cases/invite-member.use-case';
 import { UpdateMemberUseCase } from './member/application/use-cases/update-member.use-case';
@@ -13,6 +14,7 @@ import { SetMemberStatusUseCase } from './member/application/use-cases/set-membe
 import { ResendInviteUseCase } from './member/application/use-cases/resend-invite.use-case';
 import { IssuePasswordResetUseCase } from './member/application/use-cases/issue-password-reset.use-case';
 import { RevokeInviteUseCase } from './member/application/use-cases/revoke-invite.use-case';
+import { RevealLinkUseCase } from './member/application/use-cases/reveal-link.use-case';
 import { MemberViewQuery } from './member/infrastructure/queries/member-view.query';
 import { WorkspaceMembersQuery } from './member/infrastructure/queries/workspace-members.query';
 import { WorkspaceCopilotToolProvider } from './copilot/workspace-tool.provider';
@@ -58,7 +60,10 @@ export class UsersModule {
                 SetMemberStatusController,
                 ResendInviteController,
                 RevokeInviteController,
-                IssuePasswordResetController
+                IssuePasswordResetController,
+                // Only reachable once a mail provider is configured — without
+                // one it 409s, because nothing is being withheld.
+                RevealLinkController
             ],
             providers: [
                 // Application — one use case per state-changing operation.
@@ -68,6 +73,7 @@ export class UsersModule {
                 ResendInviteUseCase,
                 RevokeInviteUseCase,
                 IssuePasswordResetUseCase,
+                RevealLinkUseCase,
                 // Read model — thin CQRS query service (bypasses the aggregate).
                 MemberViewQuery,
                 WorkspaceMembersQuery,

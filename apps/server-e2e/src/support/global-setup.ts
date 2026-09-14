@@ -79,7 +79,12 @@ module.exports = async function (globalConfig?: { maxWorkers?: number }) {
         // Apply every plugin's migrations against the fresh container. We build
         // the plugin list from the e2e factory so order and descriptors match
         // the boot; only the migration metadata is consumed here.
-        const plugins = buildTestPlugins(buildTestConfig(connectionString));
+        // `mail: 'testkit'` here and nowhere else: the migration pass has to
+        // create `mail_deliveries` even though almost every suite boots without
+        // the plugin, or the one suite that does boot it would find no table.
+        const plugins = buildTestPlugins(buildTestConfig(connectionString), {
+            mail: 'testkit'
+        });
         const pool = new Pool({ connectionString });
         try {
             const db = drizzle(pool);

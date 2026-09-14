@@ -22,7 +22,17 @@ const messages = defineMessages({
     description: {
         id: 'users.inviteSent.description',
         defaultMessage:
-            'Their account exists but is dormant until they accept. Nothing was emailed — this install has no mail server yet — so pass the link below to them yourself.'
+            'Their account exists but is dormant until they accept. Pass the link below to them yourself — it is the only copy, and it is not readable again.'
+    },
+    descriptionMailed: {
+        id: 'users.inviteSent.descriptionMailed',
+        defaultMessage:
+            'Their account exists but is dormant until they accept. The invitation is on its way to {email}; there is no link to copy, because only one copy of it should exist.'
+    },
+    mailedHint: {
+        id: 'users.inviteSent.mailedHint',
+        defaultMessage:
+            'If it does not arrive, resend the invite from their row — that issues a fresh link and invalidates this one.'
     },
     nextTitle: {
         id: 'users.inviteSent.nextTitle',
@@ -53,8 +63,12 @@ const messages = defineMessages({
 type InviteSentProps = {
     /** The invitee's email. */
     email: string;
-    /** The invite link to hand over. */
-    link: string;
+    /**
+     * The invite link to hand over, or `null` when the server emailed it — the
+     * two ways an invitation reaches somebody, and the component says which
+     * happened rather than rendering a link to nowhere.
+     */
+    link: string | null;
     /** Human-readable label of the role granted on acceptance. */
     roleLabel: string;
 };
@@ -76,7 +90,11 @@ export function InviteSent({ email, link, roleLabel }: InviteSentProps) {
     // is never re-fetchable. The app-wide guard covers every exit (links,
     // programmatic navigation, and reload via `beforeunload`), which is the
     // only one a component here could not intercept for itself.
-    useUnsavedChanges(!copied, 'users.invite.link');
+    //
+    // An emailed invitation has nothing to lose, so it does not hold the admin
+    // on the page: a confirmation that warns about leaving would be teaching
+    // the wrong lesson about which of these two outcomes is dangerous.
+    useUnsavedChanges(link !== null && !copied, 'users.invite.link');
 
     return (
         <WizardStepCard>
@@ -94,15 +112,25 @@ export function InviteSent({ email, link, roleLabel }: InviteSentProps) {
                     </h2>
                 </CardTitle>
                 <CardDescription>
-                    {intl.formatMessage(messages.description)}
+                    {link
+                        ? intl.formatMessage(messages.description)
+                        : intl.formatMessage(messages.descriptionMailed, {
+                              email
+                          })}
                 </CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col gap-8">
-                <InviteLinkPanel
-                    link={link}
-                    email={email}
-                    onCopied={() => setCopied(true)}
-                />
+                {link ? (
+                    <InviteLinkPanel
+                        link={link}
+                        email={email}
+                        onCopied={() => setCopied(true)}
+                    />
+                ) : (
+                    <p className="text-sm text-muted-foreground">
+                        {intl.formatMessage(messages.mailedHint)}
+                    </p>
+                )}
 
                 <div className="flex flex-col gap-3">
                     <h3 className="text-sm font-medium">

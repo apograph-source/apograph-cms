@@ -28,8 +28,10 @@ import type { InvitedMemberView } from '../../application/queries/member.view';
  * `POST /api/users/:id/invites/resend` — rotates a pending member's invite
  * token, invalidating the previously sent link; requires `users:create` (the
  * same permission that issued the invite). 409s when the member is no longer
- * pending. Returns the member row plus the fresh raw `inviteToken`, so the
- * admin can hand over the new link (the old one is already dead).
+ * pending. Returns the member row plus the fresh raw `inviteToken` when no
+ * mail provider is configured, so the admin can hand over the new link (the old
+ * one is already dead); with a provider the message carries it and the field is
+ * absent.
  */
 @UseGuards(OriginGuard, PermissionsGuard)
 @RequirePermissions(PERMISSIONS.USERS_CREATE)
@@ -51,7 +53,7 @@ export class ResendInviteController {
             if (!view) {
                 throw new NotFoundException();
             }
-            return { ...view, inviteToken };
+            return { ...view, ...(inviteToken ? { inviteToken } : {}) };
         } catch (error) {
             if (error instanceof MemberNotFoundError) {
                 throw new NotFoundException();

@@ -24,7 +24,11 @@ export const MEMBER_ERROR_CODES = {
     /** An invite was issued moments ago; rotating again would kill a live link. */
     INVITE_RECENTLY_SENT: 'INVITE_RECENTLY_SENT',
     /** A reset link was issued moments ago; issuing again would kill a live link. */
-    PASSWORD_RESET_RECENTLY_SENT: 'PASSWORD_RESET_RECENTLY_SENT'
+    PASSWORD_RESET_RECENTLY_SENT: 'PASSWORD_RESET_RECENTLY_SENT',
+    /** No undelivered message exists, so there is no link left to reveal. */
+    NO_REVEALABLE_LINK: 'NO_REVEALABLE_LINK',
+    /** The deployment sends no mail, so no link is being withheld. */
+    MAIL_NOT_CONFIGURED: 'MAIL_NOT_CONFIGURED'
 } as const;
 
 /** One of {@link MEMBER_ERROR_CODES}. */

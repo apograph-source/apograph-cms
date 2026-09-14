@@ -10,6 +10,7 @@ import type { RunLimits } from '@apograph/copilot-domain';
 import type { LocaleDef, OrphanedLocalePolicy } from '@apograph/i18n-server';
 import type { TransferLimits } from '@apograph/transfer-domain';
 import type { WebhooksPluginConfig } from '@apograph/webhooks-server';
+import type { MailPluginConfig } from '@apograph/mail-server';
 import type { ApographConfig } from '../../../server/apograph.config';
 
 /**
@@ -67,6 +68,20 @@ export interface TestConfigOverrides {
      * `{ allowPrivateNetworks: false }`.
      */
     webhooks?: Partial<WebhooksPluginConfig>;
+    /**
+     * Boot **with** a mail provider, and with these settings.
+     *
+     * Absent — the default — is the unconfigured deployment: no mail plugin is
+     * registered, nothing is sent, and the invite and reset routes return the
+     * raw token, which is what every other suite in this app depends on. Passing
+     * anything here (`{}` included) registers the plugin with the capturing
+     * testkit provider, which is what changes those responses.
+     *
+     * The sender's timer is switched **off** for the same reason webhooks' is:
+     * a background tick handing a message over mid-assertion is unreadable
+     * afterwards. Suites drive one batch through `MailDeliveryWorker.runOnce()`.
+     */
+    mail?: Partial<MailPluginConfig>;
     /**
      * Override the session-cookie attributes.
      *
@@ -289,6 +304,21 @@ export function buildTestConfig(
                 retentionDays: 0,
                 ...overrides.webhooks
             },
+            // Mail. Registered only when a suite asks for it (see
+            // `TestConfigOverrides.mail`); the settings are still built here so
+            // the shape matches the host's.
+            ...(overrides.mail
+                ? {
+                      mail: {
+                          backend: 'console' as const,
+                          appUrl: 'https://cms.test',
+                          from: 'Apograph <no-reply@cms.test>',
+                          // The worker is driven explicitly, never by a timer.
+                          deliveryIntervalMs: 0,
+                          ...overrides.mail
+                      }
+                  }
+                : {}),
             // The reader resolver is not config — it is an object, registered
             // directly in `buildTestPlugins` like the scripted SSO and copilot
             // providers. Left empty here so the shape matches the host's.

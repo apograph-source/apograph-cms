@@ -8,6 +8,7 @@ import {
 } from '../../domain/errors';
 import { MEMBER_EVENT_KINDS } from '../../domain/events/member-events';
 import type { PasswordResetTokenService } from '../../infrastructure/persistence/password-reset-token.service';
+import type { MailDispatcher, TransactionalMail } from '@apograph/mail-domain';
 import { PASSWORD_RESET_COOLDOWN_SECONDS } from '../../member.constants';
 import { IssuePasswordResetUseCase } from './issue-password-reset.use-case';
 
@@ -34,11 +35,24 @@ const ACTOR: PublicUser = {
  * consulted before anything is destroyed.
  */
 describe('IssuePasswordResetUseCase', () => {
-    /** The use case wired to recording doubles, sharing one ordered trace. */
-    function harness(member: Member | null) {
+    /** The expiry the token double reports, and the mail row must carry. */
+    const EXPIRES_AT = new Date('2026-09-20T08:30:00.000Z');
+
+    /**
+     * The use case wired to recording doubles, sharing one ordered trace.
+     *
+     * `mail` is the optional dispatcher: passing none is a deployment that
+     * configured no provider, which is the behaviour the product shipped with
+     * and still has to keep.
+     */
+    function harness(
+        member: Member | null,
+        mailOptions?: { revealsLinks?: boolean }
+    ) {
         const trace: string[] = [];
         const appended: DomainEvent[] = [];
         const rotations: { userId: string; options: unknown }[] = [];
+        const queued: TransactionalMail[] = [];
 
         const members: MemberRepository = {
             findById: async () => {
@@ -67,7 +81,7 @@ describe('IssuePasswordResetUseCase', () => {
             ) => {
                 trace.push('resetTokens:rotate');
                 rotations.push({ userId, options });
-                return 'raw-reset-token';
+                return { raw: 'raw-reset-token', expiresAt: EXPIRES_AT };
             }
         } as unknown as PasswordResetTokenService;
 
@@ -90,16 +104,29 @@ describe('IssuePasswordResetUseCase', () => {
             }
         } as unknown as OutboxWriter;
 
+        const mail: MailDispatcher | undefined = mailOptions
+            ? {
+                  revealsLinks: mailOptions.revealsLinks ?? false,
+                  enqueue: async (item) => {
+                      trace.push('mail:enqueue');
+                      queued.push(item);
+                  },
+                  revealableLink: async () => null
+              }
+            : undefined;
+
         return {
             useCase: new IssuePasswordResetUseCase(
                 uow,
                 outbox,
                 resetTokens,
-                members
+                members,
+                mail
             ),
             trace,
             appended,
-            rotations
+            rotations,
+            queued
         };
     }
 
@@ -126,6 +153,47 @@ describe('IssuePasswordResetUseCase', () => {
                 options: { minIntervalSeconds: PASSWORD_RESET_COOLDOWN_SECONDS }
             }
         ]);
+    });
+
+    it('queues the message in-band and withholds the token once a mailer exists', async () => {
+        const test = harness(member(), {});
+
+        // covers: mail:I-02 — with a provider configured no route hands back a
+        // raw token; the message carries it and `reveal-link` is the exception.
+        await expect(
+            test.useCase.execute(ACTOR, MEMBER_ID)
+        ).resolves.toBeNull();
+
+        expect(test.queued).toEqual([
+            {
+                kind: 'password_reset',
+                to: 'ada@example.com',
+                userId: MEMBER_ID,
+                recipientName: 'Ada',
+                actorName: 'Admin',
+                token: 'raw-reset-token',
+                expiresAt: EXPIRES_AT
+            }
+        ]);
+        // covers: mail:I-03 — queued inside the same unit of work as the
+        // rotation, because that is the only place the plaintext exists.
+        expect(test.trace).toEqual([
+            'uow:enter',
+            'findById',
+            'resetTokens:rotate',
+            'mail:enqueue',
+            'outbox:append',
+            'uow:exit'
+        ]);
+    });
+
+    it('returns the token alongside the message in link-revealing mode', async () => {
+        const test = harness(member(), { revealsLinks: true });
+
+        await expect(test.useCase.execute(ACTOR, MEMBER_ID)).resolves.toBe(
+            'raw-reset-token'
+        );
+        expect(test.queued).toHaveLength(1);
     });
 
     it.each(['pending', 'disabled'])(

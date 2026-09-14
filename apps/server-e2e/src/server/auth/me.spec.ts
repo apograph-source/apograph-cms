@@ -263,6 +263,10 @@ describe('GET /api/auth/me', () => {
                 'users:create',
                 'users:update',
                 'users:delete',
+                // Revealing the link of an undelivered invitation hands over a
+                // secret that takes over an account — the sharpest example of
+                // "authority over people" this list is about.
+                'users:manage',
                 'activity:read',
                 'tokens:read',
                 'tokens:create',

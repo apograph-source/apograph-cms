@@ -9,6 +9,7 @@ import { I18nServerPlugin } from '@apograph/i18n-server';
 import { TransferPlugin } from '@apograph/transfer-server';
 import { AlarmsPlugin } from '@apograph/alarms-server';
 import { IdentityPlugin } from '@apograph/identity-server';
+import { MailServerPlugin } from '@apograph/mail-server';
 import { McpPlugin } from '@apograph/mcp-server';
 import { SegmentsPlugin } from '@apograph/segments-server';
 import { ProtectionPlugin } from '@apograph/protection-server';
@@ -22,6 +23,7 @@ import { testContentTypes } from './content';
 import { fakeAltProvider, fakeProvider, testCodeSkills } from './copilot';
 import { fakeSsoProvider, ssoRoleResolver } from './sso';
 import { headerSegmentResolver } from './segments';
+import { testMailProvider } from './mail';
 import {
     createInMemoryStorageProvider,
     createSigningStorageProvider
@@ -68,6 +70,16 @@ export interface BuildTestPluginsOptions {
      * created them.
      */
     omitContent?: boolean;
+    /**
+     * Register the mail plugin, with the capturing testkit provider.
+     *
+     * Off by default, because registering it **changes the API**: the invite
+     * and reset routes stop returning a raw token (ADR-0018 §4), and most of
+     * this app's suites accept an invite with the token that response carried.
+     * The mail suite opts in; `global-setup` also builds the list with it on,
+     * because migrations have to cover every plugin any suite can boot.
+     */
+    mail?: 'testkit' | 'none';
 }
 
 /**
@@ -145,6 +157,23 @@ export function buildTestPlugins(
         }),
         WorkspacesPlugin(),
         ActivityPlugin(),
+        // Mail before users, as in the host: `users` queues its three messages
+        // through the port this binds, and this plugin owns `mail_deliveries`
+        // (migrations run in this array's order). The provider captures rather
+        // than sends, and the sender's timer is off in `test-config` for the
+        // same reason the webhooks one is.
+        ...(options.mail === 'testkit'
+            ? [
+                  MailServerPlugin({
+                      provider: testMailProvider,
+                      config: config.plugins.mail ?? {
+                          appUrl: 'https://cms.test',
+                          from: 'Apograph <no-reply@cms.test>',
+                          deliveryIntervalMs: 0
+                      }
+                  })
+              ]
+            : []),
         UsersPlugin(),
         content,
         // Saved list views — its own plugin entry from the content package,

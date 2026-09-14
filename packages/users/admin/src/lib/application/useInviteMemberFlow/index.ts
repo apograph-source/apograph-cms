@@ -28,8 +28,12 @@ export type InviteErrorReason = 'taken' | 'failed';
 export type SentInvite = {
     /** The invitee's email, as accepted by the server. */
     email: string;
-    /** The full invite link, built from the one-time token. */
-    link: string;
+    /**
+     * The full invite link, built from the one-time token — or `null` when the
+     * server emailed it and returned no token, which is what a deployment with
+     * a mail provider does.
+     */
+    link: string | null;
 };
 
 /** What {@link useInviteMemberFlow} returns. */
@@ -61,9 +65,11 @@ export type InviteMemberFlow = {
  * malformed email; the {@link Email} guard here is the last check before the
  * request.
  *
- * It deliberately does **not** navigate away on success: nothing emails the
- * invite yet, so leaving the page would throw away the only copy of the link.
- * The page shows it instead, and the admin leaves when they are done with it.
+ * It deliberately does **not** navigate away on success: with no mail provider
+ * configured the response carries the only copy of the link, so leaving the
+ * page would throw it away. The page shows it instead, and the admin leaves
+ * when they are done with it. With a provider the same page confirms that the
+ * invitation was sent, and there is nothing to copy.
  */
 export function useInviteMemberFlow(): InviteMemberFlow {
     const invite = useInviteMember();
@@ -84,7 +90,9 @@ export function useInviteMemberFlow(): InviteMemberFlow {
                 });
                 setSent({
                     email: created.email,
-                    link: inviteLinkFor(created.inviteToken)
+                    link: created.inviteToken
+                        ? inviteLinkFor(created.inviteToken)
+                        : null
                 });
             } catch {
                 // The page's inline alert (via `errorReason`) explains; the user

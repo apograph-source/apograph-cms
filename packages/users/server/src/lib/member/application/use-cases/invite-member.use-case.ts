@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, Optional } from '@nestjs/common';
 import { attachActor, OutboxWriter, UnitOfWork } from '@apograph/database';
 import type { PublicUser } from '@apograph/identity-server';
 import { Member } from '../../domain/member';
@@ -13,6 +13,12 @@ import {
     type WorkspaceLinker
 } from '../ports/workspace-linker.port';
 import { InviteTokenService } from '../../infrastructure/persistence/invite-token.service';
+import {
+    MAIL_DISPATCHER,
+    MAIL_KINDS,
+    shouldReturnToken,
+    type MailDispatcher
+} from '../ports/mail-notifier.port';
 import type { InviteMemberDto } from '../dto/invite-member.dto';
 
 /**
@@ -24,10 +30,14 @@ import type { InviteMemberDto } from '../dto/invite-member.dto';
  * same error). Drains `member.invited` (carrying the actor), where the activity
  * subscriber turns it into the `user.invited` audit row.
  *
- * Returns the raw invite token alongside the new member's id. Until a mailer
- * exists (identity epic #11) the inviting admin is the delivery channel: the
- * controller hands them the link once, the same reveal-once shape API tokens
- * use. The token itself is only ever stored hashed.
+ * With a mail provider configured the invitation is **queued in this same
+ * transaction** — that is the only place the plaintext token exists, so the
+ * message cannot be assembled later (ADR-0018 §2) — and the token is *not*
+ * returned: two copies of an account-takeover secret are worse than one. With
+ * no provider the behaviour is what it has always been, byte for byte: the raw
+ * token comes back and the inviting admin is the delivery channel, the same
+ * reveal-once shape API tokens use. The token itself is only ever stored
+ * hashed.
  */
 @Injectable()
 export class InviteMemberUseCase {
@@ -38,7 +48,12 @@ export class InviteMemberUseCase {
         @Inject(MEMBER_REPOSITORY)
         private readonly members: MemberRepository,
         @Inject(WORKSPACE_LINKER)
-        private readonly workspaceLinker: WorkspaceLinker
+        private readonly workspaceLinker: WorkspaceLinker,
+        // Optional: a deployment with no mail provider registers no mail
+        // plugin, so nothing is bound and nothing is sent.
+        @Optional()
+        @Inject(MAIL_DISPATCHER)
+        private readonly mail?: MailDispatcher
     ) {}
 
     /** Runs the invite, returning the new member's id and their raw token. */
@@ -59,12 +74,24 @@ export class InviteMemberUseCase {
             });
             await this.members.save(member);
 
-            // TODO(users-email): send this link instead of returning it, once a
-            // mailer exists (identity epic #11).
-            const inviteToken = await this.inviteTokens.rotate(
+            const invite = await this.inviteTokens.rotate(
                 member.id.value,
                 this.uow.current()
             );
+
+            // Inside the transaction, and necessarily so: `invite.raw` exists
+            // nowhere else, so a message assembled after the commit could not
+            // carry the link. The worker still opens no socket until this has
+            // committed (ADR-0016's rule, kept).
+            await this.mail?.enqueue({
+                kind: MAIL_KINDS.INVITE,
+                to: member.email,
+                userId: member.id.value,
+                recipientName: member.name,
+                actorName: actor.name ?? actor.email,
+                token: invite.raw,
+                expiresAt: invite.expiresAt
+            });
 
             await this.workspaceLinker.link(
                 member.id.value,
@@ -75,7 +102,10 @@ export class InviteMemberUseCase {
             // subscriber; the actor rides along on the event payload.
             await this.outbox.append(attachActor(member.pullEvents(), actor));
 
-            return { id: member.id.value, inviteToken };
+            return {
+                id: member.id.value,
+                inviteToken: shouldReturnToken(this.mail) ? invite.raw : null
+            };
         });
     }
 }
@@ -87,6 +117,12 @@ export interface InvitedMember {
     /**
      * The raw invite token — the secret half of the invite link. Returned
      * exactly once, never readable again (only its hash is stored).
+     *
+     * `null` once a mail provider is configured: the message carries the link,
+     * and the token stops travelling back through an HTTP response, an
+     * administrator's clipboard and whatever logs that response passed through.
+     * `POST /api/users/:id/reveal-link` is the audited way to see it when a
+     * message does not arrive.
      */
-    inviteToken: string;
+    inviteToken: string | null;
 }

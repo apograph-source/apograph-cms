@@ -8,6 +8,7 @@ import {
     type IdentityPluginConfig
 } from '@apograph/identity-server';
 import { InviteRecentlySentError } from '../../domain/errors';
+import type { IssuedToken } from './issued-token';
 
 /**
  * Namespace for the per-user advisory lock that serializes {@link
@@ -49,12 +50,17 @@ export class InviteTokenService {
      * Pass `minIntervalSeconds` to refuse a rotation that would destroy a link
      * issued moments ago ({@link InviteRecentlySentError}). The invite path
      * omits it — there is nothing to protect on a first issue.
+     *
+     * Returns the expiry alongside the token because the caller has one more
+     * thing to do with it than hand it over: a queued message is swept unsent
+     * once its link has died, so the mail row needs the same instant this
+     * insert wrote, not a second computation of it.
      */
     async rotate(
         userId: string,
         executor?: TokenExecutor,
         options?: RotateOptions
-    ): Promise<string> {
+    ): Promise<IssuedToken> {
         const raw = randomBytes(32).toString('hex');
         const expiresAt = new Date(
             Date.now() + this.identityConfig.token.inviteTtlSeconds * 1000
@@ -114,7 +120,7 @@ export class InviteTokenService {
             await this.db.transaction(run);
         }
 
-        return raw;
+        return { raw, expiresAt };
     }
 
     private hash(raw: string): string {

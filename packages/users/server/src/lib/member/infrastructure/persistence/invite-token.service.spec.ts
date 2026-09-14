@@ -168,9 +168,17 @@ describe('InviteTokenService.rotate', () => {
     it('stores only the SHA-256, and returns the raw token exactly once [users:I-05]', async () => {
         const double = executorDouble();
 
-        const raw = await service().rotate(USER_ID, double.executor);
+        const { raw, expiresAt } = await service().rotate(
+            USER_ID,
+            double.executor
+        );
 
         const inserted = double.one('insert')?.values ?? {};
+        // The expiry comes back with the secret so the caller — the mail
+        // queue — pins the message to the same instant this row was written,
+        // rather than recomputing it from the TTL a refactor away from
+        // disagreeing.
+        expect(inserted['expiresAt']).toEqual(expiresAt);
         expect(inserted['tokenHash']).toBe(
             createHash('sha256').update(raw).digest('hex')
         );

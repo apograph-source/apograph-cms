@@ -9,3 +9,5 @@ export { PasswordResetRecentlySentError } from './password-reset-recently-sent.e
 export { InvalidMemberIdError } from './invalid-member-id.error';
 export { InvalidRoleError } from './invalid-role.error';
 export { InvalidMemberStatusError } from './invalid-member-status.error';
+export { NoRevealableLinkError } from './no-revealable-link.error';
+export { MailNotConfiguredError } from './mail-not-configured.error';

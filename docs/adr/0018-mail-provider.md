@@ -1,7 +1,7 @@
 # 0018 — One mail provider per deployment, and the message is built where the secret is
 
-- **Status:** Proposed
-- **Date:** 2026-09-07
+- **Status:** Accepted
+- **Date:** 2026-09-07 (accepted 2026-09-14)
 - **Deciders:** Engineering
 
 > The technical description — the port, the queue, the templates, the API, the
@@ -131,7 +131,7 @@ the form is a staff directory and a way to burn the sending domain's reputation.
   logged. The row is deleted on success, swept on expiry, and covered by the
   same database access as `tokens` itself.
 - **At-least-once delivery means a message can arrive twice.** A duplicate
-  invitation is harmless; the retry deliberately re-sends the *same* rendered
+  invitation is harmless; the retry deliberately re-sends the _same_ rendered
   message rather than regenerating one, so both copies carry the same working
   link.
 - **A failure is silent unless surfaced.** An administrator who invites somebody

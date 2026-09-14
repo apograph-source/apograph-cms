@@ -119,9 +119,9 @@ describe('the package-layout claims in ARCHITECTURE.md', () => {
     });
 
     it('count the provider adapters each group ships', () => {
-        const [media, identity, copilot] = claimIn(
+        const [media, identity, copilot, mail] = claimIn(
             ARCHITECTURE,
-            /`media` has (\w+) plus a shared contract test kit, `identity` (\w+), `copilot` (\w+)\./
+            /`media` has (\w+) plus a shared contract test kit, `identity` (\w+), `copilot` (\w+), `mail` (\w+)\./
         );
         // The test kit is a harness for writing a provider, not one of them —
         // hence the separate clause, and hence excluding it from the count.
@@ -133,6 +133,11 @@ describe('the package-layout claims in ARCHITECTURE.md', () => {
         );
         expect(asNumber(identity)).toBe(providerPackagesOf('identity').length);
         expect(asNumber(copilot)).toBe(providerPackagesOf('copilot').length);
+        // `mail`'s two offline adapters are counted: unlike media's testkit
+        // they are not a harness for writing a provider, they are providers a
+        // deployment can genuinely run — which is exactly why ADR-0018 §6 has
+        // to say that no picker offers them.
+        expect(asNumber(mail)).toBe(providerPackagesOf('mail').length);
     });
 });
 
