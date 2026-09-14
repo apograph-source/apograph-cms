@@ -4,7 +4,7 @@
  * Hand-rolled rather than pulled from `prompts`/`clack`/`chalk`, because this
  * package is what `npx` downloads before anything else exists: every dependency
  * is weight on the very first thing a new user waits for, and a scaffolder that
- * needs a dependency tree to ask four questions is not a good first impression.
+ * needs a dependency tree to ask five questions is not a good first impression.
  * It is also the one package here with no runtime dependencies at all, which is
  * worth keeping.
  *
@@ -180,7 +180,7 @@ export function interactive(): boolean {
  * stream when the loop is left early. The first picker would answer fine and
  * take stdin down with it, and the next one would paint its rows and then
  * reject with `AbortError: The operation was aborted` before the user could
- * press a key. The wizard asks four of these in a row, so the loop has to leave
+ * press a key. The wizard asks five of these in a row, so the loop has to leave
  * stdin readable for the next one.
  */
 async function readKeys(

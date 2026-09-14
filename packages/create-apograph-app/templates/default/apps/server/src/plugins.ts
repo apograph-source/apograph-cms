@@ -16,6 +16,12 @@ import { createGithubProvider } from '@apograph/identity-provider-github';
 // apograph:if sso-saml
 import { createSamlProvider } from '@apograph/identity-provider-saml';
 // apograph:end
+// apograph:if mail
+import { MailServerPlugin } from '@apograph/mail-server';
+// apograph:end
+// apograph:if mail-smtp
+import { createSmtpMailProvider } from '@apograph/mail-provider-smtp';
+// apograph:end
 import { MediaServerPlugin } from '@apograph/media-server';
 // apograph:if media-local
 import { createLocalStorageProvider } from '@apograph/media-provider-local';
@@ -139,6 +145,37 @@ export function copilotProviders(config: ApographConfig): ProviderRegistration[]
     return providers;
 }
 
+// apograph:if mail
+/**
+ * The mail plugin, or nothing — spelled as a list so the composition below
+ * stays a flat array rather than growing a conditional inside the one literal
+ * meant to read as "what this app runs".
+ *
+ * **Only a configured backend is registered.** `apograph.config.ts` returns no
+ * mail config at all unless `MAIL_PROVIDER` names one, and this returns nothing
+ * in that case — so the app boots with no queue and no worker, and the invite
+ * and reset routes keep handing the link back for you to pass on. There is no
+ * fallback adapter here on purpose: one that wrote messages to the log would
+ * make every invitation *look* sent and reach nobody.
+ */
+function mailPlugin(config: ApographConfig): ServerPlugin[] {
+    const mail = config.plugins.mail;
+    if (!mail) return [];
+
+    return [
+        MailServerPlugin({
+            // This line is the single place that selects the backend, the way
+            // media's `provider:` selects storage. Swapping relay technology is
+            // swapping this expression and the type on `AppMailConfig`.
+            // apograph:if mail-smtp
+            provider: createSmtpMailProvider(mail.smtp),
+            // apograph:end
+            config: mail
+        })
+    ];
+}
+// apograph:end
+
 /**
  * This app's composition — the whole of what its API is.
  *
@@ -181,6 +218,18 @@ export function buildPlugins(config: ApographConfig): ServerPlugin[] {
         // apograph:end
         WorkspacesPlugin(),
         ActivityPlugin(),
+        // apograph:if mail
+        // Mail, before users: the dispatcher it binds is what the invite,
+        // resend and reset use cases queue their messages through, and what
+        // makes those routes stop returning a raw token. Registered only when
+        // `MAIL_PROVIDER` names a backend — with none, users injects nothing,
+        // sends nothing, and returns the link exactly as it always has.
+        //
+        // Module order is not what binds it (every plugin module is global),
+        // but migration order is, and this list is that order: the plugin owns
+        // `mail_deliveries` and ships its own migrations.
+        ...mailPlugin(config),
+        // apograph:end
         UsersPlugin(),
         // No content types yet. Define some in `apps/server/src/content/`, pass
         // them here as `types`, then add a `drizzle.config.ts` pointing at them and

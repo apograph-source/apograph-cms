@@ -61,11 +61,12 @@ of them arrives transitively anyway, so an import resolves on npm's flat
 something the app owns. An undeclared import works until a version conflict
 nests a copy, and never works under pnpm.
 
-That leaves **13** of the 59 published packages out of a default app, and
+That leaves **15** of the 67 published packages out of a default app, and
 `features.spec.ts` asserts the list in full: the four unpicked storage adapters,
-the two hosted copilot backends, the three SSO adapters, `content-graphql`,
-`mcp-server`, and the two `TRANSITIVE_PACKAGES`. Every one of the eleven is
-reachable from the wizard; only the last two are unreachable by design.
+the two hosted copilot backends, the three SSO adapters, the mail queue and its
+SMTP adapter, `content-graphql`, `mcp-server`, and the two
+`TRANSITIVE_PACKAGES`. Every one of the thirteen is reachable from the wizard;
+only the last two are unreachable by design.
 
 Note what "optional" does and does not mean for the last two.
 `content-server` depends on `mcp-server`, so it is on disk in every generated
@@ -76,14 +77,15 @@ resolve anything.
 
 ## Feature selection
 
-The wizard asks four questions; everything else is installed unconditionally.
+The wizard asks five questions; everything else is installed unconditionally.
 
-| Question                                      | Kind     | Default          |
-| --------------------------------------------- | -------- | ---------------- |
-| Where should uploads be stored?               | single   | Local filesystem |
-| AI copilot — which model backends?            | multiple | none             |
-| How do people sign in?                        | multiple | none (email)     |
-| Which protocols should the content API speak? | multiple | REST (locked)    |
+| Question                                        | Kind            | Default          |
+| ----------------------------------------------- | --------------- | ---------------- |
+| Where should uploads be stored?                 | single          | Local filesystem |
+| AI copilot — which model backends?              | multiple        | none             |
+| How do people sign in?                          | multiple        | none (email)     |
+| Which protocols should the content API speak?   | multiple        | REST (locked)    |
+| How should the app send invitations and resets? | single, or none | Do not configure |
 
 The sign-in question offers OpenID Connect, GitHub and SAML — three because
 their **wire** differs, which is the only thing that earns a package: OIDC
@@ -98,6 +100,31 @@ All three share one `ssoProviders` key in `config/identity.ts`, one builder in
 appear if _any_ was picked. `apograph:if` is line-based with no expression
 language, so `resolveFlags` derives a group flag, **`sso`**, which is the one
 thing in the flag set that is not a picked id.
+
+The mail question is the only **single choice that may be answered with
+nothing**, and "Do not configure" is a row in the picker rather than an unticked
+box: storage has to go somewhere, but a deployment that sends no mail is a
+configuration, not an omission — it is what the CMS did before ADR-0018, and the
+invite response still carries the link for an administrator to pass on. One
+entry covers the market for the same reason the OIDC adapter covers the identity
+vendors: Resend, SES, Postmark, SendGrid, Mailgun, Google Workspace and any
+relay inside a perimeter all speak SMTP. A vendor HTTP adapter joins the list
+when its wire genuinely differs.
+
+Two mail packages are offered **nowhere** and installed with every app:
+`mail-provider-console` and `mail-provider-testkit`, on `identity-provider-fake`'s
+reasoning (ADR-0018 §6). The console adapter writes a message to the log, which
+is right while developing and wrong in production — an invitation that looks
+sent and reaches nobody, which is ORT-148's mistake with a secret attached. No
+template names either one.
+
+What the mail question adds is the **plugin**, not just an adapter:
+`mail-server` rides with the backend rather than sitting in `CORE_PACKAGES`,
+because an app that sends nothing registers no queue and no worker — and a core
+package defining a plugin factory has to be mounted unconditionally, which this
+one must not be. The `mail` group flag is derived the way `sso` is, so
+`config/mail.ts`, the `mailPlugin` helper and the shared `MAIL_*` keys belong to
+mail rather than to SMTP.
 
 All three multi-selects default to **nothing extra**, deliberately: a hosted
 copilot provider sends workspace content to a third party (ADR-0005 §10), an
@@ -138,9 +165,9 @@ that configured nothing — so a keyless install answered every question with a
 canned sentence instead of failing. It is now a private test fixture of the CMS
 repo.
 
-Every question has a flag (`--media`, `--copilot`, `--sso`, `--protocols`, each
-taking a comma-separated list or `none`), and `--yes` plus any non-TTY takes the defaults
-without asking. A scaffolder that blocks on a prompt in CI hangs the job until
+Every question has a flag (`--media`, `--copilot`, `--sso`, `--protocols`,
+`--mail`, each taking a comma-separated list or `none`), and `--yes` plus any
+non-TTY takes the defaults without asking. A scaffolder that blocks on a prompt in CI hangs the job until
 it times out.
 
 ## Templates

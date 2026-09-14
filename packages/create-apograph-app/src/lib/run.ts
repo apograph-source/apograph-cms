@@ -15,6 +15,7 @@ import { basename, join, resolve } from 'node:path';
 import { createInterface } from 'node:readline/promises';
 import {
     COPILOT_PROVIDERS,
+    MAIL_PROVIDERS,
     SSO_PROVIDERS,
     MEDIA_PROVIDERS,
     PROTOCOLS,
@@ -41,6 +42,7 @@ Options:
   --sso <ids>      Comma-separated identity providers (sso-oidc, sso-github,
                    sso-saml), or "none"
   --protocols <ids> Comma-separated protocols beyond REST (graphql, mcp), or "none"
+  --mail <id>      Mail backend (mail-smtp), or "none" (the default)
   --no-install     Skip installing dependencies
   --no-git         Skip initialising a git repository
   -h, --help       Show this message
@@ -141,6 +143,15 @@ function runCommand(command: string, args: string[], cwd: string): boolean {
     );
 }
 
+/**
+ * What a single-choice question is answered with when the answer is "nothing".
+ *
+ * Not a feature: it installs no package, sets no flag, and must never reach
+ * `resolveFlags` — it is a row in a picker and the absence of an id in the
+ * selection, which is exactly what `--mail none` already produces.
+ */
+const NONE = 'none';
+
 /** Turns a feature into a picker row. */
 function toChoice(feature: Feature): ui.Choice {
     return {
@@ -203,6 +214,40 @@ async function askText(
     }
 }
 
+/**
+ * Asks a single-choice question that may be answered with nothing.
+ *
+ * The shape the other four questions do not have: storage is single-choice
+ * with no "none" (an app has to write uploads somewhere), and the copilot, SSO
+ * and protocol questions are multi-selects whose empty answer is just an empty
+ * tick list. Mail is the one place where picking exactly one *or* none are both
+ * real answers, so "Do not configure" is a row rather than an unticked box —
+ * a deployment that sends nothing is a configuration, not an omission.
+ *
+ * A cancelled picker falls back to what the flags and defaults already said,
+ * the same as everywhere else.
+ */
+async function askOptionalOne(
+    label: string,
+    hint: string,
+    features: readonly Feature[],
+    fallback: readonly string[]
+): Promise<string[]> {
+    const picked = await ui.select(label, [
+        {
+            value: NONE,
+            label: 'Do not configure',
+            hint,
+            selected: fallback.length === 0
+        },
+        ...features.map(toChoice)
+    ]);
+
+    if (picked === undefined) return [...fallback];
+
+    return picked === NONE ? [] : [picked];
+}
+
 /** Everything the wizard resolves. */
 export interface Answers {
     appName: string;
@@ -239,6 +284,9 @@ export async function resolveAnswers(
         ...lockedOf(PROTOCOLS),
         ...selected(argv, 'protocols', PROTOCOLS)
     ];
+    // Not `required`: "this deployment sends nothing" is a complete answer, and
+    // the one a fresh app runs — the invite response keeps carrying the link.
+    const mail = selected(argv, 'mail', MAIL_PROVIDERS);
 
     if (!asked) {
         return {
@@ -246,7 +294,13 @@ export async function resolveAnswers(
             databaseUrl: defaultDatabaseUrl,
             adminEmail: 'admin@example.com',
             selection: {
-                enabled: new Set([...media, ...copilot, ...sso, ...protocols])
+                enabled: new Set([
+                    ...media,
+                    ...copilot,
+                    ...sso,
+                    ...protocols,
+                    ...mail
+                ])
             }
         };
     }
@@ -297,6 +351,13 @@ export async function resolveAnswers(
             PROTOCOLS.map(toChoice)
         )) ?? protocols;
 
+    const chosenMail = await askOptionalOne(
+        'How should the app send invitations and password resets?',
+        'No queue and no worker: the API hands the link back and you pass it on.',
+        MAIL_PROVIDERS,
+        mail
+    );
+
     return {
         appName,
         databaseUrl,
@@ -306,7 +367,8 @@ export async function resolveAnswers(
                 ...chosenMedia.filter(Boolean),
                 ...chosenCopilot,
                 ...chosenSso,
-                ...chosenProtocols
+                ...chosenProtocols,
+                ...chosenMail
             ] as string[])
         }
     };
@@ -337,6 +399,7 @@ function describeSelection(
                 : ui.dim('no backend')
         ],
         ['Sign-in', labelsFor(SSO_PROVIDERS)],
+        ['Mail', labelsFor(MAIL_PROVIDERS)],
         ['Apograph packages', String(resolvePackages(selection).length + 1)]
     ];
 }

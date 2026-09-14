@@ -163,7 +163,8 @@ describe('answering without being asked', () => {
         ['--media', 'media-gcs', 'media-gcs'],
         ['--copilot', 'copilot-openai', 'copilot-openai'],
         ['--sso', 'sso-saml', 'sso-saml'],
-        ['--protocols', 'graphql', 'graphql']
+        ['--protocols', 'graphql', 'graphql'],
+        ['--mail', 'mail-smtp', 'mail-smtp']
     ])(
         'answers the %s question from the command line [create-apograph-app:I-20]',
         async (flag, value, id) => {
