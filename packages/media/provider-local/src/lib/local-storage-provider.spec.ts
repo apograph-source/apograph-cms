@@ -22,6 +22,16 @@ const WORKSPACE = '11111111-1111-1111-1111-111111111111';
 const ASSET = '22222222-2222-2222-2222-222222222222';
 
 /**
+ * For the one case that manufactures a write failure by taking the write bit
+ * off a directory. Root bypasses that check — the kernel grants it the write
+ * regardless of the mode — so the provider never sees `EACCES` and the case
+ * has nothing to assert. Skip it there rather than let a container that runs
+ * as root (CI images and devcontainers routinely do) report a red suite for a
+ * property of the *user*, not of the code.
+ */
+const itUnlessRoot = process.getuid?.() === 0 ? it.skip : it;
+
+/**
  * Every case here runs against a **real temporary directory**. The interesting
  * claims about this package are about bytes, inodes and what survives a
  * failure, and a mocked `fs` can only ever confirm which calls were made.
@@ -220,25 +230,30 @@ describe('createLocalStorageProvider', () => {
         // rather than the source. Shape-identical to a full disk (`ENOSPC`),
         // which is the case that actually happens in production and the one a
         // temp directory cannot manufacture.
-        it('leaves nothing behind when the destination refuses the write', async () => {
-            const assetDirectory = join(root, WORKSPACE, ASSET);
-            await mkdir(assetDirectory, { recursive: true });
-            chmodSync(assetDirectory, 0o500);
-            try {
-                await expect(put()).rejects.toMatchObject({ code: 'EACCES' });
+        itUnlessRoot(
+            'leaves nothing behind when the destination refuses the write',
+            async () => {
+                const assetDirectory = join(root, WORKSPACE, ASSET);
+                await mkdir(assetDirectory, { recursive: true });
+                chmodSync(assetDirectory, 0o500);
+                try {
+                    await expect(put()).rejects.toMatchObject({
+                        code: 'EACCES'
+                    });
 
-                // Nothing survives — not the temporary file, and not the empty
-                // directories either. Pruning an empty directory the write did
-                // not itself create is deliberate: an empty directory in this
-                // store carries no information, and the next `put` recreates
-                // whatever chain it needs.
-                expect(await readdir(root)).toEqual([]);
-            } finally {
-                if (existsSync(assetDirectory)) {
-                    chmodSync(assetDirectory, 0o700);
+                    // Nothing survives — not the temporary file, and not the empty
+                    // directories either. Pruning an empty directory the write did
+                    // not itself create is deliberate: an empty directory in this
+                    // store carries no information, and the next `put` recreates
+                    // whatever chain it needs.
+                    expect(await readdir(root)).toEqual([]);
+                } finally {
+                    if (existsSync(assetDirectory)) {
+                        chmodSync(assetDirectory, 0o700);
+                    }
                 }
             }
-        });
+        );
 
         it('leaves no temporary file behind on a successful write', async () => {
             const stored = await put();

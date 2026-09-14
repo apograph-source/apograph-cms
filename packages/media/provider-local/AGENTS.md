@@ -107,10 +107,13 @@ at a persistent volume for a real deployment (a fresh container's disk is wiped)
   failure, and a mock can only confirm which calls were made. Assert on the
   disk — the contract suite is handed `storedKeys` for exactly that reason.
 
-  One case fails when the suite runs as **root** (`put` › "leaves nothing behind
-  when the destination refuses the write"): it makes a directory `0o500` to
-  provoke `EACCES`, and root ignores the mode. That is the environment, not the
-  provider.
+  One case **skips itself** when the suite runs as **root** (`put` › "leaves
+  nothing behind when the destination refuses the write"): it makes a directory
+  `0o500` to provoke `EACCES`, and root ignores the mode, so the write succeeds
+  and there is nothing to assert. `itUnlessRoot` guards it — a container that
+  runs as root (CI images and devcontainers routinely do) reports 50 passed and
+  1 skipped rather than a red suite for a property of the *user*. Run the suite
+  as a normal user to actually exercise it.
 - `npx nx typecheck @apograph/media-provider-local` / `npx nx lint @apograph/media-provider-local`
 - The cross-package half lives in `apps/server-e2e/src/server/media/media-local-storage.spec.ts`,
   which boots the app with `createTestApp({ localMediaRoot })` so the media
