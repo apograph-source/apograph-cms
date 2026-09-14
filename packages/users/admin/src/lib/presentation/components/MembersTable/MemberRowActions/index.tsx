@@ -116,6 +116,10 @@ const messages = defineMessages({
         defaultMessage: 'Enabled {name}'
     },
 
+    inviteMailed: {
+        id: 'users.actions.inviteMailed.toast',
+        defaultMessage: 'A fresh invitation is on its way to {email}.'
+    },
     revoked: {
         id: 'users.actions.revoked.toast',
         defaultMessage: 'Revoked the invite for {email}'
@@ -240,10 +244,23 @@ export function MemberRowActions({ member }: { member: Member }) {
                     key="resend"
                     onSelect={() =>
                         resendInvite.mutate(member.id, {
-                            onSuccess: (invited) =>
+                            onSuccess: (invited) => {
+                                // No token means the server emailed the fresh
+                                // link and kept the only copy (ADR-0018 §4);
+                                // there is nothing to hand over by clipboard.
+                                if (!invited.inviteToken) {
+                                    toast.success(
+                                        intl.formatMessage(
+                                            messages.inviteMailed,
+                                            { email: member.email }
+                                        )
+                                    );
+                                    return;
+                                }
                                 setRotatedLink(
                                     inviteLinkFor(invited.inviteToken)
-                                ),
+                                );
+                            },
                             onError: failed
                         })
                     }

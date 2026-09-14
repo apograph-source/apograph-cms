@@ -14,6 +14,14 @@ export const PERMISSIONS = {
     USERS_CREATE: 'users:create',
     USERS_UPDATE: 'users:update',
     USERS_DELETE: 'users:delete',
+    /**
+     * Authority over a member's credentials themselves, as opposed to their
+     * record: today, revealing the link of an invitation or reset that never
+     * arrived (ADR-0018 §4). Separate from `users:update` because that key is
+     * about editing somebody's name and role, and this one hands over a secret
+     * that takes over their account.
+     */
+    USERS_MANAGE: 'users:manage',
     ACTIVITY_READ: 'activity:read',
     CONTENT_READ: 'content:read',
     CONTENT_CREATE: 'content:create',

@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, Optional } from '@nestjs/common';
 import { attachActor, OutboxWriter, UnitOfWork } from '@apograph/database';
 import type { PublicUser } from '@apograph/identity-server';
 import { PASSWORD_RESET_COOLDOWN_SECONDS } from '../../member.constants';
@@ -13,12 +13,19 @@ import {
     type MemberRepository
 } from '../../domain/member.repository';
 import { PasswordResetTokenService } from '../../infrastructure/persistence/password-reset-token.service';
+import {
+    MAIL_DISPATCHER,
+    MAIL_KINDS,
+    shouldReturnToken,
+    type MailDispatcher
+} from '../ports/mail-notifier.port';
 
 /**
  * Mints a one-time password-reset link for an `active` member — the
- * admin-driven half of the reset flow (nothing self-service exists yet: there
- * is no mailer, so a "forgot password" form would have nowhere to send the
- * link, identity epic #11).
+ * admin-driven half of the reset flow. The self-service half (a public "forgot
+ * password" form) is phase 2 of ADR-0018 and deliberately not here: it needs
+ * rules of its own about enumeration and rate limiting, which an
+ * administrator-gated route does not.
  *
  * Issuing rotates the member's reset token, so a previously issued link stops
  * working the moment this one is created. The member's own aggregate state is
@@ -39,14 +46,19 @@ export class IssuePasswordResetUseCase {
         private readonly outbox: OutboxWriter,
         private readonly resetTokens: PasswordResetTokenService,
         @Inject(MEMBER_REPOSITORY)
-        private readonly members: MemberRepository
+        private readonly members: MemberRepository,
+        // Optional: nothing is bound when no mail plugin is registered.
+        @Optional()
+        @Inject(MAIL_DISPATCHER)
+        private readonly mail?: MailDispatcher
     ) {}
 
     /**
-     * Runs the issue, returning the raw token for delivery — the only moment it
-     * exists in readable form, since only its hash is stored.
+     * Runs the issue, returning the raw token for the admin to deliver — the
+     * only moment it exists in readable form, since only its hash is stored —
+     * or `null` once a provider is configured and the message carries it.
      */
-    async execute(actor: PublicUser, id: string): Promise<string> {
+    async execute(actor: PublicUser, id: string): Promise<string | null> {
         const memberId = MemberId.create(id);
 
         return this.uow.run(async () => {
@@ -56,16 +68,25 @@ export class IssuePasswordResetUseCase {
             }
             member.ensureCanResetPassword();
 
-            // TODO(users-email): send this link instead of returning it, once a
-            // mailer exists (identity epic #11).
             // Refuse an issue that would destroy a link handed over moments ago:
             // the raw token is unrecoverable, so a double-clicked button can
             // otherwise leave the admin holding the dead first response.
-            const resetToken = await this.resetTokens.rotate(
+            const reset = await this.resetTokens.rotate(
                 member.id.value,
                 this.uow.current(),
                 { minIntervalSeconds: PASSWORD_RESET_COOLDOWN_SECONDS }
             );
+
+            // In-band with the rotation: the plaintext exists only here.
+            await this.mail?.enqueue({
+                kind: MAIL_KINDS.PASSWORD_RESET,
+                to: member.email,
+                userId: member.id.value,
+                recipientName: member.name,
+                actorName: actor.name ?? actor.email,
+                token: reset.raw,
+                expiresAt: reset.expiresAt
+            });
 
             await this.outbox.append(
                 attachActor(
@@ -80,7 +101,7 @@ export class IssuePasswordResetUseCase {
                 )
             );
 
-            return resetToken;
+            return shouldReturnToken(this.mail) ? reset.raw : null;
         });
     }
 }

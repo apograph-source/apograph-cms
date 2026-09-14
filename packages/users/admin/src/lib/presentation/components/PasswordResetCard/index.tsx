@@ -31,7 +31,11 @@ const messages = defineMessages({
     deliveryNote: {
         id: 'users.passwordReset.deliveryNote',
         defaultMessage:
-            'Nothing is emailed yet — you copy the link and send it yourself. Generating a new link stops any earlier one from working.'
+            'If this install sends mail, the link goes to them by email; otherwise you copy it and send it yourself. Generating a new link stops any earlier one from working.'
+    },
+    mailed: {
+        id: 'users.passwordReset.mailed',
+        defaultMessage: 'A reset link is on its way to {email}.'
     },
     generate: {
         id: 'users.passwordReset.generate',
@@ -113,8 +117,20 @@ export function PasswordResetCard({ member }: { member: Member }) {
 
     const generate = () => {
         issueReset.mutate(member.id, {
-            onSuccess: (issued) =>
-                setLink(passwordResetLinkFor(issued.resetToken)),
+            onSuccess: (issued) => {
+                // No token means the server emailed the link and kept the only
+                // copy of it (ADR-0018 §4) — so there is nothing to put in the
+                // hand-off dialog, and saying so beats opening an empty one.
+                if (!issued.resetToken) {
+                    toast.success(
+                        intl.formatMessage(messages.mailed, {
+                            email: member.email
+                        })
+                    );
+                    return;
+                }
+                setLink(passwordResetLinkFor(issued.resetToken));
+            },
             onError: (error) => {
                 // A 409 is actionable and the body says how: the cooldown
                 // carries the wait, so the admin is told to hold rather than

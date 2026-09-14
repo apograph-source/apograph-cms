@@ -34,7 +34,8 @@ import type { PasswordResetMemberView } from '../../application/queries/member.v
  * a pending invite is resent, not reset, and a suspended account is reactivated
  * first.
  *
- * Returns the member row plus the raw `resetToken`. Issuing rotates the token,
+ * Returns the member row plus the raw `resetToken` when no mail provider is
+ * configured to deliver it (ADR-0018 §4). Issuing rotates the token,
  * so whatever link was outstanding is already dead by the time this responds —
  * which is why the new one has to reach the caller in the same breath.
  */
@@ -58,7 +59,7 @@ export class IssuePasswordResetController {
             if (!view) {
                 throw new NotFoundException();
             }
-            return { ...view, resetToken };
+            return { ...view, ...(resetToken ? { resetToken } : {}) };
         } catch (error) {
             if (error instanceof MemberNotFoundError) {
                 throw new NotFoundException();

@@ -2,7 +2,12 @@ import config, {
     type ApographConfig,
     type ApographCopilotConfig
 } from '../apograph.config';
-import { buildPlugins, copilotProviders, ssoProviders } from './plugins';
+import {
+    buildPlugins,
+    copilotProviders,
+    mailProvider,
+    ssoProviders
+} from './plugins';
 
 /**
  * The shipped composition, asserted.
@@ -109,6 +114,85 @@ describe('buildPlugins()', () => {
         // host-owned migrations are the only content migrations in the run.
         expect(graphql?.migrations).toBeUndefined();
         expect(content?.migrations?.table).toBe('__drizzle_migrations_content');
+    });
+});
+
+/**
+ * Which mail backend the shipped composition constructs — and, above all, that
+ * it constructs none by default.
+ *
+ * `buildPlugins` runs under the ambient environment, which configures no mail,
+ * so the list asserted above is deliberately the *unconfigured* one: registering
+ * the mail plugin changes the API (the invite and reset routes stop returning a
+ * raw token), and that has to be something a deployment opted into.
+ */
+describe('mailProvider()', () => {
+    /** The shipped config with a mail block substituted in. */
+    const withMail = (
+        mail: ApographConfig['plugins']['mail']
+    ): ApographConfig => ({
+        ...config,
+        plugins: { ...config.plugins, mail }
+    });
+
+    it('constructs nothing, and registers no plugin, when mail is unconfigured', () => {
+        expect(mailProvider(config)).toBeNull();
+        expect(buildPlugins(config).map((plugin) => plugin.name)).not.toContain(
+            'mail'
+        );
+    });
+
+    it('constructs the SMTP adapter and hands it the relay settings', () => {
+        const provider = mailProvider(
+            withMail({
+                backend: 'smtp',
+                appUrl: 'https://cms.example.com',
+                from: 'no-reply@example.com',
+                smtp: { host: 'smtp.example.com', port: 2525 }
+            })
+        );
+        expect(provider?.id).toBe('smtp');
+    });
+
+    it('constructs the console adapter when that is what was named', () => {
+        expect(
+            mailProvider(
+                withMail({
+                    backend: 'console',
+                    appUrl: 'https://cms.example.com',
+                    from: 'no-reply@example.com'
+                })
+            )?.id
+        ).toBe('console');
+    });
+
+    it('registers the plugin before users, so its migrations and port are there first', () => {
+        const names = buildPlugins(
+            withMail({
+                backend: 'console',
+                appUrl: 'https://cms.example.com',
+                from: 'no-reply@example.com'
+            })
+        ).map((plugin) => plugin.name);
+
+        // Migration order is what the position decides (the DI is global): the
+        // plugin owns `mail_deliveries`, and `users` is what queues into it.
+        expect(names).toContain('mail');
+        expect(names.indexOf('mail')).toBeLessThan(names.indexOf('users'));
+    });
+
+    it('refuses SMTP with no relay settings rather than falling back to the log', () => {
+        // The silent fall-through this prevents is the worst failure the
+        // feature has: invitations that look sent and reach nobody.
+        expect(() =>
+            mailProvider(
+                withMail({
+                    backend: 'smtp',
+                    appUrl: 'https://cms.example.com',
+                    from: 'no-reply@example.com'
+                })
+            )
+        ).toThrow(/SMTP_HOST/);
     });
 });
 

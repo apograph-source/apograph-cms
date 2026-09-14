@@ -35,6 +35,7 @@ export const ACTIVITY_KINDS = [
     'user.invite_resent',
     'user.invite_revoked',
     'user.password_reset_issued',
+    'user.invite_link_revealed',
     'user.activated',
     'user.profile_updated',
     'user.role_changed',

@@ -324,6 +324,23 @@ describe('toAuditRow — event → audit-row parity', () => {
             });
         });
 
+        it('member.invite_link_revealed → user.invite_link_revealed { email, mailKind }', () => {
+            const row = toAuditRow(
+                event('member.invite_link_revealed', 'member', MEMBER_ID, {
+                    email: 'ada@example.com',
+                    mailKind: 'invite'
+                })
+            );
+            expect(row).toMatchObject({
+                kind: 'user.invite_link_revealed',
+                subjectType: 'user',
+                subjectId: MEMBER_ID,
+                // The kind of message, never the link: this table is stamped
+                // and never pruned, which is exactly why no secret goes in it.
+                meta: { email: 'ada@example.com', mailKind: 'invite' }
+            });
+        });
+
         it('member.password_reset_issued → user.password_reset_issued { email }', () => {
             const row = toAuditRow(
                 event('member.password_reset_issued', 'member', MEMBER_ID, {
@@ -959,7 +976,7 @@ describe('toAuditRow — event → audit-row parity', () => {
          * list is the only place that omission is visible, so it is pinned
          * exhaustively rather than sampled.
          */
-        it('audits exactly the 67 expected kinds', () => {
+        it('audits exactly the 68 expected kinds', () => {
             expect([...AUDITED_EVENT_KINDS].sort()).toEqual(
                 [
                     'alarm.rule.created',
@@ -1013,6 +1030,7 @@ describe('toAuditRow — event → audit-row parity', () => {
                     'entry.unpublished',
                     'entry.updated',
                     'member.disabled',
+                    'member.invite_link_revealed',
                     'member.invite_resent',
                     'member.invited',
                     'member.password_reset_issued',
@@ -1117,7 +1135,7 @@ describe('toAuditRow — event → audit-row parity', () => {
         /**
          * The collapse, named rather than counted.
          *
-         * 67 mappers produce 65 kinds, and the two-kind difference is a
+         * 68 mappers produce 66 kinds, and the two-kind difference is a
          * decision: `user.disabled`/`user.enabled` (the identity aggregate's
          * own pair) land on the same audit kinds as
          * `member.disabled`/`member.reactivated`, because which aggregate
@@ -1131,7 +1149,7 @@ describe('toAuditRow — event → audit-row parity', () => {
          * either way. So the collisions are asserted **by name**, not by count:
          * a third one fails here with the pair that caused it in the message.
          */
-        it('collapses 67 event kinds onto 65, and only where it means to [activity:I-11]', () => {
+        it('collapses 68 event kinds onto 66, and only where it means to [activity:I-11]', () => {
             const sourcesByAuditKind = new Map<string, string[]>();
             for (const eventKind of AUDITED_EVENT_KINDS) {
                 const produced = rowFor(eventKind).kind;
@@ -1155,9 +1173,9 @@ describe('toAuditRow — event → audit-row parity', () => {
             ]);
 
             // The arithmetic the invariant states, which the list above only
-            // implies: 67 mappers, two collisions, 65 distinct kinds.
-            expect(AUDITED_EVENT_KINDS).toHaveLength(67);
-            expect(sourcesByAuditKind.size).toBe(65);
+            // implies: 68 mappers, two collisions, 66 distinct kinds.
+            expect(AUDITED_EVENT_KINDS).toHaveLength(68);
+            expect(sourcesByAuditKind.size).toBe(66);
         });
 
         it('stamps only subject types the catalogue declares', () => {

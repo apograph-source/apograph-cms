@@ -212,6 +212,21 @@
         },
         {
             "path": "./packages/protection/admin"
+        },
+        {
+            "path": "./packages/mail/provider-console"
+        },
+        {
+            "path": "./packages/mail/provider-testkit"
+        },
+        {
+            "path": "./packages/mail/provider-smtp"
+        },
+        {
+            "path": "./packages/mail/domain"
+        },
+        {
+            "path": "./packages/mail/server"
         }
     ]
 }

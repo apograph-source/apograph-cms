@@ -140,6 +140,22 @@
   with nothing open. Delivery is at-least-once and unordered; receivers
   deduplicate on `X-Apograph-Event-Id`. Administrator-only, because an endpoint
   spans every workspace it names and holds a signing secret.
+- `packages/mail/*` — outgoing **mail**: the invitation, the resend and the
+  password-reset link, sent instead of relayed by hand. `domain` is the
+  framework-free kernel — the `MailProvider` port, the rendered message, the
+  retryable/permanent split, the three templates, and the `MailDispatcher` port
+  a use case queues through; `server` is the plugin, owning `mail_deliveries`
+  and the worker; `provider-smtp` is the backend a deployment actually runs, and
+  `provider-console` / `provider-testkit` ship with every app but are offered by
+  no picker and registered by no template. The structural point is the
+  **enqueue** ([ADR-0018](docs/adr/0018-mail-provider.md)): the raw token exists
+  exactly once, inside the transaction that issued it, so the message is
+  rendered and written there rather than rebuilt later by an outbox subscriber —
+  while the send still obeys ADR-0016's rule, claiming and committing before it
+  opens a socket. A delivered row is **deleted**, not stamped. Inert until
+  `MAIL_PROVIDER` names a backend; configuring one makes the invite and reset
+  routes stop returning the raw link, with `reveal-link` (`users:manage`,
+  audited) as the one exception.
 - `packages/mcp/server` — `@apograph/mcp-server`, the **MCP plugin**: the
   Model Context Protocol endpoint (`POST /api/v1/mcp`) that lets an external
   agent do content CRUD with an API token

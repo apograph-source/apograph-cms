@@ -3,8 +3,8 @@ import { createDomainEvent, type DomainEvent } from '@apograph/database';
 /**
  * The domain event kinds the users context raises. Most are raised by the
  * {@link Member} aggregate on a primary lifecycle transition; a few
- * (`profile_updated`, `reactivated`, `invite_resent`, `password_reset_issued`)
- * are secondary facts the
+ * (`profile_updated`, `reactivated`, `invite_resent`, `password_reset_issued`,
+ * `invite_link_revealed`) are secondary facts the
  * application mints directly, mirroring identity's `auth.*` flow events — the
  * aggregate deliberately stays quiet on them (see {@link Member.rename} /
  * {@link Member.enable}).
@@ -21,6 +21,7 @@ export const MEMBER_EVENT_KINDS = {
     INVITED: 'member.invited',
     INVITE_RESENT: 'member.invite_resent',
     PASSWORD_RESET_ISSUED: 'member.password_reset_issued',
+    INVITE_LINK_REVEALED: 'member.invite_link_revealed',
     PROFILE_UPDATED: 'member.profile_updated',
     ROLE_CHANGED: 'member.role_changed',
     DISABLED: 'member.disabled',

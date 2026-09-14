@@ -22,6 +22,9 @@
     ],
     "references": [
         {
+            "path": "../../packages/mail/domain/tsconfig.lib.json"
+        },
+        {
             "path": "../../packages/protection/server/tsconfig.lib.json"
         },
         {
@@ -32,6 +35,9 @@
         },
         {
             "path": "../../packages/users/server/tsconfig.lib.json"
+        },
+        {
+            "path": "../../packages/mail/provider-console/tsconfig.lib.json"
         },
         {
             "path": "../../packages/identity/domain/tsconfig.lib.json"
@@ -46,22 +52,16 @@
             "path": "../../packages/activity/server/tsconfig.lib.json"
         },
         {
-            "path": "../../packages/webhooks/server/tsconfig.lib.json"
-        },
-        {
-            "path": "../../packages/transfer/server/tsconfig.lib.json"
-        },
-        {
-            "path": "../../packages/segments/server/tsconfig.lib.json"
-        },
-        {
             "path": "../../packages/media/provider-local/tsconfig.lib.json"
         },
         {
             "path": "../../packages/media/server/tsconfig.lib.json"
         },
         {
-            "path": "../../packages/mcp/server/tsconfig.lib.json"
+            "path": "../../packages/mail/provider-smtp/tsconfig.lib.json"
+        },
+        {
+            "path": "../../packages/mail/server/tsconfig.lib.json"
         },
         {
             "path": "../../packages/identity/provider-saml/tsconfig.lib.json"
@@ -76,18 +76,6 @@
             "path": "../../packages/identity/server/tsconfig.lib.json"
         },
         {
-            "path": "../../packages/i18n/server/tsconfig.lib.json"
-        },
-        {
-            "path": "../../packages/content/graphql/tsconfig.lib.json"
-        },
-        {
-            "path": "../../packages/bootstrap/server/tsconfig.lib.json"
-        },
-        {
-            "path": "../../packages/utils/server/tsconfig.lib.json"
-        },
-        {
             "path": "../../packages/copilot/provider-openai/tsconfig.lib.json"
         },
         {
@@ -95,6 +83,30 @@
         },
         {
             "path": "../../packages/copilot/server/tsconfig.lib.json"
+        },
+        {
+            "path": "../../packages/utils/server/tsconfig.lib.json"
+        },
+        {
+            "path": "../../packages/webhooks/server/tsconfig.lib.json"
+        },
+        {
+            "path": "../../packages/segments/server/tsconfig.lib.json"
+        },
+        {
+            "path": "../../packages/transfer/server/tsconfig.lib.json"
+        },
+        {
+            "path": "../../packages/mcp/server/tsconfig.lib.json"
+        },
+        {
+            "path": "../../packages/content/graphql/tsconfig.lib.json"
+        },
+        {
+            "path": "../../packages/i18n/server/tsconfig.lib.json"
+        },
+        {
+            "path": "../../packages/bootstrap/server/tsconfig.lib.json"
         }
     ]
 }

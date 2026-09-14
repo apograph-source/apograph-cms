@@ -47,7 +47,11 @@ export async function createTestApp(
         localMediaRoot: overrides.localMediaRoot,
         signingProvider: overrides.directServe === 'signed-url',
         ssoProviders: overrides.ssoProviders,
-        omitContent: overrides.omitContent
+        omitContent: overrides.omitContent,
+        // Asking for mail settings is what registers the plugin: there is no
+        // second switch, because a configured mailer and a registered plugin
+        // are the same fact in the host too.
+        mail: overrides.mail ? 'testkit' : 'none'
     });
 
     return withDatabaseDiagnostics('booting the test app', () =>

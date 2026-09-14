@@ -15,6 +15,9 @@ import { IdentityPlugin } from '@apograph/identity-server';
 import { createOidcProvider } from '@apograph/identity-provider-oidc';
 import { createGithubProvider } from '@apograph/identity-provider-github';
 import { createSamlProvider } from '@apograph/identity-provider-saml';
+import { MailServerPlugin } from '@apograph/mail-server';
+import { createSmtpMailProvider } from '@apograph/mail-provider-smtp';
+import { createConsoleMailProvider } from '@apograph/mail-provider-console';
 import { McpPlugin } from '@apograph/mcp-server';
 import { MediaServerPlugin } from '@apograph/media-server';
 import { TransferPlugin } from '@apograph/transfer-server';
@@ -27,6 +30,7 @@ import { UsersPlugin } from '@apograph/users-server';
 import { WorkspacesPlugin } from '@apograph/workspaces-server';
 import type { ApographConfig } from '../apograph.config';
 import type { SsoRegistration } from '@apograph/identity-domain';
+import type { MailProvider } from '@apograph/mail-domain';
 import { contentTypes } from './content';
 
 /**
@@ -123,6 +127,42 @@ export function ssoProviders(config: ApographConfig): SsoRegistration[] {
 }
 
 /**
+ * The mail backend this deployment sends through, or `null` for one that sends
+ * nothing.
+ *
+ * **Only what is configured is constructed.** `apograph.config.ts` returns no
+ * mail config at all unless `MAIL_PROVIDER` names a backend, and this returns
+ * `null` in that case — so a fresh clone registers no mail plugin, keeps the
+ * invite and reset routes returning the raw token, and behaves exactly as the
+ * product did before ADR-0018. There is no "default" adapter here for the same
+ * reason there is no default copilot backend: the offline one would make
+ * invitations *look* sent and be received by nobody (ORT-148 is that mistake
+ * with a copilot attached).
+ *
+ * **Exported for `plugins.spec.ts`.** The plugin object carries its
+ * `mailConfig`, not its provider, so a config threaded into the wrong factory
+ * here would otherwise pass every test in the repo.
+ */
+export function mailProvider(config: ApographConfig): MailProvider | null {
+    const mail = config.plugins.mail;
+    if (!mail) return null;
+    if (mail.backend === 'console') {
+        return createConsoleMailProvider();
+    }
+    if (!mail.smtp) {
+        // Unreachable through `mailConfig()`, which fills the block in whenever
+        // it returns `backend: 'smtp'` — but this is the composition root, and
+        // a silent fall-through to the console adapter here is precisely the
+        // failure this file refuses elsewhere: mail that looks sent and reaches
+        // nobody.
+        throw new Error(
+            'MAIL_PROVIDER=smtp but no SMTP connection settings were built — set SMTP_HOST.'
+        );
+    }
+    return createSmtpMailProvider(mail.smtp);
+}
+
+/**
  * Builds the host's plugin list. Shared by `main.ts` (boot) and the
  * `db:migrate` target (which reads each plugin's `migrations` descriptor),
  * so both see exactly the same plugins, in the same order.
@@ -157,6 +197,18 @@ export function ssoProviders(config: ApographConfig): SsoRegistration[] {
  * silently rather than failing boot — which is what `plugins.spec.ts` pins the
  * membership of this list for.
  */
+/**
+ * The mail plugin, or nothing — spelled as a list so the composition below
+ * stays a flat array of registrations rather than growing a conditional inside
+ * the one literal that is meant to read as "what this deployment runs".
+ */
+function mailPlugin(config: ApographConfig): ServerPlugin[] {
+    const provider = mailProvider(config);
+    const mail = config.plugins.mail;
+    if (!provider || !mail) return [];
+    return [MailServerPlugin({ provider, config: mail })];
+}
+
 export function buildPlugins(config: ApographConfig): ServerPlugin[] {
     const content = ContentPlugin({
         types: contentTypes,
@@ -199,6 +251,17 @@ export function buildPlugins(config: ApographConfig): ServerPlugin[] {
         }),
         WorkspacesPlugin(),
         ActivityPlugin(),
+        // Mail, before users: its `MAIL_DISPATCHER` is what the invite, resend
+        // and reset use cases queue their messages through, and what makes
+        // those routes stop returning a raw token (ADR-0018 §4). Registered
+        // only when a backend is configured — with none, `users` injects
+        // nothing, sends nothing, and returns the link exactly as it always
+        // has.
+        //
+        // Module order is not what binds it (every plugin module is global),
+        // but migration order is, and this list is that order: the plugin owns
+        // `mail_deliveries` and ships its migrations.
+        ...mailPlugin(config),
         UsersPlugin(),
         content,
         // Saved list views — a second `ServerPlugin` entry from the content

@@ -8,6 +8,7 @@ import {
     type IdentityPluginConfig
 } from '@apograph/identity-server';
 import { PasswordResetRecentlySentError } from '../../domain/errors';
+import type { IssuedToken } from './issued-token';
 
 /**
  * Namespace for the per-user advisory lock that serializes {@link
@@ -61,7 +62,7 @@ export class PasswordResetTokenService {
         userId: string,
         executor?: TokenExecutor,
         options?: RotateResetOptions
-    ): Promise<string> {
+    ): Promise<IssuedToken> {
         const raw = randomBytes(32).toString('hex');
         const expiresAt = new Date(
             Date.now() + this.identityConfig.token.resetTtlSeconds * 1000
@@ -118,7 +119,7 @@ export class PasswordResetTokenService {
             await this.db.transaction(run);
         }
 
-        return raw;
+        return { raw, expiresAt };
     }
 
     private hash(raw: string): string {

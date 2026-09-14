@@ -59,13 +59,22 @@ export interface MemberView {
  * members.
  *
  * The token is the secret half of the invite link. Only its hash is stored, so
- * this response is the single moment it exists in readable form — the admin
- * copies the link from here and delivers it themselves. Once a mailer lands
- * (identity epic #11) the link is emailed and this field can go.
+ * when it is present this response is the single moment it exists in readable
+ * form.
+ *
+ * **It is present only when nothing else will deliver it.** With a mail
+ * provider configured the invitation carries the link and the field is
+ * **absent** — not empty (ADR-0018 §4), so a client that reads it blindly fails
+ * loudly rather than pasting `undefined` into a chat window. `revealLinks`
+ * keeps it alongside the message for debugging a delivery problem, and
+ * `POST /api/users/:id/reveal-link` is the audited way to see one otherwise.
  */
 export interface InvitedMemberView extends MemberView {
-    /** The raw invite token, shown to the inviting admin exactly once. */
-    inviteToken: string;
+    /**
+     * The raw invite token, shown to the inviting admin exactly once — absent
+     * when a mail provider is delivering it instead.
+     */
+    inviteToken?: string;
 }
 
 /**
@@ -74,14 +83,16 @@ export interface InvitedMemberView extends MemberView {
  * Every other read returns a plain {@link MemberView}, so a token never leaks
  * into a route that merely displays members.
  *
- * The token is the secret half of the reset link. Only its hash is stored, so
- * this response is the single moment it exists in readable form — the admin
- * copies the link from here and delivers it themselves. Once a mailer lands
- * (identity epic #11) the link is emailed and this field can go.
+ * The token is the secret half of the reset link, and it is **absent** once a
+ * mail provider is configured, on the same terms as
+ * {@link InvitedMemberView.inviteToken}.
  */
 export interface PasswordResetMemberView extends MemberView {
-    /** The raw reset token, shown to the issuing admin exactly once. */
-    resetToken: string;
+    /**
+     * The raw reset token, shown to the issuing admin exactly once — absent
+     * when a mail provider is delivering it instead.
+     */
+    resetToken?: string;
 }
 
 /** One page of members, as returned by `GET /api/users`. */

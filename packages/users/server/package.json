@@ -24,6 +24,7 @@
         "@apograph/copilot-server": "*",
         "@apograph/database": "*",
         "@apograph/identity-server": "*",
+        "@apograph/mail-domain": "*",
         "@apograph/tools-server": "*",
         "@apograph/utils-server": "*",
         "@apograph/workspaces-server": "*",

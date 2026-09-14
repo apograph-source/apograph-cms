@@ -39,6 +39,12 @@
             "path": "../../packages/media/server"
         },
         {
+            "path": "../../packages/mail/server"
+        },
+        {
+            "path": "../../packages/mail/provider-testkit"
+        },
+        {
             "path": "../../packages/copilot/server"
         },
         {

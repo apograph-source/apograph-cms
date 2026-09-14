@@ -143,10 +143,23 @@ export const CORE_DEV_PACKAGES: readonly string[] = ['@apograph/cli'];
 
 /**
  * Packages deliberately left undeclared — published, but with no reason for a
- * generated app to import them.
+ * generated app to import them **yet**.
  *
- * The two `media-*` entries are tools for **writing a storage provider**, not
- * for running one. `StorageProviderCheck` refuses to boot a database whose rows
+ * The five `mail-*` entries are the newest, and the only ones here for a reason
+ * of sequencing rather than of purpose. Outgoing mail ships in phases
+ * ([ADR-0018](../../../../docs/adr/0018-mail-provider.md)): the plugin, the
+ * port, the SMTP relay and the two offline adapters exist and this repo's own
+ * host wires them, but the scaffolder's **fifth question** — single-choice,
+ * "Do not configure" by default, with `console` and `testkit` offered nowhere —
+ * is phase 3. Declaring them before that question exists would install four
+ * packages (and `nodemailer`) into every generated app with no line in its
+ * `plugins.ts` that could use them. When the question lands they become a
+ * feature group and `mail-domain`, `mail-provider-console` and
+ * `mail-provider-testkit` move to {@link CORE_PACKAGES} on the same reasoning
+ * as `identity-provider-fake`.
+ *
+ * The two `media-*` entries are here for the ordinary reason instead: they are
+ * tools for **writing a storage provider**, not for running one. `StorageProviderCheck` refuses to boot a database whose rows
  * were written by a provider that is no longer configured, so the in-memory
  * backend is a test and offline-development affordance, never a deployment:
  * offering it in the scaffolder would be offering an app that loses every
@@ -159,6 +172,11 @@ export const CORE_DEV_PACKAGES: readonly string[] = ['@apograph/cli'];
  * it entirely is not.
  */
 export const TRANSITIVE_PACKAGES: readonly string[] = [
+    '@apograph/mail-domain',
+    '@apograph/mail-provider-console',
+    '@apograph/mail-provider-smtp',
+    '@apograph/mail-provider-testkit',
+    '@apograph/mail-server',
     '@apograph/media-provider-memory',
     '@apograph/media-provider-testkit'
 ];
