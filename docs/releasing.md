@@ -69,7 +69,7 @@ and stamps it with **its own version** at scaffold time, so a release carries
 the generated app forward with nothing to update by hand. There is no list of
 versions in the template to fall behind.
 
-What a release *does* assume is that the template knows about every package.
+What a release _does_ assume is that the template knows about every package.
 Adding one to the workspace without classifying it in
 [`packages/create-apograph-app/src/lib/features.ts`](../packages/create-apograph-app/src/lib/features.ts)
 fails `create-apograph-app`'s tests — deliberately, so the decision "does a new app
@@ -81,7 +81,7 @@ scope — unscoped so `npx create-apograph-app` works — so it is named explici
 `release.projects` and in the `preVersionCommand` rather than being picked up by
 the `@apograph/*` glob. It ships in lockstep for a reason beyond tidiness: it
 stamps its own version into every `@apograph/*` dependency of the app it
-generates, so its version *is* the matching set.
+generates, so its version _is_ the matching set.
 
 ## How a tarball is built
 
@@ -113,6 +113,7 @@ existing.
     entry point. Left pointing at `./src/cli.ts` it publishes a command that
     installs cleanly and dies on its first `npx`, on someone else's machine,
     with an error about the command not existing rather than about the file.
+
 3. **`nx-release-publish`** — publishes that staging directory rather than the
    project root, via `packageRoot`. It runs `@apograph/nx:release-publish`
    rather than the `@nx/js` one, because 37 publishes in a row is more than
@@ -205,11 +206,12 @@ npm run release:reserve -- --limit=20       # create at most 20 names
 
 Each run probes the registry, skips every name that is already there, and
 publishes the **real staged tarball** at `0.0.0-reserve.0` under the `reserve`
-dist-tag. Two things follow from that choice. `latest` stays unset, so
-`npm install @apograph/<name>` finds nothing until the real release rather
-than installing a husk; and what goes out is a genuine package rather than an
-empty placeholder, which is what an anti-abuse system reads as squatting — the
-last thing to do while rationed. The reserved version does not disturb
+dist-tag. What goes out is a genuine package rather than an empty placeholder,
+which is what an anti-abuse system reads as squatting — the last thing to do
+while rationed. The tag does not keep `latest` off it, though: npm points
+`latest` at a package's first version whatever `--tag` says, so until the real
+release `npm install @apograph/<name>` installs the reserved build. The
+reserved version does not disturb
 versioning: `nx release` derives the next one from conventional commits against
 the git tag and never asks the registry.
 
@@ -218,6 +220,12 @@ attempted: every rejected creation is a signal to the rate limiter, and
 spending one per package to be told the same thing is how a soft limit becomes
 a hard one. Run it again when the limit rolls over — what already exists is
 skipped by the probe.
+
+A refusal to publish over a version that is already there is not that signal.
+The probe reads a packument, which can lag a fresh publish by several minutes,
+so running again straight after a batch meets names the registry will not show
+yet but will not accept twice. That 403 means the name exists, and the run
+carries on past it.
 
 `--limit` is also how you find out what the limit actually _is_, which npm does
 not document. Start at 20; where the refusal lands is the answer, and it costs

@@ -19,11 +19,11 @@
  *     node tools/release/reserve-names.mjs --limit=20
  *
  * What goes out is the **real staged tarball** at a prerelease version under a
- * non-`latest` dist-tag — not an empty placeholder. Two reasons: an empty stub
- * is what an anti-abuse system reads as name squatting, which is the last
- * thing to do while rationed; and `latest` stays unset, so
- * `npm install @apograph/<name>` finds nothing until the real release rather
- * than installing a husk.
+ * non-`latest` dist-tag — not an empty placeholder, which is what an
+ * anti-abuse system reads as name squatting, the last thing to do while
+ * rationed. The tag does not keep `latest` off it: npm points `latest` at a
+ * package's first version whatever `--tag` says, so until the real release
+ * `npm install @apograph/<name>` installs the reserved build.
  *
  * The reserved version does not disturb versioning: `nx.json` derives the next
  * version from conventional commits against the git tag, with a `disk`
@@ -112,6 +112,21 @@ for (const pkg of staged) {
     if (created.length > 0) await sleep(DEFAULTS.gap);
 
     const failure = publish(pkg);
+
+    // A name created minutes ago can still 404 on the packument read while the
+    // registry refuses to publish the version again — the probe is eventually
+    // consistent, the write is not. That refusal is the answer the probe could
+    // not give yet, not a rate limit, so it must not end the run.
+    if (
+        failure &&
+        /cannot publish over the previously published versions/i.test(failure)
+    ) {
+        existing.push(pkg.name);
+        console.log(
+            `  · ${pkg.name} — already published (the registry is not showing it yet)`
+        );
+        continue;
+    }
 
     if (failure) {
         stopped = { name: pkg.name, output: failure };
