@@ -1,6 +1,6 @@
 ---
 name: ticket
-description: Drive a ticket through the Apograph agent pipeline — triage it to a tier, fan out read-only analysis to the backend/frontend/qa subagents, assemble their notes into one plan with a frozen API contract, and post it to the ticket. Use when asked to pick up, plan, triage or run a ticket by its ID (APG-123, #456), or to report where a ticket stands.
+description: Drive a ticket through the Apograph agent pipeline — triage it to a tier, fan out read-only analysis to the backend/frontend/qa subagents, assemble their notes into one plan with a frozen API contract, and post it to the ticket. Use when asked to pick up, plan, triage or run a ticket by its Linear identifier (ORT-123), or to report where a ticket stands.
 argument-hint: "<ticket-id> [go | qa | status]"
 allowed-tools: Read, Glob, Grep, Agent, Bash(git *), Bash(npx nx *), mcp__Linear__get_issue, mcp__Linear__save_issue, mcp__Linear__list_comments, mcp__Linear__save_comment, mcp__Linear__list_issue_labels, mcp__Linear__list_issue_statuses, mcp__Linear__get_issue_status, mcp__Linear__list_teams
 ---
