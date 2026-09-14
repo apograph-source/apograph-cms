@@ -77,6 +77,82 @@ verification needs, and which existing suites already cover nearby behaviour. Th
 — it catches an unfalsifiable acceptance criterion before anyone builds against
 it.
 
+## Evidence
+
+Every verdict you report carries evidence a human can check without re-running
+anything. A criterion marked "pass" with nothing attached is an assertion, not a
+result.
+
+**Screenshots are the default.** One per acceptance criterion. A criterion with
+several steps gets one per step, numbered in order — the sequence is the proof,
+and a single end-state shot cannot show that step 2 was already wrong. A failure
+always gets a shot of the moment it went wrong, plus the Playwright trace
+(`trace: 'retain-on-failure'` is already configured).
+
+```sh
+agent-browser set viewport 1920 1080 2          # 2x, so text in the shot is readable
+agent-browser screenshot ./qa/AC-2.step-1.records-list.png
+agent-browser screenshot --full ./qa/AC-3.step-2.control-enabled.png
+```
+
+Name them `AC-<criterion>.step-<n>.<what-it-shows>.png`, so the report is
+readable without opening a single image. Write them under a scratch directory,
+never into the repository — they are evidence for one run, not source.
+
+**Do not screenshot navigation.** Getting to the page is not a finding. Shoot the
+state the criterion is about. A ticket carrying forty images is a ticket nobody
+reads, and the cap is what keeps the ten that matter visible.
+
+**Video is not the default.** Record only when the defect exists _as a sequence_
+and a still cannot carry it — focus order, an animation, a drag, a race:
+
+```sh
+agent-browser record start ./qa/AC-5.focus-trap.webm
+# … the steps …
+agent-browser record stop
+```
+
+Nobody watches three minutes of webm to find one broken state, and a video
+cannot be quoted in a comment or compared against the previous cycle. A numbered
+set of stills can do both.
+
+**Never shoot real data.** Your stack is seeded, so this should not arise — but a
+screenshot goes into a ticket with a wider audience than the slot, so if you find
+yourself looking at anything that is not fixture data, stop and say so instead.
+
+## The report
+
+Post it when the cycle ends, **before** the ticket is closed — it is the evidence
+the close decision is made on, and a comment on an already-closed ticket is a
+comment nobody reads. Closing is a human's call, never yours.
+
+One comment, in this shape:
+
+```
+## QA — <ticket>, cycle <n>
+
+Stack: slot <n> (API :300n, admin :420n), seeded with <what>
+Suites: server-e2e <x/y> · admin-e2e <x/y>
+
+| # | Criterion | Verdict | Evidence |
+
+### Failing tests
+<suite › file › test name, one per line>
+
+### Observations without a test
+<each with a reproduction, clearly marked as unproven>
+
+### Versus the previous cycle
+<did the failing set shrink — the lead counts cycles on this>
+```
+
+Attach the images to the ticket itself where the store supports it: Linear takes
+real attachments (`mcp__Linear__prepare_attachment_upload`, then
+`create_attachment_from_upload`). The GitHub Issues API has **no** endpoint for
+attaching an image to an issue, so there reference the paths and the uploaded
+Playwright report instead, and say plainly in the comment that the images are not
+inline. Do not commit screenshots to the repository to work around it.
+
 ## Before you hand back
 
 Report, in this order: each acceptance criterion with its verdict; the failing

@@ -90,6 +90,12 @@ mode of a pipeline like this is agents building confidently from an
 under-specified ticket; the label puts that failure on the board instead of
 burying it in a comment thread.
 
+Screenshots are why the store choice is not purely a matter of taste. Linear takes
+real attachments on an issue; the GitHub Issues API has no endpoint for attaching
+an image at all, so there a QA report can only reference paths and the uploaded
+Playwright report. If the evidence is meant to live on the ticket, that is a vote
+for Linear.
+
 The tier and the actual cost — runs spent, QA cycles used — are written **back**
 to the ticket when a run finishes. Without that there is no way to answer the
 only question that decides whether any of this was worth building: does t2 beat
@@ -142,14 +148,16 @@ which is worse than a red one.
 
 ## The QA cycle
 
-| Aspect                      | Rule                                                                                                        |
-| --------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| The stack                   | `npm run worktree -- provision <slot>`, then `npm run dev`. Never `admin-e2e` alone — its `/api` is mocked. |
-| The pass                    | The ticket's acceptance criteria, driven through `agent-browser`.                                           |
-| The invariants              | The numbered lists ending each dossier in [`artifacts/`](artifacts/) for the packages the diff touches.     |
-| **A bug is a failing test** | No reproducing test under `apps/*-e2e` means it is an observation for a comment, not a sub-ticket.          |
-| Out                         | Failing tests plus sub-tickets, or "clean".                                                                 |
-| Stop                        | The set of failing tests did not shrink for two cycles running → step 10.                                   |
+| Aspect                      | Rule                                                                                                                                                                                                                              |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| The stack                   | `npm run worktree -- provision <slot>`, then `npm run dev`. Never `admin-e2e` alone — its `/api` is mocked.                                                                                                                       |
+| The pass                    | The ticket's acceptance criteria, driven through `agent-browser`.                                                                                                                                                                 |
+| The invariants              | The numbered lists ending each dossier in [`artifacts/`](artifacts/) for the packages the diff touches.                                                                                                                           |
+| **A bug is a failing test** | No reproducing test under `apps/*-e2e` means it is an observation for a comment, not a sub-ticket.                                                                                                                                |
+| Evidence                    | A screenshot per criterion; one per step for a multi-step criterion, numbered; a failure also gets the moment it broke plus the Playwright trace. Video only where the defect exists as a sequence rather than a state.           |
+| The report                  | One comment when the cycle ends — criteria with verdicts, failing tests, observations without a test, and whether the failing set shrank. Posted **before** the ticket is closed, because it is what the close decision rests on. |
+| Out                         | Failing tests plus sub-tickets, or "clean".                                                                                                                                                                                       |
+| Stop                        | The set of failing tests did not shrink for two cycles running → step 10.                                                                                                                                                         |
 
 The failing-test rule is the only cheap filter against the pipeline's second
 failure mode: an agent generating bug reports from its own mistaken
