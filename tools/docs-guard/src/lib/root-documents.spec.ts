@@ -244,7 +244,7 @@ describe("CONTEXT-MAP.md's skill list", () => {
     it('names every skill the repo ships', () => {
         const listed = claimIn(
             CONTEXT_MAP,
-            /Authoring conventions are encoded as skills under `\.agents\/skills\/` and `\.claude\/skills\/`: ([^.]*)\./
+            /The repository ships these skills, canonically under `\.agents\/skills\/` and mirrored into `\.claude\/skills\/` by symlink: ([^.]*)\./
         )[0]
             .replace(/,? and /, ', ')
             .split(', ')

@@ -10,12 +10,12 @@ detail.
 
 ### Apps (`apps/`)
 
-| Project      | Package name | What it is                                                                      |
-| ------------ | ------------ | ------------------------------------------------------------------------------- |
-| `admin`      | —            | React 19 + Vite SPA. The admin UI. Composes admin plugins via `createAdmin`.    |
+| Project      | Package name | What it is                                                                         |
+| ------------ | ------------ | ---------------------------------------------------------------------------------- |
+| `admin`      | —            | React 19 + Vite SPA. The admin UI. Composes admin plugins via `createAdmin`.       |
 | `server`     | —            | NestJS API. Composes server plugins via `createServer`. Owns `apograph.config.ts`. |
-| `admin-e2e`  | —            | Playwright Page-Object e2e suite for the admin SPA (`/api` mocked).             |
-| `server-e2e` | —            | In-process testcontainer + supertest e2e suite for the API.                     |
+| `admin-e2e`  | —            | Playwright Page-Object e2e suite for the admin SPA (`/api` mocked).                |
+| `server-e2e` | —            | In-process testcontainer + supertest e2e suite for the API.                        |
 
 ### Packages (`packages/`)
 
@@ -82,10 +82,10 @@ detail.
 | `query-builder/admin`        | `@apograph/query-builder-admin`        | Admin filter/query-builder UI.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | `design-system`              | `@apograph/design-system`              | shadcn/ui component library + Tailwind. Governed by the `shadcn` skill.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | `utils/admin`                | `@apograph/utils-admin`                | Shared admin plumbing: `apiClient`, `queryClient`, slots, error handling.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| `utils/server`               | `@apograph/utils-server`               | Shared server utilities — the `?filter=` query builder, Postgres error introspection, and the environment readers a host's `apograph.config.ts` validates `process.env` with (shared with the scaffolder's template).                                                                                                                                                                                                                                                                                                                                                                                            |
+| `utils/server`               | `@apograph/utils-server`               | Shared server utilities — the `?filter=` query builder, Postgres error introspection, and the environment readers a host's `apograph.config.ts` validates `process.env` with (shared with the scaffolder's template).                                                                                                                                                                                                                                                                                                                                                                                         |
 | `nx`                         | `@apograph/nx`                         | **Nx plugin.** Infers the `db:generate` / `db:migrate` + release targets; the database executors delegate to `@apograph/cli`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| `cli`                        | `@apograph/cli`                        | **The `apograph` command.** Build, run and migrate an installed app.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| `create-apograph-app`           | `create-apograph-app`                     | **Scaffolder.** `npx create-apograph-app my-cms`; one template, no content types.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| `cli`                        | `@apograph/cli`                        | **The `apograph` command.** Build, run and migrate an installed app.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| `create-apograph-app`        | `create-apograph-app`                  | **Scaffolder.** `npx create-apograph-app my-cms`; one template, no content types.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 
 > Regenerate this table whenever an app or package is added/removed/renamed.
 > `docs-guard` fails the build if you forget.
@@ -190,9 +190,16 @@ detail.
 
 ## Skills (machine-readable context)
 
-Authoring conventions are encoded as skills under `.agents/skills/` and
-`.claude/skills/`: `server-plugin`, `admin-plugin`, `accessibility`,
-`admin-e2e`, `server-e2e`, `shadcn`, and `agent-browser`.
-Prefer the skill over reverse-engineering a convention from code.
+The repository ships these skills, canonically under `.agents/skills/` and
+mirrored into `.claude/skills/` by symlink: `accessibility`, `admin-e2e`,
+`admin-plugin`, `agent-browser`, `open-pr`, `server-e2e`, `server-plugin`,
+`shadcn`, and `ticket`.
+
+Most encode an authoring convention — prefer the skill over reverse-engineering
+one from code. Two are procedures instead: `open-pr` writes a pull request body
+from the diff, and `ticket` drives a ticket through the agent pipeline in
+[`docs/agent-pipeline.md`](docs/agent-pipeline.md). The three role subagents that
+pipeline delegates to live under `.claude/agents/`, because the subagent format
+is Claude-specific where a skill is not.
 
 <!-- TODO: add domain/business glossary terms (non-technical) as the product grows. -->
