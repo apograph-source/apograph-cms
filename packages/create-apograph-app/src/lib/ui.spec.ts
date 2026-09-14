@@ -216,7 +216,7 @@ describe('the keyboard pickers', () => {
     });
 
     /**
-     * The wizard asks four of these in a row. Reading keys with
+     * The wizard asks five of these in a row. Reading keys with
      * `for await (const chunk of stdin)` used to destroy stdin as soon as a
      * picker was answered, so the *second* picker rejected with
      * `AbortError: The operation was aborted` the moment it painted — the media

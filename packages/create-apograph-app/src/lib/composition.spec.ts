@@ -1,4 +1,5 @@
 import {
+    existsSync,
     readFileSync,
     readdirSync,
     mkdtempSync,
@@ -377,6 +378,53 @@ describe('every core plugin package is actually mounted', () => {
 });
 
 /**
+ * Mail, which is conditional **twice**: on what the wizard was asked for, and
+ * on what the operator later put in `.env`.
+ *
+ * The second condition is why it cannot ride the `EXPECTED_PLUGINS` comparison
+ * above — `buildPlugins` registers it only when `MAIL_PROVIDER` names a
+ * backend, so neither side of that comparison can name it and nothing else
+ * would notice the whole feature going missing from the template. This is that
+ * notice: scaffolding with a backend has to produce the import, the
+ * registration and the config module, and scaffolding without one has to
+ * produce none of them — an app that installs a relay client and never
+ * constructs it is the `transfer-*` mistake with a queue attached.
+ */
+describe('the mail plugin', () => {
+    it('is composed when a backend was chosen [create-apograph-app:I-35]', () => {
+        const rendered = scaffold('media-local', 'rest', 'mail-smtp');
+        const plugins = rendered('apps/server/src/plugins.ts');
+
+        expect(plugins).toContain("from '@apograph/mail-server'");
+        expect(plugins).toContain('MailServerPlugin({');
+        expect(plugins).toContain('createSmtpMailProvider(mail.smtp)');
+        // Before `users`, whose invite, resend and reset queue through it.
+        expect(plugins.indexOf('...mailPlugin(config)')).toBeLessThan(
+            plugins.indexOf('UsersPlugin()')
+        );
+        expect(rendered('apps/server/config/mail.ts')).toContain(
+            'MAIL_PROVIDER'
+        );
+    });
+
+    it('leaves no husk in an app that sends nothing [create-apograph-app:I-35]', () => {
+        renderTemplate(TEMPLATE, target, valuesWith('media-local', 'rest'));
+        const plugins = readFileSync(
+            join(target, 'apps/server/src/plugins.ts'),
+            'utf8'
+        );
+
+        expect(plugins).not.toContain('@apograph/mail-server');
+        expect(plugins).not.toContain('mailPlugin');
+        // The file conditioned itself away entirely, rather than shipping an
+        // empty module explaining why it is empty.
+        expect(existsSync(join(target, 'apps/server/config/mail.ts'))).toBe(
+            false
+        );
+    });
+});
+
+/**
  * A `.env` key nothing reads.
  *
  * The generated `.env` is documentation as much as configuration — it is where
@@ -427,6 +475,7 @@ describe('the generated .env has no key nothing reads', () => {
     it.each([
         ['nothing optional', ['media-local', 'rest']],
         ['every protocol', ['media-local', 'rest', 'graphql', 'mcp']],
+        ['mail', ['media-local', 'rest', 'mail-smtp']],
         [
             'everything at once',
             [
@@ -438,7 +487,8 @@ describe('the generated .env has no key nothing reads', () => {
                 'copilot-openai',
                 'sso-oidc',
                 'sso-github',
-                'sso-saml'
+                'sso-saml',
+                'mail-smtp'
             ]
         ]
     ])('%s', (_label, ids) => {

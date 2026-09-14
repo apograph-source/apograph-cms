@@ -3,6 +3,7 @@ import { join } from 'node:path';
 import {
     ALL_FEATURES,
     COPILOT_PROVIDERS,
+    MAIL_PROVIDERS,
     SSO_PROVIDERS,
     CORE_DEV_PACKAGES,
     CORE_PACKAGES,
@@ -143,6 +144,36 @@ describe('resolvePackages', () => {
         expect(packages).not.toContain('@apograph/copilot-provider-fake');
     });
 
+    /**
+     * Mail's split, which is the copilot's with one difference: the *plugin*
+     * is opt-in here too. A deployment that sends nothing registers no queue
+     * and no worker, so `mail-server` would be a package with nothing to do —
+     * while the port stays declared, because that is what an operator
+     * implements to reach a backend we ship no adapter for.
+     */
+    it('installs the mail port and the offline adapters in every app [create-apograph-app:I-35]', () => {
+        const packages = resolvePackages(selectionOf());
+
+        expect(packages).toEqual(
+            expect.arrayContaining([
+                '@apograph/mail-domain',
+                '@apograph/mail-provider-console',
+                '@apograph/mail-provider-testkit'
+            ])
+        );
+        expect(packages).not.toContain('@apograph/mail-server');
+        expect(packages).not.toContain('@apograph/mail-provider-smtp');
+    });
+
+    it('adds the queue and the relay once a backend is chosen [create-apograph-app:I-35]', () => {
+        expect(resolvePackages(selectionOf('mail-smtp'))).toEqual(
+            expect.arrayContaining([
+                '@apograph/mail-server',
+                '@apograph/mail-provider-smtp'
+            ])
+        );
+    });
+
     it('adds a model backend only when its provider is chosen', () => {
         expect(resolvePackages(selectionOf())).not.toContain(
             '@apograph/copilot-provider-anthropic'
@@ -191,6 +222,8 @@ describe('resolvePackages', () => {
             '@apograph/identity-provider-github',
             '@apograph/identity-provider-oidc',
             '@apograph/identity-provider-saml',
+            '@apograph/mail-provider-smtp',
+            '@apograph/mail-server',
             '@apograph/mcp-server',
             '@apograph/media-provider-azure',
             '@apograph/media-provider-gcs',
@@ -242,6 +275,25 @@ describe('resolveFlags', () => {
         }
     );
 
+    /**
+     * The same derivation one adapter earlier. `config/mail.ts`, the
+     * `mailPlugin` helper, the `plugins.mail` field and the shared `MAIL_*`
+     * keys belong to mail rather than to SMTP, and none of them may be left
+     * behind as an empty husk in an app that configured no backend.
+     */
+    it.each(MAIL_PROVIDERS.map((provider) => [provider.id] as const))(
+        'derives the mail group flag from %s',
+        (id) => {
+            expect(resolveFlags(selectionOf(id)).has('mail')).toBe(true);
+        }
+    );
+
+    it('derives no mail flag for an app that picked no backend', () => {
+        expect(
+            resolveFlags(selectionOf('media-local', 'rest')).has('mail')
+        ).toBe(false);
+    });
+
     it('derives no sso flag for an app that picked no provider', () => {
         expect(
             resolveFlags(selectionOf('media-local', 'rest')).has('sso')
@@ -279,12 +331,27 @@ describe('availability', () => {
         const optIn = [
             ...COPILOT_PROVIDERS,
             ...SSO_PROVIDERS,
+            ...MAIL_PROVIDERS,
             ...PROTOCOLS.filter((protocol) => !protocol.locked)
         ];
 
         for (const feature of optIn) {
             expect(feature.enabledByDefault).toBe(false);
         }
+    });
+
+    /**
+     * The console adapter writes a message to the log, which is exactly right
+     * while developing and exactly wrong in production — an invitation that
+     * looks sent and reaches nobody. It is installed with every app and
+     * offered by nothing, the way `identity-provider-fake` is; the picker is
+     * where the mistake would be made, so this is where it is refused.
+     */
+    it('offers no offline mail adapter in any picker [create-apograph-app:I-35]', () => {
+        const offered = ALL_FEATURES.flatMap((feature) => feature.packages);
+
+        expect(offered).not.toContain('@apograph/mail-provider-console');
+        expect(offered).not.toContain('@apograph/mail-provider-testkit');
     });
 
     it('locks REST on, so it cannot be switched off', () => {

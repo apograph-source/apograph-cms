@@ -2,10 +2,11 @@
 
 > **Phase 1.** What is described here is what ships: the port, the queue, the
 > worker, the three transactional messages, `reveal-link`, and the SMTP,
-> console and testkit adapters. Self-service password recovery, the dead-letter
-> API, the Resend and Postmark adapters and the scaffolder question are phases 2
-> and 3 of [ADR-0018](../adr/0018-mail-provider.md); they are named in section
-> 13 rather than described as if they existed.
+> console and testkit adapters — plus phase 3's scaffolder question, which
+> `create-apograph-app` now asks. Self-service password recovery, the
+> dead-letter API and the Resend and Postmark adapters are phase 2 of
+> [ADR-0018](../adr/0018-mail-provider.md); they are named in section 13 rather
+> than described as if they existed.
 
 ## 1. Business description
 
@@ -233,9 +234,14 @@ were first written; the tests that pin one name it in a comment.
 - **Not built (phase 2):** `POST /api/auth/password-recovery` with its four
   rules, the `GET /api/mail/dead-letters` surface, the `mail.delivery_failed`
   event, and the Resend and Postmark adapters.
-- **Not built (phase 3):** the `create-apograph-app` question — which is why the
-  five packages sit in that package's `TRANSITIVE_PACKAGES` for now — review
-  notifications after ORT-226, and the recipient-locale decision.
+- **Built (phase 3):** the `create-apograph-app` question. The scaffolder's
+  fifth question is single-choice with **"Do not configure"** as its default;
+  picking SMTP installs `mail-server` and `mail-provider-smtp` and writes
+  `config/mail.ts`, the `mailPlugin()` helper and the `MAIL_*` / `SMTP_*` keys,
+  while `mail-domain`, `mail-provider-console` and `mail-provider-testkit` are
+  installed in every app and offered in no picker.
+- **Not built (phase 3):** review notifications after ORT-226, and the
+  recipient-locale decision.
 
 ## 14. Discrepancies and open questions
 

@@ -178,10 +178,11 @@
   read TypeScript from source.
 - `packages/create-apograph-app` — the **scaffolder** behind
   `npx create-apograph-app my-cms`. One template, no sample content types, plus a
-  keyboard wizard for the three genuine choices (storage adapter, hosted copilot
-  backends, and which protocols the content API speaks — REST always, GraphQL
-  and MCP optional); everything else, the copilot included, is installed
-  unconditionally. Stamps
+  keyboard wizard for the five genuine choices (storage adapter, hosted copilot
+  backends, single sign-on providers, which protocols the content API speaks —
+  REST always, GraphQL and MCP optional — and the mail backend, whose default
+  answer is "do not configure"); everything else, the copilot included, is
+  installed unconditionally. Stamps
   its own version into every `@apograph/*` dependency it writes, which is what
   makes a generated app a consistent lockstep set — so a release needs no
   template edit, while **adding a package does**: every published package must

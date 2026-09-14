@@ -21,12 +21,28 @@ import { buildPlugins } from './plugins';
  * app is created, so DI order is genuinely free.
  */
 
+// apograph:if mail
+/**
+ * Mail is registered only when `MAIL_PROVIDER` names a backend — see
+ * `config/mail.ts`. So the expected list follows the same condition rather than
+ * asserting a plugin whose presence is a `.env` decision: an app that sends
+ * nothing is a valid app, and this spec has to be green in both states.
+ */
+const mailIfConfigured = config.plugins.mail ? ['mail'] : [];
+// apograph:end
+
 /** Every plugin this app registers, in order. */
 const EXPECTED_PLUGINS = [
     'database',
     'identity',
     'workspaces',
     'activity',
+    // apograph:if mail
+    // Before `users`, whose invite, resend and reset queue through the port
+    // mail binds — and mail owns `mail_deliveries`, so this is migration order
+    // as much as intent.
+    ...mailIfConfigured,
+    // apograph:end
     'users',
     'content',
     // A second entry from the content package: `ServerPlugin.migrations` holds

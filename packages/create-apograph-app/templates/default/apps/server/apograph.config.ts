@@ -55,6 +55,9 @@ import { identityConfig, type AppIdentityConfig } from './config/identity';
 import { i18nConfig } from './config/i18n';
 import { mediaConfig, type AppMediaConfig } from './config/media';
 import { copilotConfig, type AppCopilotConfig } from './config/copilot';
+// apograph:if mail
+import { mailConfig, type AppMailConfig } from './config/mail';
+// apograph:end
 import { segmentsConfig } from './config/segments';
 import { transferConfig } from './config/transfer';
 import { webhooksConfig } from './config/webhooks';
@@ -71,6 +74,9 @@ import { mcpConfig } from './config/mcp';
  * in is an implementation detail of this one.
  */
 export type { AppIdentityConfig, AppMediaConfig, AppCopilotConfig };
+// apograph:if mail
+export type { AppMailConfig };
+// apograph:end
 
 /** Root configuration for this app. */
 export interface ApographConfig {
@@ -86,6 +92,14 @@ export interface ApographConfig {
         i18n: I18nPluginConfig;
         media: AppMediaConfig;
         copilot: AppCopilotConfig;
+        // apograph:if mail
+        /**
+         * Outgoing mail, or **absent** — `undefined` is the configuration of an
+         * app that sends nothing, and the one it ships in. `src/plugins.ts`
+         * registers the plugin only when this is present.
+         */
+        mail?: AppMailConfig;
+        // apograph:end
         /** Export/import — per-type identity fields and transfer ceilings. */
         transfer: TransferPluginConfig;
         /** Reader entitlements — where a reader's tags come from. */
@@ -129,6 +143,9 @@ const config: ApographConfig = {
         i18n: i18nConfig(),
         media: mediaConfig(),
         copilot: copilotConfig(),
+        // apograph:if mail
+        mail: mailConfig(),
+        // apograph:end
         transfer: transferConfig(),
         segments: segmentsConfig(),
         webhooks: webhooksConfig(),

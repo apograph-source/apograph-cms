@@ -164,6 +164,26 @@ There is no offline stand-in. Configure no backend and the copilot has nothing
 to call, so leave `COPILOT_ENABLED=false` until you have one — turning it on
 with an empty provider list refuses to boot rather than shipping a chat that
 cannot answer.
+<!-- apograph:if mail -->
+### Outgoing mail
+
+Installed, and **off** until `MAIL_PROVIDER=smtp` is set in `.env`. With it
+empty this app sends nothing: no queue, no worker, and the invite and reset
+routes hand the raw link back for you to pass on — which is a complete
+configuration, and the one a fresh app runs in, so `npm run dev` works before
+you have a relay.
+
+Setting it makes two more variables required, and the app refuses to boot
+without them: `APP_URL`, because every link in a message is built from it, and
+`MAIL_FROM`, because a message with no sender is refused by every relay. The
+URL is deliberately not taken from the request — the caller controls the `Host`
+header, and an invitation is the one message a recipient is certain to click.
+
+It also changes the API: with mail configured the invite and reset routes stop
+returning the link, because two copies of an account-takeover secret are worse
+than one. `POST /api/users/:id/reveal-link` is the audited way to see one when a
+message does not arrive.
+<!-- apograph:end -->
 <!-- apograph:if graphql -->
 ### GraphQL
 

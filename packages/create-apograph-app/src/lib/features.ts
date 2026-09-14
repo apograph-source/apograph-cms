@@ -74,6 +74,19 @@ export interface Feature {
  * does something once the composition root registers it, and the template
  * registers none.
  *
+ * **Mail** contributes three on the same reasoning twice over. `mail-domain` is
+ * the `MailProvider` port an operator implements to reach a backend we ship no
+ * adapter for, and it arrives transitively through `mail-server` and
+ * `mail-provider-smtp` alike. `mail-provider-console` and
+ * `mail-provider-testkit` are the `identity-provider-fake` case
+ * ([ADR-0018](https://github.com/apograph-source/apograph-cms/blob/main/docs/adr/0018-mail-provider.md) §6): shipped with every app,
+ * offered in no picker, named by no template — the console adapter is how a
+ * developer reads an invitation link out of their own dev log, and it is never
+ * a deployment, because a "sent" message nobody receives is worse than one the
+ * API still hands back. What is *not* here is the plugin itself: `mail-server`
+ * and `mail-provider-smtp` ride the mail question below, so an app that
+ * configures no mail installs no queue and no relay client.
+ *
  * `media-domain` is the storage port, on the same reasoning again: it is what
  * an operator implements to write a `StorageProvider` for a backend we ship no
  * adapter for, and it arrives transitively through both `media-server` and
@@ -111,6 +124,9 @@ export const CORE_PACKAGES: readonly string[] = [
     '@apograph/identity-provider-fake',
     '@apograph/identity-server',
     '@apograph/insights-admin',
+    '@apograph/mail-domain',
+    '@apograph/mail-provider-console',
+    '@apograph/mail-provider-testkit',
     '@apograph/media-admin',
     '@apograph/media-domain',
     '@apograph/media-server',
@@ -145,20 +161,7 @@ export const CORE_DEV_PACKAGES: readonly string[] = ['@apograph/cli'];
  * Packages deliberately left undeclared — published, but with no reason for a
  * generated app to import them **yet**.
  *
- * The five `mail-*` entries are the newest, and the only ones here for a reason
- * of sequencing rather than of purpose. Outgoing mail ships in phases
- * ([ADR-0018](../../../../docs/adr/0018-mail-provider.md)): the plugin, the
- * port, the SMTP relay and the two offline adapters exist and this repo's own
- * host wires them, but the scaffolder's **fifth question** — single-choice,
- * "Do not configure" by default, with `console` and `testkit` offered nowhere —
- * is phase 3. Declaring them before that question exists would install four
- * packages (and `nodemailer`) into every generated app with no line in its
- * `plugins.ts` that could use them. When the question lands they become a
- * feature group and `mail-domain`, `mail-provider-console` and
- * `mail-provider-testkit` move to {@link CORE_PACKAGES} on the same reasoning
- * as `identity-provider-fake`.
- *
- * The two `media-*` entries are here for the ordinary reason instead: they are
+ * The two `media-*` entries are here for the ordinary reason: they are
  * tools for **writing a storage provider**, not for running one. `StorageProviderCheck` refuses to boot a database whose rows
  * were written by a provider that is no longer configured, so the in-memory
  * backend is a test and offline-development affordance, never a deployment:
@@ -172,11 +175,6 @@ export const CORE_DEV_PACKAGES: readonly string[] = ['@apograph/cli'];
  * it entirely is not.
  */
 export const TRANSITIVE_PACKAGES: readonly string[] = [
-    '@apograph/mail-domain',
-    '@apograph/mail-provider-console',
-    '@apograph/mail-provider-smtp',
-    '@apograph/mail-provider-testkit',
-    '@apograph/mail-server',
     '@apograph/media-provider-memory',
     '@apograph/media-provider-testkit'
 ];
@@ -361,12 +359,57 @@ export const PROTOCOLS: readonly Feature[] = [
     }
 ];
 
+/**
+ * How the app sends invitations and password resets.
+ *
+ * The one question whose default answer is **nothing**, and the only
+ * single-choice group that offers it: a deployment sends through exactly one
+ * relay, and plenty of them send through none. Pick nothing and the app behaves
+ * as the product always has — the invite response carries the raw link for an
+ * administrator to pass on by hand, with no queue, no worker and no
+ * `MAIL_PROVIDER` to set ([ADR-0018](https://github.com/apograph-source/apograph-cms/blob/main/docs/adr/0018-mail-provider.md)).
+ *
+ * **One entry covers the market**, the way the OIDC adapter covers the identity
+ * vendors: Resend, SES, Postmark, SendGrid, Mailgun, Google Workspace,
+ * Microsoft 365 and any relay inside a perimeter all speak SMTP. A vendor HTTP
+ * adapter earns a package of its own when the wire genuinely differs, and each
+ * one that lands joins this list — greyed out through `available: false` until
+ * it is published, the same as any other adapter.
+ *
+ * `mail-provider-console` and `mail-provider-testkit` are offered **nowhere**.
+ * They are installed unconditionally and registered by no template: the console
+ * adapter writes a message to the log, which is exactly right while developing
+ * and exactly wrong in production, where it would make every invitation look
+ * sent and reach nobody. That is ORT-148's mistake with an invitation attached,
+ * and the picker is where it would have been made.
+ *
+ * `mail-server` rides with the adapter rather than sitting in
+ * {@link CORE_PACKAGES}: the plugin is registered only when a backend is
+ * configured, so an app that picked nothing has no use for it — and a core
+ * package that defines a plugin factory has to be mounted unconditionally
+ * (`composition.spec.ts`), which this one must not be. When a second adapter
+ * lands it needs `mail-server` too, and the "no package in two groups" guard
+ * will say so: hoist it to a shared list at that point rather than repeating
+ * it.
+ */
+export const MAIL_PROVIDERS: readonly Feature[] = [
+    {
+        id: 'mail-smtp',
+        label: 'SMTP relay',
+        hint: 'Resend, SES, Postmark, SendGrid, Mailgun, Google Workspace, or a relay of your own. Needs SMTP_HOST, MAIL_FROM and APP_URL.',
+        packages: ['@apograph/mail-server', '@apograph/mail-provider-smtp'],
+        enabledByDefault: false,
+        available: true
+    }
+];
+
 /** Every optional feature, in the order the wizard asks about them. */
 export const ALL_FEATURES: readonly Feature[] = [
     ...MEDIA_PROVIDERS,
     ...COPILOT_PROVIDERS,
     ...SSO_PROVIDERS,
-    ...PROTOCOLS
+    ...PROTOCOLS,
+    ...MAIL_PROVIDERS
 ];
 
 /** The answers a scaffold run resolves to. */
@@ -402,8 +445,8 @@ export function resolveDevPackages(): string[] {
 /**
  * The feature ids in force for a selection — what `apograph:if` tests against.
  *
- * The picked ids, plus **one** derived group flag: `sso`, set when any
- * `sso-*` provider was chosen.
+ * The picked ids, plus **two** derived group flags: `sso`, set when any
+ * `sso-*` provider was chosen, and `mail`, set when any `mail-*` one was.
  *
  * It exists because `apograph:if` is deliberately line-based with no expression
  * language, so a block cannot say "any of these three". Three providers share
@@ -412,12 +455,20 @@ export function resolveDevPackages(): string[] {
  * *any* of them was picked, and none of which may be left behind as an empty
  * husk when none was. `sso` is that condition, and it is derived here rather
  * than added to the picker so it can never be selected on its own.
+ *
+ * `mail` is the same shape one adapter earlier: `config/mail.ts`, the
+ * `mailPlugin` helper, the `ApographConfig.plugins.mail` field and the shared
+ * `MAIL_*` keys belong to *mail*, not to SMTP, and the second adapter must not
+ * be the commit that discovers it.
  */
 export function resolveFlags(selection: FeatureSelection): Set<string> {
     const flags = new Set(selection.enabled);
 
     if (SSO_PROVIDERS.some((provider) => flags.has(provider.id))) {
         flags.add('sso');
+    }
+    if (MAIL_PROVIDERS.some((provider) => flags.has(provider.id))) {
+        flags.add('mail');
     }
 
     return flags;

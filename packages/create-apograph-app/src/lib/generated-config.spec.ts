@@ -298,6 +298,105 @@ describe('the SAML provider', () => {
 });
 
 /**
+ * Mail, whose "unset" answer is a whole configuration rather than a missing
+ * value.
+ *
+ * Every other builder here answers "is this backend configured?" with a
+ * provider or `undefined` inside a config that exists either way. This one
+ * returns `undefined` for the config itself, and that is what a freshly
+ * scaffolded app runs: no plugin, no queue, no worker, and the invite route
+ * still handing the link back. Inverting the check would make a keyless app
+ * refuse to boot — `APP_URL` and `MAIL_FROM` are required the moment a backend
+ * is named — which is a scaffolder that generates an app that cannot start.
+ */
+describe('mail', () => {
+    /** Renders with SMTP selected and reads its builder back. */
+    function mailConfig(): () => unknown {
+        return load<{ mailConfig: () => unknown }>(
+            ['media-local', 'rest', 'mail-smtp'],
+            'apps/server/config/mail'
+        ).mailConfig;
+    }
+
+    const CONFIGURED = {
+        MAIL_PROVIDER: 'smtp',
+        APP_URL: 'https://cms.example.test',
+        MAIL_FROM: 'My CMS <no-reply@example.test>',
+        SMTP_HOST: 'smtp.example.test'
+    };
+
+    beforeEach(() => {
+        for (const key of Object.keys(CONFIGURED)) delete process.env[key];
+    });
+
+    it.each([
+        ['unset', undefined],
+        ['blank', '']
+    ])(
+        'sends nothing when MAIL_PROVIDER is %s [create-apograph-app:I-35]',
+        (_label, value) => {
+            if (value !== undefined) process.env['MAIL_PROVIDER'] = value;
+
+            expect(mailConfig()()).toBeUndefined();
+        }
+    );
+
+    /**
+     * A misspelling must not read as "send nothing". Silently sending nothing
+     * is the failure the whole arrangement is built to avoid, and it would show
+     * up as invitations nobody receives rather than as a boot error.
+     */
+    it('refuses a backend it was not scaffolded with', () => {
+        process.env['MAIL_PROVIDER'] = 'console';
+
+        expect(() => mailConfig()()).toThrow(/MAIL_PROVIDER/);
+    });
+
+    /**
+     * Both are required the moment a backend is named, and `requireEnv` is what
+     * says so at boot rather than on somebody's first invitation: a message
+     * with no sender is refused by every relay, and every link in it is built
+     * from `APP_URL`.
+     */
+    it.each(['APP_URL', 'MAIL_FROM', 'SMTP_HOST'])(
+        'refuses to boot with a backend named and no %s',
+        (missing) => {
+            Object.assign(process.env, CONFIGURED);
+            delete process.env[missing];
+
+            expect(() => mailConfig()()).toThrow(new RegExp(missing));
+        }
+    );
+
+    it('builds the relay settings once a backend is named [create-apograph-app:I-35]', () => {
+        Object.assign(process.env, CONFIGURED);
+
+        expect(mailConfig()()).toMatchObject({
+            backend: 'smtp',
+            appUrl: 'https://cms.example.test',
+            from: 'My CMS <no-reply@example.test>',
+            smtp: { host: 'smtp.example.test' }
+        });
+    });
+
+    /**
+     * `.env` ships `SMTP_SECURE=` blank, and blank is not `false` here: passing
+     * `false` turns implicit TLS off explicitly, where leaving the key out lets
+     * the adapter upgrade the connection with STARTTLS — which is what port 587
+     * wants. The two look identical in the file and behave differently on the
+     * wire.
+     */
+    it('leaves implicit TLS unset rather than switching it off', () => {
+        Object.assign(process.env, CONFIGURED);
+        process.env['SMTP_SECURE'] = '';
+
+        expect(mailConfig()()).toMatchObject({
+            smtp: expect.not.objectContaining({ secure: expect.anything() })
+        });
+    });
+});
+
+/**
  * A key the generated `.env` ships blank.
  *
  * `env.tmpl` writes twenty-odd keys with nothing on the right-hand side —
