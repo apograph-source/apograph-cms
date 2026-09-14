@@ -1,6 +1,8 @@
 ---
+name: prgate
 description: Extended PR review — scope to main, run the code-review skill with project invariants, add security + e2e-coverage passes. Defaults to the local branch vs main; pass a PR# or branch to target that instead.
 argument-hint: "[PR# | branch]   (optional; default: local HEAD vs main)"
+allowed-tools: Read, Glob, Grep, Bash(git *), Bash(npx nx *), Bash(npm exec nx *), mcp__github__pull_request_read, mcp__github__pull_request_review_write, mcp__github__add_comment_to_pending_review
 ---
 
 # Extended PR review

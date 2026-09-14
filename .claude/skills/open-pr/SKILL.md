@@ -1,6 +1,9 @@
 ---
+name: open-pr
 description: Push the current branch and open a PR against main, always filling the repo PR template — including a diff-tailored manual testing checklist.
 argument-hint: "[base branch]   (optional; default: main)"
+disable-model-invocation: true
+allowed-tools: Read, Glob, Grep, Bash(git *), Bash(gh *), mcp__github__create_pull_request, mcp__github__update_pull_request, mcp__github__list_pull_requests, mcp__github__pull_request_read
 ---
 
 # Open PR
@@ -28,7 +31,7 @@ Diff stat (committed + working tree):
 
 Existing PR for this branch, if any:
 
-!`gh pr view --json url,state 2>/dev/null || echo "(gh unavailable or no PR — see Create step)"`
+!`gh pr view --json url,state 2>/dev/null || echo "(gh unavailable or no PR — check with mcp__github__list_pull_requests before creating; see Create step)"`
 
 ## Steps
 
@@ -62,19 +65,21 @@ Existing PR for this branch, if any:
      untouched skeleton.
 
 5. **Create the PR** against the base with the title following the repo's commit
-   convention (e.g. `feat(users): …`). Prefer `gh pr create`. If `gh` is not
-   installed, fall back to the GitHub REST API with the stored credential —
-   without printing the token:
+   convention (e.g. `feat(users): …`).
 
-   ```bash
-   TOKEN=$(printf 'protocol=https\nhost=github.com\n\n' | git credential fill 2>/dev/null | sed -n 's/^password=//p')
-   PAYLOAD=$(python3 -c 'import json; print(json.dumps({"title":"…","head":"<branch>","base":"main","body":open("/tmp/pr_body.md").read()}))')
-   curl -sS -X POST -H "Authorization: token ${TOKEN}" -H "Accept: application/vnd.github+json" \
-     https://api.github.com/repos/<owner>/<repo>/pulls -d "$PAYLOAD"
-   ```
+   - **Preferred — the GitHub MCP tools.** `mcp__github__create_pull_request`
+     with `owner`/`repo` taken from the `origin` remote, `head` = this branch,
+     `base`, and the body built above. This is the only path that works in
+     Claude Code on the web, where `gh` is **not installed**.
+   - **Fallback — `gh`.** `gh pr create --base <base> --title … --body-file …`,
+     when you are in a local terminal and `gh` is authenticated.
+
+   Do **not** pull a token out of `git credential fill` to hand-roll a `curl`:
+   the MCP tools already carry the session's GitHub credential, and a token
+   lifted into the shell can land in a transcript, a log, or a process list.
 
    If a PR already exists for the branch, **update** its body instead of
-   creating a duplicate (`gh pr edit` / `PATCH …/pulls/:n`).
+   opening a duplicate (`mcp__github__update_pull_request`, or `gh pr edit`).
 
 6. **Report** the PR URL.
 
