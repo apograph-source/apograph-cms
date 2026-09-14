@@ -22,6 +22,7 @@
         "@apograph/identity-admin": "*",
         "@apograph/insights-admin": "*",
         "@apograph/query-builder-admin": "*",
+        "@apograph/shell-admin": "*",
         "@apograph/utils-admin": "*",
         "@apograph/workspaces-admin": "*",
         "@tanstack/react-query": "^5.0.0",
