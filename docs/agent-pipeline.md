@@ -73,9 +73,11 @@ humans and costs nothing.
 
 ## Labels
 
-One mutually exclusive **group**, `agent-tier`, holding `t0` … `t3`. A group
-rather than four free-standing labels, because without one a ticket eventually
-carries `t1` and `t3` at the same time and the lead has to guess.
+One mutually exclusive **group**, `agent-tier`, holding `t0` … `t3`. Linear's
+label groups give that exclusivity natively; four free-standing labels do not, and
+without it a ticket eventually carries `t1` and `t3` at once and the lead has to
+guess. Create the group and the three signal labels below before the first run —
+the lead reads the vocabulary, it does not invent it.
 
 Three signal labels alongside it:
 
@@ -90,11 +92,12 @@ mode of a pipeline like this is agents building confidently from an
 under-specified ticket; the label puts that failure on the board instead of
 burying it in a comment thread.
 
-Screenshots are why the store choice is not purely a matter of taste. Linear takes
-real attachments on an issue; the GitHub Issues API has no endpoint for attaching
-an image at all, so there a QA report can only reference paths and the uploaded
-Playwright report. If the evidence is meant to live on the ticket, that is a vote
-for Linear.
+The store is **Linear**, and screenshots are why that is not a matter of taste:
+Linear takes real attachments on an issue, where the GitHub Issues API has no
+endpoint for attaching an image at all. A pipeline whose evidence cannot reach the
+ticket is a pipeline nobody can audit, so GitHub Issues is not a fallback and must
+not be used as one. Linear's connector has to be authorised in an interactive
+session; with it unreachable the lead stops rather than improvising.
 
 The tier and the actual cost — runs spent, QA cycles used — are written **back**
 to the ticket when a run finishes. Without that there is no way to answer the

@@ -2,7 +2,7 @@
 name: ticket
 description: Drive a ticket through the Apograph agent pipeline — triage it to a tier, fan out read-only analysis to the backend/frontend/qa subagents, assemble their notes into one plan with a frozen API contract, and post it to the ticket. Use when asked to pick up, plan, triage or run a ticket by its ID (APG-123, #456), or to report where a ticket stands.
 argument-hint: "<ticket-id> [go | qa | status]"
-allowed-tools: Read, Glob, Grep, Agent, Bash(git *), Bash(npx nx *), mcp__github__issue_read, mcp__github__issue_write, mcp__github__add_issue_comment, mcp__github__sub_issue_write, mcp__github__get_label, mcp__github__search_issues
+allowed-tools: Read, Glob, Grep, Agent, Bash(git *), Bash(npx nx *), mcp__Linear__get_issue, mcp__Linear__save_issue, mcp__Linear__list_comments, mcp__Linear__save_comment, mcp__Linear__list_issue_labels, mcp__Linear__list_issue_statuses, mcp__Linear__get_issue_status, mcp__Linear__list_teams
 ---
 
 # Running a ticket
@@ -38,13 +38,27 @@ Existing pipeline branches:
 
 ## Where the ticket lives
 
-Read the ticket through whichever store is configured. GitHub Issues
-(`mcp__github__issue_read`) is the default and works today; Linear
-(`mcp__Linear__get_issue`, `save_issue`, `save_comment`, `list_issue_labels`) is
-the intended target and needs the connector authorised in an interactive session.
-If neither is reachable, **say so and stop** — do not proceed from the prompt
-alone. A pipeline run with no ticket has nowhere to write its plan, its cycle
-count or its escalation, and those are the parts that make it auditable.
+**Linear.** It is the store, not one of two options — the pipeline's evidence
+lands on the issue as real attachments, which the GitHub Issues API cannot do at
+all, so GitHub Issues is not a fallback here and must not be used as one.
+
+| What you need                   | Tool                             |
+| ------------------------------- | -------------------------------- |
+| Read the ticket                 | `mcp__Linear__get_issue`         |
+| Read the thread so far          | `mcp__Linear__list_comments`     |
+| Post a plan or a report         | `mcp__Linear__save_comment`      |
+| Apply a label, file a sub-issue | `mcp__Linear__save_issue`        |
+| See the label vocabulary        | `mcp__Linear__list_issue_labels` |
+
+If Linear is not reachable — the connector needs authorising in an interactive
+session, and cannot be authorised from a non-interactive one — **say so and
+stop**. Do not proceed from the prompt alone, and do not substitute another
+store. A run with no ticket has nowhere to put its plan, its cycle count or its
+escalation, and those are the parts that make it auditable rather than merely
+fast.
+
+Do not move the issue's status. Reading it (`get_issue_status`) is useful context;
+changing it, and closing the issue, stay a human's call.
 
 Everything you learn about state, you learn from the ticket, not from your own
 context. You will be invoked again in a fresh session and the ticket is the only

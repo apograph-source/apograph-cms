@@ -146,12 +146,15 @@ Suites: server-e2e <x/y> · admin-e2e <x/y>
 <did the failing set shrink — the lead counts cycles on this>
 ```
 
-Attach the images to the ticket itself where the store supports it: Linear takes
-real attachments (`mcp__Linear__prepare_attachment_upload`, then
-`create_attachment_from_upload`). The GitHub Issues API has **no** endpoint for
-attaching an image to an issue, so there reference the paths and the uploaded
-Playwright report instead, and say plainly in the comment that the images are not
-inline. Do not commit screenshots to the repository to work around it.
+Attach the images to the Linear issue itself:
+`mcp__Linear__prepare_attachment_upload`, then `create_attachment_from_upload`,
+then reference each one from the evidence column by the name you gave it. Evidence
+that lives only on the machine that produced it is not evidence — a reviewer must
+be able to open it from the ticket.
+
+Do not commit screenshots to the repository, and do not fall back to another
+store. If the upload fails, say so in the report and name the local paths rather
+than silently dropping the column.
 
 ## Before you hand back
 
