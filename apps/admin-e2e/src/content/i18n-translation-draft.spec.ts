@@ -9,14 +9,30 @@ import { I18N_WORKSPACE, mockI18n } from '../support/api/i18n';
  * carrying the source record's shared values in `location.state`, so the new
  * row starts from what the group already agrees on.
  *
- * These cover what happens to the editor's **own** input afterwards. The
- * editor's tabs are route segments (`/new/media`), so moving between them is a
- * navigation, and the create form is re-seeded on the way back. On a plain
- * create (`/new`, no `location.state`) that re-seed is a no-op and the typed
- * values survive; on a translation draft the carried state is re-applied and
- * overwrites them.
+ * These two pin what happens to the editor's **own** input afterwards, and they
+ * are halves of one contract: a tab move keeps the draft, **and** it does not
+ * prompt about it. Both are about the same click, which is why they live
+ * together.
  *
- * Found driving the live stack for `ORT-227`, reproduced here.
+ * The editor's tabs are route segments (`/new/relations`), so moving between
+ * them is a navigation — but it is a navigation **within one draft**, not to
+ * another record. That distinction is the whole contract here:
+ *
+ *   - The draft survives it. It did not always: `onTabChange` navigates with
+ *     `state: location.state`, the history API structured-clones that state, and
+ *     the prefill came back equal but differently *identified* — enough to
+ *     re-key the memo behind `useEntryForm`'s `initialValues` and re-seed the
+ *     form over whatever had been typed. The translation draft is the one create
+ *     path carrying state, which is why it alone lost its title and slug while a
+ *     plain create kept them. Fixed by snapshotting the prefill once per create
+ *     session (`useCreatePrefill`).
+ *   - Nothing asks the author to confirm it. The unsaved-changes guard is for
+ *     leaving a record for a *different* one — which is what a locale switch
+ *     does, and it is guarded there (`i18n.spec.ts`, "picking a locale with
+ *     unsaved edits asks first, then completes"). A tab move leaves nothing, so
+ *     a prompt would be a nag rather than a safeguard.
+ *
+ * Found driving the live stack for `ORT-227`.
  */
 test.describe('Content i18n — the translation draft', () => {
     test.beforeEach(async ({ page }) => {
@@ -52,15 +68,16 @@ test.describe('Content i18n — the translation draft', () => {
         await expect(page).toHaveURL(/\/new\/relations/);
         await contentLibraryPage.openEditorTab('General');
 
-        // The draft is still unsaved, so the title has to still be there. It is
-        // not: the create form is re-seeded from the `location.state` the menu
-        // navigated with, and the re-seed wins over the author's own input.
+        // The draft is still unsaved and the author never left it, so the title
+        // is still theirs. The prefill seeded this form once, on arrival; it is
+        // not live input to be re-applied on every navigation the editor takes.
         await expect(contentLibraryPage.fieldTextbox('Title')).toHaveValue(
             'Bottes d’hiver'
         );
     });
 
-    test('a tab move on a dirty translation draft is guarded or lossless [ORT-227]', async ({
+    test('moves between tabs on a dirty translation draft without prompting [ORT-227]', async ({
+        page,
         contentLibraryPage
     }) => {
         await contentLibraryPage.goto(I18N_WORKSPACE.id);
@@ -72,10 +89,22 @@ test.describe('Content i18n — the translation draft', () => {
         await contentLibraryPage.localeSwitchSettled();
         await contentLibraryPage.fieldTextbox('Title').fill('Bottes d’hiver');
 
-        // Picking a locale while dirty raises the app-wide guard (AC-9). Moving
-        // tabs discards strictly more — the values are gone rather than
-        // re-fetched — and raises nothing at all, so the author is never told.
         await contentLibraryPage.openEditorTab('Relations');
-        await expect(contentLibraryPage.unsavedChangesDialog).toBeVisible();
+
+        // The guard is for leaving this record for another — picking a locale
+        // raises it (AC-9), and `i18n.spec.ts` pins both answers to it. A tab
+        // move goes nowhere: same draft, same unsaved values, one route segment
+        // deeper. Prompting here would ask the author to confirm abandoning
+        // work they are not abandoning, so nothing may raise it.
+        //
+        // Checked before the URL so that a guard added on this path is named as
+        // a guard. It would also block the navigation, which the URL below
+        // catches — but "expected /new/relations" is a poor way to report that
+        // someone introduced a confirmation.
+        await expect(contentLibraryPage.unsavedChangesDialog).toHaveCount(0);
+
+        // And the move really happened, so the assertion above was made about a
+        // completed tab change rather than a click that went nowhere.
+        await expect(page).toHaveURL(/\/new\/relations/);
     });
 });
