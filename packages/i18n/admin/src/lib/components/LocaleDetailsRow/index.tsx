@@ -5,7 +5,10 @@ import {
     TooltipContent,
     TooltipTrigger
 } from '@apograph/design-system';
-import { EntrySidebarRow, type EntrySlotContext } from '@apograph/content-admin';
+import {
+    EntrySidebarRow,
+    type EntrySlotContext
+} from '@apograph/content-admin';
 import { LOCALE_GROUP_PARAM } from '../../constants';
 
 const messages = defineMessages({

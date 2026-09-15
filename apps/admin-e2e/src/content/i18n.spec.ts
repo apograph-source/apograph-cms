@@ -340,9 +340,9 @@ test.describe('Content i18n', () => {
             contentLibraryPage.createTranslation('Français')
         ).toBeVisible();
         // Each existing sibling carries its publish state.
-        await expect(
-            contentLibraryPage.switchLocale('Deutsch')
-        ).toContainText(/Published|Draft|Modified/);
+        await expect(contentLibraryPage.switchLocale('Deutsch')).toContainText(
+            /Published|Draft|Modified/
+        );
         await contentLibraryPage.closeLocaleMenu();
 
         // The record's translation-group id is a row of **Details**, with an

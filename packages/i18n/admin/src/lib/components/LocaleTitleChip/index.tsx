@@ -100,10 +100,7 @@ const messages = defineMessages({
 type ReadState = 'pending' | 'failed' | 'known';
 
 /** Classify a TanStack query's two flags into the three states above. */
-function readState(query: {
-    isPending: boolean;
-    isError: boolean;
-}): ReadState {
+function readState(query: { isPending: boolean; isError: boolean }): ReadState {
     // Error first: a retry leaves `isPending` false but the last answer is
     // still a failure, and a failure is the more specific thing to say.
     if (query.isError) return 'failed';
@@ -295,9 +292,7 @@ export function LocaleTitleChip({
                   }
                 : undefined;
         }
-        const item = entryItems?.find(
-            (candidate) => candidate.locale === slug
-        );
+        const item = entryItems?.find((candidate) => candidate.locale === slug);
         return item?.entry
             ? {
                   id: item.entry.id,

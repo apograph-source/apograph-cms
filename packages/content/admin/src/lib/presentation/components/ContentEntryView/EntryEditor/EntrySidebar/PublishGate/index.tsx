@@ -146,7 +146,9 @@ export function PublishGate({
                                 </span>
                                 <span className="shrink-0 text-xs text-destructive">
                                     {item.message ??
-                                        intl.formatMessage(messages.gateFailing)}
+                                        intl.formatMessage(
+                                            messages.gateFailing
+                                        )}
                                 </span>
                             </li>
                         ))}
