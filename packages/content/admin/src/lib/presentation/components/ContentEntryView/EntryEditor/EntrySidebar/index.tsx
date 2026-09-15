@@ -3,7 +3,6 @@ import { useEntrySlotContext } from '../../../../hooks/useEntrySlotContext';
 import { ENTRY_SIDEBAR_WIDGET_SLOT } from '../../../../slots/contentSlots';
 import { PublishGate, type PublishGateItem } from './PublishGate';
 import { DetailsBlock } from './DetailsBlock';
-import { RevisionWidget } from '../RevisionWidget';
 
 /** Re-exported for the editor, which computes the gate items. */
 export type { PublishGateItem };
@@ -12,9 +11,13 @@ export type { PublishGateItem };
  * The body of the entry editor's **Properties** panel — one flat surface, not a
  * column of floating cards: a run of `EntrySidebarSection`s told apart by
  * dividers (a live {@link PublishGate} on publishable types, the static
- * {@link DetailsBlock}, the {@link RevisionWidget}, and any slot-contributed
- * widget), each using the same section chrome so a contribution can't drift into
- * its own look.
+ * {@link DetailsBlock}, and any slot-contributed widget), each using the same
+ * section chrome so a contribution can't drift into its own look.
+ *
+ * The rail carries **no Revisions block**. A second, truncated copy of the
+ * version history sat here beside a History tab that shows the whole thing with
+ * the same actions; the tab is the one place an entry's versions are read and
+ * restored from.
  *
  * It renders **chrome-less**: the panel column, its heading and its collapse
  * toggle belong to the shell's right-panel region, which `EntryEditor` fills
@@ -37,8 +40,8 @@ export function EntrySidebar({
     /** The publish-gate checks (publishable types only). */
     gate?: PublishGateItem[];
 }) {
-    // Slot-contributed rail widgets (e.g. the i18n plugin's locale panel),
-    // rendered below the Revisions block with the surrounding editor's context.
+    // Slot-contributed rail widgets (e.g. the alarms plugin's Checks block),
+    // rendered below Details with the surrounding editor's context.
     const slotContext = useEntrySlotContext();
     const widgets = ENTRY_SIDEBAR_WIDGET_SLOT.getItems();
 
@@ -54,14 +57,6 @@ export function EntrySidebar({
                 publishable={publishable}
                 isCreate={isCreate}
             />
-
-            {slotContext && entry?.id ? (
-                <RevisionWidget
-                    typeName={slotContext.schema.name}
-                    entryId={entry.id}
-                    schema={slotContext.schema}
-                />
-            ) : null}
 
             {slotContext
                 ? widgets.map((item) => (

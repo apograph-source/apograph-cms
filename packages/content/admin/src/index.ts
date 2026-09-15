@@ -3,6 +3,7 @@ export type { ContentAdminPlugin } from './lib/presentation/contentPlugin';
 
 export {
     CONTENT_OVERLAY_SLOT,
+    ENTRY_DETAILS_ROW_SLOT,
     ENTRY_FIELD_CONTROL_SLOT,
     ENTRY_HEADER_SLOT,
     ENTRY_MENU_SLOT,
@@ -20,6 +21,7 @@ export {
 } from './lib/presentation/slots/contentSlots';
 export type {
     ContentOverlayItem,
+    EntryDetailsRowItem,
     EntryFieldControlContext,
     EntryFieldControlItem,
     EntryHeaderItem,

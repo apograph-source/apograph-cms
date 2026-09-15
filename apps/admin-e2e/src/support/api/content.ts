@@ -633,9 +633,23 @@ export const RELATIONS_DETAIL_SEED: Record<string, ContentTypeDetail> = {
                 }
             },
             {
+                // **Required on purpose**, and the only required relation in
+                // this seed: a required many/inverse relation is link-managed,
+                // so it never reaches the values bag the field gate reads. The
+                // editor mirrors the server's `assertRequiredRelations` from
+                // the link *counts* instead, and without a fixture like this
+                // nothing pinned that second, count-based check — which is
+                // exactly the kind of check a rewrite of the gate's rendering
+                // can drop without a single test going red.
+                //
+                // It does not block the Publish button: `announceBlocked`
+                // reads `form.errors`, which a link-managed relation is
+                // absent from by design. So the specs here that publish an
+                // article are unaffected; only the rail's gate and the
+                // Relations tab's marker are.
                 name: 'tags',
                 type: 'relation',
-                required: false,
+                required: true,
                 validation: {},
                 admin: { label: 'Tags' },
                 relation: { to: 'tag', many: true }
@@ -2039,3 +2053,73 @@ export async function mockPublishRejection(
         }
     );
 }
+
+/** The catalogue for the always-live (non-publishable) fixture. */
+export const ALWAYS_LIVE_SCHEMA_SEED: ContentTypeSummary[] = [
+    {
+        name: 'notice',
+        kind: 'collection',
+        label: 'Notices',
+        publishable: false
+    }
+];
+
+/**
+ * A collection with **no publish workflow** (`publishable: false`) — the shape
+ * nothing under `src/` had, which is why the rail's two publishable-only rules
+ * went unpinned: the gate calls itself the **Save gate** there (Save really is
+ * strict on an always-live type, so an incomplete draft is not a thing), and
+ * Details drops its **Status** row, because "Draft" would name a state the type
+ * does not have.
+ *
+ * Deliberately its **own** seed and workspace rather than another type added to
+ * {@link CONTENT_DETAIL_SEED} — the pattern `READ_ONLY_*` and `HIDDEN_FIELD_*`
+ * already follow. The shared seed is the fixture a dozen suites open by
+ * default; a new type in it is a new row in every one of their lists.
+ */
+export const ALWAYS_LIVE_DETAIL_SEED: Record<string, ContentTypeDetail> = {
+    notice: {
+        name: 'notice',
+        kind: 'collection',
+        label: 'Notices',
+        publishable: false,
+        fields: [
+            {
+                name: 'title',
+                type: 'text',
+                required: true,
+                validation: {},
+                admin: { label: 'Title', description: 'Shown in listings.' }
+            },
+            {
+                name: 'note',
+                type: 'text',
+                required: false,
+                validation: {},
+                admin: { label: 'Note' }
+            }
+        ]
+    }
+};
+
+/** The one stored always-live row, complete so the gate reads clear. */
+export const ALWAYS_LIVE_ENTRY_ID = 'notice-1';
+
+/** Rows of {@link ALWAYS_LIVE_DETAIL_SEED}'s collection. */
+export const ALWAYS_LIVE_ENTRIES_SEED: Record<string, EntryRecord[]> = {
+    notice: [
+        seedRow(ALWAYS_LIVE_ENTRY_ID, {
+            title: 'Scheduled maintenance',
+            note: 'Back by 09:00.'
+        })
+    ]
+};
+
+/** A workspace granted only the always-live fixture type. */
+export const ALWAYS_LIVE_WORKSPACE: WorkspaceView = {
+    ...LIBRARY_WORKSPACE,
+    id: 'ws_always_live',
+    name: 'Always live demo',
+    slug: 'always-live-demo',
+    content: ['notice']
+};

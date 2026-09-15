@@ -1,5 +1,5 @@
 import { defineMessages, useIntl } from 'react-intl';
-import { GitCompare, Rocket, RotateCcw } from 'lucide-react';
+import { GitCompare, Rocket } from 'lucide-react';
 import { Badge, Button } from '@apograph/design-system';
 import type {
     RevisionStatus,
@@ -68,8 +68,7 @@ export function RevisionRow({
     busy,
     onRestore,
     onPublish,
-    onPreview,
-    compact = false
+    onPreview
 }: {
     revision: RevisionSummary;
     canUpdate: boolean;
@@ -82,11 +81,6 @@ export function RevisionRow({
     onPublish: (number: number) => void;
     /** Open the compare-against-current preview for this version. */
     onPreview: (number: number) => void;
-    /**
-     * Icon-only actions — the compact right-rail widget. The History tab (default)
-     * keeps the labelled buttons.
-     */
-    compact?: boolean;
 }) {
     const intl = useIntl();
     // Preview / Restore compare/apply against the current (latest) version, so a
@@ -145,44 +139,37 @@ export function RevisionRow({
                         <Button
                             type="button"
                             variant="ghost"
-                            size={compact ? 'icon' : 'sm'}
-                            title={compact ? previewLabel : undefined}
+                            size="sm"
                             aria-label={previewLabel}
                             onClick={() => onPreview(revision.number)}
                         >
                             <GitCompare aria-hidden />
-                            {!compact && intl.formatMessage(messages.preview)}
+                            {intl.formatMessage(messages.preview)}
                         </Button>
                     )}
                     {showPublish && (
                         <Button
                             type="button"
                             variant="ghost"
-                            size={compact ? 'icon' : 'sm'}
+                            size="sm"
                             disabled={busy}
-                            title={compact ? publishLabel : undefined}
                             aria-label={publishLabel}
                             onClick={() => onPublish(revision.number)}
                         >
                             <Rocket aria-hidden />
-                            {!compact && intl.formatMessage(messages.publish)}
+                            {intl.formatMessage(messages.publish)}
                         </Button>
                     )}
                     {showRestore && (
                         <Button
                             type="button"
                             variant="ghost"
-                            size={compact ? 'icon' : 'sm'}
+                            size="sm"
                             disabled={busy}
-                            title={compact ? restoreLabel : undefined}
                             aria-label={restoreLabel}
                             onClick={() => onRestore(revision.number)}
                         >
-                            {compact ? (
-                                <RotateCcw aria-hidden />
-                            ) : (
-                                intl.formatMessage(messages.restore)
-                            )}
+                            {intl.formatMessage(messages.restore)}
                         </Button>
                     )}
                 </div>
