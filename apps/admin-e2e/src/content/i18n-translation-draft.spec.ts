@@ -32,7 +32,16 @@ import { I18N_WORKSPACE, mockI18n } from '../support/api/i18n';
  *     unsaved edits asks first, then completes"). A tab move leaves nothing, so
  *     a prompt would be a nag rather than a safeguard.
  *
- * Found driving the live stack for `ORT-227`.
+ * **Both tests must prove the draft is dirty before they lean on it.** A fill
+ * issued while the locale-switch cover is still up is dropped on the floor —
+ * the cover marks the app root `inert`, so input never reaches the control and
+ * nothing raises an error (see `ContentLibraryPage.localeSwitchSettled`). A test
+ * that skips the read-back is then asserting about a *clean* form: the title
+ * would have been empty all along, no guard could have fired, and the second
+ * test below would pass without touching the behaviour it names.
+ *
+ * Found driving the live stack for `ORT-227`; the regression they pin is
+ * `ORT-228`.
  */
 test.describe('Content i18n — the translation draft', () => {
     test.beforeEach(async ({ page }) => {
@@ -41,7 +50,7 @@ test.describe('Content i18n — the translation draft', () => {
         await mockI18n(page);
     });
 
-    test('keeps what was typed when the editor moves between tabs [ORT-227]', async ({
+    test('keeps what was typed when the editor moves between tabs [ORT-227][ORT-228]', async ({
         page,
         contentLibraryPage
     }) => {
@@ -58,6 +67,8 @@ test.describe('Content i18n — the translation draft', () => {
         await contentLibraryPage.localeSwitchSettled();
 
         await contentLibraryPage.fieldTextbox('Title').fill('Bottes d’hiver');
+        // The fill landed — see the header note. Without this the assertion at
+        // the end could be comparing an empty field against an empty field.
         await expect(contentLibraryPage.fieldTextbox('Title')).toHaveValue(
             'Bottes d’hiver'
         );
@@ -76,7 +87,7 @@ test.describe('Content i18n — the translation draft', () => {
         );
     });
 
-    test('moves between tabs on a dirty translation draft without prompting [ORT-227]', async ({
+    test('moves between tabs on a dirty translation draft without prompting [ORT-227][ORT-228]', async ({
         page,
         contentLibraryPage
     }) => {
@@ -89,6 +100,15 @@ test.describe('Content i18n — the translation draft', () => {
         await contentLibraryPage.localeSwitchSettled();
         await contentLibraryPage.fieldTextbox('Title').fill('Bottes d’hiver');
 
+        // **The precondition, asserted rather than assumed.** Everything below
+        // is about what a dirty draft does *not* do, and "no prompt appeared" is
+        // equally true of a form with nothing in it. If this fill were silently
+        // dropped (see the header note) the rest of this test would still pass
+        // and would mean nothing at all.
+        await expect(contentLibraryPage.fieldTextbox('Title')).toHaveValue(
+            'Bottes d’hiver'
+        );
+
         await contentLibraryPage.openEditorTab('Relations');
 
         // The guard is for leaving this record for another — picking a locale
@@ -97,14 +117,21 @@ test.describe('Content i18n — the translation draft', () => {
         // deeper. Prompting here would ask the author to confirm abandoning
         // work they are not abandoning, so nothing may raise it.
         //
-        // Checked before the URL so that a guard added on this path is named as
-        // a guard. It would also block the navigation, which the URL below
-        // catches — but "expected /new/relations" is a poor way to report that
-        // someone introduced a confirmation.
-        await expect(contentLibraryPage.unsavedChangesDialog).toHaveCount(0);
-
-        // And the move really happened, so the assertion above was made about a
-        // completed tab change rather than a click that went nowhere.
+        // **Order matters.** `toHaveCount(0)` is satisfied by the first poll, so
+        // on its own it would race a prompt that mounts a tick later. These two
+        // positive waits give it something to be true *after*: the route landed,
+        // and the editor re-rendered around the new tab. Read a failure by which
+        // of the three fires —
+        //
+        //   - the URL or `aria-selected`  → a prompt that **blocks** navigation
+        //     was added; the tab move never completed.
+        //   - the count below             → a prompt that **doesn't** block was
+        //     added; the move landed and something appeared over it anyway.
         await expect(page).toHaveURL(/\/new\/relations/);
+        await expect(contentLibraryPage.editorTab('Relations')).toHaveAttribute(
+            'aria-selected',
+            'true'
+        );
+        await expect(contentLibraryPage.unsavedChangesDialog).toHaveCount(0);
     });
 });
