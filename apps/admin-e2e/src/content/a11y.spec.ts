@@ -12,6 +12,7 @@ import {
     SHARED_VIEW,
     mockSavedViews
 } from '../support/api/savedViews';
+import { I18N_WORKSPACE, mockI18n } from '../support/api/i18n';
 import { expectNoA11yViolations } from '../support/a11y';
 
 /**
@@ -169,6 +170,34 @@ test.describe('Content Library accessibility (axe, WCAG 2.1 A/AA)', () => {
         // A disabled radio whose only explanation is its description — exactly
         // the pairing axe checks and a reader depends on.
         await savedViewsPage.dialog().waitFor();
+        await expectNoA11yViolations(makeAxe());
+    });
+});
+
+/**
+ * The entry editor's **locale menu** — the title-row chip and the menu it
+ * opens. Its own describe because it needs the i18n fixture's workspace rather
+ * than the library one, and because an open Radix menu is a state, not a page:
+ * the trigger's name, the radio items' checked state and the contrast of the
+ * rows inside the portal only exist while it is up.
+ */
+test.describe('Locale menu accessibility (axe, WCAG 2.1 A/AA)', () => {
+    test.beforeEach(async ({ page }) => {
+        await mockSignedIn(page);
+        await mockWorkspaces(page, [I18N_WORKSPACE]);
+        await mockI18n(page);
+    });
+
+    test('entry editor — locale menu open', async ({
+        page,
+        contentLibraryPage,
+        makeAxe
+    }) => {
+        await page.goto(
+            `/workspaces/${I18N_WORKSPACE.id}/content/localized_post/lp-en-1`
+        );
+        await contentLibraryPage.editorSave.waitFor();
+        await contentLibraryPage.openLocaleMenu();
         await expectNoA11yViolations(makeAxe());
     });
 });

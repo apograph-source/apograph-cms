@@ -80,7 +80,18 @@ test.describe('Content i18n — degraded reads and edge locales', () => {
         );
         await expect(contentLibraryPage.editorSave).toBeVisible();
 
-        await expect(contentLibraryPage.localeWidgetError).toBeVisible(SETTLED);
+        // The menu is where the group's locales are listed now, so the failure
+        // has to be readable **there** — the assertion needs it open.
+        await contentLibraryPage.openLocaleMenu();
+        await expect(contentLibraryPage.localeMembersError).toBeVisible(
+            SETTLED
+        );
+        // …with a way to ask again, rather than a dead end.
+        await expect(
+            contentLibraryPage.localeMenu.getByRole('menuitem', {
+                name: 'Try again'
+            })
+        ).toBeVisible();
         // Offering this would produce a create form whose save 409s against the
         // sibling that is already there.
         await expect(
@@ -89,7 +100,9 @@ test.describe('Content i18n — degraded reads and edge locales', () => {
         await expect(contentLibraryPage.switchLocale('Deutsch')).toHaveCount(0);
         // …and the rows say why they are inert rather than dimming silently.
         await expect(
-            contentLibraryPage.paneText(/Unknown — couldn’t load/).first()
+            contentLibraryPage.localeMenu
+                .getByText(/Unknown — couldn’t load/)
+                .first()
         ).toBeVisible();
     });
 
@@ -182,7 +195,7 @@ test.describe('Content i18n — degraded reads and edge locales', () => {
         // Press the switch, then leave before the deferred navigation runs —
         // the overlay is `pointer-events-none`, so this is a click the user can
         // physically make. The swap must not fire from a screen they left.
-        await contentLibraryPage.switchLocale('Deutsch').click();
+        await contentLibraryPage.switchToLocale('Deutsch');
         await contentLibraryPage.editorBackLink.click();
 
         await expect(page).toHaveURL(/\/localized_post$/);

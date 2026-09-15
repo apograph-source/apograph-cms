@@ -679,7 +679,7 @@ export class ContentLibraryPage extends BasePage {
     }
 
     /** The locale panel's failed-read alert in the entry editor. */
-    get localeWidgetError(): Locator {
+    get localeMembersError(): Locator {
         return this.page.getByText(/other locales couldn’t be loaded/);
     }
 
@@ -721,45 +721,118 @@ export class ContentLibraryPage extends BasePage {
             .waitFor({ state: 'detached', timeout: 10_000 });
     }
 
-    /** The entry editor's locale switcher (sidebar widget) title text. */
-    get localeWidget(): Locator {
-        return this.page.getByText('Locale', { exact: true });
+    /**
+     * A **rail block** heading, by name, inside the Properties panel.
+     *
+     * The blocks are `h3`s under the panel's own `h2`, so the level is part of
+     * the handle: proving a block is *absent* needs something only that block
+     * could satisfy. `getByText('Locale', { exact: true })` — what this replaced
+     * — matched the toolbar switcher and half the editor besides, so it could
+     * say a block was there and never that it was gone.
+     */
+    railBlock(name: string): Locator {
+        return this.propertiesPanel.getByRole('heading', { name, level: 3 });
     }
 
-    /** The widget's "Translation group" label. */
+    /** The "Translation group" row of the Details block. */
     get localeGroupLabel(): Locator {
-        return this.page.getByText('Translation group', { exact: true });
+        return this.propertiesPanel.getByText('Translation group', {
+            exact: true
+        });
     }
 
     /** The info tooltip trigger beside the translation-group id. */
     get localeGroupHelp(): Locator {
-        return this.page.getByRole('button', {
+        return this.propertiesPanel.getByRole('button', {
             name: 'What is the translation group?'
         });
     }
 
-    /** The translation-group id value shown in the widget. */
+    /** The translation-group id value shown in the Details block. */
     localeGroupId(id: string): Locator {
-        return this.page.getByText(id, { exact: true });
+        return this.propertiesPanel.getByText(id, { exact: true });
     }
 
-    /** The current-locale chip beside the entry-editor title (aria-labelled). */
+    /**
+     * The locale chip beside the entry-editor title — which is also the locale
+     * menu's trigger, so it is a real `<button>`.
+     *
+     * Matched on the two labels it can carry: the full one, which ends in
+     * "Choose a locale" and states a translated/total count, and the reduced
+     * "Current locale: …" it falls back to while the group's members are
+     * unknown. Deliberately **not** `/Locale:/` alone — the records toolbar's
+     * switcher is labelled that too.
+     */
     get editorTitleChip(): Locator {
-        return this.page.getByLabel(/Current locale/);
+        return this.page.getByRole('button', {
+            name: /Choose a locale|Current locale/
+        });
     }
 
-    /** The switch-to-create control for a not-yet-translated locale in the widget. */
+    /**
+     * The locale menu the title chip opens.
+     *
+     * Named after its **trigger** — Radix points the content's
+     * `aria-labelledby` at the button, which is both the better name and the
+     * one that wins over any `aria-label` the component might set.
+     */
+    get localeMenu(): Locator {
+        return this.page.getByRole('menu', {
+            name: /Choose a locale|Current locale/
+        });
+    }
+
+    /** Open the title chip's locale menu and wait for it. */
+    async openLocaleMenu(): Promise<void> {
+        await this.editorTitleChip.click();
+        await this.localeMenu.waitFor();
+    }
+
+    /** Close the locale menu the way a keyboard user would. */
+    async closeLocaleMenu(): Promise<void> {
+        await this.page.keyboard.press('Escape');
+        await this.localeMenu.waitFor({ state: 'hidden' });
+    }
+
+    /** One row of the locale menu, by whatever it is named. */
+    localeMenuItem(name: string | RegExp): Locator {
+        return this.localeMenu.getByRole('menuitemradio', { name });
+    }
+
+    /** The create row for a not-yet-translated locale, in the open menu. */
     createTranslation(localeName: string): Locator {
-        return this.page.getByRole('button', {
-            name: `Create the ${localeName} translation`
+        return this.localeMenuItem(`Create the ${localeName} translation`);
+    }
+
+    /** The switch row for an existing sibling locale, in the open menu. */
+    switchLocale(localeName: string): Locator {
+        return this.localeMenuItem(`Switch to the ${localeName} version`);
+    }
+
+    /** Open the locale menu and pick `localeName`'s existing sibling. */
+    async switchToLocale(localeName: string): Promise<void> {
+        await this.openLocaleMenu();
+        await this.switchLocale(localeName).click();
+    }
+
+    /** The app-wide unsaved-changes prompt (`UnsavedChangesGuard`). */
+    get unsavedChangesDialog(): Locator {
+        return this.page.getByRole('dialog', {
+            name: 'Discard your unsaved changes?'
         });
     }
 
-    /** The switch control for an existing sibling locale in the widget. */
-    switchLocale(localeName: string): Locator {
-        return this.page.getByRole('button', {
-            name: `Switch to the ${localeName} version`
-        });
+    /** Confirm the unsaved-changes prompt and let the navigation through. */
+    async confirmDiscardChanges(): Promise<void> {
+        await this.unsavedChangesDialog
+            .getByRole('button', { name: 'Leave and discard' })
+            .click();
+    }
+
+    /** Open the locale menu and start `localeName`'s translation. */
+    async startTranslation(localeName: string): Promise<void> {
+        await this.openLocaleMenu();
+        await this.createTranslation(localeName).click();
     }
 
     /**
@@ -825,6 +898,25 @@ export class ContentLibraryPage extends BasePage {
                 'apograph:right-panel'
             )
         );
+    }
+
+    /**
+     * The rail's requirement gate — "Publish gate" on a publishable type,
+     * "Save gate" on an always-live one. The block is located by its own
+     * heading so an assertion about what the gate says cannot accidentally
+     * read the rest of the panel.
+     */
+    gateBlock(title: 'Publish gate' | 'Save gate'): Locator {
+        return this.propertiesPanel
+            .locator('section')
+            .filter({
+                has: this.page.getByRole('heading', { name: title, level: 3 })
+            });
+    }
+
+    /** The gate's failing rows. Empty when nothing blocks — that is the point. */
+    gateFailures(title: 'Publish gate' | 'Save gate' = 'Publish gate'): Locator {
+        return this.gateBlock(title).getByRole('listitem');
     }
 
     /**

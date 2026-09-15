@@ -159,8 +159,8 @@ favorites:<workspaceId>`), with guarded reads/writes. There is no favorites
   server's filter surface includes a Status filter **only when publishable**
   (a non-publishable type has no publish state). The same rule holds **wherever
   publish state is drawn** — the editor rail's Details **Status** row, the
-  **Revisions** rows' Live/Draft/Superseded badges (and the preview dialog's),
-  and the i18n **Locale** rows' badges are all gated on `publishable`. On an
+  History tab's Live/Draft/Superseded badges (and the preview dialog's),
+  and the i18n **locale menu** rows' badges are all gated on `publishable`. On an
   always-live type those would label a state the type doesn't have; a version
   there was simply saved, so a Revisions row keeps its number, its "Current"
   marker and its time, and nothing else. Sort is a URL param
@@ -242,9 +242,10 @@ favorites:<workspaceId>`), with guarded reads/writes. There is no favorites
   **Save draft**) beside a compact **⋯ menu** (Save draft, Save & publish,
   Unpublish, Delete; each permission-gated) — over a
   live **Publish Gate** (`PublishGateItem[]`, computed by `EntryEditor` from the
-  strict kernel-backed validation — each required/invalid field with its pass/fail,
-  header `blocking`/`ready`; publishable types only) and a static **Details**
-  block (status, created/updated, id). While a save/publish is running, the view
+  strict kernel-backed validation; publishable types only — it renders the
+  **failing** checks only, under a heading reading `{n} blocking`, and collapses
+  to one "Every check passes" line when nothing does) and a static **Details**
+  block (status, created/updated, id, plus any `ENTRY_DETAILS_ROW_SLOT` row). While a save/publish is running, the view
   covers itself with the **`EntryBusyOverlay`** (see _Save/publish flow_ below). `EntryFieldInput` (top-level, shared) renders one **flat** (no-shadow)
   control per field type — `date`/`datetime` use a shadcn `Calendar` popover
   (`EntryFieldInput/DateField`, with a time input for datetime), and
@@ -560,27 +561,33 @@ inside the editor:
 **Why portals and not "hand the shell a node".** React resolves context by where
 a node is _rendered_. Rendered by the shell, this content would be cut off from
 `useCurrentWorkspace` (every entry query needs it), from `EntrySlotContext` (the
-i18n **Locale** widget), and from the editor's own handlers and busy state.
+i18n locale chip), and from the editor's own handlers and busy state.
 `createPortal` moves only the DOM. `ContentNavSection` is the counter-example —
 it renders above `CurrentWorkspaceProvider` and has to re-resolve the workspace
 by hand.
 
 The panel body itself is a **single flat surface**: a run of sections told apart
 by **dividers**, deliberately not a column of cards — every block used to draw
-its own border, tinted background, and heading, so five blocks read as five
-floating boxes stacked on a page rather than one surface with sections.
+its own border, tinted background, and heading, so a stack of blocks read as a
+stack of floating boxes on a page rather than one surface with sections. The
+rail is also kept **short**: the publish gate, Details, and whatever a plugin
+contributes. It is not the place to restate something a tab already owns — a
+truncated Revisions block used to sit here beside a History tab that shows the
+whole timeline with the same actions, and it is gone.
 
 - **`EntrySidebarSection`** (title + optional `action` adornment + optional
   `description`) and **`EntrySidebarRow`** (a `<dt>`/`<dd>` label-left /
   value-right pair, `stacked` for a long value like a UUID) are the panel's whole
   chrome. Both are **exported from the package index** — a plugin filling
-  `ENTRY_SIDEBAR_WIDGET_SLOT` (the i18n **Locale** panel) renders _these_, for the
-  same reason `ChangedBadge` and `EntryStatusBadge` are shared: a widget with a
-  card of its own would be the one floating box left in the panel.
+  `ENTRY_SIDEBAR_WIDGET_SLOT` (the alarms plugin's **Checks** block, protection's
+  **Review** block) renders _these_, for the same reason `ChangedBadge` and
+  `EntryStatusBadge` are shared: a widget with a card of its own would be the one
+  floating box left in the panel. `EntrySidebarRow` is also the contract of
+  `ENTRY_DETAILS_ROW_SLOT`, whose items render inside **Details' own `<dl>`**.
 - **The divider belongs to the rail, not the section.** The blocks sit in a
   `divide-y` wrapper, so a contributed widget is separated exactly like a
   built-in one without drawing a border itself (and a widget that renders `null`
-  — `LocaleWidget` on a non-i18n type — leaves no stray rule behind).
+  when it does not apply to the open type leaves no stray rule behind).
 - **Collapse is the shell's, not ours** — including its persistence, so it
   survives the remounts this editor takes from navigations it doesn't own (a
   locale switch re-targets it at a sibling record; a single's tab segments are
@@ -669,7 +676,13 @@ a third state with no column value spelling it made unavoidable.
 ## Revisions (version history)
 
 Every save is versioned (server: `content_entry_revisions`). The editor surfaces
-this in two mount points that share one cached query and one action core:
+this in **one** place — the **History** tab. It used to have two: a truncated
+`RevisionWidget` in the Properties rail as well. A rail block that could only
+ever show the newest handful, beside a tab showing all of them with the same
+Restore, Publish and Preview actions, was a second copy of the same list with a
+second set of loading and error states to keep honest — and it was the tallest
+thing in a rail whose job is properties, not history. It was deleted (`ORT-227`);
+do not reintroduce it.
 
 - **`useEntryRevisions`** (`application/`) reads the timeline
   (`GET /content/:type/:id/revisions`), gated on a saved entry id.
@@ -677,7 +690,7 @@ this in two mount points that share one cached query and one action core:
   and **publish-a-version** (`POST …/revisions/:number/publish`) mutations, both
   invalidating the same caches a save does (records list, read-one, relations, and
   the revisions prefix). Every mutation that changes the timeline invalidates the
-  **revisions prefix** so the widget + History tab refresh immediately:
+  **revisions prefix** so the History tab refreshes immediately:
   `useSaveEntry` (each save appends a version; on a publishable type a save is a
   **draft** — editing a published entry moves it back to draft while its published
   version stays live in history) and `useEntryStatusActions` (publish/unpublish).
@@ -692,11 +705,13 @@ this in two mount points that share one cached query and one action core:
   (publishable type + `content:publish`), and the preview dialog carries a
   **Publish this version** button; both route through a `ConfirmDialog` + toast in
   `RevisionList`. A `422` (an incomplete version) surfaces as an error toast.
-- **`RevisionList`** (`EntryEditor/RevisionList/`) is the shared core — a
+- **`RevisionList`** (`EntryEditor/RevisionList/`) is the timeline itself — a
   `RevisionRow` per version (number, status badge Live/Draft/Superseded, capture
   time) plus the **Restore** flow (permission gate on `content:update`, a
   `ConfirmDialog`, and the success/failure `toast`). Restore re-applies an older
-  snapshot as a **new** revision, so the timeline refreshes in place.
+  snapshot as a **new** revision, so the timeline refreshes in place. It has one
+  caller, so the rows are always the labelled ones; the `compact` (icon-only)
+  variant went with the rail widget.
 - **Preview / compare** (`RevisionList/RevisionPreviewDialog/`): each earlier
   version's row carries a **Preview** action opening a diff dialog. It fetches
   that version's snapshot **and** the latest one (`useRevisionDetail` →
@@ -721,11 +736,9 @@ this in two mount points that share one cached query and one action core:
   A **Restore this version** button hands the number back to the list's restore
   flow (its own `ConfirmDialog`) — never a modal stacked on a modal. The Preview +
   Restore actions are hidden on the newest row (nothing to compare/apply against),
-  and render **icon-only** in the compact right-rail widget (`compact` prop) vs.
-  labelled in the History tab.
-- Two mount points: the right-rail **`RevisionWidget`** (rendered by
-  `EntrySidebar` below Details, a compact first-N view) and the **History tab**
-  **`HistoryTimeline`** (the full list; prompts to save first on a create form).
+  and are labelled buttons.
+- One mount point: the **History tab**'s **`HistoryTimeline`** (the full list;
+  prompts to save first on a create form).
 
 The gateway carries `listRevisions` / `getRevision` / `restoreRevision`; the wire
 types (`RevisionSummary` / `RevisionDetail` / `RevisionListView`) live in
@@ -777,7 +790,7 @@ of the package — `infrastructure/contentInsightsGateway` (the port),
 
 ## Extension slots
 
-The library exposes fifteen named slots (`presentation/slots/contentSlots`, via
+The library exposes sixteen named slots (`presentation/slots/contentSlots`, via
 `createSlot`) another admin plugin contributes into — no coupling beyond the
 contracts, the same idiom as the workspace shell's slots.
 `@apograph/i18n-admin` fills eight; `@apograph/media-admin` fills two
@@ -857,9 +870,23 @@ fetching internally.
   segment (`'/relations'`, or `''` on the default tab) — a slot that navigates
   the user to **another record in this same editor** appends it so they land on
   the tab they were working in.
+- **`ENTRY_DETAILS_ROW_SLOT`** — one **row** of the Details block, for a
+  property of the record that belongs beside its id and timestamps rather than
+  in a section of its own. An item is `{ id, order, appliesTo?, Component }`
+  with the same `EntrySlotContext`, and the `Component` must render an
+  `EntrySidebarRow` (a `<dt>`/`<dd>` pair) or `null` — the rows render inside
+  Details' own `<dl>`, so a `<section>` there is invalid markup.
+    - **`order` is load-bearing.** `Slot.getItems()` returns registration order
+      and does not sort, so `DetailsBlock` sorts on it — the same contract
+      `EntryMenu` and `CollectionRecordsMenu` keep. Built-in rows always come
+      first; contributions follow in `order`.
+    - It exists because a whole rail block for one read-only line is what the
+      rail was being slimmed of: `@apograph/i18n-admin` fills it with the
+      **translation-group id**, which used to be the tail of a Locale panel.
 - **`ENTRY_HEADER_SLOT`** — an inline element in the entry editor's title row,
   rendered **after** the `<h1>` (the heading stays the sole `<h1>`) with the
-  same `EntrySlotContext`. Used for the i18n plugin's current-locale chip.
+  same `EntrySlotContext`. Used for the i18n plugin's locale chip, which is
+  also the **locale menu's** trigger.
   Since `ORT-202` the editor's heading is the shared `ContainerHeader` rather
   than a hand-rolled `<h1>`, so these items ride its `actions` region: still
   after the heading in DOM order, still outside it, and now aligned with the

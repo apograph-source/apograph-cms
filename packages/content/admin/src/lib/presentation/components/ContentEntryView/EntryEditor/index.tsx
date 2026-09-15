@@ -556,8 +556,8 @@ export function EntryEditor({
 
     // Which tabs still hold something that blocks publishing — what the tab bar
     // marks with an asterisk. A set, not a tally: the marker says *that* a tab
-    // has outstanding fields, and the rail beside it is where the list of them
-    // already lives.
+    // has outstanding fields, and the rail's gate beside it is where they are
+    // named, since the gate lists precisely the failing checks.
     //
     // Same rule as `fieldGate`, resolved to a tab instead of a label: a field
     // counts when the strict (required-enforced) errors name it, which is
@@ -567,9 +567,9 @@ export function EntryEditor({
     //
     // `form.errors` is live and ungated by `submitted`, so a new entry shows
     // its markers from the moment it opens. That is deliberate and matches the
-    // rail beside it, which has always listed the same unmet fields before the
-    // first save — the marker says "this is what publishing still wants", not
-    // "you got something wrong just now".
+    // rail beside it, whose gate lists the same unmet fields before the first
+    // save — the marker says "this is what publishing still wants", not "you
+    // got something wrong just now".
     const unmetTabs = useMemo<Set<string>>(() => {
         const slugs = new Set<string>();
         for (const field of visible) {

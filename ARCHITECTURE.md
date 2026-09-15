@@ -158,10 +158,10 @@ the workspace shell defines `WORKSPACE_NAV_SLOT` / `WORKSPACE_SECTION_SLOT` /
 (`slot._register(items)`) and read sorted by consumers (`slot.getItems()`). The shell's sidebar also has a
 route-scoped **dynamic region** (`useSidebarContent`) the workspace shell takes
 over — a runtime override alongside the boot-time slots. The Content Library
-defines **15** of its own — five around the records list (toolbar, menu,
-columns, filter fields, bulk actions), eight around the entry editor (header,
-menu, tabs, sidebar widgets, params, field controls, pre-save steps, the publish
-guard), one on the revision view and one route-level overlay — and it fills none of them itself:
+defines **16** of its own — five around the records list (toolbar, menu,
+columns, filter fields, bulk actions), nine around the entry editor (header,
+menu, tabs, sidebar widgets, details rows, params, field controls, pre-save
+steps, the publish guard), one on the revision view and one route-level overlay — and it fills none of them itself:
 `activity`, `alarms`, `copilot`, `i18n`, `media`, `segments`, `transfer` and
 `wysiwyg` do. Because slots are **boot-frozen**, an item may even expose a hook
 the render site calls in a loop.

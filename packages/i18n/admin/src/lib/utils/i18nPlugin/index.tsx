@@ -5,8 +5,8 @@ import {
     ENTRY_HEADER_SLOT,
     ENTRY_MENU_GROUP,
     ENTRY_MENU_SLOT,
+    ENTRY_DETAILS_ROW_SLOT,
     ENTRY_PARAMS_SLOT,
-    ENTRY_SIDEBAR_WIDGET_SLOT,
     RECORDS_COLUMN_SLOT,
     RECORDS_FILTER_FIELDS_SLOT,
     RECORDS_TOOLBAR_SLOT,
@@ -18,7 +18,7 @@ import {
     type EntryMenuItem,
     type RecordsColumnItem,
     type RecordsToolbarItem,
-    type EntrySidebarWidgetItem,
+    type EntryDetailsRowItem,
     type RecordsFilterFieldsItem,
     type EntryParamsItem
 } from '@apograph/content-admin';
@@ -38,7 +38,7 @@ import { usePublishAllLocales } from '../../hooks/usePublishAllLocales';
 import { useUnpublishAllLocales } from '../../hooks/useUnpublishAllLocales';
 import { LocaleSwitcher } from '../../components/LocaleSwitcher';
 import { LocalesColumnCell } from '../../components/LocalesColumnCell';
-import { LocaleWidget } from '../../components/LocaleWidget';
+import { LocaleDetailsRow } from '../../components/LocaleDetailsRow';
 import { LocaleTitleChip } from '../../components/LocaleTitleChip';
 import { LocaleSwitchOverlay } from '../../components/LocaleSwitchOverlay';
 import { LocalizationCoverageWidget } from '../../components/LocalizationCoverageWidget';
@@ -63,9 +63,11 @@ export type I18nAdminPlugin = AdminPlugin;
  *   the default locale);
  * - an optional **Locales** table column — per-row badges of the translation
  *   group's locales with publish status, batch-loaded per page;
- * - the **locale panel** in the entry editor's sidebar (per-locale status,
- *   open a sibling, create a translation);
- * - a **current-locale chip** beside the entry-editor title;
+ * - the **locale chip** beside the entry-editor title — the current locale, a
+ *   translated/total count, and a menu over every configured locale
+ *   (per-locale publish status, open a sibling, create a translation);
+ * - the record's **translation-group id** as a row of the editor's Details
+ *   block;
  * - **Has locale / Missing locale / Locale count** filter fields;
  * - entry param plumbing: the single-page read and the create body carry the
  *   active locale, and relation-picker candidates are scoped to the source
@@ -106,9 +108,12 @@ export function I18nPlugin(): I18nAdminPlugin {
             ),
         Cell: LocalesColumnCell
     };
-    const widgetItem: EntrySidebarWidgetItem = {
-        id: SLOT_ITEM_ID.Widget,
-        Component: LocaleWidget
+    // One read-only line, so a row of Details rather than a block of its own.
+    const detailsRowItem: EntryDetailsRowItem = {
+        id: SLOT_ITEM_ID.DetailsRow,
+        order: 10,
+        appliesTo: (schema: ContentTypeDetail) => !!schema.i18n,
+        Component: LocaleDetailsRow
     };
     const titleChipItem: EntryHeaderItem = {
         id: SLOT_ITEM_ID.TitleChip,
@@ -189,7 +194,7 @@ export function I18nPlugin(): I18nAdminPlugin {
             },
             { slot: RECORDS_TOOLBAR_SLOT, items: [switcherItem] },
             { slot: RECORDS_COLUMN_SLOT, items: [columnItem] },
-            { slot: ENTRY_SIDEBAR_WIDGET_SLOT, items: [widgetItem] },
+            { slot: ENTRY_DETAILS_ROW_SLOT, items: [detailsRowItem] },
             {
                 slot: ENTRY_MENU_SLOT,
                 items: [publishAllItem, unpublishAllItem]

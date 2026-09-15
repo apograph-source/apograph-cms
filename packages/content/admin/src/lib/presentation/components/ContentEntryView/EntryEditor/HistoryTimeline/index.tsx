@@ -33,10 +33,11 @@ const messages = defineMessages({
 });
 
 /**
- * The **History** tab: the entry's full version timeline, with the same status
- * badges and Restore action as the sidebar {@link RevisionWidget} (both share
- * {@link RevisionList} and the one cached revisions query). A create form has no
- * id yet, so it prompts the user to save first.
+ * The **History** tab: the entry's full version timeline (a {@link RevisionList}
+ * over the cached revisions query) — the **one** place an entry's versions are
+ * read, previewed and restored from. The rail used to carry a truncated second
+ * copy of the same list; a create form has no id yet, so it prompts the user to
+ * save first.
  */
 export function HistoryTimeline({
     typeName,
