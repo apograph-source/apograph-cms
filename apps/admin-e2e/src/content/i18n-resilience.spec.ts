@@ -6,8 +6,10 @@ import {
     failEntryLocales,
     failLocaleSummaries,
     failLocales,
+    holdLocales,
     mockI18n,
-    spyLocaleSummaries
+    spyLocaleSummaries,
+    type I18nMock
 } from '../support/api/i18n';
 import { type ContentLibraryPage } from '../support/pages/ContentLibraryPage';
 
@@ -34,10 +36,18 @@ const SETTLED = { timeout: 20_000 };
  * actions.
  */
 test.describe('Content i18n — degraded reads and edge locales', () => {
+    /**
+     * The current test's i18n mock, for the cases that need to hold one of its
+     * routes open. Module scope is safe here: `fullyParallel` is off, so the
+     * tests in a file run serially in one worker and `beforeEach` re-assigns
+     * this before each of them.
+     */
+    let i18n: I18nMock;
+
     test.beforeEach(async ({ page }) => {
         await mockSignedIn(page);
         await mockWorkspaces(page, [I18N_WORKSPACE]);
-        await mockI18n(page);
+        i18n = await mockI18n(page);
     });
 
     async function openCollection(contentLibraryPage: ContentLibraryPage) {
@@ -104,6 +114,87 @@ test.describe('Content i18n — degraded reads and edge locales', () => {
                 .getByText(/Unknown — couldn’t load/)
                 .first()
         ).toBeVisible();
+    });
+
+    test('a locale list still loading is not a failed one [i18n:I-30]', async ({
+        page,
+        contentLibraryPage
+    }) => {
+        // The entry read can settle before `GET /api/i18n/locales` does — a
+        // deep link into an editor is exactly that order — so the menu opens
+        // with the locale list still in flight. Claiming a broken config there,
+        // and offering a retry for it, is the I-30 mistake pointed the other
+        // way: not-yet is not the same answer as couldn't.
+        const held = await holdLocales(page);
+        await page.goto(
+            `/workspaces/${I18N_WORKSPACE.id}/content/localized_post/lp-en-1`
+        );
+        await expect(contentLibraryPage.editorSave).toBeVisible();
+
+        await contentLibraryPage.openLocaleMenu();
+        await expect(
+            contentLibraryPage.localeMenu.getByText('Loading locales…')
+        ).toBeVisible();
+        // Neither of the two settled answers may be on screen yet.
+        await expect(
+            contentLibraryPage.localeMenu.getByText(/couldn’t be loaded/)
+        ).toHaveCount(0);
+        await expect(
+            contentLibraryPage.localeMenu.getByRole('menuitem', {
+                name: 'Reload locales'
+            })
+        ).toHaveCount(0);
+
+        // …and when it lands, the menu fills in without another press.
+        held.release();
+        await expect(contentLibraryPage.switchLocale('Deutsch')).toBeVisible();
+        await expect(
+            contentLibraryPage.localeMenu.getByText('Loading locales…')
+        ).toHaveCount(0);
+    });
+
+    test('group members still loading are not offered for creation [i18n:I-30]', async ({
+        page,
+        contentLibraryPage
+    }) => {
+        // lp-en-1 is in group G1, which **does** have a German sibling. Until
+        // the group read lands, every locale resolves to `undefined` and so
+        // looks missing — offering "+ Add" there opens a create form whose save
+        // 409s against the row that is already there. Unknown outranks
+        // permission, and pending is a way of not knowing.
+        const held = await i18n.holdEntryLocales();
+        await page.goto(
+            `/workspaces/${I18N_WORKSPACE.id}/content/localized_post/lp-en-1`
+        );
+        await expect(contentLibraryPage.editorSave).toBeVisible();
+
+        await contentLibraryPage.openLocaleMenu();
+        await expect(
+            contentLibraryPage.createTranslation('Deutsch')
+        ).toHaveCount(0);
+        await expect(contentLibraryPage.switchLocale('Deutsch')).toHaveCount(0);
+        // The row says which kind of not-knowing it is: nothing has failed.
+        await expect(
+            contentLibraryPage.localeMenu.getByText('Checking…').first()
+        ).toBeVisible();
+        await expect(
+            contentLibraryPage.localeMenu.getByText(/Unknown — couldn’t load/)
+        ).toHaveCount(0);
+        // And the count is withheld rather than guessed at `0/4`.
+        await expect(contentLibraryPage.editorTitleChip).toHaveText(
+            'EN · English'
+        );
+
+        // Once the group lands, the German sibling is a switch target — never
+        // a create.
+        held.release();
+        await expect(contentLibraryPage.switchLocale('Deutsch')).toBeVisible();
+        await expect(
+            contentLibraryPage.createTranslation('Deutsch')
+        ).toHaveCount(0);
+        await expect(contentLibraryPage.editorTitleChip).toHaveText(
+            'EN · English2/4'
+        );
     });
 
     test('a failed summary batch marks the Locales cells unavailable [i18n:I-30]', async ({

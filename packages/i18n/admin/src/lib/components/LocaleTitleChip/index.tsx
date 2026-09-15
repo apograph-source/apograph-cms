@@ -63,6 +63,14 @@ const messages = defineMessages({
         defaultMessage:
             'The configured locales couldn’t be loaded, so there is nothing to choose from.'
     },
+    localesPending: {
+        id: 'i18n.localeMenu.localesPending',
+        defaultMessage: 'Loading locales…'
+    },
+    localesNone: {
+        id: 'i18n.localeMenu.localesNone',
+        defaultMessage: 'No locales are configured.'
+    },
     localesRetry: {
         id: 'i18n.localeMenu.localesRetry',
         defaultMessage: 'Reload locales'
@@ -77,6 +85,30 @@ const messages = defineMessages({
         defaultMessage: 'Try again'
     }
 });
+
+/**
+ * What a read **is** right now — three states, never two.
+ *
+ * Both of this chip's reads have a window in which the answer is not yet known,
+ * and collapsing that into the two states that *are* answers is how `i18n:I-30`
+ * ("an error is not an emptiness") gets broken in the other direction: a
+ * pending locale list reads as a failed one, and pending group members read as
+ * "this locale has no translation" — an invitation to create a sibling that may
+ * already exist, whose save then 409s. Naming the third state is the fix;
+ * everything below branches on it rather than on a pair of booleans.
+ */
+type ReadState = 'pending' | 'failed' | 'known';
+
+/** Classify a TanStack query's two flags into the three states above. */
+function readState(query: {
+    isPending: boolean;
+    isError: boolean;
+}): ReadState {
+    // Error first: a retry leaves `isPending` false but the last answer is
+    // still a failure, and a failure is the more specific thing to say.
+    if (query.isError) return 'failed';
+    return query.isPending ? 'pending' : 'known';
+}
 
 /** A group member resolved for one locale slug (its row id + publish status). */
 type Sibling = {
@@ -134,6 +166,7 @@ export function LocaleTitleChip({
     const {
         locales,
         defaultLocale,
+        isPending: localesPending,
         isError: localesFailed,
         refetch: refetchConfiguredLocales
     } = useLocales();
@@ -193,17 +226,33 @@ export function LocaleTitleChip({
     const currentName = localeName(locales, currentLocale);
     const groupId = entry?.localeGroupId ?? urlGroupId;
 
-    // A failed group read leaves every locale resolving to `undefined`, which
-    // renders as "no translation exists" — an invitation to create a sibling
-    // that may already be there, whose save then 409s. Error and empty are
-    // different answers and this menu has to say which one it has (`i18n:I-30`).
-    const membersFailed = isCreate
-        ? groupSummaries.isError
-        : entryLocales.isError;
+    // The **configured** locale list: which locales exist at all.
+    const localesState = readState({
+        isPending: localesPending,
+        isError: localesFailed
+    });
+
+    // The **group's members**: which of those locales this record exists in.
+    //
+    // An unfinished or failed group read leaves every locale resolving to
+    // `undefined`, which renders as "no translation exists" — an invitation to
+    // create a sibling that may already be there, whose save then 409s. Not-yet
+    // and not-at-all are different answers and this menu has to say which one
+    // it has (`i18n:I-30`).
+    //
+    // In create mode with no group there is genuinely nothing to read:
+    // `useLocaleSummaries` reports itself idle rather than pending, so a fresh
+    // create is `known` with no members — which is the truth.
+    const membersState = readState(
+        isCreate
+            ? groupSummaries
+            : {
+                  isPending: entryLocales.isPending,
+                  isError: entryLocales.isError
+              }
+    );
+    const membersUnknown = membersState !== 'known';
     const entryItems = entryLocales.data?.items;
-    const membersKnown = isCreate
-        ? !groupSummaries.isPending && !groupSummaries.isError
-        : !!entryItems;
 
     // No extra request: edit mode already has one item per configured locale,
     // and create mode has the group's live members. `total` in create mode must
@@ -215,9 +264,10 @@ export function LocaleTitleChip({
             ? (groupSummaries.groups[groupId]?.length ?? 0)
             : 0
         : (entryItems?.filter((item) => !!item.entry).length ?? 0);
-    // Withheld rather than guessed while the members are unknown: `0/3` on a
-    // failed read is the same lie the rows would tell (`i18n:I-30`).
-    const countKnown = membersKnown && total > 0;
+    // Withheld rather than guessed while the members are unknown: `0/4` on a
+    // read that has not landed is the same lie the rows would tell
+    // (`i18n:I-30`).
+    const countKnown = !membersUnknown && total > 0;
 
     // The create route carries the target locale and — when translating into an
     // existing group — that group, so Save stamps the sibling. A fresh create
@@ -383,7 +433,7 @@ export function LocaleTitleChip({
                 <DropdownMenuLabel>
                     {intl.formatMessage(messages.heading)}
                 </DropdownMenuLabel>
-                {membersFailed ? (
+                {membersState === 'failed' ? (
                     <>
                         <DropdownMenuLabel className="font-normal text-destructive">
                             {intl.formatMessage(messages.loadFailed)}
@@ -403,20 +453,37 @@ export function LocaleTitleChip({
                         <DropdownMenuSeparator />
                     </>
                 ) : null}
-                {locales.length === 0 ? (
-                    // No configured locales to offer. In practice this is the
-                    // failed read (`localesFailed`); a genuinely empty config
-                    // on an i18n type gets the same row, because a retry is
-                    // harmless and an empty `role="menu"` is not a state to
-                    // leave a reader in.
+                {localesState === 'pending' ? (
+                    // Still loading. It must **not** borrow either of the two
+                    // branches below: the entry read can resolve before
+                    // `GET /api/i18n/locales` on a deep link into an editor, so
+                    // claiming a failure here means the menu asserts a broken
+                    // config, and offers a retry for it, while the request is
+                    // still in flight.
+                    <DropdownMenuLabel className="font-normal text-muted-foreground">
+                        {intl.formatMessage(messages.localesPending)}
+                    </DropdownMenuLabel>
+                ) : locales.length === 0 ? (
+                    // Nothing to choose from — but *why* is two different
+                    // answers, and the retry is only honest about one of them.
+                    // A locale dropped from the host config while rows in it
+                    // still exist is a real state (see the i18n dossier), and
+                    // reading it as "couldn't load" sends the reader looking
+                    // for a network fault that isn't there.
                     <>
                         <DropdownMenuLabel
                             className={cn(
                                 'font-normal',
-                                localesFailed && 'text-destructive'
+                                localesState === 'failed'
+                                    ? 'text-destructive'
+                                    : 'text-muted-foreground'
                             )}
                         >
-                            {intl.formatMessage(messages.localesUnavailable)}
+                            {intl.formatMessage(
+                                localesState === 'failed'
+                                    ? messages.localesUnavailable
+                                    : messages.localesNone
+                            )}
                         </DropdownMenuLabel>
                         <DropdownMenuItem
                             onSelect={(event) => {
@@ -434,11 +501,13 @@ export function LocaleTitleChip({
                             const isCurrent = locale.slug === currentLocale;
                             // Existing → switch (any role); missing → create
                             // (gated). Nothing is actionable while the members
-                            // are unknown: an "Add" we cannot stand behind is
-                            // worse than no affordance.
+                            // are unknown — **pending as much as failed**: an
+                            // "Add" we cannot stand behind is worse than no
+                            // affordance, and until the group read lands every
+                            // sibling looks missing whether it is or not.
                             const actionable =
                                 !isCurrent &&
-                                !membersFailed &&
+                                !membersUnknown &&
                                 (!!sibling || canCreate);
                             return (
                                 <LocaleMenuItem
@@ -454,16 +523,22 @@ export function LocaleTitleChip({
                                     // Why a missing locale is inert, so the row
                                     // reads as a stated state rather than an
                                     // unexplained ghost. Unknown members
-                                    // outrank permission: we genuinely don't
-                                    // know whether it is missing.
+                                    // outrank permission — we genuinely don't
+                                    // know whether it is missing — and the two
+                                    // ways of not knowing are told apart,
+                                    // because "couldn't load" on a read that is
+                                    // merely still running is the same false
+                                    // claim in a smaller place.
                                     inertReason={
                                         isCurrent || sibling
                                             ? undefined
-                                            : membersFailed
-                                              ? 'unknown'
-                                              : !canCreate
-                                                ? 'forbidden'
-                                                : undefined
+                                            : membersState === 'pending'
+                                              ? 'pending'
+                                              : membersState === 'failed'
+                                                ? 'unknown'
+                                                : !canCreate
+                                                  ? 'forbidden'
+                                                  : undefined
                                     }
                                     // Publish state is **publishable-only**: an
                                     // always-live type has no publish workflow,

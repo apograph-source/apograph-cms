@@ -109,6 +109,29 @@ slots the content plugin owns).
       and the menu carries an "unavailable + retry" row — the same posture as
       the records toolbar's switcher, which is the only way back out of a
       non-default locale.
+    - **Each of its two reads has three states, and the chip branches on all
+      three** (`ReadState` = `pending | failed | known`). This is `i18n:I-30`
+      applied to the read that has not landed yet, and both halves of it were
+      shipped wrong once:
+        - The **locale list** is pending on any deep link into an editor, where
+          the entry read can settle first. Keying the "nothing to choose from"
+          branch on `locales.length === 0` made the menu assert a broken config,
+          and offer a retry for it, while the request was still in flight. A
+          settled-and-empty list is a real state too (a locale dropped from the
+          host config while rows in it still exist), so it gets its own
+          sentence rather than borrowing the failure's.
+        - The **group members** are pending for a moment on every editor open,
+          and until they land every locale resolves to `undefined` — i.e. looks
+          missing. Offering "+ Add" there opens a create form whose save **409s**
+          against the sibling that is already there. The documented precedence
+          (unknown outranks forbidden) covers unknown-because-pending as well as
+          unknown-because-failed; the row states which, because "couldn't load"
+          about a running request sends the reader after a fault that is not
+          there.
+      Both are pinned by `[i18n:I-30]` cases in
+      `apps/admin-e2e/src/content/i18n-resilience.spec.ts`, which hold the
+      request open (`holdLocales` / `mockI18n().holdEntryLocales`) rather than
+      racing a `delayMs`.
 - **`ENTRY_DETAILS_ROW_SLOT` → `LocaleDetailsRow`** — the record's
   **`localeGroupId`** (the id every locale of it shares) as one row of the
   editor's **Details** block, beneath the entry id, with an `Info` tooltip

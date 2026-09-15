@@ -20,11 +20,32 @@ const messages = defineMessages({
     unknown: {
         id: 'i18n.widget.unknownReason',
         defaultMessage: 'Unknown — couldn’t load'
+    },
+    pending: {
+        id: 'i18n.widget.pendingReason',
+        defaultMessage: 'Checking…'
     }
 });
 
-/** Why a non-current locale's row carries no action. */
-export type LocaleMenuItemInertReason = 'forbidden' | 'unknown';
+/**
+ * Why a non-current locale's row carries no action.
+ *
+ * `pending` and `unknown` are **both** "we do not know whether a translation
+ * exists", and are separate because only one of them is a fault: saying
+ * "couldn't load" about a read that is still running sends the reader after a
+ * problem that isn't there.
+ */
+export type LocaleMenuItemInertReason = 'forbidden' | 'unknown' | 'pending';
+
+/** The stated reason for each way a row can be inert. */
+const REASON_LABEL: Record<
+    LocaleMenuItemInertReason,
+    (typeof messages)[keyof typeof messages]
+> = {
+    forbidden: messages.forbidden,
+    unknown: messages.unknown,
+    pending: messages.pending
+};
 
 /**
  * One locale in the title chip's menu. The current locale is the **checked**
@@ -143,11 +164,7 @@ export function LocaleMenuItem({
                     // the muted token measured 2.18:1, below AA, and said
                     // nothing about *why* the row was inert.
                     <span className="text-xs text-muted-foreground">
-                        {intl.formatMessage(
-                            inertReason === 'forbidden'
-                                ? messages.forbidden
-                                : messages.unknown
-                        )}
+                        {intl.formatMessage(REASON_LABEL[inertReason])}
                     </span>
                 ) : null}
             </span>
