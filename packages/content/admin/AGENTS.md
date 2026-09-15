@@ -1117,6 +1117,14 @@ already surfaces `required`), so a locale plugin needs no field-level slot:
 - `ContentEntryView` create mode reads `location.state.translateFrom` (a source
   record's values) and seeds the blank form with **only the non-localized**
   fields — the "create a translation" prefill; localized fields start empty.
+  It is read through **`presentation/hooks/useCreatePrefill`**, which snapshots
+  it **once per create session** (the same `editorKey` the publish flow is keyed
+  on). A prefill is where the form _starts_, not live input: the editor's tabs
+  are routes, so a tab move is a navigation, and the history API hands the same
+  carried state back as a new object every time — read straight off the
+  location, that identity change re-keyed the initial-values memo and re-seeded
+  the form over what the author had typed (`ORT-228`). The plain create form,
+  with no state to re-read, never showed it.
 - **A save keeps the user on the editor** — success is surfaced via a `toast`,
   not a bounce back to the records list. A brand-new record (any create, incl. a
   translation sibling) navigates to its own editor `${typePath}/${saved.id}` so

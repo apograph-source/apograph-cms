@@ -39,6 +39,7 @@ import {
     contentEntryKey
 } from '../../../application/useContentEntry';
 import { usePublishEntryFlow } from '../../../application/usePublishEntryFlow';
+import { useCreatePrefill } from '../../hooks/useCreatePrefill';
 import { useSlotListParams } from '../../hooks/useSlotListParams';
 import { EntrySlotContextProvider } from '../../hooks/useEntrySlotContext';
 import {
@@ -180,19 +181,6 @@ export function ContentEntryView({
     const queryClient = useQueryClient();
     const typePath = `/workspaces/${workspace.id}/${CONTENT_SEGMENT}/${type.name}`;
 
-    // A slot may open a blank create form pre-seeded from a source record (the
-    // i18n plugin's "create a translation" flow passes the source's values as
-    // `translateFrom`); the shared (non-localized) fields are copied in.
-    const prefillState = location.state as {
-        translateFrom?: Record<string, unknown>;
-        translateFromLocale?: string;
-    } | null;
-    const translateFrom = prefillState?.translateFrom;
-    // The locale the copied shared values were written in. Only meaningful
-    // while they are still a prefill — once saved, `values` is just this row's
-    // data and nothing distinguishes a translated field from an untouched one.
-    const translateFromLocale = prefillState?.translateFromLocale;
-
     const schemaQuery = useContentSchema(type.name);
     const schema = schemaQuery.data;
 
@@ -268,8 +256,11 @@ export function ContentEntryView({
         //
         // `location.state` rides along too: it holds the create-form prefill a
         // slot handed us (`translateFrom`, the source record's shared fields),
-        // and this view re-reads it on every render — so navigating without it
-        // would reset a half-filled translation form to blank.
+        // so a reload — or anything that genuinely remounts this view — still
+        // starts the translation draft from the source record. It is a **seed**,
+        // though, not live input: `useCreatePrefill` snapshots it once per
+        // create session, so carrying it forward no longer re-applies it over
+        // what the author has typed (`ORT-228`).
         navigate(`${editorPath}${segment}${location.search}`, {
             state: location.state
         });
@@ -326,6 +317,15 @@ export function ContentEntryView({
         () => `${mode}:${entryId ?? ''}:${JSON.stringify(bodySlotParams)}`,
         [mode, entryId, bodySlotParams]
     );
+
+    // A slot may open a blank create form pre-seeded from a source record (the
+    // i18n plugin's "create a translation" flow passes the source's values as
+    // `translateFrom`); the shared (non-localized) fields are copied in. Read
+    // **once per create session** — `editorKey` is that session — because the
+    // seed is where the form starts, not something the route keeps re-applying:
+    // a tab move is a navigation, and re-reading it there overwrote whatever had
+    // been typed (`ORT-228`).
+    const { translateFrom, translateFromLocale } = useCreatePrefill(editorKey);
 
     // The save/publish use case: owns the save→publish/unpublish sequencing, the
     // create→update id continuity, and the shared-kernel publish gate.
