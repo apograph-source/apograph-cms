@@ -41,6 +41,10 @@ const messages = defineMessages({
         defaultMessage:
             'Apograph AI could not make this change, so your content is unchanged. Try asking again.'
     },
+    reason: {
+        id: 'copilot.proposal.reason',
+        defaultMessage: 'Why this change was not saved'
+    },
     wasRejected: {
         id: 'copilot.proposal.wasRejected',
         defaultMessage: 'This change was discarded.'
@@ -146,13 +150,54 @@ export function ProposalCard({ proposal }: { proposal: ChatProposal }) {
                             in a flex row means none of the `[&>svg]` selectors
                             match, which is a local fix rather than a change to
                             the geometry every other alert in the admin is
-                            drawn with. */}
-                        <div className="flex items-center gap-2">
+                            drawn with.
+
+                            That row is `items-start` with the icon nudged down
+                            2px, **not** `items-center`. Centring was right
+                            while the reason was always one line and wrong the
+                            moment it can grow to the bound below: against a
+                            14rem block the icon floats to the middle of the
+                            box, pointing at whatever sentence happens to be
+                            halfway down. The 2px is exactly the offset centring
+                            gave it on one line — a 16px glyph in a 20px line —
+                            so the short case, which is nearly every case, is
+                            drawn unchanged and the tall one keeps the icon
+                            beside the words it introduces. The same treatment
+                            the card's own header gives `Sparkles`. */}
+                        <div className="flex items-start gap-2">
                             <CircleAlert
                                 aria-hidden
-                                className="text-destructive size-4 shrink-0"
+                                className="text-destructive mt-0.5 size-4 shrink-0"
                             />
-                            <AlertDescription>
+                            {/* **Bounded, for the same reason the tool step's
+                                payload is** (`ToolStep`'s `<pre>`, `max-h-56`):
+                                this text is the server's, not ours, and a
+                                failure that enumerates twenty fields would
+                                otherwise make the alert taller than the card
+                                and push the diff and the "Not saved" badge off
+                                the top of the screen — leaving the reader
+                                scrolling through an explanation of a change
+                                they can no longer see. `max-h` reserves
+                                nothing, so a one-line reason is still one line
+                                with no scrollbar and no empty space under it.
+
+                                Focusable because it scrolls: overflow a
+                                keyboard-only user cannot reach is half a reason
+                                (2.1.1) — the same pairing `PermissionPrompt`'s
+                                arguments and the markdown renderer's code
+                                blocks already carry. `group` rather than
+                                `region`: this is a few sentences inside a
+                                banner, not an area of the page, and one
+                                landmark per failed card would bury the real
+                                ones. It is named because a tab stop announced
+                                as nothing tells the reader only that focus
+                                moved. */}
+                            <AlertDescription
+                                role="group"
+                                aria-label={intl.formatMessage(messages.reason)}
+                                tabIndex={0}
+                                className="focus-visible:ring-ring max-h-56 min-w-0 flex-1 overflow-auto break-words focus-visible:ring-2 focus-visible:outline-none"
+                            >
                                 {proposal.error ??
                                     intl.formatMessage(messages.failedGeneric)}
                             </AlertDescription>

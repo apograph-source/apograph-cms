@@ -389,6 +389,44 @@ function runBody(conversationId: string): string {
  * person, and the step list shows it as the call's subject.
  */
 export function failedProposalRun(conversationId: string): string {
+    return failedRun(conversationId, SHORT_FAILURE_REASON);
+}
+
+/** The one-line reason {@link failedProposalRun} sends. */
+export const SHORT_FAILURE_REASON =
+    'No translation group “prescribing-information” on tag.';
+
+/**
+ * A reason long enough to **overflow the card's bound**, not merely long.
+ *
+ * The transcript's column is capped at `max-w-3xl`, so a reason of a few
+ * hundred characters is still only three or four lines there and would prove
+ * nothing about a 14rem ceiling. A server that refuses a translation
+ * field-by-field produces exactly this shape — one sentence per field — and
+ * twenty of them clear the bound at any viewport the column can reach.
+ */
+export const LONG_FAILURE_REASON = [
+    SHORT_FAILURE_REASON,
+    ...Array.from(
+        { length: 20 },
+        (_, index) =>
+            `Field “section_${index + 1}” has no German counterpart in that group, so it was left exactly as it was.`
+    )
+].join(' ');
+
+/**
+ * The same failed run, with a reason that does not fit.
+ *
+ * Pass it as `runBody`. Deliberately the *same* proposal otherwise — the diff
+ * and the status badge the long-reason spec asserts are still on screen are the
+ * ones the short-reason spec reads.
+ */
+export function longFailedProposalRun(conversationId: string): string {
+    return failedRun(conversationId, LONG_FAILURE_REASON);
+}
+
+/** The failed run's frames, over whichever reason the server is said to send. */
+function failedRun(conversationId: string, reason: string): string {
     return [
         frame({ type: 'run-started', runId: 'r_fail', conversationId }),
         frame({
@@ -407,7 +445,7 @@ export function failedProposalRun(conversationId: string): string {
             id: 'call_fail',
             ok: false,
             summary: 'failed: add the translation',
-            error: 'No translation group “prescribing-information” on tag.',
+            error: reason,
             durationMs: 9
         }),
         frame({
@@ -426,7 +464,7 @@ export function failedProposalRun(conversationId: string): string {
                 }
             ],
             status: 'pending',
-            error: 'No translation group “prescribing-information” on tag.'
+            error: reason
         }),
         frame({ type: 'done', messageId: 'm_fail', stopReason: 'end' })
     ].join('');
