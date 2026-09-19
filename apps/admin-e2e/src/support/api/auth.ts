@@ -57,6 +57,14 @@ const ALL_PERMISSIONS = [
     'users:create',
     'users:update',
     'users:delete',
+    // Authority over a member's *credentials* rather than their record —
+    // today, revealing an invitation or reset link that never arrived
+    // (ADR-0018 §4). It landed on the server with the mail PR and was never
+    // added here, which made `seed-drift` red for anyone who ran the whole
+    // suite; nothing in the admin reads it yet, so this is the same "add the
+    // key the moment the server declares it, not the moment a screen does"
+    // rule the protection pair below follows.
+    'users:manage',
     'activity:read',
     // Acting on the audit trail's plumbing rather than reading it: retrying an
     // outbox event that gave up. Admin-only on the server and in no API-token
