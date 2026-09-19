@@ -492,3 +492,191 @@ export async function mockEntryActivity(
         });
     });
 }
+
+/**
+ * One parked outbox event, as `GET /api/activity/dead-letters` returns it
+ * (server `DeadLetterListView['items'][number]`).
+ */
+export interface DeadLetterSeed {
+    id: string;
+    kind: string;
+    aggregateType: string;
+    aggregateId: string;
+    /** ISO-8601 on the wire. */
+    occurredAt: string;
+    attempts: number;
+    lastError: string | null;
+}
+
+/**
+ * The parked events the dead-letter suites work from — one per rendering the
+ * dialog has: a long error message, a short one, and a row where the server
+ * recorded no message at all (`lastError: null`, the "No message was recorded"
+ * branch).
+ *
+ * Fifteen attempts on every row because that is what parking one means: the
+ * dispatcher's `MAX_DELIVERY_ATTEMPTS`. A row with fewer has not given up and
+ * would earn a 409 from the retry route, not a place in this list.
+ */
+export const DEAD_LETTERS: DeadLetterSeed[] = [
+    {
+        id: '11111111-1111-4111-8111-111111111111',
+        kind: 'entry.published',
+        aggregateType: 'content_entry',
+        aggregateId: 'blog_post-01',
+        occurredAt: '2026-06-10T09:00:00.000Z',
+        attempts: 15,
+        lastError:
+            'Error: insert into "activity_events" violates foreign key constraint "activity_events_workspace_id_fkey"'
+    },
+    {
+        id: '22222222-2222-4222-8222-222222222222',
+        kind: 'user.invited',
+        aggregateType: 'user',
+        aggregateId: 'u_alan',
+        occurredAt: '2026-06-10T08:00:00.000Z',
+        attempts: 15,
+        lastError: 'Error: connection terminated unexpectedly'
+    },
+    {
+        id: '33333333-3333-4333-8333-333333333333',
+        kind: 'media.asset.uploaded',
+        aggregateType: 'media_asset',
+        aggregateId: 'a_hero',
+        occurredAt: '2026-06-09T17:45:00.000Z',
+        attempts: 15,
+        lastError: null
+    }
+];
+
+/**
+ * Stub `GET /api/activity/dead-letters` — the events that could not be
+ * recorded, and the banner/dialog that report them.
+ *
+ * **Its own route, and that is the whole point of it existing.**
+ * {@link mockActivity} listens on `**\/api/activity?*`, and a `*` segment does
+ * not cross `/`, so that pattern can never match
+ * `/api/activity/dead-letters?limit=5`. The consequence was not a red test: the
+ * request fell through to the dev proxy, the query errored, and
+ * `DeadLetterNotice` returns `null` on error **by design** — so the banner had
+ * never rendered in a single admin-e2e test and nothing said so.
+ *
+ * Honours `?limit=` the way the server does (it caps the rows, not `total`), so
+ * the banner's five and the dialog's fifty are genuinely different answers and
+ * a test can tell whether "showing N of M" is reading the right one.
+ *
+ * Pass the same array to {@link spyRetryDeadLetter} to make a retry stick: the
+ * list refetches straight after, so without that the row comes back and no test
+ * can watch the list actually shrink.
+ */
+export async function mockDeadLetters(
+    page: Page,
+    items: DeadLetterSeed[] = DEAD_LETTERS,
+    {
+        total,
+        status = 200,
+        delayMs
+    }: { total?: number; status?: number; delayMs?: number } = {}
+): Promise<void> {
+    await page.route('**/api/activity/dead-letters*', async (route) => {
+        if (route.request().method() !== 'GET') {
+            await route.fallback();
+            return;
+        }
+        if (delayMs) {
+            await new Promise((resolve) => setTimeout(resolve, delayMs));
+        }
+        if (status >= 400) {
+            await route.fulfill({
+                status,
+                contentType: 'application/json',
+                body: JSON.stringify({ statusCode: status, message: 'Nope' })
+            });
+            return;
+        }
+        const limit = Number(
+            new URL(route.request().url()).searchParams.get('limit') ?? '5'
+        );
+        await route.fulfill({
+            status: 200,
+            contentType: 'application/json',
+            body: JSON.stringify({
+                // `total` is the unbounded count — `limit` caps `items` only.
+                total: total ?? items.length,
+                items: items.slice(0, Number.isFinite(limit) ? limit : 5)
+            })
+        });
+    });
+}
+
+/**
+ * Stub `POST /api/activity/dead-letters/:id/retry` and record which ids it was
+ * called with.
+ *
+ * Passing the array {@link mockDeadLetters} was seeded with makes the retry
+ * stick — the row is dropped from it, so the refetch the mutation triggers
+ * shows the list one shorter, which is the only way a test can prove the row
+ * left because the server said so rather than because the UI guessed.
+ *
+ * `status` drives the refusals the UI branches on: **404** (unknown id, or one
+ * already delivered — deliberately indistinguishable server-side) and **409**
+ * (exists and undelivered, but has not given up yet) share one message and a
+ * refresh; **403** and **5xx** get the generic one.
+ */
+export async function spyRetryDeadLetter(
+    page: Page,
+    parked?: DeadLetterSeed[],
+    { status = 200 }: { status?: number } = {}
+): Promise<{ readonly ids: string[]; readonly count: number }> {
+    const ids: string[] = [];
+    await page.route('**/api/activity/dead-letters/*/retry', async (route) => {
+        if (route.request().method() !== 'POST') {
+            await route.fallback();
+            return;
+        }
+        const id = new URL(route.request().url()).pathname.split('/').at(-2);
+        ids.push(id ?? '');
+
+        if (status >= 400) {
+            await route.fulfill({
+                status,
+                contentType: 'application/json',
+                body: JSON.stringify({
+                    statusCode: status,
+                    message: 'Refused'
+                })
+            });
+            return;
+        }
+
+        const index = parked?.findIndex((row) => row.id === id) ?? -1;
+        const [row] = index === -1 ? [] : parked!.splice(index, 1);
+        await route.fulfill({
+            status: 200,
+            contentType: 'application/json',
+            body: JSON.stringify({
+                ...(row ?? {
+                    id,
+                    kind: 'entry.published',
+                    aggregateType: 'content_entry',
+                    aggregateId: 'blog_post-01',
+                    occurredAt: '2026-06-10T09:00:00.000Z',
+                    lastError: 'Error: receiver refused the delivery'
+                }),
+                // What a successful retry always leaves behind: the counter
+                // cleared, the schedule cleared, and `lastError` **preserved**
+                // — it is the only remaining record of why the event parked.
+                attempts: 0,
+                nextAttemptAt: null
+            })
+        });
+    });
+    return {
+        get ids() {
+            return ids;
+        },
+        get count() {
+            return ids.length;
+        }
+    };
+}

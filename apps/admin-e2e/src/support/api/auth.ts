@@ -58,6 +58,14 @@ const ALL_PERMISSIONS = [
     'users:update',
     'users:delete',
     'activity:read',
+    // Acting on the audit trail's plumbing rather than reading it: retrying an
+    // outbox event that gave up. Admin-only on the server and in no API-token
+    // scope. Without it the Activity page's dead-letter banner renders its
+    // headline and nothing else — no trigger, no dialog — so the whole operator
+    // surface is invisible to every suite. Narrow this away to assert exactly
+    // that: the notice still renders for an `activity:read` reader, because the
+    // information is true for them either way.
+    'activity:manage',
     // The external-API bearer tokens (`api-tokens-admin`). Without these the
     // `/api-tokens` page and its sidebar entry are invisible to every suite,
     // which is exactly how it stayed untested.

@@ -96,7 +96,8 @@ export const ACTIVITY_KINDS = [
     'review.approved',
     'review.changes_requested',
     'protection.rule_changed',
-    'entry.publish_bypassed'
+    'entry.publish_bypassed',
+    'outbox.event_retried'
 ] as const;
 
 /** A kind the Activity Log knows how to render. */
@@ -123,7 +124,8 @@ export const ACTIVITY_SUBJECT_TYPES = [
     'saved_view',
     'copilot_skill',
     'copilot_run',
-    'protection_rule'
+    'protection_rule',
+    'outbox_event'
 ] as const;
 
 /** A subject type the Activity Log knows how to name. */

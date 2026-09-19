@@ -4,15 +4,25 @@ The audit-log **admin plugin**: the global **Activity Log** page at `/activity`,
 its sidebar nav entry, and the home dashboard's recent-activity panel. Mirrors
 the Members page patterns.
 
-## Layout — layered (ADR-0003), read-only — no domain layer
+## Layout — layered (ADR-0003), no domain layer
 
-This plugin is **layered (tactical DDD)**, but it is a **read-only projection
-viewer**: it has **no mutations** and **no client-side domain rules**, so — per
-ADR-0003 ("don't force DDD on CRUD / read-side contexts") — it has **no
-`domain/` layer**. Adding empty `domain/` folders here would be a _violation_ of
-ADR-0003, not compliance. This mirrors `activity/server`, which is likewise a
-read-side/CRUD audit context with **no aggregate**. `src/lib` is organized into
-three layers plus a shared type kernel:
+This plugin is **layered (tactical DDD)**. It is a projection viewer with
+**one** mutation and **no client-side domain rules**, so — per ADR-0003 ("don't
+force DDD on CRUD / read-side contexts") — it has **no `domain/` layer**. Adding
+empty `domain/` folders here would be a _violation_ of ADR-0003, not compliance.
+This mirrors `activity/server`, which is likewise a read-side/CRUD audit context
+with **no aggregate**.
+
+The single mutation is `useRetryDeadLetter` — `POST /activity/dead-letters/:id/retry`,
+the one action this plugin **performs** rather than records. It writes no
+`activity_events` row (the log stays append-only, `activity:I-01`); it resets a
+parked row in another package's table through Activity's own route. It carries
+no rule the client could own: whether an event may be retried is the server's
+answer — `404` unknown or already delivered, `409` still climbing its backoff —
+and the admin renders that answer rather than predicting it. That is exactly the
+case ADR-0003 says not to build a `domain/` layer for.
+
+`src/lib` is organized into three layers plus a shared type kernel:
 
 - **`infrastructure/`** — the `ActivityGateway` **port** + its
   `httpActivityGateway` implementation (the **one place `apiClient` is used** in
@@ -20,19 +30,30 @@ three layers plus a shared type kernel:
   `activityMapper` (the wire→view anti-corruption layer, formerly
   `utils/toActivityEvent`), and `activityKeys` (the query-key factory +
   `ActivityListParams`).
-- **`application/`** — the `useActivityLog` TanStack Query hook. It calls the
-  gateway (`httpActivityGateway.list`), never `apiClient`. Its name and
-  signature are unchanged (the barrel + `users-admin`'s user-activity tab
-  consume it).
+- **`application/`** — the TanStack Query hooks: `useActivityLog`,
+  `useEntryActivity`, `useDeadLetters` and the one mutation,
+  `useRetryDeadLetter`. Every one of them calls the gateway, never `apiClient`.
+  `useDeadLetters` did import `apiClient` directly, which made the sentence
+  above it false for as long as it stood; if you add a hook here, the seam is
+  the port.
+
+    `useRetryDeadLetter` invalidates `activityKeys.deadLettersRoot` and nothing
+    else. Not `activityKeys.all`, and specifically **not** the log list: the
+    retried event has not been delivered yet, so refetching every cached log
+    page would be a storm for a change that has not happened. There is no
+    optimistic removal either — the retention sweep moves this list underneath
+    the reader — so the row leaves when the refetch lands.
+
 - **`presentation/`** — the pages, components, the `activityPlugin` factory,
   `activityFilterFields`, and `activityMessages`. Consumes the view models +
   the hook only; **nothing here imports `apiClient`**.
 - **`types/`** — the wire-independent **view-model contract** shared by the
-  mapper (infra) and the presentation: `activityEvent` (`ActivityEvent` /
-  `ActivityActor` / `ActivityList` / `ActivityMeta`) and `activityKinds` (the
+  mappers (infra) and the presentation: `activityEvent` (`ActivityEvent` /
+  `ActivityActor` / `ActivityList` / `ActivityMeta`), `deadLetter` (`DeadLetter`
+  / `DeadLetterList` / `RetriedDeadLetter`) and `activityKinds` (the
   `ActivityKind` union the admin restates locally, since it can't import the
   server plugins). Kept as a top-level kernel — not under `presentation/` — so
-  the infrastructure mapper can produce these types without depending on the
+  the infrastructure mappers can produce these types without depending on the
   presentation layer.
 
 ## What it owns
@@ -68,6 +89,30 @@ three layers plus a shared type kernel:
   recorded (`GET /activity/dead-letters`). It renders nothing when there are
   none, and nothing while loading or on error: a caveat about a list must never
   be the reason the page looks broken.
+
+          Its **Review and retry** button — gated on `activity:manage` and **hidden**
+          rather than disabled without it — opens `DeadLettersDialog`, nested inside
+          the notice's folder because nothing else uses it. The dialog is where
+          `lastError`, `occurredAt` and `attempts` are finally rendered: they have
+          been on the wire since the read route shipped and appeared nowhere, and
+          `lastError` is the one field that says whether the cause is fixed. The retry
+          is **per row and only per row** — the banner shows five of an unbounded
+          `total` and no ids, so a bulk action would act on rows the operator has
+          never seen. No confirmation step: the audit insert is `ON CONFLICT DO
+
+    NOTHING` (`activity:I-03`), so a repeat is ignored.
+
+          The dialog **does** render its error state, which is the opposite of the
+          banner's rule and deliberately so: the banner is a caveat nobody asked for,
+          the dialog is an answer somebody asked for, and an empty table would answer
+          "nothing is stuck".
+
+          Retrying the last one is a focus trap in waiting: `total` hits 0, the notice
+          returns `null`, and Radix restores focus to a trigger that no longer exists.
+          So the notice closes the dialog in `onSuccess` and moves focus to
+          `#main-content` on the transition to zero — the same fix `ActivityLogPage`'s
+          `clearFilters` already carries, and only when this reader's own retry caused
+          it.
 
 ## The page
 
@@ -155,10 +200,16 @@ the home slots). Every `<time datetime>` in this plugin therefore goes through
   `ActivityPagination`, `ActivityEmpty`, `ActivityNoAccess`, and the shared
   `ActivityLogSkeleton`, consumed by both the page's `isPending` body and the
   lazy route's `Suspense` fallback).
-- Data flows through the gateway seam: `application/useActivityLog` calls
+- Data flows through the gateway seam: every `application/` hook calls
   `httpActivityGateway` behind the `ActivityGateway` port (the sole `apiClient`
   user), never `apiClient` directly; wire→view mapping lives in
-  `infrastructure/activityMapper`.
+  `infrastructure/activityMapper` and `infrastructure/deadLetterMapper`.
+- `activityKeys.deadLetters` takes the **limit**, because the banner and the
+  dialog ask for different page sizes. It used to take no parameter while the
+  request hard-coded `limit: 5`, so a second caller would have overwritten the
+  banner's cache entry — and the banner computes its kinds line from `items`,
+  so its copy would have changed depending on whether the dialog had been
+  opened.
 - `types/activityKinds` restates the kind strings **and** the subject types
   locally (the admin can't import the server plugins);
   `presentation/activityMessages` maps a kind → an "Action" label, a subject type
