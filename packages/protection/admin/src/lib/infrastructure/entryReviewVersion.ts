@@ -53,3 +53,31 @@ export function entryReviewVersion(
     }
     return unprotected ?? updatedAt;
 }
+
+/**
+ * Whether an answer **already cached** for this entry says its type is
+ * protected — which is knowledge about the *type*, and so survives the version
+ * the answer was about.
+ *
+ * The version gate above mints a new key on every save of a protected entry, so
+ * for the length of that refetch there is no answer for the version Publish
+ * would ship. `null` — silence — is the right verdict when nothing is known,
+ * but it is the wrong one here: the publish paths would go live with no reason
+ * on them, and an offered bypass would be gone from the action too, so the click
+ * would publish without `bypass: true` and be refused by the guard
+ * (`protection:I-18`). This predicate is what lets the verdict tell the two
+ * apart and **hold** instead — a rule is in force, its numbers are being
+ * re-read.
+ *
+ * Any cached answer counts, not only the newest: a rule deleted in another tab
+ * mid-refetch would hold the button for the one beat until the answer lands,
+ * which is the harmless direction to be wrong in. What it deliberately does not
+ * do is carry the previous version's **numbers** forward — those are what the
+ * save invalidated, and stating them in a bypass dialog would tell an
+ * administrator the version had been approved.
+ */
+export function entryReviewProtected(
+    cached: readonly CachedEntryReview[]
+): boolean {
+    return cached.some(([, review]) => review?.protected === true);
+}

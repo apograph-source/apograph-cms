@@ -29,6 +29,11 @@ const messages = defineMessages({
         id: 'protection.guard.newEntry',
         defaultMessage:
             '{required, plural, one {# approval} other {# approvals}} required before a new entry of this type can be published.'
+    },
+    checking: {
+        id: 'protection.guard.checking',
+        defaultMessage:
+            'Checking the review state of this version — Publish is held until it comes back.'
     }
 });
 
@@ -52,11 +57,26 @@ const messages = defineMessages({
  * editor's own publish, so the edits on screen are saved with it.
  *
  * It returns `null` — no opinion — whenever protection has nothing to say: a
- * non-publishable type, an unprotected one, and while the read is still in
- * flight or has failed. That last one matters: a guard that blocked on a failed
- * read would make an unreachable API look like a refused publish, and the person
- * could not tell the two apart. The server refuses the publish regardless, with
- * the reason, so the honest client-side default is silence.
+ * non-publishable type, an unprotected one, a read that has **failed**, and a
+ * read in flight with nothing known about the type yet. The failed one matters:
+ * a guard that blocked on a failed read would make an unreachable API look like
+ * a refused publish, and the person could not tell the two apart. The server
+ * refuses the publish regardless, with the reason, so the honest client-side
+ * default is silence.
+ *
+ * The one read in flight it does **not** stay silent about is the beat after a
+ * save on a type it already knows is protected. The save mints a new review key
+ * (`entryReviewVersion`), so for that beat there is no answer for the version
+ * Publish would ship — and silence there is not "no rule", it is "a rule whose
+ * numbers we are re-reading". Answering `null` let Publish, the ⋯ menu's _Save &
+ * publish_ and an offered bypass all go live with no reason on them; worse, the
+ * bypass was gone from `action.onSelect` too, so the click published **without**
+ * `bypass: true` and the server answered 403 rather than the dialog opening
+ * (`protection:I-18`, and `protection:I-21` for all three doors moving
+ * together). So it **holds**, with a reason saying why and no way through —
+ * holding the previous answer instead would re-show a satisfied count about a
+ * version that no longer exists, and offer a bypass dialog stating numbers the
+ * save had already invalidated.
  */
 export function usePublishProtectionVerdict(
     context: EntrySlotContext,
@@ -65,7 +85,11 @@ export function usePublishProtectionVerdict(
     const intl = useIntl();
     const [bypassOpen, setBypassOpen] = useState(false);
     const scope = reviewScopeOf(context);
-    const { data: review } = useEntryReview(scope);
+    const {
+        data: review,
+        isError: reviewFailed,
+        typeKnownProtected
+    } = useEntryReview(scope);
     const creating = context.isCreate && !!context.schema.publishable;
     const { data: fresh } = useNewEntryProtection(
         context.workspaceId,
@@ -95,6 +119,19 @@ export function usePublishProtectionVerdict(
         publish.current?.({ bypass: true });
     }, []);
 
+    /**
+     * No answer for the version in hand, on a type a rule is known to cover —
+     * the gap a save opens. Held rather than answered, and rather than passed:
+     * see this hook's note. A **failed** read is excluded here, because that is
+     * the case where the honest answer stays silence.
+     *
+     * `dirty` does not enter into it: with no answer in hand neither the stored
+     * head's numbers nor `afterSave`'s exist, so there is nothing for the dirty
+     * branch below to answer from either. Once an answer lands, that branch
+     * decides and this is `false`.
+     */
+    const checking = !!scope && !review && !reviewFailed && typeKnownProtected;
+
     let outlook: PublishOutlook | null = null;
     let message = messages.short;
     if (scope) {
@@ -105,6 +142,17 @@ export function usePublishProtectionVerdict(
     } else if (creating && fresh?.protected) {
         outlook = fresh;
         message = messages.newEntry;
+    }
+
+    // Before the `outlook` branches: there is no outlook to draw a number from,
+    // which is the whole point. No `action`, so every publish path is inert
+    // together — the primary button, the menu's Save & publish, and the bypass
+    // the administrator would otherwise take without `bypass: true`.
+    if (checking) {
+        return {
+            blocked: true,
+            reason: intl.formatMessage(messages.checking)
+        };
     }
 
     if (!outlook) return null;

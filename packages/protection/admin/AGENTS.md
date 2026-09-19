@@ -117,7 +117,25 @@ request, which is the inertness I-03/I-04 promise, and it is safe because every
 reader bails on that flag before it looks at another field. The cost is that a
 rule written while such an editor is open is not noticed until it is reopened —
 the same trade the rule write already makes by not invalidating open panels.
-`entryReviewVersion` is pure and unit-tested; the e2e proves the save.
+`entryReviewVersion` is pure and unit-tested, and `protection-refresh.spec.ts`
+pins both halves of the key in a browser: the chip rolling back from
+`Reviewed · N of N` to `Needs review · 0 of N` after a Save draft without a
+reload, and a save on an unprotected type issuing no second read at all. Neither
+passes without the version in the key and the gate on it respectively.
+
+**Publish is held for the beat the new key is in flight.** The save mints a key
+with no answer yet, so for that beat the verdict has no numbers for the version
+Publish would ship — and answering `null` there let the primary button, the ⋯
+menu's _Save & publish_ and an offered bypass all go live with no reason on them.
+The bypass was the serious one: it was gone from `action.onSelect` too, so the
+click published **without** `bypass: true` and met a 403 instead of the
+confirmation. So `useEntryReview` reports `typeKnownProtected` beside the query —
+whether an answer already cached for this entry said a rule is in force, which is
+knowledge about the _type_ and so outlives the version it came with — and the
+verdict returns a **hold with no way through** while that is true and no answer
+is in hand. It carries no numbers forward, deliberately: `keepPreviousData` would
+re-show `Reviewed · N of N` about a version that no longer exists and open a
+bypass dialog stating a count the save had already invalidated.
 
 **The bypass does not publish anything itself.** An administrator who may pass
 a rule sees an ordinary **Publish** — same label, same style — and the click
@@ -151,10 +169,14 @@ it afterwards. The e2e pins it; it failed before this and passes after.
 about the entry; saying it when the truth is "we could not ask" tells somebody
 their draft is unreviewed when it may be approved.
 
-**The guard says nothing while the read is in flight or has failed.** Blocking
-the button on an unreachable API would make a network fault look like a refused
-publish, and the person could not tell them apart. The server refuses regardless,
-with the reason — so silence is the honest client-side default.
+**The guard says nothing while the read has failed, or while nothing is known
+about the type.** Blocking the button on an unreachable API would make a network
+fault look like a refused publish, and the person could not tell them apart. The
+server refuses regardless, with the reason — so silence is the honest client-side
+default. The one in-flight read it does **not** stay silent about is the re-read
+after a save on a type it already knows is protected: see the hold above. "We
+could not ask" and "we are asking again about a rule we know exists" are
+different facts, and only the first one is silence.
 
 ## Names come from the workspace, not from a request
 

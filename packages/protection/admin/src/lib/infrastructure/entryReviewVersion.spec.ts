@@ -1,4 +1,5 @@
 import {
+    entryReviewProtected,
     entryReviewVersion,
     type CachedEntryReview
 } from './entryReviewVersion';
@@ -107,5 +108,42 @@ describe('entryReviewVersion', () => {
                 V2
             )
         ).toBe(V2);
+    });
+});
+
+/**
+ * The other half of the same read: the version gate mints a new key on every
+ * save of a protected entry, and this is what tells the publish verdict that the
+ * gap it is looking at is a rule being re-read rather than no rule at all.
+ */
+describe('entryReviewProtected', () => {
+    it('knows nothing before the first answer', () => {
+        expect(entryReviewProtected([])).toBe(false);
+    });
+
+    it('knows the type is protected from the previous version’s answer', () => {
+        // The case the publish hold exists for: the save moved the key, so this
+        // answer is about a version that is gone — but that a rule exists is not
+        // a fact about a version.
+        expect(entryReviewProtected([cached(V1, review())])).toBe(true);
+    });
+
+    it('stays false on an unprotected answer', () => {
+        expect(entryReviewProtected([cached(V1, unprotected())])).toBe(false);
+    });
+
+    it('stays false while a query has never resolved', () => {
+        expect(entryReviewProtected([cached(V1, undefined)])).toBe(false);
+    });
+
+    it('is true if any cached answer says so', () => {
+        // A rule deleted in another tab mid-refetch holds the button for the one
+        // beat until the new answer lands, which is the harmless direction.
+        expect(
+            entryReviewProtected([
+                cached(V1, review()),
+                cached(V2, unprotected())
+            ])
+        ).toBe(true);
     });
 });

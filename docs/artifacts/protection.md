@@ -649,6 +649,20 @@ another field, so nothing observable can have moved. `entryReviewVersion` is tha
 pure and unit-tested. The reviewer-candidate key deliberately **omits** the version: a save
 cannot change who may be asked (I-22).
 
+A new key has no answer for as long as the read takes, and the publish verdict **holds** for
+that beat rather than falling silent — the one in-flight read it does not treat as "no
+opinion". `useEntryReview` reports `typeKnownProtected` beside the query, meaning an answer
+already cached for the entry said a rule is in force; that is knowledge about the type, so it
+outlives the version it arrived with, while a **failed** read and a type nothing is known about
+both stay silence. Without the hold the primary button, the ⋯ menu's _Save & publish_ and an
+offered bypass all went live with no reason on them for that beat (I-21), and the bypass was
+missing from the action too — so the click published without `bypass: true` and the guard
+answered 403 `protection.bypass_refused` where the confirmation should have opened, which is
+exactly the editor-versus-guard disagreement I-18 forbids. The hold carries **no numbers**
+forward: holding the previous answer would re-show a satisfied count about a version that no
+longer exists, and offer an administrator a bypass dialog stating approvals the save had
+already invalidated.
+
 ## 11. Configuration
 
 **There is none.** `ProtectionPlugin()` takes no argument and `forRoot()` takes nothing: the

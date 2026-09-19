@@ -27,7 +27,10 @@ import {
     reviewStatusKey,
     rulesKey
 } from '../infrastructure/protectionKeys';
-import { entryReviewVersion } from '../infrastructure/entryReviewVersion';
+import {
+    entryReviewProtected,
+    entryReviewVersion
+} from '../infrastructure/entryReviewVersion';
 import {
     httpProtectionGateway,
     type EntryRef,
@@ -62,29 +65,38 @@ export type EntryReviewScope = EntryRef & {
 };
 
 /**
- * The cache key for one entry's review, derived in **one** place.
+ * What the cache already holds about one entry's review — asked in **one**
+ * place, because both things derived from it are derived from the same read.
  *
- * Every surface has to land on the same array: the chip, the rail block and the
- * publish verdict each call `reviewScopeOf` and then this, so they share one
- * cache entry and cannot disagree about whether publication is held
+ * `queryKey` is the array every surface has to land on: the chip, the rail block
+ * and the publish verdict each call `reviewScopeOf` and then this, so they share
+ * one cache entry and cannot disagree about whether publication is held
  * (`protection:I-21` — one publish path holding while another does not is the
  * failure). Deriving it from the cache as well as from the scope is why it is a
  * function of the client rather than of the scope alone; see
  * {@link entryReviewVersion} for what the cache decides.
+ *
+ * `typeKnownProtected` is the other half, and it is knowledge about the *type*
+ * rather than about a version: it is what tells a reader whose key has just
+ * moved that it is waiting on a rule's numbers rather than that there is no rule
+ * — see {@link entryReviewProtected}.
  */
-function entryReviewQueryKey(
+function cachedEntryReview(
     queryClient: QueryClient,
     { workspaceId, typeName, entryId, updatedAt }: EntryReviewScope
 ) {
     const cached = queryClient.getQueriesData<EntryReview>({
         queryKey: entryReviewPrefix(workspaceId, typeName, entryId)
     });
-    return entryReviewKey(
-        workspaceId,
-        typeName,
-        entryId,
-        entryReviewVersion(cached, updatedAt)
-    );
+    return {
+        queryKey: entryReviewKey(
+            workspaceId,
+            typeName,
+            entryId,
+            entryReviewVersion(cached, updatedAt)
+        ),
+        typeKnownProtected: entryReviewProtected(cached)
+    };
 }
 
 /**
@@ -121,6 +133,16 @@ export function reviewScopeOf(context: {
  * anyway. Deliberately **not** gated on `protection:manage`: an ordinary
  * contributor has to see "0 of 2" on their own draft, which is the whole
  * purpose of the panel.
+ *
+ * Alongside the query it reports **`typeKnownProtected`** — whether an answer
+ * already cached for this entry said a rule is in force. It is the query result's
+ * only companion because it is the only fact that outlives a version: a save
+ * mints a new key and `data` is `undefined` until the read lands, and the publish
+ * verdict has to tell "no rule" from "a rule whose numbers we are re-reading"
+ * across exactly that gap. It carries no numbers, on purpose — those are what the
+ * save invalidated. There is no `placeholderData` here for the same reason: the
+ * previous answer would re-show `Reviewed · N of N` about a version that no
+ * longer exists.
  */
 export function useEntryReview(scope: EntryReviewScope | null, enabled = true) {
     const queryClient = useQueryClient();
@@ -128,17 +150,26 @@ export function useEntryReview(scope: EntryReviewScope | null, enabled = true) {
     // compiler cannot see through it — the same narrowing gap content's own
     // `useEntryRelations` closes the same way.
     const target = scope as EntryReviewScope;
-    return useQuery<EntryReview, ApiError>({
-        queryKey: scope
-            ? entryReviewQueryKey(queryClient, scope)
-            : ['protection', 'entry-review', 'idle'],
+    const active = enabled && !!scope;
+    const cached = scope ? cachedEntryReview(queryClient, scope) : null;
+    const query = useQuery<EntryReview, ApiError>({
+        queryKey: cached?.queryKey ?? ['protection', 'entry-review', 'idle'],
         queryFn: () =>
             httpProtectionGateway.getEntryReview({
                 typeName: target.typeName,
                 entryId: target.entryId
             }),
-        enabled: enabled && !!scope
+        enabled: active
     });
+    return {
+        ...query,
+        /**
+         * Whether a rule is in force for this entry's type, as far as anything
+         * cached says — `false` while nothing at all is known about it, which is
+         * every first render.
+         */
+        typeKnownProtected: active && !!cached?.typeKnownProtected
+    };
 }
 
 /**
