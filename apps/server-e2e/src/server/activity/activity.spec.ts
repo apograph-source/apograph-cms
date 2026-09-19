@@ -409,17 +409,53 @@ describe('Activity log (GET /api/activity + recording)', () => {
         });
 
         /**
+         * …and the **retry** route on `activity:manage`, which is a different
+         * key from every other route in this plugin.
+         *
+         * Seeing that something is stuck and re-running somebody else's side
+         * effect are different authorities, so the admin's 404 below is the
+         * point: it proves the route is *reachable* for the key (an unknown id,
+         * answered as such) rather than merely 403-ing everybody. A contributor
+         * — who is already refused the list — is refused this too.
+         */
+        it('gates the dead-letter retry on activity:manage [activity:I-14]', async () => {
+            const unknown = '00000000-0000-4000-8000-0000000000ff';
+
+            const adminAgent = await login(ADMIN_EMAIL);
+            await adminAgent
+                .post(`/api/activity/dead-letters/${unknown}/retry`)
+                .expect(404);
+
+            await seedActiveUser(harness.app, {
+                email: 'retry-gate-contributor@example.com',
+                password: PASSWORD,
+                role: 'contributor'
+            });
+            const contributor = await login(
+                'retry-gate-contributor@example.com'
+            );
+            await contributor
+                .post(`/api/activity/dead-letters/${unknown}/retry`)
+                .expect(403);
+
+            await request(harness.server)
+                .post(`/api/activity/dead-letters/${unknown}/retry`)
+                .expect(401);
+        });
+
+        /**
          * **No route in this plugin answers a bearer token.**
          *
          * An API token is a long-lived secret sitting in somebody else's CI
          * config; the audit log carries sign-in failures, invites and role
-         * changes across the whole deployment, and the dead-letter route names
-         * the aggregates whose events were lost. Neither belongs to an
+         * changes across the whole deployment, and the dead-letter routes name
+         * the aggregates whose events were lost — and, in the retry's case,
+         * re-drive somebody else's delivery. None of it belongs to an
          * integration. The token minted here is proven live against the API it
          * *is* for first, so the 401s below are the credential being refused
          * rather than a dead secret answering for itself.
          */
-        it('answers no bearer token on any of its three routes [activity:I-14]', async () => {
+        it('answers no bearer token on any of its four routes [activity:I-14]', async () => {
             const workspace = await seedWorkspace({
                 name: 'Tokens',
                 slug: 'activity-tokens'
@@ -455,6 +491,16 @@ describe('Activity log (GET /api/activity + recording)', () => {
                     .set('X-Workspace-Id', workspace.id);
                 expect([route, res.status]).toEqual([route, 401]);
             }
+
+            // The fourth, and the one that matters most: it writes.
+            // `activity:manage` is in no token scope, so this is unreachable
+            // with a bearer credential however it was minted.
+            const retry = `/api/activity/dead-letters/${entryId}/retry`;
+            const written = await request(harness.server)
+                .post(retry)
+                .set('Authorization', `Bearer ${secret}`)
+                .set('X-Workspace-Id', workspace.id);
+            expect([retry, written.status]).toEqual([retry, 401]);
         });
     });
 

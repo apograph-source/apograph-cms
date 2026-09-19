@@ -198,6 +198,17 @@ export const ALL_KINDS_ACTIVITY: ActivitySeed[] = [
         'copilot.tool_permission.decided',
         'copilot_run',
         { callId: 'call_1', decision: 'allow' }
+    ],
+    [
+        'outbox.event_retried',
+        'outbox_event',
+        {
+            eventKind: 'entry.published',
+            eventAggregateType: 'content_entry',
+            eventAggregateId: 'e_1',
+            attempts: 15,
+            lastError: 'Error: receiver refused the delivery'
+        }
     ]
 ].map(([kind, subjectType, meta], index) => ({
     id: `ev_kind_${index}`,

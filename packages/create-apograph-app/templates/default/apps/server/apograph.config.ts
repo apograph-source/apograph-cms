@@ -85,7 +85,11 @@ export interface ApographConfig {
     trustProxy?: TrustProxySetting;
     bodyLimit?: string | number;
     staticDir?: string;
-    database: { url: string };
+    database: {
+        url: string;
+        /** Days a delivered outbox event is kept; `0` never prunes. */
+        outboxRetentionDays: number;
+    };
     docs: ApiDocsOptions;
     plugins: {
         identity: AppIdentityConfig;
@@ -135,7 +139,11 @@ const config: ApographConfig = {
         url: requireEnv(
             'DATABASE_URL',
             'Set it in your .env before starting the app.'
-        )
+        ),
+        // Delivered outbox rows only. A pending or parked event is never
+        // deleted by age — a parked one is the evidence that something was
+        // never recorded.
+        outboxRetentionDays: readPositiveInt('OUTBOX_RETENTION_DAYS', 30)
     },
     docs: docsConfig(),
     plugins: {

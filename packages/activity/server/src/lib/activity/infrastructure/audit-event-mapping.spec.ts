@@ -976,7 +976,7 @@ describe('toAuditRow — event → audit-row parity', () => {
          * list is the only place that omission is visible, so it is pinned
          * exhaustively rather than sampled.
          */
-        it('audits exactly the 68 expected kinds', () => {
+        it('audits exactly the 69 expected kinds', () => {
             expect([...AUDITED_EVENT_KINDS].sort()).toEqual(
                 [
                     'alarm.rule.created',
@@ -1000,6 +1000,7 @@ describe('toAuditRow — event → audit-row parity', () => {
                     'media.folder.created',
                     'media.folder.deleted',
                     'media.folder.renamed',
+                    'outbox.event_retried',
                     'protection.rule_changed',
                     'entry.publish_bypassed',
                     'review.approved',
@@ -1135,7 +1136,7 @@ describe('toAuditRow — event → audit-row parity', () => {
         /**
          * The collapse, named rather than counted.
          *
-         * 68 mappers produce 66 kinds, and the two-kind difference is a
+         * 69 mappers produce 67 kinds, and the two-kind difference is a
          * decision: `user.disabled`/`user.enabled` (the identity aggregate's
          * own pair) land on the same audit kinds as
          * `member.disabled`/`member.reactivated`, because which aggregate
@@ -1149,7 +1150,7 @@ describe('toAuditRow — event → audit-row parity', () => {
          * either way. So the collisions are asserted **by name**, not by count:
          * a third one fails here with the pair that caused it in the message.
          */
-        it('collapses 68 event kinds onto 66, and only where it means to [activity:I-11]', () => {
+        it('collapses 69 event kinds onto 67, and only where it means to [activity:I-11]', () => {
             const sourcesByAuditKind = new Map<string, string[]>();
             for (const eventKind of AUDITED_EVENT_KINDS) {
                 const produced = rowFor(eventKind).kind;
@@ -1173,9 +1174,9 @@ describe('toAuditRow — event → audit-row parity', () => {
             ]);
 
             // The arithmetic the invariant states, which the list above only
-            // implies: 68 mappers, two collisions, 66 distinct kinds.
-            expect(AUDITED_EVENT_KINDS).toHaveLength(68);
-            expect(sourcesByAuditKind.size).toBe(66);
+            // implies: 69 mappers, two collisions, 67 distinct kinds.
+            expect(AUDITED_EVENT_KINDS).toHaveLength(69);
+            expect(sourcesByAuditKind.size).toBe(67);
         });
 
         it('stamps only subject types the catalogue declares', () => {

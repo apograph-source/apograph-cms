@@ -188,29 +188,44 @@ One table. That is everything the package owns in the database.
 | next_attempt_at | timestamptz | NULL = “eligible now”           | The row is not picked up before this time. Set on every failure                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | last_error      | text        | NULL until a failure            | Why the most recent attempt failed, truncated to 1,000 characters. It exists so that a parked row can _answer for itself_: the row is a dead letter — an event that should have been recorded and could not be — and its parking is logged, but a log line is loud only to whoever is tailing logs at that moment. Afterwards the single question worth asking (“is anything parked, and why”) had no answer short of a `psql` session. Diagnostic text from an arbitrary subscriber, so `name: message` rather than a stack trace |
 
-#### The index
+#### The indexes
 
 ```
 CREATE INDEX "outbox_events_pending_idx"
   ON "outbox_events" USING btree ("occurred_at")
   WHERE "outbox_events"."dispatched_at" is null;
+
+CREATE INDEX "outbox_events_dispatched_idx"
+  ON "outbox_events" USING btree ("dispatched_at")
+  WHERE "outbox_events"."dispatched_at" is not null;
 ```
 
-A **partial** index on `occurred_at` over undelivered rows only. An ordinary index on `dispatched_at` (as in `0000_init`) would serve the filter and leave Postgres to sort the matches; the partial one serves the filter, the ordering and the limit _together_ and stays small — delivered rows fall out of it the moment they are stamped. That is what keeps the drain cheap on a table nobody prunes.
+**Two partial indexes, exact complements of each other**, one per question the table is asked.
+
+The first serves the **drain**: a partial index on `occurred_at` over undelivered rows only. An ordinary index on `dispatched_at` (as in `0000_init`) would serve the filter and leave Postgres to sort the matches; the partial one serves the filter, the ordering and the limit _together_ and stays small — delivered rows fall out of it the moment they are stamped.
+
+The second serves the **retention sweep**, and it is new (`0003_outbox_retention_index`). The sweep asks the one question the first index is built to exclude: delivered rows stamped before a cutoff. `0001_outbox_retry_backoff` had dropped the plain `outbox_events_dispatched_at_idx`, so until this existed a sweep would have been a sequential scan of the whole table on every pass — forever, and worst exactly on the installations that need it. It holds nothing at all until the table has a tail of delivered rows.
 
 #### Migrations
 
-| Tag                       | What it does                                                                                 |
-| ------------------------- | -------------------------------------------------------------------------------------------- |
-| 0000_init                 | Creates the table (8 columns) and the `outbox_events_dispatched_at_idx` index                |
-| 0001_outbox_retry_backoff | Drops the old index, adds `next_attempt_at`, creates the partial `outbox_events_pending_idx` |
-| 0002_outbox_last_error    | Adds `last_error`, so a parked row records why it stopped being retried                      |
+| Tag                         | What it does                                                                                                       |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| 0000_init                   | Creates the table (8 columns) and the `outbox_events_dispatched_at_idx` index                                      |
+| 0001_outbox_retry_backoff   | Drops the old index, adds `next_attempt_at`, creates the partial `outbox_events_pending_idx`                       |
+| 0002_outbox_last_error      | Adds `last_error`, so a parked row records why it stopped being retried                                            |
+| 0003_outbox_retention_index | Adds the partial `outbox_events_dispatched_idx` over delivered rows, so the retention sweep has an index to cut on |
 
 Tracked in their own `__drizzle_migrations_database` table, exactly as for any other plugin. Generated with `nx run @apograph/database:db:generate --name=<change>` (with no database connection) and applied by the host through `nx run server:db:migrate`.
 
-> **What the table does not have**
+> **Retention, and what it deliberately cannot reach**
 >
-> There is no **pruning**. Delivered rows stay forever — there is no deletion job, no partitioning and no TTL in the code. The partial index makes that tolerable for _reading_ (the index does not grow), but the table grows monotonically, and cleanup is an operations task, not the package's. There is also no uniqueness constraint over `(kind, aggregate_id)` — repeated facts about one aggregate are perfectly legal.
+> **Delivered** rows are pruned. `OUTBOX_RETENTION_DAYS` (default 30, `0` = never) sets the window; `OutboxDispatcher.pruneDelivered(before)` does the deleting, in batches of 1,000 through a `FOR UPDATE SKIP LOCKED` sub-select, and a private `pruneIfDue` calls it at the tail of a poll tick at most once an hour. No new timer, and no bookkeeping table — the "last swept" mark is an in-process field (I-23).
+>
+> The predicate is `dispatched_at IS NOT NULL AND dispatched_at < cutoff`, and the second half of that sentence is the whole safety argument: a **pending** row and a **parked** one both carry `dispatched_at IS NULL`, so they are excluded **by construction rather than by a clause**. There is deliberately no `AND attempts < 15`; it would mean the same thing today and be the thing a later edit breaks. Nothing deletes a dead letter by age, ever — a parked row is the only evidence that something was never recorded, and a sweep that took one would make an audit gap invisible again.
+>
+> The cut is on `dispatched_at`, never `occurred_at`. They are different clocks: an event can occur long before it is delivered, and cutting on domain time would delete a row that went out this morning because the fact it carries is old.
+>
+> There is still no partitioning and no TTL in the database itself, and no uniqueness constraint over `(kind, aggregate_id)` — repeated facts about one aggregate are perfectly legal.
 
 ## 05. Unit of Work — the contract and the rules
 
@@ -592,8 +607,8 @@ The plugin's configuration is one required parameter and three optional ones. Th
 
 ### The environment
 
-| Variable     | Who reads it                                                                              | Example                                           |
-| ------------ | ----------------------------------------------------------------------------------------- | ------------------------------------------------- |
+| Variable     | Who reads it                                                                                 | Example                                                    |
+| ------------ | -------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
 | DATABASE_URL | `apograph.config.ts`, through `requireEnv` — mandatory; without it the server does not start | postgresql://apograph:apograph@localhost:5432/apograph_cms |
 
 `poolMax`, `connectionTimeoutMillis` and `statementTimeoutMillis` have **no environment variables** — today they are literals in the host's code, if it sets them at all. A deployment that needs a different pool ceiling will have to edit `apograph.config.ts` or its own composition root.
@@ -674,7 +689,9 @@ Several server replicas work the same queue correctly and without configuration:
 
 > **Known rough edges**
 >
-> **The table is not pruned.** On a busy installation `outbox_events` grows monotonically. That does not slow reads down (the index is partial), but it does cost space and backup time.
+> **Retention only reaches delivered rows — by design, and it is worth knowing.** The sweep removes rows stamped `dispatched_at` before the cutoff; pending and parked rows are never removed by age. So an installation whose subscriber is permanently broken still accumulates dead letters without bound, and the answer is to fix the cause and retry them, not to widen the sweep. A deployment that sets `OUTBOX_RETENTION_DAYS=0` is back to the old behaviour — monotonic growth — deliberately.
+>
+> **The sweep is per process and in memory.** `lastPrunedAt` is a field, so N replicas each sweep hourly (harmless — `SKIP LOCKED`, and the second one finds nothing), and a process restarted every few minutes never sweeps at all.
 >
 > **There is no limit on `payload` size.** It is `jsonb`; an excessively large payload is paid for on every drain.
 >
@@ -708,6 +725,8 @@ Statements that must remain true. Violating any of them is a defect, not a chang
 - **I-22** — `attachActor` does not mutate the input events, puts the actor under the `actor` key and **overwrites** an actor placed there by the publisher.
 - **I-23** — The package owns exactly **one** table. A second one appearing is a change of architectural decision, not a routine edit.
 - **I-24** — There is no `domain/` module in this package and none should appear: this is infrastructure.
+- **I-25** — The retention sweep deletes **only** rows with `dispatched_at IS NOT NULL` stamped before the cutoff. A pending row and a **parked** row are excluded by that predicate itself, not by a clause about `attempts`, and no retention setting can reach either. The cut is on `dispatched_at`, never `occurred_at`.
+- **I-26** — A retry resets the existing row **in place** — `attempts = 0`, `next_attempt_at = NULL`, `last_error` preserved — and never enqueues a copy. Both columns are cleared together: clearing `attempts` alone leaves a row the claim predicate still refuses. An already-delivered row cannot be retried, and is reported indistinguishably from an unknown one.
 
 ## 12. Testing checklist
 
@@ -779,9 +798,9 @@ The package is deliberately narrow. Everything that could be handed outwards has
 | Auditing and the activity log                            | no    | `activity/server`: the subscriber + the `activity_events` table                       |
 | The `db:generate` / `db:migrate` targets                 | no    | `@apograph/nx` (target inference) on top of `@apograph/cli` (`applyPluginMigrations`) |
 | The order in which migrations are applied                | no    | The host's `plugins` array — `apps/server/src/plugins.ts`                             |
-| Reading environment variables                            | no    | `apps/server/apograph.config.ts` — the only place that reads `process.env`               |
+| Reading environment variables                            | no    | `apps/server/apograph.config.ts` — the only place that reads `process.env`            |
 | Enabling Nest's shutdown hooks                           | no    | `createServer` in `@apograph/bootstrap-server`                                        |
-| Pruning old outbox rows                                  | no    | Nobody's. An operations task                                                          |
+| Pruning old outbox rows                                  | yes   | `OutboxDispatcher.pruneDelivered` + the hourly `pruneIfDue`; delivered rows only      |
 | Metrics, health checks, a queue UI                       | no    | Absent. Only logs and SQL                                                             |
 
 ### Its relationship to ADR-0003
@@ -805,14 +824,14 @@ Every statement in the documentation was checked against the implementation. Bel
 | ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | ARCHITECTURE.md, §4 “The data layer”                    | “It owns **no schemas and no migrations**”                                                                                                                                                       | It owns the `outbox_events` table and carries **three** migrations of its own, with a `__drizzle_migrations_database` tracking table. The package's `AGENTS.md`, the root `AGENTS.md` and `drizzle.config.ts` all state that exception honestly — only this paragraph was not updated     |
 | CONTEXT-MAP.md, the `database` row                      | “One Drizzle/`pg` connection via DI. **Owns no schema**”                                                                                                                                         | The same discrepancy. On top of that, the phrase “via DI” says nothing about the second, non-DI access route (`getDatabase()`/`getPool()`), which the package exports deliberately                                                                                                        |
-| packages/database/AGENTS.md                             | The heading “**Two** things the outbox deliberately bounds”                                                                                                                                      | There are **three** items under the heading: the ceiling with backoff, waiting out the drain at shutdown, and “one drain per process”. The third was added and the heading was not fixed                                                                                                  |
+| packages/database/AGENTS.md                             | The heading “**Two** things the outbox deliberately bounds”                                                                                                                                      | **Resolved.** It had drifted to three items and has since gained a fourth (retention); the heading now reads “Four”                                                                                                                                                                       |
 | packages/database/AGENTS.md, “Key exports”              | Lists the package's exports                                                                                                                                                                      | The list is incomplete: it omits `attachActor` and `EventActor` (even though `attachActor` is mandatory for auditing), `closeDatabase`, `DEFAULT_POOL_MAX`, `DEFAULT_CONNECTION_TIMEOUT_MS` and `MAX_DELIVERY_ATTEMPTS`                                                                   |
 | packages/database/AGENTS.md, “Architecture → Lifecycle” | Explains in detail why `releaseDatabase` is used rather than `closeDatabase`, as part of the public behaviour                                                                                    | `releaseDatabase` is **not exported** from `src/index.ts` — it is an internal function available only to the `DatabaseShutdown` provider. Only the unconditional `closeDatabase` is handed outwards. The description is right in substance but reads as a description of an available API |
-| packages/database/AGENTS.md, “Configuration”            | The plugin-wiring example is captioned `apps/server/src/main.ts`                                                                                                                                 | `main.ts` calls `buildPlugins(config)`; the `DatabasePlugin({...})` itself is in `apps/server/src/plugins.ts`                                                                                                                                                                             |
+| packages/database/AGENTS.md, “Configuration”            | The plugin-wiring example is captioned `apps/server/src/main.ts`                                                                                                                                 | **Resolved.** The example is now captioned `apps/server/src/plugins.ts`, which is where the call really is                                                                                                                                                                                |
 | docs/adr/0003-tactical-ddd-inside-plugins.md            | Status **Proposed**, noting that it “flips to Accepted once the workspaces pilot (Wave 1) merges”                                                                                                | The foundation (`UnitOfWork` + outbox + `DomainEvent`) is in place, the `workspaces/server` package has been carved out and works in layers, and the audit log has moved to a subscriber. The status was never flipped                                                                    |
 | identity/server, `identity-events.ts`                   | The comment speaks of moving the audit log onto an outbox subscriber as something in the future (“Wave 3's move…”), and says that emitting events is “harmless **until that subscriber exists**” | The subscriber exists — `AuditEventSubscriber` in `activity/server` — and it already listens to three of these kinds (`user.password_changed`, `user.activated`, `auth.signed_in`). The “no subscriber” claim remains true only for the other eight kinds                                 |
 | ARCHITECTURE.md, §5, step 4                             | Describes the post-commit drain and the 5-second poll                                                                                                                                            | Correct, but it does not mention the two limiters that define behaviour under load: the ceiling of 15 attempts with exponential backoff, and the “one drain per process” rule. A reader of that paragraph will not learn that an event can be parked forever                              |
-| The documentation as a whole                            | —                                                                                                                                                                                                | Nowhere does it describe the **absence of pruning** for `outbox_events`, nor the absence of any dead-letter tooling beyond SQL. Both are operational matters, and both will surface in production rather than in development                                                              |
+| The documentation as a whole                            | —                                                                                                                                                                                                | **Resolved.** Both gaps now have code behind them as well as prose: delivered rows are pruned on a configurable window (§04, §10, I-25), and a parked event is retried over HTTP rather than in `psql` (I-26, activity's `POST /api/activity/dead-letters/:id/retry`)                     |
 
 <details>
 <summary>Minor points that did not rise to a table row</summary>

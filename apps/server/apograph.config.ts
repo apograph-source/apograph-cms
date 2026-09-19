@@ -74,6 +74,11 @@ export type {
 export interface ApographDatabaseConfig {
     /** PostgreSQL connection string. Sourced from `DATABASE_URL`. */
     url: string;
+    /**
+     * How long a delivered outbox event is kept, in days. Sourced from
+     * `OUTBOX_RETENTION_DAYS`; `0` never prunes.
+     */
+    outboxRetentionDays: number;
 }
 
 /** Root server configuration. */
@@ -141,7 +146,12 @@ const config: ApographConfig = {
             'DATABASE_URL',
             'Copy `.env.example` to `.env` and set it (see `README.md`); ' +
                 'the server has no usable default for this value.'
-        )
+        ),
+        // The same vocabulary as `WEBHOOKS_RETENTION_DAYS`, and the same
+        // meaning: days of history kept, `0` for "keep everything". It applies
+        // to delivered rows only — a pending or parked event is never deleted
+        // by age.
+        outboxRetentionDays: readPositiveInt('OUTBOX_RETENTION_DAYS', 30)
     },
     docs: docsConfig(),
     plugins: {

@@ -1,10 +1,11 @@
 /**
- * The response schemas of the activity plugin's three read routes, as plain
- * OpenAPI objects.
+ * The response schemas of the activity plugin's four routes — its three reads
+ * and the one write — as plain OpenAPI objects.
  *
- * `ActivityEventView`, `ActivityListView` and `DeadLetterListView` are
- * TypeScript `interface`s, so the OpenAPI scanner emits a bare
- * `{ '200': { description: '' } }` for all three — see
+ * `ActivityEventView`, `ActivityListView`, `DeadLetterListView` and
+ * `DeadLetterRetryView` are TypeScript `interface`s (the last one a type
+ * alias), so the OpenAPI scanner emits a bare
+ * `{ '200': { description: '' } }` for all four — see
  * `packages/bootstrap/server/AGENTS.md` → "The response-schema gap". These are
  * what the `decorate` pass writes in their place.
  *
@@ -127,7 +128,7 @@ export const ACTIVITY_SCHEMAS: Record<string, OpenApiSchema> = {
                 type: 'string',
                 format: 'uuid',
                 description:
-                    'The event id — the handle for a manual replay (clearing `attempts`).'
+                    'The event id — the handle `POST /activity/dead-letters/{id}/retry` takes.'
             },
             kind: {
                 type: 'string',
@@ -165,6 +166,64 @@ export const ACTIVITY_SCHEMAS: Record<string, OpenApiSchema> = {
             'aggregateId',
             'occurredAt',
             'attempts',
+            'lastError'
+        ]
+    },
+    ActivityDeadLetterRetryView: {
+        type: 'object',
+        description:
+            'A dead letter as it stands after a successful retry: the same fields the list carries, plus the delivery schedule. `attempts` is always `0` and `nextAttemptAt` always `null` — together they are what makes the row claimable again, and clearing only the first would leave it refused by the schedule. `lastError` is deliberately **preserved**: it is the only surviving record of why the event parked.',
+        properties: {
+            id: {
+                type: 'string',
+                format: 'uuid',
+                description:
+                    'The event id, unchanged — the row is reset in place rather than re-enqueued, because that id is the idempotency key every subscriber deduplicates on.'
+            },
+            kind: {
+                type: 'string',
+                description: 'The event kind that could not be delivered.'
+            },
+            aggregateType: {
+                type: 'string',
+                description: 'The aggregate root\u2019s type.'
+            },
+            aggregateId: {
+                type: 'string',
+                description: 'The aggregate root\u2019s id.'
+            },
+            occurredAt: {
+                type: 'string',
+                format: 'date-time',
+                description:
+                    'When the fact occurred. Untouched by the retry \u2014 the row returns to the head of an `ORDER BY occurred_at` claim.'
+            },
+            attempts: {
+                type: 'integer',
+                description: 'Always `0` after a successful retry.'
+            },
+            nextAttemptAt: {
+                type: 'string',
+                format: 'date-time',
+                nullable: true,
+                description:
+                    'Earliest time the row may be claimed again; always `null` after a retry, which means "now".'
+            },
+            lastError: {
+                type: 'string',
+                nullable: true,
+                description:
+                    'Why the last attempt failed, kept rather than cleared.'
+            }
+        },
+        required: [
+            'id',
+            'kind',
+            'aggregateType',
+            'aggregateId',
+            'occurredAt',
+            'attempts',
+            'nextAttemptAt',
             'lastError'
         ]
     },

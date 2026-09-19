@@ -23,6 +23,24 @@ export const PERMISSIONS = {
      */
     USERS_MANAGE: 'users:manage',
     ACTIVITY_READ: 'activity:read',
+    /**
+     * Authority to act on the audit trail's **plumbing**, as opposed to reading
+     * it: today, retrying an outbox event that gave up after fifteen failed
+     * deliveries.
+     *
+     * Separate from `activity:read` because that key answers "what happened",
+     * and this one re-runs somebody else's side effect — a webhook POST, a mail
+     * send, an audit insert — at a moment of the holder's choosing. Reading a
+     * list of parked events tells you the trail is incomplete; replaying one
+     * reaches back into another plugin's delivery path. An operator who may see
+     * the gap is not automatically an operator who may reopen it.
+     *
+     * Separate from `users:manage` and the rest because it is not about a
+     * person or a workspace at all: it is deployment machinery, which is why it
+     * is admin-only and why no API-token scope carries it — a long-lived
+     * credential in someone's CI has no business re-driving the outbox.
+     */
+    ACTIVITY_MANAGE: 'activity:manage',
     CONTENT_READ: 'content:read',
     CONTENT_CREATE: 'content:create',
     CONTENT_UPDATE: 'content:update',

@@ -6,6 +6,15 @@ import {
 import type { Database } from '../types';
 
 const NOW = new Date('2026-01-01T00:00:00.000Z');
+
+/**
+ * Retention off for every dispatcher built here. These specs stub the database
+ * down to a `transaction` method, and the retention sweep is a real `DELETE`
+ * against a real table — it is asserted in
+ * `apps/server-e2e/src/server/database/outbox-retention.spec.ts`, where there
+ * is one.
+ */
+const NO_RETENTION = 0;
 const delayAfter = (attempts: number) =>
     nextAttemptAfter(attempts, NOW).getTime() - NOW.getTime();
 
@@ -91,7 +100,7 @@ describe('onModuleDestroy', () => {
         // those events were re-delivered on the next boot. Safe only because
         // the one shipped subscriber is idempotent.
         const { db, release } = controllableDb();
-        const dispatcher = new OutboxDispatcher(db, []);
+        const dispatcher = new OutboxDispatcher(db, [], NO_RETENTION);
 
         const drain = dispatcher.drain();
         let drainFinished = false;
@@ -113,7 +122,7 @@ describe('onModuleDestroy', () => {
         // it joins one queued drain. Awaiting only the active one would walk
         // away from that.
         const { db, release, startedCount } = controllableDb();
-        const dispatcher = new OutboxDispatcher(db, []);
+        const dispatcher = new OutboxDispatcher(db, [], NO_RETENTION);
 
         const first = dispatcher.drain();
         const second = dispatcher.drain();
@@ -134,14 +143,18 @@ describe('onModuleDestroy', () => {
                 throw new Error('connection terminated unexpectedly');
             }
         } as unknown as Database;
-        const dispatcher = new OutboxDispatcher(db, []);
+        const dispatcher = new OutboxDispatcher(db, [], NO_RETENTION);
 
         await expect(dispatcher.drain()).rejects.toThrow();
         await expect(dispatcher.onModuleDestroy()).resolves.toBeUndefined();
     });
 
     it('returns immediately when nothing is draining', async () => {
-        const dispatcher = new OutboxDispatcher({} as unknown as Database, []);
+        const dispatcher = new OutboxDispatcher(
+            {} as unknown as Database,
+            [],
+            NO_RETENTION
+        );
 
         await expect(dispatcher.onModuleDestroy()).resolves.toBeUndefined();
     });

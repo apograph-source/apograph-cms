@@ -1,5 +1,6 @@
 import type { DomainEvent } from '@apograph/database';
 import { IDENTITY_ACTIVITY_KINDS } from '@apograph/identity-server';
+import { OUTBOX_RETRY_AUDIT } from '../activity.constants';
 
 /**
  * The values one audit row needs, derived purely from a {@link DomainEvent}.
@@ -580,6 +581,29 @@ function protectionRuleSubject(event: DomainEvent): AuditFacet {
 }
 
 /**
+ * An `'outbox_event'`-subject facet — the one action this plugin performs
+ * rather than merely records.
+ *
+ * The subject is the **stuck delivery**, identified by the outbox row's id, and
+ * not the aggregate the stuck event was about: retrying a parked
+ * `entry.published` is an act against the delivery, and filing it under the
+ * entry would put an infrastructure action in a content record's history.
+ *
+ * `meta` is the payload minus the actor, so it carries what was stuck (the
+ * event's own kind and aggregate), how many attempts it had spent, and the
+ * `last_error` that explains why — frozen here because the outbox row itself
+ * becomes prunable the moment it finally delivers.
+ */
+function outboxEventSubject(event: DomainEvent): AuditFacet {
+    return {
+        kind: event.kind,
+        subjectType: OUTBOX_RETRY_AUDIT.SUBJECT_TYPE,
+        subjectId: event.aggregateId,
+        meta: payloadWithoutActor(event)
+    };
+}
+
+/**
  * The event payload with `attachActor`'s `actor` key removed — the actor is
  * lifted onto the row's own `actorId`/`actorEmail` columns by
  * {@link toAuditRow}, so repeating it inside `meta` would only duplicate it.
@@ -937,7 +961,15 @@ const FACET_MAPPERS: Record<string, (event: DomainEvent) => AuditFacet> = {
     [PROTECTION_AUDIT_KINDS.REVIEW_APPROVED]: entryAccessSubject,
     [PROTECTION_AUDIT_KINDS.REVIEW_CHANGES_REQUESTED]: entryAccessSubject,
     [PROTECTION_AUDIT_KINDS.RULE_CHANGED]: protectionRuleSubject,
-    [PROTECTION_AUDIT_KINDS.PUBLISH_BYPASSED]: entryAccessSubject
+    [PROTECTION_AUDIT_KINDS.PUBLISH_BYPASSED]: entryAccessSubject,
+
+    // The audit trail's own plumbing, and the only kind in this table that
+    // **this** package raises. A parked event is a hole in the trail; an
+    // operator reopening one is an act worth recording in the trail, which is
+    // also why the retry route raises it through the outbox like everybody
+    // else — with the consequence, stated at the route, that an outbox broken
+    // badly enough to park the audit subscriber will park this event too.
+    [OUTBOX_RETRY_AUDIT.KIND]: outboxEventSubject
 };
 
 /**
@@ -1037,7 +1069,8 @@ export const AUDIT_KINDS = [
     'review.approved',
     'review.changes_requested',
     'protection.rule_changed',
-    'entry.publish_bypassed'
+    'entry.publish_bypassed',
+    'outbox.event_retried'
 ] as const satisfies readonly string[];
 
 /**
@@ -1061,7 +1094,8 @@ export const AUDIT_SUBJECT_TYPES = [
     'saved_view',
     'copilot_skill',
     'copilot_run',
-    'protection_rule'
+    'protection_rule',
+    'outbox_event'
 ] as const satisfies readonly string[];
 
 /**

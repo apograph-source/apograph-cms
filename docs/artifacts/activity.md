@@ -523,15 +523,16 @@ Instructive as an illustration of the rule "adding a producer = adding a mapper"
 
 ## 08. HTTP API
 
-Three routes, all reads. Together they are the entire surface available from outside — and the second and third exist because the first one's permission is the right answer to a different question than the one they answer.
+Four routes, three of them reads. Together they are the entire surface available from outside — and each of the last three exists because the first one's permission is the right answer to a different question than the one they answer.
 
-| Method and path                    | Access                                    | Response                             |
-| ---------------------------------- | ----------------------------------------- | ------------------------------------ |
-| GET /api/activity                  | `session` `activity:read`                 | { items\[\], total, page, pageSize } |
-| GET /api/activity/entries/:entryId | `session` `content:read` `X-Workspace-Id` | { items\[\], total, page, pageSize } |
-| GET /api/activity/dead-letters     | `session` `activity:read`                 | { total, items\[\] }                 |
+| Method and path                           | Access                                    | Response                                    |
+| ----------------------------------------- | ----------------------------------------- | ------------------------------------------- |
+| GET /api/activity                         | `session` `activity:read`                 | { items\[\], total, page, pageSize }        |
+| GET /api/activity/entries/:entryId        | `session` `content:read` `X-Workspace-Id` | { items\[\], total, page, pageSize }        |
+| GET /api/activity/dead-letters            | `session` `activity:read`                 | { total, items\[\] }                        |
+| POST /api/activity/dead-letters/:id/retry | `session` `activity:manage` `OriginGuard` | the reset dead letter, plus `nextAttemptAt` |
 
-### The two narrow routes
+### The three narrow routes
 
 #### `/entries/:entryId` — one record's own trail
 
@@ -543,7 +544,15 @@ Paging only: the subject is the URL, the workspace is the header, and every othe
 
 `dispatched_at IS NULL AND attempts >= MAX_DELIVERY_ATTEMPTS`, newest first, each with the reason it parked (`outbox_events.last_error`). `total` is separate from `items` so a caller can render "3 events could not be recorded" without paging; `limit` caps at 200 and `since` narrows to recent failures.
 
-**It reports rather than repairs.** Replaying a parked row means clearing its `attempts` — a deliberate operator action against a fixed cause, not a button that re-runs whatever failed fifteen times.
+#### `/dead-letters/:id/retry` — the one thing this package writes
+
+`POST`, `activity:manage`, `OriginGuard`, one event at a time. It resets that row **in place** — `attempts = 0`, `next_attempt_at = NULL`, `last_error` kept — and answers with the row as it now stands. The id never changes: it is the idempotency key every subscriber deduplicates on, so a copy would be a second fact and a partly-succeeded delivery would be applied twice.
+
+Both columns are cleared together, and that is the whole of the route's correctness. `attempts` alone leaves a schedule up to five minutes out that the claim predicate still honours — the operator presses retry and, as far as anything visible goes, nothing happens.
+
+An unknown id and an **already delivered** one both answer 404, deliberately indistinguishably. A row that is undelivered but still climbing its backoff answers 409: it exists, there is simply nothing to un-park, and cancelling a live backoff is not what was asked for.
+
+**It is still a report route that grew one button, not a repair tool.** There is no bulk retry and there is not meant to be: a reset row returns to the head of an `ORDER BY occurred_at` claim, which is right for one row and a way to stall the queue for a hundred. The mechanism lives in `@apograph/database` (`OutboxDispatcher.retryDeadLetter`); only the route is Activity's, exactly as the read side is already split.
 
 ### Query parameters
 
@@ -676,7 +685,7 @@ In `apps/server/src/plugins.ts` the order is: `DatabasePlugin`, `IdentityPlugin`
 
 Statements that must always hold. Both a review list and a starting set of test assertions.
 
-- **I-01** — The log is strictly append-only: the package holds no code that changes or deletes an `activity_events` row, and not one writing HTTP route.
+- **I-01** — The log is strictly append-only: the package holds no code that changes or deletes an `activity_events` row; the one writing route it hosts mutates no row of its own table.
 - **I-02** — The only live writer is `AuditEventSubscriber`. `ActivityService.record` and the `ACTIVITY_RECORDER` token are kept, marked `@deprecated`, and nobody writes through them.
 - **I-03** — The log row's primary key equals the source event's id, and the insert is `ON CONFLICT DO NOTHING` — re-delivery never produces a duplicate and never rewrites a row already written.
 - **I-04** — A row's `at` equals the event's `occurredAt`, that is, the fact's logical time rather than its delivery time. `created_at` is never selected on a read.
@@ -686,7 +695,7 @@ Statements that must always hold. Both a review list and a starting set of test 
 - **I-08** — Not one mapper carries a secret into `meta`: no password, no hash, no token value and no token hash. For an API token the field set is given by enumeration rather than by copying the payload wholesale.
 - **I-09** — The subscriber accepts exactly the kinds listed in `FACET_MAPPERS`: `AUDITED_EVENT_KINDS` is its `kinds`, computed from that same table.
 - **I-10** — An event of a kind absent from `FACET_MAPPERS` produces an error nowhere: it is stamped delivered and never reaches the log.
-- **I-11** — Every audit kind maps from exactly one event kind, with **one deliberate exception**: `user.disabled`/`user.enabled` land on the same audit kinds as `member.disabled`/`member.reactivated`, so 62 mappings produce 60 distinct kinds. Which aggregate performed the change is an internal fact; the reader wants "this account was suspended".
+- **I-11** — Every audit kind maps from exactly one event kind, with **one deliberate exception**: `user.disabled`/`user.enabled` land on the same audit kinds as `member.disabled`/`member.reactivated`, so 69 mappings produce 67 distinct kinds. Which aggregate performed the change is an internal fact; the reader wants "this account was suspended".
 - **I-12** — A kind is renamed only where the two catalogues historically diverged: `member.*` to `user.*`, `auth.signed_in`/`auth.signed_out` to `user.signed_in`/`user.signed_out`, and `api_token.*` to `token.*`. The rest pass straight through.
 - **I-13** — The subject of a workspace-membership event is the **user**, not the workspace; the workspace's id travels in `meta.workspaceId`.
 - **I-14** — `GET /api/activity` and `/dead-letters` are reachable only with a session and only with the `activity:read` permission; they are unreachable with an external API bearer token. `/entries/:id` takes a session and `content:read`, and additionally requires membership of the workspace named in `X-Workspace-Id`.
@@ -774,16 +783,16 @@ Phrased as "action → expected result", to be taken into a test case without re
 
 ## 14. Boundaries of responsibility
 
-| Area                                                                                                                      | Who is responsible                               | What that means in practice                                                                                                         |
-| ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------- |
-| The transactional outbox, the dispatcher, the `DomainEvent` contract, `attachActor`                                       | @apograph/database                               | Delivery parameters, retries, dead letters and the growth of `outbox_events` are not Activity's territory                           |
-| The `activity:read` permission, `PermissionsGuard`, the `ACTIVITY_RECORDER` port, the `IDENTITY_ACTIVITY_KINDS` catalogue | @apograph/identity-server                        | Activity imports the constants and the guard but defines none of them                                                               |
-| Event kinds and the shape of their payloads                                                                               | each producing plugin                            | identity, users, workspaces, content, media, transfer, segments, alarms, copilot. The sink neither dictates nor validates the shape |
-| Parsing and translating the `?filter=` tree                                                                               | @apograph/utils-server                           | Activity supplies only the eight-field schema                                                                                       |
-| The filter builder in the interface                                                                                       | @apograph/query-builder-admin                    | Activity supplies the field list and their labels                                                                                   |
-| The sidebar and home slots, the shell                                                                                     | @apograph/shell-admin                            | Hiding the item by permission is done by `SidebarNavButton`                                                                         |
-| The tool registry, call authorisation, the untrusted-content fence                                                        | @apograph/tools-server, @apograph/copilot-server | Activity only declares one tool                                                                                                     |
-| The "Activity" tab on a member's card                                                                                     | @apograph/users-admin                            | It lives there but on a hook from here — which is why the hook's signature is frozen                                                |
+| Area                                                                                                                      | Who is responsible                               | What that means in practice                                                                                                                                                                                                                                                |
+| ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| The transactional outbox, the dispatcher, the `DomainEvent` contract, `attachActor`                                       | @apograph/database                               | Delivery parameters, the retry ceiling, the reset mechanism and the retention of `outbox_events` are all that package's. Activity only hosts the two routes that reach them — it reads the dead letters and it asks for one to be retried; it decides nothing about either |
+| The `activity:read` permission, `PermissionsGuard`, the `ACTIVITY_RECORDER` port, the `IDENTITY_ACTIVITY_KINDS` catalogue | @apograph/identity-server                        | Activity imports the constants and the guard but defines none of them                                                                                                                                                                                                      |
+| Event kinds and the shape of their payloads                                                                               | each producing plugin                            | identity, users, workspaces, content, media, transfer, segments, alarms, copilot. The sink neither dictates nor validates the shape                                                                                                                                        |
+| Parsing and translating the `?filter=` tree                                                                               | @apograph/utils-server                           | Activity supplies only the eight-field schema                                                                                                                                                                                                                              |
+| The filter builder in the interface                                                                                       | @apograph/query-builder-admin                    | Activity supplies the field list and their labels                                                                                                                                                                                                                          |
+| The sidebar and home slots, the shell                                                                                     | @apograph/shell-admin                            | Hiding the item by permission is done by `SidebarNavButton`                                                                                                                                                                                                                |
+| The tool registry, call authorisation, the untrusted-content fence                                                        | @apograph/tools-server, @apograph/copilot-server | Activity only declares one tool                                                                                                                                                                                                                                            |
+| The "Activity" tab on a member's card                                                                                     | @apograph/users-admin                            | It lives there but on a hook from here — which is why the hook's signature is frozen                                                                                                                                                                                       |
 
 ### What the package does not have
 
