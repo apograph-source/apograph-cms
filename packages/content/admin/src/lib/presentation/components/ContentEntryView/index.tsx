@@ -342,9 +342,21 @@ export function ContentEntryView({
 
     // Resolve the editor's initial values, the source record (for metadata), and
     // the id we'd update — memoized so the form re-seeds only on identity change.
-    // Relation fields are seeded from the dedicated relations read (covering
-    // many-to-many / inverse links the entry row doesn't carry), so the form
-    // holds the full assigned set.
+    // Relation fields are prepared by `seedRelationValues`, which reads the
+    // **schema** alone: a single relation keeps the FK id the entry row already
+    // carries, and every many/inverse relation is dropped from the values bag,
+    // because those are link-managed — staged as deltas and fed by the dedicated
+    // relations read (`useEntryRelations`), which never reaches this seed.
+    //
+    // An identity change here is not always a new record to show: the entry read
+    // is refetched in the background, so it is also how a colleague's save
+    // arrives. The form decides what to do with one (`useEntryForm`, `ORT-230`)
+    // — it refuses a re-seed over unsaved edits and says so. Keying this memo on
+    // a session instead would be the wrong place: it would have to advance on
+    // every save anyway, it would throw incoming values away even when the form
+    // is pristine and adopting them is free, and freezing the memo freezes
+    // `resolved.entry` with it — the rail's Status, the publish state, the
+    // timestamps all stop tracking the record.
     const resolved = useMemo((): {
         values: Record<string, unknown>;
         entry?: EntryRecord;
@@ -640,6 +652,12 @@ export function ContentEntryView({
                 <EntryEditor
                     schema={schema}
                     initialValues={resolved.values}
+                    // Which record these values are *for*. The editor is reused
+                    // across the route moves between records (and between
+                    // `/new` and `/:id`), so this is what tells its form that a
+                    // different record opened — which re-seeds unconditionally
+                    // — from this one being read again, which does not.
+                    seedKey={editorKey}
                     entry={resolved.entry}
                     isCreate={isCreate}
                     publishable={publishable}

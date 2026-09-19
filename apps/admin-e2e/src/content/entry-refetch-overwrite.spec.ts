@@ -64,7 +64,9 @@ async function returnToTab(page: Page): Promise<void> {
  * This is the same mechanism as `ORT-228` (`i18n-translation-draft.spec.ts`),
  * reached through the other dependency of the same memo: there it was the
  * create prefill re-identified by the history API, here it is the record itself
- * genuinely changing. `useCreatePrefill` fixed the first; this one is untouched.
+ * genuinely changing. `useCreatePrefill` fixed the first; this one is fixed by
+ * `useEntryForm` **refusing** a re-seed while the form holds edits, and saying
+ * so in a banner offering to take the newer values instead.
  *
  * **Pre-existing on `main`** — found driving the live stack during `ORT-227`
  * QA cycle 2, and reproduced by hand twice against a real server before this was
@@ -78,12 +80,14 @@ async function returnToTab(page: Page): Promise<void> {
  *   - the rail's Status     → the refetch never landed, so the final assertion
  *                             would be true of a tab nothing woke.
  *   - the last one          → the defect: the refetch overwrote the author.
+ *
+ * The refusal is only half of it, which is why the pristine case below is not
+ * optional: a change that simply stopped re-seeding altogether would satisfy
+ * every assertion in the first two tests and leave the editor unable to show a
+ * record it had just re-read.
  */
 test.describe('Entry editor — a record that changed while the tab was away', () => {
-    test('keeps the author’s unsaved edits when a background refetch brings different values [ORT-227]', async ({
-        page,
-        contentLibraryPage
-    }) => {
+    test.beforeEach(async ({ page }) => {
         await mockSignedIn(page);
         await mockWorkspaces(page, [LIBRARY_WORKSPACE]);
         await mockContentSchema(page, { types: CONTENT_SCHEMA_SEED });
@@ -96,7 +100,12 @@ test.describe('Entry editor — a record that changed while the tab was away', (
             before: { title: STORED_TITLE },
             after: { title: SAVED_ELSEWHERE }
         });
+    });
 
+    test('keeps the author’s unsaved edits when a background refetch brings different values [ORT-230]', async ({
+        page,
+        contentLibraryPage
+    }) => {
         await contentLibraryPage.gotoEntry(
             LIBRARY_WORKSPACE.id,
             'blog_post',
@@ -141,6 +150,121 @@ test.describe('Entry editor — a record that changed while the tab was away', (
         // not an instruction to discard a person's work.
         await expect(contentLibraryPage.fieldTextbox('Title')).toHaveValue(
             MINE
+        );
+
+        // And the author is *told*. A silent refusal is the same class of bug
+        // as the silent overwrite: the editor would be quietly about to write
+        // over a version nobody mentioned.
+        await expect(contentLibraryPage.entryChangedNotice).toBeVisible();
+    });
+
+    test('the notice’s discard control takes the values saved elsewhere [ORT-230]', async ({
+        page,
+        contentLibraryPage
+    }) => {
+        await contentLibraryPage.gotoEntry(
+            LIBRARY_WORKSPACE.id,
+            'blog_post',
+            ENTRY_ID
+        );
+        await expect(contentLibraryPage.fieldTextbox('Title')).toHaveValue(
+            STORED_TITLE
+        );
+        await contentLibraryPage.fieldTextbox('Title').fill(MINE);
+
+        await returnToTab(page);
+        await expect(contentLibraryPage.entryDetailsStatus).toHaveText(
+            'Published'
+        );
+        await expect(contentLibraryPage.entryChangedNotice).toBeVisible();
+
+        await contentLibraryPage.entryChangedDiscard.click();
+
+        // The refused values were never stashed in the notice — it adopts what
+        // the query holds *now*, which is what the colleague saved.
+        await expect(contentLibraryPage.fieldTextbox('Title')).toHaveValue(
+            SAVED_ELSEWHERE
+        );
+        await expect(contentLibraryPage.entryChangedNotice).toBeHidden();
+    });
+
+    test('adopts the refetched values when the form is pristine [ORT-230]', async ({
+        page,
+        contentLibraryPage
+    }) => {
+        // The companion case, and the reason the fix is a refusal rather than a
+        // freeze: with nothing typed there is nothing to protect, and the newer
+        // record is simply better information. Without this, a change that
+        // stopped seeding after the first read would pass every other
+        // assertion in this file.
+        await contentLibraryPage.gotoEntry(
+            LIBRARY_WORKSPACE.id,
+            'blog_post',
+            ENTRY_ID
+        );
+        await expect(contentLibraryPage.fieldTextbox('Title')).toHaveValue(
+            STORED_TITLE
+        );
+
+        await returnToTab(page);
+        await expect(contentLibraryPage.entryDetailsStatus).toHaveText(
+            'Published'
+        );
+
+        await expect(contentLibraryPage.fieldTextbox('Title')).toHaveValue(
+            SAVED_ELSEWHERE
+        );
+        // Nothing was refused, so there is nothing to report.
+        await expect(contentLibraryPage.entryChangedNotice).toBeHidden();
+    });
+
+    test('a successful save re-arms seeding and clears the notice [ORT-230]', async ({
+        page,
+        contentLibraryPage
+    }) => {
+        // The trap in this fix. `useSaveEntry` primes the read-one cache with
+        // the write's response inside `onSuccess`, which runs *before* the
+        // editor's own `.then()` — so the save's new seed has already arrived
+        // and been refused by the time the save could clear the edit flag. A
+        // fix that only froze the seed would leave the editor dirty forever
+        // after a save that succeeded: this notice would sit there accusing the
+        // author of their own work, and the unsaved-changes guard would keep
+        // prompting on a saved record.
+        await contentLibraryPage.gotoEntry(
+            LIBRARY_WORKSPACE.id,
+            'blog_post',
+            ENTRY_ID
+        );
+        await expect(contentLibraryPage.fieldTextbox('Title')).toHaveValue(
+            STORED_TITLE
+        );
+        await contentLibraryPage.fieldTextbox('Title').fill(MINE);
+
+        await returnToTab(page);
+        await expect(contentLibraryPage.entryDetailsStatus).toHaveText(
+            'Published'
+        );
+        await expect(contentLibraryPage.entryChangedNotice).toBeVisible();
+
+        // Last-write-wins is unchanged by any of this: the author's Save still
+        // goes through and still replaces the newer version.
+        await contentLibraryPage.saveDraft();
+
+        // The write's echo is what the editor now holds — the rail reads the
+        // saved row's `draft`, so this is the refetched record being replaced
+        // by the save response rather than the notice merely being dismissed.
+        await expect(contentLibraryPage.entryDetailsStatus).toHaveText('Draft');
+        await expect(contentLibraryPage.entryChangedNotice).toBeHidden();
+        await expect(contentLibraryPage.fieldTextbox('Title')).toHaveValue(
+            MINE
+        );
+
+        // And the form is genuinely clean again: leaving it no longer trips the
+        // unsaved-changes guard, which is the other half of what a frozen seed
+        // would have broken.
+        await contentLibraryPage.editorBackLink.click();
+        await expect(page).toHaveURL(
+            new RegExp(`/workspaces/${LIBRARY_WORKSPACE.id}/content/blog_post$`)
         );
     });
 });

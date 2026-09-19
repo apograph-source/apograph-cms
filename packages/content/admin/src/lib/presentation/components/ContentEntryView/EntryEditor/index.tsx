@@ -48,6 +48,7 @@ import { fieldLabel } from '../../../../domain/entryColumns';
 import { entryTabForField } from '../../../../domain/entryTab';
 import { toRelationIds } from '../../../../domain/relationIds';
 import { EntryActions } from './EntryActions';
+import { EntryChangedNotice } from './EntryChangedNotice';
 import { EntryFieldSections } from './EntryFieldSections';
 import { EntrySidebar, type PublishGateItem } from './EntrySidebar';
 import { EntryTabIssues } from './EntryTabIssues';
@@ -187,6 +188,7 @@ function stagedToWire(staged: StagedRelation): RelationDelta {
 export function EntryEditor({
     schema,
     initialValues,
+    seedKey,
     entry,
     isCreate,
     publishable,
@@ -207,6 +209,14 @@ export function EntryEditor({
 }: {
     schema: ContentTypeDetail;
     initialValues: Record<string, unknown>;
+    /**
+     * Which record (or create session) `initialValues` belongs to, so the form
+     * can tell "a different record opened" from "this record was read again"
+     * — see {@link useEntryForm}. This editor is **reused**, not remounted, as
+     * the route moves between records, so the distinction cannot be left to the
+     * component lifecycle.
+     */
+    seedKey: string;
     entry?: EntryRecord;
     isCreate: boolean;
     publishable: boolean;
@@ -401,7 +411,8 @@ export function EntryEditor({
     );
 
     const form = useEntryForm(schema, initialValues, {
-        ignoreFields: validationIgnored
+        ignoreFields: validationIgnored,
+        seedKey
     });
 
     const visible = schema.fields.filter((field) => !isHidden(field));
@@ -628,7 +639,20 @@ export function EntryEditor({
                 dirty: isDirty,
                 bypass: options.bypass
             })
-                .then(() => setRelationDeltas({}))
+                .then(() => {
+                    setRelationDeltas({});
+                    // Re-arm seeding. The write response is what the editor
+                    // then shows, and it reaches the form as a *new* seed —
+                    // `useSaveEntry` primes the read-one cache with it inside
+                    // `onSuccess`, which has already run by the time this
+                    // `.then()` does, so that seed has arrived and been refused
+                    // (the form is dirty; it is our own edits that made it so).
+                    // Without this the editor stays dirty forever after a
+                    // successful save: the banner would sit there accusing the
+                    // author of their own work, and the unsaved-changes guard
+                    // would keep prompting on a record that is saved.
+                    form.acceptSeed();
+                })
                 .catch((error) => {
                     const issues = entryIssuesFrom(error);
                     form.setServerErrors(issues);
@@ -950,6 +974,24 @@ export function EntryEditor({
                             />
 
                             {readOnly ? <ReadOnlyNotice /> : null}
+
+                            {/* The record changed underneath this form and the
+                                incoming values were refused rather than seeded
+                                over the author's. Under the title, beside the
+                                read-only banner, and deliberately **not** in
+                                the Properties rail: that column collapses, and
+                                a notice you can hide is not a notice. It is not
+                                routed through the view's error card either — a
+                                refusal, an absence and a failure are three
+                                different states (`content:I-40`). Read-only
+                                inherits the same condition as every other write
+                                affordance (`content:I-39`), though a form no
+                                one can type into cannot reach this anyway. */}
+                            {!readOnly && form.seedRefused ? (
+                                <EntryChangedNotice
+                                    onDiscard={form.acceptSeed}
+                                />
+                            ) : null}
 
                             {ExpandedView && expandedContext ? (
                                 <ExpandedView {...expandedContext} />
