@@ -720,8 +720,21 @@ Four things it deliberately does not do, each of which was the tempting version:
   seed has already arrived and been refused by the time a save could clear the
   edit flag. `acceptSeed()` therefore latches an adoption for the next render
   (the render-time idiom `useCreatePrefill` uses) instead of merely clearing the
-  flag, and `submitWith` calls it on success. Without that the editor stays
-  dirty forever after a save that worked.
+  flag. Without that the editor stays dirty forever after a save that worked.
+
+    **The editor re-arms on the _write_, not on the submit succeeding**, via
+    `SubmitEntryInput.onWriteLanded` — a callback `usePublishEntryFlow` fires
+    the moment a write lands, before a chained publish is attempted. The two
+    come apart precisely when that publish is refused (protection's 409, the
+    server gate's 422): `submit` rejects, the caller's `.then()` never runs, and
+    a record has been written all the same, so re-arming only on success left
+    the author with a refusal toast **and** a conflict banner blaming a
+    colleague for their own save. The editor cannot tell that case from a save
+    that never landed, and guessing the wrong way is destructive — adopting a
+    seed after a plain validation 422 would replace the author's values with the
+    server's. Only the flow knows, so the flow says so. Pinned in
+    `usePublishEntryFlow/index.spec.tsx`, including that it stays silent when
+    the save itself fails.
 
 `seedKey` is the other half. The editor is **reused, not remounted**, as the
 route moves between records, so a changed key (`ContentEntryView`'s `editorKey`
@@ -730,9 +743,32 @@ unconditionally. Without it, discarding at the unsaved-changes prompt and
 opening a second, already-cached record would leave the first one's values on
 screen under a conflict notice.
 
+**Dirtiness is measured against the form's own seed**, not the `initialValues`
+prop — `useEntryForm` exposes `seedValues` and `EntryEditor.isFieldDirty` reads
+it. The two are the same object until a re-seed is refused, and then the prop is
+the record as the server now holds it while the seed is what this author started
+from. Against the prop, every field the _colleague_ touched reads as this
+author's edit: the "Changed" badges lit up across untouched fields, and the
+shared-field save confirmation ("this also changes the other locales") named
+fields nobody here had typed in. `isDirty` still reads true after a refusal —
+the edit that caused the refusal is an edit against the seed too — which is what
+keeps the unsaved-changes guard armed, the half of `ORT-230` that matters most.
+
 **Scope is the values form.** Staged relation deltas and the presave steps'
 staging (media uploads, audiences) are owned above the form and already survive
-a refetch, so they are untouched here.
+a refetch, so they are untouched here — and the notice's control is worded for
+that: it reads **"Load the newer version"**, with a sentence saying it replaces
+the record's fields and drops the unsaved changes to _them_. A button promising
+to discard everything would over-claim against staging that outlives it and
+rides the next Save, which is the same kind of lie as the overwrite this exists
+to report.
+
+**The control puts focus back by hand.** It unmounts with the banner it sits in,
+so React has nothing to restore onto and focus would be dropped on `<body>` —
+the hazard the saved-view delete dialog and the records table's `onRowGone`
+already deal with the same way. It lands on the first field of the form, whose
+values have just changed under the reader and which announces the new one as it
+takes focus.
 
 Pinned by `apps/admin-e2e/src/content/entry-refetch-overwrite.spec.ts` — whose
 precondition is deliberately **not** a request counter (counting proves the

@@ -245,6 +245,13 @@ export function EntryEditor({
             dirty?: boolean;
             /** Whether to publish past a publish guard, forwarded as is. */
             bypass?: boolean;
+            /**
+             * Called the moment a write lands — before a chained publish that
+             * may still be refused. The editor re-arms its form seeding here,
+             * since a write it made primes the read-one cache and so produces a
+             * seed of its own.
+             */
+            onWriteLanded?: () => void;
         }
     ) => Promise<void>;
     /** Revert a published entry to draft — only on a saved publishable entry. */
@@ -342,8 +349,19 @@ export function EntryEditor({
 
     // A scalar/single field is dirty when its value differs from the seed; a
     // many/inverse field is dirty when its staging holds any pending change.
+    //
+    // Against **the form's own seed**, not the `initialValues` prop. The two
+    // part company exactly when a re-seed has been refused (`ORT-230`): the
+    // prop is then the record as the server now holds it — a colleague's save —
+    // while the seed is what this author started from. Measured against the
+    // prop, every field the colleague touched reads as this author's edit, so
+    // the shared-field confirmation named fields nobody here had typed in.
+    //
+    // `isDirty` below still reads true after a refusal, because the edit that
+    // caused the refusal is an edit against the seed too — which is what keeps
+    // the unsaved-changes guard armed, the half of `ORT-230` that matters most.
     const isFieldDirty = (name: string) =>
-        norm(form.values[name]) !== norm(initialValues[name]);
+        norm(form.values[name]) !== norm(form.seedValues[name]);
     const isRelationDirty = (name: string) => isStagedDirty(stagedFor(name));
 
     // Relation fields hidden because their target collection isn't granted to the
@@ -637,22 +655,28 @@ export function EntryEditor({
                 relations: relationsPayload(),
                 ignoreFields: validationIgnored,
                 dirty: isDirty,
-                bypass: options.bypass
+                bypass: options.bypass,
+                // Re-arm seeding the moment a write lands. The response is what
+                // the editor then shows, and it reaches the form as a **new
+                // seed** — `useSaveEntry` primes the read-one cache with it
+                // inside `onSuccess` — which the form has by then refused,
+                // because the form is dirty and it is our own edits that made
+                // it so. Without re-arming, a save that worked leaves the
+                // editor dirty forever: the conflict banner sits there
+                // accusing the author of their own write, and the
+                // unsaved-changes guard keeps prompting on a saved record.
+                //
+                // It hangs off the write rather than this promise's `.then()`
+                // because a **landed save whose chained publish is refused**
+                // rejects — protection's 409, the server gate's 422 — and takes
+                // the `.catch()` branch below with a record already written.
+                // Only the flow can tell that from a save that never landed,
+                // and adopting the seed on a save that never landed would
+                // replace the author's values with the server's on a plain
+                // validation error.
+                onWriteLanded: () => form.acceptSeed()
             })
-                .then(() => {
-                    setRelationDeltas({});
-                    // Re-arm seeding. The write response is what the editor
-                    // then shows, and it reaches the form as a *new* seed —
-                    // `useSaveEntry` primes the read-one cache with it inside
-                    // `onSuccess`, which has already run by the time this
-                    // `.then()` does, so that seed has arrived and been refused
-                    // (the form is dirty; it is our own edits that made it so).
-                    // Without this the editor stays dirty forever after a
-                    // successful save: the banner would sit there accusing the
-                    // author of their own work, and the unsaved-changes guard
-                    // would keep prompting on a record that is saved.
-                    form.acceptSeed();
-                })
+                .then(() => setRelationDeltas({}))
                 .catch((error) => {
                     const issues = entryIssuesFrom(error);
                     form.setServerErrors(issues);
@@ -730,6 +754,36 @@ export function EntryEditor({
         const focusName = first?.name ?? names[0];
         requestAnimationFrame(() => {
             document.getElementById(`entry-field-${focusName}`)?.focus();
+        });
+    };
+
+    /**
+     * Take the record as the server now holds it, dropping this author's
+     * unsaved field edits — the conflict notice's way out.
+     *
+     * The control that runs this **unmounts with the notice** on the very next
+     * render, so focus would be left on `<body>`: React and Radix alike can
+     * only restore onto a node that still exists, which is why this package
+     * already puts focus back by hand after the saved-view delete dialog and
+     * after `onRowGone` in the records table. Here the right landing place is
+     * the form itself — its values have just changed under the reader, and the
+     * first field announces the new one as it takes focus. Deferred a frame
+     * because the notice is still mounted in this tick; a type whose fields all
+     * render through a contributed control that puts the id elsewhere focuses
+     * nothing, which is no worse than the fall-through it replaces.
+     */
+    const reloadFromServer = () => {
+        form.acceptSeed();
+        requestAnimationFrame(() => {
+            for (const field of generalFields) {
+                const control = document.getElementById(
+                    `entry-field-${field.name}`
+                );
+                if (control) {
+                    control.focus();
+                    return;
+                }
+            }
         });
     };
 
@@ -989,7 +1043,7 @@ export function EntryEditor({
                                 one can type into cannot reach this anyway. */}
                             {!readOnly && form.seedRefused ? (
                                 <EntryChangedNotice
-                                    onDiscard={form.acceptSeed}
+                                    onDiscard={reloadFromServer}
                                 />
                             ) : null}
 

@@ -78,6 +78,27 @@ describe('useEntryForm — re-seeding', () => {
         expect(result.current.seedRefused).toBe(true);
     });
 
+    it('keeps reporting the seed it is on, not the one it refused', () => {
+        // What "has the author changed this field" is asked against. Measured
+        // against the incoming values instead, every field the colleague
+        // touched reads as this author's edit — which is how a refusal made
+        // the editor's shared-field save warning name fields nobody here had
+        // typed in.
+        const { result, rerender } = renderForm({
+            values: STORED,
+            seedKey: 'edit:post-1'
+        });
+
+        act(() => result.current.setValue('title', 'My unsaved rewrite'));
+        rerender({ values: THEIRS, seedKey: 'edit:post-1' });
+
+        expect(result.current.seedValues).toBe(STORED);
+
+        // And it follows the form onto the values it does adopt.
+        act(() => result.current.acceptSeed());
+        expect(result.current.seedValues).toBe(THEIRS);
+    });
+
     it('refuses on any edit, not only one that differs from the seed', () => {
         const { result, rerender } = renderForm({
             values: STORED,

@@ -52,6 +52,19 @@ export type EntryFormState = {
      */
     setServerErrors: (issues: EntryValidationIssue[]) => void;
     /**
+     * What the form is currently seeded **from** — the values it started this
+     * editing session with.
+     *
+     * Not the same thing as the caller's `initialValues` once a re-seed has
+     * been refused: that prop is then the record as the server now holds it,
+     * while this is what the author began from. "Has the author changed this
+     * field" is a question about *this* — measured against the prop, every
+     * field a colleague touched reads as the author's own edit, which is how a
+     * refused seed made the shared-field save warning name fields nobody here
+     * had touched.
+     */
+    seedValues: Record<string, unknown>;
+    /**
      * Whether a re-seed was **refused** because the author had already edited
      * this form — i.e. the record changed underneath them (a background refetch
      * of a row somebody else saved) and the incoming values were not applied.
@@ -170,6 +183,12 @@ export function useEntryForm(
         setSeedRefused(false);
     };
 
+    // What this render is seeded from. A local, because `adopt()` below queues
+    // the state and React re-renders before committing — and for the one render
+    // in between `seed.values` is the `ADOPT_NEXT_RENDER` sentinel, an empty
+    // object every field would read as changed against.
+    let seededFrom = seed.values;
+
     // Adjusted **during render**, not in an effect: the values below are read
     // on this render, and an effect would let one paint of the previous seed
     // through.
@@ -177,12 +196,14 @@ export function useEntryForm(
         // A different record entirely. Nothing about this is a conflict, and
         // the form must follow the route.
         adopt();
+        seededFrom = initialValues;
     } else if (seed.values !== initialValues) {
         // The same record, read again with a different answer.
         if (edited) {
             if (!seedRefused) setSeedRefused(true);
         } else {
             adopt();
+            seededFrom = initialValues;
         }
     }
 
@@ -288,6 +309,7 @@ export function useEntryForm(
         submit,
         submitDraft,
         setServerErrors,
+        seedValues: seededFrom,
         seedRefused,
         acceptSeed
     };

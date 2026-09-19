@@ -153,6 +153,15 @@ test.describe('Content Library accessibility (axe, WCAG 2.1 A/AA)', () => {
         await expect(contentLibraryPage.entryChangedDiscard).toBeEnabled();
 
         await expectNoA11yViolations(makeAxe());
+
+        // **And focus is put somewhere deliberate when it is used.** The button
+        // unmounts with the banner it sits in, so React has nothing to restore
+        // onto and focus would be dropped on `<body>` — a keyboard reader would
+        // be back at the top of the document with the page silently rewritten
+        // under them. It lands in the form whose values just changed instead,
+        // which also announces the newly loaded value as it arrives.
+        await contentLibraryPage.entryChangedDiscard.click();
+        await expect(contentLibraryPage.fieldTextbox('Title')).toBeFocused();
     });
 
     test('saved-view switcher — menu open', async ({

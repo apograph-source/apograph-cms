@@ -325,10 +325,16 @@ export class ContentLibraryPage extends BasePage {
             .filter({ hasText: 'This record changed while you were editing' });
     }
 
-    /** That banner's way out — take the newer values and drop the author's. */
+    /**
+     * That banner's way out — load the newer record over the author's edits.
+     *
+     * Named for what arrives rather than what goes: it reloads the **values
+     * form** only, so a label promising to discard everything would over-claim
+     * against staged relation links and pending uploads, which survive it.
+     */
     get entryChangedDiscard(): Locator {
         return this.entryChangedNotice.getByRole('button', {
-            name: 'Discard mine and reload'
+            name: 'Load the newer version'
         });
     }
 

@@ -15,11 +15,16 @@ const messages = defineMessages({
     body: {
         id: 'content.editor.changedElsewhereBody',
         defaultMessage:
-            'A newer version was saved elsewhere. Your unsaved edits are still here — nothing on this screen has been replaced. Saving will overwrite the newer version with what you see; the version it replaces stays in History.'
+            'A newer version was saved elsewhere, and your unsaved edits have been kept. Saving overwrites that newer version with what is on this screen; the version it replaces stays in History.'
+    },
+    discardHint: {
+        id: 'content.editor.changedElsewhereDiscardHint',
+        defaultMessage:
+            'Loading the newer version replaces this record’s fields and drops your unsaved changes to them.'
     },
     discard: {
         id: 'content.editor.changedElsewhereDiscard',
-        defaultMessage: 'Discard mine and reload'
+        defaultMessage: 'Load the newer version'
     }
 });
 
@@ -43,6 +48,14 @@ const messages = defineMessages({
  * concurrency is its own ticket), so the copy says what the next Save will
  * actually do, and where the overwritten version can be found afterwards
  * (`content:I-08`/`I-09`/`I-11` — history is append-only, so it is recoverable).
+ *
+ * **The control says "load", not "discard everything".** What it runs reloads
+ * the **values form** and nothing else: staged relation links and the presave
+ * steps' staging are owned above the form and are deliberately out of the
+ * refusal's scope, so they survive it and ride the next Save. A button reading
+ * "discard mine" would promise a clean slate this does not hand over, which is
+ * the same kind of lie as the silent overwrite it exists to report — so the
+ * label names what arrives and the sentence beside it names what goes.
  */
 export function EntryChangedNotice({ onDiscard }: { onDiscard: () => void }) {
     const intl = useIntl();
@@ -51,19 +64,22 @@ export function EntryChangedNotice({ onDiscard }: { onDiscard: () => void }) {
         <Alert variant="warning" className="mb-6">
             <History className="size-4" aria-hidden />
             <AlertTitle>{intl.formatMessage(messages.title)}</AlertTitle>
-            <AlertDescription className="flex flex-wrap items-center justify-between gap-3">
-                <span className="min-w-0">
-                    {intl.formatMessage(messages.body)}
-                </span>
-                <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    className="shadow-none"
-                    onClick={onDiscard}
-                >
-                    {intl.formatMessage(messages.discard)}
-                </Button>
+            <AlertDescription>
+                <p>{intl.formatMessage(messages.body)}</p>
+                <div className="mt-2 flex flex-wrap items-center justify-between gap-3">
+                    <span className="min-w-0">
+                        {intl.formatMessage(messages.discardHint)}
+                    </span>
+                    <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        className="shadow-none"
+                        onClick={onDiscard}
+                    >
+                        {intl.formatMessage(messages.discard)}
+                    </Button>
+                </div>
             </AlertDescription>
         </Alert>
     );

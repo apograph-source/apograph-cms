@@ -186,6 +186,50 @@ test.describe('Entry editor — a record that changed while the tab was away', (
             SAVED_ELSEWHERE
         );
         await expect(contentLibraryPage.entryChangedNotice).toBeHidden();
+        // The control unmounted with the banner, so focus had to be placed by
+        // hand — otherwise it falls to `<body>` and a keyboard reader is
+        // returned to the top of a page that just rewrote itself.
+        await expect(contentLibraryPage.fieldTextbox('Title')).toBeFocused();
+    });
+
+    test('leaves the unsaved-changes guard armed after a refusal [ORT-230]', async ({
+        page,
+        contentLibraryPage
+    }) => {
+        // The other half of the ticket, and the reason the editor measures
+        // dirtiness against the form's **seed** rather than the record the
+        // query now holds: the refusal must not quietly stand the guard down
+        // the way the overwrite it replaced did. Nothing has been saved here,
+        // so leaving still has to ask.
+        await contentLibraryPage.gotoEntry(
+            LIBRARY_WORKSPACE.id,
+            'blog_post',
+            ENTRY_ID
+        );
+        await expect(contentLibraryPage.fieldTextbox('Title')).toHaveValue(
+            STORED_TITLE
+        );
+        await contentLibraryPage.fieldTextbox('Title').fill(MINE);
+
+        await returnToTab(page);
+        await expect(contentLibraryPage.entryDetailsStatus).toHaveText(
+            'Published'
+        );
+        await expect(contentLibraryPage.entryChangedNotice).toBeVisible();
+
+        await contentLibraryPage.editorBackLink.click();
+
+        await expect(contentLibraryPage.unsavedChangesDialog).toBeVisible();
+        // Held, not merely asked — the navigation has not happened yet. (The
+        // editor behind the prompt cannot be asserted on: this dialog is modal,
+        // so Radix `aria-hidden`s the page root and every role locator under it
+        // resolves to nothing.)
+        await expect(page).toHaveURL(new RegExp(`/blog_post/${ENTRY_ID}$`));
+
+        await contentLibraryPage.confirmDiscardChanges();
+        await expect(page).toHaveURL(
+            new RegExp(`/workspaces/${LIBRARY_WORKSPACE.id}/content/blog_post$`)
+        );
     });
 
     test('adopts the refetched values when the form is pristine [ORT-230]', async ({
