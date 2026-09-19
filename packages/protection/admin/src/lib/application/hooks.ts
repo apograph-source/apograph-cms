@@ -18,6 +18,7 @@ import type {
 } from '../domain/types';
 import {
     entryReviewKey,
+    entryReviewPrefix,
     insightsKey,
     newEntryProtectionKey,
     newEntryProtectionPrefix,
@@ -26,6 +27,7 @@ import {
     reviewStatusKey,
     rulesKey
 } from '../infrastructure/protectionKeys';
+import { entryReviewVersion } from '../infrastructure/entryReviewVersion';
 import {
     httpProtectionGateway,
     type EntryRef,
@@ -39,18 +41,51 @@ export type EntryReviewScope = EntryRef & {
     /** The open workspace — part of every key; see `protectionKeys`. */
     workspaceId: string;
     /**
-     * The entry's `updatedAt`.
+     * The entry's `updatedAt` — the **version** component of the review key.
      *
-     * It is in the **key**, not a dependency of an invalidation, and that is
-     * what keeps this plugin out of content's save path. A save moves the head
-     * revision, which changes *which approvals count* — so the answer this
-     * query holds is about a version that no longer exists. Content stamps a
-     * new `updatedAt` on every save, so the save produces a new key and the
-     * panel reads afresh, without protection reaching into a mutation it does
-     * not own or content learning that protection exists.
+     * It is in the key, not a dependency of an invalidation, and that is what
+     * keeps this plugin out of content's save path. A save moves the head
+     * revision, which changes *which approvals count* — so the answer the query
+     * holds is about a version that no longer exists. Content stamps a new
+     * `updatedAt` on every save and primes the editor's read-one cache with the
+     * write's own response, so the save produces a new key and the panel reads
+     * afresh, without protection reaching into a mutation it does not own or
+     * content learning that protection exists.
+     *
+     * {@link useEntryReview} puts it in the key through
+     * {@link entryReviewVersion}, which holds the previous token when the type
+     * turned out to be unprotected — there is no answer for a save to change
+     * when there is no rule, and a request per save to learn that again is the
+     * inertness `protection:I-03` / `I-04` promise.
      */
     updatedAt: string;
 };
+
+/**
+ * The cache key for one entry's review, derived in **one** place.
+ *
+ * Every surface has to land on the same array: the chip, the rail block and the
+ * publish verdict each call `reviewScopeOf` and then this, so they share one
+ * cache entry and cannot disagree about whether publication is held
+ * (`protection:I-21` — one publish path holding while another does not is the
+ * failure). Deriving it from the cache as well as from the scope is why it is a
+ * function of the client rather than of the scope alone; see
+ * {@link entryReviewVersion} for what the cache decides.
+ */
+function entryReviewQueryKey(
+    queryClient: QueryClient,
+    { workspaceId, typeName, entryId, updatedAt }: EntryReviewScope
+) {
+    const cached = queryClient.getQueriesData<EntryReview>({
+        queryKey: entryReviewPrefix(workspaceId, typeName, entryId)
+    });
+    return entryReviewKey(
+        workspaceId,
+        typeName,
+        entryId,
+        entryReviewVersion(cached, updatedAt)
+    );
+}
 
 /**
  * The scope for the entry open in the editor, or `null` when there is nothing
@@ -88,13 +123,14 @@ export function reviewScopeOf(context: {
  * purpose of the panel.
  */
 export function useEntryReview(scope: EntryReviewScope | null, enabled = true) {
+    const queryClient = useQueryClient();
     // `enabled` already guarantees the query never runs without a scope, but the
     // compiler cannot see through it — the same narrowing gap content's own
     // `useEntryRelations` closes the same way.
     const target = scope as EntryReviewScope;
     return useQuery<EntryReview, ApiError>({
         queryKey: scope
-            ? entryReviewKey(scope.workspaceId, scope.typeName, scope.entryId)
+            ? entryReviewQueryKey(queryClient, scope)
             : ['protection', 'entry-review', 'idle'],
         queryFn: () =>
             httpProtectionGateway.getEntryReview({
@@ -114,13 +150,21 @@ export function useEntryReview(scope: EntryReviewScope | null, enabled = true) {
  * a whole revision list to learn a number this one query already carries — the
  * over-invalidation the admin-plugin skill warns about, and it is visible as a
  * flicker on a rail the person is looking at.
+ *
+ * It names the **prefix**, not the full key: a vote moves no `updatedAt` —
+ * protection owns no content table — so the version the panel is holding is
+ * whichever one it read, including the one {@link entryReviewVersion} held on to
+ * for an unprotected type. `entryReviewKey` keeps `version` last so this stays a
+ * prefix of it, and matching by prefix is what makes the invalidation land on
+ * the query that is actually mounted instead of on a key re-derived here that
+ * could differ by a beat.
  */
 function refreshReview(
     queryClient: QueryClient,
     { workspaceId, typeName, entryId }: EntryReviewScope
 ) {
     return queryClient.invalidateQueries({
-        queryKey: entryReviewKey(workspaceId, typeName, entryId)
+        queryKey: entryReviewPrefix(workspaceId, typeName, entryId)
     });
 }
 
@@ -230,11 +274,16 @@ export type SaveRuleInput = RuleAddress & { rule: ProtectionRule };
  *
  * Invalidates the rules key and the create forms' answers, and **not** the entry
  * reviews. A rule changes which entries are held, but every entry panel reads
- * its own `entryReviewKey`, and those are keyed by the entry's `updatedAt`
- * rather than by anything this write moves — so clearing them would refetch
- * every open editor to learn a number none of them is showing. An editor opened
- * after the change reads the new rule on its first request, which is the only
- * moment it can matter.
+ * its own `entryReviewKey`, keyed by the entry's `updatedAt` — and a rule write
+ * moves no entry's `updatedAt`, so clearing those keys would refetch every open
+ * editor to learn a number none of them is showing. An editor opened after the
+ * change reads the new rule on its first request, which is the only moment it
+ * can matter.
+ *
+ * The same holds for an editor already open on a type that *was* unprotected:
+ * {@link entryReviewVersion} keeps serving it the answer it has until it is
+ * reopened, deliberately, because the alternative is a request on every save of
+ * every unprotected entry in the installation.
  */
 export function useSaveProtectionRule(workspaceId: string) {
     const queryClient = useQueryClient();

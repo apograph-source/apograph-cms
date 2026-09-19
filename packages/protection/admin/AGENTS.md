@@ -98,11 +98,26 @@ already asked. _Approve_ is hidden once `callerApprovedHead` — the green check
 your row already says it — and comes back after a save.
 
 **The save is not invalidated — it is keyed.** `EntryReviewScope` carries the
-entry's `updatedAt`, so a save produces a new query key and the panel reads
-afresh. Protection never reaches into content's save path, and content never
-learns protection exists. An approval or a request, by contrast, invalidates **only** the review
-key: it moves no value, no relation and no revision, so refreshing the editor
-would refetch a record and a whole timeline to learn one number.
+entry's `updatedAt` and `entryReviewKey` carries it **last**, so a save produces
+a new query key and the panel reads afresh. Protection never reaches into
+content's save path, and content never learns protection exists. An approval or a
+request, by contrast, invalidates **only** this entry's review — by the key's
+**prefix**, because a vote moves no `updatedAt` and so cannot know which version
+the panel is holding; it moves no value, no relation and no revision either, so
+refreshing the editor would refetch a record and a whole timeline to learn one
+number. That is why the version sits at the end of the key rather than anywhere
+else: the prefix has to stay a prefix, or all four review actions refresh
+nothing.
+
+**An unprotected type mints no new key.** `reviewScopeOf` answers for any saved
+publishable entry and cannot know whether a rule exists — only the first response
+says `protected: false`. So `entryReviewVersion` reuses the token of a cached
+unprotected answer instead of the new `updatedAt`: with no rule, saving costs no
+request, which is the inertness I-03/I-04 promise, and it is safe because every
+reader bails on that flag before it looks at another field. The cost is that a
+rule written while such an editor is open is not noticed until it is reopened —
+the same trade the rule write already makes by not invalidating open panels.
+`entryReviewVersion` is pure and unit-tested; the e2e proves the save.
 
 **The bypass does not publish anything itself.** An administrator who may pass
 a rule sees an ordinary **Publish** — same label, same style — and the click

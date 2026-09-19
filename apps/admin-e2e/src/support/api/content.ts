@@ -1476,6 +1476,58 @@ export async function mockEntryRelations(
     );
 }
 
+/** The instant every mocked record was created at — a write never moves it. */
+export const ENTRY_CREATED_AT = '2026-01-01T00:00:00.000Z';
+
+/**
+ * The mocked records' `updatedAt`, per page and per `"<type>/<id>"`.
+ *
+ * A real save **stamps** `updatedAt` (`entry-writer.service.ts`, `updatedAt: new
+ * Date()` on every write), and the admin leans on that: the editor primes its
+ * read-one cache with the write's response, and the protection plugin puts the
+ * entry's `updatedAt` in its review key so a save mints a new key and the panel
+ * re-reads. A mock that echoed one frozen timestamp back therefore cannot
+ * exhibit anything that depends on a save being a new version — it looks exactly
+ * like the bug where the timestamp never travelled.
+ *
+ * One clock shared by {@link mockContentEntryWrites}, {@link spyEntrySave} and
+ * {@link mockContentEntryRead}, because those are registered over each other: a
+ * `PATCH` answered by the spy and a later `GET` answered by the write mock must
+ * not disagree about which version is current, or `updatedAt` would travel
+ * backwards and a cache keyed on it would serve the pre-save answer again.
+ * Keyed by `page`, so it resets with the browser context like every other mock.
+ */
+const entryClocks = new WeakMap<Page, Map<string, string>>();
+
+function clockOf(page: Page): Map<string, string> {
+    const existing = entryClocks.get(page);
+    if (existing) return existing;
+    const clock = new Map<string, string>();
+    entryClocks.set(page, clock);
+    return clock;
+}
+
+/**
+ * The record's current `updatedAt` — {@link ENTRY_CREATED_AT} until a write in
+ * this test moved it. Exported so a spec can say what it expects to see rather
+ * than restating the arithmetic.
+ */
+export function entryUpdatedAt(page: Page, type: string, id: string): string {
+    return clockOf(page).get(`${type}/${id}`) ?? ENTRY_CREATED_AT;
+}
+
+/**
+ * Stamps a fresh `updatedAt` on one record and returns it. One second per write,
+ * so the sequence stays deterministic and readable in a failure message.
+ */
+function touchEntry(page: Page, type: string, id: string): string {
+    const next = new Date(
+        Date.parse(entryUpdatedAt(page, type, id)) + 1000
+    ).toISOString();
+    clockOf(page).set(`${type}/${id}`, next);
+    return next;
+}
+
 interface ContentEntryReadOptions {
     /**
      * Values per `"<type>/<id>"`, served by the read-one endpoint. Everything
@@ -1504,7 +1556,6 @@ export async function mockContentEntryRead(
     page: Page,
     { records, locales = {} }: ContentEntryReadOptions
 ): Promise<void> {
-    const now = '2026-01-01T00:00:00.000Z';
     await page.route(
         /\/api\/content\/[^/?]+\/[^/?]+(\?.*)?$/,
         async (route) => {
@@ -1523,8 +1574,10 @@ export async function mockContentEntryRead(
                 body: JSON.stringify({
                     id,
                     status: 'draft',
-                    createdAt: now,
-                    updatedAt: now,
+                    createdAt: ENTRY_CREATED_AT,
+                    // Off the shared clock, so a read after a save reports the
+                    // version the save wrote rather than winding the record back.
+                    updatedAt: entryUpdatedAt(page, name, id),
                     ...(locale ? { locale } : {}),
                     values
                 })
@@ -1704,6 +1757,9 @@ function verdictFor(
  * toast, and invalidate. The create route `fallback()`s non-POST requests so the
  * single-segment list mock ({@link mockContentEntries}) still handles `GET`.
  * Register alongside the list mocks for any test that edits or acts on entries.
+ *
+ * A write **moves the record's `updatedAt`** (see {@link entryUpdatedAt}) the way
+ * a real one does; `createdAt` stays where it was.
  */
 export async function mockContentEntryWrites(
     page: Page,
@@ -1712,8 +1768,6 @@ export async function mockContentEntryWrites(
         blocked = {}
     }: ContentEntryWriteOptions = {}
 ): Promise<void> {
-    const now = '2026-01-01T00:00:00.000Z';
-
     // Multi-segment routes: read-one, item writes, and bulk.
     await page.route(/\/api\/content\/[^/?]+\/.+/, async (route) => {
         const req = route.request();
@@ -1759,11 +1813,14 @@ export async function mockContentEntryWrites(
             return json(route, { count: ids.length });
         }
 
-        const record = (status: 'draft' | 'published') => ({
+        const record = (
+            status: 'draft' | 'published',
+            updatedAt = entryUpdatedAt(page, name, id)
+        ) => ({
             id,
             ...(detail?.publishable ? { status } : {}),
-            createdAt: now,
-            updatedAt: now,
+            createdAt: ENTRY_CREATED_AT,
+            updatedAt,
             values:
                 body.values ??
                 detail?.fields.reduce<Record<string, unknown>>((acc, f) => {
@@ -1774,14 +1831,21 @@ export async function mockContentEntryWrites(
         });
 
         if (method === 'GET') return json(route, record('draft'));
-        if (method === 'PATCH') return json(route, record('draft'));
+        // Every write stamps a new `updatedAt`, a status transition included —
+        // the server's `markPublished` / `markDraft` set it too, and the review
+        // key is keyed on it.
+        if (method === 'PATCH')
+            return json(route, record('draft', touchEntry(page, name, id)));
         if (method === 'DELETE')
             return route.fulfill({ status: 204, body: '' });
         if (method === 'POST') {
             // publish → published; unpublish/restore → draft
             return json(
                 route,
-                record(action === 'publish' ? 'published' : 'draft'),
+                record(
+                    action === 'publish' ? 'published' : 'draft',
+                    touchEntry(page, name, id)
+                ),
                 201
             );
         }
@@ -1805,8 +1869,10 @@ export async function mockContentEntryWrites(
             {
                 id: `${name}-new`,
                 ...(detail?.publishable ? { status: 'draft' } : {}),
-                createdAt: now,
-                updatedAt: now,
+                createdAt: ENTRY_CREATED_AT,
+                // A create is the record's first version: created and updated at
+                // the same instant, and the clock moves from the next write on.
+                updatedAt: entryUpdatedAt(page, name, `${name}-new`),
                 values: body.values ?? {}
             },
             201
@@ -1843,15 +1909,19 @@ export interface EntrySaveSpy {
  * and that a link-managed relation is **not** in `values`). Fulfils like the
  * write mock so the flow continues; non-write methods fall through to the other
  * mocks. Register **after** {@link mockContentEntryWrites} so it wins the match.
+ *
+ * Because it wins the match it also owns the **`updatedAt` stamp** for the saves
+ * it answers, off the same clock {@link mockContentEntryWrites} reads — a spy
+ * that echoed a frozen timestamp would quietly turn every save into "no new
+ * version" for anything keyed on it, however the mock underneath behaves.
  */
 export async function spyEntrySave(page: Page): Promise<EntrySaveSpy> {
     const bodies: CapturedSave[] = [];
-    const now = '2026-01-01T00:00:00.000Z';
-    const record = (id: string, body: CapturedSave) => ({
+    const record = (id: string, body: CapturedSave, updatedAt: string) => ({
         id,
         status: 'draft' as const,
-        createdAt: now,
-        updatedAt: now,
+        createdAt: ENTRY_CREATED_AT,
+        updatedAt,
         values: body.values ?? {}
     });
 
@@ -1867,7 +1937,14 @@ export async function spyEntrySave(page: Page): Promise<EntrySaveSpy> {
         await route.fulfill({
             status: 201,
             contentType: 'application/json',
-            body: JSON.stringify(record(`${name}-new`, body))
+            body: JSON.stringify(
+                record(
+                    `${name}-new`,
+                    body,
+                    // A create is the record's first version.
+                    entryUpdatedAt(page, name, `${name}-new`)
+                )
+            )
         });
     });
 
@@ -1879,13 +1956,18 @@ export async function spyEntrySave(page: Page): Promise<EntrySaveSpy> {
             if (req.method() !== 'PATCH') return route.fallback();
             const body = (req.postDataJSON?.() ?? {}) as CapturedSave;
             bodies.push(body);
-            const id = decodeURIComponent(
-                new URL(req.url()).pathname.split('/').pop() ?? ''
-            );
+            // ['api','content',name,id]
+            const parts = new URL(req.url()).pathname
+                .split('/')
+                .filter(Boolean);
+            const name = decodeURIComponent(parts[2] ?? '');
+            const id = decodeURIComponent(parts[3] ?? '');
             await route.fulfill({
                 status: 200,
                 contentType: 'application/json',
-                body: JSON.stringify(record(id, body))
+                body: JSON.stringify(
+                    record(id, body, touchEntry(page, name, id))
+                )
             });
         }
     );

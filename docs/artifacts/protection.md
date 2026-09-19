@@ -631,6 +631,24 @@ key that ignored them would serve the previous page's numbers against the new pa
 which is wrong in a way that looks plausible. A rule write invalidates both the rules list and
 every create form's answer in that workspace.
 
+The entry-review key carries one more thing: the entry's **`updatedAt`**, as its **last**
+component. A save moves the head revision and so changes which approvals count, so the answer
+held against the previous version is about a version that no longer exists — and the editor
+primes its read-one cache with the write's own response, so a new `updatedAt` mints a new key
+and the panel reads afresh. That is the whole mechanism: protection never reaches into
+content's save path, and content never learns protection exists. The position is load-bearing.
+A vote moves no `updatedAt` at all — protection owns no content table — so approve, withdraw,
+request and withdraw-request invalidate the key **without** the version, by prefix; a version
+component anywhere earlier would leave all four silently refreshing nothing. The version is
+`updatedAt` **except** when an answer already cached for the entry says `protected: false`, in
+which case the previous token is reused so no new key is minted and no request is issued:
+`reviewScopeOf` returns a scope for any saved publishable entry and cannot know whether a rule
+exists, and a request per save to be told again that there is nothing to review is exactly the
+inertness I-03/I-04 promise. It is safe because every reader bails on that flag before reading
+another field, so nothing observable can have moved. `entryReviewVersion` is that decision,
+pure and unit-tested. The reviewer-candidate key deliberately **omits** the version: a save
+cannot change who may be asked (I-22).
+
 ## 11. Configuration
 
 **There is none.** `ProtectionPlugin()` takes no argument and `forRoot()` takes nothing: the
