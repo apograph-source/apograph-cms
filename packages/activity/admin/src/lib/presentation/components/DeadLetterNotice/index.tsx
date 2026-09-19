@@ -16,6 +16,7 @@ import {
     NOTICE_DEAD_LETTER_LIMIT
 } from '../../../application/useDeadLetters';
 import { useRetryDeadLetter } from '../../../application/useRetryDeadLetter';
+import { useRefreshDeadLetters } from '../../../application/useRefreshDeadLetters';
 import { DeadLettersDialog } from './DeadLettersDialog';
 
 /** Intl descriptors for {@link DeadLetterNotice}, co-located here. */
@@ -94,7 +95,13 @@ export function DeadLetterNotice() {
     // modal Radix dialog only does that through a `DialogTrigger`, and this
     // trigger lives in the banner's own layout. See `DeadLettersDialog`.
     const triggerRef = useRef<HTMLButtonElement>(null);
-    const { data } = useDeadLetters(NOTICE_DEAD_LETTER_LIMIT, canRead);
+    // `dataUpdatedAt`/`errorUpdatedAt` are read for the focus effect below, not
+    // for rendering: they are the only values that change on *every* answer
+    // this list gives, including one that repeats the count it gave before.
+    const { data, dataUpdatedAt, errorUpdatedAt } = useDeadLetters(
+        NOTICE_DEAD_LETTER_LIMIT,
+        canRead
+    );
     // The dialog's larger page is a separate cache entry (the limit is part of
     // the key), and it is not fetched until the dialog is first opened.
     const dialog = useDeadLetters(
@@ -102,13 +109,20 @@ export function DeadLetterNotice() {
         canRead && canManage && open
     );
     const retry = useRetryDeadLetter();
+    const refreshDeadLetters = useRefreshDeadLetters();
 
     const total = data?.total ?? 0;
 
-    // Whether *this* reader's retry is what emptied the list. Focus is only
-    // moved on that account: a background refetch that happens to reach zero
-    // while somebody is typing in the search box must not steal their caret.
-    const retriedRef = useRef(false);
+    // Armed by this reader's own retry, and **spent by the very next answer the
+    // list gives**, whatever that answer says.
+    //
+    // It is deliberately not a latch. A flag that survived until some later
+    // fetch happened to reach zero would move focus for things this reader did
+    // not do — the retention sweep clearing the last row, another operator
+    // retrying it, a poll landing on a tab regaining focus — which is the exact
+    // theft the flag exists to prevent. It says "the refresh I am waiting for
+    // has not arrived yet", not "I retried something at some point".
+    const awaitingRetryRefresh = useRef(false);
     const previousTotal = useRef(total);
 
     // When the last dead letter goes, the notice returns `null` and takes the
@@ -116,14 +130,22 @@ export function DeadLetterNotice() {
     // longer exists, focus lands on `<body>`, and the next Tab restarts from the
     // top of the document (WCAG 2.4.3). `ActivityLogPage`'s `clearFilters` was
     // bitten by exactly this and answers it the same way.
+    //
+    // So: move focus when the answer to *this reader's* retry is that nothing
+    // is parked any more, and at no other time. The `*UpdatedAt` dependencies
+    // are what make "the next answer" mean the next answer rather than the next
+    // *different* count — the flag has to be spent even when the refetch comes
+    // back with the same total (the sweep parked another row in the meantime),
+    // and even when it comes back a failure and says nothing at all.
     useEffect(() => {
         const previous = previousTotal.current;
+        const answersOurRetry = awaitingRetryRefresh.current;
         previousTotal.current = total;
-        if (total === 0 && previous > 0 && retriedRef.current) {
-            retriedRef.current = false;
+        awaitingRetryRefresh.current = false;
+        if (answersOurRetry && total === 0 && previous > 0) {
             document.getElementById(MAIN_CONTENT_ID)?.focus();
         }
-    }, [total]);
+    }, [total, dataUpdatedAt, errorUpdatedAt]);
 
     if (!data || total === 0) {
         return null;
@@ -153,7 +175,9 @@ export function DeadLetterNotice() {
             { id },
             {
                 onSuccess: () => {
-                    retriedRef.current = true;
+                    // Armed here and read once, by the effect above, when the
+                    // refresh this retry triggers lands.
+                    awaitingRetryRefresh.current = true;
                     // Close before the refetch lands: on the way to zero the
                     // trigger is about to unmount, and Radix cannot restore
                     // focus to a button that no longer exists.
@@ -183,7 +207,11 @@ export function DeadLetterNotice() {
                         )
                     );
                     if (gone) {
-                        void dialog.refetch();
+                        // **Both** pages, not just the one the reader is
+                        // looking at. Refetching the dialog alone left the
+                        // banner counting — and naming the kinds of — a row
+                        // the client had just been told is not parked any more.
+                        refreshDeadLetters();
                     }
                     // A 401 needs nothing: the global interceptor signs the
                     // user out. A 403 — the permission lost mid-session — and
@@ -228,7 +256,12 @@ export function DeadLetterNotice() {
                     total={dialog.data?.total ?? total}
                     isPending={dialog.isPending}
                     isError={dialog.isError}
-                    onReload={() => void dialog.refetch()}
+                    // The same refresh as every other path here, for the same
+                    // reason: "Try again" is asking the list again, and there
+                    // is one list behind the two cache entries. Reloading only
+                    // the dialog's page would let it recover into a count the
+                    // banner above it still contradicts.
+                    onReload={refreshDeadLetters}
                     canRetry={canManage}
                     // Scoped to the pressed row through the mutation's own
                     // variables rather than a panel-wide boolean, so one row's

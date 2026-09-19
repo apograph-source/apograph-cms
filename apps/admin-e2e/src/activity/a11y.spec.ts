@@ -39,10 +39,16 @@ test.describe('Activity dead letters accessibility (axe, WCAG 2.1 A/AA)', () => 
     test.beforeEach(async ({ page }) => {
         await mockSignedIn(page);
         await mockActivity(page);
-        await mockDeadLetters(page, DEAD_LETTERS.map((row) => ({ ...row })));
+        await mockDeadLetters(
+            page,
+            DEAD_LETTERS.map((row) => ({ ...row }))
+        );
     });
 
-    test('the page with the banner up', async ({ activityLogPage, makeAxe }) => {
+    test('the page with the banner up', async ({
+        activityLogPage,
+        makeAxe
+    }) => {
         await activityLogPage.goto();
         await expect(activityLogPage.deadLettersTrigger()).toBeVisible();
         await expectNoA11yViolations(makeAxe());

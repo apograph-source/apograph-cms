@@ -31,11 +31,11 @@ case ADR-0003 says not to build a `domain/` layer for.
   `utils/toActivityEvent`), and `activityKeys` (the query-key factory +
   `ActivityListParams`).
 - **`application/`** — the TanStack Query hooks: `useActivityLog`,
-  `useEntryActivity`, `useDeadLetters` and the one mutation,
-  `useRetryDeadLetter`. Every one of them calls the gateway, never `apiClient`.
-  `useDeadLetters` did import `apiClient` directly, which made the sentence
-  above it false for as long as it stood; if you add a hook here, the seam is
-  the port.
+  `useEntryActivity`, `useDeadLetters`, the one mutation `useRetryDeadLetter`,
+  and `useRefreshDeadLetters`. Every one of them calls the gateway, never
+  `apiClient`. `useDeadLetters` did import `apiClient` directly, which made the
+  sentence above it false for as long as it stood; if you add a hook here, the
+  seam is the port.
 
     `useRetryDeadLetter` invalidates `activityKeys.deadLettersRoot` and nothing
     else. Not `activityKeys.all`, and specifically **not** the log list: the
@@ -43,6 +43,16 @@ case ADR-0003 says not to build a `domain/` layer for.
     page would be a storm for a change that has not happened. There is no
     optimistic removal either — the retention sweep moves this list underneath
     the reader — so the row leaves when the refetch lands.
+
+    `useRefreshDeadLetters` is that same invalidation, for the paths that are
+    **not** a successful retry: the `404`/`409` refusal (the client has just
+    been told the row is not parked) and the dialog's own "Try again". It exists
+    because there is one list and **two** cache entries — the banner's five rows
+    and the dialog's fifty — so a refresh that names one of them by its `limit`
+    leaves the other reporting rows it has been told are gone. The refused retry
+    refetched only the dialog's page, and the banner went on counting and naming
+    the kind of a row the client knew about. If you add a third place that
+    refreshes this list, call this hook rather than a single query's `refetch`.
 
 - **`presentation/`** — the pages, components, the `activityPlugin` factory,
   `activityFilterFields`, and `activityMessages`. Consumes the view models +
@@ -90,29 +100,36 @@ case ADR-0003 says not to build a `domain/` layer for.
   none, and nothing while loading or on error: a caveat about a list must never
   be the reason the page looks broken.
 
-          Its **Review and retry** button — gated on `activity:manage` and **hidden**
-          rather than disabled without it — opens `DeadLettersDialog`, nested inside
-          the notice's folder because nothing else uses it. The dialog is where
-          `lastError`, `occurredAt` and `attempts` are finally rendered: they have
-          been on the wire since the read route shipped and appeared nowhere, and
-          `lastError` is the one field that says whether the cause is fixed. The retry
-          is **per row and only per row** — the banner shows five of an unbounded
-          `total` and no ids, so a bulk action would act on rows the operator has
-          never seen. No confirmation step: the audit insert is `ON CONFLICT DO
+    Its **Review and retry** button — gated on `activity:manage` and **hidden**
+    rather than disabled without it — opens `DeadLettersDialog`, nested inside
+    the notice's folder because nothing else uses it. The dialog is where
+    `lastError`, `occurredAt` and `attempts` are finally rendered: they have
+    been on the wire since the read route shipped and appeared nowhere, and
+    `lastError` is the one field that says whether the cause is fixed. The retry
+    is **per row and only per row** — the banner shows five of an unbounded
+    `total` and no ids, so a bulk action would act on rows the operator has
+    never seen. No confirmation step: the audit insert is
+    `ON CONFLICT DO NOTHING` (`activity:I-03`), so a repeat is ignored.
 
-    NOTHING` (`activity:I-03`), so a repeat is ignored.
+    The dialog **does** render its error state, which is the opposite of the
+    banner's rule and deliberately so: the banner is a caveat nobody asked for,
+    the dialog is an answer somebody asked for, and an empty table would answer
+    "nothing is stuck".
 
-          The dialog **does** render its error state, which is the opposite of the
-          banner's rule and deliberately so: the banner is a caveat nobody asked for,
-          the dialog is an answer somebody asked for, and an empty table would answer
-          "nothing is stuck".
+    Retrying the last one is a focus trap in waiting: `total` hits 0, the notice
+    returns `null`, and Radix restores focus to a trigger that no longer exists.
+    So the notice closes the dialog in `onSuccess` and moves focus to
+    `#main-content` on the transition to zero — the same fix `ActivityLogPage`'s
+    `clearFilters` already carries, and only when this reader's own retry caused
+    it.
 
-          Retrying the last one is a focus trap in waiting: `total` hits 0, the notice
-          returns `null`, and Radix restores focus to a trigger that no longer exists.
-          So the notice closes the dialog in `onSuccess` and moves focus to
-          `#main-content` on the transition to zero — the same fix `ActivityLogPage`'s
-          `clearFilters` already carries, and only when this reader's own retry caused
-          it.
+    "Caused it" is a flag armed by the retry and **spent by the very next answer
+    the list gives**, whatever that answer says — which is why the effect depends
+    on the query's `dataUpdatedAt`/`errorUpdatedAt` and not only on `total`. A
+    flag that survived until some later fetch happened to reach zero is a latch,
+    and a latch moves focus for the retention sweep clearing the last row, for
+    another operator's retry, or for a poll landing on a tab regaining focus —
+    the precise theft the flag was added to prevent.
 
 ## The page
 

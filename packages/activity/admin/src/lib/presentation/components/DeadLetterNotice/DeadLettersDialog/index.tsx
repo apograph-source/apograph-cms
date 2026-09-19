@@ -236,7 +236,9 @@ export function DeadLettersDialog({
                                         )}
                                     </TableHead>
                                     <TableHead scope="col">
-                                        {intl.formatMessage(messages.columnWhen)}
+                                        {intl.formatMessage(
+                                            messages.columnWhen
+                                        )}
                                     </TableHead>
                                     <TableHead scope="col">
                                         {intl.formatMessage(
@@ -374,7 +376,10 @@ export function DeadLettersDialog({
                     ) : (
                         <span />
                     )}
-                    <Button variant="outline" onClick={() => onOpenChange(false)}>
+                    <Button
+                        variant="outline"
+                        onClick={() => onOpenChange(false)}
+                    >
                         {intl.formatMessage(messages.close)}
                     </Button>
                 </DialogFooter>

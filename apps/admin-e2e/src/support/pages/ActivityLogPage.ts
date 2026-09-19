@@ -186,6 +186,42 @@ export class ActivityLogPage extends BasePage {
         return this.deadLettersDialog().getByText(/^Showing /);
     }
 
+    /**
+     * Dismiss the dead-letter dialog with Escape.
+     *
+     * Escape rather than a click, because **two** controls in it are named
+     * "Close" — the header's `DialogContent` X and the footer's button — so a
+     * locator by name is a strict-mode violation rather than an action. Radix
+     * closes on Escape and hands focus back through the notice's `triggerRef`,
+     * which is the path a keyboard user takes anyway.
+     */
+    async closeDeadLettersDialog(): Promise<void> {
+        await this.page.keyboard.press('Escape');
+    }
+
+    /**
+     * Refetch what the page holds the way a returning tab does — the
+     * background refresh nobody asked for.
+     *
+     * `visibilitychange` on **`window`** is the only event TanStack Query's
+     * focus manager listens to (it dropped the `focus` listener in v5), so
+     * dispatching anything else would silently do nothing and a test would pass
+     * by never having refetched. No clock games are needed here, unlike the
+     * session probe in `private-routes.spec.ts`: the dead-letter query takes
+     * the default `staleTime` of 0, so it is stale the instant it resolves.
+     */
+    async refetchOnWindowFocus(): Promise<void> {
+        await this.page.evaluate(() => {
+            // Typed inline through `globalThis`: this project's tsconfig ships
+            // no DOM lib.
+            const browser = globalThis as unknown as {
+                window: { dispatchEvent(event: unknown): void };
+                Event: new (type: string) => unknown;
+            };
+            browser.window.dispatchEvent(new browser.Event('visibilitychange'));
+        });
+    }
+
     /** The dialog table's `sr-only` caption — what the table says it lists. */
     deadLettersCaption(): Locator {
         return this.deadLettersTable().locator('caption');

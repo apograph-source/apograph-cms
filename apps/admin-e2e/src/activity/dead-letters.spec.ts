@@ -144,6 +144,48 @@ test.describe('Activity dead letters', () => {
             .toBe('main-content');
     });
 
+    test('a later refetch that reaches zero does not move focus', async ({
+        page,
+        activityLogPage
+    }) => {
+        const parked = parkedEvents();
+        await mockDeadLetters(page, parked);
+        await spyRetryDeadLetter(page, parked);
+
+        await activityLogPage.goto();
+        await activityLogPage.deadLettersTrigger().click();
+        await expect(activityLogPage.deadLettersTable()).toBeVisible();
+
+        // One of three. The list does not reach zero, so this retry is owed
+        // nothing about focus — and the banner and its trigger are still there.
+        await activityLogPage.deadLetterRetry('user.invited').click();
+        await expect(activityLogPage.deadLetterNotice()).toContainText(
+            '2 actions were not recorded'
+        );
+
+        // The list now empties by something that is not this reader: the
+        // retention sweep took the rest, and the news arrives on the refetch a
+        // tab regaining focus fires. The trigger goes with the banner.
+        await mockDeadLetters(page, [], { total: 0 });
+        await activityLogPage.refetchOnWindowFocus();
+        await expect(activityLogPage.deadLetterNotice()).toBeHidden();
+
+        // A wall-clock settle, because the assertion is an **absence**: the
+        // focus move is a `useEffect` with no request behind it, so there is
+        // nothing to wait for when the correct behaviour is that it does not
+        // run. Same shape, and same reason, as the two settles in
+        // `audit-log.spec.ts`.
+        await page.waitForTimeout(500);
+
+        // The flag the retry above armed must have been spent by the answer
+        // that followed it. If it latches, this zero — which this reader did
+        // not cause — steals focus to `<main>` from wherever the reader had
+        // put it, which is the theft the flag exists to prevent.
+        expect(await activityLogPage.focusedElementId()).not.toBe(
+            'main-content'
+        );
+    });
+
     // A live race, not a hypothetical: the retention sweep and the dispatcher
     // both move rows between the fetch and the click. The two refusals are
     // deliberately indistinguishable server-side — 404 covers an unknown id and
@@ -171,6 +213,52 @@ test.describe('Activity dead letters', () => {
             await expect(activityLogPage.deadLettersDialog()).toBeVisible();
         });
     }
+
+    test('a refused retry refreshes the banner too, not only the dialog', async ({
+        page,
+        activityLogPage
+    }) => {
+        const parked = parkedEvents();
+        await mockDeadLetters(page, parked);
+        // 404 and 409 share one branch; the pair above covers the message, and
+        // this covers what the branch does to the cache.
+        await spyRetryDeadLetter(page, parked, { status: 404 });
+
+        await activityLogPage.goto();
+        await expect(activityLogPage.deadLetterNotice()).toContainText(
+            '3 actions were not recorded'
+        );
+        await activityLogPage.deadLettersTrigger().click();
+        await expect(activityLogPage.deadLettersTable()).toBeVisible();
+
+        // The sweep takes the row away between the fetch and the click — the
+        // race that makes the 404 real rather than hypothetical. The last
+        // registered route wins, so every dead-letter GET from here says two.
+        await mockDeadLetters(page, parked.slice(1), { total: 2 });
+        await activityLogPage.deadLetterRetry('entry.published').click();
+
+        await expect(
+            activityLogPage.toast('That event is no longer parked.')
+        ).toBeVisible();
+        // The page the reader is looking at follows…
+        await expect(activityLogPage.deadLettersCount()).toContainText(
+            'Showing 2 events of 2.'
+        );
+
+        // …and so does the banner, which is a **separate cache entry** keyed by
+        // its own `limit`. Refreshing only the dialog left it counting — and
+        // naming the kind of — a row the client had just been told is gone.
+        // Asserted with the dialog closed: a modal Radix dialog `aria-hidden`s
+        // the page root, so the banner has no role to be found by while it is
+        // up.
+        await activityLogPage.closeDeadLettersDialog();
+        await expect(activityLogPage.deadLetterNotice()).toContainText(
+            '2 actions were not recorded'
+        );
+        await expect(activityLogPage.deadLetterNotice()).not.toContainText(
+            'entry.published'
+        );
+    });
 
     test('a 500 gets the generic message, not the “no longer parked” one', async ({
         page,

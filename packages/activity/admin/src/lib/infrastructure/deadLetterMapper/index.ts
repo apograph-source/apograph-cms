@@ -1,7 +1,4 @@
-import type {
-    DeadLetter,
-    RetriedDeadLetter
-} from '../../types/deadLetter';
+import type { DeadLetter, RetriedDeadLetter } from '../../types/deadLetter';
 
 // The wire→view anti-corruption layer for a parked outbox event. The admin
 // can't import the server package, so these wire types mirror
