@@ -219,7 +219,7 @@ Tracked in their own `__drizzle_migrations_database` table, exactly as for any o
 
 > **Retention, and what it deliberately cannot reach**
 >
-> **Delivered** rows are pruned. `OUTBOX_RETENTION_DAYS` (default 30, `0` = never) sets the window; `OutboxDispatcher.pruneDelivered(before)` does the deleting, in batches of 1,000 through a `FOR UPDATE SKIP LOCKED` sub-select, and a private `pruneIfDue` calls it at the tail of a poll tick at most once an hour. No new timer, and no bookkeeping table — the "last swept" mark is an in-process field (I-23).
+> **Delivered** rows are pruned. `OUTBOX_RETENTION_DAYS` (default 30, `0` = never) sets the window; `OutboxDispatcher.pruneDelivered(before)` does the deleting, in batches of 1,000 through a `FOR UPDATE SKIP LOCKED` sub-select, and a private `pruneIfDue` calls it at the tail of a poll tick at most once an hour. No new timer, and no bookkeeping table — the "last swept" mark is an in-process field (I-23), claimed before the sweep so two cannot overlap and **handed back if it throws**, so a failed sweep is retried on the next tick rather than buying an hour of silence.
 >
 > The predicate is `dispatched_at IS NOT NULL AND dispatched_at < cutoff`, and the second half of that sentence is the whole safety argument: a **pending** row and a **parked** one both carry `dispatched_at IS NULL`, so they are excluded **by construction rather than by a clause**. There is deliberately no `AND attempts < 15`; it would mean the same thing today and be the thing a later edit breaks. Nothing deletes a dead letter by age, ever — a parked row is the only evidence that something was never recorded, and a sweep that took one would make an audit gap invisible again.
 >
@@ -392,7 +392,7 @@ WHERE id = '...';
 >
 > A parked row is very often an **audit row that was never written**, and a hole in an audit trail that is only visible to somebody who thinks to run a query is barely a hole that has been noticed. So `@apograph/activity-server` serves this method at `GET /api/activity/dead-letters` under `activity:read`, and its admin page renders a non-zero `total` as a notice above the log — on the page whose whole job is being the record of record.
 >
-> The route **reports rather than repairs**: replaying still means the `UPDATE` above, a deliberate operator action against a fixed cause, not a button that re-runs whatever failed fifteen times. Database owns the query and the column; it owns no HTTP route, here as everywhere.
+> The **read** route reports; `POST /api/activity/dead-letters/:id/retry` performs the `UPDATE` above through `OutboxDispatcher.retryDeadLetter` (I-26), under `activity:manage` rather than `activity:read`. That it is no longer a `psql` session does not make it a button that re-runs whatever failed fifteen times: it takes one id at a time, the operator has `lastError` in front of them, and a reset row rejoins an `ORDER BY occurred_at` claim at the head — which is right for one row and a way to stall the queue for a hundred. Database owns the query, the column and the mechanism; it owns no HTTP route, here as everywhere.
 
 ### Concurrency: one drain per process, many processes side by side
 

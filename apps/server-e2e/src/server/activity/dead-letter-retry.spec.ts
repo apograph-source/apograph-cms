@@ -124,12 +124,14 @@ describe('POST /api/activity/dead-letters/:id/retry', () => {
             expect(row?.nextAttemptAt).toBeNull();
             expect(row?.lastError).not.toBeNull();
 
-            // And claimable is the claim that matters. The route fires a drain
-            // off after it commits, so this usually collapses onto one already
-            // in flight rather than starting a second — either way, what was
-            // parked a moment ago has now been delivered, which is the only
-            // thing the operator pressed the button for.
-            await dispatcher.drain();
+            // And claimable is the claim that matters — asserted here with
+            // **no drain of our own**, deliberately. The poll backstop is
+            // stopped for this suite, so the only thing that can have delivered
+            // this row is the drain `UnitOfWork.run` awaits after the route's
+            // transaction commits. That is what makes the effect visible to the
+            // operator immediately instead of at the next five-second tick, and
+            // it is the reason the route needs no `drain()` call of its own; a
+            // second one would run after this had already delivered the event.
             expect((await readOutboxRow(id))?.dispatchedAt).not.toBeNull();
         });
 

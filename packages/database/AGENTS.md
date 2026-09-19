@@ -116,7 +116,11 @@ injects them without importing the module.
   sub-select, at most ten passes a tick — and a private `pruneIfDue` calls it at
   the tail of a poll tick, at most hourly. No new timer, and no bookkeeping
   table: `lastPrunedAt` is an in-process field, because this package owns exactly
-  one table and means to keep it that way. The predicate is
+  one table and means to keep it that way. The mark is claimed before the sweep
+  (two must not overlap — `pollOnce` has already cleared its `draining` flag by
+  then) and **restored if the sweep throws**, so a momentary failure is retried
+  on the next tick instead of suppressing retention for an hour; `pollOnce`
+  logs it. The predicate is
   `dispatched_at IS NOT NULL AND dispatched_at < cutoff`, which excludes pending
   **and parked** rows by construction rather than by a clause about `attempts` —
   do not "clarify" it into one. The cut is on `dispatched_at`, never

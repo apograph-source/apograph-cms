@@ -601,6 +601,16 @@ export class OutboxDispatcher
      * It runs **outside** the claim transaction — after `drain()` has returned,
      * not inside `drainOnce` — so a long sweep can never extend the bounded
      * wait `onModuleDestroy` makes on an in-flight drain (`database:I-20`).
+     *
+     * **The hourly mark is claimed up front and handed back on failure.**
+     * Claiming it before the `await` is what stops two sweeps overlapping: this
+     * runs after `pollOnce` has already cleared its `draining` flag, so a sweep
+     * that outlives the five-second tick would otherwise be joined by the next
+     * one. But a sweep that *threw* has swept nothing, and leaving the mark
+     * armed suppressed every retry for a full hour over, typically, a momentary
+     * connection error — with `pollOnce` logging a comment that said the next
+     * tick would pick it up. So the failure path restores the previous mark and
+     * the next tick genuinely retries.
      */
     private async pruneIfDue(): Promise<void> {
         if (this.retentionDays <= 0) {
@@ -610,13 +620,23 @@ export class OutboxDispatcher
         if (now - this.lastPrunedAt < PRUNE_INTERVAL_MS) {
             return;
         }
+        const previous = this.lastPrunedAt;
         this.lastPrunedAt = now;
 
-        const removed = await this.pruneDelivered(
-            new Date(now - this.retentionDays * DAY_MS)
-        );
+        let removed: number;
+        try {
+            removed = await this.pruneDelivered(
+                new Date(now - this.retentionDays * DAY_MS)
+            );
+        } catch (error) {
+            // Hand the window back before rethrowing; `pollOnce` logs.
+            this.lastPrunedAt = previous;
+            throw error;
+        }
         // Silent when there was nothing to do: an hourly "pruned 0 rows" line
-        // is noise that trains a reader to skip the ones that matter.
+        // is noise that trains a reader to skip the ones that matter. A
+        // *failure* is never silent — it is logged by `pollOnce`, which is the
+        // only caller and the one place the retry decision is visible.
         if (removed > 0) {
             this.logger.log(
                 `Pruned ${removed} delivered outbox events older than ${this.retentionDays} days.`
@@ -688,8 +708,10 @@ export class OutboxDispatcher
         try {
             await this.pruneIfDue();
         } catch (error) {
-            // A failing sweep must never kill the interval; the next tick
-            // retries from whatever state the database is in.
+            // A failing sweep must never kill the interval, and it must not
+            // consume its hourly slot either: `pruneIfDue` restores the mark
+            // before it throws, so the next tick really does retry from
+            // whatever state the database is in.
             this.logger.error(
                 'Outbox retention sweep failed',
                 error instanceof Error ? error.stack : String(error)

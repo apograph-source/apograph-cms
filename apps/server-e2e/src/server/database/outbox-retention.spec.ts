@@ -228,6 +228,34 @@ describe('outbox retention (sweep on, one-day window)', () => {
             await pruneIfDue();
             expect(await outboxRowExists(second)).toBe(true);
         });
+
+        it('hands the slot back when the sweep fails, so the next tick retries', async () => {
+            // The guard used to be armed *before* the `await`, so a sweep that
+            // threw — a dropped connection, a pool timeout — consumed its hourly
+            // slot without deleting anything, and nothing swept for a full hour.
+            // `pollOnce` meanwhile logged that the next tick would pick it up.
+            const row = await insertOutboxRow({
+                kind: 'qa.retention.failed',
+                dispatched: true
+            });
+            await backdateDispatched(row, 5);
+
+            const failing = jest
+                .spyOn(dispatcher, 'pruneDelivered')
+                .mockRejectedValueOnce(
+                    new Error('Connection terminated unexpectedly')
+                );
+            await expect(pruneIfDue()).rejects.toThrow(
+                'Connection terminated unexpectedly'
+            );
+            failing.mockRestore();
+            expect(await outboxRowExists(row)).toBe(true);
+
+            // The assertion that matters: the very next tick sweeps. Under the
+            // old arming this second call returned without touching the table.
+            await pruneIfDue();
+            expect(await outboxRowExists(row)).toBe(false);
+        });
     });
 
     describe('the configured window', () => {

@@ -45,6 +45,7 @@ import type { McpPluginConfig } from '@apograph/mcp-server';
 // apograph:end
 import {
     readEnv,
+    readNonNegativeInt,
     readPositiveInt,
     readTrustProxy,
     requireEnv
@@ -143,7 +144,12 @@ const config: ApographConfig = {
         // Delivered outbox rows only. A pending or parked event is never
         // deleted by age — a parked one is the evidence that something was
         // never recorded.
-        outboxRetentionDays: readPositiveInt('OUTBOX_RETENTION_DAYS', 30)
+        //
+        // `readNonNegativeInt` because `0` is this setting's documented
+        // off-switch ("keep them forever"), and the positive reader refuses a
+        // zero — which turned the documented way to disable retention into a
+        // server that would not boot.
+        outboxRetentionDays: readNonNegativeInt('OUTBOX_RETENTION_DAYS', 30)
     },
     docs: docsConfig(),
     plugins: {

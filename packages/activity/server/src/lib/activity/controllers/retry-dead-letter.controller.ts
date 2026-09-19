@@ -2,7 +2,6 @@ import {
     ConflictException,
     Controller,
     HttpCode,
-    Logger,
     NotFoundException,
     Param,
     ParseUUIDPipe,
@@ -61,8 +60,6 @@ export type DeadLetterRetryView = RetriedDeadLetter;
 @UseGuards(PermissionsGuard)
 @Controller('activity')
 export class RetryDeadLetterController {
-    private readonly logger = new Logger(RetryDeadLetterController.name);
-
     constructor(
         private readonly dispatcher: OutboxDispatcher,
         private readonly uow: UnitOfWork,
@@ -137,19 +134,18 @@ export class RetryDeadLetterController {
             return result.event;
         });
 
-        // Make the retry take effect now rather than at the next poll tick, so
-        // an operator who has just fixed the cause sees the result instead of
-        // wondering for five seconds whether the button worked. Fire and
-        // forget: the response does not depend on delivery succeeding, and a
-        // failure here is exactly what the poll backstop is for.
-        void this.dispatcher.drain().catch((error: unknown) => {
-            this.logger.warn(
-                `Immediate drain after retrying event ${id} failed; the poll backstop will pick it up. ${
-                    error instanceof Error ? error.message : String(error)
-                }`
-            );
-        });
-
+        // The retry has already been attempted by the time this line runs, and
+        // that is `UnitOfWork.run`'s doing rather than an accident: it awaits a
+        // post-commit `drain()` before it resolves, and `drain()` guarantees
+        // that a caller's own rows are drained before its await returns — it
+        // either starts a drain or joins one queued behind the active one,
+        // which by construction begins after this transaction committed. So the
+        // operator who has just fixed the cause sees the result now rather than
+        // at the next five-second poll tick, which is the whole reason the
+        // contract asked for an immediate drain here.
+        //
+        // A second explicit `drain()` was therefore draining nothing: it ran
+        // after the first had already claimed and delivered this event.
         return retried;
     }
 }
