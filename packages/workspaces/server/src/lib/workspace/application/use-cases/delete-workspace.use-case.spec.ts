@@ -1,5 +1,5 @@
-import type { OutboxWriter, UnitOfWork, DomainEvent } from '@apograph/database';
-import type { PublicUser } from '@apograph/identity-server';
+import type { OutboxWriter, UnitOfWork, DomainEvent } from '@ortha/database';
+import type { PublicUser } from '@ortha/identity-server';
 import { DeleteWorkspaceUseCase } from './delete-workspace.use-case';
 import { ContentEntryCounterReader } from '../content/content-entry-counter.reader';
 import { WorkspacePurgeRegistry } from '../workspace-purge.registry';

@@ -43,18 +43,18 @@ vi.mock('../../infrastructure/httpMediaInsightsGateway', () => ({
 /** The open workspace, swapped between renders by the cache-key cases. */
 const open = vi.hoisted(() => ({ id: 'ws-alpha' }));
 
-vi.mock('@apograph/workspaces-admin', () => ({
+vi.mock('@ortha/workspaces-admin', () => ({
     useCurrentWorkspace: () => ({ id: open.id, name: open.id })
 }));
 
-vi.mock('@apograph/identity-admin', () => ({
+vi.mock('@ortha/identity-admin', () => ({
     useHasPermission: () => true
 }));
 
 /** The selected window, swapped by the `days` case. */
 const window_ = vi.hoisted(() => ({ days: 30 }));
 
-vi.mock('@apograph/insights-admin', () => ({
+vi.mock('@ortha/insights-admin', () => ({
     useInsightsRange: () => ({
         range: '30d',
         days: window_.days,

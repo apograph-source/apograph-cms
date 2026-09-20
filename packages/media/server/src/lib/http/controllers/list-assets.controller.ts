@@ -3,8 +3,8 @@ import {
     PERMISSIONS,
     PermissionsGuard,
     RequirePermissions
-} from '@apograph/identity-server';
-import { CurrentWorkspace, WorkspaceGuard } from '@apograph/workspaces-server';
+} from '@ortha/identity-server';
+import { CurrentWorkspace, WorkspaceGuard } from '@ortha/workspaces-server';
 import { ListAssetsQuery } from '../../infrastructure/queries/list-assets.query';
 import type { AssetListView } from '../../types/asset-view';
 import { toHttp } from '../to-http';

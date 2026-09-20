@@ -14,8 +14,8 @@ import {
     PermissionsGuard,
     RequirePermissions,
     type PublicUser
-} from '@apograph/identity-server';
-import { CurrentWorkspace, WorkspaceGuard } from '@apograph/workspaces-server';
+} from '@ortha/identity-server';
+import { CurrentWorkspace, WorkspaceGuard } from '@ortha/workspaces-server';
 import {
     ProposalRepository,
     type ProposalView

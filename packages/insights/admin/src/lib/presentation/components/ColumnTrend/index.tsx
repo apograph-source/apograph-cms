@@ -1,4 +1,4 @@
-import { cn } from '@apograph/design-system';
+import { cn } from '@ortha/design-system';
 import { toneBackground } from '../../../utils/chartTone';
 import type { TrendPoint } from '../AreaTrend';
 

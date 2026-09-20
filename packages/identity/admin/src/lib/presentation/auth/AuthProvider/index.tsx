@@ -1,8 +1,8 @@
 import { useEffect, useRef, type ReactNode } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { defineMessages, useIntl } from 'react-intl';
-import { toast } from '@apograph/design-system';
-import { setUnauthorizedHandler } from '@apograph/utils-admin';
+import { toast } from '@ortha/design-system';
+import { setUnauthorizedHandler } from '@ortha/utils-admin';
 import {
     currentUserKey,
     useCurrentUser

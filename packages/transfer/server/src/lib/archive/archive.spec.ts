@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { Readable } from 'node:stream';
 import { deflateRawSync } from 'node:zlib';
-import { DEFAULT_TRANSFER_LIMITS } from '@apograph/transfer-domain';
+import { DEFAULT_TRANSFER_LIMITS } from '@ortha/transfer-domain';
 import { createZipStream, type ZipMember } from './zip-writer';
 import {
     ZipReadError,
@@ -87,7 +87,7 @@ describe('archives written by other tools', () => {
     })();
 
     (zipAvailable ? it : it.skip)('reads a CLI-produced archive', () => {
-        const dir = mkdtempSync(join(tmpdir(), 'apograph-zip-'));
+        const dir = mkdtempSync(join(tmpdir(), 'ortha-zip-'));
         mkdirSync(join(dir, 'entries'));
         writeFileSync(join(dir, 'manifest.json'), '{"version":1}');
         writeFileSync(

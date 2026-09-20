@@ -3,7 +3,7 @@ import { BasePage } from './BasePage';
 
 /**
  * Page object for the reset-password screen at
- * `/identity/reset-password?token=…` (from `@apograph/identity-admin`) — the
+ * `/identity/reset-password?token=…` (from `@ortha/identity-admin`) — the
  * far end of the link an admin generates on a member's Access tab. Owns every
  * selector the reset suite needs, so specs assert behavior without touching the
  * DOM.

@@ -22,7 +22,7 @@ function imports(path: string): string[] {
     return [...text.matchAll(/from\s+'([^']+)'/g)].map((match) => match[1]);
 }
 
-describe('@apograph/protection-domain is dependency-free', () => {
+describe('@ortha/protection-domain is dependency-free', () => {
     /**
      * The kernel is the one place a React panel, a Nest guard and a tool
      * handler can all read the rule from, and that is only true while it needs

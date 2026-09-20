@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useHasPermission } from '@apograph/identity-admin';
-import { isComposingText } from '@apograph/utils-admin';
+import { useHasPermission } from '@ortha/identity-admin';
+import { isComposingText } from '@ortha/utils-admin';
 import { useCopilotAvailable } from '../../application/useCopilotModels';
 import { useCopilotSessions } from '../../application/useCopilotSessions';
 import { useRouteContext } from '../../application/useRouteContext';
@@ -29,7 +29,7 @@ import { CopilotSession } from '../CopilotSession';
  * a sidebar row beside it; both are gone. A round button could only ever mean
  * "the panel", singular, and a sidebar row duplicated what the dock already
  * says while spending a permanent slot in navigation on it. With no chats open
- * the dock *is* a labelled Apograph AI button in the corner, and as soon as there
+ * the dock *is* a labelled Ortha AI button in the corner, and as soon as there
  * are chats it becomes the bar listing them — one control that grows into the
  * thing it opens.
  *

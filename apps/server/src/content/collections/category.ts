@@ -13,7 +13,7 @@ import {
     collection,
     field,
     type AnyContentType
-} from '@apograph/content-server/define';
+} from '@ortha/content-server/define';
 
 export const category = collection('category', {
     label: 'Categories',

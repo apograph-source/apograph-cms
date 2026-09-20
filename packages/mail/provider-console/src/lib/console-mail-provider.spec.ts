@@ -2,10 +2,10 @@ import { createConsoleMailProvider } from './console-mail-provider';
 
 const message = {
     to: 'ada@example.com',
-    from: 'Apograph <no-reply@example.com>',
+    from: 'Ortha <no-reply@example.com>',
     subject: 'You have been invited',
     text: 'Hello,\nhttps://cms.example.com/identity/accept-invite?token=s3cret\n',
-    headers: { 'X-Apograph-Mail-Kind': 'invite' }
+    headers: { 'X-Ortha-Mail-Kind': 'invite' }
 };
 
 describe('the console mail provider', () => {
@@ -33,7 +33,7 @@ describe('the console mail provider', () => {
         expect(written).toContain('ada@example.com');
         expect(written).toContain('You have been invited');
         expect(written).toContain('token=s3cret');
-        expect(written).toContain('X-Apograph-Mail-Kind: invite');
+        expect(written).toContain('X-Ortha-Mail-Kind: invite');
     });
 
     it('can be asked to keep the secret out of the log', async () => {

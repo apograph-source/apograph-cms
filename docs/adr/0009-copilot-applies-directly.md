@@ -31,8 +31,8 @@ Both shipped. What we learned from having them:
   approvals. Nobody reads the twelfth. Clicking Apply twelve times is a queue
   being cleared, and a UI that rewards clearing it fast produces worse scrutiny
   than no ceremony at all — while still costing every user the ceremony.
-- **It taught the wrong thing about authority.** Users reasonably read "Apograph AI
-  needs your approval" as "Apograph AI could otherwise do more than you can". The
+- **It taught the wrong thing about authority.** Users reasonably read "Ortha AI
+  needs your approval" as "Ortha AI could otherwise do more than you can". The
   opposite is true and always was: a run holds exactly the caller's permissions
   (§1–3), so a viewer's copilot is provably read-only whatever the policy says.
   The approval step obscured the guarantee it was supposed to express.
@@ -107,7 +107,7 @@ skips the prompt for is still authorized against live grants.
 
 **Easier:**
 
-- The product behaves the way its own copy already described: Apograph AI does what
+- The product behaves the way its own copy already described: Ortha AI does what
   your role lets you do, and says what it did.
 - One authority model to reason about instead of two. "What may this run do" has
   a single answer — the caller's grants — checked at offer and at execution.
@@ -156,7 +156,7 @@ should be config next to the model providers, where operator decisions live.
   ticked out of the box. Rejected because it keeps the screen, the table, the
   permission and the second authority model in exchange for a default — and the
   screen was the thing users pointed at.
-- **Move the opt-in to host config** (`apograph.config.ts`, beside the model
+- **Move the opt-in to host config** (`ortha.config.ts`, beside the model
   providers) and delete only the UI. Genuinely attractive: it keeps
   propose-then-apply available for a cautious deployment while removing the
   surface nobody used, and it makes the choice an operator's rather than an

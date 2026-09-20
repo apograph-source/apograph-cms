@@ -17,7 +17,7 @@ const roots: string[] = [];
 
 /** An app tree, optionally with the admin's HTML entry present. */
 function tempApp({ admin }: { admin: boolean }): string {
-    const root = mkdtempSync(join(tmpdir(), 'apograph-cli-build-'));
+    const root = mkdtempSync(join(tmpdir(), 'ortha-cli-build-'));
     roots.push(root);
     writeFileSync(join(root, 'package.json'), '{"name":"my-cms"}', 'utf8');
 
@@ -49,7 +49,7 @@ afterAll(() => {
 describe('buildCommand', () => {
     /**
      * The server is **compiled**, not bundled, and that is a correctness
-     * requirement rather than a preference: every Apograph plugin locates its
+     * requirement rather than a preference: every Ortha plugin locates its
      * migrations as `join(__dirname, '../../../migrations')`, which resolves to
      * its own package root inside `node_modules` and stops resolving the moment
      * a bundler flattens those files into one. So the server half of a build is

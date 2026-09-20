@@ -9,13 +9,13 @@ import {
     TopBar,
     TopBarActions,
     TopBarIcon
-} from '@apograph/design-system';
-import { useCurrentWorkspace } from '@apograph/workspaces-admin';
+} from '@ortha/design-system';
+import { useCurrentWorkspace } from '@ortha/workspaces-admin';
 import { InsightsRangeProvider } from '../../../hooks/useInsightsRange';
 import { useInsightsLayout } from '../../../hooks/useInsightsLayout';
 import { InsightsRangePicker } from '../../components/InsightsRangePicker';
 import { InsightsSectionBand } from '../../components/InsightsSectionBand';
-import { useDocumentTitle } from '@apograph/utils-admin';
+import { useDocumentTitle } from '@ortha/utils-admin';
 
 /** Intl descriptors for the insights page, co-located here. */
 const messages = defineMessages({

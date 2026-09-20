@@ -1,5 +1,5 @@
 import { Navigate, useParams } from 'react-router-dom';
-import { useCurrentWorkspace } from '@apograph/workspaces-admin';
+import { useCurrentWorkspace } from '@ortha/workspaces-admin';
 import type { ContentType } from '../../../domain/types/contentType';
 import {
     CONTENT_SEGMENT,

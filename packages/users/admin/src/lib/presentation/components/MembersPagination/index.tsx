@@ -11,7 +11,7 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 
 /** Intl descriptors for {@link MembersPagination}, co-located with the component. */
 const messages = defineMessages({

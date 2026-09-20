@@ -9,7 +9,7 @@
  * replace the first — for a filter surface that means fields quietly vanishing
  * from the picker and saved filters starting to 400.
  *
- * So a plugin registers here instead (`@apograph/segments-server` contributes
+ * So a plugin registers here instead (`@ortha/segments-server` contributes
  * "can be seen by" / "cannot be seen by" / "restricted"), the same shape and the
  * same reason as `contentReadScopeRegistrar`. The bound extension keeps its
  * method; {@link EntryFilterProviderRegistry.compose} folds the two together
@@ -40,7 +40,7 @@ import {
     type Provider,
     type Type
 } from '@nestjs/common';
-import type { FieldSchema } from '@apograph/utils-server';
+import type { FieldSchema } from '@ortha/utils-server';
 import type { AnyContentType } from '../types/content-type';
 import type { EntryFilterExtension } from './entry-extension';
 

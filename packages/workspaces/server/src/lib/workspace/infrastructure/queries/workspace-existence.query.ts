@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { inArray } from 'drizzle-orm';
-import { InjectDatabase, type Database } from '@apograph/database';
-import type { WorkspaceDirectory } from '@apograph/identity-server';
+import { InjectDatabase, type Database } from '@ortha/database';
+import type { WorkspaceDirectory } from '@ortha/identity-server';
 import { workspaces } from '../schema/workspaces';
 
 /**

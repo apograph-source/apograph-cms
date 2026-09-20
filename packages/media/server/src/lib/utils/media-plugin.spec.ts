@@ -1,5 +1,5 @@
 import type { DynamicModule, ValueProvider } from '@nestjs/common';
-import { STORAGE_PROVIDER, type StorageProvider } from '@apograph/media-domain';
+import { STORAGE_PROVIDER, type StorageProvider } from '@ortha/media-domain';
 import type { MediaPluginConfig } from '../types/media-config';
 import { MediaServerPlugin, type MediaPluginOptions } from './media-plugin';
 

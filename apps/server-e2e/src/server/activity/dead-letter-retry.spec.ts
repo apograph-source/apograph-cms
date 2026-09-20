@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { MAX_DELIVERY_ATTEMPTS, OutboxDispatcher } from '@apograph/database';
+import { MAX_DELIVERY_ATTEMPTS, OutboxDispatcher } from '@ortha/database';
 import {
     closeTestApp,
     createTestApp,

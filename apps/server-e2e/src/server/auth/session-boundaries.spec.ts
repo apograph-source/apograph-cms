@@ -18,11 +18,11 @@ import {
 const EMAIL = 'session-bounds@example.com';
 const PASSWORD = 'SecurePass123!';
 
-/** The `apograph_session=<token>` pair from a login response. */
+/** The `ortha_session=<token>` pair from a login response. */
 function sessionCookie(res: request.Response): string {
     const setCookie = res.headers['set-cookie'] as unknown as string[];
     const cookie = setCookie
-        .find((c) => c.startsWith('apograph_session='))
+        .find((c) => c.startsWith('ortha_session='))
         ?.split(';')[0];
     if (!cookie) {
         throw new Error('login did not set a session cookie');
@@ -187,7 +187,7 @@ describe('Session lifetime boundaries', () => {
         it('401s on an empty session value', async () => {
             await request(harness.server)
                 .get('/api/auth/me')
-                .set('Cookie', 'apograph_session=')
+                .set('Cookie', 'ortha_session=')
                 .expect(401);
         });
 

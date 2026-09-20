@@ -1,5 +1,5 @@
 /**
- * Public API of `@apograph/content-domain` — the shared content **kernel**.
+ * Public API of `@ortha/content-domain` — the shared content **kernel**.
  *
  * Pure TypeScript (no React, no NestJS, no Drizzle): the rules both the server
  * and the admin must apply identically. Per ADR-0003 this is the single

@@ -15,7 +15,7 @@
  * another plugin's release has to keep compatible.
  */
 
-import type { OpenApiDocument } from '@apograph/bootstrap-server';
+import type { OpenApiDocument } from '@ortha/bootstrap-server';
 import {
     addErrorResponse,
     ref,

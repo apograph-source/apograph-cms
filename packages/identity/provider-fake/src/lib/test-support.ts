@@ -1,7 +1,7 @@
 import type {
     SsoAuthorizeRequest,
     SsoCallback
-} from '@apograph/identity-domain';
+} from '@ortha/identity-domain';
 import type { FakeSsoProvider } from './fake-sso-provider';
 
 /**

@@ -23,7 +23,7 @@
  */
 
 import { inflateRawSync } from 'node:zlib';
-import type { TransferLimits } from '@apograph/transfer-domain';
+import type { TransferLimits } from '@ortha/transfer-domain';
 
 /** Signatures. */
 const CENTRAL_HEADER = 0x02014b50;

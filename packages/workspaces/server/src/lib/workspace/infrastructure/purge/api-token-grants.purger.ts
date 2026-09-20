@@ -1,7 +1,7 @@
 import { Injectable, OnModuleInit, Optional } from '@nestjs/common';
 import { eq } from 'drizzle-orm';
-import { UnitOfWork } from '@apograph/database';
-import { apiTokenWorkspaces } from '@apograph/identity-server';
+import { UnitOfWork } from '@ortha/database';
+import { apiTokenWorkspaces } from '@ortha/identity-server';
 import type {
     WorkspacePurger,
     WorkspacePurgeOutcome
@@ -14,7 +14,7 @@ import { WorkspacePurgeRegistry } from '../../application/workspace-purge.regist
  * **Why this lives in the workspaces package rather than in identity.** Every
  * other purger registers itself from its own plugin, which is the inversion
  * that keeps the graph acyclic. Identity is the one case where that direction
- * is reversed: *this* package depends on `@apograph/identity-server` (for
+ * is reversed: *this* package depends on `@ortha/identity-server` (for
  * `PublicUser`, the RBAC guards, the users table), so identity cannot depend
  * back on it to reach `WorkspacePurgeRegistry`. The adapter therefore sits on
  * this side, reaching into identity's table the same way

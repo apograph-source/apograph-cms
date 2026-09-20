@@ -10,7 +10,7 @@ import {
     DialogHeader,
     DialogTitle,
     Spinner
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 
 /** Props for {@link BlockingConfirmDialog}. */
 export type BlockingConfirmDialogProps = {

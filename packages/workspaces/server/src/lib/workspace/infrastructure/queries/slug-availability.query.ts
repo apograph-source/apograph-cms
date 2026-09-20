@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { eq } from 'drizzle-orm';
-import { InjectDatabase, type Database } from '@apograph/database';
+import { InjectDatabase, type Database } from '@ortha/database';
 import { workspaces } from '../schema/workspaces';
 
 /**

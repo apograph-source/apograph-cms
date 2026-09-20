@@ -1,10 +1,10 @@
-import { createTestkitMailProvider } from '@apograph/mail-provider-testkit';
-import type { MailProvider } from '@apograph/mail-domain';
+import { createTestkitMailProvider } from '@ortha/mail-provider-testkit';
+import type { MailProvider } from '@ortha/mail-domain';
 import { MailServerPlugin, type MailPluginOptions } from './mail-plugin';
 
 const config = {
     appUrl: 'https://cms.example.com',
-    from: 'Apograph <no-reply@example.com>'
+    from: 'Ortha <no-reply@example.com>'
 };
 
 const options = (overrides: Partial<MailPluginOptions> = {}) =>

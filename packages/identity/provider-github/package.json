@@ -1,5 +1,5 @@
 {
-    "name": "@apograph/identity-provider-github",
+    "name": "@ortha/identity-provider-github",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -16,6 +16,6 @@
         "src"
     ],
     "dependencies": {
-        "@apograph/identity-domain": "*"
+        "@ortha/identity-domain": "*"
     }
 }

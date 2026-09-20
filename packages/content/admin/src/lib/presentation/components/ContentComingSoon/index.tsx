@@ -6,7 +6,7 @@ import {
     EmptyHeader,
     EmptyMedia,
     EmptyTitle
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 
 type ContentComingSoonProps = {
     /** Illustrative icon for the empty state. */

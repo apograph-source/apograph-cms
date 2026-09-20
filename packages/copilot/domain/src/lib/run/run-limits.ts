@@ -39,7 +39,7 @@ export interface RunLimits {
  *
  * Each is overridable per deployment — see `CopilotPluginConfig.limits`, and
  * `COPILOT_MAX_STEPS` / `COPILOT_WALL_CLOCK_MS` / `COPILOT_MAX_TOTAL_TOKENS`
- * in the host's `apograph.config.ts`.
+ * in the host's `ortha.config.ts`.
  */
 export const DEFAULT_RUN_LIMITS: RunLimits = {
     maxSteps: 30,

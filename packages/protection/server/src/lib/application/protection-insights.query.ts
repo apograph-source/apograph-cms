@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { and, count, eq, isNull, lt, sql } from 'drizzle-orm';
-import { InjectDatabase, type Database } from '@apograph/database';
+import { InjectDatabase, type Database } from '@ortha/database';
 import { reviewRequests } from '../infrastructure/schema/review-requests';
 import type { ProtectionInsightsView } from '../types/protection-views';
 import { OVERDUE_AFTER_DAYS } from './overdue';

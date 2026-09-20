@@ -1,5 +1,5 @@
 {
-    "name": "@apograph/mcp-server",
+    "name": "@ortha/mcp-server",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -19,9 +19,9 @@
         "@modelcontextprotocol/sdk": "^1.30.0",
         "@nestjs/common": "^11.0.0",
         "@nestjs/swagger": "^11.4.6",
-        "@apograph/bootstrap-server": "*",
-        "@apograph/identity-server": "*",
-        "@apograph/tools-server": "*",
-        "@apograph/workspaces-server": "*"
+        "@ortha/bootstrap-server": "*",
+        "@ortha/identity-server": "*",
+        "@ortha/tools-server": "*",
+        "@ortha/workspaces-server": "*"
     }
 }

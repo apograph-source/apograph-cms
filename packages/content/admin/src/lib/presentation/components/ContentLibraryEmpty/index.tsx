@@ -6,7 +6,7 @@ import {
     EmptyHeader,
     EmptyMedia,
     EmptyTitle
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import { PackageOpen } from 'lucide-react';
 
 /** Intl descriptors for the no-content-types state, co-located here. */

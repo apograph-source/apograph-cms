@@ -1,4 +1,4 @@
-import type { CopilotRunEvent } from '@apograph/copilot-domain';
+import type { CopilotRunEvent } from '@ortha/copilot-domain';
 import { chatReducer, initialChatState, type ChatAction } from './chatReducer';
 import type {
     ChatMessage,

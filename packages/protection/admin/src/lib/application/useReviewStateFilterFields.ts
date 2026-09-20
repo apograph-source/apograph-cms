@@ -3,8 +3,8 @@ import {
     FIELD_TYPE,
     OP,
     type FilterField
-} from '@apograph/query-builder-admin';
-import type { ContentTypeDetail } from '@apograph/content-admin';
+} from '@ortha/query-builder-admin';
+import type { ContentTypeDetail } from '@ortha/content-admin';
 
 const messages = defineMessages({
     reviewState: {

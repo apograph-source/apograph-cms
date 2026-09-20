@@ -5,8 +5,8 @@ import {
     type OnApplicationBootstrap
 } from '@nestjs/common';
 import { sql } from 'drizzle-orm';
-import { InjectDatabase, type Database } from '@apograph/database';
-import { STORAGE_PROVIDER, type StorageProvider } from '@apograph/media-domain';
+import { InjectDatabase, type Database } from '@ortha/database';
+import { STORAGE_PROVIDER, type StorageProvider } from '@ortha/media-domain';
 import { mediaAsset } from './schema/media-asset';
 
 /**

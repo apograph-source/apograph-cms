@@ -1,4 +1,4 @@
-import type { OpenApiDocument } from '@apograph/bootstrap-server';
+import type { OpenApiDocument } from '@ortha/bootstrap-server';
 import { describeIdentityApi, tailAfter } from './describe-identity-api';
 
 /** An operation as the scanner leaves it: a status code and nothing else. */

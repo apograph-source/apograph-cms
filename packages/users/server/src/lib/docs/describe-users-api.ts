@@ -16,7 +16,7 @@
  * left exactly as the scanner emitted it.
  */
 
-import type { OpenApiDocument } from '@apograph/bootstrap-server';
+import type { OpenApiDocument } from '@ortha/bootstrap-server';
 import { ASSIGNABLE_ROLE_KEYS } from '../member/domain/value-objects/role';
 
 /** A JSON Schema fragment, as it appears in the OpenAPI document. */
@@ -220,7 +220,7 @@ const MEMBER = answers('Member', 'The member, as it now stands.');
  * `/{id}/invites` (DELETE) is absent because it answers `204` — it has no body
  * rather than an undescribed one. `/{id}/sessions` and
  * `/{id}/sessions/{sessionId}` are absent because they belong to
- * `@apograph/identity-server`, which describes them itself.
+ * `@ortha/identity-server`, which describes them itself.
  */
 const MEMBER_ROUTES: Record<string, Record<string, OperationSpec>> = {
     '': { get: answers('MemberPage', 'One page of members.') },

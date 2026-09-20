@@ -1,4 +1,4 @@
-import type { AvatarColor } from '@apograph/design-system';
+import type { AvatarColor } from '@ortha/design-system';
 
 /** A workspace as the invite wizard's assignment step (and the add-to-workspaces dialog) render it. */
 export type WorkspaceOption = {

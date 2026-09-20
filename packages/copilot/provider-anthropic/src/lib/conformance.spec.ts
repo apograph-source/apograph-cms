@@ -3,7 +3,7 @@ import {
     runModelProviderConformance,
     type ModelProviderConformanceReport,
     type ModelRequest
-} from '@apograph/copilot-domain';
+} from '@ortha/copilot-domain';
 import { createAnthropicProvider } from './anthropic-provider';
 
 const mockStream = jest.fn();

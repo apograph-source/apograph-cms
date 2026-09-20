@@ -1,8 +1,8 @@
-# Scaffolding templates for `create-apograph-app`.
+# Scaffolding templates for `create-ortha-app`.
 #
 # They are app-shaped files, not workspace source: `templates/default` holds an
-# `apograph.config.ts`, a `package.json.tmpl` and its own tsconfigs, and Nx's
-# inference walks the whole tree. Left visible, `@apograph/nx` infers a
+# `ortha.config.ts`, a `package.json.tmpl` and its own tsconfigs, and Nx's
+# inference walks the whole tree. Left visible, `@ortha/nx` infers a
 # `db:migrate` target onto `templates/default/src/server` — a directory with no
 # project name — and the graph fails to build at all, taking every `nx` command
 # in the repo with it.
@@ -10,14 +10,14 @@
 # `.nxignore` rather than a per-plugin `exclude` because every inference plugin
 # has the same problem here, not just ours: `@nx/js/typescript` would infer a
 # `typecheck` from the template's tsconfigs just as readily.
-packages/create-apograph-app/templates
+packages/create-ortha-app/templates
 
 # The scratch apps two specs render to check the generated config and plugin
 # list. They live inside the package rather than in a temp directory on purpose:
-# the rendered app resolves `@apograph/*` by walking up to the repo's own
+# the rendered app resolves `@ortha/*` by walking up to the repo's own
 # `node_modules`, which it cannot do from `/tmp`. They are also created and
 # deleted inside a single test run, so anything that walks the tree — the graph,
-# and `create-apograph-app:lint`, which Nx has already flagged as flaky — races
+# and `create-ortha-app:lint`, which Nx has already flagged as flaky — races
 # them and fails on a directory that has since gone.
-packages/create-apograph-app/.rendered-*
+packages/create-ortha-app/.rendered-*
 

@@ -1,6 +1,6 @@
 /** Mail — the one backend this deployment sends through, and what it sends as. */
-import type { MailPluginConfig } from '@apograph/mail-server';
-import type { SmtpMailProviderOptions } from '@apograph/mail-provider-smtp';
+import type { MailPluginConfig } from '@ortha/mail-server';
+import type { SmtpMailProviderOptions } from '@ortha/mail-provider-smtp';
 
 import {
     defined,
@@ -9,7 +9,7 @@ import {
     readOptionalPositiveInt,
     requireEnv,
     when
-} from '@apograph/utils-server';
+} from '@ortha/utils-server';
 
 /**
  * Which backend `plugins.ts` constructs, or `undefined` for a deployment that
@@ -33,7 +33,7 @@ export type MailBackend = 'smtp' | 'console';
  * `plugins.ts` already imports the adapter factory, so importing its config
  * type costs no new coupling.
  */
-export interface ApographMailConfig extends MailPluginConfig {
+export interface OrthaMailConfig extends MailPluginConfig {
     /** Which adapter `plugins.ts` constructs. */
     backend: MailBackend;
     /** Whatever the SMTP adapter needs; absent on `console`. */
@@ -69,7 +69,7 @@ function backend(): MailBackend | undefined {
  *   and the refusal would otherwise surface on somebody's first invitation
  *   rather than at boot.
  */
-export function mailConfig(): ApographMailConfig | undefined {
+export function mailConfig(): OrthaMailConfig | undefined {
     const selected = backend();
     if (!selected) return undefined;
 
@@ -83,7 +83,7 @@ export function mailConfig(): ApographMailConfig | undefined {
         from: requireEnv(
             'MAIL_FROM',
             'Mail is configured (MAIL_PROVIDER is set), so messages need a sender — e.g. ' +
-                '"Apograph <no-reply@example.com>".'
+                '"Ortha <no-reply@example.com>".'
         ),
         replyTo: readEnv('MAIL_REPLY_TO'),
         productName: readEnv('MAIL_PRODUCT_NAME'),

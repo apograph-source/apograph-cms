@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useAppearance } from '@apograph/design-system';
+import { useAppearance } from '@ortha/design-system';
 import { usePreferences } from '../../../application/usePreferences';
 
 /**

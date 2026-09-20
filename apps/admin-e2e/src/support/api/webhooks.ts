@@ -50,7 +50,7 @@ export const WEBHOOKS_SEED: WebhookEndpointSeed[] = [
     {
         id: 'wh_active',
         name: 'Rebuild the storefront',
-        url: 'https://storefront.example.com/hooks/apograph',
+        url: 'https://storefront.example.com/hooks/ortha',
         secretHint: 'a1b2',
         enabled: true,
         // Empty filters — the table must read these as "All events" and "All

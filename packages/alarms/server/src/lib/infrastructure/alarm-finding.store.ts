@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { and, count, desc, eq, inArray, ne, sql } from 'drizzle-orm';
-import { InjectDatabase, type Database } from '@apograph/database';
+import { InjectDatabase, type Database } from '@ortha/database';
 import { FINDING_STATE, type FindingState } from '../domain/finding-state';
 import {
     isAlarmSeverity,

@@ -15,7 +15,7 @@ import {
     UseGuards
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { attachActor, OutboxWriter, UnitOfWork } from '@apograph/database';
+import { attachActor, OutboxWriter, UnitOfWork } from '@ortha/database';
 import {
     COPILOT_EVENT_KINDS,
     copilotSkillEvent
@@ -27,8 +27,8 @@ import {
     PermissionsGuard,
     RequirePermissions,
     type PublicUser
-} from '@apograph/identity-server';
-import { CurrentWorkspace, WorkspaceGuard } from '@apograph/workspaces-server';
+} from '@ortha/identity-server';
+import { CurrentWorkspace, WorkspaceGuard } from '@ortha/workspaces-server';
 import {
     SkillCatalogService,
     type SkillSummary

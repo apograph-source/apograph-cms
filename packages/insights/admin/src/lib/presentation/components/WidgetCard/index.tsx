@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
-import { Card, CardContent, Skeleton } from '@apograph/design-system';
+import { Card, CardContent, Skeleton } from '@ortha/design-system';
 
 /** Intl descriptors for the shared widget shell, co-located here. */
 const messages = defineMessages({

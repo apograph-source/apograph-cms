@@ -1,5 +1,5 @@
 {
-    "name": "@apograph/design-system",
+    "name": "@ortha/design-system",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",

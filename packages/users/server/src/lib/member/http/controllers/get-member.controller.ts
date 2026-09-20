@@ -10,7 +10,7 @@ import {
     PERMISSIONS,
     PermissionsGuard,
     RequirePermissions
-} from '@apograph/identity-server';
+} from '@ortha/identity-server';
 import { MemberViewQuery } from '../../infrastructure/queries/member-view.query';
 import type { MemberView } from '../../application/queries/member.view';
 

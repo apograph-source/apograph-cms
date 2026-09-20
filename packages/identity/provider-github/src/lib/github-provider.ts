@@ -6,7 +6,7 @@ import {
     type SsoProfile,
     type SsoProvider,
     type SsoProviderDescriptor
-} from '@apograph/identity-domain';
+} from '@ortha/identity-domain';
 import {
     resolveGithubConfig,
     type GithubProviderConfig,

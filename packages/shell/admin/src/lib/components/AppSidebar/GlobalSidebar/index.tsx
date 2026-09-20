@@ -1,5 +1,5 @@
 import { defineMessages, useIntl } from 'react-intl';
-import { AuthStatus, useAuth } from '@apograph/identity-admin';
+import { AuthStatus, useAuth } from '@ortha/identity-admin';
 import {
     Logo,
     SidebarContent,
@@ -9,8 +9,8 @@ import {
     SidebarHeader,
     SidebarMenu,
     SidebarTrigger
-} from '@apograph/design-system';
-import { byOrder } from '@apograph/utils-admin';
+} from '@ortha/design-system';
+import { byOrder } from '@ortha/utils-admin';
 import {
     SIDEBAR_NAV_SLOT,
     SIDEBAR_SECTION_SLOT,
@@ -80,7 +80,7 @@ export function GlobalSidebar() {
                     <span className="flex items-center gap-2">
                         <Logo showLabel={false} aria-hidden />
                         <span className="text-sm font-semibold">
-                            Apograph CMS
+                            Ortha CMS
                         </span>
                     </span>
                     {/* In-header trigger, only reachable while the sidebar is

@@ -1,10 +1,10 @@
 {
-    "name": "@apograph/cli",
+    "name": "@ortha/cli",
     "version": "0.5.2",
     "license": "MIT",
-    "description": "The `apograph` command — build, run and migrate an Apograph CMS app.",
+    "description": "The `ortha` command — build, run and migrate an Ortha CMS app.",
     "bin": {
-        "apograph": "./src/cli.ts"
+        "ortha": "./src/cli.ts"
     },
     "main": "./src/index.ts",
     "types": "./src/index.ts",
@@ -17,7 +17,7 @@
         "./package.json": "./package.json"
     },
     "dependencies": {
-        "@apograph/bootstrap-server": "*",
+        "@ortha/bootstrap-server": "*",
         "drizzle-kit": "^0.31.0",
         "drizzle-orm": "^0.45.0",
         "pg": "^8.13.0"

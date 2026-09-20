@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { Globe, Lock, Search, ShieldCheck } from 'lucide-react';
-import { ChangedBadge, type EntryTabContext } from '@apograph/content-admin';
-import { useHasPermission } from '@apograph/identity-admin';
-import { useDebouncedValue } from '@apograph/utils-admin';
-import { Badge, Button, Input, Skeleton } from '@apograph/design-system';
+import { ChangedBadge, type EntryTabContext } from '@ortha/content-admin';
+import { useHasPermission } from '@ortha/identity-admin';
+import { useDebouncedValue } from '@ortha/utils-admin';
+import { Badge, Button, Input, Skeleton } from '@ortha/design-system';
 import {
     isOpen,
     sameAccess,

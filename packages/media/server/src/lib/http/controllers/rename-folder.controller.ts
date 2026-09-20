@@ -13,8 +13,8 @@ import {
     PermissionsGuard,
     RequirePermissions,
     type PublicUser
-} from '@apograph/identity-server';
-import { CurrentWorkspace, WorkspaceGuard } from '@apograph/workspaces-server';
+} from '@ortha/identity-server';
+import { CurrentWorkspace, WorkspaceGuard } from '@ortha/workspaces-server';
 import { RenameFolderUseCase } from '../../application/use-cases/rename-folder.use-case';
 import { RenameFolderDto } from '../../application/dto/rename-folder.dto';
 import { toHttp } from '../to-http';

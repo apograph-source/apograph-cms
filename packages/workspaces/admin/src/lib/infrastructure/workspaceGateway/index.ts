@@ -1,4 +1,4 @@
-import type { AvatarColor } from '@apograph/design-system';
+import type { AvatarColor } from '@ortha/design-system';
 import type { Workspace, WorkspaceStatus } from '../../domain/types/workspace';
 import type {
     ContentType,

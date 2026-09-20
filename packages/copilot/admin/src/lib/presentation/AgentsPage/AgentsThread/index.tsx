@@ -8,9 +8,9 @@ import {
     Button,
     Skeleton,
     SkeletonRegion
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import { useAgentThread } from '../../../application/useAgentThread';
-import { useHasPermission } from '@apograph/identity-admin';
+import { useHasPermission } from '@ortha/identity-admin';
 import { MEDIA_CREATE } from '../../../domain/agentsRoute';
 import { useComposerAttachments } from '../../../application/useComposerAttachments';
 import { useComposerSkills } from '../../../application/useComposerSkills';

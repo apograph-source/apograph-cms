@@ -1,4 +1,4 @@
-import { PERMISSIONS } from '@apograph/identity-server';
+import { PERMISSIONS } from '@ortha/identity-server';
 import type { ActivityService } from '../activity/services/activity.service';
 import { ActivityCopilotToolProvider } from './activity-tool.provider';
 

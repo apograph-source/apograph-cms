@@ -4,8 +4,8 @@ import {
     toTokenActor,
     type EntryLocator,
     type RelationDelta
-} from '@apograph/content-server';
-import { PERMISSIONS } from '@apograph/identity-server';
+} from '@ortha/content-server';
+import { PERMISSIONS } from '@ortha/identity-server';
 import { validateSync } from 'class-validator';
 import type { GraphQLFieldResolver } from 'graphql';
 import type { GraphqlContext } from './context';

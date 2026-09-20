@@ -1,4 +1,4 @@
-import type { JsonSchema } from '@apograph/tools-server';
+import type { JsonSchema } from '@ortha/tools-server';
 import {
     BULK_MAX_IDS,
     BULK_MAX_SAVE_ITEMS,

@@ -4,11 +4,11 @@ import {
     Tooltip,
     TooltipContent,
     TooltipTrigger
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import {
     EntrySidebarRow,
     type EntrySlotContext
-} from '@apograph/content-admin';
+} from '@ortha/content-admin';
 import { LOCALE_GROUP_PARAM } from '../../constants';
 
 const messages = defineMessages({

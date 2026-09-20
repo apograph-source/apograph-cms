@@ -1,4 +1,4 @@
-import { collection, field } from '@apograph/content-server/define';
+import { collection, field } from '@ortha/content-server/define';
 
 /**
  * `test_author` — the e2e-owned equivalent of the app's `author`. The "one"

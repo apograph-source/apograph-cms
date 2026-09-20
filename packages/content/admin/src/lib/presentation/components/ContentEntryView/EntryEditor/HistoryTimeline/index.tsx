@@ -6,7 +6,7 @@ import {
     CardHeader,
     CardTitle,
     Spinner
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import type { ContentTypeDetail } from '../../../../../domain/types/contentType';
 import { useEntryRevisions } from '../../../../../application/useEntryRevisions';
 import { RevisionList } from '../RevisionList';

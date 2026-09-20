@@ -1,4 +1,4 @@
-import { SsoVerificationError } from '@apograph/identity-domain';
+import { SsoVerificationError } from '@ortha/identity-domain';
 import { createFakeSsoProvider } from './fake-sso-provider';
 import { CORE_SECRETS, callbackFrom } from './test-support';
 

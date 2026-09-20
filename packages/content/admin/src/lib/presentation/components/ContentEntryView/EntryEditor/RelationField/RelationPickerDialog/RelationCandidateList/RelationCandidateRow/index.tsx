@@ -1,7 +1,7 @@
 import { defineMessages, useIntl } from 'react-intl';
 import { ExternalLink } from 'lucide-react';
-import { Badge, Checkbox, buttonVariants, cn } from '@apograph/design-system';
-import { useCurrentWorkspace } from '@apograph/workspaces-admin';
+import { Badge, Checkbox, buttonVariants, cn } from '@ortha/design-system';
+import { useCurrentWorkspace } from '@ortha/workspaces-admin';
 import type { RelationCandidate } from '../../../../../../../../application/useRelationCandidates';
 import { contentEntryPath } from '../../../../../../../../domain/contentEntryPath';
 

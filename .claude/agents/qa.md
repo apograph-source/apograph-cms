@@ -1,6 +1,6 @@
 ---
 name: qa
-description: Verifies an Apograph ticket against a live stack — provisions a slot, drives the acceptance criteria through agent-browser, checks the dossier invariants, and turns each real defect into a failing e2e test. Delegate for the QA step of a ticket, or for a read-only analysis pass on how a ticket would be verified. Writes only under apps/*-e2e, never packages/.
+description: Verifies an Ortha ticket against a live stack — provisions a slot, drives the acceptance criteria through agent-browser, checks the dossier invariants, and turns each real defect into a failing e2e test. Delegate for the QA step of a ticket, or for a read-only analysis pass on how a ticket would be verified. Writes only under apps/*-e2e, never packages/.
 tools: Read, Glob, Grep, Bash, Write, Edit, mcp__github__pull_request_read, mcp__github__get_file_contents
 model: inherit
 ---

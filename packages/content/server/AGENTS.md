@@ -1,6 +1,6 @@
-# @apograph/content-server
+# @ortha/content-server
 
-The content-modeling **plugin** for the Apograph CMS server. It turns
+The content-modeling **plugin** for the Ortha CMS server. It turns
 **code-defined** content types into physical Postgres tables, holds them in a
 runtime **registry**, serves that schema to the admin, and validates entry
 values against it. It owns **no database connection and no migrations of its
@@ -76,7 +76,7 @@ ProseMirror/TipTap node tree), stored in a `jsonb` column — not an opaque HTML
 string. That is what lets the platform express and check a body's heading
 order, its tables' header cells, its link text, and the language of a quoted
 passage (WCAG 1.3.1 / 2.4.6 / 3.1.2); the rules themselves live once, in
-`@apograph/content-domain`'s rich-text module, so the admin applies exactly
+`@ortha/content-domain`'s rich-text module, so the admin applies exactly
 what the server enforces.
 
 Three consequences worth knowing:
@@ -239,7 +239,7 @@ occupied" would send the caller to fix the wrong thing.
 
 `src/lib/extension/entry-extension.ts` declares a DI port (a `Symbol` + the
 `ContentEntryExtension` interface) that a downstream plugin (e.g.
-`@apograph/i18n-server`) **binds** to extend the generic entries pipeline —
+`@ortha/i18n-server`) **binds** to extend the generic entries pipeline —
 the same inversion as identity's `CONTENT_CATALOG`, roles swapped: the consumer
 of the behavior declares the port here, the provider binds it. `EntriesService`
 and `EntryWriterService` inject it with `@Optional()` and call it
@@ -309,8 +309,8 @@ the **public** content API returns. `PublicEntriesQuery` and
 `PublicExpansionQuery` inject it `@Optional()` and AND every returned fragment
 onto the visibility predicate they already state, so a scope can only ever
 subtract rows — there is no return value that widens a read.
-`@apograph/segments-server` is the first implementation (reader entitlements,
-over the `@apograph/segments-domain` kernel); with nothing registered — the
+`@ortha/segments-server` is the first implementation (reader entitlements,
+over the `@ortha/segments-domain` kernel); with nothing registered — the
 state of an installation that has not enabled it — the port costs a length
 check.
 
@@ -358,8 +358,8 @@ restriction goes _inside_ the window and the count.
 
 `src/lib/extension/publish-guard.ts` declares a fourth port: how a downstream
 plugin **refuses a publish**, without this package learning why.
-`@apograph/protection-server` is the first implementation (approval rules over
-the `@apograph/protection-domain` kernel).
+`@ortha/protection-server` is the first implementation (approval rules over
+the `@ortha/protection-domain` kernel).
 
 **It is the third gate, and the order is load-bearing.** The
 `content:publish` permission answers first (403, and the admin never rendered
@@ -410,7 +410,7 @@ per-locale verdict.
 `src/lib/extension/entry-write-extension.ts` declares a third port: how a
 downstream plugin stores state **about** an entry — in a table content-server
 knows nothing about — inside the entry's own write transaction and inside the
-entry's own version history. `@apograph/segments-server` binds one under the key
+entry's own version history. `@ortha/segments-server` binds one under the key
 `access`, so who may read a record is set on Save.
 
 The wire is the save body's `extensions` bag (`SaveEntryDto.extensions`),
@@ -491,7 +491,7 @@ the same shape and the same reason as `contentReadScopeRegistrar`.
 every registered provider into the one `EntryFilterExtension` the query path
 already understands, so `EntriesService.listWhere` and `EntryMatchQuery` changed
 by one call each and nothing downstream moved.
-`@apograph/segments-server` fills it with **who can read this** — `audienceAllowed`,
+`@ortha/segments-server` fills it with **who can read this** — `audienceAllowed`,
 `audienceDenied`, `accessRestricted`.
 
 Three rules a contribution owes:
@@ -581,7 +581,7 @@ null value false`. It was not _reachable_, though: **`admin_content_types`
   collapse, link sets compare order-sensitively. The duplication is deliberate
   until the two sides' schema types are unified — noted at the call site.
 - Both providers are registered by `copilotToolsRegistrar('content', …)` from
-  `@apograph/copilot-server`, in `ContentModule.forRoot`'s `providers`.
+  `@ortha/copilot-server`, in `ContentModule.forRoot`'s `providers`.
   Registration is a **runtime `register(...)` call**, not a multi-provider
   binding: Nest cannot merge a multi-provider token across independent dynamic
   modules, so a second binder (media, i18n, …) would silently replace this one.
@@ -731,7 +731,7 @@ isn't enforced.
 ## The `/define` vs main-barrel split — IMPORTANT
 
 Collection files and the host's drizzle-kit schema entry MUST import from
-`@apograph/content-server/define`, **not** the main barrel. drizzle-kit bundles
+`@ortha/content-server/define`, **not** the main barrel. drizzle-kit bundles
 the schema's whole import graph with plain esbuild, which rejects the NestJS
 decorators the main barrel pulls in via its controllers. `/define` re-exports
 only the decorator-free DSL (`collection`, `single`, `field`, `joinTableOf`, types).
@@ -765,7 +765,7 @@ array in order with nothing declaring that dependency.
 Generate this package's own migrations with:
 
 ```bash
-npx nx run "@apograph/content-server:db:generate" --name=<change>
+npx nx run "@ortha/content-server:db:generate" --name=<change>
 ```
 
 ## HTTP surface (`/api/content-schema`, `/api/content`)
@@ -1015,7 +1015,7 @@ names a record across languages, and publishing "the record" would publish
 translations the caller never listed.
 
 **This same surface is also served over GraphQL** at `POST /api/v1/graphql`, by
-[`@apograph/content-graphql`](../graphql/AGENTS.md). That package is an
+[`@ortha/content-graphql`](../graphql/AGENTS.md). That package is an
 _adapter_, not a second API: its resolvers assemble the DTOs below and call
 `PublicEntriesQuery` / `PublicEntryWritesService`, so everything documented here
 — the bearer guards, the grant gate, `readableWhere`, the draft rule, the write
@@ -1345,7 +1345,7 @@ types.
 ## Agent tools (`src/lib/mcp/`)
 
 The same content CRUD, contributed to the shared **tool registry** in
-`@apograph/mcp-server` — so an MCP client (and, once its run engine lands, the
+`@ortha/mcp-server` — so an MCP client (and, once its run engine lands, the
 copilot) can do what the public API does. [ADR-0006](../../../docs/adr/0006-cms-as-an-mcp-server.md).
 
 ```
@@ -1378,7 +1378,7 @@ not be a fixed set anyway, since visible types depend on the token's grants. A
 model discovers one type's shape on demand with `content_type_get`, whose
 `valuesSchema` comes from the same `docs/field-schema.ts` the OpenAPI document
 uses. Granted types are also exposed as MCP **resources**
-(`apograph://content-type/<name>`), through the same grant gate.
+(`ortha://content-type/<name>`), through the same grant gate.
 
 **Authorization is declared, not implemented.** Each tool names its permissions
 in `requires`, and `ToolRegistry.call` enforces them before dispatch — the
@@ -1536,22 +1536,22 @@ backs _every_ content type, with no per-aggregate table or fixed field set. A
 classic row⇄aggregate aggregate + mapper would fight that metamodel (ADR-0003:
 "DDD where it pays, CRUD where it doesn't"). So the part with real invariants —
 the **publish lifecycle** — is modelled by the `Entry` domain object
-(`draft ↔ published` via the `@apograph/content-domain` state machine + publish
+(`draft ↔ published` via the `@ortha/content-domain` state machine + publish
 gate, raising `entry.published`/`entry.unpublished`), while the heavy,
 battle-tested column/relation/extension persistence stays as the
 `EntryWriterService` **infrastructure engine**. `domain/` imports nothing from
 `@nestjs/*`, `drizzle-orm`, `class-validator`, or `infrastructure/`
-(grep-enforced) — only the pure kernel and `@apograph/database`'s framework-free
+(grep-enforced) — only the pure kernel and `@ortha/database`'s framework-free
 `createDomainEvent`/`DomainEvent`.
 
-**The kernel (`@apograph/content-domain`).** Field-value validation and the
+**The kernel (`@ortha/content-domain`).** Field-value validation and the
 publish gate live in the shared kernel; `EntryValidationService` delegates to it
 (no behavior change) and the `Entry` model uses its `assertTransition`. See that
 package's `AGENTS.md`.
 
 **Use-cases + unit-of-work + outbox.** `publish`/`unpublish`/`bulk-publish`/
 `bulk-unpublish` run through use-cases inside a `UnitOfWork` (from
-`@apograph/database`), so the status write and the `entry.*` outbox event commit
+`@ortha/database`), so the status write and the `entry.*` outbox event commit
 **atomically**; the status SQL is small executor-parameterized primitives on the
 engine (`markPublished`/`markDraft`/`loadLiveByIdsForUpdate`/…). Bulk publish
 keeps its **single locked (`FOR UPDATE`) transaction** (the TOCTOU protection the
@@ -1698,7 +1698,7 @@ entryIds, workspaceId)` answers the same question for many entries in **one**
   which are extension points and are counted as such. Rows come back in no
   guaranteed order and an id with no revision is simply **absent**: to a caller
   "not yours", "wrong type" and "does not exist" are one fact, and reporting
-  them apart would be an enumeration signal. `@apograph/protection-server`'s
+  them apart would be an enumeration signal. `@ortha/protection-server`'s
   records column is the first consumer, and `review-status.spec.ts` pins its
   query count flat as the page grows.
 - **HTTP** (workspace-scoped, same guards as the entry routes):
@@ -1719,7 +1719,7 @@ entryIds, workspaceId)` answers the same question for many entries in **one**
 ## Insights read-model (`/api/insights/content/*`, `src/lib/insights/`)
 
 The aggregates behind the content widgets on the Insights page
-(`@apograph/insights-admin`). Six routes, all `content:read` +
+(`@ortha/insights-admin`). Six routes, all `content:read` +
 `WorkspaceGuard`, all read-only:
 
 | Route       | Answers                                                                                                        |
@@ -1852,9 +1852,9 @@ without a data migration.
   binds it.
 - Register **after** `DatabasePlugin` + `IdentityPlugin` (it uses identity's
   `PermissionsGuard` and, for the entries list, the shared Drizzle client).
-  Depends on `@apograph/identity-server` (guards), `@apograph/bootstrap-server`,
-  `@apograph/database` (`@InjectDatabase()` in `EntriesService`), and
-  `@apograph/utils-server` (the `?filter=` engine).
+  Depends on `@ortha/identity-server` (guards), `@ortha/bootstrap-server`,
+  `@ortha/database` (`@InjectDatabase()` in `EntriesService`), and
+  `@ortha/utils-server` (the `?filter=` engine).
 - `EntryValidationService` is the server-side authority for entry values (the
   admin renders the same rules as a courtesy). `EntryWriterService` calls it on
   every create/update and re-checks the stored row before any publish, so nothing
@@ -1870,8 +1870,8 @@ without a data migration.
 
 ## Commands
 
-- `npx nx typecheck @apograph/content-server` / `npx nx lint @apograph/content-server`
+- `npx nx typecheck @ortha/content-server` / `npx nx lint @ortha/content-server`
 - Migrations for the **generated collection tables** are generated on the host:
   `npx nx run server:db:generate --name=<change>`
 - Migrations for this package's **own** tables (`saved_views`):
-  `npx nx run "@apograph/content-server:db:generate" --name=<change>`
+  `npx nx run "@ortha/content-server:db:generate" --name=<change>`

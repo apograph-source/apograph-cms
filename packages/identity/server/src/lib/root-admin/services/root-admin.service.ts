@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { eq } from 'drizzle-orm';
-import { InjectDatabase, type Database } from '@apograph/database';
+import { InjectDatabase, type Database } from '@ortha/database';
 import { HashingService } from '../../auth/services/hashing.service';
 import { InjectIdentityConfig } from '../../identity.tokens';
 import type { IdentityPluginConfig } from '../../types';

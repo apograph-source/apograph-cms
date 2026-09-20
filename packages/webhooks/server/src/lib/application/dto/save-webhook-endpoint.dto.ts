@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { WEBHOOK_EVENT_KINDS } from '@apograph/webhooks-domain';
+import { WEBHOOK_EVENT_KINDS } from '@ortha/webhooks-domain';
 import {
     ArrayMaxSize,
     IsArray,
@@ -45,7 +45,7 @@ export class SaveWebhookEndpointDto {
         description:
             'Where deliveries are POSTed. Must be https:// and resolve to a public address unless the deployment allows otherwise.',
         maxLength: URL_MAX,
-        example: 'https://example.com/hooks/apograph'
+        example: 'https://example.com/hooks/ortha'
     })
     @IsString()
     @MinLength(1)
@@ -112,7 +112,7 @@ export class SaveWebhookEndpointDto {
 
     @ApiPropertyOptional({
         description:
-            'Extra static headers sent with every delivery. Delivery metadata headers (X-Apograph-*) and transport headers cannot be set.',
+            'Extra static headers sent with every delivery. Delivery metadata headers (X-Ortha-*) and transport headers cannot be set.',
         type: 'object',
         additionalProperties: { type: 'string' },
         example: { Authorization: 'Bearer …' }

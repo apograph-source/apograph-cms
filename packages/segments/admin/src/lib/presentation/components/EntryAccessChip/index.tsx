@@ -1,8 +1,8 @@
 import { defineMessages, useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { Globe, Lock } from 'lucide-react';
-import { ENTRY_MODE, type EntrySlotContext } from '@apograph/content-admin';
-import { Badge, Skeleton } from '@apograph/design-system';
+import { ENTRY_MODE, type EntrySlotContext } from '@ortha/content-admin';
+import { Badge, Skeleton } from '@ortha/design-system';
 import { isOpen } from '../../../domain/types';
 import { useEntryAccess, useSegments } from '../../../application/hooks';
 

@@ -1,4 +1,4 @@
-# @apograph/server-e2e
+# @ortha/server-e2e
 
 End-to-end tests for the NestJS API (`apps/server`). They boot the **real**
 server **in-process** against a throwaway Postgres **testcontainer** and drive
@@ -74,7 +74,7 @@ Set **`E2E_DATABASE_URL`** to point the run at an already-running Postgres and
 migrations first). For a sandbox or a Docker-less CI runner:
 
 ```bash
-E2E_DATABASE_URL=postgres://user@127.0.0.1:5432/apograph_e2e npx nx e2e server-e2e
+E2E_DATABASE_URL=postgres://user@127.0.0.1:5432/ortha_e2e npx nx e2e server-e2e
 ```
 
 **The database it names is truncated between every test.** That is why it is its
@@ -181,12 +181,12 @@ The guards are asserted by `src/harness/harness-guards.spec.ts`.
 - **Seed through DI**, never raw bcrypt/SQL for credentials.
 - **Cookie flows** use a `supertest.agent(harness.server)` so `Set-Cookie` from
   login is carried into the next request; for single requests forward the
-  `apograph_session=...` pair explicitly via `.set('Cookie', …)`.
+  `ortha_session=...` pair explicitly via `.set('Cookie', …)`.
 - `src/support/**` is exempt from `@nx/enforce-module-boundaries` (it
   deliberately imports the host app and a plugin internal); **specs are not** —
   keep cross-project imports in the support harness. (This is why the copilot
   suite reaches DI through `registerCopilotTools` / `copilotToolCallRows`
-  helpers rather than importing `@apograph/copilot-server` directly.)
+  helpers rather than importing `@ortha/copilot-server` directly.)
 
 ## Gotchas
 
@@ -206,7 +206,7 @@ The guards are asserted by `src/harness/harness-guards.spec.ts`.
 - Each spec **file** gets its own module registry (own app instance, own pool,
   own throttler) — that's why `closeTestApp` closes the pool per file. Two apps
   _in sequence_ in one file are fine; two apps _open at once_ are not, because
-  the `@apograph/database` handle is a module singleton.
+  the `@ortha/database` handle is a module singleton.
 
 ## No CI runs this suite
 

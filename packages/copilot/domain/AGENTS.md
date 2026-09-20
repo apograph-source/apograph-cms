@@ -1,4 +1,4 @@
-# @apograph/copilot-domain
+# @ortha/copilot-domain
 
 The copilot's **framework-free core**: the `ModelProvider` port and everything
 that crosses it, plus (as of phase 1) the tool contracts, the capability
@@ -118,7 +118,7 @@ does nothing.
 ### The offer-time gate
 
 The tool _contract_ and its registry are shared with the MCP endpoint and live
-in `@apograph/tools-server` (ADR-0007). `ToolSpec`, `ToolContext` and
+in `@ortha/tools-server` (ADR-0007). `ToolSpec`, `ToolContext` and
 `COPILOT_TOOL_PROVIDER` are gone from this package. What remains is what
 genuinely belongs to a framework-free core:
 
@@ -131,7 +131,7 @@ genuinely belongs to a framework-free core:
   type** (`AuthorizableTool`: `name`, `requires`, `effect`) rather than
   importing `ToolDefinition`, so this package still imports nothing and the
   server still passes the real registry's tools straight in.
-- `validateToolInput(input, schema)` **has moved to `@apograph/tools-server`**,
+- `validateToolInput(input, schema)` **has moved to `@ortha/tools-server`**,
   next to the `ToolDefinition.inputSchema` it interprets. Living here meant only
   the copilot's run loop applied it, while the MCP endpoint dispatched
   unvalidated arguments to the very same tools; `ToolRegistry.call` now applies
@@ -258,6 +258,6 @@ Do not delete it to satisfy a dead-code sweep.
 
 ## Commands
 
-- `npx nx typecheck @apograph/copilot-domain`
-- `npx nx lint @apograph/copilot-domain`
-- `npx nx test @apograph/copilot-domain`
+- `npx nx typecheck @ortha/copilot-domain`
+- `npx nx lint @ortha/copilot-domain`
+- `npx nx test @ortha/copilot-domain`

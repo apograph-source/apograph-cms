@@ -1,6 +1,6 @@
 import { defineMessages, useIntl } from 'react-intl';
 import { X } from 'lucide-react';
-import { cn } from '@apograph/design-system';
+import { cn } from '@ortha/design-system';
 import { EntrySidebarSection } from '../../../../EntrySidebarSection';
 
 /** One row of the publish gate: a field check with its live pass/fail. */

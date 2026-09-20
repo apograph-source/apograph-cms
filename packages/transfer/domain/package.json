@@ -1,5 +1,5 @@
 {
-    "name": "@apograph/transfer-domain",
+    "name": "@ortha/transfer-domain",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -16,6 +16,6 @@
         "src"
     ],
     "dependencies": {
-        "@apograph/content-domain": "*"
+        "@ortha/content-domain": "*"
     }
 }

@@ -7,9 +7,9 @@ import {
     AlertTitle,
     Button,
     toast
-} from '@apograph/design-system';
-import { useHasPermission } from '@apograph/identity-admin';
-import { ApiError, HTTP_STATUS } from '@apograph/utils-admin';
+} from '@ortha/design-system';
+import { useHasPermission } from '@ortha/identity-admin';
+import { ApiError, HTTP_STATUS } from '@ortha/utils-admin';
 import {
     useDeadLetters,
     DIALOG_DEAD_LETTER_LIMIT,

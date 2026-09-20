@@ -6,7 +6,7 @@ import {
     Popover,
     PopoverContent,
     PopoverTrigger
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import type {
     ContentField,
     RelationFieldView

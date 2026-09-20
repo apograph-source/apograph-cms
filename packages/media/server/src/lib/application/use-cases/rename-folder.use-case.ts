@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { attachActor, OutboxWriter, UnitOfWork } from '@apograph/database';
-import type { PublicUser } from '@apograph/identity-server';
+import { attachActor, OutboxWriter, UnitOfWork } from '@ortha/database';
+import type { PublicUser } from '@ortha/identity-server';
 import { FolderId } from '../../domain/value-objects/folder-id';
 import { FolderNotFoundError } from '../../domain/errors/folder-not-found.error';
 import {

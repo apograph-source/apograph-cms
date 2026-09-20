@@ -33,13 +33,13 @@ import {
     CardTitle,
     Skeleton,
     cn
-} from '@apograph/design-system';
-import { useHasPermission } from '@apograph/identity-admin';
+} from '@ortha/design-system';
+import { useHasPermission } from '@ortha/identity-admin';
 import {
     formatActivityAction,
     useActivityLog,
     type ActivityEvent
-} from '@apograph/activity-admin';
+} from '@ortha/activity-admin';
 import { MembersPagination } from '../../components/MembersPagination';
 import { useUserDetailContext } from '../../userDetailContext';
 

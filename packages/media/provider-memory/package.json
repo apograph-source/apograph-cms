@@ -1,5 +1,5 @@
 {
-    "name": "@apograph/media-provider-memory",
+    "name": "@ortha/media-provider-memory",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -16,9 +16,9 @@
         "src"
     ],
     "dependencies": {
-        "@apograph/media-domain": "*"
+        "@ortha/media-domain": "*"
     },
     "devDependencies": {
-        "@apograph/media-provider-testkit": "*"
+        "@ortha/media-provider-testkit": "*"
     }
 }

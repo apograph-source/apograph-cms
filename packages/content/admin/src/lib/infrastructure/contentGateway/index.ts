@@ -62,7 +62,7 @@ export type SaveEntryInput = {
     /**
      * State a **different plugin** owns about this entry, keyed by its extension
      * key — sent in the save body's `extensions` bag, on create **and** update.
-     * `@apograph/segments-admin` puts the entry's audiences there.
+     * `@ortha/segments-admin` puts the entry's audiences there.
      *
      * Unlike {@link extra} this is not create-only, because it is not an
      * envelope param: it is the plugin's own state, which an edit changes as

@@ -2,7 +2,7 @@ import request from 'supertest';
 import {
     WorkspacePurgeRegistry,
     type WorkspacePurgeOutcome
-} from '@apograph/workspaces-server';
+} from '@ortha/workspaces-server';
 import {
     closeTestApp,
     createTestApp,

@@ -39,7 +39,7 @@ export const apiTokens = pgTable('api_tokens', {
     tokenHash: text('token_hash').notNull().unique(),
     /**
      * The non-secret leading characters of the raw token (e.g.
-     * `apograph_ab12cd`). Safe to display so an admin can recognise a token
+     * `ortha_ab12cd`). Safe to display so an admin can recognise a token
      * in the list without ever seeing the secret again.
      */
     lookupPrefix: text('lookup_prefix').notNull(),
@@ -72,7 +72,7 @@ export const apiTokens = pgTable('api_tokens', {
  *
  * `token_id` cascades, so deleting a token can never leave orphan grants.
  * `workspace_id` is a plain uuid with **no** cross-plugin FK — the `workspaces`
- * table belongs to `@apograph/workspaces-server`, exactly like the
+ * table belongs to `@ortha/workspaces-server`, exactly like the
  * `workspace_id` on the generated `content_*` tables; tenancy is enforced in
  * the app layer.
  */

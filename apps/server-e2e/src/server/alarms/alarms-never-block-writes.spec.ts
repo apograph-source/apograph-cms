@@ -1,6 +1,6 @@
 import request from 'supertest';
-import { getPool } from '@apograph/database';
-import { ALARM_SEVERITIES } from '@apograph/alarms-server';
+import { getPool } from '@ortha/database';
+import { ALARM_SEVERITIES } from '@ortha/alarms-server';
 import {
     closeTestApp,
     createTestApp,

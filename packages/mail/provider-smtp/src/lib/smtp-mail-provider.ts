@@ -4,7 +4,7 @@ import {
     type MailMessage,
     type MailProvider,
     type MailReceipt
-} from '@apograph/mail-domain';
+} from '@ortha/mail-domain';
 import { describeSmtpError, isPermanentSmtpError } from './smtp-error';
 
 /** What this deployment's SMTP relay needs to be reached. */

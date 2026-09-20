@@ -3,7 +3,7 @@ import {
     type ModelChoice,
     type ModelProvider,
     type ModelRegistry
-} from '@apograph/copilot-domain';
+} from '@ortha/copilot-domain';
 
 /** One provider the host offers, under the name runs refer to it by. */
 export interface ProviderRegistration {

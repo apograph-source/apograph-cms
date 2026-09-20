@@ -1,7 +1,7 @@
 import { defineMessages, useIntl } from 'react-intl';
 import { useMatch } from 'react-router-dom';
 import { FileText, Search, Table2 } from 'lucide-react';
-import { cn } from '@apograph/design-system';
+import { cn } from '@ortha/design-system';
 import type { ContentType } from '../../../domain/types/contentType';
 import type { ContentFavorites } from '../../hooks/useContentFavorites';
 import { CONTENT_TYPE_KIND, TYPE_PARAM } from '../../../domain/constants';

@@ -8,7 +8,7 @@ import {
     type ModelStopReason,
     type ModelStreamEvent,
     type ModelUsage
-} from '@apograph/copilot-domain';
+} from '@ortha/copilot-domain';
 import {
     DEFAULT_TIMEOUT_MS,
     resolveCapabilities,

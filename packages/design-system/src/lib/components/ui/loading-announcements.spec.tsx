@@ -86,11 +86,11 @@ describe('announced loading surfaces', () => {
     });
 
     it('gives the boot loader one region inside its landmark [design-system:I-10]', () => {
-        render(<AppLoader label="Loading Apograph CMS…" />);
+        render(<AppLoader label="Loading Ortha CMS…" />);
 
         const regions = liveRegions();
         expect(regions).toHaveLength(1);
-        expect(regions[0].textContent).toContain('Loading Apograph CMS…');
+        expect(regions[0].textContent).toContain('Loading Ortha CMS…');
         // The role sits on the inner block, not on the root: `role="status"`
         // on the `<main>` would override the landmark and give back the
         // "everything is outside a region" failure it was added to fix.

@@ -3,7 +3,7 @@ import {
     getPool,
     MAX_DELIVERY_ATTEMPTS,
     OutboxDispatcher
-} from '@apograph/database';
+} from '@ortha/database';
 
 /** One `outbox_events` row, as the durability assertions read it. */
 export interface OutboxRow {

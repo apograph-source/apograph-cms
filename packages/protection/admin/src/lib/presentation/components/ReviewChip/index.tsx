@@ -1,7 +1,7 @@
 import { defineMessages, useIntl } from 'react-intl';
 import { ShieldCheck } from 'lucide-react';
-import type { EntrySlotContext } from '@apograph/content-admin';
-import { Badge } from '@apograph/design-system';
+import type { EntrySlotContext } from '@ortha/content-admin';
+import { Badge } from '@ortha/design-system';
 import { toneOf } from '../../../domain/types';
 import { reviewScopeOf, useEntryReview } from '../../../application/hooks';
 

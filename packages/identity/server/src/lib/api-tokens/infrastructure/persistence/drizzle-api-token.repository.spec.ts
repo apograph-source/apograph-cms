@@ -1,6 +1,6 @@
 import { getTableName } from 'drizzle-orm';
 import { PgDialect, QueryBuilder } from 'drizzle-orm/pg-core';
-import type { UnitOfWork } from '@apograph/database';
+import type { UnitOfWork } from '@ortha/database';
 import { DrizzleApiTokenRepository } from './drizzle-api-token.repository';
 
 const TOKEN = '99999999-9999-4999-8999-999999999999';
@@ -12,7 +12,7 @@ const ROW = {
     id: TOKEN,
     name: 'CI',
     tokenHash: 'a'.repeat(64),
-    lookupPrefix: 'apograph_abc',
+    lookupPrefix: 'ortha_abc',
     scope: 'read',
     expiresAt: null,
     createdBy: 'user-1',

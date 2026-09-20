@@ -42,7 +42,7 @@ companion to it.
 - **`Number(process.env[x]) || default`.** Wrong in three directions at once and
   silent in all of them: `0` is falsy so it becomes the default, a negative is
   truthy so it is accepted, and `1e9` parses. Read env numbers through a
-  validating helper that names the variable — `apps/server/apograph.config.ts`'s
+  validating helper that names the variable — `apps/server/ortha.config.ts`'s
   `readPositiveInt` is the pattern.
 - **A provider name a plugin never checks.** A plugin that selects a backend by
   name must validate that name against what it was handed, at construction.

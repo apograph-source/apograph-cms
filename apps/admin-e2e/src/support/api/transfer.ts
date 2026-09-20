@@ -1,7 +1,7 @@
 import { type Page } from '@playwright/test';
 
 /**
- * The seed layer for `@apograph/transfer-admin` — the export and import dialogs
+ * The seed layer for `@ortha/transfer-admin` — the export and import dialogs
  * the Content Library hangs off its three slots.
  *
  * Four routes, all of them **under** `/api/content/:type/`:

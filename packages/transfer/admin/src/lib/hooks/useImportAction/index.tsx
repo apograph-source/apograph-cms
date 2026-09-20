@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { Upload } from 'lucide-react';
-import { useHasPermission } from '@apograph/identity-admin';
+import { useHasPermission } from '@ortha/identity-admin';
 import type {
     RecordsMenuContext,
     RecordsMenuEntry
-} from '@apograph/content-admin';
+} from '@ortha/content-admin';
 import { CONTENT_IMPORT } from '../../constants';
 import { ImportDialog } from '../../components/ImportDialog';
 

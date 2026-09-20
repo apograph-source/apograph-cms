@@ -1,4 +1,4 @@
-# @apograph/utils-admin
+# @ortha/utils-admin
 
 Shared **admin frontend library** — the cross-plugin data/HTTP layer. Not a
 plugin (it contributes no routes or module) and not the host: it's a small leaf
@@ -7,8 +7,8 @@ singletons live in one place instead of inside `bootstrap-admin`.
 
 ## Package
 
-- Name: `@apograph/utils-admin`
-- Import: `import { apiClient, queryClient } from '@apograph/utils-admin'`
+- Name: `@ortha/utils-admin`
+- Import: `import { apiClient, queryClient } from '@ortha/utils-admin'`
 - Grouped package (`packages/utils/admin`), admin-only. Consumed from source
   (`exports` → `./src/index.ts`); no build step.
 
@@ -127,7 +127,7 @@ searchInput` on the way out) are what keep the round trip from looping or
   uses to distinguish two people.
 
 > Auth state is **not** here — context, gate, and `/auth/me` all live in
-> `@apograph/identity-admin`. This package is the shared HTTP/data + generic
+> `@ortha/identity-admin`. This package is the shared HTTP/data + generic
 > utility leaf, not a home for feature state.
 
 ## Layout
@@ -138,7 +138,7 @@ searchInput` on the way out) are what keep the round trip from looping or
 
 ## Architecture
 
-- **Leaf, not host.** The host (`@apograph/bootstrap-admin`) imports
+- **Leaf, not host.** The host (`@ortha/bootstrap-admin`) imports
   `queryClient` to mount the provider; plugins import `apiClient`. Keeping these
   here (rather than in the host) means a plugin never has to depend on the
   composition root just to make a request.
@@ -153,7 +153,7 @@ searchInput` on the way out) are what keep the round trip from looping or
 
 ## Tests
 
-`npm exec nx test @apograph/utils-admin` (vitest + jsdom, co-located
+`npm exec nx test @ortha/utils-admin` (vitest + jsdom, co-located
 `index.spec.ts(x)` beside each module). Every admin plugin inherits this
 package, so a defect here is a defect everywhere at once — which is why the
 seams are pinned here rather than in whichever page happened to notice: the
@@ -164,6 +164,6 @@ still belongs in `admin-e2e`.
 
 ## Commands
 
-- `npm exec nx typecheck @apograph/utils-admin`
-- `npm exec nx lint @apograph/utils-admin`
-- `npm exec nx test @apograph/utils-admin`
+- `npm exec nx typecheck @ortha/utils-admin`
+- `npm exec nx lint @ortha/utils-admin`
+- `npm exec nx test @ortha/utils-admin`

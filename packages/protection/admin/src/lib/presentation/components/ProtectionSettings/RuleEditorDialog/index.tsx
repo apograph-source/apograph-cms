@@ -15,7 +15,7 @@ import {
     Input,
     Switch,
     toast
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import {
     DEFAULT_PROTECTION_RULE,
     REQUIRED_APPROVALS_MAX,

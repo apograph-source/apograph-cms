@@ -9,7 +9,7 @@ import {
     isAllowedCustomHeader,
     parseRetryAfter,
     signatureHeader
-} from '@apograph/webhooks-domain';
+} from '@ortha/webhooks-domain';
 import { Agent, request } from 'undici';
 import { InjectWebhooksConfig } from '../webhooks.tokens';
 import type { ResolvedWebhooksConfig } from '../types/webhooks-config';
@@ -26,7 +26,7 @@ export interface WebhookRequest {
     deliveryId: string;
     eventId: string;
     workspaceId: string | null;
-    /** 1-based, sent as `X-Apograph-Attempt`. */
+    /** 1-based, sent as `X-Ortha-Attempt`. */
     attempt: number;
 }
 

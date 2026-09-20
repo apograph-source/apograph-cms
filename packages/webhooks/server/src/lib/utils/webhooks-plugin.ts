@@ -1,5 +1,5 @@
 import { join } from 'node:path';
-import type { ServerPlugin } from '@apograph/bootstrap-server';
+import type { ServerPlugin } from '@ortha/bootstrap-server';
 import { describeWebhooksApi } from '../docs/describe-webhooks-api';
 import { WebhooksModule } from '../webhooks.module';
 import type { WebhooksPluginConfig } from '../types/webhooks-config';

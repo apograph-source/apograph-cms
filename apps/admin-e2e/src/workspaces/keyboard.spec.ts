@@ -289,7 +289,7 @@ test.describe('Workspaces keyboard accessibility', () => {
             await expect(search).toHaveAttribute('aria-activedescendant', /.+/);
 
             await page.keyboard.press('Enter');
-            await expect(page.getByText('barbara@apograph.dev')).toBeVisible();
+            await expect(page.getByText('barbara@ortha.dev')).toBeVisible();
         });
 
         test('a step change moves focus to the new step heading', async ({

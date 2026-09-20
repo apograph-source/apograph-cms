@@ -1,8 +1,8 @@
 /** Identity — sessions, tokens, the SSO handshake, and the SSO providers. */
-import type { IdentityPluginConfig } from '@apograph/identity-server';
-import type { OidcProviderConfig } from '@apograph/identity-provider-oidc';
-import type { GithubProviderConfig } from '@apograph/identity-provider-github';
-import type { SamlProviderConfig } from '@apograph/identity-provider-saml';
+import type { IdentityPluginConfig } from '@ortha/identity-server';
+import type { OidcProviderConfig } from '@ortha/identity-provider-oidc';
+import type { GithubProviderConfig } from '@ortha/identity-provider-github';
+import type { SamlProviderConfig } from '@ortha/identity-provider-saml';
 
 import {
     defined,
@@ -13,7 +13,7 @@ import {
     readOptionalPositiveInt,
     readPositiveInt,
     when
-} from '@apograph/utils-server';
+} from '@ortha/utils-server';
 
 import { isProduction } from './env';
 
@@ -34,7 +34,7 @@ import { isProduction } from './env';
  * and every SSO failure deliberately looks the same, so the person clicking it
  * learns nothing.
  */
-export interface ApographIdentityConfig extends IdentityPluginConfig {
+export interface OrthaIdentityConfig extends IdentityPluginConfig {
     /**
      * Identity providers, keyed by the name they are registered under. That
      * name appears in the sign-in URL and in every `sso_identities` row, so
@@ -77,7 +77,7 @@ function defaultAdminOrigin(): string {
 }
 
 /** Identity — sessions, tokens, the SSO handshake, and the SSO providers. */
-export function identityConfig(): ApographIdentityConfig {
+export function identityConfig(): OrthaIdentityConfig {
     return {
         // Origins allowed to call state-changing endpoints (login-CSRF
         // defense). Comma-separated; defaults to the dev admin origin —
@@ -106,13 +106,13 @@ export function identityConfig(): ApographIdentityConfig {
         },
         // Read through `readEnv`, so all three are trimmed and a whitespace-only
         // value is nothing rather than a value. That matters most for the
-        // password: `APOGRAPH_ROOT_ADMIN_PASSWORD='   '` used to provision an
+        // password: `ORTHA_ROOT_ADMIN_PASSWORD='   '` used to provision an
         // administrator whose password was three spaces, silently. Blank, it
         // now trips `MissingRootAdminPasswordError`, which names the account.
         rootAdmin: {
-            email: readEnv('APOGRAPH_ROOT_ADMIN_EMAIL') ?? '',
-            password: readEnv('APOGRAPH_ROOT_ADMIN_PASSWORD') ?? '',
-            name: readEnv('APOGRAPH_ROOT_ADMIN_NAME') ?? ''
+            email: readEnv('ORTHA_ROOT_ADMIN_EMAIL') ?? '',
+            password: readEnv('ORTHA_ROOT_ADMIN_PASSWORD') ?? '',
+            name: readEnv('ORTHA_ROOT_ADMIN_NAME') ?? ''
         },
         sso: ssoConfig(),
         ssoProviders: defined({

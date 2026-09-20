@@ -3,7 +3,7 @@
  *
  * In the workspace every package resolves **from source** — `exports` points
  * at `./src/index.ts` and `tsconfig.base.json` sets the
- * `@apograph/source` condition (see AGENTS.md, "How packages resolve").
+ * `@ortha/source` condition (see AGENTS.md, "How packages resolve").
  * That is a workspace concern, and a published tarball cannot rely on it: a
  * consumer has no such condition and no way to compile our TypeScript.
  *
@@ -21,7 +21,7 @@
  *     README.md LICENSE
  *
  * `nx release publish` points its `packageRoot` here (the target is inferred
- * by `@apograph/nx`), so the tarball is exactly this directory.
+ * by `@ortha/nx`), so the tarball is exactly this directory.
  *
  * It has to live at the workspace root rather than beside the package: the
  * root `workspaces` globs cover `packages/*`, so a staging directory inside
@@ -66,7 +66,7 @@ const buildDir = join(projectDir, 'dist');
 
 const repoUrl =
     rootPkg.repository?.url ??
-    'git+https://github.com/apograph-source/apograph-cms.git';
+    'git+https://github.com/ortha-source/ortha-cms.git';
 const repoWeb = repoUrl.replace(/^git\+/, '').replace(/\.git$/, '');
 /*
  * The project's website, which is what npm means by `homepage` — the page a
@@ -74,7 +74,7 @@ const repoWeb = repoUrl.replace(/^git\+/, '').replace(/\.git$/, '');
  * at GitHub, so a tarball says where the source is and where a bug goes
  * without conflating either with where the product is explained.
  */
-const website = rootPkg.homepage ?? 'https://apograph.com';
+const website = rootPkg.homepage ?? 'https://ortha.com';
 
 if (!existsSync(buildDir)) {
     fail(`${pkg.name} has no dist/ — run \`nx build ${pkg.name}\` first`);
@@ -128,7 +128,7 @@ if (existsSync(migrations)) {
     cpSync(migrations, join(stagingDir, 'migrations'), { recursive: true });
 }
 
-// Scaffolding templates (`create-apograph-app`). They are data, not source —
+// Scaffolding templates (`create-ortha-app`). They are data, not source —
 // deliberately outside `src/` so `tsc --build` never tries to compile an
 // app-shaped file against this workspace's resolve-from-source setup — so
 // nothing else in this script would carry them over.
@@ -172,7 +172,7 @@ if (pkg.license !== rootPkg.license) {
 const staged = {
     name: pkg.name,
     version: pkg.version,
-    description: pkg.description ?? `${pkg.name} — part of Apograph CMS.`,
+    description: pkg.description ?? `${pkg.name} — part of Ortha CMS.`,
     license: pkg.license,
     homepage: website,
     repository: { type: 'git', url: repoUrl, directory: projectRoot },
@@ -506,7 +506,7 @@ function stubReadme(name) {
     return [
         `# ${name}`,
         '',
-        `Part of [Apograph CMS](${website}) — the source is on`,
+        `Part of [Ortha CMS](${website}) — the source is on`,
         `[GitHub](${repoWeb}/tree/main/${projectRoot}).`,
         '',
         '```sh',

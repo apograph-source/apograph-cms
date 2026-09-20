@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto';
 import { Column, Param, SQL, StringChunk } from 'drizzle-orm';
-import type { Database } from '@apograph/database';
-import type { IdentityPluginConfig } from '@apograph/identity-server';
+import type { Database } from '@ortha/database';
+import type { IdentityPluginConfig } from '@ortha/identity-server';
 import { InviteRecentlySentError } from '../../domain/errors';
 import { InviteTokenService } from './invite-token.service';
 

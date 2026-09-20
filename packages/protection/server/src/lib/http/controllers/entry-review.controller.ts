@@ -21,8 +21,8 @@ import {
     PermissionsGuard,
     RequirePermissions,
     type PublicUser
-} from '@apograph/identity-server';
-import { CurrentWorkspace, WorkspaceGuard } from '@apograph/workspaces-server';
+} from '@ortha/identity-server';
+import { CurrentWorkspace, WorkspaceGuard } from '@ortha/workspaces-server';
 import { EntryReviewService } from '../../application/entry-review.service';
 import { RequestReviewDto } from '../../application/dto/request-review.dto';
 import { NoBodyDto } from '../../application/dto/no-body.dto';

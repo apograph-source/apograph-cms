@@ -1,5 +1,5 @@
 import { Column, Param, SQL, StringChunk } from 'drizzle-orm';
-import type { Database } from '@apograph/database';
+import type { Database } from '@ortha/database';
 import type { ListMembersQueryDto } from '../../application/dto/list-members-query.dto';
 import { MemberViewQuery } from './member-view.query';
 

@@ -1,4 +1,4 @@
-import type { Database } from '@apograph/database';
+import type { Database } from '@ortha/database';
 
 /**
  * One recordable audit event. A generic shape (`kind` is a plain string,
@@ -32,7 +32,7 @@ export interface ActivityRecordInput {
 export type ActivityExecutor = Pick<Database, 'insert'>;
 
 /**
- * The emit-side port. `@apograph/activity-server`'s `ActivityService`
+ * The emit-side port. `@ortha/activity-server`'s `ActivityService`
  * implements it and binds it to {@link ACTIVITY_RECORDER}; foundational plugins
  * (identity) inject the **token**, never the concrete service — so identity
  * stays free of a dependency on `activity-server` (which depends back on

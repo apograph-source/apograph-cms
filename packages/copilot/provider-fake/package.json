@@ -1,5 +1,5 @@
 {
-    "name": "@apograph/copilot-provider-fake",
+    "name": "@ortha/copilot-provider-fake",
     "version": "0.4.2",
     "license": "MIT",
     "private": true,
@@ -17,6 +17,6 @@
         "src"
     ],
     "dependencies": {
-        "@apograph/copilot-domain": "*"
+        "@ortha/copilot-domain": "*"
     }
 }

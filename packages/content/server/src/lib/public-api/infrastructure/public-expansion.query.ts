@@ -7,8 +7,8 @@ import {
     type AnyColumn,
     type SQL
 } from 'drizzle-orm';
-import { InjectDatabase, type Database } from '@apograph/database';
-import { toMediaValueRef, type MediaValueRef } from '@apograph/content-domain';
+import { InjectDatabase, type Database } from '@ortha/database';
+import { toMediaValueRef, type MediaValueRef } from '@ortha/content-domain';
 import { ENTRY_STATUS, type AnyContentType } from '../../types/content-type';
 import { CONTENT_FIELD_TYPE, type AnyFieldSpec } from '../../types/fields';
 import {

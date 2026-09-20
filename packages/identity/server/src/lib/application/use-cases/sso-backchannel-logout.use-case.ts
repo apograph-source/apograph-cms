@@ -1,10 +1,10 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import { attachActor, OutboxWriter, UnitOfWork } from '@apograph/database';
+import { attachActor, OutboxWriter, UnitOfWork } from '@ortha/database';
 import {
     SSO_REGISTRY,
     SsoVerificationError,
     type SsoRegistry
-} from '@apograph/identity-domain';
+} from '@ortha/identity-domain';
 import {
     IDENTITY_EVENT_KINDS,
     identityEvent
@@ -29,7 +29,7 @@ export interface BackchannelLogoutInput {
 }
 
 /**
- * Ends Apograph sessions because the identity provider says the person's session
+ * Ends Ortha sessions because the identity provider says the person's session
  * there has ended.
  *
  * **This is the answer to the one thing operators assume SSO already does.** A
@@ -42,7 +42,7 @@ export interface BackchannelLogoutInput {
  *
  * Two shapes of notification, and the difference is deliberate:
  *
- * - **A `sid`** names one provider session, and only the Apograph sessions opened
+ * - **A `sid`** names one provider session, and only the Ortha sessions opened
  *   from it are revoked. Someone signed in on a laptop and a phone through two
  *   separate provider sessions keeps the other one, which is what "you signed
  *   out of this browser" should mean.

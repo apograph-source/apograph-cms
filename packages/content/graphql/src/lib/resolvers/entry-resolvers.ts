@@ -9,8 +9,8 @@ import {
     type PublicEntry,
     type PublicMediaRef,
     type PublicRelationFieldView
-} from '@apograph/content-server';
-import { PERMISSIONS } from '@apograph/identity-server';
+} from '@ortha/content-server';
+import { PERMISSIONS } from '@ortha/identity-server';
 import type { GraphQLFieldResolver } from 'graphql';
 import type { GraphqlContext } from './context';
 import {

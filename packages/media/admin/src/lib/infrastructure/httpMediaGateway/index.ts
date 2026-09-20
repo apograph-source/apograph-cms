@@ -1,4 +1,4 @@
-import { apiClient, toApiError } from '@apograph/utils-admin';
+import { apiClient, toApiError } from '@ortha/utils-admin';
 import { KIND_FILTER_ALL, ROOT_FOLDER_ID } from '../../constants';
 import {
     toMediaAsset,

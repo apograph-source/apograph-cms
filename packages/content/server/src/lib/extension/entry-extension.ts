@@ -22,8 +22,8 @@
  */
 
 import type { SQL } from 'drizzle-orm';
-import type { Database } from '@apograph/database';
-import type { FieldSchema, ParsedRule } from '@apograph/utils-server';
+import type { Database } from '@ortha/database';
+import type { FieldSchema, ParsedRule } from '@ortha/utils-server';
 import type { AnyContentType } from '../types/content-type';
 
 /** DI token an extension plugin binds its {@link ContentEntryExtension} to. */

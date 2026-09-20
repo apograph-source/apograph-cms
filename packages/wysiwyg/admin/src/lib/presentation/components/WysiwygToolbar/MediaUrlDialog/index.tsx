@@ -10,7 +10,7 @@ import {
     DialogTitle,
     Input,
     Label
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import {
     WYSIWYG_MEDIA_KIND,
     type WysiwygMediaKind

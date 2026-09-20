@@ -247,7 +247,7 @@ describe('library-wide source conventions', () => {
      */
     const ALLOWED_LITERALS = [
         // A proper noun. Translating a product name is not localization.
-        { module: 'lib/components/ui/logo.tsx', text: 'Apograph CMS' },
+        { module: 'lib/components/ui/logo.tsx', text: 'Ortha CMS' },
         // Inside a `role="presentation" aria-hidden="true"` span, so it is read
         // by nobody and displayed to nobody — the ellipsis glyph beside it is
         // what the sighted user sees. Not a visible string in any sense the
@@ -689,7 +689,7 @@ describe('the admin palette', () => {
     const PALETTES = {
         'apps/admin': 'apps/admin/src/styles.css',
         'the scaffolder template':
-            'packages/create-apograph-app/templates/default/apps/admin/src/styles.css'
+            'packages/create-ortha-app/templates/default/apps/admin/src/styles.css'
     };
 
     /** Token prefixes that are the same colour in both themes, on purpose. */

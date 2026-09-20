@@ -1,7 +1,7 @@
 import { defineMessages, useIntl } from 'react-intl';
-import { Spinner } from '@apograph/design-system';
-import type { EntryTabContext } from '@apograph/content-admin';
-import { useHasPermission } from '@apograph/identity-admin';
+import { Spinner } from '@ortha/design-system';
+import type { EntryTabContext } from '@ortha/content-admin';
+import { useHasPermission } from '@ortha/identity-admin';
 import { useEntryActivity } from '../../../application/useEntryActivity';
 import { formatActivityAction } from '../../activityMessages';
 import { activityDateTime } from '../../activityDateTime';

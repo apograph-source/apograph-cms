@@ -12,7 +12,7 @@ export type ContentFavorites = {
 
 /** localStorage key for a workspace's pinned content types. */
 function storageKey(workspaceId: string): string {
-    return `apograph:content:favorites:${workspaceId}`;
+    return `ortha:content:favorites:${workspaceId}`;
 }
 
 /** Reads the persisted favorites, tolerating missing/blocked/corrupt storage. */

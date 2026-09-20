@@ -9,7 +9,7 @@ import {
     Permission,
     PERMISSIONS,
     tokenActor
-} from '@apograph/identity-server';
+} from '@ortha/identity-server';
 import type { ApiTokenRequest } from '../api-token-request';
 import { ENTRY_VISIBILITY } from '../dto/public-list-entries-query.dto';
 

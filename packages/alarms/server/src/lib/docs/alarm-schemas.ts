@@ -12,7 +12,7 @@
  * drifted from the one the server enforces is worse than a bare string.
  */
 
-import { FilterOperator, WithinLastUnit } from '@apograph/utils-server';
+import { FilterOperator, WithinLastUnit } from '@ortha/utils-server';
 import { ALARM_SEVERITIES } from '../domain/alarm-severity';
 import { FINDING_STATES } from '../domain/finding-state';
 

@@ -26,7 +26,7 @@ import { expectNoA11yViolations } from '../support/a11y';
 const WS = MEDIA_FIELDS_WORKSPACE.id;
 
 /**
- * The entry editor's **Media tab** (`@apograph/media-admin`, contributed
+ * The entry editor's **Media tab** (`@ortha/media-admin`, contributed
  * through content-admin's `ENTRY_TAB_SLOT`): attaching an asset from the Media
  * Library, staging an upload that only goes up **with the record**, removing and
  * reordering, and accessibility. Both backends are mocked — the content schema /

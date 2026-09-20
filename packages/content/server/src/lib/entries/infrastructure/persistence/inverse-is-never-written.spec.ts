@@ -3,14 +3,14 @@ import { field } from '../../../fields';
 import type { AnyContentType } from '../../../types/content-type';
 import { toColumns } from './entry-row';
 import { RelationLinkService } from './relation-link.service';
-import type { Database } from '@apograph/database';
+import type { Database } from '@ortha/database';
 
 /**
  * **The import half of `transfer:I-05`** — "the inverse side of a two-way
  * relation ... is not written on import".
  *
  * The export half is pinned in `apps/server-e2e` (the document carries no
- * inverse field) and the CSV half in `@apograph/transfer-domain`
+ * inverse field) and the CSV half in `@ortha/transfer-domain`
  * (`flatten.spec.ts` — no column is written, and one on a hand-made sheet is
  * not read back). Neither reaches the write path, and a **JSON** document is
  * not written by this system: it can be hand-edited, or produced by another

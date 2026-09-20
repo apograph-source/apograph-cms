@@ -6,7 +6,7 @@ import {
     type ModelProvider,
     type ModelRequest,
     type ModelStreamEvent
-} from '@apograph/copilot-domain';
+} from '@ortha/copilot-domain';
 import { fallbackCapabilities, probeCapabilities } from './capabilities';
 import { createLazyClient } from './client';
 import type { AnthropicProviderConfig } from './config';

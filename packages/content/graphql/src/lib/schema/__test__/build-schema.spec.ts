@@ -1,5 +1,5 @@
-import { ContentTypeRegistry } from '@apograph/content-server';
-import { collection, field } from '@apograph/content-server/define';
+import { ContentTypeRegistry } from '@ortha/content-server';
+import { collection, field } from '@ortha/content-server/define';
 import { printSchema } from 'graphql';
 import {
     assertNoEnvelopeCollisions,

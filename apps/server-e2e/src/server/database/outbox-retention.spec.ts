@@ -4,7 +4,7 @@ import {
     MAX_DELIVERY_ATTEMPTS,
     OUTBOX_RETENTION_DAYS,
     OutboxDispatcher
-} from '@apograph/database';
+} from '@ortha/database';
 import type { ValueProvider } from '@nestjs/common';
 import {
     closeTestApp,

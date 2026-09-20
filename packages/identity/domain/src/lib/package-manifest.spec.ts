@@ -10,7 +10,7 @@ import { join } from 'node:path';
  * how a "framework-free kernel" quietly stops being one. The manifest is the
  * only place that can be checked without a build, so it is the place to check.
  */
-describe('@apograph/identity-domain package manifest', () => {
+describe('@ortha/identity-domain package manifest', () => {
     const manifest = JSON.parse(
         readFileSync(join(__dirname, '..', '..', 'package.json'), 'utf8')
     ) as {
@@ -20,7 +20,7 @@ describe('@apograph/identity-domain package manifest', () => {
     };
 
     it('is the package it claims to be', () => {
-        expect(manifest.name).toBe('@apograph/identity-domain');
+        expect(manifest.name).toBe('@ortha/identity-domain');
     });
 
     it.each(['dependencies', 'peerDependencies'] as const)(

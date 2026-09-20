@@ -11,7 +11,7 @@ import {
     ConfirmDialog,
     Separator,
     toast
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import type { Workspace } from '../../../domain/types/workspace';
 import { useSetWorkspaceStatus } from '../../../application/useSetWorkspaceStatus';
 import { useDeleteWorkspace } from '../../../application/useDeleteWorkspace';

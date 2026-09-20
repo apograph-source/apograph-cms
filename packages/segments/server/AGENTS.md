@@ -1,4 +1,4 @@
-# `@apograph/segments-server`
+# `@ortha/segments-server`
 
 The **segmentation plugin** — reader entitlements enforced on the public content
 API. Two tables, one predicate, and four ways in: the admin's screens, the entry
@@ -155,7 +155,7 @@ Three parts, and each covers a path the others do not:
 - `EntryAccessService.setForGroup` is what every write path calls; the per-entry
   `set` is its building block rather than an alternative to it. The group is
   resolved by `localeGroupIds`, which reads **content's own** `locale_group_id`
-  column rather than going through `@apograph/i18n-server` — an entitlement rule
+  column rather than going through `@ortha/i18n-server` — an entitlement rule
   must not depend on a plugin the deployment may not have, and the honest
   fallback (the entry is alone) is what a non-localized type already gets. It
   includes **soft-deleted** siblings, exactly as i18n's own propagation does: a
@@ -381,6 +381,6 @@ catalogue is in-memory and the TRUNCATE goes behind its back.
 
 ## Commands
 
-- `npx nx test @apograph/segments-server`
-- `npx nx run @apograph/segments-server:db:generate --name=<change>` — commit the SQL
+- `npx nx test @ortha/segments-server`
+- `npx nx run @ortha/segments-server:db:generate --name=<change>` — commit the SQL
 - `npx nx run server:db:migrate` — applies every plugin's pending migrations

@@ -1,11 +1,11 @@
 /**
- * `@apograph/mail-domain` — the framework-free kernel behind outgoing mail.
+ * `@ortha/mail-domain` — the framework-free kernel behind outgoing mail.
  *
  * Two seams and the copy between them: the **provider port** every adapter
  * implements, and the **dispatcher port** a use case that has just minted a
  * secret uses to get a message queued inside its own transaction. Neither
  * imports NestJS, Drizzle or a vendor SDK, so an adapter costs what an adapter
- * should — the same rule `@apograph/media-domain` documents, and the same
+ * should — the same rule `@ortha/media-domain` documents, and the same
  * reason: installing a mail adapter should not install a web framework.
  *
  * The rule that keeps it true is in `package.json`: **no dependencies, of any

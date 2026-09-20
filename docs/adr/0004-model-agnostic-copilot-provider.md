@@ -14,7 +14,7 @@
 We are adding an AI copilot to the admin: a chat that can search, export, draft
 and edit content on the signed-in user's behalf. It needs a language model.
 
-Apograph is **self-hosted**. The operator — not us — runs the infrastructure and
+Ortha is **self-hosted**. The operator — not us — runs the infrastructure and
 owns the policy about where their content may travel. That single fact drives
 everything here:
 
@@ -43,7 +43,7 @@ We will treat the model as a **replaceable backend behind a port**, structurally
 identical to media storage.
 
 1. **The core depends on an interface, never a vendor.** `ModelProvider` is
-   declared in `@apograph/copilot-domain` (`stream(request, signal)` yielding
+   declared in `@ortha/copilot-domain` (`stream(request, signal)` yielding
    text deltas, tool calls and a final usage record). No vendor SDK may be
    imported by `copilot/domain` or `copilot/server` — the same rule that keeps
    Drizzle and Nest out of any `domain/` layer.
@@ -88,7 +88,7 @@ identical to media storage.
    `copilot:configure` may register a model at runtime — adapter kind, base URL,
    model id, credential, limits — persisted in `copilot_model_configs`.
    Credentials are **encrypted at rest** under a key sourced from
-   `apograph.config.ts`, are never serialized to the browser, and the admin UI
+   `ortha.config.ts`, are never serialized to the browser, and the admin UI
    learns only a model's name and probed capabilities.
 
 ## Consequences
@@ -117,7 +117,7 @@ identical to media storage.
 
 **Follow-up work this commits us to:**
 
-- An encryption key in `apograph.config.ts` plus a documented rotation procedure.
+- An encryption key in `ortha.config.ts` plus a documented rotation procedure.
 - A small offline eval set (fixture workspace + expected tool calls) so a prompt
   change is reviewable like code, and so an operator can measure a swapped-in
   model before trusting it.

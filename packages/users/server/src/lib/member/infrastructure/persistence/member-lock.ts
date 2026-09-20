@@ -1,5 +1,5 @@
 import { sql } from 'drizzle-orm';
-import type { Database } from '@apograph/database';
+import type { Database } from '@ortha/database';
 
 /**
  * The minimal Drizzle executor the admin lock needs: the root client or an open

@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { MAX_RUN_SKILLS } from '@apograph/copilot-domain';
+import { MAX_RUN_SKILLS } from '@ortha/copilot-domain';
 import type { ChatSkill } from '../domain/types/chat';
 import { useSkills, type CopilotSkill } from './useSkills';
 

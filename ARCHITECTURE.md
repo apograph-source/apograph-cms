@@ -1,6 +1,6 @@
 # Architecture
 
-How Apograph is built. For the _why_ behind these choices, see
+How Ortha is built. For the _why_ behind these choices, see
 [`docs/adr/`](docs/adr/README.md). For the project inventory and glossary, see
 [`CONTEXT-MAP.md`](CONTEXT-MAP.md).
 
@@ -10,16 +10,16 @@ a plugin owns — are derived from the code and checked by
 
 ## 1. The big idea: a plugin host
 
-Apograph is not a monolith with features bolted on. It is a small, dumb **host**
+Ortha is not a monolith with features bolted on. It is a small, dumb **host**
 that turns _a list of plugins_ into a running application. The host owns no
 domain logic — no auth, no users, no content. All capability lives in plugins.
 
 There are two hosts, one per runtime:
 
-- **`@apograph/bootstrap-admin`** — `createAdmin({ plugins })` mounts the React
+- **`@ortha/bootstrap-admin`** — `createAdmin({ plugins })` mounts the React
   root, the router, the providers (TanStack Query, `IntlProvider`), and the
   routes each plugin contributes.
-- **`@apograph/bootstrap-server`** — `createServer({ plugins })` runs each
+- **`@ortha/bootstrap-server`** — `createServer({ plugins })` runs each
   plugin's `onPluginInit`, imports its NestJS module, and applies the global
   `/api` prefix + `ValidationPipe`.
 
@@ -46,7 +46,7 @@ find a framework-free `domain` kernel (`content`, `copilot`, `identity`, `mail`,
 (`content/graphql`), and `provider-*` adapters where the domain has a swappable
 backend — `media` has six plus a shared contract test kit, `identity` four,
 `copilot` three, `mail` three. The npm name is always hyphenated regardless of nesting:
-`packages/bootstrap/admin` → `@apograph/bootstrap-admin`.
+`packages/bootstrap/admin` → `@ortha/bootstrap-admin`.
 
 ### Server plugin contract
 
@@ -90,13 +90,13 @@ Authoring rules live in the **`admin-plugin`** skill: the per-module
 
 Workspace packages are consumed **without a build step**. Their `exports` point
 at `./src/index.ts`, and `tsconfig.base.json` sets
-`customConditions: ["@apograph/source"]`. The admin app's Vite transpiles
+`customConditions: ["@ortha/source"]`. The admin app's Vite transpiles
 design-system (and every other package's) source directly. Run `npx nx sync`
 after changing cross-project dependencies to update TS project references.
 
 ## 4. The data layer
 
-- **One connection.** `packages/database` (`@apograph/database`) owns a single
+- **One connection.** `packages/database` (`@ortha/database`) owns a single
   Drizzle/`pg` pool, opened in its `onPluginInit` (which must run first). It is
   exposed via DI (`@InjectDatabase()`, a global `DatabaseModule`) and via plain
   `getDatabase()` / `getPool()`. It owns exactly **one** table —
@@ -116,7 +116,7 @@ after changing cross-project dependencies to update TS project references.
   and does so through a **second** `ServerPlugin` entry, `ContentViewsPlugin`,
   because `migrations` is one `{ dir, table }` descriptor and content's is
   already spent on the host's tables.
-- **Migration tooling** is provided by the `@apograph/nx` workspace plugin,
+- **Migration tooling** is provided by the `@ortha/nx` workspace plugin,
   which infers the `db:generate` / `db:migrate` targets.
 
 ## 5. Request flow (admin → API → DB)

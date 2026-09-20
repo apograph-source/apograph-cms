@@ -1,11 +1,11 @@
 ---
 name: admin-e2e
-description: Authoring or extending Apograph CMS admin end-to-end tests (apps/admin-e2e) — the Playwright Page Object harness for the admin SPA. Covers POM fixtures, the page.route `/api` mock layer (the "seed"), accessibility (axe) + keyboard suites, and the documented DOM gotchas. Use when adding an admin e2e suite for a page or flow, or changing the e2e harness.
+description: Authoring or extending Ortha CMS admin end-to-end tests (apps/admin-e2e) — the Playwright Page Object harness for the admin SPA. Covers POM fixtures, the page.route `/api` mock layer (the "seed"), accessibility (axe) + keyboard suites, and the documented DOM gotchas. Use when adding an admin e2e suite for a page or flow, or changing the e2e harness.
 user-invocable: false
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash(npx nx *), Bash(npm exec nx *)
 ---
 
-# Apograph CMS admin e2e tests
+# Ortha CMS admin e2e tests
 
 `apps/admin-e2e` drives the admin SPA in a **real browser** with **Playwright**,
 using the **Page Object** pattern. The backend is **mocked at the network layer**

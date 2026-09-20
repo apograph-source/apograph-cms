@@ -1,4 +1,4 @@
-import type { ContentTypeRegistry } from '@apograph/content-server';
+import type { ContentTypeRegistry } from '@ortha/content-server';
 import type { GraphQLSchema } from 'graphql';
 import { buildContentSchema } from './build-schema';
 

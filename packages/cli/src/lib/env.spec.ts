@@ -17,7 +17,7 @@ import { transformFileSync } from '@swc/core';
  * the precedence being asserted is `process.loadEnvFile`'s own — which is the
  * whole reason `env.ts` delegates to it instead of parsing the file itself.
  */
-const scratch = mkdtempSync(join(tmpdir(), 'apograph-cli-env-'));
+const scratch = mkdtempSync(join(tmpdir(), 'ortha-cli-env-'));
 
 /** `env.ts` compiled to CommonJS, so any Node that can run the CLI can run it. */
 const MODULE = (() => {
@@ -32,7 +32,7 @@ const MODULE = (() => {
 })();
 
 interface ChildRun {
-    /** The child's own `APOGRAPH_SPEC_*` variables after `loadEnv` returned. */
+    /** The child's own `ORTHA_SPEC_*` variables after `loadEnv` returned. */
     env: Record<string, string>;
     /** Anything `loadEnv` printed, either stream. */
     stdout: string;
@@ -59,7 +59,7 @@ function loadEnvIn(
         // A NUL separates anything loadEnv printed from the report, so the
         // "not even a warning" clause is checkable on the same run.
         `process.stdout.write('\\u0000' + JSON.stringify(Object.fromEntries(`,
-        `    Object.entries(process.env).filter(([k]) => k.startsWith('APOGRAPH_SPEC_'))`,
+        `    Object.entries(process.env).filter(([k]) => k.startsWith('ORTHA_SPEC_'))`,
         `)));`
     ].join('\n');
 
@@ -89,26 +89,26 @@ describe('loadEnv', () => {
      */
     it('leaves an already-exported variable alone [cli:I-14]', () => {
         const root = app(
-            'APOGRAPH_SPEC_EXPORTED=from-the-file\nAPOGRAPH_SPEC_FROM_FILE=only-in-the-file\n'
+            'ORTHA_SPEC_EXPORTED=from-the-file\nORTHA_SPEC_FROM_FILE=only-in-the-file\n'
         );
 
         const { env, status } = loadEnvIn(root, {
-            APOGRAPH_SPEC_EXPORTED: 'from-the-shell'
+            ORTHA_SPEC_EXPORTED: 'from-the-shell'
         });
 
         expect(status).toBe(0);
-        expect(env.APOGRAPH_SPEC_EXPORTED).toBe('from-the-shell');
+        expect(env.ORTHA_SPEC_EXPORTED).toBe('from-the-shell');
         // The same run did read the file — so the line above is about
         // precedence, not about the file having been skipped wholesale.
-        expect(env.APOGRAPH_SPEC_FROM_FILE).toBe('only-in-the-file');
+        expect(env.ORTHA_SPEC_FROM_FILE).toBe('only-in-the-file');
     });
 
     it('reads the .env beside the project root it was given [cli:I-14]', () => {
-        const root = app('APOGRAPH_SPEC_FROM_FILE=beside-the-root\n');
+        const root = app('ORTHA_SPEC_FROM_FILE=beside-the-root\n');
 
         // The child's working directory is this package, not the app: the path
         // is built from `root`, not from wherever the command was typed.
-        expect(loadEnvIn(root).env.APOGRAPH_SPEC_FROM_FILE).toBe(
+        expect(loadEnvIn(root).env.ORTHA_SPEC_FROM_FILE).toBe(
             'beside-the-root'
         );
     });
@@ -129,7 +129,7 @@ describe('loadEnv', () => {
 
     it('says nothing on the happy path either [cli:I-14]', () => {
         const { stdout, stderr } = loadEnvIn(
-            app('APOGRAPH_SPEC_FROM_FILE=x\n')
+            app('ORTHA_SPEC_FROM_FILE=x\n')
         );
 
         expect(stdout).toBe('');

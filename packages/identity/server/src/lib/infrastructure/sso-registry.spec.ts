@@ -1,7 +1,7 @@
 import {
     UnknownSsoProviderError,
     type SsoProvider
-} from '@apograph/identity-domain';
+} from '@ortha/identity-domain';
 import { buildSsoRegistry } from './sso-registry';
 
 const provider = (label = 'Fake'): SsoProvider => ({

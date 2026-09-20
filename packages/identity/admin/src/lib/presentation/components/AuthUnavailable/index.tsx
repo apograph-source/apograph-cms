@@ -7,7 +7,7 @@ import {
     CardDescription,
     CardHeader,
     CardTitle
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import { currentUserKey } from '../../../application/useCurrentUser';
 import { AuthLayout } from '../AuthLayout';
 

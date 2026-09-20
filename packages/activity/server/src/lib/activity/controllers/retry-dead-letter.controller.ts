@@ -17,7 +17,7 @@ import {
     OutboxWriter,
     UnitOfWork,
     type RetriedDeadLetter
-} from '@apograph/database';
+} from '@ortha/database';
 import {
     CurrentUser,
     OriginGuard,
@@ -25,7 +25,7 @@ import {
     PermissionsGuard,
     RequirePermissions,
     type PublicUser
-} from '@apograph/identity-server';
+} from '@ortha/identity-server';
 import { OUTBOX_RETRY_AUDIT } from '../activity.constants';
 
 /**

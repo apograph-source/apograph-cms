@@ -1,6 +1,6 @@
-# @apograph/insights-admin
+# @ortha/insights-admin
 
-The **Insights feature plugin** for the Apograph CMS admin UI — a workspace
+The **Insights feature plugin** for the Ortha CMS admin UI — a workspace
 dashboard at `/workspaces/:id/insights`.
 
 It ships the **frame and nothing else**: the route, the range picker, the
@@ -190,7 +190,7 @@ as a hang rather than a failure.
 ## Contributing a widget
 
 From the owning plugin's factory — it needs a dependency on
-`@apograph/insights-admin`, the same direction as any slot filler:
+`@ortha/insights-admin`, the same direction as any slot filler:
 
 ```tsx
 slots: [
@@ -244,7 +244,7 @@ There is no saved layout; `InsightsWidget.id` is the handle one would key on.
 
 ## Package
 
-- Name: `@apograph/insights-admin`
+- Name: `@ortha/insights-admin`
 - Grouped package (`packages/insights/admin`), admin-only. Consumed from source.
 - Register after `WorkspacesPlugin()` — it contributes to the workspace shell's
   `WORKSPACE_NAV_SLOT` / `WORKSPACE_ROUTE_SLOT`.
@@ -253,7 +253,7 @@ There is no saved layout; `InsightsWidget.id` is the handle one would key on.
 
 `type` over `interface`; JSDoc on exports; `<name>/index.ts(x)` folders; one
 component per file; co-located `react-intl` messages namespaced
-`insights.<area>.<key>`; UI from `@apograph/design-system` only.
+`insights.<area>.<key>`; UI from `@ortha/design-system` only.
 
 ## Unit cover — vitest + jsdom
 
@@ -289,6 +289,6 @@ partially-failed states.
 
 ## Commands
 
-- `npm exec nx typecheck @apograph/insights-admin`
-- `npm exec nx lint @apograph/insights-admin`
-- `npm exec nx test @apograph/insights-admin` — the unit tests (vitest, jsdom)
+- `npm exec nx typecheck @ortha/insights-admin`
+- `npm exec nx lint @ortha/insights-admin`
+- `npm exec nx test @ortha/insights-admin` — the unit tests (vitest, jsdom)

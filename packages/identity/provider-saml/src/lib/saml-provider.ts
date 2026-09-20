@@ -8,7 +8,7 @@ import {
     type SsoProfile,
     type SsoProvider,
     type SsoProviderDescriptor
-} from '@apograph/identity-domain';
+} from '@ortha/identity-domain';
 import { resolveSamlConfig, type SamlProviderConfig } from './config';
 import { toProfile, type SamlAssertionProfile } from './profile';
 

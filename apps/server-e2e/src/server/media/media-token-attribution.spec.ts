@@ -1,6 +1,6 @@
 import request from 'supertest';
-import { getPool } from '@apograph/database';
-import { PERMISSIONS } from '@apograph/identity-server';
+import { getPool } from '@ortha/database';
+import { PERMISSIONS } from '@ortha/identity-server';
 import {
     closeTestApp,
     createTestApp,

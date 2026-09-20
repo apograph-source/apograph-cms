@@ -14,7 +14,7 @@
  * Pure: it takes the document and mutates only these three operations.
  */
 
-import type { OpenApiDocument } from '@apograph/bootstrap-server';
+import type { OpenApiDocument } from '@ortha/bootstrap-server';
 import { mediaKind } from '../infrastructure/schema/media-asset';
 
 /** A JSON Schema fragment, as it appears in the OpenAPI document. */

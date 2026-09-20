@@ -13,7 +13,7 @@ export default defineConfig(() => ({
     cacheDir: '../../../node_modules/.vite/packages/users/admin',
     plugins: [react()],
     test: {
-        name: '@apograph/users-admin',
+        name: '@ortha/users-admin',
         watch: false,
         globals: true,
         environment: 'jsdom',

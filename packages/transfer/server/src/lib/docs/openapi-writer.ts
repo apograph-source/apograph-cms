@@ -7,7 +7,7 @@
  * `200` even on the `POST`s — and a schema is written onto *that* key rather
  * than a guessed one.
  *
- * A local copy rather than an import from `@apograph/content-server`: it is a
+ * A local copy rather than an import from `@ortha/content-server`: it is a
  * dozen lines, and making it a cross-package export would turn one plugin's
  * documentation helper into public API that another plugin's release has to
  * keep compatible.

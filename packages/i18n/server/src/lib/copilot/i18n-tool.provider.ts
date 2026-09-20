@@ -1,12 +1,12 @@
 import { Injectable, Optional, type OnModuleInit } from '@nestjs/common';
-import { PERMISSIONS } from '@apograph/identity-server';
+import { PERMISSIONS } from '@ortha/identity-server';
 import {
     InjectContentRegistry,
     WorkspaceGrantsQuery,
     type ContentTypeRegistry
-} from '@apograph/content-server';
-import { ToolRegistry } from '@apograph/tools-server';
-import type { ToolDefinition, ToolProvider } from '@apograph/tools-server';
+} from '@ortha/content-server';
+import { ToolRegistry } from '@ortha/tools-server';
+import type { ToolDefinition, ToolProvider } from '@ortha/tools-server';
 import { LocaleRegistryService } from '../locales/services/locale-registry.service';
 import { LocaleGroupService } from '../content/services/locale-group.service';
 

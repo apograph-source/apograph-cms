@@ -1,11 +1,11 @@
 ---
 name: server-e2e
-description: Authoring or extending Apograph CMS server end-to-end tests (apps/server-e2e) — the in-process testcontainer + supertest harness for the NestJS API. Covers createTestApp/closeTestApp, the Postgres testcontainer + per-plugin migrations, DI-based seeding, resetDb isolation, cookie/session flows, and per-suite config overrides (e.g. rate limit). Use when adding an e2e suite for an endpoint, testing a new plugin's HTTP routes, or changing the e2e harness.
+description: Authoring or extending Ortha CMS server end-to-end tests (apps/server-e2e) — the in-process testcontainer + supertest harness for the NestJS API. Covers createTestApp/closeTestApp, the Postgres testcontainer + per-plugin migrations, DI-based seeding, resetDb isolation, cookie/session flows, and per-suite config overrides (e.g. rate limit). Use when adding an e2e suite for an endpoint, testing a new plugin's HTTP routes, or changing the e2e harness.
 user-invocable: false
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash(npx nx *), Bash(npm exec nx *), Bash(docker *)
 ---
 
-# Apograph CMS server e2e tests
+# Ortha CMS server e2e tests
 
 `apps/server-e2e` boots the **real** NestJS server **in-process** against a
 throwaway Postgres **testcontainer** and drives it with `supertest`. No separate
@@ -129,7 +129,7 @@ describe('POST /api/widgets', () => {
 - Use **`request.agent(harness.server)`** to carry `Set-Cookie` from login into
   later requests.
 - For a single request, forward the cookie explicitly:
-  `.set('Cookie', 'apograph_session=<value>')` — extract it from the login
+  `.set('Cookie', 'ortha_session=<value>')` — extract it from the login
   response's `set-cookie` header.
 - Simulate session states with `expireUserSessions` / `revokeUserSessions` /
   `deleteUser`, then assert the protected route returns 401.

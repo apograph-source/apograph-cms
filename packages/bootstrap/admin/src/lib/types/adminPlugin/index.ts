@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import type { SlotContribution } from '@apograph/utils-admin';
+import type { SlotContribution } from '@ortha/utils-admin';
 
 /** A route a plugin mounts into the app router. */
 export type RouteItem = {

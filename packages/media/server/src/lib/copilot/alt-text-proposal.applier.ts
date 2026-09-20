@@ -1,11 +1,11 @@
-import { proposalEventActor } from '@apograph/copilot-server';
+import { proposalEventActor } from '@ortha/copilot-server';
 import { Injectable } from '@nestjs/common';
 import type {
     ProposalActor,
     ProposalApplier,
     ProposalApplyResult,
     ProposalTarget
-} from '@apograph/copilot-domain';
+} from '@ortha/copilot-domain';
 import { UpdateAssetUseCase } from '../application/use-cases/update-asset.use-case';
 import { MEDIA_PROPOSAL_KINDS } from './proposal-kinds';
 

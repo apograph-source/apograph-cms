@@ -1,5 +1,5 @@
 {
-    "name": "@apograph/identity-admin",
+    "name": "@ortha/identity-admin",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -16,9 +16,9 @@
         "src"
     ],
     "dependencies": {
-        "@apograph/bootstrap-admin": "*",
-        "@apograph/design-system": "*",
-        "@apograph/utils-admin": "*",
+        "@ortha/bootstrap-admin": "*",
+        "@ortha/design-system": "*",
+        "@ortha/utils-admin": "*",
         "@tanstack/react-form": "^1.0.0",
         "@tanstack/react-query": "^5.0.0",
         "react-intl": "^7.0.0",

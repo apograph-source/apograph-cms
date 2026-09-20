@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { count, eq, type AnyColumn } from 'drizzle-orm';
-import { InjectDatabase, type Database } from '@apograph/database';
-import type { ContentEntryCounter } from '@apograph/workspaces-server';
+import { InjectDatabase, type Database } from '@ortha/database';
+import type { ContentEntryCounter } from '@ortha/workspaces-server';
 import { InjectContentRegistry } from '../../../content.tokens';
 import type { ContentTypeRegistry } from '../../../registry/content-type-registry';
 import type { AnyContentType } from '../../../types/content-type';

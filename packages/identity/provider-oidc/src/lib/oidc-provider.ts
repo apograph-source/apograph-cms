@@ -15,7 +15,7 @@ import {
     type SsoProfile,
     type SsoProvider,
     type SsoProviderDescriptor
-} from '@apograph/identity-domain';
+} from '@ortha/identity-domain';
 import { toProfile, type IdTokenClaims } from './claims';
 import { resolveOidcConfig, type OidcProviderConfig } from './config';
 import { EndpointResolver } from './discovery';

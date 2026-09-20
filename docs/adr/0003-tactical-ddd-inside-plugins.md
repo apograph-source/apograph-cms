@@ -80,11 +80,11 @@ keeping ADR-0002's strategic model intact. Concretely:
    same transaction** as the state change; a **post-commit dispatcher** fans them
    out to subscribers. The activity log becomes one subscriber. The
    `UnitOfWork`, outbox, and `DomainEvent` contract live once in
-   `@apograph/database`.
+   `@ortha/database`.
 
 7. **Share domain rules through a kernel package where — and only where — both
    runtimes genuinely need the same rule.** `content` gets a
-   `@apograph/content-domain` package (pure TS, no React/Nest/Drizzle) holding
+   `@ortha/content-domain` package (pure TS, no React/Nest/Drizzle) holding
    field validation and the publish gate, imported by both `content/server` and
    `content/admin`. This is the single sanctioned FE↔BE code share.
 
@@ -124,8 +124,8 @@ reference implementation.
 **Follow-up work this commits us to:**
 
 - **Foundation first:** `UnitOfWork` + outbox + `DomainEvent` in
-  `@apograph/database`; the `workspaces/server` extraction + pilot.
-- **Enforcement:** ESLint module-boundary rules (inferred by `@apograph/nx`
+  `@ortha/database`; the `workspaces/server` extraction + pilot.
+- **Enforcement:** ESLint module-boundary rules (inferred by `@ortha/nx`
   onto layered packages) so `domain/` → Drizzle/Nest/React is a CI failure, not a
   review catch. Until a package is migrated it keeps its legacy layout; **each
   package's `AGENTS.md` declares which layout it is in**, and the `server-plugin`

@@ -1,6 +1,6 @@
 ---
 name: frontend
-description: Implements the admin half of an Apograph ticket — packages/*/admin, apps/admin, the co-located react-intl messages, and the admin-e2e suites that cover it. Delegate for admin UI work the ticket plan assigns to the frontend role, or for a read-only analysis pass over the admin surface.
+description: Implements the admin half of an Ortha ticket — packages/*/admin, apps/admin, the co-located react-intl messages, and the admin-e2e suites that cover it. Delegate for admin UI work the ticket plan assigns to the frontend role, or for a read-only analysis pass over the admin surface.
 tools: Read, Glob, Grep, Edit, Write, Bash, mcp__github__get_file_contents
 model: inherit
 ---

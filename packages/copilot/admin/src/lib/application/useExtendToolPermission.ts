@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { apiClient } from '@apograph/utils-admin';
+import { apiClient } from '@ortha/utils-admin';
 
 /** What the prompt asks for when the user needs longer. */
 export interface ExtendToolPermissionInput {

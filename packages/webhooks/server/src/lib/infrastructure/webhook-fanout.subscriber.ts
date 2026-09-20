@@ -8,12 +8,12 @@ import {
     OutboxDispatcher,
     type DomainEvent,
     type DomainEventSubscriber
-} from '@apograph/database';
+} from '@ortha/database';
 import {
     SUBSCRIBABLE_OUTBOX_KINDS,
     buildEnvelope,
     matches
-} from '@apograph/webhooks-domain';
+} from '@ortha/webhooks-domain';
 import { WebhookDeliveryRepository } from './webhook-delivery.repository';
 import { WebhookEndpointRepository } from './webhook-endpoint.repository';
 import { toRoutableEvent, toSourceEvent } from './event-mapping';
@@ -71,7 +71,7 @@ export class WebhookFanoutSubscriber
         const queued = await this.deliveries.enqueue(
             interested.map((subscription) => {
                 // The id is minted here rather than by the database because the
-                // envelope carries it: the body and the `X-Apograph-Delivery`
+                // envelope carries it: the body and the `X-Ortha-Delivery`
                 // header have to name the same delivery.
                 const deliveryId = randomUUID();
                 return {

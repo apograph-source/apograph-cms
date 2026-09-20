@@ -18,7 +18,7 @@ import {
     type AnyColumn,
     type SQL
 } from 'drizzle-orm';
-import { InjectDatabase, UnitOfWork, type Database } from '@apograph/database';
+import { InjectDatabase, UnitOfWork, type Database } from '@ortha/database';
 import {
     EntryValidationService,
     RelationLinkService,
@@ -35,14 +35,14 @@ import {
     type EntryTransaction,
     type EntryWriteContext,
     type EntryWriteFanout
-} from '@apograph/content-server';
+} from '@ortha/content-server';
 import {
     FilterOperator,
     ScalarFieldType,
     type FieldSchema,
     type ParsedRule
-} from '@apograph/utils-server';
-import { CONTENT_FIELD_TYPE, ENTRY_STATUS } from '@apograph/content-server';
+} from '@ortha/utils-server';
+import { CONTENT_FIELD_TYPE, ENTRY_STATUS } from '@ortha/content-server';
 import { LOCALE_FALLBACK_DEFAULT } from '../../i18n.constants';
 import { LocaleRegistryService } from '../../locales/services/locale-registry.service';
 import { lockLocaleGroup } from '../locale-group-lock';

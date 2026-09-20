@@ -1,4 +1,4 @@
-# @apograph/content-domain
+# @ortha/content-domain
 
 The content **shared kernel** — pure TypeScript rules that both runtimes apply
 identically. Per [ADR-0003](../../../docs/adr/0003-tactical-ddd-inside-plugins.md)
@@ -28,7 +28,7 @@ draft` is unpublish. There is **no** separate `unpublished`/`archived` status
   produces), not an opaque HTML string, which is what makes its heading order,
   table headers, link text and language markers checkable
   (WCAG 1.3.1 / 2.4.6 / 3.1.2 — see
-  [ORT-84](https://linear.app/apograph-source/issue/ORT-84)). Five modules:
+  [ORT-84](https://linear.app/ortha-source/issue/ORT-84)). Five modules:
     - `rich-text-node.ts` — the vocabulary (`RICH_TEXT_NODE`, `RICH_TEXT_MARK`),
       the types, the guards (`isRichTextDocument`) and the walk. The vocabulary
       is **open**: it names what the kernel reasons about, not what a document
@@ -104,7 +104,7 @@ typeName })`; the entries `Entry` domain model uses `assertTransition` +
 
 ## Commands
 
-- `npx nx typecheck @apograph/content-domain`
-- `npx nx lint @apograph/content-domain`
-- `npx nx test @apograph/content-domain` — DB-free unit tests for the state
+- `npx nx typecheck @ortha/content-domain`
+- `npx nx lint @ortha/content-domain`
+- `npx nx test @ortha/content-domain` — DB-free unit tests for the state
   machine, the validator, and the publish gate.

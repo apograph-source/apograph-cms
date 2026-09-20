@@ -1,11 +1,11 @@
 import { Injectable, OnModuleInit, Optional } from '@nestjs/common';
 import { eq } from 'drizzle-orm';
-import { UnitOfWork } from '@apograph/database';
+import { UnitOfWork } from '@ortha/database';
 import {
     WorkspacePurgeRegistry,
     type WorkspacePurger,
     type WorkspacePurgeOutcome
-} from '@apograph/workspaces-server';
+} from '@ortha/workspaces-server';
 import { contentEntryRevisions } from '../persistence/revision-table';
 
 /**

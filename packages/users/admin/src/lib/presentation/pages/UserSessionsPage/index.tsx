@@ -11,15 +11,15 @@ import {
     CardTitle,
     Skeleton,
     toast
-} from '@apograph/design-system';
-import { useHasPermission } from '@apograph/identity-admin';
+} from '@ortha/design-system';
+import { useHasPermission } from '@ortha/identity-admin';
 import {
     useUserSessions,
     type UserSession
 } from '../../../application/useUserSessions';
 import { useRevokeSession } from '../../../application/useRevokeSession';
 import { useUserDetailContext } from '../../userDetailContext';
-import { ConfirmDialog } from '@apograph/design-system';
+import { ConfirmDialog } from '@ortha/design-system';
 import { SessionCard } from '../../components/SessionCard';
 
 /** Intl descriptors for {@link UserSessionsPage}. */

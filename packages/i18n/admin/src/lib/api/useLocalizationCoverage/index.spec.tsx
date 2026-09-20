@@ -32,7 +32,7 @@ import { useLocalizationCoverage } from './index';
 
 const get = vi.hoisted(() => vi.fn());
 
-vi.mock('@apograph/utils-admin', () => ({
+vi.mock('@ortha/utils-admin', () => ({
     apiClient: { get },
     STALE_TIME: { Standard: 30_000 },
     toApiError: (error: unknown) => error
@@ -41,11 +41,11 @@ vi.mock('@apograph/utils-admin', () => ({
 /** The open workspace, swapped between renders by the cache-key case. */
 const open = vi.hoisted(() => ({ id: 'ws-alpha' }));
 
-vi.mock('@apograph/workspaces-admin', () => ({
+vi.mock('@ortha/workspaces-admin', () => ({
     useCurrentWorkspace: () => ({ id: open.id, name: open.id })
 }));
 
-vi.mock('@apograph/identity-admin', () => ({
+vi.mock('@ortha/identity-admin', () => ({
     useHasPermission: () => true
 }));
 

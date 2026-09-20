@@ -1,8 +1,8 @@
 import { createServer, type Server } from 'node:http';
 import type { AddressInfo } from 'node:net';
 import type { INestApplication } from '@nestjs/common';
-import { getPool } from '@apograph/database';
-import { WebhookDeliveryWorker } from '@apograph/webhooks-server';
+import { getPool } from '@ortha/database';
+import { WebhookDeliveryWorker } from '@ortha/webhooks-server';
 // Two providers the plugin binds for DI but does not re-export from its index.
 // Reached by path for the same reason `seed.ts` reaches for `HashingService`:
 // the point is to hold the SAME instance the running app holds, so a test

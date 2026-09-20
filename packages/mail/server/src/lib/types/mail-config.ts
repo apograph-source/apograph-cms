@@ -2,7 +2,7 @@ import {
     DEFAULT_MAIL_TEMPLATES,
     DEFAULT_MAX_ATTEMPTS,
     type MailTemplates
-} from '@apograph/mail-domain';
+} from '@ortha/mail-domain';
 
 /**
  * Configuration for the mail plugin.
@@ -105,7 +105,7 @@ export interface ResolvedMailConfig {
 
 /** Defaults chosen to be unsurprising next to somebody else's relay. */
 export const MAIL_DEFAULTS = {
-    productName: 'Apograph',
+    productName: 'Ortha',
     revealLinks: false,
     deliveryIntervalMs: 2_000,
     batchSize: 20,

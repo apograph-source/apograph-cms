@@ -1,8 +1,8 @@
 import { useMemo, useRef, useState } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
-import { useHasPermission } from '@apograph/identity-admin';
-import { useCurrentWorkspace } from '@apograph/workspaces-admin';
-import { useContentTypes } from '@apograph/content-admin';
+import { useHasPermission } from '@ortha/identity-admin';
+import { useCurrentWorkspace } from '@ortha/workspaces-admin';
+import { useContentTypes } from '@ortha/content-admin';
 import {
     Alert,
     AlertDescription,
@@ -16,7 +16,7 @@ import {
     CardTitle,
     SkeletonRegion,
     Skeleton
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import { protectedTypeRows } from '../../../domain/protectedTypeRows';
 import type { ProtectedTypeRow } from '../../../domain/types';
 import { useProtectionRules } from '../../../application/hooks';

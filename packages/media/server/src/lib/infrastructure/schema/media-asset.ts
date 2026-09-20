@@ -22,7 +22,7 @@ export const mediaKind = pgEnum('media_kind', [
 
 // The timed-text types live in `domain/value-objects/media-track` — the
 // aggregate owns them, this table only stores them — and are re-exported here
-// so `@apograph/media-server`'s public surface and every existing import path
+// so `@ortha/media-server`'s public surface and every existing import path
 // are unchanged.
 export {
     MEDIA_TRACK_KIND,
@@ -79,7 +79,7 @@ export const mediaAsset = pgTable(
          * layer**: `MediaKind` has no `caption` category, so a WebVTT file
          * uploaded as a second asset was `kind: 'document'` with no link back to
          * the video it belonged to, and nothing downstream could find it. Video
-         * published through Apograph therefore had no captions available to it —
+         * published through Ortha therefore had no captions available to it —
          * WCAG 1.2.2 / 1.2.3, 508 503.4 (`ORT-92`).
          *
          * A `jsonb` list of pointers rather than a self-referencing column,

@@ -7,7 +7,7 @@ import {
     EmptyHeader,
     EmptyMedia,
     EmptyTitle
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import { FileQuestion } from 'lucide-react';
 import type { ContentType } from '../../../domain/types/contentType';
 import {

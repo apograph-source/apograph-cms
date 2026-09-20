@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import type { ProposalApplier } from '@apograph/copilot-domain';
+import type { ProposalApplier } from '@ortha/copilot-domain';
 import {
     ProposalRepository,
     type ProposalView

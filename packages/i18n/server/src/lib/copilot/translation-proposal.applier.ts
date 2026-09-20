@@ -1,7 +1,7 @@
-import { proposalEventActor } from '@apograph/copilot-server';
+import { proposalEventActor } from '@ortha/copilot-server';
 import { Injectable } from '@nestjs/common';
 import { and, eq, isNull, type AnyColumn } from 'drizzle-orm';
-import { InjectDatabase, type Database } from '@apograph/database';
+import { InjectDatabase, type Database } from '@ortha/database';
 import {
     EntryWriterService,
     InjectContentRegistry,
@@ -10,13 +10,13 @@ import {
     toRecord,
     type AnyContentType,
     type ContentTypeRegistry
-} from '@apograph/content-server';
+} from '@ortha/content-server';
 import type {
     ProposalActor,
     ProposalApplier,
     ProposalApplyResult,
     ProposalTarget
-} from '@apograph/copilot-domain';
+} from '@ortha/copilot-domain';
 import { I18N_PROPOSAL_KINDS } from './translation-proposal.provider';
 
 /** A generated content table seen as a bag of columns by property name. */

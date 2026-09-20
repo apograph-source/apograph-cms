@@ -8,7 +8,7 @@ import {
     TableHead,
     TableHeader,
     TableRow
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import type { WebhookEndpoint } from '../../../domain/types/webhook';
 import { DeliveryStatusBadge } from '../DeliveryStatusBadge';
 

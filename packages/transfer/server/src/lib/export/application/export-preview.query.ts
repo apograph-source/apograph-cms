@@ -14,13 +14,13 @@
  */
 
 import { Injectable } from '@nestjs/common';
-import type { AnyContentType } from '@apograph/content-server';
+import type { AnyContentType } from '@ortha/content-server';
 import {
     TRANSFER_FORMAT_CAPABILITIES,
     type TransferCounts,
     type TransferDepth,
     type TransferFormat
-} from '@apograph/transfer-domain';
+} from '@ortha/transfer-domain';
 import { EntryGraphWalker } from '../infrastructure/entry-graph.walker';
 
 /** What a preview reports. */

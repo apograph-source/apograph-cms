@@ -6,8 +6,8 @@ import {
     SegmentedControl,
     SegmentedControlItem,
     SidebarGroup
-} from '@apograph/design-system';
-import { useHasPermission } from '@apograph/identity-admin';
+} from '@ortha/design-system';
+import { useHasPermission } from '@ortha/identity-admin';
 import { useCopilotAvailable } from '../../application/useCopilotModels';
 import {
     COPILOT_USE,
@@ -15,7 +15,7 @@ import {
     isAgentsPath
 } from '../../domain/agentsRoute';
 
-// The product is **Apograph AI**; the code keeps `copilot`. See the naming note in
+// The product is **Ortha AI**; the code keeps `copilot`. See the naming note in
 // `docs/design/copilot.md`.
 const messages = defineMessages({
     label: {
@@ -38,7 +38,7 @@ const AGENTS = 'agents';
 
 /** Where the CMS half of the switcher goes back to, per workspace. */
 const returnKey = (workspaceId: string) =>
-    `apograph:agents:return:${workspaceId}`;
+    `ortha:agents:return:${workspaceId}`;
 
 /**
  * Records the CMS page the user was last on.

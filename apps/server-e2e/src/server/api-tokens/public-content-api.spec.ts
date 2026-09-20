@@ -147,7 +147,7 @@ describe('Public content API (/api/v1)', () => {
         it('401s on an unknown bearer token', async () => {
             await request(harness.server)
                 .get('/api/v1/content/test_article')
-                .set('Authorization', 'Bearer apograph_not-a-real-token')
+                .set('Authorization', 'Bearer ortha_not-a-real-token')
                 .expect(401);
         });
 
@@ -226,7 +226,7 @@ describe('Public content API (/api/v1)', () => {
                     .set('Authorization', `Bearer ${secret}`)
                     .expect(401);
 
-            const unknown = await refusal('apograph_not-a-real-token');
+            const unknown = await refusal('ortha_not-a-real-token');
             const dead = await refusal(revoked.secret);
             const stale = await refusal(expired.secret);
 

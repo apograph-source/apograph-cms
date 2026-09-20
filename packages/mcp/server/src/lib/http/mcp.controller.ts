@@ -10,9 +10,9 @@ import {
 } from '@nestjs/common';
 import { ApiExcludeController } from '@nestjs/swagger';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
-import { Public } from '@apograph/identity-server';
+import { Public } from '@ortha/identity-server';
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { ToolRegistry } from '@apograph/tools-server';
+import { ToolRegistry } from '@ortha/tools-server';
 import { MCP_CONFIG } from '../mcp.tokens';
 import { buildMcpServer } from '../protocol/build-mcp-server';
 import type { McpPluginConfig } from '../types/mcp-config';

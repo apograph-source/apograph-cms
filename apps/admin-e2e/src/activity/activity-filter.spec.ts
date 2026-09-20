@@ -5,7 +5,7 @@ import { expectNoA11yViolations } from '../support/a11y';
 
 /**
  * The Activity Log query-builder filter drawer
- * (`@apograph/query-builder-admin`): building a condition narrows the log, the
+ * (`@ortha/query-builder-admin`): building a condition narrows the log, the
  * choice deep-links into the URL as `?filter=<json>`, and Reset clears it. The
  * `GET /api/activity` mock honours the `filter` param (AND-ed with the actor
  * search), mirroring the server.
@@ -38,7 +38,7 @@ test.describe('Activity filter (query builder)', () => {
     }) => {
         await activityLogPage.goto();
         await expect(
-            activityLogPage.row('ada@apograph.dev').first()
+            activityLogPage.row('ada@ortha.dev').first()
         ).toBeVisible();
 
         // Default field is "Action" with the "equals" operator. It is an enum
@@ -59,9 +59,9 @@ test.describe('Activity filter (query builder)', () => {
             'true'
         );
         await expect(
-            activityLogPage.row('grace@apograph.dev').first()
+            activityLogPage.row('grace@ortha.dev').first()
         ).toBeVisible();
-        await expect(activityLogPage.row('ada@apograph.dev')).toHaveCount(0);
+        await expect(activityLogPage.row('ada@ortha.dev')).toHaveCount(0);
 
         await expect(page).toHaveURL(/filter=/);
         const filterParam = new URL(page.url()).searchParams.get('filter');
@@ -94,9 +94,9 @@ test.describe('Activity filter (query builder)', () => {
         await page.goto(`/activity?filter=${filter}`);
 
         await expect(
-            activityLogPage.row('grace@apograph.dev').first()
+            activityLogPage.row('grace@ortha.dev').first()
         ).toBeVisible();
-        await expect(activityLogPage.row('ada@apograph.dev')).toHaveCount(0);
+        await expect(activityLogPage.row('ada@ortha.dev')).toHaveCount(0);
         await expect(activityLogPage.filterTrigger()).toHaveText(
             /Filters \(1\)/
         );
@@ -108,7 +108,7 @@ test.describe('Activity filter (query builder)', () => {
     }) => {
         await activityLogPage.goto();
         await expect(
-            activityLogPage.row('ada@apograph.dev').first()
+            activityLogPage.row('ada@ortha.dev').first()
         ).toBeVisible();
 
         // Actor ID is a UUID field offering "is one of" (free-text CSV). A
@@ -152,14 +152,14 @@ test.describe('Activity filter (query builder)', () => {
         );
         await page.goto(`/activity?filter=${filter}`);
         await expect(
-            activityLogPage.row('grace@apograph.dev').first()
+            activityLogPage.row('grace@ortha.dev').first()
         ).toBeVisible();
 
         await activityLogPage.openFilters();
         await activityLogPage.resetFilters();
 
         await expect(
-            activityLogPage.row('ada@apograph.dev').first()
+            activityLogPage.row('ada@ortha.dev').first()
         ).toBeVisible();
         await expect(page).not.toHaveURL(/filter=/);
         await expect(activityLogPage.filterTrigger()).toHaveText(/^Filters$/);

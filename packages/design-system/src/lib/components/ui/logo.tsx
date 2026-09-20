@@ -11,14 +11,14 @@ const sizes = {
  * Props for the {@link Logo} component.
  */
 type LogoProps = React.ComponentProps<'div'> & {
-    /** Whether to show the "Apograph CMS" text label. Defaults to true. */
+    /** Whether to show the "Ortha CMS" text label. Defaults to true. */
     showLabel?: boolean;
     /** Brand-mark size. Defaults to `sm`. */
     size?: keyof typeof sizes;
 };
 
 /**
- * Apograph CMS brand logo. Renders the hexagon icon badge
+ * Ortha CMS brand logo. Renders the hexagon icon badge
  * with an optional text label.
  */
 export function Logo({
@@ -42,9 +42,9 @@ export function Logo({
                 <HexagonIcon className={sizes[size].icon} aria-hidden="true" />
             </div>
             {showLabel ? (
-                <span>Apograph CMS</span>
+                <span>Ortha CMS</span>
             ) : (
-                <span className="sr-only">Apograph CMS</span>
+                <span className="sr-only">Ortha CMS</span>
             )}
         </div>
     );

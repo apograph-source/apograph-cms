@@ -16,14 +16,14 @@ import {
     RadioGroupItem,
     Spinner,
     toast
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import {
     CONFLICT_POLICY,
     RELATION_POLICY,
     type ConflictPolicy,
     type ImportPreview,
     type RelationPolicy
-} from '@apograph/transfer-domain';
+} from '@ortha/transfer-domain';
 import { useImportPreview } from '../../api/useImportPreview';
 import { useImportApply } from '../../api/useImportApply';
 import { ImportVerdictList } from '../ImportVerdictList';
@@ -33,7 +33,7 @@ const messages = defineMessages({
     description: {
         id: 'transfer.import.description',
         defaultMessage:
-            'Choose a file exported from Apograph, or a CSV matching this collection’s columns. Nothing is written until you’ve seen what will change.'
+            'Choose a file exported from Ortha, or a CSV matching this collection’s columns. Nothing is written until you’ve seen what will change.'
     },
     file: { id: 'transfer.import.file', defaultMessage: 'File' },
     fileHint: {

@@ -1,12 +1,12 @@
 import { createHash } from 'node:crypto';
 import { PassThrough, Readable } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
-import { ObjectNotFoundError } from '@apograph/media-domain';
+import { ObjectNotFoundError } from '@ortha/media-domain';
 import type {
     PutObject,
     StorageProvider,
     StoredObject
-} from '@apograph/media-domain';
+} from '@ortha/media-domain';
 
 /** One blob, as this provider holds it. */
 interface StoredBlob {

@@ -3,7 +3,7 @@ import { BasePage } from './BasePage';
 
 /**
  * Page object for the Activity Log at `/activity` (from
- * `@apograph/activity-admin`).
+ * `@ortha/activity-admin`).
  *
  * Data comes from the `GET /api/activity` mock (`mockActivity`); tests also
  * need `mockSignedIn` for the shell's auth probe. The page (and its nav entry)

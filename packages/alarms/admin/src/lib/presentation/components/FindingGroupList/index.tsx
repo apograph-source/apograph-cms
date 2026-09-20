@@ -1,5 +1,5 @@
 import { defineMessages, useIntl } from 'react-intl';
-import { Alert, AlertDescription, AlertTitle } from '@apograph/design-system';
+import { Alert, AlertDescription, AlertTitle } from '@ortha/design-system';
 import { BellOff, CircleCheck, TriangleAlert } from 'lucide-react';
 import type { AlarmRule } from '../../../types/alarm';
 import { AlarmsEmpty } from '../AlarmsEmpty';

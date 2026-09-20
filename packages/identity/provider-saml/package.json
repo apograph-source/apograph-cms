@@ -1,5 +1,5 @@
 {
-    "name": "@apograph/identity-provider-saml",
+    "name": "@ortha/identity-provider-saml",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -17,7 +17,7 @@
     ],
     "dependencies": {
         "@node-saml/node-saml": "^5.1.0",
-        "@apograph/identity-domain": "*",
+        "@ortha/identity-domain": "*",
         "selfsigned": "^5.5.0",
         "xml-crypto": "^6.1.2"
     }

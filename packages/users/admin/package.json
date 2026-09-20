@@ -1,5 +1,5 @@
 {
-    "name": "@apograph/users-admin",
+    "name": "@ortha/users-admin",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -16,13 +16,13 @@
         "src"
     ],
     "dependencies": {
-        "@apograph/activity-admin": "*",
-        "@apograph/bootstrap-admin": "*",
-        "@apograph/design-system": "*",
-        "@apograph/identity-admin": "*",
-        "@apograph/query-builder-admin": "*",
-        "@apograph/shell-admin": "*",
-        "@apograph/utils-admin": "*",
+        "@ortha/activity-admin": "*",
+        "@ortha/bootstrap-admin": "*",
+        "@ortha/design-system": "*",
+        "@ortha/identity-admin": "*",
+        "@ortha/query-builder-admin": "*",
+        "@ortha/shell-admin": "*",
+        "@ortha/utils-admin": "*",
         "@tanstack/react-form": "^1.0.0",
         "@tanstack/react-query": "^5.0.0",
         "lucide-react": "^1.17.0",

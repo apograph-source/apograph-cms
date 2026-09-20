@@ -2,7 +2,7 @@
 
 Signing in to the admin with an identity the operator already runs: Google
 Workspace, Entra ID, Okta, Auth0, Keycloak — and, later, SAML. The person still
-gets an Apograph account with an Apograph role; what changes is who checks the
+gets an Ortha account with an Ortha role; what changes is who checks the
 credential.
 
 **Status:** proposed. Nothing is built. This document is the plan, and the
@@ -27,12 +27,12 @@ answering them later, under a migration.
 So phase 0 is:
 
 1. **ADR-0013** — the port, and the authority rules that go with it.
-2. **`@apograph/identity-domain`** — a new framework-free package holding the
-   `SsoProvider` port, exactly as `@apograph/copilot-domain` holds
+2. **`@ortha/identity-domain`** — a new framework-free package holding the
+   `SsoProvider` port, exactly as `@ortha/copilot-domain` holds
    `ModelProvider`. It has to be its own package: an adapter must be able to
    depend on the port without dragging in Nest, Drizzle and identity's 108
    import sites.
-3. **`@apograph/identity-provider-fake`** — scripted, deterministic, no network.
+3. **`@ortha/identity-provider-fake`** — scripted, deterministic, no network.
    It is how `server-e2e` drives the whole redirect dance in CI and how a
    contributor exercises the login page offline. Unlike the copilot's scripted
    adapter it is not registered by any host, and never was: a scripted identity
@@ -47,7 +47,7 @@ So phase 0 is:
 6. **One account rule**: an SSO login may only sign in a user who already
    exists and is `active`. It creates nobody. Provisioning is phase 2.
 
-That last point is what keeps phase 0 small and safe. Apograph is invite-only by
+That last point is what keeps phase 0 small and safe. Ortha is invite-only by
 design; phase 0 keeps it invite-only and replaces only the _credential check_.
 A deployment that turns SSO on gets "our staff sign in with Google" without
 also getting "anyone with a Google account has an account here".
@@ -169,7 +169,7 @@ New tables, both owned by `identity/server` and shipped in its `migrations/`:
 
 | Table               | Purpose                               | Key constraint                                             |
 | ------------------- | ------------------------------------- | ---------------------------------------------------------- |
-| `sso_identities`    | Links an Apograph user to an IdP subject | unique `(provider, subject)`; unique `(provider, user_id)` |
+| `sso_identities`    | Links an Ortha user to an IdP subject | unique `(provider, subject)`; unique `(provider, user_id)` |
 | `sso_auth_requests` | In-flight handshake state             | one-time `consumed_at`, short `expires_at`                 |
 
 ## 5. Decisions to settle in the ADR
@@ -182,7 +182,7 @@ These are the reason the ADR comes before the code.
 | Linking to an existing account | Only when `emailVerified` is true and the account is `active`. Never to `pending` or `disabled`.                                                                      | Linking to a `disabled` account reopens a door an admin closed — the same rule the password-reset flow already applies.                            |
 | Do IdP groups set the role?    | Only if the host supplies a `resolveRole` handler. Otherwise the admin's setting stands.                                                                              | Silent role rewrites on every login would undo admin edits with no audit trail. Make it an explicit opt-in, and record it.                         |
 | Can passwords be turned off?   | Yes, `allowPasswordLogin: false` — but the root admin keeps a break-glass path.                                                                                       | An operator who mis-scopes their IdP and disabled passwords has locked themselves out of their own CMS with no recovery.                           |
-| Offboarding                    | Say plainly that a disabled IdP user keeps their Apograph session for up to `SESSION_TTL_SECONDS`. Offer a shorter TTL for SSO sessions; back-channel logout is phase 3. | Operators buy SSO expecting instant offboarding. Left unsaid, this is a security surprise rather than a documented limit.                          |
+| Offboarding                    | Say plainly that a disabled IdP user keeps their Ortha session for up to `SESSION_TTL_SECONDS`. Offer a shorter TTL for SSO sessions; back-channel logout is phase 3. | Operators buy SSO expecting instant offboarding. Left unsaid, this is a security surprise rather than a documented limit.                          |
 
 ## 6. Providers, in the order they earn their keep
 
@@ -190,7 +190,7 @@ The copilot ships a package per vendor because the SDKs genuinely differ. SSO
 diverges here on purpose: **the wire is the same**, so most vendors are a
 preset, not a package.
 
-- **Generic OIDC** — `@apograph/identity-provider-oidc`. One adapter covering
+- **Generic OIDC** — `@ortha/identity-provider-oidc`. One adapter covering
   Okta, Auth0, Keycloak, Google, Entra ID, Authentik, Zitadel, JumpCloud, Ping
   and GitLab through discovery + JWKS. This is the SSO equivalent of the
   copilot's OpenAI-compatible adapter, and it is the highest-leverage thing to
@@ -238,10 +238,10 @@ not a place to demonstrate independence.
 
 ## 8. Ripples outside identity
 
-- `create-apograph-app/src/lib/features.ts` must classify every new package, and
+- `create-ortha-app/src/lib/features.ts` must classify every new package, and
   `features.spec.ts` fails until it does. An "SSO providers" wizard group,
   defaulting to none, matches how the copilot backends are asked about.
-- `apograph.config.ts` gains an `sso` block under `plugins.identity`, with each
+- `ortha.config.ts` gains an `sso` block under `plugins.identity`, with each
   provider key present only when its settings are — the same rule the copilot
   providers follow, and for the same reason.
 - The login page needs the provider list _before_ anyone is authenticated, so

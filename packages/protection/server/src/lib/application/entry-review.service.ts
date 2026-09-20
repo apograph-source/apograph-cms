@@ -4,24 +4,24 @@ import {
     OutboxWriter,
     UnitOfWork,
     type EventActor
-} from '@apograph/database';
+} from '@ortha/database';
 import {
     InjectContentRegistry,
     WorkspaceGrantsQuery,
     type ContentTypeRegistry
-} from '@apograph/content-server';
+} from '@ortha/content-server';
 import {
     AccessPolicy,
     PERMISSIONS,
     Permission,
     PermissionsService,
     type PublicUser
-} from '@apograph/identity-server';
+} from '@ortha/identity-server';
 import {
     countApprovals,
     evaluateProtection,
     type ProtectionInput
-} from '@apograph/protection-domain';
+} from '@ortha/protection-domain';
 import {
     ReviewableEntryNotFoundError,
     ReviewerNotEligibleError,
@@ -86,7 +86,7 @@ interface ResolvedEntry {
  * change it.
  *
  * **The counting is not here.** Every number this service reports comes from
- * `evaluateProtection` in `@apograph/protection-domain`, handed the rule, the
+ * `evaluateProtection` in `@ortha/protection-domain`, handed the rule, the
  * head revision and the votes. That matters more than it looks: the same
  * function decides whether the publish route refuses, so a second count in SQL
  * would be a button that disagrees with the API refusing it — and it would

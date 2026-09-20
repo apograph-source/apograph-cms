@@ -1,6 +1,6 @@
 import { defineMessages, useIntl } from 'react-intl';
 import { Webhook } from 'lucide-react';
-import { PageTopBar } from '@apograph/shell-admin';
+import { PageTopBar } from '@ortha/shell-admin';
 import {
     Container,
     ContainerHeader,
@@ -11,7 +11,7 @@ import {
     TableHead,
     TableHeader,
     TableRow
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 
 /** Intl descriptors for the webhook skeletons, co-located here. */
 const messages = defineMessages({

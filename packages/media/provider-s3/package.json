@@ -1,5 +1,5 @@
 {
-    "name": "@apograph/media-provider-s3",
+    "name": "@ortha/media-provider-s3",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -19,9 +19,9 @@
         "@aws-sdk/client-s3": "^3.716.0",
         "@aws-sdk/lib-storage": "^3.716.0",
         "@aws-sdk/s3-request-presigner": "^3.716.0",
-        "@apograph/media-domain": "*"
+        "@ortha/media-domain": "*"
     },
     "devDependencies": {
-        "@apograph/media-provider-testkit": "*"
+        "@ortha/media-provider-testkit": "*"
     }
 }

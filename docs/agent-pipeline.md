@@ -32,7 +32,7 @@ What actually drives cost here is three things:
 3. **Whether there are structural consequences.** Those are not vague here: a
    new table, slot or package moves a number that `tools/docs-guard` pins
    against `ARCHITECTURE.md` and `CONTEXT-MAP.md`, and a new published package
-   must be classified in `create-apograph-app`'s `features.ts` or a test stays
+   must be classified in `create-ortha-app`'s `features.ts` or a test stays
    red. That is a known, enumerable checklist — exactly what deterministic
    routing is for.
 

@@ -1,7 +1,7 @@
 import type { INestApplication } from '@nestjs/common';
 import type { Request } from 'express';
-import type { SegmentResolver } from '@apograph/segments-domain';
-import { SegmentCatalogService } from '@apograph/segments-server';
+import type { SegmentResolver } from '@ortha/segments-domain';
+import { SegmentCatalogService } from '@ortha/segments-server';
 
 /** The header the harness's reader resolver reads. */
 export const READER_TAGS_HEADER = 'x-reader-tags';

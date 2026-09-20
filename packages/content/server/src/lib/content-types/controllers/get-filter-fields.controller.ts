@@ -9,8 +9,8 @@ import {
     PERMISSIONS,
     PermissionsGuard,
     RequirePermissions
-} from '@apograph/identity-server';
-import { CurrentWorkspace, WorkspaceGuard } from '@apograph/workspaces-server';
+} from '@ortha/identity-server';
+import { CurrentWorkspace, WorkspaceGuard } from '@ortha/workspaces-server';
 import { InjectContentRegistry } from '../../content.tokens';
 import type { ContentTypeRegistry } from '../../registry/content-type-registry';
 import { buildEntryFilterSurface } from '../../entries/infrastructure/queries/entry-filter-surface';

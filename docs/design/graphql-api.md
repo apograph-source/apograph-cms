@@ -71,7 +71,7 @@ not have: **a single request must have a bounded cost** (§9).
 
 ## 3. Where the code goes
 
-A new package, `packages/content/graphql` → **`@apograph/content-graphql`**, a
+A new package, `packages/content/graphql` → **`@ortha/content-graphql`**, a
 sibling of `content/server` inside the `content` group.
 
 Why its own package rather than a folder inside `content/server`:
@@ -466,7 +466,7 @@ Small and mostly mechanical — the point of §1 is that this list stays short:
   `PublicListEntriesQueryDto` / `PublicSaveEntryDto` types.
 - `packages/identity/server` — export `tokenActor` (§8) and refactor
   `ApiTokenGuard` onto it.
-- `apps/server/apograph.config.ts` + `src/plugins.ts` — register the plugin and its
+- `apps/server/ortha.config.ts` + `src/plugins.ts` — register the plugin and its
   config block (`enabled`, `maxDepth`, `maxComplexity`, `graphiql`).
 - `apps/server-e2e/src/support/plugins.ts` — same registration for tests.
 - Root `package.json` — `graphql`.

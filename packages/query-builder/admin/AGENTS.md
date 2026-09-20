@@ -1,17 +1,17 @@
-# @apograph/query-builder-admin
+# @ortha/query-builder-admin
 
 Admin-side React component for visually composing filter trees against a
 typed schema. Emits the JSON tree grammar consumed by `parseFilterTree`
-in `@apograph/utils-server`:
+in `@ortha/utils-server`:
 `?filter={"and":[{"field":"email","op":"ilike","value":"%@x"}]}`.
 The state shape, wire format, and UI all round-trip OR + nested groups
 end-to-end. Each group owns an AND/OR toggle and an Add group action.
 
 ## Package
 
-- Name: `@apograph/query-builder-admin`
-- Import: `import { QueryBuilder, QueryBuilderPanel, type FilterField } from '@apograph/query-builder-admin'`
-- Pure UI library — depends only on `@apograph/design-system`,
+- Name: `@ortha/query-builder-admin`
+- Import: `import { QueryBuilder, QueryBuilderPanel, type FilterField } from '@ortha/query-builder-admin'`
+- Pure UI library — depends only on `@ortha/design-system`,
   `lucide-react`, `react-intl` (+ React peers). No router / data layer.
 
 ## Conventions
@@ -65,7 +65,7 @@ end-to-end. Each group owns an AND/OR toggle and an Add group action.
   value is rendered through the field's declared members, because the wire value
   can be an opaque id and the chip is the only reading of a rule once the panel
   has collapsed — a plugin's virtual field makes that unmissable
-  (`@apograph/segments-admin` filters by a segment's uuid, so an unresolved chip
+  (`@ortha/segments-admin` filters by a segment's uuid, so an unresolved chip
   read "Can be seen by is one of d19a552b-…"). An unknown member falls back to
   the raw value: a saved view can outlive the option it names, and a chip showing
   nothing would read as a filter that is not applied.
@@ -79,7 +79,7 @@ end-to-end. Each group owns an AND/OR toggle and an Add group action.
       dotted id it labels the relations the path walks. On a **flat** id it
       names a plain **category** — a heading in the picker with no traversal
       behind it, for fields that belong together but share no path: the virtual
-      fields a plugin contributes (`@apograph/segments-admin`'s Segmentation
+      fields a plugin contributes (`@ortha/segments-admin`'s Segmentation
       group). That is one field answering one question — "under what heading
       does this belong" — rather than a second `category` prop meaning the same
       thing, which the search breadcrumb would then have to read both of.
@@ -202,8 +202,8 @@ the injected `renderRelationValue` seam.)
 
 ## Commands
 
-- `npx nx typecheck @apograph/query-builder-admin`
-- `npx nx test @apograph/query-builder-admin` — the unit specs. Component
+- `npx nx typecheck @ortha/query-builder-admin`
+- `npx nx test @ortha/query-builder-admin` — the unit specs. Component
   behaviour belongs in `admin-e2e`, which drives a real browser; what lives here
   is what a browser cannot reach cheaply — `utils/fieldTree` (the pure tree the
   picker is built from, whose whole job is deciding which of three buckets a

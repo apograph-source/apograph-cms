@@ -11,7 +11,7 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 
 const messages = defineMessages({
     rowsPerPage: {

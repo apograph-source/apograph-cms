@@ -1,4 +1,4 @@
-/** Public API of @apograph/mcp-server. */
+/** Public API of @ortha/mcp-server. */
 
 export { McpPlugin } from './lib/utils/mcp-plugin';
 export type {
@@ -10,7 +10,7 @@ export { McpModule } from './lib/mcp.module';
 export { MCP_CONFIG, InjectMcpConfig } from './lib/mcp.tokens';
 export type { McpPluginConfig } from './lib/types/mcp-config';
 
-// The tool seam moved to `@apograph/tools-server`. It is no longer MCP's to
+// The tool seam moved to `@ortha/tools-server`. It is no longer MCP's to
 // own: the copilot's in-process loop injects the same registry, and importing
 // it from here would make a deployment that wants only the copilot pull the MCP
 // SDK through this barrel. Import `ToolRegistry`, `ToolDefinition`,

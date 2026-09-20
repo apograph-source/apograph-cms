@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { useCurrentWorkspace } from '@apograph/workspaces-admin';
+import { useCurrentWorkspace } from '@ortha/workspaces-admin';
 import { entryRelationsKey } from '../../infrastructure/contentKeys';
 import { httpContentGateway } from '../../infrastructure/httpContentGateway';
 

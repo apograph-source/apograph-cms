@@ -1,11 +1,11 @@
 /**
- * Public API of `@apograph/protection-server` — the publication-protection
+ * Public API of `@ortha/protection-server` — the publication-protection
  * plugin.
  *
  * A per-content-type rule requiring N approvals before an entry may be
  * published. This package owns the three tables and the rule surface; the
  * **decision** those rules feed is `evaluateProtection` in
- * `@apograph/protection-domain`, and it is re-exported nowhere here — a
+ * `@ortha/protection-domain`, and it is re-exported nowhere here — a
  * consumer that needs it depends on the kernel, which needs no framework.
  *
  * Registering the plugin changes nothing on its own: with no rule written,

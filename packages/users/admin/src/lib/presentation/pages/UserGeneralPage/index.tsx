@@ -11,8 +11,8 @@ import {
     InputField,
     Spinner,
     toast
-} from '@apograph/design-system';
-import { useHasPermission } from '@apograph/identity-admin';
+} from '@ortha/design-system';
+import { useHasPermission } from '@ortha/identity-admin';
 import { useUpdateMember } from '../../../application/useUpdateMember';
 import { useUserDetailContext } from '../../userDetailContext';
 

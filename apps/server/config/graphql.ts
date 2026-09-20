@@ -1,7 +1,7 @@
 /** The public GraphQL endpoint's cost budget. */
-import type { ContentGraphqlPluginConfig } from '@apograph/content-graphql';
+import type { ContentGraphqlPluginConfig } from '@ortha/content-graphql';
 
-import { readPositiveInt } from '@apograph/utils-server';
+import { readPositiveInt } from '@ortha/utils-server';
 
 /** The public GraphQL endpoint's cost budget. */
 export function contentGraphqlConfig(): ContentGraphqlPluginConfig {

@@ -88,8 +88,8 @@ test.describe('CMS ⇄ Agents switcher', () => {
     }) => {
         await contentLibraryPage.goto(WORKSPACE_ID);
         // On the CMS the dock *is* the entry point — with no chats open it is a
-        // labelled Apograph AI button in the corner.
-        await expect(agentsPage.dock).toContainText('Apograph AI');
+        // labelled Ortha AI button in the corner.
+        await expect(agentsPage.dock).toContainText('Ortha AI');
 
         await agentsPage.switchView('Agents');
 

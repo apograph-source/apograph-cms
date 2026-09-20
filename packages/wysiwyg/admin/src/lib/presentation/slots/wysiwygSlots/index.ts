@@ -11,13 +11,13 @@
  * pinning the editor to one library's shape forever.
  *
  * So the editor declares what it needs (something that can hand back embeds)
- * and `@apograph/media-admin` provides it, the same inversion content-admin
+ * and `@ortha/media-admin` provides it, the same inversion content-admin
  * uses for its own slots.
  */
 
 import type { ComponentType } from 'react';
 import type { MessageDescriptor } from 'react-intl';
-import { createSlot } from '@apograph/utils-admin';
+import { createSlot } from '@ortha/utils-admin';
 import type { WysiwygMediaKind } from '../../../domain/constants';
 
 /**
@@ -86,7 +86,7 @@ export type WysiwygMediaSourceItem = {
 };
 
 /**
- * Media sources for the rich-text editor. `@apograph/media-admin` fills it
+ * Media sources for the rich-text editor. `@ortha/media-admin` fills it
  * with **Media Library** (browse and pick) and **Upload** (send new files to
  * the library, then place them) — so an upload made from inside a body is a
  * first-class library asset, not an orphan attachment.

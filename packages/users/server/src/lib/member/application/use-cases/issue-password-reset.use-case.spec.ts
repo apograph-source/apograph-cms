@@ -1,5 +1,5 @@
-import type { DomainEvent, OutboxWriter, UnitOfWork } from '@apograph/database';
-import type { PublicUser } from '@apograph/identity-server';
+import type { DomainEvent, OutboxWriter, UnitOfWork } from '@ortha/database';
+import type { PublicUser } from '@ortha/identity-server';
 import { Member } from '../../domain/member';
 import type { MemberRepository } from '../../domain/member.repository';
 import {
@@ -8,7 +8,7 @@ import {
 } from '../../domain/errors';
 import { MEMBER_EVENT_KINDS } from '../../domain/events/member-events';
 import type { PasswordResetTokenService } from '../../infrastructure/persistence/password-reset-token.service';
-import type { MailDispatcher, TransactionalMail } from '@apograph/mail-domain';
+import type { MailDispatcher, TransactionalMail } from '@ortha/mail-domain';
 import { PASSWORD_RESET_COOLDOWN_SECONDS } from '../../member.constants';
 import { IssuePasswordResetUseCase } from './issue-password-reset.use-case';
 

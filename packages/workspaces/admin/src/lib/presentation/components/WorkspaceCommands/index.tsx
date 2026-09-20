@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { defineMessages, useIntl } from 'react-intl';
-import { CommandGroup, CommandItem } from '@apograph/design-system';
-import type { CommandSectionProps } from '@apograph/shell-admin';
-import { initialsOf } from '@apograph/utils-admin';
+import { CommandGroup, CommandItem } from '@ortha/design-system';
+import type { CommandSectionProps } from '@ortha/shell-admin';
+import { initialsOf } from '@ortha/utils-admin';
 import { useWorkspaces } from '../../../application/useWorkspaces';
 import { isActiveWorkspace } from '../../../domain/isActiveWorkspace';
 import { WorkspaceAvatar } from '../WorkspaceAvatar';

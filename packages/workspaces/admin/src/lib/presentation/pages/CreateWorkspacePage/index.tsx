@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { Link, Navigate } from 'react-router-dom';
-import { useHasPermission } from '@apograph/identity-admin';
-import { PageTopBar } from '@apograph/shell-admin';
+import { useHasPermission } from '@ortha/identity-admin';
+import { PageTopBar } from '@ortha/shell-admin';
 import { ArrowLeft, ArrowRight, Layers } from 'lucide-react';
 import {
     Button,
@@ -17,8 +17,8 @@ import {
     Stepper,
     WizardFooter,
     WizardStepCard
-} from '@apograph/design-system';
-import { useDocumentTitle } from '@apograph/utils-admin';
+} from '@ortha/design-system';
+import { useDocumentTitle } from '@ortha/utils-admin';
 import { useCreateWorkspaceFlow } from '../../../application/useCreateWorkspaceFlow';
 import { ContentStep } from '../../components/CreateWorkspaceWizard/ContentStep';
 import { IdentityFields } from '../../components/CreateWorkspaceWizard/IdentityFields';

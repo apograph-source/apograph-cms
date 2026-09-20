@@ -1,5 +1,5 @@
 import { defineMessages, useIntl } from 'react-intl';
-import { Badge } from '@apograph/design-system';
+import { Badge } from '@ortha/design-system';
 import type { MemberRole } from '../../../../domain/types/member';
 
 /** Intl descriptors for {@link MemberRoleChip}, co-located with the component. */

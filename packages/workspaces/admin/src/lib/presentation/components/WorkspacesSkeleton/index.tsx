@@ -3,7 +3,7 @@ import {
     Container,
     Skeleton,
     WizardPageSkeleton
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import { WorkspaceSettingsTopBar } from '../WorkspaceSettingsTopBar';
 
 /** Intl descriptors for the workspaces skeletons, co-located here. */

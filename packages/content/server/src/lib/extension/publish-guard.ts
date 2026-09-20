@@ -3,7 +3,7 @@
  * publish, without this package knowing why.
  *
  * Content-server declares the port and consults it from the publish use-cases;
- * an implementing plugin (`@apograph/protection-server`, for approval rules)
+ * an implementing plugin (`@ortha/protection-server`, for approval rules)
  * registers a guard through {@link contentPublishGuardRegistrar}. Every
  * registered guard must allow the publish for it to proceed — a refusal from
  * any one of them refuses.
@@ -53,7 +53,7 @@ import {
     type Provider,
     type Type
 } from '@nestjs/common';
-import type { DomainEvent } from '@apograph/database';
+import type { DomainEvent } from '@ortha/database';
 import type { AnyContentType } from '../types/content-type';
 
 /**

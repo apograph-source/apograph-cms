@@ -81,7 +81,7 @@ the signature, an `X-Api-Key`, a routing header for a gateway. They are edited
 on the endpoint form and stored on the row.
 
 Two families are refused, in the editor and again on every write
-(`isAllowedCustomHeader`): anything starting with **`X-Apograph-`**, and the
+(`isAllowedCustomHeader`): anything starting with **`X-Ortha-`**, and the
 transport's own (`Host`, `Content-Type`, `Content-Length`,
 `Transfer-Encoding`, `Connection`, `User-Agent`). The first would let a delivery
 claim to be a different event, or to be signed by someone else; `Host` is how a
@@ -93,21 +93,21 @@ same people who can rotate the signing secret. The endpoint's read-only view
 lists header **names** for that reason; the values live in the editor.
 
 Custom headers are not a substitute for the signature. A receiver still verifies
-`X-Apograph-Signature`: a bearer token proves who sent the request, the HMAC proves
+`X-Ortha-Signature`: a bearer token proves who sent the request, the HMAC proves
 the body was not changed on the way.
 
 ## What a receiver gets
 
 ```http
-POST /hooks/apograph HTTP/1.1
+POST /hooks/ortha HTTP/1.1
 Content-Type:       application/json
-User-Agent:         Apograph-Webhooks/1
-X-Apograph-Event:      entry.published
-X-Apograph-Delivery:   3f2b…      # this delivery; changes on a redelivery
-X-Apograph-Event-Id:   9c41…      # the event; STABLE across redeliveries
-X-Apograph-Workspace:  b71e…      # omitted when the event has no workspace
-X-Apograph-Attempt:    2
-X-Apograph-Signature:  t=1756468320,v1=5d41402abc4b2a76…
+User-Agent:         Ortha-Webhooks/1
+X-Ortha-Event:      entry.published
+X-Ortha-Delivery:   3f2b…      # this delivery; changes on a redelivery
+X-Ortha-Event-Id:   9c41…      # the event; STABLE across redeliveries
+X-Ortha-Workspace:  b71e…      # omitted when the event has no workspace
+X-Ortha-Attempt:    2
+X-Ortha-Signature:  t=1756468320,v1=5d41402abc4b2a76…
 ```
 
 ```json
@@ -166,12 +166,12 @@ function verify(secret, header, rawBody, toleranceSeconds = 300) {
 }
 ```
 
-`@apograph/webhooks-domain` exports `verifySignature` with exactly this
+`@ortha/webhooks-domain` exports `verifySignature` with exactly this
 behaviour, so a JavaScript receiver can import it rather than reimplement it.
 
 ## What a receiver must handle
 
-- **Deduplicate on `X-Apograph-Event-Id`.** Delivery is at-least-once, and a
+- **Deduplicate on `X-Ortha-Event-Id`.** Delivery is at-least-once, and a
   redelivery deliberately reuses the id so a receiver that already handled the
   event ignores the repeat.
 - **Do not rely on order.** Attempts retry on independent schedules and several
@@ -245,7 +245,7 @@ already queued, because they are signed when they are sent.
 
 ## What this does not do
 
-- **Incoming webhooks.** Apograph is the sender, not a receiver.
+- **Incoming webhooks.** Ortha is the sender, not a receiver.
 - **Per-workspace management.** The section is global and administrator-only.
 - **Body templating.** The envelope is fixed.
 - **Media, transfer, workspace and account events.** They already exist on the

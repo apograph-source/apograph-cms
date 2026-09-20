@@ -1,9 +1,9 @@
-# @apograph/content-graphql
+# @ortha/content-graphql
 
 The public content API **over GraphQL** — `POST /api/v1/graphql`. Same bearer
 tokens, same workspace bucket, same scopes, same visibility rules as
 `/api/v1/content`: a second **protocol** in front of the surface
-[`@apograph/content-server`](../server/AGENTS.md)'s `public-api/` already
+[`@ortha/content-server`](../server/AGENTS.md)'s `public-api/` already
 serves over REST, not a second API.
 
 Owns no schema, ships no migrations, and adds no credential. A token minted
@@ -349,8 +349,8 @@ also what the wider tooling ecosystem expects. See `coercedVariables` in
 
 ## Commands
 
-- `npx nx test @apograph/content-graphql` — the unit suite (schema build,
+- `npx nx test @ortha/content-graphql` — the unit suite (schema build,
   naming, selection derivation, limits, error mapping, cache).
-- `npx nx typecheck @apograph/content-graphql` / `npx nx lint @apograph/content-graphql`
+- `npx nx typecheck @ortha/content-graphql` / `npx nx lint @ortha/content-graphql`
 - `npx nx e2e server-e2e -- --testPathPatterns public-graphql` — the endpoint
   suites (needs Docker for the testcontainer).

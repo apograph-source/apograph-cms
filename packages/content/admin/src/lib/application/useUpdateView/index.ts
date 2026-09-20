@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useCurrentWorkspace } from '@apograph/workspaces-admin';
+import { useCurrentWorkspace } from '@ortha/workspaces-admin';
 import type { SavedView } from '../../domain/types/savedView';
 import { savedViewsKey } from '../../infrastructure/savedViewsKeys';
 import { httpSavedViewsGateway } from '../../infrastructure/httpSavedViewsGateway';

@@ -1,4 +1,4 @@
-import { createSlot } from '@apograph/utils-admin';
+import { createSlot } from '@ortha/utils-admin';
 import { useIntl } from 'react-intl';
 import { Outlet, useLocation } from 'react-router-dom';
 import { act, screen, waitFor } from '@testing-library/react';
@@ -66,7 +66,7 @@ describe('createAdmin — what it says before it renders', () => {
         it('throws naming the id it looked for [bootstrap:I-28]', () => {
             const error = bootUnmounted({
                 plugins: [],
-                rootElement: 'apograph-admin-root'
+                rootElement: 'ortha-admin-root'
             });
 
             // The thing being ruled out is `createRoot(getElementById(id)!)`,
@@ -75,7 +75,7 @@ describe('createAdmin — what it says before it renders', () => {
             // with a blank page as the only other clue.
             expect(error).toBeInstanceOf(Error);
             expect((error as Error).message).toContain(
-                'no element with id "apograph-admin-root"'
+                'no element with id "ortha-admin-root"'
             );
         });
     });

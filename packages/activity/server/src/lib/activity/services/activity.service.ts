@@ -10,13 +10,13 @@ import {
     inArray,
     lte
 } from 'drizzle-orm';
-import { InjectDatabase, type Database } from '@apograph/database';
-import { applyFilterTree, parseFilterTree } from '@apograph/utils-server';
+import { InjectDatabase, type Database } from '@ortha/database';
+import { applyFilterTree, parseFilterTree } from '@ortha/utils-server';
 import type {
     ActivityExecutor,
     ActivityRecorder,
     ActivityRecordInput
-} from '@apograph/identity-server';
+} from '@ortha/identity-server';
 import { activityEvents } from '../../schema';
 import { ACTIVITY_FILTER_SCHEMA } from '../activity-filter';
 import { DEFAULT_PAGE_SIZE, type SortableField } from '../activity.constants';

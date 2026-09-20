@@ -8,7 +8,7 @@ import {
     DialogHeader,
     DialogTitle,
     InputField
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 
 /** Intl descriptors for {@link RenameDialog}, co-located. */
 const messages = defineMessages({

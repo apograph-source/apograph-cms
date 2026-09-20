@@ -55,7 +55,7 @@ function specifiersOf(path: string): string[] {
     return [...source.matchAll(/from\s+'([^']+)'/g)].map((match) => match[1]);
 }
 
-describe('@apograph/content-domain has no dependencies [content:I-37]', () => {
+describe('@ortha/content-domain has no dependencies [content:I-37]', () => {
     const manifest = JSON.parse(
         readFileSync(join(KERNEL_SRC, '../package.json'), 'utf8')
     ) as {
@@ -65,7 +65,7 @@ describe('@apograph/content-domain has no dependencies [content:I-37]', () => {
     };
 
     it('is the package it claims to be', () => {
-        expect(manifest.name).toBe('@apograph/content-domain');
+        expect(manifest.name).toBe('@ortha/content-domain');
     });
 
     it.each(['dependencies', 'peerDependencies'] as const)(
@@ -159,7 +159,7 @@ describe('the rules exist in one copy [content:I-38]', () => {
         const entry = REPO_CODE.find((hit) => hit.file === file);
         expect(entry).toBeDefined();
         expect(specifiersOf(join(REPO, file))).toContain(
-            '@apograph/content-domain'
+            '@ortha/content-domain'
         );
     });
 });

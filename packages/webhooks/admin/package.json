@@ -1,5 +1,5 @@
 {
-    "name": "@apograph/webhooks-admin",
+    "name": "@ortha/webhooks-admin",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -16,11 +16,11 @@
         "src"
     ],
     "dependencies": {
-        "@apograph/bootstrap-admin": "*",
-        "@apograph/design-system": "*",
-        "@apograph/identity-admin": "*",
-        "@apograph/shell-admin": "*",
-        "@apograph/utils-admin": "*",
+        "@ortha/bootstrap-admin": "*",
+        "@ortha/design-system": "*",
+        "@ortha/identity-admin": "*",
+        "@ortha/shell-admin": "*",
+        "@ortha/utils-admin": "*",
         "@tanstack/react-query": "^5.0.0",
         "lucide-react": "^1.17.0",
         "react-intl": "^7.0.0"

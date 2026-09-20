@@ -1,4 +1,4 @@
-import type { AdminPlugin } from '@apograph/bootstrap-admin';
+import type { AdminPlugin } from '@ortha/bootstrap-admin';
 import { IdentityRouter } from '../router';
 
 /**

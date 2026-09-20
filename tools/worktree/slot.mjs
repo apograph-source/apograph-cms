@@ -6,9 +6,9 @@
  *
  * A "slot" is just an integer that fixes three things:
  *
- *   slot 0 (the main checkout)  PORT=3000  ADMIN_PORT=4200  db apograph_cms
- *   slot 1                      PORT=3001  ADMIN_PORT=4201  db apograph_cms_a1
- *   slot n                      PORT=300n  ADMIN_PORT=420n  db apograph_cms_an
+ *   slot 0 (the main checkout)  PORT=3000  ADMIN_PORT=4200  db ortha_cms
+ *   slot 1                      PORT=3001  ADMIN_PORT=4201  db ortha_cms_a1
+ *   slot n                      PORT=300n  ADMIN_PORT=420n  db ortha_cms_an
  *
  * Databases are *not* separate containers. Five Postgres containers cost five
  * times the memory to isolate data that a `CREATE DATABASE` already isolates,
@@ -34,9 +34,9 @@ const MAX_SLOT = 9;
 const API_PORT_BASE = 3000;
 const ADMIN_PORT_BASE = 4200;
 /** Slot 0's database; slot n appends `_a<n>`. */
-const BASE_DATABASE = 'apograph_cms';
+const BASE_DATABASE = 'ortha_cms';
 /** `container_name` in docker-compose.yml. */
-const DEFAULT_CONTAINER = 'apograph-postgres';
+const DEFAULT_CONTAINER = 'ortha-postgres';
 
 /** What slot `n` is entitled to. */
 function slotPlan(slot) {
@@ -296,7 +296,7 @@ function provision({ positionals, flags }) {
     const slot = parseSlot(positionals[0]);
     if (slot === 0) {
         fail(
-            'slot 0 is the main checkout — it already owns :3000/:4200 and `apograph_cms`.'
+            'slot 0 is the main checkout — it already owns :3000/:4200 and `ortha_cms`.'
         );
     }
     const plan = slotPlan(slot);
@@ -334,7 +334,7 @@ function provision({ positionals, flags }) {
     const sourceEnv = readEnv(sourceEnvPath);
     const sourceUrl =
         sourceEnv['DATABASE_URL'] ||
-        'postgresql://apograph:apograph@localhost:5432/apograph_cms';
+        'postgresql://ortha:ortha@localhost:5432/ortha_cms';
     const databaseUrl = withDatabase(sourceUrl, plan.database);
 
     // The database first: a written .env pointing at a database that does not
@@ -449,7 +449,7 @@ async function list() {
         const psql = psqlRunner({
             url:
                 env['DATABASE_URL'] ||
-                'postgresql://apograph:apograph@localhost:5432/apograph_cms',
+                'postgresql://ortha:ortha@localhost:5432/ortha_cms',
             container: DEFAULT_CONTAINER
         });
         const all = psql
@@ -491,7 +491,7 @@ function release({ positionals, flags }) {
     const psql = psqlRunner({
         url:
             env['DATABASE_URL'] ||
-            'postgresql://apograph:apograph@localhost:5432/apograph_cms',
+            'postgresql://ortha:ortha@localhost:5432/ortha_cms',
         container:
             typeof flags['container'] === 'string'
                 ? flags['container']

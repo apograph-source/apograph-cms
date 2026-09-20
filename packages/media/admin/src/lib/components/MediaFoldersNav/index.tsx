@@ -1,5 +1,5 @@
 import { defineMessages, useIntl } from 'react-intl';
-import { Button, cn } from '@apograph/design-system';
+import { Button, cn } from '@ortha/design-system';
 import { FolderPlus, Home, Images } from 'lucide-react';
 import { ROOT_FOLDER_ID } from '../../constants';
 import type { MediaFolder } from '../../types/mediaFolder';

@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { AuthStatus, useAuth } from '@apograph/identity-admin';
+import { AuthStatus, useAuth } from '@ortha/identity-admin';
 import {
     INSIGHTS_SECTION_SLOT,
     INSIGHTS_WIDGET_SLOT

@@ -1,6 +1,6 @@
 import { defineMessages, useIntl } from 'react-intl';
 import { KeyRound } from 'lucide-react';
-import { PageTopBar } from '@apograph/shell-admin';
+import { PageTopBar } from '@ortha/shell-admin';
 import {
     Container,
     ContainerHeader,
@@ -11,7 +11,7 @@ import {
     TableHead,
     TableHeader,
     TableRow
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 
 /** Intl descriptors for the API-token skeletons, co-located here. */
 const messages = defineMessages({

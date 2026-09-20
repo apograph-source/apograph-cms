@@ -1,5 +1,5 @@
-import type { OutboxWriter, UnitOfWork, DomainEvent } from '@apograph/database';
-import type { PublicUser } from '@apograph/identity-server';
+import type { OutboxWriter, UnitOfWork, DomainEvent } from '@ortha/database';
+import type { PublicUser } from '@ortha/identity-server';
 import { GrantContentUseCase } from './grant-content.use-case';
 import { ContentCatalogReader } from '../content/content-catalog.reader';
 import { Workspace } from '../../domain/workspace';

@@ -113,7 +113,7 @@ function codeLines(
     return out;
 }
 
-describe('the shape of @apograph/database', () => {
+describe('the shape of @ortha/database', () => {
     const PACKAGE_CODE = codeLines(sourceFiles(PACKAGE_SRC));
 
     it('reads the package at all', () => {

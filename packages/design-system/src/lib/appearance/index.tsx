@@ -17,7 +17,7 @@ export type ResolvedTheme = 'light' | 'dark';
 export const DEFAULT_THEME: ThemePreference = 'system';
 
 /** `localStorage` key the chosen theme is persisted under. */
-export const THEME_STORAGE_KEY = 'apograph.theme';
+export const THEME_STORAGE_KEY = 'ortha.theme';
 
 /** What {@link useAppearance} exposes: the current theme plus setters. */
 export interface AppearanceContextValue {

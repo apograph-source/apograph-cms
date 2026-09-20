@@ -15,7 +15,7 @@ import {
     PermissionsGuard,
     RequirePermissions,
     type PublicUser
-} from '@apograph/identity-server';
+} from '@ortha/identity-server';
 import { WorkspaceMemberGuard } from '../guards/workspace-member.guard';
 import { GrantContentUseCase } from '../../application/use-cases/grant-content.use-case';
 import { AddWorkspaceContentDto } from '../../application/dto/add-workspace-content.dto';

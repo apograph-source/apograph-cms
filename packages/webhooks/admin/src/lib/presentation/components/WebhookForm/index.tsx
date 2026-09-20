@@ -11,7 +11,7 @@ import {
     Label,
     MultiSelect,
     Switch
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import type {
     WebhookEndpoint,
     WebhookEventOption
@@ -474,7 +474,7 @@ export function WebhookForm({
                     label={intl.formatMessage(messages.url)}
                     value={values.url}
                     type="url"
-                    placeholder="https://example.com/hooks/apograph"
+                    placeholder="https://example.com/hooks/ortha"
                     description={intl.formatMessage(messages.urlHint)}
                     error={urlError}
                     onChange={(event) =>

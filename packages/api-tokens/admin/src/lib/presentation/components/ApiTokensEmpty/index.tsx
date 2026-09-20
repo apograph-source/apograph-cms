@@ -1,6 +1,6 @@
 import { defineMessages, useIntl } from 'react-intl';
 import { KeyRound, Plus } from 'lucide-react';
-import { Button } from '@apograph/design-system';
+import { Button } from '@ortha/design-system';
 
 const messages = defineMessages({
     title: {

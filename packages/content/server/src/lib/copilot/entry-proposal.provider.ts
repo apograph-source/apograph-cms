@@ -4,10 +4,10 @@ import {
     Optional,
     type OnModuleInit
 } from '@nestjs/common';
-import { PERMISSIONS } from '@apograph/identity-server';
-import type { ProposalChange, ProposalDraft } from '@apograph/copilot-domain';
-import { ToolRegistry } from '@apograph/tools-server';
-import type { ToolDefinition, ToolProvider } from '@apograph/tools-server';
+import { PERMISSIONS } from '@ortha/identity-server';
+import type { ProposalChange, ProposalDraft } from '@ortha/copilot-domain';
+import { ToolRegistry } from '@ortha/tools-server';
+import type { ToolDefinition, ToolProvider } from '@ortha/tools-server';
 import { InjectContentRegistry } from '../content.tokens';
 import type { AnyContentType } from '../types/content-type';
 import type {

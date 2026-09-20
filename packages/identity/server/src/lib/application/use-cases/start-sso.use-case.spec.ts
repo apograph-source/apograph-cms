@@ -4,7 +4,7 @@ import {
     type SsoAuthorizeRequest,
     type SsoProvider,
     type SsoRegistry
-} from '@apograph/identity-domain';
+} from '@ortha/identity-domain';
 import { StartSsoUseCase } from './start-sso.use-case';
 import type {
     OpenSsoAuthRequestInput,

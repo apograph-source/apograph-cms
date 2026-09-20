@@ -9,7 +9,7 @@ import {
     DialogHeader,
     DialogTitle,
     InputField
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 
 /** Intl descriptors for {@link NewFolderDialog}, co-located. */
 const messages = defineMessages({

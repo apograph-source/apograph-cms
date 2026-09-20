@@ -13,7 +13,7 @@ import {
     InputField,
     Spinner,
     cn
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import type { InviteDetails } from '../../../../types/auth';
 import { PASSWORD_MIN_LENGTH } from '../../../domain/value-objects/password';
 import { AuthField } from '../AuthField';

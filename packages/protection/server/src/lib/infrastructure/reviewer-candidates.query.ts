@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { asc, eq } from 'drizzle-orm';
-import { UnitOfWork } from '@apograph/database';
+import { UnitOfWork } from '@ortha/database';
 import {
     AccessPolicy,
     PERMISSIONS,
     Permission,
     PermissionsService,
     users
-} from '@apograph/identity-server';
-import { memberships } from '@apograph/workspaces-server';
+} from '@ortha/identity-server';
+import { memberships } from '@ortha/workspaces-server';
 
 /** Somebody who may be asked to review. */
 export interface ReviewerCandidate {

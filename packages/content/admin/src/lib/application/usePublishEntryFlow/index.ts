@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-import { canPublish, type EntryFieldSpecMap } from '@apograph/content-domain';
-import { useCurrentWorkspace } from '@apograph/workspaces-admin';
+import { canPublish, type EntryFieldSpecMap } from '@ortha/content-domain';
+import { useCurrentWorkspace } from '@ortha/workspaces-admin';
 import type {
     ContentTypeDetail,
     EntryRecord,
@@ -115,7 +115,7 @@ export type PublishEntryFlow = {
  * The **save/publish use case** for one entry, factored out of the entry view so
  * the view renders the result instead of sequencing mutations itself. Owns the
  * create→update id continuity (a save after a failed publish updates the draft, it
- * doesn't create a second row), applies the shared `@apograph/content-domain`
+ * doesn't create a second row), applies the shared `@ortha/content-domain`
  * {@link canPublish} kernel gate before publishing (the single validation source,
  * the same rule the editor's publish gate shows), and exposes the entry lifecycle
  * mutations. Cache invalidation lives in the underlying mutations.

@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { and, count, eq } from 'drizzle-orm';
-import { InjectDatabase, type Database } from '@apograph/database';
-import { roles, users } from '@apograph/identity-server';
-import { memberships } from '@apograph/workspaces-server';
+import { InjectDatabase, type Database } from '@ortha/database';
+import { roles, users } from '@ortha/identity-server';
+import { memberships } from '@ortha/workspaces-server';
 
 /** One member of a workspace, as the copilot's `workspace.members` reports them. */
 export interface WorkspaceMemberView {

@@ -2,7 +2,7 @@ import { Logger } from '@nestjs/common';
 import {
     CONTENT_FIELD_TYPE,
     type AnyContentType
-} from '@apograph/content-server';
+} from '@ortha/content-server';
 import { AlarmEvaluator } from './alarm-evaluator.service';
 import type { AlarmRuleRecord } from './alarm-rule.repository';
 import {

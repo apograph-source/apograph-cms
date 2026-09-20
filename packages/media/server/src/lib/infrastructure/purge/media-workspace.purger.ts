@@ -6,13 +6,13 @@ import {
     Optional
 } from '@nestjs/common';
 import { eq } from 'drizzle-orm';
-import { UnitOfWork } from '@apograph/database';
+import { UnitOfWork } from '@ortha/database';
 import {
     WorkspacePurgeRegistry,
     type WorkspacePurger,
     type WorkspacePurgeOutcome
-} from '@apograph/workspaces-server';
-import { STORAGE_PROVIDER, type StorageProvider } from '@apograph/media-domain';
+} from '@ortha/workspaces-server';
+import { STORAGE_PROVIDER, type StorageProvider } from '@ortha/media-domain';
 import { mediaAsset } from '../schema/media-asset';
 import { mediaFolder } from '../schema/media-folder';
 

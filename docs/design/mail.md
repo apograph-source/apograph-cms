@@ -2,7 +2,7 @@
 
 > **Status:** **phase 1 is built** — the port, the queue and worker, the SMTP,
 > console and testkit adapters, the three transactional messages, `appUrl` and
-> `reveal-link` — and phase 3's **scaffolder question** with it: `create-apograph-app`
+> `reveal-link` — and phase 3's **scaffolder question** with it: `create-ortha-app`
 > now asks for a mail backend, single-choice with "Do not configure" as the
 > default. Phase 2, and the rest of phase 3, are not built. The decision behind it is
 > [ADR-0018](../adr/0018-mail-provider.md) (Accepted); the packages' own
@@ -254,7 +254,7 @@ adds no duplicate for the happy path.
 |                          |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **identity / users**     | The three use cases gain one write each, inside the transaction they already open. `InviteTokenService` is unchanged: mail consumes the plaintext it already returns.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| **create-apograph-app**  | **Built.** A fifth question — single-choice with **"Do not configure"** as the default, a group shape the wizard did not have (media is single-choice with no "none"; SSO and copilot are multi-choice), added as `askOptionalOne()` with a `NONE` sentinel row. Entries: none and SMTP; Resend, Postmark and SES join it as their adapters land, greyed out through the existing `available: false` until they publish — `features.spec.ts` refuses to classify a package that does not exist. `console` and `testkit` are offered nowhere and installed with every app, alongside `mail-domain`; `mail-server` rides with the chosen backend, because a core package defining a plugin factory must be mounted unconditionally and this one must not be. |
+| **create-ortha-app**  | **Built.** A fifth question — single-choice with **"Do not configure"** as the default, a group shape the wizard did not have (media is single-choice with no "none"; SSO and copilot are multi-choice), added as `askOptionalOne()` with a `NONE` sentinel row. Entries: none and SMTP; Resend, Postmark and SES join it as their adapters land, greyed out through the existing `available: false` until they publish — `features.spec.ts` refuses to classify a package that does not exist. `console` and `testkit` are offered nowhere and installed with every app, alongside `mail-domain`; `mail-server` rides with the chosen backend, because a core package defining a plugin factory must be mounted unconditionally and this one must not be. |
 | **protection (ORT-226)** | Review-request mail lands after this, not with it.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | **activity**             | One new event kind and a dead-letter surface modelled on the outbox's.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | **webhooks**             | Its URL policy — which decides where this server may be talked into connecting — does **not** apply. A mail host is operator configuration, not user input. Stated so nobody copies the policy defensively.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
@@ -283,7 +283,7 @@ adds no duplicate for the happy path.
   message.
 - **I-12** No tool in the registry can send mail or reveal a link.
 - **I-13** `console` and `testkit` are registered by no template and offered by
-  no picker — pinned on the scaffolder side by `create-apograph-app:I-35`.
+  no picker — pinned on the scaffolder side by `create-ortha-app:I-35`.
 
 ## Testing checklist
 
@@ -322,11 +322,11 @@ adds no duplicate for the happy path.
    `appUrl`, reveal-link, and the three `TODO(users-email)` markers closed.
    **Done.** `users:manage` was added to the permission catalogue for
    reveal-link. The five packages were classified as transitive in
-   `create-apograph-app` until the phase-3 question existed; they are now split
+   `create-ortha-app` until the phase-3 question existed; they are now split
    between its core set and the mail feature group.
 2. **Self-service** — the recovery route with its four rules, rate limiting,
    dead letters, and the Resend and Postmark adapters.
-3. **Seams** — the `create-apograph-app` question (**done**: the fifth question,
+3. **Seams** — the `create-ortha-app` question (**done**: the fifth question,
    the `mail` group flag, `config/mail.ts`, the `MAIL_*`/`SMTP_*` keys and the
    README section), review-request mail after ORT-226, recipient locale as its
    own decision, the feature page and the docs section.

@@ -2,19 +2,19 @@ import type { INestApplication } from '@nestjs/common';
 import {
     createFakeProvider,
     type FakeTurn
-} from '@apograph/copilot-provider-fake';
-import { ConversationRepository } from '@apograph/copilot-server';
+} from '@ortha/copilot-provider-fake';
+import { ConversationRepository } from '@ortha/copilot-server';
 import {
     ToolRegistry,
     type ToolProvider,
     type ToolSurface
-} from '@apograph/tools-server';
+} from '@ortha/tools-server';
 import type {
     ModelCapabilities,
     ModelProvider,
     ModelRequest,
     ModelStreamEvent
-} from '@apograph/copilot-domain';
+} from '@ortha/copilot-domain';
 
 /** Models the harness advertises. Named so a "wrong model" test has a target. */
 const MODELS = ['fake-1'] as const;
@@ -133,7 +133,7 @@ export function copilotAltCalls(): readonly ModelRequest[] {
  *
  * Lives in the harness rather than in a spec because `src/support/**` is the
  * only place exempt from `@nx/enforce-module-boundaries`; specs are not, and a
- * static `@apograph/copilot-server` import in one is a lint error.
+ * static `@ortha/copilot-server` import in one is a lint error.
  */
 export function registerCopilotTools(
     app: INestApplication,

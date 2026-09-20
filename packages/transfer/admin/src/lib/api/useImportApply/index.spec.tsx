@@ -29,11 +29,11 @@ import { useImportApply } from './index';
 
 const refreshEntryCaches = vi.hoisted(() => vi.fn());
 
-vi.mock('@apograph/content-admin', () => ({ refreshEntryCaches }));
+vi.mock('@ortha/content-admin', () => ({ refreshEntryCaches }));
 
 const post = vi.hoisted(() => vi.fn());
 
-vi.mock('@apograph/utils-admin', () => ({ apiClient: { post } }));
+vi.mock('@ortha/utils-admin', () => ({ apiClient: { post } }));
 
 vi.mock('../useImportPreview', () => ({
     importFormData: () => new FormData()

@@ -9,7 +9,7 @@ import { resetDb } from '../../support/seed';
 /**
  * The SSO routes on a deployment that registers **no** identity provider —
  * which is the default install, and therefore the configuration almost every
- * Apograph runs.
+ * Ortha runs.
  *
  * The claim worth pinning is that the feature is *absent*, not *broken*. The
  * routes stay mounted and `GET /auth/sso` answers an empty list: the sign-in

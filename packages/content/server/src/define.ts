@@ -2,7 +2,7 @@
  * Decorator-free entry point: just the definition DSL and its types.
  *
  * Collection files (and the host's drizzle-kit schema entry that imports
- * them) MUST import from `@apograph/content-server/define`, not the main
+ * them) MUST import from `@ortha/content-server/define`, not the main
  * barrel — drizzle-kit bundles the schema's whole import graph with plain
  * esbuild, which rejects the NestJS decorators the main barrel pulls in
  * via its controllers.

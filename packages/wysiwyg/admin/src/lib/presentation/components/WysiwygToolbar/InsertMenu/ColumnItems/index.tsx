@@ -5,7 +5,7 @@ import {
     DropdownMenuRadioGroup,
     DropdownMenuRadioItem,
     DropdownMenuSeparator
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import { COLUMN_COUNTS } from '../../../../../domain/constants';
 import { useLiveEditorState } from '../../../../hooks/useLiveEditorState';
 

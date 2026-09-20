@@ -1,8 +1,8 @@
 /** Media — the storage backend, plus the download and upload ceilings. */
-import type { MediaPluginConfig } from '@apograph/media-server';
-import type { LocalStorageConfig } from '@apograph/media-provider-local';
+import type { MediaPluginConfig } from '@ortha/media-server';
+import type { LocalStorageConfig } from '@ortha/media-provider-local';
 
-import { readEnv, readPositiveInt } from '@apograph/utils-server';
+import { readEnv, readPositiveInt } from '@ortha/utils-server';
 
 /**
  * Media settings, plus the connection settings for the one storage backend this
@@ -14,7 +14,7 @@ import { readEnv, readPositiveInt } from '@apograph/utils-server';
  * config type costs no new coupling — and switching storage is that import plus
  * the type named below, with nothing to change inside the media packages.
  */
-export interface ApographMediaConfig extends MediaPluginConfig {
+export interface OrthaMediaConfig extends MediaPluginConfig {
     /**
      * Whatever the constructed provider needs. Typed by the factory
      * `plugins.ts` calls — `LocalStorageConfig` today; swapping to
@@ -24,7 +24,7 @@ export interface ApographMediaConfig extends MediaPluginConfig {
 }
 
 /** The storage backend `plugins.ts` constructs, plus the upload ceilings. */
-export function mediaConfig(): ApographMediaConfig {
+export function mediaConfig(): OrthaMediaConfig {
     return {
         // Settings for the storage backend `plugins.ts` constructs. There is no
         // variable naming which backend runs: that is decided by the factory the

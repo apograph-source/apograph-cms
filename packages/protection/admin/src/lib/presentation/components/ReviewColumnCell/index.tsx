@@ -1,6 +1,6 @@
 import { defineMessages, useIntl } from 'react-intl';
-import type { RecordsColumnCellContext } from '@apograph/content-admin';
-import { Badge } from '@apograph/design-system';
+import type { RecordsColumnCellContext } from '@ortha/content-admin';
+import { Badge } from '@ortha/design-system';
 import type { EntryReviewStatus } from '../../../domain/types';
 
 const messages = defineMessages({

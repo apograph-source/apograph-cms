@@ -1,5 +1,5 @@
 {
-    "name": "@apograph/bootstrap-admin",
+    "name": "@ortha/bootstrap-admin",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -13,8 +13,8 @@
         "./package.json": "./package.json"
     },
     "dependencies": {
-        "@apograph/design-system": "*",
-        "@apograph/utils-admin": "*",
+        "@ortha/design-system": "*",
+        "@ortha/utils-admin": "*",
         "@tanstack/react-query": "^5.0.0",
         "react-intl": "^7.0.0"
     },

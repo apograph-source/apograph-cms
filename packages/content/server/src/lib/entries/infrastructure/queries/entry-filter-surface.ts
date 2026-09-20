@@ -9,7 +9,7 @@ import {
     type RelationSchema,
     type RelationScope,
     type ScalarFieldSchema
-} from '@apograph/utils-server';
+} from '@ortha/utils-server';
 import { ENTRY_STATUS, type AnyContentType } from '../../../types/content-type';
 import { CONTENT_FIELD_TYPE, type AnyFieldSpec } from '../../../types/fields';
 import type { WireFilterField } from '../../types/filter-surface';

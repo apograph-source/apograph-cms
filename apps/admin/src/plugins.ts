@@ -1,21 +1,21 @@
-import type { AdminPlugin } from '@apograph/bootstrap-admin';
-import { IdentityPlugin } from '@apograph/identity-admin';
-import { ShellPlugin } from '@apograph/shell-admin';
-import { WorkspacesPlugin } from '@apograph/workspaces-admin';
-import { ContentPlugin } from '@apograph/content-admin';
-import { I18nPlugin } from '@apograph/i18n-admin';
-import { WysiwygPlugin } from '@apograph/wysiwyg-admin';
-import { MediaPlugin } from '@apograph/media-admin';
-import { InsightsPlugin } from '@apograph/insights-admin';
-import { UsersPlugin } from '@apograph/users-admin';
-import { ActivityPlugin } from '@apograph/activity-admin';
-import { ApiTokensPlugin } from '@apograph/api-tokens-admin';
-import { WebhooksPlugin } from '@apograph/webhooks-admin';
-import { CopilotPlugin } from '@apograph/copilot-admin';
-import { transferAdminPlugin } from '@apograph/transfer-admin';
-import { AlarmsPlugin } from '@apograph/alarms-admin';
-import { SegmentsPlugin } from '@apograph/segments-admin';
-import { ProtectionPlugin } from '@apograph/protection-admin';
+import type { AdminPlugin } from '@ortha/bootstrap-admin';
+import { IdentityPlugin } from '@ortha/identity-admin';
+import { ShellPlugin } from '@ortha/shell-admin';
+import { WorkspacesPlugin } from '@ortha/workspaces-admin';
+import { ContentPlugin } from '@ortha/content-admin';
+import { I18nPlugin } from '@ortha/i18n-admin';
+import { WysiwygPlugin } from '@ortha/wysiwyg-admin';
+import { MediaPlugin } from '@ortha/media-admin';
+import { InsightsPlugin } from '@ortha/insights-admin';
+import { UsersPlugin } from '@ortha/users-admin';
+import { ActivityPlugin } from '@ortha/activity-admin';
+import { ApiTokensPlugin } from '@ortha/api-tokens-admin';
+import { WebhooksPlugin } from '@ortha/webhooks-admin';
+import { CopilotPlugin } from '@ortha/copilot-admin';
+import { transferAdminPlugin } from '@ortha/transfer-admin';
+import { AlarmsPlugin } from '@ortha/alarms-admin';
+import { SegmentsPlugin } from '@ortha/segments-admin';
+import { ProtectionPlugin } from '@ortha/protection-admin';
 
 /**
  * Builds the admin's plugin list — the app's whole composition, mirroring

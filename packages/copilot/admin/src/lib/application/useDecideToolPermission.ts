@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
-import { apiClient } from '@apograph/utils-admin';
-import type { ToolPermissionDecision } from '@apograph/copilot-domain';
+import { apiClient } from '@ortha/utils-admin';
+import type { ToolPermissionDecision } from '@ortha/copilot-domain';
 
 /** What the panel asks for. */
 export interface DecideToolPermissionInput {

@@ -1,6 +1,6 @@
 import { join } from 'node:path';
-import type { ServerPlugin } from '@apograph/bootstrap-server';
-import type { StorageProvider } from '@apograph/media-domain';
+import type { ServerPlugin } from '@ortha/bootstrap-server';
+import type { StorageProvider } from '@ortha/media-domain';
 import { MediaModule } from '../media.module';
 import { describeMediaApi } from '../docs/describe-media-api';
 import { describeMediaInsightsApi } from '../docs/describe-media-insights-api';
@@ -72,7 +72,7 @@ function assertOptions(options: MediaPluginOptions): void {
             `MediaServerPlugin's \`directServe: 'signed-url'\` needs a provider that can mint one, and ` +
                 `"${provider.id}" declares \`capabilities.directUrl: false\`. Either drop the setting — ` +
                 'downloads then stream through the app, which is the default — or run a backend that ' +
-                'signs URLs (`@apograph/media-provider-s3`). Silently proxying instead would leave the ' +
+                'signs URLs (`@ortha/media-provider-s3`). Silently proxying instead would leave the ' +
                 'operator believing an optimization is on that is not.'
         );
     }

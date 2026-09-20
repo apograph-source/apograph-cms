@@ -1,5 +1,5 @@
 import { defineMessages } from 'react-intl';
-import { FIELD_TYPE, type FilterField } from '@apograph/query-builder-admin';
+import { FIELD_TYPE, type FilterField } from '@ortha/query-builder-admin';
 
 /**
  * Field + enum-option labels for the members query builder, co-located per the

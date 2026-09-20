@@ -2,7 +2,7 @@
 
 The **API** — a NestJS application. Like the admin app, this is a thin entry
 point: it holds almost no logic. It assembles the product by handing a list of
-**server plugins** to the `@apograph/bootstrap-server` host.
+**server plugins** to the `@ortha/bootstrap-server` host.
 
 ## What's here
 
@@ -18,16 +18,16 @@ point: it holds almost no logic. It assembles the product by handing a list of
   order, because a plugin dropped from the array degrades **silently**: the ports
   other plugins bind are `@Optional()`, so removing e.g. `ActivityPlugin` boots
   clean and just stops writing audit rows.
-- `apograph.config.ts` — host config: the flat object naming what this deployment
+- `ortha.config.ts` — host config: the flat object naming what this deployment
   runs. It **assembles** rather than derives — one builder per plugin, each in
   its own module under `config/`. It stays the entry point because
-  `@apograph/cli` looks for exactly `dist/server/apograph.config.js`, `@apograph/nx`
-  infers the migration targets onto the project that has an `apograph.config.ts`,
+  `@ortha/cli` looks for exactly `dist/server/ortha.config.js`, `@ortha/nx`
+  infers the migration targets onto the project that has an `ortha.config.ts`,
   and `src/plugins.ts` and `apps/server-e2e` import its types.
 - `config/` — the single place that reads the environment, and it does so
   **only** through the readers (`readEnv`, `requireEnv`, `readPositiveInt`,
   `readList`, `readFlag`, `readTrustProxy`, `readNodeEnv`) in
-  `@apograph/utils-server`, shared with the scaffolder's template so a
+  `@ortha/utils-server`, shared with the scaffolder's template so a
   generated app validates its environment the same way. These modules name the
   variables and the defaults; the readers decide what a value has to look like.
   **No module here writes `process.env[…]`** — a test asserts it. `readEnv` is
@@ -42,7 +42,7 @@ point: it holds almost no logic. It assembles the product by handing a list of
   Values are **validated at import**: a missing `DATABASE_URL`, a numeric
   setting that is not a plain positive integer, or a `NODE_ENV` that is not one
   of `development` / `test` / `production` refuses to load rather than booting a
-  deployment that looks configured (`src/apograph.config.spec.ts`, which exercises
+  deployment that looks configured (`src/ortha.config.spec.ts`, which exercises
   the real module by re-importing it under a set environment). This project is
   also the migration host: the inferred `db:migrate` target applies every
   plugin's pending migrations.
@@ -79,11 +79,11 @@ generic version of this problem, for any plugin's schema barrel, is ORT-130.
   imports its NestJS module, and applies the global `/api` prefix + a
   `ValidationPipe`. It also generates the OpenAPI document from the assembled
   controllers + DTOs and serves it as a Scalar reference on `/reference`
-  (JSON on `/reference/json`), configured by `apograph.config.ts`'s `docs`.
+  (JSON on `/reference/json`), configured by `ortha.config.ts`'s `docs`.
 - Cross-cutting guards are global: `AuthGuard` (session), `PermissionsGuard`
   (RBAC), `OriginGuard` (CSRF on state-changing POSTs).
 - Each plugin owns its Drizzle schema + migrations; the shared
-  `@apograph/database` plugin owns the single connection.
+  `@ortha/database` plugin owns the single connection.
 
 ## Working here
 

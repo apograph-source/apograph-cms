@@ -1,5 +1,5 @@
 import { useEffect, useRef, type ReactNode } from 'react';
-import { Logo } from '@apograph/design-system';
+import { Logo } from '@ortha/design-system';
 
 /**
  * Props for the {@link AuthLayout} component.

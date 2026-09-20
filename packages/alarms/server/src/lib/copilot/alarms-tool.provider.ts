@@ -1,11 +1,11 @@
 import { Injectable, Optional, type OnModuleInit } from '@nestjs/common';
-import { PERMISSIONS } from '@apograph/identity-server';
-import { ToolRegistry } from '@apograph/tools-server';
+import { PERMISSIONS } from '@ortha/identity-server';
+import { ToolRegistry } from '@ortha/tools-server';
 import type {
     ToolContext,
     ToolDefinition,
     ToolProvider
-} from '@apograph/tools-server';
+} from '@ortha/tools-server';
 import { ALARM_SEVERITIES } from '../domain/alarm-severity';
 import type { AlarmSeverity } from '../domain/alarm-severity';
 import { FINDING_STATES, type FindingState } from '../domain/finding-state';

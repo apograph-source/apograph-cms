@@ -14,8 +14,8 @@ import {
     PERMISSIONS,
     PermissionsGuard,
     RequirePermissions
-} from '@apograph/identity-server';
-import type { DeliveryStatus } from '@apograph/webhooks-domain';
+} from '@ortha/identity-server';
+import type { DeliveryStatus } from '@ortha/webhooks-domain';
 import { WebhookEndpointsService } from '../../application/webhook-endpoints.service';
 import { ListDeliveriesQueryDto } from '../../application/dto/list-deliveries-query.dto';
 import {

@@ -4,7 +4,7 @@ import { mockWorkspaces } from '../support/api/workspaces';
 import { mockActivity } from '../support/api/activity';
 
 /**
- * The Home dashboard (`/`, from `@apograph/shell-admin`). The greeting is the
+ * The Home dashboard (`/`, from `@ortha/shell-admin`). The greeting is the
  * shell's; the stat tiles + Workspaces panel are contributed by
  * `workspaces-admin` and the Recent activity panel by `activity-admin`, both via
  * the `HOME_SECTION_SLOT`. Data is real: workspaces from `GET /api/workspaces`,
@@ -14,7 +14,7 @@ test.describe('Home dashboard', () => {
     test.beforeEach(async ({ page }) => {
         await mockSignedIn(page, {
             name: 'Amara Okafor',
-            email: 'amara@apograph.dev'
+            email: 'amara@ortha.dev'
         });
         await mockWorkspaces(page);
         await mockActivity(page);

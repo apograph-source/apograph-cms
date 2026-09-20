@@ -31,7 +31,7 @@
 > deleted `copilot:configure` and the policy it gated; the global `enabled`
 > flag is the whole of it now. And its stated reason — "enabling a hosted
 > provider sends workspace content to a third party" — is no longer what the
-> flag protects: since ADR-0004's provider registrations, `apograph.config.ts`
+> flag protects: since ADR-0004's provider registrations, `ortha.config.ts`
 > builds a provider entry only when its credentials exist and `plugins.ts`
 > registers only what was built, with the offline `fake` adapter last, so a
 > deployment holding no key reaches no third party whatever this flag says.
@@ -159,7 +159,7 @@ a principal that acts.
   boot from those constants, so new keys and grants land on next start. Because
   admin holds the enumerated set rather than a wildcard, both must be granted
   explicitly — the seed test catches it if they are not.
-- Exporting `AccessPolicy` and `Actor` from `@apograph/identity-server` so the
+- Exporting `AccessPolicy` and `Actor` from `@ortha/identity-server` so the
   copilot reuses the tested rule instead of re-implementing set membership.
 - Per-role rate limits (`@nestjs/throttler`, already used for login) rather than
   excluding roles from the feature.

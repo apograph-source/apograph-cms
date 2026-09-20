@@ -1,6 +1,6 @@
-# @apograph/database
+# @ortha/database
 
-The database **plugin** for the Apograph CMS server. Owns a single Drizzle ORM
+The database **plugin** for the Ortha CMS server. Owns a single Drizzle ORM
 connection (over the `pg` driver) and makes it available to every other plugin.
 It also ships the shared **tactical-DDD primitives** every bounded context
 builds on: the `DomainEvent` envelope, the `UnitOfWork` transaction boundary,
@@ -13,8 +13,8 @@ because the outbox is cross-cutting infrastructure, not any one domain's data).
 
 ## Package
 
-- Name: `@apograph/database`
-- Import: `import { DatabasePlugin, InjectDatabase } from '@apograph/database'`
+- Name: `@ortha/database`
+- Import: `import { DatabasePlugin, InjectDatabase } from '@ortha/database'`
 - Server-only (no admin counterpart). Consumed from source like the other
   workspace packages.
 
@@ -198,7 +198,7 @@ co-located subscribers, and is merged with the runtime-registered ones.
 
 ## Configuration
 
-The settings flow from `apps/server/apograph.config.ts` (`database.url` from
+The settings flow from `apps/server/ortha.config.ts` (`database.url` from
 `DATABASE_URL`, `database.outboxRetentionDays` from `OUTBOX_RETENTION_DAYS`)
 into the plugin. The wiring itself lives in **`apps/server/src/plugins.ts`**;
 `main.ts` only calls `buildPlugins(config)`.
@@ -229,7 +229,7 @@ owns:
 ```typescript
 import { Injectable } from '@nestjs/common';
 import { eq } from 'drizzle-orm';
-import { InjectDatabase, type Database } from '@apograph/database';
+import { InjectDatabase, type Database } from '@ortha/database';
 import { things } from '../schema';
 
 @Injectable()
@@ -253,25 +253,25 @@ committed `migrations/`, with a `migrations` descriptor on the plugin
 Generate per-plugin, apply from the host:
 
 ```bash
-npx nx run @apograph/database:db:generate --name=<change>   # commit the SQL
+npx nx run @ortha/database:db:generate --name=<change>   # commit the SQL
 npx nx run server:db:migrate                                 # applies all plugins
 ```
 
 The `db:generate` target is inferred from `drizzle.config.ts` by
-`@apograph/nx`; it never connects to a database.
+`@ortha/nx`; it never connects to a database.
 
 ## Not owned here
 
 - **Feature schemas** — the outbox is the only table here. Every domain table
   belongs to its feature plugin; this package has no domain-schema knowledge.
 - **Migration tooling** — the `db:generate` / `db:migrate` targets themselves
-  are owned by `@apograph/nx`. The host applies every plugin's migrations.
+  are owned by `@ortha/nx`. The host applies every plugin's migrations.
 
 ## Commands
 
-- `npm exec nx typecheck @apograph/database`
-- `npm exec nx build @apograph/database`
-- `npm exec nx test @apograph/database` — the framework-free unit specs (the
+- `npm exec nx typecheck @ortha/database`
+- `npm exec nx build @ortha/database`
+- `npm exec nx test @ortha/database` — the framework-free unit specs (the
   event envelope, the connection singleton and its pool limits). Everything that
   needs a real transaction, a real pool or a real drain lives in
   `apps/server-e2e/src/server/database/` instead, because mocking a deadlock

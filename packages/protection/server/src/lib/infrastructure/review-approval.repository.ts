@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { and, eq, inArray, sql } from 'drizzle-orm';
-import { UnitOfWork, type Database } from '@apograph/database';
-import type { Approval } from '@apograph/protection-domain';
+import { UnitOfWork, type Database } from '@ortha/database';
+import type { Approval } from '@ortha/protection-domain';
 import { reviewApprovals } from './schema/review-approvals';
 
 /** One stored approval, with the addressing the interface needs around it. */

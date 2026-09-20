@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { STALE_TIME } from '@apograph/utils-admin';
-import { useCurrentWorkspace } from '@apograph/workspaces-admin';
+import { STALE_TIME } from '@ortha/utils-admin';
+import { useCurrentWorkspace } from '@ortha/workspaces-admin';
 import type { EntryRecord } from '../../domain/types/contentType';
 import { contentEntryKey } from '../../infrastructure/contentKeys';
 import { httpContentGateway } from '../../infrastructure/httpContentGateway';

@@ -4,8 +4,8 @@ import {
     OutboxWriter,
     UnitOfWork,
     type DomainEvent
-} from '@apograph/database';
-import type { PublicUser } from '@apograph/identity-server';
+} from '@ortha/database';
+import type { PublicUser } from '@ortha/identity-server';
 import { MemberId } from '../../domain/value-objects/member-id';
 import { Role } from '../../domain/value-objects/role';
 import { MemberNotFoundError, SelfActionError } from '../../domain/errors';

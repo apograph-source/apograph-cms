@@ -1,4 +1,4 @@
-import type { Database } from '@apograph/database';
+import type { Database } from '@ortha/database';
 import { RootAdminService } from './root-admin.service';
 import { MissingRootAdminPasswordError } from '../errors';
 import type { HashingService } from '../../auth/services/hashing.service';
@@ -81,6 +81,6 @@ describe('RootAdminService.bootstrapFromConfig', () => {
             .catch((e) => e);
 
         expect(error.message).toContain('root@example.com');
-        expect(error.message).toContain('APOGRAPH_ROOT_ADMIN_PASSWORD');
+        expect(error.message).toContain('ORTHA_ROOT_ADMIN_PASSWORD');
     });
 });

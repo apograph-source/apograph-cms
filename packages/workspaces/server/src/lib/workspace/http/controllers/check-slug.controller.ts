@@ -3,7 +3,7 @@ import {
     PERMISSIONS,
     PermissionsGuard,
     RequirePermissions
-} from '@apograph/identity-server';
+} from '@ortha/identity-server';
 import { SlugAvailabilityQuery } from '../../infrastructure/queries/slug-availability.query';
 import { CheckSlugDto } from '../../application/dto/check-slug.dto';
 

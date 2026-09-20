@@ -19,7 +19,7 @@ import {
     DropdownMenuTrigger,
     Spinner,
     cn
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import {
     VIEW_VISIBILITY,
     type SavedView

@@ -55,7 +55,7 @@ const UUID = '00000000-0000-0000-0000-0000000000ff';
  * `401`, as `METHOD /path` exactly as the document spells it.
  *
  * **Adding to this list is a security decision.** Each entry is a URL the whole
- * internet can reach on every Apograph deployment.
+ * internet can reach on every Ortha deployment.
  */
 const PUBLIC_OPERATIONS: readonly string[] = [
     // Signing in, and signing out — logout is public because it reads the

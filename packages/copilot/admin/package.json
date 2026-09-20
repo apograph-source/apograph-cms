@@ -1,5 +1,5 @@
 {
-    "name": "@apograph/copilot-admin",
+    "name": "@ortha/copilot-admin",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -16,13 +16,13 @@
         "src"
     ],
     "dependencies": {
-        "@apograph/bootstrap-admin": "*",
-        "@apograph/copilot-domain": "*",
-        "@apograph/design-system": "*",
-        "@apograph/identity-admin": "*",
-        "@apograph/shell-admin": "*",
-        "@apograph/utils-admin": "*",
-        "@apograph/workspaces-admin": "*",
+        "@ortha/bootstrap-admin": "*",
+        "@ortha/copilot-domain": "*",
+        "@ortha/design-system": "*",
+        "@ortha/identity-admin": "*",
+        "@ortha/shell-admin": "*",
+        "@ortha/utils-admin": "*",
+        "@ortha/workspaces-admin": "*",
         "@tanstack/react-query": "^5.0.0",
         "lucide-react": "^1.17.0",
         "react-intl": "^7.0.0"

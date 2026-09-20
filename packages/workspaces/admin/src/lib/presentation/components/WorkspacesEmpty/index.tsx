@@ -8,7 +8,7 @@ import {
     EmptyHeader,
     EmptyMedia,
     EmptyTitle
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 
 /** Intl descriptors for {@link WorkspacesEmpty}, co-located with the component. */
 const messages = defineMessages({

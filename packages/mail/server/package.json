@@ -1,5 +1,5 @@
 {
-    "name": "@apograph/mail-server",
+    "name": "@ortha/mail-server",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -18,13 +18,13 @@
     ],
     "dependencies": {
         "@nestjs/common": "^11.0.0",
-        "@apograph/bootstrap-server": "*",
-        "@apograph/database": "*",
-        "@apograph/mail-domain": "*",
+        "@ortha/bootstrap-server": "*",
+        "@ortha/database": "*",
+        "@ortha/mail-domain": "*",
         "drizzle-orm": "^0.45.0"
     },
     "devDependencies": {
-        "@apograph/mail-provider-testkit": "*",
+        "@ortha/mail-provider-testkit": "*",
         "drizzle-kit": "^0.31.0"
     }
 }

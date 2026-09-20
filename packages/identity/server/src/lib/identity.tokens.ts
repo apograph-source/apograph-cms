@@ -7,7 +7,7 @@ import { Inject } from '@nestjs/common';
  * `identity.module.ts`.
  *
  * The Drizzle client is injected with `@InjectDatabase()` from
- * `@apograph/database` directly — identity has no token of its own for it.
+ * `@ortha/database` directly — identity has no token of its own for it.
  */
 
 /**

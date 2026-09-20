@@ -30,10 +30,10 @@ import {
     jsonFilterToTree,
     treeToJsonFilter,
     type FilterGroup
-} from '@apograph/query-builder-admin';
-import { useTableUrlState } from '@apograph/utils-admin';
-import { useCurrentWorkspace } from '@apograph/workspaces-admin';
-import { useHasPermission } from '@apograph/identity-admin';
+} from '@ortha/query-builder-admin';
+import { useTableUrlState } from '@ortha/utils-admin';
+import { useCurrentWorkspace } from '@ortha/workspaces-admin';
+import { useHasPermission } from '@ortha/identity-admin';
 import {
     Alert,
     AlertDescription,
@@ -43,7 +43,7 @@ import {
     SearchToolbar,
     cn,
     toast
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import type {
     ContentType,
     ContentTypeDetail

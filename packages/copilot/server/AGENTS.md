@@ -1,4 +1,4 @@
-# @apograph/copilot-server
+# @ortha/copilot-server
 
 The copilot **plugin**. Phase 0 bound the model seam; **phase 1 added the chat
 vertical slice** — the SSE run route, the bounded run engine, the capability
@@ -118,7 +118,7 @@ These are spike findings from phase 1, each now covered by a test.
 registry either. Both facts are settled by
 [ADR-0007](../../../docs/adr/0007-one-tool-registry-two-surfaces.md):
 
-- **The catalogue is `@apograph/tools-server`'s `ToolRegistry`** — the same
+- **The catalogue is `@ortha/tools-server`'s `ToolRegistry`** — the same
   instance the MCP endpoint serves. `CopilotToolRegistry`,
   `COPILOT_TOOL_PROVIDER`, `ToolSpec` and `copilotToolsRegistrar` are gone. A
   binder implements `ToolProvider`, injects `ToolRegistry` `@Optional()`, and
@@ -386,7 +386,7 @@ and `system-prompt.spec.ts` pins the structure. Three rules for editing it:
   count for exactly this reason.
 - **Per-tool mechanics belong in the tool's `description`, not here.** The
   prompt costs tokens on every run; a description costs them on the runs that
-  read it, and arrives in context. HOW APOGRAPH WORKS carries only what is true of
+  read it, and arrives in context. HOW ORTHA WORKS carries only what is true of
   every deployment and what no single tool can say — the workspace grant
   boundary, `draft`/`published` being the whole state set, **publish state being
   the `status` + `publishedAt` pair**, **what a save must contain**, numbered
@@ -412,7 +412,7 @@ and `system-prompt.spec.ts` pins the structure. Three rules for editing it:
   refusing one that omits a required field. Both propose tools take the same
   `values` bag whatever the type, so a model has no way to tell the two apart
   from a schema; without the rule it learns the difference from a 422 naming
-  fields it never asked the user about. HOW APOGRAPH WORKS carries the fact (and
+  fields it never asked the user about. HOW ORTHA WORKS carries the fact (and
   points at `admin_content_types`, which reports `publishable` and `required`);
   MAKING CHANGES carries the instruction, because the useful part is what to do
   when a required value is unknown — **ask**, rather than invent one or write
@@ -427,7 +427,7 @@ and `system-prompt.spec.ts` pins the structure. Three rules for editing it:
   entry in front of it and rewrite every locale at once. (The other half of that
   gap **was** closed in code, which is the point: the content tools no longer
   offer a `localeGroupId`, so joining a group now goes through the i18n tools
-  that inherit the source's shared values.) HOW APOGRAPH WORKS states the fact
+  that inherit the source's shared values.) HOW ORTHA WORKS states the fact
   unconditionally; MAKING CHANGES restates it as an instruction only when
   `i18n_propose_translation` is actually on offer. It stays **prose**: the rule
   is about which fields carry a flag, and answering it in the prompt would mean
@@ -564,7 +564,7 @@ Structurally identical to media storage, by decision
 **This package knows no adapter exists.** It does not import a vendor SDK, a
 factory, _or_ an adapter config type — so a Bedrock adapter is a package plus
 one entry in `plugins.ts`. Provider _connection_ settings live with the host, in
-`apps/server/apograph.config.ts`.
+`apps/server/ortha.config.ts`.
 
 A run may name a `provider` and `model`; an explicitly requested provider wins
 over the host's `resolve` handler, because the resolver expresses a default
@@ -660,13 +660,13 @@ registry ADR-0004 §5 anticipates ever lands.
 
 ## Package
 
-- Name: `@apograph/copilot-server`
+- Name: `@ortha/copilot-server`
 - Register **after** `WorkspacesPlugin` (runs are workspace-scoped) and
   `IdentityPlugin` (runs execute as the calling user)
 
 ## Commands
 
-- `npx nx typecheck @apograph/copilot-server`
-- `npx nx lint @apograph/copilot-server`
-- `npx nx test @apograph/copilot-server`
-- `npx nx run @apograph/copilot-server:db:generate --name=<name>`
+- `npx nx typecheck @ortha/copilot-server`
+- `npx nx lint @ortha/copilot-server`
+- `npx nx test @ortha/copilot-server`
+- `npx nx run @ortha/copilot-server:db:generate --name=<name>`

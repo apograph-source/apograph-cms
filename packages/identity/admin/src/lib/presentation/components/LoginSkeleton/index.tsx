@@ -4,7 +4,7 @@ import {
     CardContent,
     CardHeader,
     Skeleton
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import { AuthLayout } from '../AuthLayout';
 
 /** Intl descriptors for {@link LoginSkeleton}, co-located with the component. */

@@ -49,7 +49,7 @@ describe('cliVersion', () => {
     });
 
     it('says so rather than throwing when the manifest has no version', () => {
-        readFileSync.mockReturnValue('{"name":"@apograph/cli"}');
+        readFileSync.mockReturnValue('{"name":"@ortha/cli"}');
 
         expect(cliVersion()).toBe('unknown');
     });

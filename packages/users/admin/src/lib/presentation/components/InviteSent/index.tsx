@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { CircleCheck } from 'lucide-react';
-import { useUnsavedChanges } from '@apograph/utils-admin';
+import { useUnsavedChanges } from '@ortha/utils-admin';
 import {
     Button,
     CardContent,
@@ -10,7 +10,7 @@ import {
     CardHeader,
     CardTitle,
     WizardStepCard
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import { InviteLinkPanel } from '../InviteLinkPanel';
 
 /** Intl descriptors for {@link InviteSent}, co-located with the component. */

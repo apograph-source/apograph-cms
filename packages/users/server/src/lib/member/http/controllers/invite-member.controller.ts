@@ -12,7 +12,7 @@ import {
     PermissionsGuard,
     RequirePermissions,
     type PublicUser
-} from '@apograph/identity-server';
+} from '@ortha/identity-server';
 import { InviteMemberDto } from '../../application/dto/invite-member.dto';
 import { InviteMemberUseCase } from '../../application/use-cases/invite-member.use-case';
 import { MEMBER_ERROR_CODES, EmailTakenError } from '../../domain/errors';

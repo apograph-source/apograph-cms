@@ -1,10 +1,10 @@
 import { join } from 'node:path';
-import type { ServerPlugin } from '@apograph/bootstrap-server';
+import type { ServerPlugin } from '@ortha/bootstrap-server';
 import {
     buildSkillRegistry,
     type ModelResolver,
     type SkillDefinition
-} from '@apograph/copilot-domain';
+} from '@ortha/copilot-domain';
 import { CopilotModule } from '../copilot.module';
 import type { ProviderRegistration } from '../infrastructure/model-registry';
 import type { CopilotPluginConfig } from '../types/copilot-config';

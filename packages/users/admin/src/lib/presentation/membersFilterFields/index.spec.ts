@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { FIELD_TYPE } from '@apograph/query-builder-admin';
+import { FIELD_TYPE } from '@ortha/query-builder-admin';
 import { MEMBERS_FILTER_FIELDS } from './index';
 
 /**

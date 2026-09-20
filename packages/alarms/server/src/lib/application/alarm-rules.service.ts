@@ -4,14 +4,14 @@ import {
     OutboxWriter,
     UnitOfWork,
     type EventActor
-} from '@apograph/database';
+} from '@ortha/database';
 import {
     EntryMatchQuery,
     InjectContentRegistry,
     WorkspaceGrantsQuery,
     type AnyContentType,
     type ContentTypeRegistry
-} from '@apograph/content-server';
+} from '@ortha/content-server';
 import {
     AlarmRuleNotFoundError,
     UnknownAlarmContentTypeError

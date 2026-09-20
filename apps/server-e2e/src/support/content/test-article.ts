@@ -1,4 +1,4 @@
-import { collection, field } from '@apograph/content-server/define';
+import { collection, field } from '@ortha/content-server/define';
 import { testAuthor } from './test-author';
 import { testTag } from './test-tag';
 import { testSeo } from './test-seo';

@@ -5,7 +5,7 @@
  * and a `json` escape-hatch column.
  */
 
-import { collection, field } from '@apograph/content-server/define';
+import { collection, field } from '@ortha/content-server/define';
 
 export const seo_meta = collection('seo_meta', {
     label: 'SEO metadata',

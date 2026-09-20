@@ -7,7 +7,7 @@ import {
     type MailKind,
     type RevealableLink,
     type TransactionalMail
-} from '@apograph/mail-domain';
+} from '@ortha/mail-domain';
 import { InjectMailConfig } from '../mail.tokens';
 import type { ResolvedMailConfig } from '../types/mail-config';
 import { MailDeliveryRepository } from '../infrastructure/mail-delivery.repository';

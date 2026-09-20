@@ -1,5 +1,5 @@
 import { pgTable, text, uuid } from 'drizzle-orm/pg-core';
-import type { ContentReadScopeContext } from '@apograph/content-server';
+import type { ContentReadScopeContext } from '@ortha/content-server';
 import { SegmentCatalogService } from '../application/segment-catalog.service';
 import { ReaderStore } from '../application/reader.store';
 import { SegmentReadScope } from './segment-read-scope';

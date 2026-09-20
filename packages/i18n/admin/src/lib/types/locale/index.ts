@@ -1,10 +1,10 @@
 /**
  * Wire contracts of the i18n server plugin, as the admin sees them. Mirrors
- * `@apograph/i18n-server`'s views without importing across the server
+ * `@ortha/i18n-server`'s views without importing across the server
  * boundary (the workspace convention for wire types).
  */
 
-import type { EntryStatus } from '@apograph/content-admin';
+import type { EntryStatus } from '@ortha/content-admin';
 
 /**
  * Writing direction of a locale's content.

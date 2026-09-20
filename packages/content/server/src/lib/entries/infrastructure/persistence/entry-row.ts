@@ -4,7 +4,7 @@
  * have one definition each. No DB access, no NestJS — just shape translation.
  */
 
-import { isEmptyRichText } from '@apograph/content-domain';
+import { isEmptyRichText } from '@ortha/content-domain';
 import type { AnyContentType } from '../../../types/content-type';
 import { CONTENT_FIELD_TYPE, isEmptyFieldValue } from '../../../types/fields';
 import type { EntryRecord } from '../../types/entry-list-view';

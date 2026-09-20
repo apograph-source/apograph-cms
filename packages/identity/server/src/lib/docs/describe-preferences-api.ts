@@ -11,7 +11,7 @@
  * names.
  */
 
-import type { OpenApiDocument } from '@apograph/bootstrap-server';
+import type { OpenApiDocument } from '@ortha/bootstrap-server';
 import { THEME_VALUES } from '../preferences/dto/update-preferences.dto';
 
 /** A JSON Schema fragment, as it appears in the OpenAPI document. */

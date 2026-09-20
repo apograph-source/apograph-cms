@@ -2,8 +2,8 @@ import { render, screen } from '@testing-library/react';
 import { IntlProvider } from 'react-intl';
 import { MemoryRouter } from 'react-router-dom';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { Sidebar, SidebarProvider } from '@apograph/design-system';
-import { wireSlotContributions } from '@apograph/utils-admin';
+import { Sidebar, SidebarProvider } from '@ortha/design-system';
+import { wireSlotContributions } from '@ortha/utils-admin';
 import {
     SIDEBAR_NAV_SLOT,
     type SidebarItem
@@ -30,9 +30,9 @@ import { GlobalSidebar } from './index';
 
 const auth = vi.hoisted(() => ({ permissions: [] as string[] }));
 
-vi.mock('@apograph/identity-admin', async (importOriginal) => {
+vi.mock('@ortha/identity-admin', async (importOriginal) => {
     const actual =
-        await importOriginal<typeof import('@apograph/identity-admin')>();
+        await importOriginal<typeof import('@ortha/identity-admin')>();
     return {
         ...actual,
         useAuth: () => ({

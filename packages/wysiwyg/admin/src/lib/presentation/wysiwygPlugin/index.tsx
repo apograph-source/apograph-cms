@@ -1,12 +1,12 @@
 import { Suspense, lazy } from 'react';
-import type { AdminPlugin } from '@apograph/bootstrap-admin';
-import { Skeleton } from '@apograph/design-system';
+import type { AdminPlugin } from '@ortha/bootstrap-admin';
+import { Skeleton } from '@ortha/design-system';
 import {
     CONTENT_FIELD_TYPE,
     ENTRY_FIELD_CONTROL_SLOT,
     type ContentField,
     type EntryFieldControlContext
-} from '@apograph/content-admin';
+} from '@ortha/content-admin';
 import { WYSIWYG_WIDGET } from '../../domain/constants';
 
 /**

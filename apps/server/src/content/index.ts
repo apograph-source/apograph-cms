@@ -18,7 +18,7 @@ import {
     contentEntryRevisions,
     joinTableOf,
     type AnyContentType
-} from '@apograph/content-server/define';
+} from '@ortha/content-server/define';
 
 import { article } from './collections/article';
 import { author } from './collections/author';

@@ -3,7 +3,7 @@ import { BasePage } from './BasePage';
 
 /**
  * Page object for the Media Library at `/workspaces/:id/media` (from
- * `@apograph/media-admin`) — the folders sidebar, the asset browser (grid), and
+ * `@ortha/media-admin`) — the folders sidebar, the asset browser (grid), and
  * the New-folder / Upload flows. Seed it with `mockSignedIn`, `mockWorkspaces`,
  * and `mockMediaApi`.
  */

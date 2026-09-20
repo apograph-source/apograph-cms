@@ -14,7 +14,7 @@ import {
     TRANSFER_FORMAT,
     TRANSFER_FORMATS,
     type TransferFormat
-} from '@apograph/transfer-domain';
+} from '@ortha/transfer-domain';
 
 /** Largest selection one export request may name. */
 export const MAX_EXPORT_IDS = 1000;

@@ -1,4 +1,4 @@
-# @apograph/webhooks-admin
+# @ortha/webhooks-admin
 
 The **webhooks admin plugin** — the global surface for configuring where this
 CMS sends content-change notifications, and for seeing whether they arrived.
@@ -105,7 +105,7 @@ server-side.
 ### 5. Custom headers are validated here as well as on the server
 
 `rejectionFor()` in `domain/headerRules` is a **deliberate copy** of the
-server's `isAllowedCustomHeader`, not an import: `@apograph/webhooks-domain`'s
+server's `isAllowedCustomHeader`, not an import: `@ortha/webhooks-domain`'s
 barrel reaches `node:crypto` through the signature helpers, and pulling that
 into the browser bundle takes the whole admin down at load (it did, once). The
 copy exists only to turn a `422` into a message beside the row that caused it —
@@ -150,5 +150,5 @@ src/lib/
 
 ## Commands
 
-- `npx nx run-many -t typecheck lint -p @apograph/webhooks-admin`
+- `npx nx run-many -t typecheck lint -p @ortha/webhooks-admin`
 - `npx nx serve admin`

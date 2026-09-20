@@ -156,7 +156,7 @@ export type WizardStepCardProps = {
  * The animation transforms only — opacity stays 1 — so content is never hidden
  * if the motion clock is paused (background tab, print), and
  * `prefers-reduced-motion: reduce` disables it. The rules ship in the
- * design-system stylesheet (`@apograph/design-system/src/styles.css`).
+ * design-system stylesheet (`@ortha/design-system/src/styles.css`).
  */
 export function WizardStepCard({ children, className }: WizardStepCardProps) {
     return <Card className={cn('wizard-step-in', className)}>{children}</Card>;

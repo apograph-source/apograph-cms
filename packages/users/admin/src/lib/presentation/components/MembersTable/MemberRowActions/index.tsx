@@ -14,7 +14,7 @@ import {
     Trash2,
     UserRound
 } from 'lucide-react';
-import { useAuth, useHasPermission } from '@apograph/identity-admin';
+import { useAuth, useHasPermission } from '@ortha/identity-admin';
 import {
     Button,
     ConfirmDialog,
@@ -30,7 +30,7 @@ import {
     TooltipTrigger,
     cn,
     toast
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import { inviteLinkFor } from '../../../../infrastructure/inviteLink';
 import { InviteLinkDialog } from '../../InviteLinkDialog';
 import { MEMBERS_RESULTS_ANCHOR_ID } from '../../../membersResultsAnchor';

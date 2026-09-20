@@ -17,7 +17,7 @@ import {
     SelectValue,
     Spinner,
     toast
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import {
     useCreateAlarmRule,
     usePreviewAlarmRule

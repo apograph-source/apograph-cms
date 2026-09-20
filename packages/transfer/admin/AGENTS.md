@@ -1,4 +1,4 @@
-# `@apograph/transfer-admin`
+# `@ortha/transfer-admin`
 
 Export and import in the Content Library. Governed by the `admin-plugin`,
 `accessibility` and `admin-e2e` skills; what follows is specific to this one.
@@ -49,7 +49,7 @@ the worst bug this dialog can have.
 verdicts name each one, so the set is exact: a run that creates an article *and*
 the author it points at must refresh both lists, or the authors list shows
 pre-import data with nothing to say it is stale. Use
-`refreshEntryCaches` from `@apograph/content-admin`, never a key spelled here —
+`refreshEntryCaches` from `@ortha/content-admin`, never a key spelled here —
 the library's roots are `content-entries` / `content-entry` / …, so the obvious
 `['content']` matches nothing and the import silently leaves the table alone.
 

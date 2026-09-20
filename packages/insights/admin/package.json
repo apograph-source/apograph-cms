@@ -1,5 +1,5 @@
 {
-    "name": "@apograph/insights-admin",
+    "name": "@ortha/insights-admin",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -16,14 +16,14 @@
         "src"
     ],
     "dependencies": {
-        "@apograph/bootstrap-admin": "*",
-        "@apograph/design-system": "*",
-        "@apograph/utils-admin": "*",
-        "@apograph/workspaces-admin": "*",
+        "@ortha/bootstrap-admin": "*",
+        "@ortha/design-system": "*",
+        "@ortha/utils-admin": "*",
+        "@ortha/workspaces-admin": "*",
         "@tanstack/react-query": "^5.0.0",
         "lucide-react": "^1.17.0",
         "react-intl": "^7.0.0",
-        "@apograph/identity-admin": "*"
+        "@ortha/identity-admin": "*"
     },
     "peerDependencies": {
         "react": "^19.0.0",

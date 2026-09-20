@@ -4,7 +4,7 @@ import {
     type ModelCapabilities,
     type ModelRequest,
     type ModelStreamEvent
-} from '@apograph/copilot-domain';
+} from '@ortha/copilot-domain';
 import {
     DEFAULT_CAPABILITIES,
     DEFAULT_CHUNK_SIZE,

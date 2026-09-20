@@ -13,7 +13,7 @@ import {
     Label,
     RadioGroup,
     Spinner
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import {
     VIEW_NAME_MAX_LENGTH,
     VIEW_VISIBILITY,

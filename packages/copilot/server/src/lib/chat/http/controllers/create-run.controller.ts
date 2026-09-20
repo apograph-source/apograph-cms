@@ -17,8 +17,8 @@ import {
     PermissionsGuard,
     RequirePermissions,
     type PublicUser
-} from '@apograph/identity-server';
-import { CurrentWorkspace, WorkspaceGuard } from '@apograph/workspaces-server';
+} from '@ortha/identity-server';
+import { CurrentWorkspace, WorkspaceGuard } from '@ortha/workspaces-server';
 import { CreateRunDto } from '../../application/dto/create-run.dto';
 import {
     AttachmentError,
@@ -26,7 +26,7 @@ import {
     RunEngine,
     UnknownModelChoiceError
 } from '../../application/run-engine.service';
-import { UnknownModelError } from '@apograph/copilot-domain';
+import { UnknownModelError } from '@ortha/copilot-domain';
 import { ContentTypeSummaryService } from '../../application/content-type-summary.service';
 import { SkillResolutionError } from '../../../skills/application/skill-catalog.service';
 import { SseStream } from '../sse-stream';
@@ -135,7 +135,7 @@ export class CreateRunController {
                 stream.send({
                     type: 'error',
                     message:
-                        'Apograph AI is turned off for this deployment. An administrator can enable it.'
+                        'Ortha AI is turned off for this deployment. An administrator can enable it.'
                 });
             } else if (
                 error instanceof AttachmentError ||
@@ -157,7 +157,7 @@ export class CreateRunController {
                 );
                 stream.send({
                     type: 'error',
-                    message: 'Apograph AI could not complete this run.'
+                    message: 'Ortha AI could not complete this run.'
                 });
             }
             // Always terminate with `done`, whatever went wrong: the client's

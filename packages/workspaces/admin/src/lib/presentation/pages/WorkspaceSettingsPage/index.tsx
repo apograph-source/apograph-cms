@@ -1,10 +1,10 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { defineMessages, useIntl } from 'react-intl';
-import { useHasPermission } from '@apograph/identity-admin';
-import { Badge, Container } from '@apograph/design-system';
+import { useHasPermission } from '@ortha/identity-admin';
+import { Badge, Container } from '@ortha/design-system';
 import { useCurrentWorkspace } from '../../currentWorkspace';
 import { WorkspaceSettingsTabs } from '../../components/WorkspaceSettingsTabs';
-import { useDocumentTitle } from '@apograph/utils-admin';
+import { useDocumentTitle } from '@ortha/utils-admin';
 import { WorkspaceSettingsTopBar } from '../../components/WorkspaceSettingsTopBar';
 import { useRedirectNotice } from '../../hooks/useRedirectNotice';
 import { WorkspaceGeneralSettings } from '../../components/WorkspaceGeneralSettings';

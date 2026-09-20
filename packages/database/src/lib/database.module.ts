@@ -16,7 +16,7 @@ import {
     OutboxDispatcher
 } from './outbox/outbox-dispatcher';
 
-// Re-exported so the historical `@apograph/database` barrel specifier
+// Re-exported so the historical `@ortha/database` barrel specifier
 // (`export { ..., DATABASE_TOKEN, InjectDatabase } from './lib/database.module'`)
 // stays valid; the definitions live in the dependency-free tokens module to
 // avoid an initialization cycle with the primitives below.

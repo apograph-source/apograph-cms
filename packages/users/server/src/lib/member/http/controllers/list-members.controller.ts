@@ -3,7 +3,7 @@ import {
     PERMISSIONS,
     PermissionsGuard,
     RequirePermissions
-} from '@apograph/identity-server';
+} from '@ortha/identity-server';
 import { ListMembersQueryDto } from '../../application/dto/list-members-query.dto';
 import { MemberViewQuery } from '../../infrastructure/queries/member-view.query';
 import type { MemberListView } from '../../application/queries/member.view';

@@ -7,7 +7,7 @@ import {
     CardDescription,
     CardHeader,
     CardTitle
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import { AuthLayout } from '../AuthLayout';
 
 /** Intl descriptors for the boundary's fallback, co-located with it. */

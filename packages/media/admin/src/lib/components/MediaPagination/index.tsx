@@ -11,7 +11,7 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import { ASSETS_PAGE_SIZE_OPTIONS } from '../../constants';
 
 /** Intl descriptors for {@link MediaPagination}, co-located here. */

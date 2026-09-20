@@ -13,7 +13,7 @@ import {
     PermissionsGuard,
     RequirePermissions,
     type PublicUser
-} from '@apograph/identity-server';
+} from '@ortha/identity-server';
 import { WorkspaceMemberGuard } from '../guards/workspace-member.guard';
 import { SetWorkspaceStatusUseCase } from '../../application/use-cases/set-workspace-status.use-case';
 import { WorkspaceViewQuery } from '../../infrastructure/queries/workspace-view.query';

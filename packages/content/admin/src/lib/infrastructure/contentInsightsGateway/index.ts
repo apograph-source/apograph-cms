@@ -2,7 +2,7 @@
  * The content Insights read models, restated from the server's view contracts.
  *
  * Restated rather than imported: the admin can't reach across the app boundary
- * into `@apograph/content-server`, exactly as it restates every other wire type
+ * into `@ortha/content-server`, exactly as it restates every other wire type
  * in this package.
  */
 

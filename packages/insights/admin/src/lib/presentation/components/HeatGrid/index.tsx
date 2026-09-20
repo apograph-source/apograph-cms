@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
-import { cn } from '@apograph/design-system';
+import { cn } from '@ortha/design-system';
 import {
     toneBackground,
     toneForIntensity,

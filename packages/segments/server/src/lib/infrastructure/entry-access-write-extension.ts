@@ -7,12 +7,12 @@ import type {
     EntryWriteExtension,
     EntryWriteExtensionInput,
     EntryWriteExtensionTarget
-} from '@apograph/content-server';
-import { PERMISSIONS, PermissionsService } from '@apograph/identity-server';
-import type { Database } from '@apograph/database';
-import { isOpen, type EntryAccess } from '@apograph/segments-domain';
+} from '@ortha/content-server';
+import { PERMISSIONS, PermissionsService } from '@ortha/identity-server';
+import type { Database } from '@ortha/database';
+import { isOpen, type EntryAccess } from '@ortha/segments-domain';
 import { EntryAccessService } from '../application/entry-access.service';
-import type { EventActor } from '@apograph/database';
+import type { EventActor } from '@ortha/database';
 import { PrincipalStore } from '../application/principal.store';
 import { ENTRY_ACCESS_IDS_MAX } from '../http/segments.dto';
 

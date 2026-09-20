@@ -1,5 +1,5 @@
 /** Export/import — the per-type identity fields and the transfer ceilings. */
-import type { TransferPluginConfig } from '@apograph/transfer-server';
+import type { TransferPluginConfig } from '@ortha/transfer-server';
 
 /** Export/import — the per-type identity fields and the transfer ceilings. */
 export function transferConfig(): TransferPluginConfig {

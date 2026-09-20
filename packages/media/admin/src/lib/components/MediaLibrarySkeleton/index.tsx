@@ -8,7 +8,7 @@ import {
     Skeleton,
     TopBar,
     TopBarIcon
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 
 /** Intl descriptors for the media-library skeleton, co-located here. */
 const messages = defineMessages({

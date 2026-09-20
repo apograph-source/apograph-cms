@@ -9,7 +9,7 @@ import {
     DropdownMenuItem,
     DropdownMenuSeparator,
     DropdownMenuTrigger
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import {
     RECORDS_MENU_SLOT,
     type RecordsMenuContext

@@ -1,4 +1,4 @@
-import { apiClient, toApiError } from '@apograph/utils-admin';
+import { apiClient, toApiError } from '@ortha/utils-admin';
 import type { ActivityList } from '../../types/activityEvent';
 import type { DeadLetterList, RetriedDeadLetter } from '../../types/deadLetter';
 import { toActivityEvent, type ActivityEventResponse } from '../activityMapper';

@@ -12,10 +12,10 @@ type FetchInput = Parameters<typeof globalThis.fetch>[0];
 import type {
     SsoAuthorizeRequest,
     SsoCallback
-} from '@apograph/identity-domain';
+} from '@ortha/identity-domain';
 
 export const ISSUER = 'https://idp.test';
-export const CLIENT_ID = 'apograph-cms';
+export const CLIENT_ID = 'ortha-cms';
 export const REDIRECT_URI = 'https://cms.test/api/auth/sso/idp/callback';
 
 /** The one-attempt secrets a core would have minted. */

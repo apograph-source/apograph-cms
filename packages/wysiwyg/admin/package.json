@@ -1,5 +1,5 @@
 {
-    "name": "@apograph/wysiwyg-admin",
+    "name": "@ortha/wysiwyg-admin",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -17,11 +17,11 @@
         "src"
     ],
     "dependencies": {
-        "@apograph/bootstrap-admin": "*",
-        "@apograph/content-admin": "*",
-        "@apograph/content-domain": "*",
-        "@apograph/design-system": "*",
-        "@apograph/utils-admin": "*",
+        "@ortha/bootstrap-admin": "*",
+        "@ortha/content-admin": "*",
+        "@ortha/content-domain": "*",
+        "@ortha/design-system": "*",
+        "@ortha/utils-admin": "*",
         "@tiptap/core": "^3.29.2",
         "@tiptap/extension-highlight": "^3.29.2",
         "@tiptap/extension-table": "^3.29.2",

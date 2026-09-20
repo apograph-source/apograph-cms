@@ -452,7 +452,7 @@ export class OutboxDispatcher
      * (`database:I-12`: "the `eventId` is the idempotency key, not merely a
      * PK"). A copy with a fresh id is a *different fact* to every subscriber:
      * the activity insert is `ON CONFLICT DO NOTHING` on that same PK and
-     * webhook receivers deduplicate on `X-Apograph-Event-Id`, so a delivery
+     * webhook receivers deduplicate on `X-Ortha-Event-Id`, so a delivery
      * that partly succeeded before it parked would be applied twice.
      *
      * **Both columns are cleared, and the second one is the point.** Clearing

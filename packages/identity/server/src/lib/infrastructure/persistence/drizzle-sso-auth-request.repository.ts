@@ -1,7 +1,7 @@
 import { randomBytes } from 'node:crypto';
 import { Injectable } from '@nestjs/common';
 import { and, eq, gt, isNull } from 'drizzle-orm';
-import { UnitOfWork } from '@apograph/database';
+import { UnitOfWork } from '@ortha/database';
 import { ssoAuthRequests } from '../../schema';
 import type {
     OpenSsoAuthRequestInput,

@@ -4,7 +4,7 @@ import {
     WidgetCard,
     type BarRowSpec,
     type ChartTone
-} from '@apograph/insights-admin';
+} from '@ortha/insights-admin';
 import { useMediaStorage } from '../../hooks/useMediaInsights';
 import { formatBytes } from '../../utils/formatBytes';
 

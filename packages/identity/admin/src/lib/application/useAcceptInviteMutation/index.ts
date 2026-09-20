@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import type { ApiError } from '@apograph/utils-admin';
+import type { ApiError } from '@ortha/utils-admin';
 import { httpAuthGateway } from '../../infrastructure/httpAuthGateway';
 import { resetSessionCache } from '../resetSessionCache';
 import type { AcceptInviteInput } from '../../../types/auth';

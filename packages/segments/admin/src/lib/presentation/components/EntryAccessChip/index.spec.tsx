@@ -5,7 +5,7 @@ import { IntlProvider } from 'react-intl';
 import { MemoryRouter } from 'react-router-dom';
 import type { ReactElement } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import type { EntrySlotContext } from '@apograph/content-admin';
+import type { EntrySlotContext } from '@ortha/content-admin';
 import { useEntryAccess, useSegments } from '../../../application/hooks';
 import { EntryAccessChip } from './index';
 

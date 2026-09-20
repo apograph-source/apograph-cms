@@ -2,8 +2,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { defineMessages, useIntl } from 'react-intl';
 import { KeyRound, Plus } from 'lucide-react';
-import { PageTopBar } from '@apograph/shell-admin';
-import { useHasPermission } from '@apograph/identity-admin';
+import { PageTopBar } from '@ortha/shell-admin';
+import { useHasPermission } from '@ortha/identity-admin';
 import {
     Alert,
     AlertDescription,
@@ -11,7 +11,7 @@ import {
     Container,
     ContainerHeader,
     toast
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import {
     useApiTokens,
     DEFAULT_PAGE_SIZE
@@ -28,7 +28,7 @@ import { ApiTokensNoAccess } from '../../components/ApiTokensNoAccess';
 import { CreateApiTokenDialog } from '../../components/CreateApiTokenDialog';
 import { RevealSecretDialog } from '../../components/RevealSecretDialog';
 import type { CreateApiTokenInput } from '../../../infrastructure/apiTokenGateway';
-import { useDocumentTitle } from '@apograph/utils-admin';
+import { useDocumentTitle } from '@ortha/utils-admin';
 
 const messages = defineMessages({
     title: { id: 'apiTokens.page.title', defaultMessage: 'API tokens' },

@@ -5,7 +5,7 @@ import {
     avatarColorVar,
     cn,
     type AvatarColor
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 
 type WorkspaceAvatarProps = {
     /** Initials rendered as the avatar content. */

@@ -1,4 +1,4 @@
-# `@apograph/segments-admin`
+# `@ortha/segments-admin`
 
 The **segments UI** — two surfaces and no more.
 
@@ -218,7 +218,7 @@ Two rules the route-level ones follow, from `ContentLibraryPageSkeleton`:
   level-one headings off the screen across the swap.
 
 **Required fields carry `*` and the page says what it means.** The mark is the
-shared `RequiredMark` from `@apograph/content-admin` — one implementation, so the
+shared `RequiredMark` from `@ortha/content-admin` — one implementation, so the
 audience form and the entry editor cannot drift — and it is `aria-hidden`, because
 the control carries `aria-required` and announcing both would say "required"
 twice. The legend above the fields is what a sighted reader who does not know the
@@ -251,5 +251,5 @@ reaches the save **body**), and the records filter. Two harness notes:
 
 ## Commands
 
-- `npx nx test @apograph/segments-admin`
-- `npx nx typecheck @apograph/segments-admin` / `npx nx lint @apograph/segments-admin`
+- `npx nx test @ortha/segments-admin`
+- `npx nx typecheck @ortha/segments-admin` / `npx nx lint @ortha/segments-admin`

@@ -1,4 +1,4 @@
-import type { EntryFieldSpec } from '@apograph/content-domain';
+import type { EntryFieldSpec } from '@ortha/content-domain';
 import type { ContentField } from '../../domain/types/contentType';
 
 /**
@@ -6,7 +6,7 @@ import type { ContentField } from '../../domain/types/contentType';
  * kernel's serialized {@link EntryFieldSpec}. The two are all-but-identical — the
  * only gap is `ContentField.validation`, typed as the opaque wire
  * `Record<string, unknown>`, which we narrow to the kernel's rule shape here so
- * the field feeds `@apograph/content-domain`'s validator without a cast at every
+ * the field feeds `@ortha/content-domain`'s validator without a cast at every
  * call site. Runtime values are unchanged; this is a pure structural bridge so the
  * kernel stays the single source of the validation rules.
  *

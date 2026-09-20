@@ -3,7 +3,7 @@ import {
     ColumnTrend,
     WidgetCard,
     type TrendPoint
-} from '@apograph/insights-admin';
+} from '@ortha/insights-admin';
 import { useMediaUploads } from '../../hooks/useMediaInsights';
 
 /** Intl descriptors for the uploads widget, co-located here. */

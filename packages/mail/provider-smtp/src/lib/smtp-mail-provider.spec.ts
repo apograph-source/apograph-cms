@@ -1,15 +1,15 @@
-import { MailPermanentError } from '@apograph/mail-domain';
+import { MailPermanentError } from '@ortha/mail-domain';
 import { createSmtpMailProvider } from './smtp-mail-provider';
 import { describeSmtpError, isPermanentSmtpError } from './smtp-error';
 
 const message = {
     to: 'ada@example.com',
-    from: 'Apograph <no-reply@example.com>',
+    from: 'Ortha <no-reply@example.com>',
     replyTo: 'support@example.com',
     subject: 'You have been invited',
     text: 'https://cms.example.com/identity/accept-invite?token=s3cret',
     html: '<p>link</p>',
-    headers: { 'X-Apograph-Mail-Kind': 'invite' }
+    headers: { 'X-Ortha-Mail-Kind': 'invite' }
 };
 
 /** A nodemailer double: records what it was asked to send. */
@@ -52,13 +52,13 @@ describe('the SMTP mail provider', () => {
         const receipt = await provider.send(message);
 
         expect(transport.sent[0]).toEqual({
-            from: 'Apograph <no-reply@example.com>',
+            from: 'Ortha <no-reply@example.com>',
             to: 'ada@example.com',
             replyTo: 'support@example.com',
             subject: 'You have been invited',
             text: message.text,
             html: '<p>link</p>',
-            headers: { 'X-Apograph-Mail-Kind': 'invite' }
+            headers: { 'X-Ortha-Mail-Kind': 'invite' }
         });
         expect(receipt).toEqual({ providerMessageId: '<queued@relay>' });
     });

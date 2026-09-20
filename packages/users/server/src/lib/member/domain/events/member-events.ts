@@ -1,4 +1,4 @@
-import { createDomainEvent, type DomainEvent } from '@apograph/database';
+import { createDomainEvent, type DomainEvent } from '@ortha/database';
 
 /**
  * The domain event kinds the users context raises. Most are raised by the

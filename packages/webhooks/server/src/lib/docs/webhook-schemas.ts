@@ -8,7 +8,7 @@
  * {@link describeWebhooksApi}.
  *
  * The vocabularies (`DELIVERY_STATUSES`, the event catalogue) are **imported**
- * from `@apograph/webhooks-domain` rather than restated: an enum in the
+ * from `@ortha/webhooks-domain` rather than restated: an enum in the
  * reference that drifts from the one the server validates against is worse
  * than a bare string, because it looks authoritative.
  */
@@ -17,7 +17,7 @@ import {
     DELIVERY_STATUSES,
     WEBHOOK_EVENT_GROUPS,
     WEBHOOK_EVENT_KINDS
-} from '@apograph/webhooks-domain';
+} from '@ortha/webhooks-domain';
 
 /** A JSON Schema fragment, as it appears in the OpenAPI document. */
 export type OpenApiSchema = Record<string, unknown>;
@@ -205,13 +205,13 @@ const DELIVERY: OpenApiSchema = {
         id: {
             ...UUID,
             description:
-                'The delivery’s own id, sent as `X-Apograph-Delivery`. A redelivery gets a new one.'
+                'The delivery’s own id, sent as `X-Ortha-Delivery`. A redelivery gets a new one.'
         },
         endpointId: UUID,
         eventId: {
             ...UUID,
             description:
-                'The originating outbox event, sent as `X-Apograph-Event-Id`. Stable across every redelivery — this is the key a receiver deduplicates on.'
+                'The originating outbox event, sent as `X-Ortha-Event-Id`. Stable across every redelivery — this is the key a receiver deduplicates on.'
         },
         eventKind: { type: 'string' },
         workspaceId: { ...UUID, nullable: true },
@@ -264,7 +264,7 @@ const DELIVERY_DETAIL: OpenApiSchema = {
 const ENVELOPE: OpenApiSchema = {
     type: 'object',
     description:
-        'The JSON body POSTed to a receiver, signed with the endpoint’s secret in `X-Apograph-Signature`.',
+        'The JSON body POSTed to a receiver, signed with the endpoint’s secret in `X-Ortha-Signature`.',
     required: [
         'id',
         'event',

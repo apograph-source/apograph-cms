@@ -3,7 +3,7 @@ import {
     PERMISSIONS,
     PermissionsGuard,
     RequirePermissions
-} from '@apograph/identity-server';
+} from '@ortha/identity-server';
 import { ActivityService } from '../services/activity.service';
 import { ListActivityQueryDto } from '../dto/list-activity-query.dto';
 import type { ActivityListView } from '../types/activity-view';

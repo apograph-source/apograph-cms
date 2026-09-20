@@ -1,6 +1,6 @@
-# @apograph/users-server
+# @ortha/users-server
 
-The users **plugin** for the Apograph CMS server: the member-management API the
+The users **plugin** for the Ortha CMS server: the member-management API the
 admin's Members page drives. Exposes, under `/api/users`:
 
 - `GET /users` — searchable (`?search=`, name/email `ILIKE`), paginated
@@ -35,7 +35,7 @@ admin's Members page drives. Exposes, under `/api/users`:
   purpose).
 
 > **Layered per ADR-0003 (tactical DDD inside plugins).** This is Wave 2 of the
-> migration; the structure copies the `@apograph/workspaces-server` pilot —
+> migration; the structure copies the `@ortha/workspaces-server` pilot —
 > when a layering question is ambiguous, that package is the worked example.
 
 ## Layered layout
@@ -67,7 +67,7 @@ member.constants.ts                # page sizes, filter length cap
 ## The one hard rule
 
 **`domain/` imports NOTHING from `@nestjs/*`, `drizzle-orm`, `class-validator`,
-or `infrastructure/`.** It may use `@apograph/database`'s framework-free
+or `infrastructure/`.** It may use `@ortha/database`'s framework-free
 `createDomainEvent`/`DomainEvent` and node built-ins only. The layer-boundary
 lint isn't wired yet — self-enforce it.
 
@@ -264,8 +264,8 @@ same permission. No invite tokens, no session data.
   on the same prefix and describes it itself.
 - Plain `ServerPlugin` factory (`UsersPlugin()`), no config, **no migrations**
   — every table it touches (`users`, `roles`, `memberships`, `workspaces`,
-  `sessions`, `tokens`) is owned and migrated by `@apograph/identity-server`
-  (and, for `workspaces`/`memberships`, `@apograph/workspaces-server`).
+  `sessions`, `tokens`) is owned and migrated by `@ortha/identity-server`
+  (and, for `workspaces`/`memberships`, `@ortha/workspaces-server`).
 - Authorization: identity's `PermissionsGuard` bound per controller with
   `@RequirePermissions(PERMISSIONS.USERS_READ | USERS_CREATE | USERS_UPDATE |
   USERS_DELETE)` — the shared constants, never inline strings (`.cursor/BUGBOT.md`
@@ -303,6 +303,6 @@ same permission. No invite tokens, no session data.
 
 ## Commands
 
-- `npm exec nx typecheck @apograph/users-server`
-- `npm exec nx lint @apograph/users-server`
-- `npm exec nx test @apograph/users-server`
+- `npm exec nx typecheck @ortha/users-server`
+- `npm exec nx lint @ortha/users-server`
+- `npm exec nx test @ortha/users-server`

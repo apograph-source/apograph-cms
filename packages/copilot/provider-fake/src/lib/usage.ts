@@ -1,4 +1,4 @@
-import type { ModelRequest, ModelUsage } from '@apograph/copilot-domain';
+import type { ModelRequest, ModelUsage } from '@ortha/copilot-domain';
 
 /**
  * Rough, deterministic token estimate. **Not a tokenizer** — the point is that

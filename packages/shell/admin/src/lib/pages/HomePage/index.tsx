@@ -1,7 +1,7 @@
 import { defineMessages, useIntl } from 'react-intl';
-import { Container } from '@apograph/design-system';
-import { useAuth } from '@apograph/identity-admin';
-import { byOrder, useDocumentTitle } from '@apograph/utils-admin';
+import { Container } from '@ortha/design-system';
+import { useAuth } from '@ortha/identity-admin';
+import { byOrder, useDocumentTitle } from '@ortha/utils-admin';
 import { HOME_SECTION_SLOT } from '../../slots/homeSlots';
 
 /** Intl descriptors for {@link HomePage}, co-located with the component. */

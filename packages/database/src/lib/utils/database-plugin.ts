@@ -1,5 +1,5 @@
 import { join } from 'node:path';
-import type { ServerPlugin } from '@apograph/bootstrap-server';
+import type { ServerPlugin } from '@ortha/bootstrap-server';
 import type { DatabasePluginConfig } from '../types';
 import { DatabaseModule } from '../database.module';
 import { initDatabase } from './db';

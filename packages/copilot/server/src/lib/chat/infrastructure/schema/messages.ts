@@ -12,7 +12,7 @@ import type {
     AttachmentRef,
     ModelContentBlock,
     SkillRef
-} from '@apograph/copilot-domain';
+} from '@ortha/copilot-domain';
 import { copilotConversations } from './conversations';
 
 /** Who produced a turn. Mirrors the port's `ModelMessage['role']`. */

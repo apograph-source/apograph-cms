@@ -1,5 +1,5 @@
 /**
- * `@apograph/mail-provider-testkit` — the capturing mail adapter.
+ * `@ortha/mail-provider-testkit` — the capturing mail adapter.
  *
  * Holds every message in memory so a suite can assert on what the CMS tried to
  * send, and can be told to fail — retryably or permanently — so the worker's

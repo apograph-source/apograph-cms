@@ -1,4 +1,4 @@
-import type { OpenApiDocument } from '@apograph/bootstrap-server';
+import type { OpenApiDocument } from '@ortha/bootstrap-server';
 import { describeAlarmsApi } from './describe-alarms-api';
 
 /** The shape the swagger scanner produces before this pass runs. */

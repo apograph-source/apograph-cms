@@ -1,4 +1,4 @@
-/** Public API of @apograph/content-server. */
+/** Public API of @ortha/content-server. */
 
 export { ContentPlugin } from './lib/utils/content-plugin';
 export type {
@@ -53,7 +53,7 @@ export { RelationLinkService } from './lib/entries/infrastructure/persistence/re
 
 // The workspace's content-grant gate as a route guard, exported for the same
 // reason `ApiTokenGuard` is: a plugin adding a route over this same content
-// must reuse the exact rule rather than restate it. `@apograph/transfer-server`
+// must reuse the exact rule rather than restate it. `@ortha/transfer-server`
 // puts export and import routes beside the entries routes, and skipping this
 // would make either one a way to reach past the workspace's content surface.
 export { ContentGrantGuard } from './lib/entries/http/guards/content-grant.guard';
@@ -159,7 +159,7 @@ export type {
     SerializedField
 } from './lib/registry/content-type-registry';
 
-// The revision store, exported for `@apograph/protection-server`: an approval is
+// The revision store, exported for `@ortha/protection-server`: an approval is
 // bound to a **revision**, so a plugin recording one has to be able to ask which
 // version is currently the head and who wrote it. `content_entry_revisions` is
 // host-owned and belongs to content, so the alternative was protection querying
@@ -188,7 +188,7 @@ export type {
     RevisionSummary
 } from './lib/revisions/types/revision-view';
 
-// Filter evaluation over a content type, exported for `@apograph/alarms-server`:
+// Filter evaluation over a content type, exported for `@ortha/alarms-server`:
 // an alarm rule IS a records-list filter, so it must be parsed and translated
 // by the same surface the list uses rather than by a second implementation.
 export { EntryMatchQuery } from './lib/entries/infrastructure/queries/entry-match.query';
@@ -248,7 +248,7 @@ export type {
 } from './lib/public-api/http/api-token-request';
 
 // --- The public API's engine, for a second protocol over the same surface ---
-// `@apograph/content-graphql` serves `/v1/graphql` by assembling these exact
+// `@ortha/content-graphql` serves `/v1/graphql` by assembling these exact
 // DTOs and calling these exact services, so GraphQL and REST cannot drift on
 // what a token may see or write. Everything below is the *implementation* of
 // the public API rather than its wire contract: it is exported for that reuse,

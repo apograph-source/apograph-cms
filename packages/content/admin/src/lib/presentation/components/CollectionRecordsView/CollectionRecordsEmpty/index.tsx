@@ -8,7 +8,7 @@ import {
     EmptyHeader,
     EmptyMedia,
     EmptyTitle
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 
 /** Intl descriptors for {@link CollectionRecordsEmpty}, co-located. */
 const messages = defineMessages({

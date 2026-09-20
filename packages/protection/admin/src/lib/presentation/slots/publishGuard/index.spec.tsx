@@ -5,7 +5,7 @@ import type {
     EntryPublishOptions,
     EntryPublishVerdict,
     EntrySlotContext
-} from '@apograph/content-admin';
+} from '@ortha/content-admin';
 import type { EntryReview, NewEntryProtection } from '../../../domain/types';
 import { usePublishProtectionVerdict } from './index';
 

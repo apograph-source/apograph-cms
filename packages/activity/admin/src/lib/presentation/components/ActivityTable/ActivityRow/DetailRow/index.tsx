@@ -1,4 +1,4 @@
-import { cn } from '@apograph/design-system';
+import { cn } from '@ortha/design-system';
 
 /** One label/value pair in the detail panel's definition list. */
 export function DetailRow({

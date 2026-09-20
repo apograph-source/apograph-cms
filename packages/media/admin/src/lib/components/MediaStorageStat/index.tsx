@@ -1,5 +1,5 @@
 import { defineMessages, useIntl } from 'react-intl';
-import { StatWidget } from '@apograph/insights-admin';
+import { StatWidget } from '@ortha/insights-admin';
 import { useMediaStorage } from '../../hooks/useMediaInsights';
 import { formatBytes } from '../../utils/formatBytes';
 

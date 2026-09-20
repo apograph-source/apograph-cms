@@ -1,5 +1,5 @@
 {
-    "name": "@apograph/media-provider-vercel-blob",
+    "name": "@ortha/media-provider-vercel-blob",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -16,10 +16,10 @@
         "src"
     ],
     "dependencies": {
-        "@apograph/media-domain": "*",
+        "@ortha/media-domain": "*",
         "@vercel/blob": "^0.27.0"
     },
     "devDependencies": {
-        "@apograph/media-provider-testkit": "*"
+        "@ortha/media-provider-testkit": "*"
     }
 }

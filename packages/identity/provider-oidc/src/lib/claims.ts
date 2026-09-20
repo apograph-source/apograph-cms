@@ -1,7 +1,7 @@
 import {
     SsoVerificationError,
     type SsoProfile
-} from '@apograph/identity-domain';
+} from '@ortha/identity-domain';
 import type { ResolvedOidcConfig } from './config';
 
 /** An identity token's verified payload, as far as this adapter reads it. */

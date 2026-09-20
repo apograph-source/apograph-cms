@@ -21,8 +21,8 @@ import {
     PermissionsGuard,
     RequirePermissions,
     type PublicUser
-} from '@apograph/identity-server';
-import { CurrentWorkspace, WorkspaceGuard } from '@apograph/workspaces-server';
+} from '@ortha/identity-server';
+import { CurrentWorkspace, WorkspaceGuard } from '@ortha/workspaces-server';
 import type { SavedView } from '../../domain/saved-view';
 import { VIEW_VISIBILITY } from '../../domain/saved-view';
 import { SavedViewsQuery } from '../../application/queries/saved-views.query';

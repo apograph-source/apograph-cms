@@ -1,4 +1,4 @@
-import { ApiError } from '@apograph/utils-admin';
+import { ApiError } from '@ortha/utils-admin';
 import type { EntryValidationIssue } from '../../domain/types/contentType';
 
 /**

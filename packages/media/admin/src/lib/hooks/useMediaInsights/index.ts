@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
-import { STALE_TIME } from '@apograph/utils-admin';
-import { useCurrentWorkspace } from '@apograph/workspaces-admin';
-import { useHasPermission } from '@apograph/identity-admin';
-import { useInsightsRange } from '@apograph/insights-admin';
+import { STALE_TIME } from '@ortha/utils-admin';
+import { useCurrentWorkspace } from '@ortha/workspaces-admin';
+import { useHasPermission } from '@ortha/identity-admin';
+import { useInsightsRange } from '@ortha/insights-admin';
 import { httpMediaInsightsGateway } from '../../infrastructure/httpMediaInsightsGateway';
 
 /** Permission every media Insights read is gated on. */

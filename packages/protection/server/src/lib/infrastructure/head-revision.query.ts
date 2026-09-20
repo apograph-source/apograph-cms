@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import {
     InjectRevisionStore,
     type RevisionStore
-} from '@apograph/content-server';
+} from '@ortha/content-server';
 
 /** The entry's current version — everything a protection decision needs of it. */
 export interface HeadRevision {

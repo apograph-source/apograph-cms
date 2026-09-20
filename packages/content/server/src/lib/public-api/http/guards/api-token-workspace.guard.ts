@@ -9,7 +9,7 @@ import {
 import {
     WORKSPACE_HEADER,
     WORKSPACE_ID_PATTERN
-} from '@apograph/workspaces-server';
+} from '@ortha/workspaces-server';
 import type { ApiTokenRequest } from '../api-token-request';
 
 /**

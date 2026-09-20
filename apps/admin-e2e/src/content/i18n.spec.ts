@@ -11,7 +11,7 @@ import {
 import { type ContentLibraryPage } from '../support/pages/ContentLibraryPage';
 
 /**
- * Content localization in the admin (`@apograph/i18n-admin`), driving the
+ * Content localization in the admin (`@ortha/i18n-admin`), driving the
  * Content Library's extension slots against a mocked API: the records-toolbar
  * locale switcher (and its `?locale=` round-trip), the Locales table column,
  * and the entry editor's title-row locale chip and the menu it opens (open a

@@ -1,6 +1,6 @@
 import { createServer, type Server } from 'node:http';
 import type { AddressInfo } from 'node:net';
-import { assertUrlShape } from '@apograph/webhooks-domain';
+import { assertUrlShape } from '@ortha/webhooks-domain';
 import {
     resolveWebhooksConfig,
     type WebhooksPluginConfig
@@ -237,7 +237,7 @@ describe('WebhookHttpClient — the delivery headers', () => {
             'attempt',
             'signature'
         ]) {
-            expect(sent[`x-apograph-${field}`]).toBeDefined();
+            expect(sent[`x-ortha-${field}`]).toBeDefined();
         }
     });
 
@@ -246,9 +246,9 @@ describe('WebhookHttpClient — the delivery headers', () => {
         await client(OPEN).send({ ...delivery(url), workspaceId: null });
 
         const sent = receiver.headers[0];
-        expect(sent['x-apograph-workspace']).toBeUndefined();
+        expect(sent['x-ortha-workspace']).toBeUndefined();
         // Still sent, so an absent workspace is not mistaken for no headers.
-        expect(sent['x-apograph-event']).toBe('entry.published');
+        expect(sent['x-ortha-event']).toBe('entry.published');
     });
 });
 
