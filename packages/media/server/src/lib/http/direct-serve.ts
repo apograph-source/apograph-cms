@@ -1,5 +1,5 @@
 import type { AssetLocation } from '../infrastructure/queries/download-asset.query';
-import type { StorageProvider } from '@ortha/media-domain';
+import type { StorageProvider } from '@orthacms/media-domain';
 import { isInlineSafe } from './download-headers';
 
 /**

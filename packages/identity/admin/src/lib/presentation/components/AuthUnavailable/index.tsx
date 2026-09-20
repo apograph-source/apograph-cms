@@ -7,7 +7,7 @@ import {
     CardDescription,
     CardHeader,
     CardTitle
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import { currentUserKey } from '../../../application/useCurrentUser';
 import { AuthLayout } from '../AuthLayout';
 

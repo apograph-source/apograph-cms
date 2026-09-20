@@ -5,7 +5,7 @@ import {
     buildEnvelope,
     isAllowedCustomHeader,
     WebhookUrlRejectedError
-} from '@ortha/webhooks-domain';
+} from '@orthacms/webhooks-domain';
 import {
     WebhookDeliveryNotFoundError,
     WebhookEndpointNotFoundError

@@ -7,14 +7,14 @@ import {
     TableHead,
     TableHeader,
     TableRow
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import {
     IMPORT_ACTION,
     IMPORT_REASON,
     type ImportAction,
     type ImportReason,
     type ImportVerdict
-} from '@ortha/transfer-domain';
+} from '@orthacms/transfer-domain';
 
 const messages = defineMessages({
     record: { id: 'transfer.import.column.record', defaultMessage: 'Record' },

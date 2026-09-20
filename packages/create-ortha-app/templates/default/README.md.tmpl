@@ -91,7 +91,7 @@ exists to avoid.
 
 ## What you own
 
-Almost nothing, on purpose — the CMS is the `@ortha/*` packages, and this app
+Almost nothing, on purpose — the CMS is the `@orthacms/*` packages, and this app
 is the composition of them.
 
 ```
@@ -112,29 +112,29 @@ source lands in the same place here.
 | `apps/server/ortha.config.ts` | Every setting, typed — with `apps/server/config/`, the only reader of the environment |
 | `apps/admin/src/styles.css` | The theme tokens: this app's whole visual identity |
 
-Upgrading is a version bump. Keep the `@ortha/*` versions **in step with each
+Upgrading is a version bump. Keep the `@orthacms/*` versions **in step with each
 other** — they are released together, and a partial upgrade can leave two copies
 of a shared package in `node_modules`, which means two React context instances
 and UI that silently stops talking to itself.
 
 ### Writing your own plugin
 
-A server plugin is a `ServerPlugin` from `@ortha/bootstrap-server` — a name,
+A server plugin is a `ServerPlugin` from `@orthacms/bootstrap-server` — a name,
 a NestJS module, and optionally its own migrations — added to the array in
-`apps/server/src/plugins.ts`. `@InjectDatabase()` from `@ortha/database` gives it
+`apps/server/src/plugins.ts`. `@InjectDatabase()` from `@orthacms/database` gives it
 the shared connection. An admin plugin is an `AdminPlugin` from
-`@ortha/bootstrap-admin`, added to `apps/admin/src/plugins.ts`.
+`@orthacms/bootstrap-admin`, added to `apps/admin/src/plugins.ts`.
 
-`@ortha/utils-server` and `@ortha/utils-admin` hold the shared toolkit
+`@orthacms/utils-server` and `@orthacms/utils-admin` hold the shared toolkit
 (filter parsing, `apiClient`, slots, table URL state), and
-`@ortha/design-system` the UI primitives. All three are already declared here.
+`@orthacms/design-system` the UI primitives. All three are already declared here.
 
 The extension points are declared too, so you can import them directly:
-`@ortha/content-domain` (the content kernel's types), `@ortha/tools-server`
-(register an agent tool), `@ortha/copilot-domain`,
-`@ortha/query-builder-admin`.
+`@orthacms/content-domain` (the content kernel's types), `@orthacms/tools-server`
+(register an agent tool), `@orthacms/copilot-domain`,
+`@orthacms/query-builder-admin`.
 
-If you add an `@ortha/*` package this app does not already list — a copilot
+If you add an `@orthacms/*` package this app does not already list — a copilot
 backend, the GraphQL adapter — install it at **the same version as the rest**.
 Keeping them in step is what stops npm nesting a second copy of a shared
 package, which means two React context instances and UI that silently stops

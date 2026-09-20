@@ -1,5 +1,5 @@
 import { defineMessages } from 'react-intl';
-import type { AdminPlugin } from '@ortha/bootstrap-admin';
+import type { AdminPlugin } from '@orthacms/bootstrap-admin';
 import {
     CONTENT_OVERLAY_SLOT,
     ENTRY_HEADER_SLOT,
@@ -21,11 +21,11 @@ import {
     type EntryDetailsRowItem,
     type RecordsFilterFieldsItem,
     type EntryParamsItem
-} from '@ortha/content-admin';
+} from '@orthacms/content-admin';
 import {
     INSIGHTS_SECTION_IDS,
     INSIGHTS_WIDGET_SLOT
-} from '@ortha/insights-admin';
+} from '@orthacms/insights-admin';
 import {
     CONTENT_READ,
     LOCALE_GROUP_PARAM,
@@ -55,7 +55,7 @@ export type I18nAdminPlugin = AdminPlugin;
 
 /**
  * Creates the i18n admin plugin — content localization for the Content
- * Library. Contributes **only** to `@ortha/content-admin`'s extension
+ * Library. Contributes **only** to `@orthacms/content-admin`'s extension
  * slots (no routes, no layout, no nav):
  *
  * - a searchable **locale switcher** in the records toolbar (owns the

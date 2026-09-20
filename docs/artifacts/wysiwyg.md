@@ -32,7 +32,7 @@ WYSIWYG is the **rich-text editor** for the Ortha admin UI. It has no route, no 
 
 ## 01. Business description
 
-The `@ortha/wysiwyg-admin` package answers one question: **how an editor writes the body of an entry**. Everything else in the CMS — content types, permissions, publishing, the public API — exists without it; without it a `richtext` field simply renders as an ordinary text area with HTML markup inside. That is exactly the variant this plugin replaces.
+The `@orthacms/wysiwyg-admin` package answers one question: **how an editor writes the body of an entry**. Everything else in the CMS — content types, permissions, publishing, the public API — exists without it; without it a `richtext` field simply renders as an ordinary text area with HTML markup inside. That is exactly the variant this plugin replaces.
 
 ### The problem it solves
 
@@ -60,8 +60,8 @@ Does nothing: the editor takes every `richtext` field by default. Opting out is 
 
 - **It is not a page.** The `WysiwygPlugin()` factory has no `routes`, no `nav` and no `layout` — only `slots`. It cannot be "opened" and cannot be linked to.
 - **It is not a server plugin.** The `packages/wysiwyg` group holds exactly one package — `admin`. No tables, no migrations, no API routes, no changes to the wire format.
-- **It is not a field type.** `richtext` exists in `@ortha/content-domain` and `@ortha/content-server` independently; the plugin changes the _control_, not the schema, not the validation and not the column.
-- **It is not the media library.** Browsing folders, filtering by type and uploading are entirely the work of `@ortha/media-admin`, which arrives into the declared slot from outside.
+- **It is not a field type.** `richtext` exists in `@orthacms/content-domain` and `@orthacms/content-server` independently; the plugin changes the _control_, not the schema, not the validation and not the column.
+- **It is not the media library.** Browsing folders, filtering by type and uploading are entirely the work of `@orthacms/media-admin`, which arrives into the declared slot from outside.
 - **It is not the accessibility rules.** The rules (`inspectRichText`, `isWellFormedLanguageTag`, `isEmptyRichText`) live in the `content-domain` core; the plugin only displays them and obeys them.
 
 > **The key architectural idea**
@@ -103,7 +103,7 @@ In `apps/admin/src/plugins.ts`, `WysiwygPlugin()` stands **after** `ContentPlugi
 | Slot                                                   | Direction  | What is in it                                                                                                                                                                                                                                                             |
 | ------------------------------------------------------ | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | content.entry.fieldControl<br>ENTRY_FIELD_CONTROL_SLOT | `fills`    | One `wysiwyg.entry.richtext` item: `appliesTo` = `isWysiwygField`, `Component` = the collapsed field, `FullView` = the unfolded editor. Both halves are lazy, each under its own `Suspense` with a skeleton                                                               |
-| wysiwyg.media.sources<br>WYSIWYG_MEDIA_SLOT            | `declares` | Media sources. `@ortha/media-admin` puts two in: `media.wysiwyg.library` ("Media Library…", `order: 10`) and `media.wysiwyg.upload` ("Upload files…", `order: 20`). With not one contribution the editor still inserts media — only the built-in "by URL" items remain |
+| wysiwyg.media.sources<br>WYSIWYG_MEDIA_SLOT            | `declares` | Media sources. `@orthacms/media-admin` puts two in: `media.wysiwyg.library` ("Media Library…", `order: 10`) and `media.wysiwyg.upload` ("Upload files…", `order: 20`). With not one contribution the editor still inserts media — only the built-in "by URL" items remain |
 
 ### 2.2 Which fields it takes
 
@@ -357,7 +357,7 @@ The plugin's key transition: from a form row into a view occupying the working a
 
 ### 6.1 Dependency inversion: media → wysiwyg
 
-The editor can **hold** an image and a video, and knows **one** way of naming them — pasting a URL. It knows nothing about the media library, and that is a decision: importing `media-admin` would make rich text unusable in an installation with no media plugin and would nail the editor forever to one particular library's shape. So the editor _declares_ `WYSIWYG_MEDIA_SLOT` and `@ortha/media-admin` fills it — the same inversion `content-admin` uses for its own slots, and the reason the dependency runs media → wysiwyg rather than the other way.
+The editor can **hold** an image and a video, and knows **one** way of naming them — pasting a URL. It knows nothing about the media library, and that is a decision: importing `media-admin` would make rich text unusable in an installation with no media plugin and would nail the editor forever to one particular library's shape. So the editor _declares_ `WYSIWYG_MEDIA_SLOT` and `@orthacms/media-admin` fills it — the same inversion `content-admin` uses for its own slots, and the reason the dependency runs media → wysiwyg rather than the other way.
 
 | Contract                  | Field                                                                                                                      | Meaning                                                           |
 | ------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
@@ -496,7 +496,7 @@ Section 508's criterion 504.2 asks not whether the tool itself is accessible but
 | ← / →              | The media resize handle  | 16px steps; ×4 with Shift. The handle is a real `<button>` with a name, because the width is **published**: a decision about content must not be unavailable to somebody who does not use a mouse                                                                                                                                                                                           |
 | Backspace / Delete | The media resize handle  | Resets to the natural width — the way out of a botched resize                                                                                                                                                                                                                                                                                                                               |
 | Enter              | Popup forms              | Works thanks to a real `<form>` in the alt popover, the link popover and the dialogs                                                                                                                                                                                                                                                                                                        |
-| ⌘K / Ctrl+K        | The document             | **Suppressed** while the caret is in the body — but not by this package: the shared `isComposingText` helper from `@ortha/utils-admin` closes global chords over `input`, `textarea`, `select` and any `contenteditable`. Opening the palette from under the caret is a change of context in response to typing in _another_ control (3.2.2), and ⌘K in any editor means "insert a link" |
+| ⌘K / Ctrl+K        | The document             | **Suppressed** while the caret is in the body — but not by this package: the shared `isComposingText` helper from `@orthacms/utils-admin` closes global chords over `input`, `textarea`, `select` and any `contenteditable`. Opening the palette from under the caret is a change of context in response to typing in _another_ control (3.2.2), and ⌘K in any editor means "insert a link" |
 
 > **Every <form> in a popup must stop its own submit**
 >

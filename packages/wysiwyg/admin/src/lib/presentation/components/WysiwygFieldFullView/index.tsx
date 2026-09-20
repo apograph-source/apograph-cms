@@ -1,8 +1,8 @@
 import { useId } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { ArrowLeft } from 'lucide-react';
-import { Button } from '@ortha/design-system';
-import type { EntryFieldControlContext } from '@ortha/content-admin';
+import { Button } from '@orthacms/design-system';
+import type { EntryFieldControlContext } from '@orthacms/content-admin';
 import { asEditorContent } from '../../../domain/richTextValue';
 import { WysiwygEditorPanel } from '../WysiwygEditorPanel';
 

@@ -1,6 +1,6 @@
 import { Suspense, lazy } from 'react';
-import type { AdminPlugin } from '@ortha/bootstrap-admin';
-import { SIDEBAR_NAV_SLOT } from '@ortha/shell-admin';
+import type { AdminPlugin } from '@orthacms/bootstrap-admin';
+import { SIDEBAR_NAV_SLOT } from '@orthacms/shell-admin';
 import {
     ENTRY_HEADER_SLOT,
     ENTRY_PRESAVE_SLOT,
@@ -8,7 +8,7 @@ import {
     ENTRY_TAB_SLOT,
     RECORDS_FILTER_FIELDS_SLOT,
     REVISION_EXTRA_SLOT
-} from '@ortha/content-admin';
+} from '@orthacms/content-admin';
 import { ShieldCheck } from 'lucide-react';
 import { SegmentsPageSkeleton } from '../components/SegmentsPageSkeleton';
 import { SegmentEditorPageSkeleton } from '../components/SegmentEditorPageSkeleton';

@@ -5,9 +5,9 @@ import {
     MODEL_RESOLVER,
     type ModelResolver,
     type SkillDefinition
-} from '@ortha/copilot-domain';
-import { DatabaseModule } from '@ortha/database';
-import { ToolsModule } from '@ortha/tools-server';
+} from '@orthacms/copilot-domain';
+import { DatabaseModule } from '@orthacms/database';
+import { ToolsModule } from '@orthacms/tools-server';
 import { COPILOT_CONFIG, COPILOT_SKILL_REGISTRY } from './copilot.tokens';
 import {
     buildModelRegistry,
@@ -183,7 +183,7 @@ export class CopilotModule {
                 COPILOT_SKILL_REGISTRY,
                 // Exported so the plugins that own writes can register their
                 // proposal appliers. Tools go to the shared `ToolRegistry` in
-                // `@ortha/tools-server`, which the MCP module provides.
+                // `@orthacms/tools-server`, which the MCP module provides.
                 ProposalApplierRegistry
             ]
         };

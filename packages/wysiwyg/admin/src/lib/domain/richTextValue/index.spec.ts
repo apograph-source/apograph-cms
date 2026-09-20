@@ -1,4 +1,4 @@
-import type { RichTextDocument } from '@ortha/content-domain';
+import type { RichTextDocument } from '@orthacms/content-domain';
 import { asEditorContent, normalizeRichText } from '.';
 
 /** The document an editor that has been emptied leaves behind. */

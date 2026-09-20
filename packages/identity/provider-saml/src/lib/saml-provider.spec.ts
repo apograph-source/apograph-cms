@@ -1,4 +1,4 @@
-import { SsoVerificationError } from '@ortha/identity-domain';
+import { SsoVerificationError } from '@orthacms/identity-domain';
 import { createSamlProvider } from './saml-provider';
 import {
     callbackWith,

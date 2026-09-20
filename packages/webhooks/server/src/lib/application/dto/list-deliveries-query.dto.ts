@@ -2,7 +2,7 @@ import { ApiPropertyOptional } from '@nestjs/swagger';
 import {
     DELIVERY_STATUSES,
     WEBHOOK_EVENT_KINDS
-} from '@ortha/webhooks-domain';
+} from '@orthacms/webhooks-domain';
 import { Type } from 'class-transformer';
 import { IsIn, IsInt, IsOptional, Max, Min } from 'class-validator';
 

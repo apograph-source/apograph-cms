@@ -11,14 +11,14 @@ import {
     UnitOfWork,
     type Database,
     type EventActor
-} from '@ortha/database';
-import type { AnyContentType } from '@ortha/content-server';
+} from '@orthacms/database';
+import type { AnyContentType } from '@orthacms/content-server';
 import {
     isOfferedIn,
     isOpen,
     sameAccess,
     type EntryAccess
-} from '@ortha/segments-domain';
+} from '@orthacms/segments-domain';
 import { entryAccess } from '../schema/entry-access';
 import {
     entryBelongsTo,

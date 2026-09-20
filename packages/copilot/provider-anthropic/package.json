@@ -1,5 +1,5 @@
 {
-    "name": "@ortha/copilot-provider-anthropic",
+    "name": "@orthacms/copilot-provider-anthropic",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -17,6 +17,6 @@
     ],
     "dependencies": {
         "@anthropic-ai/sdk": "^0.115.0",
-        "@ortha/copilot-domain": "*"
+        "@orthacms/copilot-domain": "*"
     }
 }

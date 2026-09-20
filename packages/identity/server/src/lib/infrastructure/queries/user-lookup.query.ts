@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { eq, sql } from 'drizzle-orm';
-import { UnitOfWork } from '@ortha/database';
+import { UnitOfWork } from '@orthacms/database';
 import { users } from '../../schema';
 
 /**

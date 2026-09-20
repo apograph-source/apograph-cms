@@ -3,7 +3,7 @@ import {
     NotFoundException,
     UnprocessableEntityException
 } from '@nestjs/common';
-import { PERMISSIONS } from '@ortha/identity-server';
+import { PERMISSIONS } from '@orthacms/identity-server';
 import { createToolContext } from './tool-context';
 import type { ToolContext, ToolDefinition } from './tool';
 import type { ToolProvider } from './tool-provider';

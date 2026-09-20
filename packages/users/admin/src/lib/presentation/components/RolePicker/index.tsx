@@ -5,7 +5,7 @@ import {
     RadioGroup,
     RadioGroupItem,
     cn
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import type { MemberRole } from '../../../domain/types/member';
 
 /** Intl descriptors for {@link RolePicker}, co-located with the component. */

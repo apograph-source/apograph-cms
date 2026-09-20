@@ -8,7 +8,7 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import type { PublishOutlook } from '../../../domain/types';
 
 const messages = defineMessages({

@@ -1,5 +1,5 @@
 import type { ComponentType, ReactNode } from 'react';
-import { cn } from '@ortha/design-system';
+import { cn } from '@orthacms/design-system';
 
 /** Tone of a {@link WidgetChip} — semantic state, never a data series. */
 export type WidgetChipTone = 'ok' | 'warn';

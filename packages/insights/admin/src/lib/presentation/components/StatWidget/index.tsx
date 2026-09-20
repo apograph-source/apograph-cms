@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { defineMessages, FormattedMessage } from 'react-intl';
-import { Card, CardContent, Skeleton, cn } from '@ortha/design-system';
+import { Card, CardContent, Skeleton, cn } from '@orthacms/design-system';
 import { Sparkline } from '../Sparkline';
 
 /** Intl descriptors for the stat tile, co-located here. */

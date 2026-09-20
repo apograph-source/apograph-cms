@@ -1,7 +1,7 @@
 import { existsSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { dirname, join, resolve } from 'node:path';
-import type { ServerPlugin } from '@ortha/bootstrap-server';
+import type { ServerPlugin } from '@orthacms/bootstrap-server';
 
 /**
  * Where a generated app keeps things.
@@ -86,7 +86,7 @@ export function findProjectRoot(from: string = process.cwd()): string {
  *
  * The monorepo reads the same two modules straight from TypeScript, which
  * costs it jiti plus an swc transform hook configured for legacy decorators
- * (`@ortha/nx`'s `createTsJiti`) — the plugin graph is full of decorated
+ * (`@orthacms/nx`'s `createTsJiti`) — the plugin graph is full of decorated
  * Nest classes, and jiti's bundled babel defaults to the stage-3 semantics
  * that crash on them. A generated app has a build step of its own, so it can
  * simply build first and require the JavaScript, and the whole transform

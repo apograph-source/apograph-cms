@@ -1,4 +1,4 @@
-# @ortha/copilot-admin
+# @orthacms/copilot-admin
 
 The admin-side copilot plugin — **two surfaces onto one chat**.
 
@@ -555,7 +555,7 @@ sentences, and a run that made six calls should read back as six of them.
 `COPILOT_TOOL_RESULT_SLOT` (`presentation/slots/copilotSlots`) takes a
 contribution of `{ id, toolName, Component }` and `ToolStep` renders it inside
 the expanded panel, **above** the raw payload it would have shown anyway.
-`@ortha/alarms-admin` is the first user: `admin_alarms_findings` comes back as
+`@orthacms/alarms-admin` is the first user: `admin_alarms_findings` comes back as
 a list of flagged records, and a list of records is something a person clicks,
 not something they read as JSON.
 
@@ -1128,6 +1128,6 @@ thread" instead of loading straight into the chat.
 
 ## Commands
 
-- `npx nx typecheck @ortha/copilot-admin`
-- `npx nx lint @ortha/copilot-admin`
-- `npx nx test @ortha/copilot-admin`
+- `npx nx typecheck @orthacms/copilot-admin`
+- `npx nx lint @orthacms/copilot-admin`
+- `npx nx test @orthacms/copilot-admin`

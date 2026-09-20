@@ -1,4 +1,4 @@
-import { createSlot } from '@ortha/utils-admin';
+import { createSlot } from '@orthacms/utils-admin';
 import { useIntl } from 'react-intl';
 import { Outlet, useLocation } from 'react-router-dom';
 import { act, screen, waitFor } from '@testing-library/react';

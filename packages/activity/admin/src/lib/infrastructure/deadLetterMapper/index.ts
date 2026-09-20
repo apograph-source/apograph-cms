@@ -2,8 +2,8 @@ import type { DeadLetter, RetriedDeadLetter } from '../../types/deadLetter';
 
 // The wire→view anti-corruption layer for a parked outbox event. The admin
 // can't import the server package, so these wire types mirror
-// `@ortha/activity-server`'s `DeadLetterListView` and `DeadLetterRetryView`
-// (the latter an alias of `@ortha/database`'s `RetriedDeadLetter`). The HTTP
+// `@orthacms/activity-server`'s `DeadLetterListView` and `DeadLetterRetryView`
+// (the latter an alias of `@orthacms/database`'s `RetriedDeadLetter`). The HTTP
 // gateway maps everything it fetches through here, so the rest of the plugin
 // only ever sees the admin's view models.
 

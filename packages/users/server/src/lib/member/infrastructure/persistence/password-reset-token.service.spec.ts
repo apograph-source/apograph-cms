@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto';
 import { Column, Param, SQL, StringChunk } from 'drizzle-orm';
-import type { Database } from '@ortha/database';
-import type { IdentityPluginConfig } from '@ortha/identity-server';
+import type { Database } from '@orthacms/database';
+import type { IdentityPluginConfig } from '@orthacms/identity-server';
 import { PasswordResetRecentlySentError } from '../../domain/errors';
 import { PasswordResetTokenService } from './password-reset-token.service';
 

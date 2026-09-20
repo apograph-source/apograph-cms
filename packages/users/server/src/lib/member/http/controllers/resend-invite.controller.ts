@@ -13,7 +13,7 @@ import {
     PermissionsGuard,
     RequirePermissions,
     type PublicUser
-} from '@ortha/identity-server';
+} from '@orthacms/identity-server';
 import { ResendInviteUseCase } from '../../application/use-cases/resend-invite.use-case';
 import {
     InvalidMemberStateError,

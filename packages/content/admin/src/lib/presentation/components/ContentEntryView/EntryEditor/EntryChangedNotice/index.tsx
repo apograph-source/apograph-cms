@@ -5,7 +5,7 @@ import {
     AlertDescription,
     AlertTitle,
     Button
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 
 const messages = defineMessages({
     title: {

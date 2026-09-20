@@ -67,7 +67,7 @@ export const createNodesV2: CreateNodesV2 = [
             const targets: Record<string, TargetConfiguration> = isDrizzleConfig
                 ? {
                       'db:generate': {
-                          executor: '@ortha/nx:db-generate',
+                          executor: '@orthacms/nx:db-generate',
                           options: {
                               cwd: projectRoot,
                               config: 'drizzle.config.ts'
@@ -78,7 +78,7 @@ export const createNodesV2: CreateNodesV2 = [
                   }
                 : {
                       'db:migrate': {
-                          executor: '@ortha/nx:db-migrate',
+                          executor: '@orthacms/nx:db-migrate',
                           options: {
                               config: file,
                               plugins: `${projectRoot}/src/plugins.ts`
@@ -86,7 +86,7 @@ export const createNodesV2: CreateNodesV2 = [
                           cache: false
                       },
                       'db:studio': {
-                          executor: '@ortha/nx:db-studio',
+                          executor: '@orthacms/nx:db-studio',
                           options: {
                               config: file
                           },
@@ -181,7 +181,7 @@ function packageTargets(
         // `pack` staged. `dependsOn` is absent for the same reason: Nx would
         // overwrite it, so it lives in `targetDefaults` alone.
         'nx-release-publish': {
-            executor: '@ortha/nx:release-publish',
+            executor: '@orthacms/nx:release-publish',
             options: { packageRoot: `dist/pack/${projectRoot}` }
         }
     };

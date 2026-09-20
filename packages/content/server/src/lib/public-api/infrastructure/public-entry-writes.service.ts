@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import type { EventActor } from '@ortha/database';
+import type { EventActor } from '@orthacms/database';
 import type { AnyContentType } from '../../types/content-type';
 import { toRecord } from '../../entries/infrastructure/persistence/entry-row';
 import { EntryWriterService } from '../../entries/infrastructure/persistence/entry-writer.service';

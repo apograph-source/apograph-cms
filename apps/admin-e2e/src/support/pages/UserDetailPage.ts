@@ -3,7 +3,7 @@ import { BasePage } from './BasePage';
 
 /**
  * Page object for the user detail page at `/users/:id` (from
- * `@ortha/users-admin`). Data comes from the `mockUserDetail` /
+ * `@orthacms/users-admin`). Data comes from the `mockUserDetail` /
  * `mockUserSessions` / activity mocks; tests also need `mockSignedIn` for the
  * auth probe and `mockMembers` for the list it links back to. Which side-rail
  * tabs appear depends on the signed-in user's `permissions`.

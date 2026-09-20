@@ -6,7 +6,7 @@ import {
     avatarColorVar,
     cn,
     type AvatarColor
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 
 const messages = defineMessages({
     label: {

@@ -1,5 +1,5 @@
 {
-    "name": "@ortha/identity-provider-oidc",
+    "name": "@orthacms/identity-provider-oidc",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -16,7 +16,7 @@
         "src"
     ],
     "dependencies": {
-        "@ortha/identity-domain": "*",
+        "@orthacms/identity-domain": "*",
         "jose": "^6.2.0"
     }
 }

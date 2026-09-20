@@ -1,4 +1,4 @@
-# @ortha/mail-provider-console
+# @orthacms/mail-provider-console
 
 Writes every message to the log instead of sending it, so a development install
 can read an invitation link without a mail server.

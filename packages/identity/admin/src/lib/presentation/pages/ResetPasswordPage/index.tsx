@@ -5,8 +5,8 @@ import {
     CardContent,
     CardHeader,
     Skeleton
-} from '@ortha/design-system';
-import { HTTP_STATUS, useDocumentTitle } from '@ortha/utils-admin';
+} from '@orthacms/design-system';
+import { HTTP_STATUS, useDocumentTitle } from '@orthacms/utils-admin';
 import { AuthLayout } from '../../components/AuthLayout';
 import { ResetLinkUnavailable } from '../../components/ResetLinkUnavailable';
 import { ResetLinkLookupFailed } from '../../components/ResetLinkLookupFailed';

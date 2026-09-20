@@ -1,4 +1,4 @@
-import type { CopilotRunEvent } from '@ortha/copilot-domain';
+import type { CopilotRunEvent } from '@orthacms/copilot-domain';
 import type {
     ChatAttachment,
     ChatBlock,

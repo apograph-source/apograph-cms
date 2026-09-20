@@ -1,7 +1,7 @@
 import { defineMessages, useIntl } from 'react-intl';
 import { ShieldCheck } from 'lucide-react';
-import { PageTopBar } from '@ortha/shell-admin';
-import { Container, Skeleton } from '@ortha/design-system';
+import { PageTopBar } from '@orthacms/shell-admin';
+import { Container, Skeleton } from '@orthacms/design-system';
 import { SegmentsListSkeleton } from '../SegmentsListSkeleton';
 
 const messages = defineMessages({

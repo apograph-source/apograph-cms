@@ -2,7 +2,7 @@
 #
 # They are app-shaped files, not workspace source: `templates/default` holds an
 # `ortha.config.ts`, a `package.json.tmpl` and its own tsconfigs, and Nx's
-# inference walks the whole tree. Left visible, `@ortha/nx` infers a
+# inference walks the whole tree. Left visible, `@orthacms/nx` infers a
 # `db:migrate` target onto `templates/default/src/server` — a directory with no
 # project name — and the graph fails to build at all, taking every `nx` command
 # in the repo with it.
@@ -14,7 +14,7 @@ packages/create-ortha-app/templates
 
 # The scratch apps two specs render to check the generated config and plugin
 # list. They live inside the package rather than in a temp directory on purpose:
-# the rendered app resolves `@ortha/*` by walking up to the repo's own
+# the rendered app resolves `@orthacms/*` by walking up to the repo's own
 # `node_modules`, which it cannot do from `/tmp`. They are also created and
 # deleted inside a single test run, so anything that walks the tree — the graph,
 # and `create-ortha-app:lint`, which Nx has already flagged as flaky — races

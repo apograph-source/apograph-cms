@@ -1,6 +1,6 @@
-import type { OutboxWriter, UnitOfWork } from '@ortha/database';
-import type { PublicUser } from '@ortha/identity-server';
-import type { StorageProvider } from '@ortha/media-domain';
+import type { OutboxWriter, UnitOfWork } from '@orthacms/database';
+import type { PublicUser } from '@orthacms/identity-server';
+import type { StorageProvider } from '@orthacms/media-domain';
 import type { Asset } from '../../domain/asset';
 import type { AssetRepository } from '../../domain/asset.repository';
 import type { Folder } from '../../domain/folder';

@@ -1,4 +1,4 @@
-# `@ortha/protection-server`
+# `@orthacms/protection-server`
 
 The **publication-protection plugin** — a per-content-type rule requiring N
 approvals before an entry may be published
@@ -66,7 +66,7 @@ names nobody, so ADR-0017 §6's refusal to offer an approve tool on any agent
 surface would buy nothing if minting a key cast the vote the tool may not.
 
 The **decision** these rules feed — may this person publish this entry — is
-`evaluateProtection` in `@ortha/protection-domain` and is not re-implemented
+`evaluateProtection` in `@orthacms/protection-domain` and is not re-implemented
 here. `EntryReviewService` reads the rule, the head revision and the votes, and
 hands all three to the kernel; `PublishProtectionGuard` does the same on the
 publish path.

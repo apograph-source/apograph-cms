@@ -12,8 +12,8 @@ import { renderTemplate, type TemplateValues } from './template';
  *
  * They are cheap to run because of how they are written: each imports its
  * provider package for a *type* — erased — plus the env readers from
- * `@ortha/utils-server`, so nothing here loads a vendor SDK or a Nest
- * module. The app is rendered inside this package so that `@ortha/*`
+ * `@orthacms/utils-server`, so nothing here loads a vendor SDK or a Nest
+ * module. The app is rendered inside this package so that `@orthacms/*`
  * resolves from the workspace the way it will resolve from the generated app's
  * own `node_modules`.
  */

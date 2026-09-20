@@ -14,8 +14,8 @@ import {
     SelectTrigger,
     SelectValue,
     Textarea
-} from '@ortha/design-system';
-import { isRichTextDocument, richTextToHtml } from '@ortha/content-domain';
+} from '@orthacms/design-system';
+import { isRichTextDocument, richTextToHtml } from '@orthacms/content-domain';
 import type { ContentField } from '../../../domain/types/contentType';
 import { fieldLabel } from '../../../domain/entryColumns';
 import { adminProps } from '../../../domain/adminProps';

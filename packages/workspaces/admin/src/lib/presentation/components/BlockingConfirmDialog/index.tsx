@@ -10,7 +10,7 @@ import {
     DialogHeader,
     DialogTitle,
     Spinner
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 
 /** Props for {@link BlockingConfirmDialog}. */
 export type BlockingConfirmDialogProps = {

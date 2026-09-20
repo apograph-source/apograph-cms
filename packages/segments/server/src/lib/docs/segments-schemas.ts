@@ -20,7 +20,7 @@ import {
     SEGMENT_LABEL_MAX,
     SEGMENT_TAG_MAX,
     SEGMENT_TAGS_MAX
-} from '@ortha/segments-domain';
+} from '@orthacms/segments-domain';
 import { ENTRY_ACCESS_IDS_MAX } from '../http/segments.dto';
 import {
     DEFAULT_PAGE_SIZE,

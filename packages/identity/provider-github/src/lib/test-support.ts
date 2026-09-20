@@ -1,7 +1,7 @@
 import type {
     SsoAuthorizeRequest,
     SsoCallback
-} from '@ortha/identity-domain';
+} from '@orthacms/identity-domain';
 
 /** What `fetch` accepts as its first argument, from the platform's signature. */
 type FetchInput = Parameters<typeof globalThis.fetch>[0];

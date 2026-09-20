@@ -4,8 +4,8 @@ import {
     AvatarFallback,
     avatarColorVar,
     cn
-} from '@ortha/design-system';
-import { avatarColorForId, initialsFromEmail } from '@ortha/utils-admin';
+} from '@orthacms/design-system';
+import { avatarColorForId, initialsFromEmail } from '@orthacms/utils-admin';
 import type { ActivityActor } from '../../../../types/activityEvent';
 
 /** Intl descriptors for {@link ActivityActorCell}, co-located. */

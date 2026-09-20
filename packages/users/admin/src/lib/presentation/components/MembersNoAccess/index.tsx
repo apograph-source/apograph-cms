@@ -6,7 +6,7 @@ import {
     EmptyHeader,
     EmptyMedia,
     EmptyTitle
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 
 /** Intl descriptors for {@link MembersNoAccess}, co-located with the component. */
 const messages = defineMessages({

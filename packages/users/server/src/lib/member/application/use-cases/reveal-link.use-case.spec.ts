@@ -1,6 +1,6 @@
-import type { DomainEvent, OutboxWriter, UnitOfWork } from '@ortha/database';
-import type { MailDispatcher, RevealableLink } from '@ortha/mail-domain';
-import type { PublicUser } from '@ortha/identity-server';
+import type { DomainEvent, OutboxWriter, UnitOfWork } from '@orthacms/database';
+import type { MailDispatcher, RevealableLink } from '@orthacms/mail-domain';
+import type { PublicUser } from '@orthacms/identity-server';
 import { Member } from '../../domain/member';
 import type { MemberRepository } from '../../domain/member.repository';
 import {

@@ -1,5 +1,5 @@
 import type { Asset } from '../domain/asset';
-import type { StorageProvider } from '@ortha/media-domain';
+import type { StorageProvider } from '@orthacms/media-domain';
 import {
     RECLAIM_CONCURRENCY,
     reclaimAssetBlobs,

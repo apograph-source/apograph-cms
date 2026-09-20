@@ -13,7 +13,7 @@ export default defineConfig(() => ({
     cacheDir: '../../../node_modules/.vite/packages/transfer/admin',
     plugins: [react()],
     test: {
-        name: '@ortha/transfer-admin',
+        name: '@orthacms/transfer-admin',
         watch: false,
         globals: true,
         environment: 'jsdom',

@@ -1,5 +1,5 @@
-import type { UnitOfWork } from '@ortha/database';
-import { roles } from '@ortha/identity-server';
+import type { UnitOfWork } from '@orthacms/database';
+import { roles } from '@orthacms/identity-server';
 import { DrizzleMemberProvisioner } from './drizzle-member-provisioner';
 import type { MemberInput } from '../../application/ports/member-provisioner.port';
 

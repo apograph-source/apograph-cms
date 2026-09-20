@@ -1,21 +1,21 @@
 import { Suspense, lazy } from 'react';
-import type { AdminPlugin } from '@ortha/bootstrap-admin';
+import type { AdminPlugin } from '@orthacms/bootstrap-admin';
 import {
     WORKSPACE_ROUTE_SLOT,
     WORKSPACE_NAV_SLOT
-} from '@ortha/workspaces-admin';
+} from '@orthacms/workspaces-admin';
 import {
     CONTENT_FIELD_TYPE,
     ENTRY_PRESAVE_SLOT,
     ENTRY_TAB,
     ENTRY_TAB_SLOT,
     type ContentTypeDetail
-} from '@ortha/content-admin';
-import { WYSIWYG_MEDIA_SLOT } from '@ortha/wysiwyg-admin';
+} from '@orthacms/content-admin';
+import { WYSIWYG_MEDIA_SLOT } from '@orthacms/wysiwyg-admin';
 import {
     INSIGHTS_SECTION_IDS,
     INSIGHTS_WIDGET_SLOT
-} from '@ortha/insights-admin';
+} from '@orthacms/insights-admin';
 import { Image, Upload } from 'lucide-react';
 import { MediaStorageStat } from '../../components/MediaStorageStat';
 import { MediaStorageWidget } from '../../components/MediaStorageWidget';
@@ -54,7 +54,7 @@ export type MediaAdminPlugin = AdminPlugin;
  * Creates the admin-side Media Library plugin. It lives **strictly inside a
  * workspace**: it contributes no top-level route and no top-toolbar nav entry,
  * only a rail button (`order: 20`) + a route to the workspace shell's slots
- * (owned by `@ortha/workspaces-admin`). Register it after
+ * (owned by `@orthacms/workspaces-admin`). Register it after
  * `WorkspacesPlugin()` so those slots exist.
  */
 export function MediaPlugin(): MediaAdminPlugin {
@@ -156,7 +156,7 @@ export function MediaPlugin(): MediaAdminPlugin {
                 ]
             },
             // Rich text gets the library too. The editor
-            // (`@ortha/wysiwyg-admin`) declares `WYSIWYG_MEDIA_SLOT` and
+            // (`@orthacms/wysiwyg-admin`) declares `WYSIWYG_MEDIA_SLOT` and
             // knows only how to *hold* an image or a video; browsing folders
             // and uploading are this plugin's job, so it fills the seam rather
             // than the editor importing a library it would then be pinned to.

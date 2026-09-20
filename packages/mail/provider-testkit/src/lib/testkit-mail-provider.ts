@@ -3,7 +3,7 @@ import {
     type MailMessage,
     type MailProvider,
     type MailReceipt
-} from '@ortha/mail-domain';
+} from '@orthacms/mail-domain';
 
 /** A message the provider was handed, with the attempt it arrived on. */
 export interface CapturedMail extends MailMessage {
@@ -44,7 +44,7 @@ export interface TestkitMailProviderOptions {
 /**
  * Captures messages in memory instead of sending them.
  *
- * The counterpart of `@ortha/media-provider-testkit`, and installed under
+ * The counterpart of `@orthacms/media-provider-testkit`, and installed under
  * the same rule as the console adapter: shipped with every app, offered by no
  * picker, registered by no template. A test asserts on `sent`; a suite that
  * needs to watch the retry path drives `failNext` / `failPermanently`.

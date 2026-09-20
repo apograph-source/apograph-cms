@@ -6,8 +6,8 @@ import {
     AlertDescription,
     Button,
     Spinner
-} from '@ortha/design-system';
-import type { ToolPermissionDecision } from '@ortha/copilot-domain';
+} from '@orthacms/design-system';
+import type { ToolPermissionDecision } from '@orthacms/copilot-domain';
 import type { ChatPermissionRequest } from '../../domain/types/chat';
 
 const messages = defineMessages({

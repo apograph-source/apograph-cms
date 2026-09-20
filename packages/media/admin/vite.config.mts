@@ -13,7 +13,7 @@ export default defineConfig(() => ({
     cacheDir: '../../../node_modules/.vite/packages/media/admin',
     plugins: [react()],
     test: {
-        name: '@ortha/media-admin',
+        name: '@orthacms/media-admin',
         watch: false,
         globals: true,
         environment: 'jsdom',

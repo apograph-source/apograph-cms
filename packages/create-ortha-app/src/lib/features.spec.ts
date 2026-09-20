@@ -16,7 +16,7 @@ import {
 
 const workspaceRoot = join(__dirname, '../../../..');
 
-/** Every publishable `@ortha/*` package name in the workspace. */
+/** Every publishable `@orthacms/*` package name in the workspace. */
 function publishedPackages(): string[] {
     const packagesDir = join(workspaceRoot, 'packages');
     const childDirs = (root: string): string[] =>
@@ -35,7 +35,7 @@ function publishedPackages(): string[] {
                 readFileSync(join(dir, 'package.json'), 'utf8')
             ) as { name?: string; private?: boolean };
 
-            if (manifest.name?.startsWith('@ortha/') && !manifest.private) {
+            if (manifest.name?.startsWith('@orthacms/') && !manifest.private) {
                 names.push(manifest.name);
             }
         } catch {
@@ -78,7 +78,7 @@ describe('every published package is accounted for', () => {
     it('classifies nothing that does not exist [create-ortha-app:I-02]', () => {
         const published = new Set(publishedPackages());
         const phantom = [...classified].filter(
-            (name) => !published.has(name) && name !== '@ortha/cli'
+            (name) => !published.has(name) && name !== '@orthacms/cli'
         );
 
         expect(phantom).toEqual([]);
@@ -114,13 +114,13 @@ describe('resolvePackages', () => {
 
     it('adds a feature’s packages when it is enabled', () => {
         expect(resolvePackages(selectionOf('graphql'))).toContain(
-            '@ortha/content-graphql'
+            '@orthacms/content-graphql'
         );
     });
 
     it('leaves them out when it is not', () => {
         expect(resolvePackages(selectionOf())).not.toContain(
-            '@ortha/content-graphql'
+            '@orthacms/content-graphql'
         );
     });
 
@@ -137,11 +137,11 @@ describe('resolvePackages', () => {
 
         expect(packages).toEqual(
             expect.arrayContaining([
-                '@ortha/copilot-server',
-                '@ortha/copilot-admin'
+                '@orthacms/copilot-server',
+                '@orthacms/copilot-admin'
             ])
         );
-        expect(packages).not.toContain('@ortha/copilot-provider-fake');
+        expect(packages).not.toContain('@orthacms/copilot-provider-fake');
     });
 
     /**
@@ -156,30 +156,30 @@ describe('resolvePackages', () => {
 
         expect(packages).toEqual(
             expect.arrayContaining([
-                '@ortha/mail-domain',
-                '@ortha/mail-provider-console',
-                '@ortha/mail-provider-testkit'
+                '@orthacms/mail-domain',
+                '@orthacms/mail-provider-console',
+                '@orthacms/mail-provider-testkit'
             ])
         );
-        expect(packages).not.toContain('@ortha/mail-server');
-        expect(packages).not.toContain('@ortha/mail-provider-smtp');
+        expect(packages).not.toContain('@orthacms/mail-server');
+        expect(packages).not.toContain('@orthacms/mail-provider-smtp');
     });
 
     it('adds the queue and the relay once a backend is chosen [create-ortha-app:I-35]', () => {
         expect(resolvePackages(selectionOf('mail-smtp'))).toEqual(
             expect.arrayContaining([
-                '@ortha/mail-server',
-                '@ortha/mail-provider-smtp'
+                '@orthacms/mail-server',
+                '@orthacms/mail-provider-smtp'
             ])
         );
     });
 
     it('adds a model backend only when its provider is chosen', () => {
         expect(resolvePackages(selectionOf())).not.toContain(
-            '@ortha/copilot-provider-anthropic'
+            '@orthacms/copilot-provider-anthropic'
         );
         expect(resolvePackages(selectionOf('copilot-anthropic'))).toContain(
-            '@ortha/copilot-provider-anthropic'
+            '@orthacms/copilot-provider-anthropic'
         );
     });
 
@@ -190,10 +190,10 @@ describe('resolvePackages', () => {
      * moment a version conflict nests a copy, and never resolves under pnpm.
      */
     it.each([
-        '@ortha/content-domain',
-        '@ortha/copilot-domain',
-        '@ortha/tools-server',
-        '@ortha/query-builder-admin'
+        '@orthacms/content-domain',
+        '@orthacms/copilot-domain',
+        '@orthacms/tools-server',
+        '@orthacms/query-builder-admin'
     ])('declares %s, rather than relying on hoisting', (name) => {
         expect(resolvePackages(selectionOf())).toContain(name);
     });
@@ -209,32 +209,32 @@ describe('resolvePackages', () => {
         const missing = [...published].filter(
             (name) =>
                 !installed.has(name) &&
-                name !== '@ortha/cli' &&
+                name !== '@orthacms/cli' &&
                 // Published, and deliberately never installed into an app —
                 // tools for writing a storage provider, not for running one.
                 !TRANSITIVE_PACKAGES.includes(name)
         );
 
         expect(missing.sort()).toEqual([
-            '@ortha/content-graphql',
-            '@ortha/copilot-provider-anthropic',
-            '@ortha/copilot-provider-openai',
-            '@ortha/identity-provider-github',
-            '@ortha/identity-provider-oidc',
-            '@ortha/identity-provider-saml',
-            '@ortha/mail-provider-smtp',
-            '@ortha/mail-server',
-            '@ortha/mcp-server',
-            '@ortha/media-provider-azure',
-            '@ortha/media-provider-gcs',
-            '@ortha/media-provider-s3',
-            '@ortha/media-provider-vercel-blob'
+            '@orthacms/content-graphql',
+            '@orthacms/copilot-provider-anthropic',
+            '@orthacms/copilot-provider-openai',
+            '@orthacms/identity-provider-github',
+            '@orthacms/identity-provider-oidc',
+            '@orthacms/identity-provider-saml',
+            '@orthacms/mail-provider-smtp',
+            '@orthacms/mail-server',
+            '@orthacms/mcp-server',
+            '@orthacms/media-provider-azure',
+            '@orthacms/media-provider-gcs',
+            '@orthacms/media-provider-s3',
+            '@orthacms/media-provider-vercel-blob'
         ]);
     });
 
     it('does not install the S3 adapter unless it is chosen', () => {
         expect(resolvePackages(selectionOf('media-local'))).not.toContain(
-            '@ortha/media-provider-s3'
+            '@orthacms/media-provider-s3'
         );
     });
 
@@ -350,8 +350,8 @@ describe('availability', () => {
     it('offers no offline mail adapter in any picker [create-ortha-app:I-35]', () => {
         const offered = ALL_FEATURES.flatMap((feature) => feature.packages);
 
-        expect(offered).not.toContain('@ortha/mail-provider-console');
-        expect(offered).not.toContain('@ortha/mail-provider-testkit');
+        expect(offered).not.toContain('@orthacms/mail-provider-console');
+        expect(offered).not.toContain('@orthacms/mail-provider-testkit');
     });
 
     it('locks REST on, so it cannot be switched off', () => {

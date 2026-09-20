@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { apiClient } from '@ortha/utils-admin';
+import { apiClient } from '@orthacms/utils-admin';
 import { skillsKey, type CopilotSkill } from './useSkills';
 
 /** One skill as the edit form reads it — the row, body included. */

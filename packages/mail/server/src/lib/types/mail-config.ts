@@ -2,7 +2,7 @@ import {
     DEFAULT_MAIL_TEMPLATES,
     DEFAULT_MAX_ATTEMPTS,
     type MailTemplates
-} from '@ortha/mail-domain';
+} from '@orthacms/mail-domain';
 
 /**
  * Configuration for the mail plugin.

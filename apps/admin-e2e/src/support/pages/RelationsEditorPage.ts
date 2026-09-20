@@ -8,7 +8,7 @@ function rx(text: string): RegExp {
 
 /**
  * Page object for the entry editor's **Relations** tab and its relation picker
- * (from `@ortha/content-admin`). Drives the create editor at
+ * (from `@orthacms/content-admin`). Drives the create editor at
  * `/workspaces/:id/content/article/new`. Seed with `mockSignedIn`,
  * `mockWorkspaces`, and the `RELATIONS_*` content mocks; candidate rows are baked
  * into the app, so the picker needs only the target schema mocked.

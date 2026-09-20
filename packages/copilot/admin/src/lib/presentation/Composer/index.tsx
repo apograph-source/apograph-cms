@@ -11,7 +11,7 @@ import {
 } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { ArrowUp, Paperclip, Square } from 'lucide-react';
-import { Button, Textarea, cn } from '@ortha/design-system';
+import { Button, Textarea, cn } from '@orthacms/design-system';
 import { AttachmentChip } from '../AttachmentChip';
 import { SkillChip } from '../SkillChip';
 import { SkillPicker } from '../SkillPicker';

@@ -1,6 +1,6 @@
 import type { NestExpressApplication } from '@nestjs/platform-express';
-import { createServer } from '@ortha/bootstrap-server';
-import { closeDatabase } from '@ortha/database';
+import { createServer } from '@orthacms/bootstrap-server';
+import { closeDatabase } from '@orthacms/database';
 import type { Server } from 'node:http';
 import config from '../../../server/ortha.config';
 import { buildPlugins } from '../../../server/src/plugins';

@@ -3,7 +3,7 @@ import {
     Container,
     Skeleton,
     WizardPageSkeleton
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import { WorkspaceSettingsTopBar } from '../WorkspaceSettingsTopBar';
 
 /** Intl descriptors for the workspaces skeletons, co-located here. */

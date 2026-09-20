@@ -15,7 +15,7 @@ import {
     PermissionsGuard,
     RequirePermissions,
     type PublicUser
-} from '@ortha/identity-server';
+} from '@orthacms/identity-server';
 import { conflict } from '../conflict';
 import { RevokeInviteUseCase } from '../../application/use-cases/revoke-invite.use-case';
 import {

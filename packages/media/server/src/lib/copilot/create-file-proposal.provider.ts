@@ -1,8 +1,8 @@
 import { Injectable, Optional, type OnModuleInit } from '@nestjs/common';
-import { PERMISSIONS } from '@ortha/identity-server';
-import type { ProposalDraft } from '@ortha/copilot-domain';
-import { ToolRegistry } from '@ortha/tools-server';
-import type { ToolDefinition, ToolProvider } from '@ortha/tools-server';
+import { PERMISSIONS } from '@orthacms/identity-server';
+import type { ProposalDraft } from '@orthacms/copilot-domain';
+import { ToolRegistry } from '@orthacms/tools-server';
+import type { ToolDefinition, ToolProvider } from '@orthacms/tools-server';
 import { ListFoldersQuery } from '../infrastructure/queries/list-folders.query';
 import {
     FILE_FORMATS,

@@ -12,10 +12,10 @@ import {
     PERMISSIONS,
     PermissionsGuard,
     RequirePermissions
-} from '@ortha/identity-server';
-import { CurrentWorkspace, WorkspaceGuard } from '@ortha/workspaces-server';
+} from '@orthacms/identity-server';
+import { CurrentWorkspace, WorkspaceGuard } from '@orthacms/workspaces-server';
 import { ContentGrantGuard } from '../../../entries/http/guards/content-grant.guard';
-import { clampInt } from '@ortha/utils-server';
+import { clampInt } from '@orthacms/utils-server';
 import { MAX_PAGE_SIZE } from '../../../entries/entries.constants';
 import { InjectContentRegistry } from '../../../content.tokens';
 import type { ContentTypeRegistry } from '../../../registry/content-type-registry';

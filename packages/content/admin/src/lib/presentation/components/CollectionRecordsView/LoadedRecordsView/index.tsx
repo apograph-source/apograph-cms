@@ -30,10 +30,10 @@ import {
     jsonFilterToTree,
     treeToJsonFilter,
     type FilterGroup
-} from '@ortha/query-builder-admin';
-import { useTableUrlState } from '@ortha/utils-admin';
-import { useCurrentWorkspace } from '@ortha/workspaces-admin';
-import { useHasPermission } from '@ortha/identity-admin';
+} from '@orthacms/query-builder-admin';
+import { useTableUrlState } from '@orthacms/utils-admin';
+import { useCurrentWorkspace } from '@orthacms/workspaces-admin';
+import { useHasPermission } from '@orthacms/identity-admin';
 import {
     Alert,
     AlertDescription,
@@ -43,7 +43,7 @@ import {
     SearchToolbar,
     cn,
     toast
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import type {
     ContentType,
     ContentTypeDetail

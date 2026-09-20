@@ -3,7 +3,7 @@ import {
     Popover,
     PopoverContent,
     PopoverTrigger
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import { MemberAvatar } from '../../MemberAvatar';
 import type { MemberWorkspace } from '../../../../domain/types/member';
 

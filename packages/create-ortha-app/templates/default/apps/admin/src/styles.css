@@ -1,9 +1,9 @@
 @import 'tailwindcss';
-@import '@ortha/design-system/styles.css';
+@import '@orthacms/design-system/styles.css';
 /* The rich-text scope (`.ortha-wysiwyg`) shared by the WYSIWYG editor and its
    previews. Reads the `--color-*` tokens below at runtime, so it follows
    light/dark with the rest of the admin. */
-@import '@ortha/wysiwyg-admin/styles.css';
+@import '@orthacms/wysiwyg-admin/styles.css';
 
 /* Tailwind excludes `node_modules` from its automatic content detection, so
    without this line none of the classes inside the Ortha packages are seen and

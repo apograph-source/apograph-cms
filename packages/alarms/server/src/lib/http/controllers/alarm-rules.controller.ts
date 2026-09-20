@@ -14,7 +14,7 @@ import {
     UseGuards
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import type { EventActor } from '@ortha/database';
+import type { EventActor } from '@orthacms/database';
 import {
     CurrentUser,
     OriginGuard,
@@ -22,9 +22,9 @@ import {
     PermissionsGuard,
     RequirePermissions,
     type PublicUser
-} from '@ortha/identity-server';
-import { CurrentWorkspace, WorkspaceGuard } from '@ortha/workspaces-server';
-import { FilterException } from '@ortha/utils-server';
+} from '@orthacms/identity-server';
+import { CurrentWorkspace, WorkspaceGuard } from '@orthacms/workspaces-server';
+import { FilterException } from '@orthacms/utils-server';
 import { AlarmRulesService } from '../../application/alarm-rules.service';
 import {
     CreateAlarmRuleDto,

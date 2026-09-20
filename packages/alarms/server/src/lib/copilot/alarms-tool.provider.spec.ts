@@ -1,4 +1,4 @@
-import { PERMISSIONS } from '@ortha/identity-server';
+import { PERMISSIONS } from '@orthacms/identity-server';
 import { AlarmsCopilotToolProvider } from './alarms-tool.provider';
 
 /**

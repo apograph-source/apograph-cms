@@ -103,7 +103,7 @@ function registeredFactories(source: string): string[] {
     return names;
 }
 
-/** Which `@ortha/*` package each imported factory came from. */
+/** Which `@orthacms/*` package each imported factory came from. */
 function importedFrom(source: string): Map<string, string> {
     const owners = new Map<string, string>();
     for (const [, specifiers, pkg] of source.matchAll(
@@ -345,10 +345,10 @@ describe('every core plugin package is actually mounted', () => {
      */
     it('recognises the core packages that define plugins', () => {
         expect(pluginPackages.length).toBeGreaterThan(20);
-        expect(pluginPackages).toContain('@ortha/webhooks-server');
-        expect(pluginPackages).toContain('@ortha/webhooks-admin');
-        expect(pluginPackages).not.toContain('@ortha/utils-admin');
-        expect(pluginPackages).not.toContain('@ortha/webhooks-domain');
+        expect(pluginPackages).toContain('@orthacms/webhooks-server');
+        expect(pluginPackages).toContain('@orthacms/webhooks-admin');
+        expect(pluginPackages).not.toContain('@orthacms/utils-admin');
+        expect(pluginPackages).not.toContain('@orthacms/webhooks-domain');
     });
 
     // covers: create-ortha-app:I-33
@@ -395,7 +395,7 @@ describe('the mail plugin', () => {
         const rendered = scaffold('media-local', 'rest', 'mail-smtp');
         const plugins = rendered('apps/server/src/plugins.ts');
 
-        expect(plugins).toContain("from '@ortha/mail-server'");
+        expect(plugins).toContain("from '@orthacms/mail-server'");
         expect(plugins).toContain('MailServerPlugin({');
         expect(plugins).toContain('createSmtpMailProvider(mail.smtp)');
         // Before `users`, whose invite, resend and reset queue through it.
@@ -414,7 +414,7 @@ describe('the mail plugin', () => {
             'utf8'
         );
 
-        expect(plugins).not.toContain('@ortha/mail-server');
+        expect(plugins).not.toContain('@orthacms/mail-server');
         expect(plugins).not.toContain('mailPlugin');
         // The file conditioned itself away entirely, rather than shipping an
         // empty module explaining why it is empty.

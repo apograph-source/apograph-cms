@@ -19,8 +19,8 @@
 import { Injectable, Optional } from '@nestjs/common';
 import { and, eq, inArray, isNull, type AnyColumn } from 'drizzle-orm';
 import type { PgColumn } from 'drizzle-orm/pg-core';
-import { InjectDatabase, type Database } from '@ortha/database';
-import { mediaAsset } from '@ortha/media-server';
+import { InjectDatabase, type Database } from '@orthacms/database';
+import { mediaAsset } from '@orthacms/media-server';
 import {
     CONTENT_FIELD_TYPE,
     EntryWriterService,
@@ -30,7 +30,7 @@ import {
     type AnyContentType,
     type ContentTypeRegistry,
     type MediaAssetResolver
-} from '@ortha/content-server';
+} from '@orthacms/content-server';
 import {
     TransferLimitError,
     naturalKeyOf,
@@ -43,7 +43,7 @@ import {
     type TransferRecord,
     type TransferRef,
     type TransferTypeSchema
-} from '@ortha/transfer-domain';
+} from '@orthacms/transfer-domain';
 import { TransferSchemaCatalog } from '../../schema/schema-catalog.service';
 import { InjectTransferLimits } from '../../transfer.tokens';
 

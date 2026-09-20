@@ -3,7 +3,7 @@ import { BasePage } from './BasePage';
 
 /**
  * Page object for the full-page create-workspace wizard at `/workspaces/new`
- * (from `@ortha/workspaces-admin`). A 3-step flow (Basics → Members →
+ * (from `@orthacms/workspaces-admin`). A 3-step flow (Basics → Members →
  * Content); the page sits behind the shell's gate **and** the `workspaces:create`
  * permission, so tests must seed both via `mockSignedIn` and a workspaces mock.
  */

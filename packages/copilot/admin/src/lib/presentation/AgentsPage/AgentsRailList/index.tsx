@@ -8,8 +8,8 @@ import {
     MessageSquarePlus,
     Search
 } from 'lucide-react';
-import { Button, Input, Skeleton, toast } from '@ortha/design-system';
-import { useHasPermission } from '@ortha/identity-admin';
+import { Button, Input, Skeleton, toast } from '@orthacms/design-system';
+import { useHasPermission } from '@orthacms/identity-admin';
 import { useAgentNavigation } from '../../../application/useAgentThread';
 import {
     useConversations,

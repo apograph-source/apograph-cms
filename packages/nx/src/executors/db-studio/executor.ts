@@ -1,6 +1,6 @@
 import { join } from 'node:path';
 import type { ExecutorContext } from '@nx/devkit';
-import { runDrizzleKitStudio } from '@ortha/cli';
+import { runDrizzleKitStudio } from '@orthacms/cli';
 import { createTsJiti } from '../../lib/jiti';
 
 /** Options for the `db-studio` executor. */

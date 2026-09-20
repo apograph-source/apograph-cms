@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { RefreshCw } from 'lucide-react';
-import { useCurrentWorkspace } from '@ortha/workspaces-admin';
+import { useCurrentWorkspace } from '@orthacms/workspaces-admin';
 import {
     Button,
     cn,
@@ -13,7 +13,7 @@ import {
     DialogTitle,
     Spinner,
     toast
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import { CONTENT_SEGMENT } from '../../../../domain/constants';
 import { useBulkPublishFlow } from '../../../../application/useBulkPublishFlow';
 import { VerdictRow } from './VerdictRow';

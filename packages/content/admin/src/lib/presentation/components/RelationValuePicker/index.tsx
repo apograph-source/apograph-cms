@@ -16,11 +16,11 @@ import {
     PopoverTrigger,
     Spinner,
     cn
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import {
     usePortalContainer,
     type RelationValueEditorProps
-} from '@ortha/query-builder-admin';
+} from '@orthacms/query-builder-admin';
 import { useContentSchema } from '../../../application/useContentSchema';
 import { useRelationCandidates } from '../../../application/useRelationCandidates';
 

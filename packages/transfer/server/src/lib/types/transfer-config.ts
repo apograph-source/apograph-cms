@@ -7,7 +7,7 @@
  * a catalogue.
  */
 
-import type { TransferLimits } from '@ortha/transfer-domain';
+import type { TransferLimits } from '@orthacms/transfer-domain';
 
 /** Options for `TransferPlugin`. */
 export interface TransferPluginConfig {

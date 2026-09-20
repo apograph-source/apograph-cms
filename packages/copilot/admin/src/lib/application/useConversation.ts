@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { apiClient } from '@ortha/utils-admin';
-import type { ModelContentBlock } from '@ortha/copilot-domain';
+import { apiClient } from '@orthacms/utils-admin';
+import type { ModelContentBlock } from '@orthacms/copilot-domain';
 import type {
     ChatAttachment,
     ChatBlock,

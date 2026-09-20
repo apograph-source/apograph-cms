@@ -5,7 +5,7 @@ import { expectNoA11yViolations } from '../support/a11y';
 
 /**
  * The Activity Log query-builder filter drawer
- * (`@ortha/query-builder-admin`): building a condition narrows the log, the
+ * (`@orthacms/query-builder-admin`): building a condition narrows the log, the
  * choice deep-links into the URL as `?filter=<json>`, and Reset clears it. The
  * `GET /api/activity` mock honours the `filter` param (AND-ed with the actor
  * search), mirroring the server.

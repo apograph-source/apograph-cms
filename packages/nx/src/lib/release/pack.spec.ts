@@ -14,7 +14,7 @@ import { join } from 'node:path';
 
 /**
  * `tools/release/pack.mjs` staging a package that ships a **`bin`** and
- * **`templates/`** — what `create-ortha-app` and `@ortha/cli` need.
+ * **`templates/`** — what `create-ortha-app` and `@orthacms/cli` need.
  *
  * Driven as a subprocess against a throwaway workspace rather than imported:
  * the script is an ESM entry point that reads `process.cwd()`, writes to
@@ -48,7 +48,7 @@ function workspace(manifest: Record<string, unknown>): string {
     const dir = mkdtempSync(join(tmpdir(), 'ortha-pack-'));
 
     writeJson(join(dir, 'package.json'), {
-        name: '@ortha/source',
+        name: '@orthacms/source',
         license: 'MIT',
         repository: {
             type: 'git',
@@ -323,7 +323,7 @@ describe('pack.mjs, for a plugin that ships migrations', () => {
 
         // Install the staged package the way npm would, and ask the plugin
         // itself where its migrations are.
-        const installed = join(root, 'consumer/node_modules/@ortha/thing');
+        const installed = join(root, 'consumer/node_modules/@orthacms/thing');
         mkdirSync(join(installed, '..'), { recursive: true });
         cpSync(join(root, 'dist/pack/packages/scaffolder'), installed, {
             recursive: true
@@ -376,10 +376,10 @@ describe('pack.mjs, resolving what a package depends on', () => {
     it('pins a workspace dependency declared as "*" to its version', () => {
         root = workspace({
             ...baseManifest,
-            dependencies: { '@ortha/database': '*' }
+            dependencies: { '@orthacms/database': '*' }
         });
         writeJson(join(root, 'packages/database/package.json'), {
-            name: '@ortha/database',
+            name: '@orthacms/database',
             version: '4.5.6'
         });
 
@@ -388,7 +388,7 @@ describe('pack.mjs, resolving what a package depends on', () => {
         // "*" on the registry means "whatever is latest", never what this
         // was built against.
         expect(stagedManifest().dependencies).toEqual({
-            '@ortha/database': '^4.5.6',
+            '@orthacms/database': '^4.5.6',
             tslib: '^2.3.0'
         });
     });
@@ -403,7 +403,7 @@ describe('pack.mjs, resolving what a package depends on', () => {
  * That reasoning applies to what the tarball *contains*. Test scaffolding a
  * package excludes from its build — `__test__/harness.tsx`, `test-setup.ts` —
  * is compiled nowhere and shipped nowhere, and reading it refused
- * `@ortha/query-builder-admin` over a `@testing-library/react` import no
+ * `@orthacms/query-builder-admin` over a `@testing-library/react` import no
  * consumer could ever reach. The excludes differ per package, so the package's
  * own `tsconfig.lib.json` is what decides.
  */

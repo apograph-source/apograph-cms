@@ -1,6 +1,6 @@
 import request from 'supertest';
-import { getPool } from '@ortha/database';
-import { PERMISSIONS } from '@ortha/identity-server';
+import { getPool } from '@orthacms/database';
+import { PERMISSIONS } from '@orthacms/identity-server';
 import {
     closeTestApp,
     createTestApp,

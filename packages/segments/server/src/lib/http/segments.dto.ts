@@ -20,7 +20,7 @@ import {
     SEGMENT_LABEL_MAX as LABEL_MAX,
     SEGMENT_TAG_MAX as TAG_MAX,
     SEGMENT_TAGS_MAX as TAGS_MAX
-} from '@ortha/segments-domain';
+} from '@orthacms/segments-domain';
 
 /**
  * Segments one entry may name on either side.

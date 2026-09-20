@@ -1,10 +1,10 @@
 import { sql } from 'drizzle-orm';
-import type { Database } from '@ortha/database';
+import type { Database } from '@orthacms/database';
 
 /**
  * The minimal Drizzle executor the group lock needs: the root client or an
  * open transaction (both expose `execute`). Mirrors
- * `@ortha/workspaces-server`'s `LockExecutor`, so content-server can pass
+ * `@orthacms/workspaces-server`'s `LockExecutor`, so content-server can pass
  * the entry write's own `tx` straight through.
  */
 export type LockExecutor = Pick<Database, 'execute'>;

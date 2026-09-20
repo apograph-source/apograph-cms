@@ -1,16 +1,16 @@
-import { proposalEventActor } from '@ortha/copilot-server';
+import { proposalEventActor } from '@orthacms/copilot-server';
 import { Injectable } from '@nestjs/common';
 import {
     InjectContentRegistry,
     WorkspaceGrantsQuery,
     type ContentTypeRegistry
-} from '@ortha/content-server';
+} from '@orthacms/content-server';
 import type {
     ProposalActor,
     ProposalApplier,
     ProposalApplyResult,
     ProposalTarget
-} from '@ortha/copilot-domain';
+} from '@orthacms/copilot-domain';
 import { EntryAccessService } from '../application/entry-access.service';
 import { SEGMENTS_PROPOSAL_KINDS } from './entry-access-proposal.provider';
 

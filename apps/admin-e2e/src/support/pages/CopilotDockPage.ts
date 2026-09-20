@@ -2,7 +2,7 @@ import { type Locator, type Page } from '@playwright/test';
 import { BasePage } from './BasePage';
 
 /**
- * Page object for the **docked panel** (`@ortha/copilot-admin`) — the
+ * Page object for the **docked panel** (`@orthacms/copilot-admin`) — the
  * bottom-right dock, the windows it opens, and their chrome. Seed it with
  * `mockSignedIn`, `mockWorkspaces` and `mockCopilotApi`, then open any page
  * inside a workspace: the dock is contributed to the sidebar's footer slot and

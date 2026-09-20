@@ -6,13 +6,13 @@ import {
     Optional
 } from '@nestjs/common';
 import { eq } from 'drizzle-orm';
-import { UnitOfWork } from '@ortha/database';
+import { UnitOfWork } from '@orthacms/database';
 import {
     WorkspacePurgeRegistry,
     type WorkspacePurger,
     type WorkspacePurgeOutcome
-} from '@ortha/workspaces-server';
-import { STORAGE_PROVIDER, type StorageProvider } from '@ortha/media-domain';
+} from '@orthacms/workspaces-server';
+import { STORAGE_PROVIDER, type StorageProvider } from '@orthacms/media-domain';
 import { mediaAsset } from '../schema/media-asset';
 import { mediaFolder } from '../schema/media-folder';
 

@@ -1,6 +1,6 @@
-# `@ortha/media-domain`
+# `@orthacms/media-domain`
 
-The **storage port** — the interface every `@ortha/media-provider-*` speaks,
+The **storage port** — the interface every `@orthacms/media-provider-*` speaks,
 and the one error `get` promises to reject with. No NestJS, no Drizzle, no
 React, and **no dependencies at all**.
 
@@ -14,10 +14,10 @@ React, and **no dependencies at all**.
 An application picks **one** backend and must not pay for the other six. That
 was true of the adapters' own imports — each one carries its vendor SDK and
 nothing else — and false of the port they reached it through: `ObjectNotFoundError`
-is a *value*, it came from `@ortha/media-server`, and that package's root
-barrel re-exports `MediaModule`. So `require('@ortha/media-provider-local')`
-loaded `@nestjs/common`, and `@ortha/media-server` sat in every adapter's
-runtime `dependencies`, which made `npm i @ortha/media-provider-s3` install
+is a *value*, it came from `@orthacms/media-server`, and that package's root
+barrel re-exports `MediaModule`. So `require('@orthacms/media-provider-local')`
+loaded `@nestjs/common`, and `@orthacms/media-server` sat in every adapter's
+runtime `dependencies`, which made `npm i @orthacms/media-provider-s3` install
 NestJS, Drizzle, Express and Sharp to talk to a bucket.
 
 The dossier had claimed the adapters "depend only on the port's *type* (erased
@@ -41,17 +41,17 @@ require graph by any route at all.
 
 **Scope is the adapter seam, not media's whole domain layer.** The asset and
 folder aggregates, their value objects and their events stay in
-`@ortha/media-server`'s `domain/` — framework-free in their own right, but
-they import `@ortha/database` for the `DomainEvent` contract, and no adapter
-has ever needed them. `@ortha/identity-domain` is scoped the same way: the
+`@orthacms/media-server`'s `domain/` — framework-free in their own right, but
+they import `@orthacms/database` for the `DomainEvent` contract, and no adapter
+has ever needed them. `@orthacms/identity-domain` is scoped the same way: the
 `SsoProvider` port, and no other part of identity's domain.
 
 **`STORAGE_PROVIDER` is a `Symbol`, so it must resolve to one module instance.**
-It is the DI token the composition root binds, and `@ortha/transfer-server`
+It is the DI token the composition root binds, and `@orthacms/transfer-server`
 injects it too. Lockstep versioning is what makes that safe — every package
 asks for the same version, so npm keeps one copy.
 
 ## Commands
 
-- `npx nx test @ortha/media-domain`
-- `npx nx typecheck @ortha/media-domain`
+- `npx nx test @orthacms/media-domain`
+- `npx nx typecheck @orthacms/media-domain`

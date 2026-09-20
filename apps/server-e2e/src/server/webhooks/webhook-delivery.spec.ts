@@ -1,6 +1,6 @@
 import request from 'supertest';
-import { verifySignature } from '@ortha/webhooks-domain';
-import { WEBHOOKS_DEFAULTS } from '@ortha/webhooks-server';
+import { verifySignature } from '@orthacms/webhooks-domain';
+import { WEBHOOKS_DEFAULTS } from '@orthacms/webhooks-server';
 import {
     closeTestApp,
     createTestApp,

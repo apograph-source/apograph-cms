@@ -1,6 +1,6 @@
 import { Readable } from 'node:stream';
-import type { AnyContentType } from '@ortha/content-server';
-import type { StorageProvider } from '@ortha/media-server';
+import type { AnyContentType } from '@orthacms/content-server';
+import type { StorageProvider } from '@orthacms/media-server';
 import {
     DEFAULT_TRANSFER_LIMITS,
     TRANSFER_FORMAT,
@@ -8,7 +8,7 @@ import {
     type TransferDepth,
     type TransferFormat,
     type TransferTypeSchema
-} from '@ortha/transfer-domain';
+} from '@orthacms/transfer-domain';
 import {
     looksLikeZip,
     readZipDirectory,

@@ -1,5 +1,5 @@
 {
-    "name": "@ortha/media-provider-local",
+    "name": "@orthacms/media-provider-local",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -16,9 +16,9 @@
         "src"
     ],
     "dependencies": {
-        "@ortha/media-domain": "*"
+        "@orthacms/media-domain": "*"
     },
     "devDependencies": {
-        "@ortha/media-provider-testkit": "*"
+        "@orthacms/media-provider-testkit": "*"
     }
 }

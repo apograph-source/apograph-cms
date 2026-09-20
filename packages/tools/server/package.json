@@ -1,5 +1,5 @@
 {
-    "name": "@ortha/tools-server",
+    "name": "@orthacms/tools-server",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -17,6 +17,6 @@
     ],
     "dependencies": {
         "@nestjs/common": "^11.0.0",
-        "@ortha/identity-server": "*"
+        "@orthacms/identity-server": "*"
     }
 }

@@ -1,6 +1,6 @@
 // ortha:if copilot-anthropic
-import type { AnthropicProviderConfig } from '@ortha/copilot-provider-anthropic';
-import { readEnv, readList } from '@ortha/utils-server';
+import type { AnthropicProviderConfig } from '@orthacms/copilot-provider-anthropic';
+import { readEnv, readList } from '@orthacms/utils-server';
 
 /**
  * Native Claude, or nothing.

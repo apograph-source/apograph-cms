@@ -1,4 +1,4 @@
-import { field, single } from '@ortha/content-server/define';
+import { field, single } from '@orthacms/content-server/define';
 
 /**
  * `test_landing` — the e2e-owned single (equivalent of the app's `landing`),

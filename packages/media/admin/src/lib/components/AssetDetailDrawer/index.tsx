@@ -10,7 +10,7 @@ import {
     DrawerTitle,
     InputField,
     Separator
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import { Download, Link2, MoreVertical, X } from 'lucide-react';
 import { MEDIA_KIND } from '../../constants';
 import type { MediaAsset } from '../../types/mediaAsset';

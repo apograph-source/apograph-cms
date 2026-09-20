@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { MAX_DELIVERY_ATTEMPTS, OutboxDispatcher } from '@ortha/database';
+import { MAX_DELIVERY_ATTEMPTS, OutboxDispatcher } from '@orthacms/database';
 import {
     closeTestApp,
     createTestApp,

@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { and, count, eq, ilike, inArray, or } from 'drizzle-orm';
-import { InjectDatabase, type Database } from '@ortha/database';
-import { applyFilterTree, parseFilterTree } from '@ortha/utils-server';
-import { roles, users } from '@ortha/identity-server';
-import { memberships, workspaces } from '@ortha/workspaces-server';
+import { InjectDatabase, type Database } from '@orthacms/database';
+import { applyFilterTree, parseFilterTree } from '@orthacms/utils-server';
+import { roles, users } from '@orthacms/identity-server';
+import { memberships, workspaces } from '@orthacms/workspaces-server';
 import { DEFAULT_PAGE_SIZE } from '../../member.constants';
 import { MEMBER_FILTER_SCHEMA } from '../../application/member-filter';
 import type { ListMembersQueryDto } from '../../application/dto/list-members-query.dto';

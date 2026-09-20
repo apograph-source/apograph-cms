@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { NodeViewWrapper, type ReactNodeViewProps } from '@tiptap/react';
-import { cn } from '@ortha/design-system';
+import { cn } from '@orthacms/design-system';
 import {
     MEDIA_MIN_WIDTH,
     MEDIA_RESIZE_STEP,

@@ -1,5 +1,5 @@
 /**
- * Public API of `@ortha/protection-admin` — publication protection as the
+ * Public API of `@orthacms/protection-admin` — publication protection as the
  * person editing an entry meets it.
  *
  * Four contributions into other people's screens — a chip beside an entry's

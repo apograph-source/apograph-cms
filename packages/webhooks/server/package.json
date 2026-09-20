@@ -1,5 +1,5 @@
 {
-    "name": "@ortha/webhooks-server",
+    "name": "@orthacms/webhooks-server",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -19,11 +19,11 @@
     "dependencies": {
         "@nestjs/common": "^11.0.0",
         "@nestjs/swagger": "^11.4.6",
-        "@ortha/bootstrap-server": "*",
-        "@ortha/database": "*",
-        "@ortha/identity-server": "*",
-        "@ortha/webhooks-domain": "*",
-        "@ortha/workspaces-server": "*",
+        "@orthacms/bootstrap-server": "*",
+        "@orthacms/database": "*",
+        "@orthacms/identity-server": "*",
+        "@orthacms/webhooks-domain": "*",
+        "@orthacms/workspaces-server": "*",
         "class-transformer": "^0.5.1",
         "class-validator": "^0.15.1",
         "drizzle-orm": "^0.45.0",

@@ -3,8 +3,8 @@ import {
     createDomainEvent,
     type DomainEvent,
     type EventActor
-} from '@ortha/database';
-import { IDENTITY_ACTIVITY_KINDS } from '@ortha/identity-server';
+} from '@orthacms/database';
+import { IDENTITY_ACTIVITY_KINDS } from '@orthacms/identity-server';
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import {
@@ -90,7 +90,7 @@ function base(): Pick<
  * the server's kind strings because it genuinely cannot import a server plugin
  * — the SPA would pull NestJS into its bundle — so something has to keep the
  * two lists in step. An `import` across the package boundary would do it and
- * would also put `@ortha/activity-admin` in this package's **project
+ * would also put `@orthacms/activity-admin` in this package's **project
  * graph**: `nx sync` immediately adds a TypeScript project reference, and the
  * audit-log plugin starts depending on a React package. Reading the file
  * creates no such edge.

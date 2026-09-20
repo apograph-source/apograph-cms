@@ -1,7 +1,7 @@
 import { Suspense, lazy } from 'react';
-import type { AdminPlugin } from '@ortha/bootstrap-admin';
-import { HOME_SECTION_SLOT, SIDEBAR_NAV_SLOT } from '@ortha/shell-admin';
-import { ENTRY_TAB, ENTRY_TAB_SLOT } from '@ortha/content-admin';
+import type { AdminPlugin } from '@orthacms/bootstrap-admin';
+import { HOME_SECTION_SLOT, SIDEBAR_NAV_SLOT } from '@orthacms/shell-admin';
+import { ENTRY_TAB, ENTRY_TAB_SLOT } from '@orthacms/content-admin';
 import { Activity } from 'lucide-react';
 import { ActivityLogPageSkeleton } from '../components/ActivityLogSkeleton';
 import { RecentActivityPanel } from '../components/RecentActivityPanel';

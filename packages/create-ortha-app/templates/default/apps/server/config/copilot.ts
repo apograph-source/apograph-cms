@@ -1,12 +1,12 @@
 /** The copilot kill switch and the model backends it can reach. */
-import type { CopilotPluginConfig } from '@ortha/copilot-server';
+import type { CopilotPluginConfig } from '@orthacms/copilot-server';
 // ortha:if copilot-anthropic
-import type { AnthropicProviderConfig } from '@ortha/copilot-provider-anthropic';
+import type { AnthropicProviderConfig } from '@orthacms/copilot-provider-anthropic';
 // ortha:end
 // ortha:if copilot-openai
-import type { OpenAiProviderConfig } from '@ortha/copilot-provider-openai';
+import type { OpenAiProviderConfig } from '@orthacms/copilot-provider-openai';
 // ortha:end
-import { defined, readFlag, readPositiveInt } from '@ortha/utils-server';
+import { defined, readFlag, readPositiveInt } from '@orthacms/utils-server';
 
 // ortha:if copilot-anthropic
 import { anthropicProvider } from './copilot-anthropic';

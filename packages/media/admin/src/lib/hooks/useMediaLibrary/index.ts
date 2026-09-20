@@ -6,9 +6,9 @@ import {
     useQuery,
     useQueryClient
 } from '@tanstack/react-query';
-import { toast } from '@ortha/design-system';
-import { useDebouncedValue } from '@ortha/utils-admin';
-import { useCurrentWorkspace } from '@ortha/workspaces-admin';
+import { toast } from '@orthacms/design-system';
+import { useDebouncedValue } from '@orthacms/utils-admin';
+import { useCurrentWorkspace } from '@orthacms/workspaces-admin';
 import {
     DEFAULT_ASSETS_PAGE_SIZE,
     KIND_FILTER_ALL,
@@ -63,7 +63,7 @@ const messages = defineMessages({
 
 /**
  * The Media Library's data layer and every action the UI can take. Folders and
- * the open folder's assets are fetched from `@ortha/media-server` via the
+ * the open folder's assets are fetched from `@orthacms/media-server` via the
  * gateway (TanStack Query); mutations post to the API and invalidate the cache.
  * View/search/sort/filter/selection/navigation stay local UI state. The returned
  * shape mirrors the former mock store exactly, so no component changed.

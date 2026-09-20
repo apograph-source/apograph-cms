@@ -1,4 +1,4 @@
-import type { Database } from '@ortha/database';
+import type { Database } from '@orthacms/database';
 import { RootAdminService } from './root-admin.service';
 import { MissingRootAdminPasswordError } from '../errors';
 import type { HashingService } from '../../auth/services/hashing.service';

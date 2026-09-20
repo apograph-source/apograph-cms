@@ -1,4 +1,4 @@
-# @ortha/content-domain
+# @orthacms/content-domain
 
 The content **shared kernel** — pure TypeScript rules that both runtimes apply
 identically. Per [ADR-0003](../../../docs/adr/0003-tactical-ddd-inside-plugins.md)
@@ -104,7 +104,7 @@ typeName })`; the entries `Entry` domain model uses `assertTransition` +
 
 ## Commands
 
-- `npx nx typecheck @ortha/content-domain`
-- `npx nx lint @ortha/content-domain`
-- `npx nx test @ortha/content-domain` — DB-free unit tests for the state
+- `npx nx typecheck @orthacms/content-domain`
+- `npx nx lint @orthacms/content-domain`
+- `npx nx test @orthacms/content-domain` — DB-free unit tests for the state
   machine, the validator, and the publish gate.

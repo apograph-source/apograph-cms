@@ -4,7 +4,7 @@ _Package · packages/tools/server_
 
 **The single catalogue of what an agent may do to the CMS — and the one place a tool call is authorized**
 
-`@ortha/tools-server` can do nothing by itself. It owns the **tool contract**, the **registry** and **one permission check** that both consumers must pass through: the external MCP endpoint and the copilot's internal run loop. The tools are brought by the application plugins — content, media, locales, the journal, alarms, audiences, members. The package owns no table, makes no network call and does not know the words “HTTP” and “JSON-RPC”.
+`@orthacms/tools-server` can do nothing by itself. It owns the **tool contract**, the **registry** and **one permission check** that both consumers must pass through: the external MCP endpoint and the copilot's internal run loop. The tools are brought by the application plugins — content, media, locales, the journal, alarms, audiences, members. The package owns no table, makes no network call and does not know the words “HTTP” and “JSON-RPC”.
 
 - **40** tools in the registry
 - **23** visible to the `mcp` surface
@@ -83,7 +83,7 @@ The whole package is seven source files and three test files. It is probably the
 
 | File                           | What is in it                                                                                                                                   | Why it exists separately                                                                                                                                                              |
 | ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| src/lib/tool.ts                | `ToolDefinition`, `ToolContext`, `ToolActor`, `ToolEffect`, `ToolSurface`, `ToolOutput`, `JsonSchema`, `ResourceDefinition`, `ResourceContents` | The transport-neutral contracts. Its one external import is `PermissionKey` from `@ortha/identity-server`, so `requires` is a typed union rather than a string                     |
+| src/lib/tool.ts                | `ToolDefinition`, `ToolContext`, `ToolActor`, `ToolEffect`, `ToolSurface`, `ToolOutput`, `JsonSchema`, `ResourceDefinition`, `ResourceContents` | The transport-neutral contracts. Its one external import is `PermissionKey` from `@orthacms/identity-server`, so `requires` is a typed union rather than a string                     |
 | src/lib/tool-registry.ts       | `ToolRegistry`: `register`, `all`, `forSurface`, `visibleTo`, `call`, `resources`, `readResource`, `onApplicationBootstrap`                     | The one authorization point and the one place the catalogue is validated at startup                                                                                                   |
 | src/lib/tools.module.ts        | `ToolsModule` — `@Global()`, `providers: [ToolRegistry]`, `exports: [ToolRegistry]`                                                             | The module is **imported by both consumers and provided by neither**. Nest caches a static module by its class, so a double import yields one instance                                |
 | src/lib/tool-provider.ts       | The `ToolProvider` port: `tools()`, plus optional `resources()` and `readResource()`                                                            | The dependency inversion that keeps the package graph acyclic: the registry does not know about content, and content registers itself                                                 |
@@ -94,7 +94,7 @@ The whole package is seven source files and three test files. It is probably the
 
 ### Dependencies
 
-`package.json` declares exactly two: `@nestjs/common` (the `@Injectable`/`@Global` decorators, the exception classes, `Logger`) and `@ortha/identity-server` (`PermissionKey` and `PERMISSION_KEYS`). No Drizzle, no HTTP client, no vendor SDK.
+`package.json` declares exactly two: `@nestjs/common` (the `@Injectable`/`@Global` decorators, the exception classes, `Logger`) and `@orthacms/identity-server` (`PermissionKey` and `PERMISSION_KEYS`). No Drizzle, no HTTP client, no vendor SDK.
 
 > **The data model**
 >
@@ -623,7 +623,7 @@ A deliberate subset of JSON Schema, covering exactly what the generated tool sch
 
 > **A naming trap**
 >
-> The repository has **two different functions called `validateToolInput`**: the JSON Schema subset in `@ortha/tools-server`, and the DTO validation in `packages/content/server/src/lib/mcp/tool-input.ts`, which runs class-validator with the host `ValidationPipe`'s options. The content MCP provider imports the second. The shared name is confusing when reading a diff.
+> The repository has **two different functions called `validateToolInput`**: the JSON Schema subset in `@orthacms/tools-server`, and the DTO validation in `packages/content/server/src/lib/mcp/tool-input.ts`, which runs class-validator with the host `ValidationPipe`'s options. The content MCP provider imports the second. The shared name is confusing when reading a diff.
 
 ## 10. Errors and their way out
 
@@ -735,9 +735,9 @@ What is configured is around it — at the consumers, and it is exactly the set 
 ### Commands
 
 ```
-npx nx typecheck @ortha/tools-server
-npx nx lint      @ortha/tools-server
-npx nx test      @ortha/tools-server
+npx nx typecheck @orthacms/tools-server
+npx nx lint      @orthacms/tools-server
+npx nx test      @orthacms/tools-server
 
 # cross-surface e2e (needs Docker)
 npx nx e2e server-e2e --testPathPatterns=tools
@@ -949,7 +949,7 @@ Every statement below was checked against the implementation on the current bran
 | apps/server-e2e/.../copilot-fixture-tools.ts, JSDoc     | “phase 1 ships **no write tools at all** — every real tool is `content:read`” and “let the **`apply`-not-opted-in branch** be exercised end to end”             | There are eighteen tools with `readOnly: false` today — ten direct writes and eight proposals. The “apply not permitted” branch was deleted along with the workspace policy (ADR-0009): there is no second gate on `effect` any more                                                                                                                                                          |
 | apps/server-e2e/.../copilot-fixture-tools.ts, the names | `fixture.readThing`, `fixture.proposeThing`, `fixture.applyThing`, `fixture.explodes`                                                                           | **They do not pass `TOOL_NAME_PATTERN`** (`snake_case` only). They fail to blow up solely because they are registered after `app.init()`, once `onApplicationBootstrap` has already run. This is both a divergence and a demonstration of the startup check's boundary                                                                                                                        |
 | docs/adr/0006 and 0007                                  | Both have status `Proposed`                                                                                                                                     | Both are fully implemented; ADR-0007 has also been amended twice (2026-08-11 and 2026-08-17). “Proposed” misleads a reader looking for the decision in force                                                                                                                                                                                                                                  |
-| Identically named functions                             | —                                                                                                                                                               | The repository has **two** `validateToolInput` functions: the JSON Schema subset in `@ortha/tools-server` and the DTO validation via class-validator in `content/server/src/lib/mcp/tool-input.ts`. The content MCP provider imports the second. The name collision is confusing when reading a diff; no document points it out                                                            |
+| Identically named functions                             | —                                                                                                                                                               | The repository has **two** `validateToolInput` functions: the JSON Schema subset in `@orthacms/tools-server` and the DTO validation via class-validator in `content/server/src/lib/mcp/tool-input.ts`. The content MCP provider imports the second. The name collision is confusing when reading a diff; no document points it out                                                            |
 
 > **The common denominator**
 >

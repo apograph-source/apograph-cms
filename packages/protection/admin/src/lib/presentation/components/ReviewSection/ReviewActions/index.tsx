@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { Check, UserPlus } from 'lucide-react';
-import { Button, toast } from '@ortha/design-system';
+import { Button, toast } from '@orthacms/design-system';
 import type { EntryReview } from '../../../../domain/types';
 import {
     useApprove,

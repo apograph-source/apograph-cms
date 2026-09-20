@@ -1,8 +1,8 @@
 import { Link, useMatch } from 'react-router-dom';
 import { defineMessages, useIntl } from 'react-intl';
 import { ChevronRight, Plus } from 'lucide-react';
-import { useHasPermission } from '@ortha/identity-admin';
-import { initialsOf } from '@ortha/utils-admin';
+import { useHasPermission } from '@orthacms/identity-admin';
+import { initialsOf } from '@orthacms/utils-admin';
 import {
     Collapsible,
     CollapsibleContent,
@@ -14,7 +14,7 @@ import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import { useWorkspaces } from '../../../application/useWorkspaces';
 import { isActiveWorkspace } from '../../../domain/isActiveWorkspace';
 import { WORKSPACES_CREATE } from '../../../domain/permissions';

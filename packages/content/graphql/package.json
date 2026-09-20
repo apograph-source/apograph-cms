@@ -1,5 +1,5 @@
 {
-    "name": "@ortha/content-graphql",
+    "name": "@orthacms/content-graphql",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -19,10 +19,10 @@
         "@graphql-yoga/render-graphiql": "^5.21.2",
         "@nestjs/common": "^11.0.0",
         "@nestjs/swagger": "^11.4.6",
-        "@ortha/bootstrap-server": "*",
-        "@ortha/content-server": "*",
-        "@ortha/identity-server": "*",
-        "@ortha/workspaces-server": "*",
+        "@orthacms/bootstrap-server": "*",
+        "@orthacms/content-server": "*",
+        "@orthacms/identity-server": "*",
+        "@orthacms/workspaces-server": "*",
         "class-validator": "^0.15.1",
         "express": "^5.0.0",
         "graphql": "^16.14.2"

@@ -1,6 +1,6 @@
 import { Suspense, lazy } from 'react';
-import type { AdminPlugin } from '@ortha/bootstrap-admin';
-import { SIDEBAR_NAV_SLOT } from '@ortha/shell-admin';
+import type { AdminPlugin } from '@orthacms/bootstrap-admin';
+import { SIDEBAR_NAV_SLOT } from '@orthacms/shell-admin';
 import { KeyRound } from 'lucide-react';
 import { ApiTokensPageSkeleton } from '../components/ApiTokensSkeleton';
 

@@ -1,8 +1,8 @@
-import type { OutboxWriter, UnitOfWork } from '@ortha/database';
-import type { PublicUser } from '@ortha/identity-server';
+import type { OutboxWriter, UnitOfWork } from '@orthacms/database';
+import type { PublicUser } from '@orthacms/identity-server';
 import type { Asset } from '../../domain/asset';
 import type { AssetRepository } from '../../domain/asset.repository';
-import type { StorageProvider } from '@ortha/media-domain';
+import type { StorageProvider } from '@orthacms/media-domain';
 import { AssetNotFoundError } from '../../domain/errors/asset-not-found.error';
 import { DuplicateAssetUseCase } from './duplicate-asset.use-case';
 

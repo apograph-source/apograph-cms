@@ -1,21 +1,21 @@
 /** Media — the storage backend, plus how downloads and uploads are bounded. */
-import type { MediaPluginConfig } from '@ortha/media-server';
+import type { MediaPluginConfig } from '@orthacms/media-server';
 // ortha:if media-local
-import type { LocalStorageConfig } from '@ortha/media-provider-local';
+import type { LocalStorageConfig } from '@orthacms/media-provider-local';
 // ortha:end
 // ortha:if media-s3
-import type { S3StorageConfig } from '@ortha/media-provider-s3';
+import type { S3StorageConfig } from '@orthacms/media-provider-s3';
 // ortha:end
 // ortha:if media-azure
-import type { AzureStorageConfig } from '@ortha/media-provider-azure';
+import type { AzureStorageConfig } from '@orthacms/media-provider-azure';
 // ortha:end
 // ortha:if media-gcs
-import type { GcsStorageConfig } from '@ortha/media-provider-gcs';
+import type { GcsStorageConfig } from '@orthacms/media-provider-gcs';
 // ortha:end
 // ortha:if media-vercel-blob
-import type { VercelBlobStorageConfig } from '@ortha/media-provider-vercel-blob';
+import type { VercelBlobStorageConfig } from '@orthacms/media-provider-vercel-blob';
 // ortha:end
-import { readEnv, readPositiveInt } from '@ortha/utils-server';
+import { readEnv, readPositiveInt } from '@orthacms/utils-server';
 
 import { mediaStorage } from './media-storage';
 

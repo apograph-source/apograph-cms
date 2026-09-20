@@ -1,5 +1,5 @@
 import { Logger } from '@nestjs/common';
-import { createServer } from '@ortha/bootstrap-server';
+import { createServer } from '@orthacms/bootstrap-server';
 import config from '../ortha.config';
 import { buildPlugins } from './plugins';
 

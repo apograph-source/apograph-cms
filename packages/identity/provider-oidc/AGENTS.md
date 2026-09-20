@@ -1,4 +1,4 @@
-# @ortha/identity-provider-oidc
+# @orthacms/identity-provider-oidc
 
 The **generic OpenID Connect adapter**: authorization code flow, PKCE, and
 identity tokens verified against the provider's published keys. Plus five thin
@@ -83,7 +83,7 @@ Two notes on the dependency:
 
 ## Tests
 
-`conformance.spec.ts` runs the shared kit from `@ortha/identity-domain`
+`conformance.spec.ts` runs the shared kit from `@orthacms/identity-domain`
 against a stubbed provider that **signs real tokens** with a generated key pair.
 That is what makes the tampering case mean something: the "tampered" scenario is
 a token signed by a key the provider does not publish, and it fails because
@@ -94,6 +94,6 @@ common but the port, held to one contract.
 
 ## Package
 
-- Name: `@ortha/identity-provider-oidc`
-- Import: `import { createOidcProvider, createKeycloakProvider } from '@ortha/identity-provider-oidc'`
-- Depends on `@ortha/identity-domain` (the port) and `jose`.
+- Name: `@orthacms/identity-provider-oidc`
+- Import: `import { createOidcProvider, createKeycloakProvider } from '@orthacms/identity-provider-oidc'`
+- Depends on `@orthacms/identity-domain` (the port) and `jose`.

@@ -1,4 +1,4 @@
-import type { ValidationIssue } from '@ortha/content-domain';
+import type { ValidationIssue } from '@orthacms/content-domain';
 
 /**
  * Raised by {@link Entry.publish} when the publish gate fails — the entry's

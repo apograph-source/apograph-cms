@@ -19,7 +19,7 @@ import {
     UnknownSsoProviderError,
     type SsoProviderSummary,
     type SsoRegistry
-} from '@ortha/identity-domain';
+} from '@orthacms/identity-domain';
 import { Inject } from '@nestjs/common';
 import { CompleteSsoUseCase } from '../../application/use-cases/complete-sso.use-case';
 import { StartSsoUseCase } from '../../application/use-cases/start-sso.use-case';

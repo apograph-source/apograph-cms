@@ -1,4 +1,4 @@
-import type { ServerPlugin } from '@ortha/bootstrap-server';
+import type { ServerPlugin } from '@orthacms/bootstrap-server';
 
 const migrate = jest.fn();
 const end = jest.fn();

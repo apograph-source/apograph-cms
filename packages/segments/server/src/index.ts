@@ -1,5 +1,5 @@
 /**
- * Public API of `@ortha/segments-server` — reader entitlements, enforced on
+ * Public API of `@orthacms/segments-server` — reader entitlements, enforced on
  * the public content API.
  *
  * The whole feature is two tables and one predicate: a segment is a named set

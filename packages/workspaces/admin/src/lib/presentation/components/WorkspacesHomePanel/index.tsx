@@ -7,8 +7,8 @@ import {
     CardHeader,
     CardTitle,
     Skeleton
-} from '@ortha/design-system';
-import { initialsOf } from '@ortha/utils-admin';
+} from '@orthacms/design-system';
+import { initialsOf } from '@orthacms/utils-admin';
 import { useWorkspaces } from '../../../application/useWorkspaces';
 import { isActiveWorkspace } from '../../../domain/isActiveWorkspace';
 import { WorkspaceAvatar } from '../WorkspaceAvatar';

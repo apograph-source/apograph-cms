@@ -5,7 +5,7 @@ import {
     WidgetCard,
     WidgetChip,
     type TrendPoint
-} from '@ortha/insights-admin';
+} from '@orthacms/insights-admin';
 import { useContentVelocity } from '../../../application/useContentInsights';
 
 /** Intl descriptors for the velocity widget, co-located here. */

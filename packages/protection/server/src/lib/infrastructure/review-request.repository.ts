@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { and, count, desc, eq, inArray, isNull } from 'drizzle-orm';
-import { UnitOfWork, type Database } from '@ortha/database';
+import { UnitOfWork, type Database } from '@orthacms/database';
 import { reviewRequests } from './schema/review-requests';
 
 /** One open ask, as the entry panel and the queue read it. */

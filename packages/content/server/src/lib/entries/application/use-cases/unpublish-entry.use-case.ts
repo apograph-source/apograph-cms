@@ -8,8 +8,8 @@ import {
     type EventActor,
     OutboxWriter,
     UnitOfWork
-} from '@ortha/database';
-import { type EntryStatus } from '@ortha/content-domain';
+} from '@orthacms/database';
+import { type EntryStatus } from '@orthacms/content-domain';
 import type { AnyContentType } from '../../../types/content-type';
 import { EntryWriterService } from '../../infrastructure/persistence/entry-writer.service';
 import { toRecord } from '../../infrastructure/persistence/entry-row';

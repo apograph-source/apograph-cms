@@ -2,9 +2,9 @@
  * Host-level settings that belong to no plugin — how the app sits behind a
  * proxy, and how large a request body it will parse.
  */
-import type { TrustProxySetting } from '@ortha/bootstrap-server';
+import type { TrustProxySetting } from '@orthacms/bootstrap-server';
 
-import { readEnv, readTrustProxy } from '@ortha/utils-server';
+import { readEnv, readTrustProxy } from '@orthacms/utils-server';
 
 /**
  * `TRUST_PROXY` as Express's `trust proxy` setting.

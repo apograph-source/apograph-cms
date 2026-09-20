@@ -58,7 +58,7 @@ npx nx <typecheck|build|lint|test|serve> <project>   # any task on any project
 npx nx sync                                          # after changing cross-project deps
 npx nx graph                                         # visualize the project graph
 
-# Database / migrations (provided by @ortha/nx)
+# Database / migrations (provided by @orthacms/nx)
 npx nx run <plugin>:db:generate --name=<name>        # generate a plugin's migration
 npx nx run server:db:migrate                         # apply all pending migrations
 ```

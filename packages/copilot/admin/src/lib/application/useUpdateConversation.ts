@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { apiClient } from '@ortha/utils-admin';
+import { apiClient } from '@orthacms/utils-admin';
 import { conversationKey } from './useConversation';
 import {
     conversationsScopeKey,

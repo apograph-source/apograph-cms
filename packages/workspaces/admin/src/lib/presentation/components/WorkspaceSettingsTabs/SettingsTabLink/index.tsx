@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { useIntl } from 'react-intl';
-import { useHasPermission } from '@ortha/identity-admin';
-import { TabNavLink } from '@ortha/design-system';
+import { useHasPermission } from '@orthacms/identity-admin';
+import { TabNavLink } from '@orthacms/design-system';
 import type { WorkspaceSettingsTab } from '../../../slots/workspaceSlots';
 
 /**

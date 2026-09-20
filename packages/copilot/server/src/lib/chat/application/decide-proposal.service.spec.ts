@@ -1,4 +1,4 @@
-import type { ProposalApplier, ProposalStatus } from '@ortha/copilot-domain';
+import type { ProposalApplier, ProposalStatus } from '@orthacms/copilot-domain';
 import type {
     ProposalRepository,
     ProposalView

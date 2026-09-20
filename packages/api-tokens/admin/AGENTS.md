@@ -1,4 +1,4 @@
-# @ortha/api-tokens-admin
+# @orthacms/api-tokens-admin
 
 The admin-side plugin for managing **external-API bearer tokens**. It contributes
 a single global page at `/api-tokens` — reachable from the main sidebar's
@@ -6,10 +6,10 @@ a single global page at `/api-tokens` — reachable from the main sidebar's
 page — where an admin lists, creates, and revokes the tokens that authenticate
 the external content API (`/api/v1/...`). This package and the
 `identity-server` endpoints behind it are the token **lifecycle**; the public
-API those tokens are spent against lives in `@ortha/content-server`
+API those tokens are spent against lives in `@orthacms/content-server`
 (`public-api/`).
 
-Layered per ADR-0003, mirroring `@ortha/users-admin`:
+Layered per ADR-0003, mirroring `@orthacms/users-admin`:
 
 ```
 domain/types/           view-model contracts (ApiToken, WorkspaceOption) — pure TS
@@ -73,9 +73,9 @@ presentation/
 - `DELETE /api/api-tokens/:id` → 204
 - `GET /api/workspaces` → `{ id, name, description, color }[]`
 
-All are served by `@ortha/identity-server`'s `ApiTokensController`.
+All are served by `@orthacms/identity-server`'s `ApiTokensController`.
 
 ## Commands
 
-- `npx nx typecheck @ortha/api-tokens-admin`
-- `npx nx lint @ortha/api-tokens-admin`
+- `npx nx typecheck @orthacms/api-tokens-admin`
+- `npx nx lint @orthacms/api-tokens-admin`

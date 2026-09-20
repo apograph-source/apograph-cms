@@ -2,7 +2,7 @@ import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js';
 import { McpError } from '@modelcontextprotocol/sdk/types.js';
 import { ForbiddenException, Logger, NotFoundException } from '@nestjs/common';
-import type { ToolContext, ToolRegistry } from '@ortha/tools-server';
+import type { ToolContext, ToolRegistry } from '@orthacms/tools-server';
 import { buildMcpServer, type McpServerLimits } from './build-mcp-server';
 
 const INFO = { name: 'ortha-cms-test', version: '0.0.0-test' };

@@ -1,4 +1,4 @@
-import type { ModelRequest, ModelUsage } from '@ortha/copilot-domain';
+import type { ModelRequest, ModelUsage } from '@orthacms/copilot-domain';
 
 /**
  * Rough, deterministic token estimate. **Not a tokenizer** — the point is that

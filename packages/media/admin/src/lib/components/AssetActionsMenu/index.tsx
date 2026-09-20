@@ -7,7 +7,7 @@ import {
     DropdownMenuItem,
     DropdownMenuSeparator,
     DropdownMenuTrigger
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import {
     Copy,
     Download,

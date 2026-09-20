@@ -8,7 +8,7 @@ import {
     type SsoProfile,
     type SsoProvider,
     type SsoProviderDescriptor
-} from '@ortha/identity-domain';
+} from '@orthacms/identity-domain';
 import { resolveSamlConfig, type SamlProviderConfig } from './config';
 import { toProfile, type SamlAssertionProfile } from './profile';
 

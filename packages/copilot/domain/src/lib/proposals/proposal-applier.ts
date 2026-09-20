@@ -24,7 +24,7 @@ export interface ProposalActor {
      *
      * Provenance, like `runId`: an applier stamps the pair onto the domain
      * event its write raises (see `proposalEventActor` in
-     * `@ortha/copilot-server`), so the audit row can say the change came
+     * `@orthacms/copilot-server`), so the audit row can say the change came
      * from an agent turn rather than from the person typing. The actor stays
      * the human either way — there is no copilot identity.
      */

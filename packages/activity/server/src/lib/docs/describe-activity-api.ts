@@ -10,7 +10,7 @@
  * Pure: it takes the document and mutates only the paths this plugin owns.
  */
 
-import type { OpenApiDocument } from '@ortha/bootstrap-server';
+import type { OpenApiDocument } from '@orthacms/bootstrap-server';
 import { ACTIVITY_SCHEMAS, ref, type OpenApiSchema } from './activity-schemas';
 
 /** An operation object, as far as this pass needs to see one. */

@@ -9,7 +9,7 @@
  */
 
 /**
- * The admin route that redeems an invite, owned by `@ortha/identity-admin`
+ * The admin route that redeems an invite, owned by `@orthacms/identity-admin`
  * (its router mounts `accept-invite` under `/identity`). Repeated here for the
  * reason the admin's own copy documents: a path string is not worth a package
  * dependency, and the tests assert the built link, so a drift fails loudly.

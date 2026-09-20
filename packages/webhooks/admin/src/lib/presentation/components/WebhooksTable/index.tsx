@@ -8,7 +8,7 @@ import {
     TableHead,
     TableHeader,
     TableRow
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import type { WebhookEndpoint } from '../../../domain/types/webhook';
 import { DeliveryStatusBadge } from '../DeliveryStatusBadge';
 

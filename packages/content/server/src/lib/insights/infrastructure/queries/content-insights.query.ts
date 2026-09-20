@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { and, eq, isNull, sql, type AnyColumn, type SQL } from 'drizzle-orm';
 import type { PgTable } from 'drizzle-orm/pg-core';
-import { InjectDatabase, type Database } from '@ortha/database';
+import { InjectDatabase, type Database } from '@orthacms/database';
 import { InjectContentRegistry } from '../../../content.tokens';
 import type { ContentTypeRegistry } from '../../../registry/content-type-registry';
 import type { AnyContentType } from '../../../types/content-type';

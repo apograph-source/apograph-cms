@@ -13,7 +13,7 @@ import {
     Label,
     RadioGroup,
     Spinner
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import {
     VIEW_NAME_MAX_LENGTH,
     VIEW_VISIBILITY,

@@ -1,5 +1,5 @@
 {
-    "name": "@ortha/utils-admin",
+    "name": "@orthacms/utils-admin",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -16,7 +16,7 @@
         "src"
     ],
     "dependencies": {
-        "@ortha/design-system": "*",
+        "@orthacms/design-system": "*",
         "@tanstack/react-query": "^5.0.0",
         "axios": "^1.6.0",
         "react": "^19.0.0"

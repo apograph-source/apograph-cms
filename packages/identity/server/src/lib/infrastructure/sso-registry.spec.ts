@@ -1,7 +1,7 @@
 import {
     UnknownSsoProviderError,
     type SsoProvider
-} from '@ortha/identity-domain';
+} from '@orthacms/identity-domain';
 import { buildSsoRegistry } from './sso-registry';
 
 const provider = (label = 'Fake'): SsoProvider => ({

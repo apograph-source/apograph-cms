@@ -1,7 +1,7 @@
 import { eq } from 'drizzle-orm';
 import request from 'supertest';
-import { getDatabase } from '@ortha/database';
-import { roles, users } from '@ortha/identity-server';
+import { getDatabase } from '@orthacms/database';
+import { roles, users } from '@orthacms/identity-server';
 import {
     closeTestApp,
     createTestApp,

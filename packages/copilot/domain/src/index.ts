@@ -53,7 +53,7 @@ export { NoModelsConfiguredError } from './lib/errors/no-models-configured.error
 //
 // `ToolSpec` / `ToolContext` / `COPILOT_TOOL_PROVIDER` are gone: the tool
 // contract and its registry are shared with the MCP endpoint and live in
-// `@ortha/tools-server` (ADR-0006 §2, and the amendment to ADR-0005 §3).
+// `@orthacms/tools-server` (ADR-0006 §2, and the amendment to ADR-0005 §3).
 // `validateToolInput` followed them there: it interprets a `ToolDefinition`'s
 // `inputSchema`, and keeping it here meant only the copilot's run loop applied
 // it while the MCP endpoint dispatched unvalidated arguments. What stays is the

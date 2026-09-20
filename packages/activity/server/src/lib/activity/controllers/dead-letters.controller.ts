@@ -1,11 +1,11 @@
 import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { OutboxDispatcher, type DeadLetter } from '@ortha/database';
+import { OutboxDispatcher, type DeadLetter } from '@orthacms/database';
 import {
     PERMISSIONS,
     PermissionsGuard,
     RequirePermissions
-} from '@ortha/identity-server';
+} from '@orthacms/identity-server';
 import { DeadLettersQueryDto } from '../dto/dead-letters-query.dto';
 
 /** The parked events, as `GET /api/activity/dead-letters` returns them. */

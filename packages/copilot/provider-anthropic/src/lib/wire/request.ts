@@ -8,7 +8,7 @@ import type {
     ModelMessage,
     ModelRequest,
     ModelTool
-} from '@ortha/copilot-domain';
+} from '@orthacms/copilot-domain';
 import type { AnthropicProviderConfig } from '../config';
 
 /**

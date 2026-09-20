@@ -4,7 +4,7 @@ _Package · packages/cli_
 
 **The `ortha` command — how an application installed from npm is built, run and migrated**
 
-Everything needed to **operate** an Ortha application used to live in `@ortha/nx` — a private package that will never be published. An application installed from npm physically had no way to apply its own migrations. `@ortha/cli` closes that hole and at the same time fixes a rule: **the monorepo and any generated application migrate through one and the same implementation**. Two implementations of "apply migrations in plugin order" are two chances to get the system's most destructive operation wrong.
+Everything needed to **operate** an Ortha application used to live in `@orthacms/nx` — a private package that will never be published. An application installed from npm physically had no way to apply its own migrations. `@orthacms/cli` closes that hole and at the same time fixes a rule: **the monorepo and any generated application migrate through one and the same implementation**. Two implementations of "apply migrations in plugin order" are two chances to get the system's most destructive operation wrong.
 
 - **6** commands
 - **6** flags and options
@@ -25,12 +25,12 @@ Everything needed to **operate** an Ortha application used to live in `@ortha/nx
 - [07. Diagnostics and errors](#07-diagnostics-and-errors)
 - [08. Invariants](#08-invariants)
 - [09. Testing checklist](#09-testing-checklist)
-- [10. Boundaries: the CLI and @ortha/nx](#10-boundaries-the-cli-and-orthanx)
+- [10. Boundaries: the CLI and @orthacms/nx](#10-boundaries-the-cli-and-orthanx)
 - [11. Discrepancies between the code and the documentation](#11-discrepancies-between-the-code-and-the-documentation)
 
 ## 01. Business description
 
-Ortha is distributed in two ways. Inside the monorepo a developer lives in Nx: `npx nx serve server`, `npx nx run server:db:migrate`. But the end product is an application a person creates with `npx create-ortha-app my-cms`, made almost entirely of `@ortha/*` packages installed from npm. Such an application has no Nx, no executors and no project graph — and needs a way to be built, run and migrated.
+Ortha is distributed in two ways. Inside the monorepo a developer lives in Nx: `npx nx serve server`, `npx nx run server:db:migrate`. But the end product is an application a person creates with `npx create-ortha-app my-cms`, made almost entirely of `@orthacms/*` packages installed from npm. Such an application has no Nx, no executors and no project graph — and needs a way to be built, run and migrated.
 
 That way is `ortha`. Six commands, which a generated application wraps in its own `npm run` scripts, so that the application's owner usually never types the word `ortha` at all:
 
@@ -45,8 +45,8 @@ That way is `ortha`. Six commands, which a generated application wraps in its ow
 
 ### Why this is a separate package
 
-- **Publishability.** `@ortha/nx` is marked `private: true` and will never reach npm — it is tied to `@nx/devkit`, the project graph and the `nx.json` file. The `applyPluginMigrations` function was reachable only through an Nx executor, that is, only from inside the monorepo.
-- **One implementation for two worlds.** The `db-migrate`, `db-generate` and `db-studio` executors in `@ortha/nx` are thin adapters over the functions exported here. The same migration loop, the same refusal on an empty `DATABASE_URL`, the same warning on an unsafe Drizzle Studio bind.
+- **Publishability.** `@orthacms/nx` is marked `private: true` and will never reach npm — it is tied to `@nx/devkit`, the project graph and the `nx.json` file. The `applyPluginMigrations` function was reachable only through an Nx executor, that is, only from inside the monorepo.
+- **One implementation for two worlds.** The `db-migrate`, `db-generate` and `db-studio` executors in `@orthacms/nx` are thin adapters over the functions exported here. The same migration loop, the same refusal on an empty `DATABASE_URL`, the same warning on an unsafe Drizzle Studio bind.
 - **Dullness as a product quality.** The CLI has no configuration file of its own and accepts no directory paths. An application's layout (`apps/server`, `apps/admin`, `dist/server`) is a **convention**. An application that may put its server anywhere needs a config describing where — and the CLI would have to read that before doing anything at all.
 
 ### Who sees it
@@ -82,7 +82,7 @@ The package is flat (`packages/cli` rather than an `admin`/`server` group) and *
 | File                   | Role                                                                                                   | The key decision inside                                                                          |
 | ---------------------- | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
 | src/cli.ts             | The `ortha` binary's entry point: argv parsing, the help text, the command dispatcher, one error catch | Prints a **message** rather than a stack; `process.exit(1)`                                      |
-| src/index.ts           | The package's public API — what `@ortha/nx` imports                                                 | 9 exports; they are what makes the implementation shared                                         |
+| src/index.ts           | The package's public API — what `@orthacms/nx` imports                                                 | 9 exports; they are what makes the implementation shared                                         |
 | src/lib/project.ts     | `LAYOUT` (9 paths), `findProjectRoot`, `loadHost`, `requireDatabaseUrl`                                | The layout is a convention, not configuration                                                    |
 | src/lib/env.ts         | `loadEnv` — the only place that reads `.env`                                                           | `process.loadEnvFile` does not overwrite what was already exported                               |
 | src/lib/run.ts         | Running child processes: `resolveBin`, `tscBin`, `viteBin`, `spawnNode`, `run`, `superviseUntilExit`   | A binary is looked up in the **application's** `node_modules` through the manifest's `bin` field |
@@ -95,14 +95,14 @@ The package is flat (`packages/cli` rather than an `admin`/`server` group) and *
 
 | Package                    | What for                                                                                         |
 | -------------------------- | ------------------------------------------------------------------------------------------------ |
-| @ortha/bootstrap-server | Only for the `ServerPlugin` type — the `migrations: { dir(), table }` descriptor is read from it |
+| @orthacms/bootstrap-server | Only for the `ServerPlugin` type — the `migrations: { dir(), table }` descriptor is read from it |
 | drizzle-kit                | `generate` and `studio`; the binary is looked up as `bin.cjs` next to the package's main entry   |
 | drizzle-orm                | `drizzle()` + `migrate()` from `node-postgres` — applying migrations                             |
 | pg                         | The one `Pool` that `migrate` opens, and closes                                                  |
 
 **What is not among the dependencies**, and it matters: no `jiti`, no `@swc/core`, no `@nx/devkit`, no `typescript` and no `vite`. The last two must come from the application — compiling somebody else's application with a TypeScript version npm happened to hoist next to the CLI is not acceptable.
 
-### The public API (what `@ortha/nx` imports)
+### The public API (what `@orthacms/nx` imports)
 
 | Export                | Who uses it                                                                                    | What it does                                                             |
 | --------------------- | ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
@@ -122,7 +122,7 @@ The package is flat (`packages/cli` rather than an `admin`/`server` group) and *
 
 ### How the package reaches a user
 
-Between what sits in the repository and what a person installs from npm there is a step without which `ortha` would simply not start. Every workspace package resolves **from source**: their `exports` point at `./src/index.ts` and `tsconfig.base.json` supplies the `@ortha/source` condition. A consumer cannot do that — they have neither the condition nor a compiler at runtime.
+Between what sits in the repository and what a person installs from npm there is a step without which `ortha` would simply not start. Every workspace package resolves **from source**: their `exports` point at `./src/index.ts` and `tsconfig.base.json` supplies the `@orthacms/source` condition. A consumer cannot do that — they have neither the condition nor a compiler at runtime.
 
 1. **The build.** The `build` target compiles the package through `tsconfig.lib.json`, emitting JS and `.d.ts`.
 2. **Staging.** The `pack` target assembles the publishable root under `dist/pack/packages/cli` with a **rewritten** manifest: `main`, `types`, `exports` and `bin` are moved from `./src/*.ts` to `./dist/*.js`, and dependencies on workspace packages (`"*"`) are pinned to the version being released.
@@ -270,7 +270,7 @@ There is no argument-parsing library here. There are two five-line functions, an
 | --port=0        | Carried through the parse, refused by `runDrizzleKitStudio`      | A message naming the reason, from the CLI and the Nx executor alike |
 | extra arguments | Ignored entirely                                                 | A typo in a flag is never diagnosed                                 |
 
-The trade-off is deliberate: six commands with six options do not justify a dependency on an argv parser, and a word that is not understood means, at worst, "did something other than what was asked" — never "did something destructive". The one place where that stung was `studio --port`, where a mistyped or zero port became the default in silence; that check now lives in `runDrizzleKitStudio`, which `@ortha/nx` calls too. An unknown _word_ is still ignored.
+The trade-off is deliberate: six commands with six options do not justify a dependency on an argv parser, and a word that is not understood means, at worst, "did something other than what was asked" — never "did something destructive". The one place where that stung was `studio --port`, where a mistyped or zero port became the default in silence; that check now lives in `runDrizzleKitStudio`, which `@orthacms/nx` calls too. An unknown _word_ is still ignored.
 
 ## 04. Step-by-step flows
 
@@ -292,7 +292,7 @@ What a person does immediately after `npx create-ortha-app my-cms`. The generate
 
 ### 4.2 Applying migrations after a package update
 
-1. **The `@ortha/*` versions are raised in lockstep.** The packages are released as one set; a partial update can leave two copies of a shared package in `node_modules`.
+1. **The `@orthacms/*` versions are raised in lockstep.** The packages are released as one set; a partial update can leave two copies of a shared package in `node_modules`.
 2. **`ortha migrate`.** Rebuilding the server here is not a formality: **a stale `dist/` would silently migrate against the previous composition** — a plugin added an hour ago would simply not get its tables, and nobody would say so.
 3. **Each plugin applies only what it has not applied.** The history tables are separate, so a new plugin catches up from zero and the old ones are untouched.
 4. **If something fails, the run stops.** The plugins that ran before the failing one are **committed**: there is no rollback, and each plugin commits as it goes. The message says how many of how many made it.
@@ -327,7 +327,7 @@ What a person does immediately after `npx create-ortha-app my-cms`. The generate
 
 ## 05. Internals: compile → read the config → act
 
-Three of the six commands (`migrate`, `studio` and indirectly `dev`) go through one and the same pipeline. It is worth taking apart in full, because it explains why this package does not need the machinery `@ortha/nx` cannot do without.
+Three of the six commands (`migrate`, `studio` and indirectly `dev`) go through one and the same pipeline. It is worth taking apart in full, because it explains why this package does not need the machinery `@orthacms/nx` cannot do without.
 
 ### 5.1 The "find the root" step
 
@@ -346,18 +346,18 @@ Three of the six commands (`migrate`, `studio` and indirectly `dev`) go through 
 
 A command that needs the plugin list **builds the server first** and only then reads the result. That looks like an extra step and in fact removes a whole class of problems.
 
-| Aspect        | `@ortha/nx` (the monorepo)                                          | `@ortha/cli` (an installed application)                                      |
+| Aspect        | `@orthacms/nx` (the monorepo)                                          | `@orthacms/cli` (an installed application)                                      |
 | ------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
 | What is read  | `apps/server/ortha.config.ts` and `src/plugins.ts` — **TypeScript**    | `dist/server/ortha.config.js` and `dist/server/src/plugins.js` — **JavaScript** |
 | What reads it | `jiti` plus an `@swc/core` transform hook                              | an ordinary `createRequire()`                                                   |
 | Why           | Nx works against source; there is no build step before the target      | the application has a build step of its own, and it is needed anyway            |
 | The cost      | 2 extra dependencies (`jiti`, `@swc/core`) and decorator configuration | ~1 second of incremental compilation                                            |
 
-Why "just jiti" is not enough for the monorepo: loading `ortha.config.ts` or `buildPlugins` drags in the whole plugin graph — NestJS modules and their DTOs — and that graph uses **legacy decorators** (`experimentalDecorators`). The babel built into jiti ignores the repository's tsconfig and defaults to stage-3 decorator semantics: a field with a definite assignment under a decorator (`email!: string`) gets an initializer, and `transform-typescript` fails. So `@ortha/nx` holds `createTsJiti` — jiti with an swc transform in `legacyDecorator` + `decoratorMetadata` mode, so that the same source is read the way the application itself compiles it.
+Why "just jiti" is not enough for the monorepo: loading `ortha.config.ts` or `buildPlugins` drags in the whole plugin graph — NestJS modules and their DTOs — and that graph uses **legacy decorators** (`experimentalDecorators`). The babel built into jiti ignores the repository's tsconfig and defaults to stage-3 decorator semantics: a field with a definite assignment under a decorator (`email!: string`) gets an initializer, and `transform-typescript` fails. So `@orthacms/nx` holds `createTsJiti` — jiti with an swc transform in `legacyDecorator` + `decoratorMetadata` mode, so that the same source is read the way the application itself compiles it.
 
 > **What follows from this**
 >
-> Three consequences, all three in the consumer's favour. **First:** `jiti` and `@swc/core` stay dependencies of `@ortha/nx` and never reach an installed application's tree. **Second:** a whole class of "the config is read by one compiler while the application is built by another" divergences disappears — what is read is exactly the JavaScript that will later run. **Third:** a stale `dist/` stops being a possible source of a silent error, because the command builds it itself.
+> Three consequences, all three in the consumer's favour. **First:** `jiti` and `@swc/core` stay dependencies of `@orthacms/nx` and never reach an installed application's tree. **Second:** a whole class of "the config is read by one compiler while the application is built by another" divergences disappears — what is read is exactly the JavaScript that will later run. **Third:** a stale `dist/` stops being a possible source of a silent error, because the command builds it itself.
 
 ### 5.4 The "read the config" step — why `require` rather than `await import()`
 
@@ -442,7 +442,7 @@ Plus the groups that appear depending on the wizard's choices: media storage (`M
 
 ### 6.3 The link to the generated application
 
-`@ortha/cli` lands in a new application not as a choice but as a constant: it is listed in the generator's `CORE_DEV_PACKAGES` and is always written into `devDependencies` with the version stamped in by `create-ortha-app` itself. The `package.json` template wraps six commands in scripts right away, so the application owner usually interacts with the CLI only through `npm run`.
+`@orthacms/cli` lands in a new application not as a choice but as a constant: it is listed in the generator's `CORE_DEV_PACKAGES` and is always written into `devDependencies` with the version stamped in by `create-ortha-app` itself. The `package.json` template wraps six commands in scripts right away, so the application owner usually interacts with the CLI only through `npm run`.
 
 ```
 "scripts": {
@@ -538,7 +538,7 @@ Statements that must always hold. This is at once a review checklist and a draft
 
 ## 09. Testing checklist
 
-The wording is “action → expected result”, so items can go into a test case without rewriting. Existing automated coverage: **130** unit tests in fourteen files next to the code, mocking at the process boundary (`node:child_process`, `pg`), so the package is tested without a database. Run them with `npx nx test @ortha/cli`. The gap this dossier first recorded — `cli.ts`, `project.ts`, `env.ts`, `run.ts` and all six commands untested — **is closed**: the dispatcher, the argv readers, the root walk, the `.env` load, the child-process helper and every command now have a spec beside them. What is still checked only by hand is this list against a real application.
+The wording is “action → expected result”, so items can go into a test case without rewriting. Existing automated coverage: **130** unit tests in fourteen files next to the code, mocking at the process boundary (`node:child_process`, `pg`), so the package is tested without a database. Run them with `npx nx test @orthacms/cli`. The gap this dossier first recorded — `cli.ts`, `project.ts`, `env.ts`, `run.ts` and all six commands untested — **is closed**: the dispatcher, the argv readers, the root walk, the `.env` load, the child-process helper and every command now have a spec beside them. What is still checked only by hand is this list against a real application.
 
 ### Argument parsing and help
 
@@ -618,7 +618,7 @@ The wording is “action → expected result”, so items can go into a test cas
 <details>
 <summary>How the package's existing unit tests are put together</summary>
 
-The specs live **next to** the code (`src/lib/*.spec.ts`) and mock strictly at the process boundary: `node:child_process` for `generate` and `studio`, `pg` plus `drizzle-orm` for `migrate`. That is why `npx nx test @ortha/cli` requires neither a database nor a built application.
+The specs live **next to** the code (`src/lib/*.spec.ts`) and mock strictly at the process boundary: `node:child_process` for `generate` and `studio`, `pg` plus `drizzle-orm` for `migrate`. That is why `npx nx test @orthacms/cli` requires neither a database nor a built application.
 
 **What exactly the tests pin down.** For `migrate`: the exact order in which plugins are applied (that is the entire guarantee, because the dependency between tables is declared nowhere), passing each plugin its own folder and history table, the absence of a connection on an empty list, the refusal text with names and counters, preserving the original error in `cause`, not attempting plugins after the failing one, closing the pool on both success and failure, and the absence of the password from the target description. For `studio`: the ephemeral config contains neither the password nor the database name, the URL goes through the environment, the temporary folder is removed, and the `host`/`port` defaults are not artificially substituted. For `generate`: the call goes through `process.execPath` from the project root, `--name` is absent when it was not given, a hostile name stays a single argv element, and a non-zero code turns into a message naming the project and the code rather than a copy of argv.
 
@@ -626,11 +626,11 @@ The specs live **next to** the code (`src/lib/*.spec.ts`) and mock strictly at t
 
 </details>
 
-## 10. Boundaries: the CLI and @ortha/nx
+## 10. Boundaries: the CLI and @orthacms/nx
 
 Two packages solve the same three problems for two different worlds. The split runs not along functionality but along **how they get at the application's TypeScript**.
 
-| Trait                               | @ortha/cli                                                     | @ortha/nx                                                                             |
+| Trait                               | @orthacms/cli                                                     | @orthacms/nx                                                                             |
 | ----------------------------------- | ----------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
 | Who it is for                       | An application installed from npm                                 | The Ortha monorepo                                                                    |
 | Published                           | yes, to npm                                                       | no (`private: true`)                                                                     |
@@ -650,7 +650,7 @@ Two packages solve the same three problems for two different worlds. The split r
 | Plugin order                        | the application's `apps/server/src/plugins.ts` | Preserves it verbatim; on failure points at it as the cause                           |
 | A plugin's migrations descriptor    | the plugin itself (`ServerPlugin.migrations`)  | Reads `dir()` and `table` without interpreting them                                   |
 | Reading `process.env`               | `apps/server/ortha.config.ts`                  | Carries the variables into the process and takes `config.database.url`                |
-| The runtime database connection     | `@ortha/database`                           | Opens **its own** temporary pool only for the duration of the migration and closes it |
+| The runtime database connection     | `@orthacms/database`                           | Opens **its own** temporary pool only for the duration of the migration and closes it |
 | Generating SQL                      | `drizzle-kit`                                  | Runs it with the right `cwd` and turns a non-zero code into an intelligible message   |
 | Applying SQL                        | `drizzle-orm`                                  | Owns the loop, the order, the logs and the refusal text                               |
 | Compiling and bundling the admin UI | the application's `typescript` and `vite`      | Finds their binaries and passes the right arguments                                   |
@@ -677,7 +677,7 @@ Found while reconciling this dossier with the sources. Not product bugs in thems
 | packages/cli/AGENTS.md, “Compile first”                                  | “`tsconfig.server.json` sets `rootDir` to `src/server`, … `src/server/main.ts` → `dist/server/main.js`”                | No `tsconfig.server.json` file exists, neither in the template nor in the monorepo; what is read is `apps/server/tsconfig.json` with `rootDir: "."`. The comment in `src/lib/project.ts` describes this **correctly** — that is, the document contradicts its own code                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | packages/cli/src/cli.ts, the Options block                               | “`--server` — build/**dev**: the server only, skipping the admin”                                                      | **Fixed.** `devCommand(root)` took no options at all and did not read argv, so `ortha dev --server` still brought Vite up. Both flags now work for `dev` as well — `--admin` runs the Vite dev server alone against an API already up, the way the monorepo offers `start:server` / `start:admin` — and `--admin` asked of an application with no `apps/admin/index.html` is a refusal rather than a supervised empty set exiting 0. `cli.spec.ts` and `commands.spec.ts` carry the regression                                                                                                                                                                                                                                                                                                    |
 | packages/cli/src/cli.ts, the Options block                               | “`-h, --help` — Show this message”                                                                                     | **Fixed.** It used to be true — the first argv element was always treated as a command, so `ortha --help` and `ortha -h` answered `Unknown command` with exit code 1, and help was reachable only as `ortha` with no arguments or `ortha <command> --help`. `wantsHelp` now reads the whole argv, accepts a bare `help` as well, and is checked before the project root is looked for; `args.spec.ts` carries the regression                                                                                                                                                                                                                                                                                                                                                                      |
-| packages/cli/src/lib/studio.ts                                           | The `--host`/`--port` options are described as passed straight through to drizzle-kit                                  | **Fixed.** `--port=0` was **silently dropped** (`0` is falsy in `if (options.port)`) and Studio came up on 4983, while `@ortha/nx`'s `db-studio` executor refused the same input with an explanation — **two branches of one tool behaving differently**. The refusal now lives in `runDrizzleKitStudio`, the implementation both worlds call, and it is a refusal rather than a pass-through for the reason that executor gave: drizzle-kit's listen callback is handed the bound address and ignores it, printing the port it was _asked_ for, so `--port=0` would leave an unauthenticated read/write console on the database at an address nothing reports. `--port=abc` is reported by the argv reader instead of becoming `NaN` and vanishing                                            |
+| packages/cli/src/lib/studio.ts                                           | The `--host`/`--port` options are described as passed straight through to drizzle-kit                                  | **Fixed.** `--port=0` was **silently dropped** (`0` is falsy in `if (options.port)`) and Studio came up on 4983, while `@orthacms/nx`'s `db-studio` executor refused the same input with an explanation — **two branches of one tool behaving differently**. The refusal now lives in `runDrizzleKitStudio`, the implementation both worlds call, and it is a refusal rather than a pass-through for the reason that executor gave: drizzle-kit's listen callback is handed the bound address and ignores it, printing the port it was _asked_ for, so `--port=0` would leave an unauthenticated read/write console on the database at an address nothing reports. `--port=abc` is reported by the argv reader instead of becoming `NaN` and vanishing                                            |
 | create-ortha-app · README.md.tmpl, “Adding content types”, step 3        | “Add `apps/server/drizzle.config.ts` pointing `schema` at your `src/content/index.ts` and `out` at `../../migrations`” | The paths are written as if they resolved relative to the config file. But `generateCommand` starts drizzle-kit with `cwd` = **the application root**, and drizzle-kit resolves `schema`/`out` relative to the working directory (this is stated outright in the comment in `src/lib/generate.ts`). Following the instruction literally sent `out` two levels **above** the application root, and `schema` was not found. **Fixed:** the step is now the config itself, with `out: 'migrations'` and the full `apps/server/src/content/index.ts`, plus the sentence saying both are relative to the application root and why. `generated-readme.spec.ts` resolves `out` from the root the CLI runs drizzle-kit in and compares it with the directory the plugin's own migrations descriptor names |
 | create-ortha-app · templates/default/apps/server/src/plugins.ts, comment | “Define some in `src/server/content/`”                                                                                 | **Fixed.** No such path existed in the template — the server side lives in `apps/server/src/` — while the same template's README named the correct one                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | create-ortha-app · templates/default/apps/server/src/plugins.ts, example | `migrations: { dir: () => join(process.cwd(), 'migrations') }`                                                         | Depends on the current directory, whereas `findProjectRoot` exists precisely so a command can be run from a subdirectory. The monorepo uses `join(__dirname, '../migrations')` in the equivalent place, and every plugin uses `join(__dirname, '…')`. The template's example breaks in exactly the scenario the CLI promises to support                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
@@ -694,4 +694,4 @@ Found while reconciling this dossier with the sources. Not product bugs in thems
 
 **Dossier for the `packages/cli` package.** The skeleton is the same as in the `identity` dossier: business description → composition → command catalogue → scenarios → internals → configuration → diagnostics → invariants → checklist → boundaries → discrepancies. Sections the package does not have (data model, HTTP API, admin screens, permissions) have dropped out — the CLI has neither tables nor routes nor a UI.
 
-The source is the package's own code: `src/cli.ts`, `src/index.ts`, six commands in `src/lib/commands/`, six core modules in `src/lib/` and the fourteen spec files beside them. Cross-checked against the `@ortha/nx` executors (`db-migrate`, `db-generate`, `db-studio`, `lib/jiti.ts`), against the `create-ortha-app` template (`package.json.tmpl`, `env.tmpl`, `README.md.tmpl`, `apps/server/{tsconfig.json,src/plugins.ts}`) and against the `ServerPlugin` type from `@ortha/bootstrap-server`. The `AGENTS.md` files were used as a skeleton, but every statement was verified against the implementation — the divergences are collected in section 11.
+The source is the package's own code: `src/cli.ts`, `src/index.ts`, six commands in `src/lib/commands/`, six core modules in `src/lib/` and the fourteen spec files beside them. Cross-checked against the `@orthacms/nx` executors (`db-migrate`, `db-generate`, `db-studio`, `lib/jiti.ts`), against the `create-ortha-app` template (`package.json.tmpl`, `env.tmpl`, `README.md.tmpl`, `apps/server/{tsconfig.json,src/plugins.ts}`) and against the `ServerPlugin` type from `@orthacms/bootstrap-server`. The `AGENTS.md` files were used as a skeleton, but every statement was verified against the implementation — the divergences are collected in section 11.

@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { Readable } from 'node:stream';
 import { deflateRawSync } from 'node:zlib';
-import { DEFAULT_TRANSFER_LIMITS } from '@ortha/transfer-domain';
+import { DEFAULT_TRANSFER_LIMITS } from '@orthacms/transfer-domain';
 import { createZipStream, type ZipMember } from './zip-writer';
 import {
     ZipReadError,

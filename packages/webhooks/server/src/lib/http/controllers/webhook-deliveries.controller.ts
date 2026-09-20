@@ -14,8 +14,8 @@ import {
     PERMISSIONS,
     PermissionsGuard,
     RequirePermissions
-} from '@ortha/identity-server';
-import type { DeliveryStatus } from '@ortha/webhooks-domain';
+} from '@orthacms/identity-server';
+import type { DeliveryStatus } from '@orthacms/webhooks-domain';
 import { WebhookEndpointsService } from '../../application/webhook-endpoints.service';
 import { ListDeliveriesQueryDto } from '../../application/dto/list-deliveries-query.dto';
 import {

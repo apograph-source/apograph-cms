@@ -3,7 +3,7 @@ import type { ExecutorContext } from '@nx/devkit';
 const runDrizzleKitStudio = jest.fn();
 const jitiImport = jest.fn();
 
-jest.mock('@ortha/cli', () => ({
+jest.mock('@orthacms/cli', () => ({
     runDrizzleKitStudio: (...args: unknown[]) => runDrizzleKitStudio(...args)
 }));
 jest.mock('../../lib/jiti', () => ({

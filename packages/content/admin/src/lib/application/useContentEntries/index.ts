@@ -1,5 +1,5 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
-import { useCurrentWorkspace } from '@ortha/workspaces-admin';
+import { useCurrentWorkspace } from '@orthacms/workspaces-admin';
 import type { ContentTypeDetail } from '../../domain/types/contentType';
 import {
     contentEntriesKey,

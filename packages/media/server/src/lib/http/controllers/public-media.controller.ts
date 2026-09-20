@@ -28,17 +28,17 @@ import {
     PERMISSIONS,
     Public,
     RequirePermissions
-} from '@ortha/identity-server';
+} from '@orthacms/identity-server';
 import {
     ApiTokenGuard,
     ApiTokenWorkspaceGuard,
     CurrentApiToken,
     type PublicApiToken
-} from '@ortha/content-server';
-import { CurrentWorkspace } from '@ortha/workspaces-server';
+} from '@orthacms/content-server';
+import { CurrentWorkspace } from '@orthacms/workspaces-server';
 import { UploadAssetUseCase } from '../../application/use-cases/upload-asset.use-case';
 import { AssetViewQuery } from '../../infrastructure/queries/asset-view.query';
-import { STORAGE_PROVIDER, type StorageProvider } from '@ortha/media-domain';
+import { STORAGE_PROVIDER, type StorageProvider } from '@orthacms/media-domain';
 import { DownloadAssetQuery } from '../../infrastructure/queries/download-asset.query';
 import {
     DIRECT_SERVE,

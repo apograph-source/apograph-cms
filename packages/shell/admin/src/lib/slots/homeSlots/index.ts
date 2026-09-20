@@ -1,5 +1,5 @@
 import type { ComponentType } from 'react';
-import { createSlot } from '@ortha/utils-admin';
+import { createSlot } from '@orthacms/utils-admin';
 
 /**
  * Which region of the home dashboard a {@link HomeSectionItem} renders in.

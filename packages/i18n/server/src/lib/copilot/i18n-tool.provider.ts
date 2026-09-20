@@ -1,12 +1,12 @@
 import { Injectable, Optional, type OnModuleInit } from '@nestjs/common';
-import { PERMISSIONS } from '@ortha/identity-server';
+import { PERMISSIONS } from '@orthacms/identity-server';
 import {
     InjectContentRegistry,
     WorkspaceGrantsQuery,
     type ContentTypeRegistry
-} from '@ortha/content-server';
-import { ToolRegistry } from '@ortha/tools-server';
-import type { ToolDefinition, ToolProvider } from '@ortha/tools-server';
+} from '@orthacms/content-server';
+import { ToolRegistry } from '@orthacms/tools-server';
+import type { ToolDefinition, ToolProvider } from '@orthacms/tools-server';
 import { LocaleRegistryService } from '../locales/services/locale-registry.service';
 import { LocaleGroupService } from '../content/services/locale-group.service';
 

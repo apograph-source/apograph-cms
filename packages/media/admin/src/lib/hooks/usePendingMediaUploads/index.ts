@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { useQueryClient } from '@tanstack/react-query';
-import { toast } from '@ortha/design-system';
-import { useCurrentWorkspace } from '@ortha/workspaces-admin';
-import { mediaValueIds, toMediaValueRef } from '@ortha/content-domain';
-import type { EntryPresave } from '@ortha/content-admin';
+import { toast } from '@orthacms/design-system';
+import { useCurrentWorkspace } from '@orthacms/workspaces-admin';
+import { mediaValueIds, toMediaValueRef } from '@orthacms/content-domain';
+import type { EntryPresave } from '@orthacms/content-admin';
 import { ROOT_FOLDER_ID, UPLOAD_CONCURRENCY } from '../../constants';
 import { httpMediaGateway } from '../../infrastructure/httpMediaGateway';
 import { mediaKeys } from '../../infrastructure/mediaKeys';

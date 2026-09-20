@@ -5,10 +5,10 @@ import {
     AlertDescription,
     Container,
     Skeleton
-} from '@ortha/design-system';
-import { ApiError, HTTP_STATUS, useDocumentTitle } from '@ortha/utils-admin';
-import { useHasPermission } from '@ortha/identity-admin';
-import { PageTopBar, type PageTopBarCrumb } from '@ortha/shell-admin';
+} from '@orthacms/design-system';
+import { ApiError, HTTP_STATUS, useDocumentTitle } from '@orthacms/utils-admin';
+import { useHasPermission } from '@orthacms/identity-admin';
+import { PageTopBar, type PageTopBarCrumb } from '@orthacms/shell-admin';
 import { Users } from 'lucide-react';
 import { useUserDetail } from '../../../application/useUserDetail';
 import type { UserDetailContext } from '../../userDetailContext';

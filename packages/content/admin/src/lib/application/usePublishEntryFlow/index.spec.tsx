@@ -41,7 +41,7 @@ vi.mock('../useEntryStatusActions', () => ({
 vi.mock('../refreshEntryCaches', () => ({
     refreshEntryCaches: () => Promise.resolve()
 }));
-vi.mock('@ortha/workspaces-admin', () => ({
+vi.mock('@orthacms/workspaces-admin', () => ({
     useCurrentWorkspace: () => ({ id: 'ws-1', name: 'Docs' })
 }));
 

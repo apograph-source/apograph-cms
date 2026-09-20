@@ -1,4 +1,4 @@
-/** Public API of @ortha/transfer-admin. */
+/** Public API of @orthacms/transfer-admin. */
 
 export { transferAdminPlugin } from './lib/utils/transferAdminPlugin';
 

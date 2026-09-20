@@ -1,5 +1,5 @@
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
-import { useCurrentWorkspace } from '@ortha/workspaces-admin';
+import { useCurrentWorkspace } from '@orthacms/workspaces-admin';
 import type { RelationFieldView } from '../../domain/types/contentType';
 import {
     entryRelationsKey,

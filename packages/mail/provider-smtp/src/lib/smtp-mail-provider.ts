@@ -4,7 +4,7 @@ import {
     type MailMessage,
     type MailProvider,
     type MailReceipt
-} from '@ortha/mail-domain';
+} from '@orthacms/mail-domain';
 import { describeSmtpError, isPermanentSmtpError } from './smtp-error';
 
 /** What this deployment's SMTP relay needs to be reached. */

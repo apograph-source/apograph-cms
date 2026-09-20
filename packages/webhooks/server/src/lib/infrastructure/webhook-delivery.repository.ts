@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { InjectDatabase, type Database } from '@ortha/database';
-import type { DeliveryStatus } from '@ortha/webhooks-domain';
+import { InjectDatabase, type Database } from '@orthacms/database';
+import type { DeliveryStatus } from '@orthacms/webhooks-domain';
 import {
     and,
     count,

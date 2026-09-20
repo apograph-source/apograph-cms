@@ -4,7 +4,7 @@ import {
     getPool,
     OutboxWriter,
     UnitOfWork
-} from '@ortha/database';
+} from '@orthacms/database';
 import {
     closeTestApp,
     createTestApp,

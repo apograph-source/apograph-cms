@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { PanelRightClose } from 'lucide-react';
-import { Button, cn, useIsMobile } from '@ortha/design-system';
+import { Button, cn, useIsMobile } from '@orthacms/design-system';
 import {
     RIGHT_PANEL_ID,
     usePageChromeHosts,

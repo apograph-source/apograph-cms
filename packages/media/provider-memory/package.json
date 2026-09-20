@@ -1,5 +1,5 @@
 {
-    "name": "@ortha/media-provider-memory",
+    "name": "@orthacms/media-provider-memory",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -16,9 +16,9 @@
         "src"
     ],
     "dependencies": {
-        "@ortha/media-domain": "*"
+        "@orthacms/media-domain": "*"
     },
     "devDependencies": {
-        "@ortha/media-provider-testkit": "*"
+        "@orthacms/media-provider-testkit": "*"
     }
 }

@@ -1,8 +1,8 @@
 /** Media — the storage backend, plus the download and upload ceilings. */
-import type { MediaPluginConfig } from '@ortha/media-server';
-import type { LocalStorageConfig } from '@ortha/media-provider-local';
+import type { MediaPluginConfig } from '@orthacms/media-server';
+import type { LocalStorageConfig } from '@orthacms/media-provider-local';
 
-import { readEnv, readPositiveInt } from '@ortha/utils-server';
+import { readEnv, readPositiveInt } from '@orthacms/utils-server';
 
 /**
  * Media settings, plus the connection settings for the one storage backend this

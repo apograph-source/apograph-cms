@@ -1,5 +1,5 @@
 import { useId } from 'react';
-import { Label, RadioGroupItem } from '@ortha/design-system';
+import { Label, RadioGroupItem } from '@orthacms/design-system';
 import type { ViewVisibility } from '../../../../../domain/types/savedView';
 
 /** Props for {@link VisibilityChoice}. */

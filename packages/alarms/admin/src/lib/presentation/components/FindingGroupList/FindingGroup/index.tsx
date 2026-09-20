@@ -10,7 +10,7 @@ import {
     Skeleton,
     SkeletonRegion,
     Spinner
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import { ChevronRight, RefreshCw } from 'lucide-react';
 import { useAlarmFindings } from '../../../../application/useAlarmFindings';
 import type { AlarmRule } from '../../../../types/alarm';

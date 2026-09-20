@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { and, count, eq, sql } from 'drizzle-orm';
-import { UnitOfWork } from '@ortha/database';
-import { roles, users } from '@ortha/identity-server';
+import { UnitOfWork } from '@orthacms/database';
+import { roles, users } from '@orthacms/identity-server';
 import { Member } from '../../domain/member';
 import type { MemberId } from '../../domain/value-objects/member-id';
 import type { MemberRepository } from '../../domain/member.repository';
@@ -12,7 +12,7 @@ import { lockActiveAdmins } from './member-lock';
 
 /**
  * Drizzle-backed {@link MemberRepository} over identity's `users`/`roles`
- * tables (owned and migrated by `@ortha/identity-server`). Runs every
+ * tables (owned and migrated by `@orthacms/identity-server`). Runs every
  * statement through {@link UnitOfWork.current}, so it transparently joins the
  * use case's transaction.
  *

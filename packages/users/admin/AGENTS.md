@@ -1,4 +1,4 @@
-# @ortha/users-admin
+# @orthacms/users-admin
 
 The members **admin plugin**: the **Members** page at `/users`, the **Invite
 member** page at `/users/invite`, the **user detail** page at `/users/:id`, and
@@ -95,7 +95,7 @@ tab bar (design-system `TabNav`) above the active tab. Seven tab pages:
 **General** (edit name), **Role** (`RolePicker` +
 confirm), **Workspaces** (`WorkspaceMembershipCard` + `AddToWorkspacesDialog`),
 **Sessions** (`SessionCard` + revoke), **Activity** (reuses
-`@ortha/activity-admin`'s `useActivityLog`, pinned to `subjectId`),
+`@orthacms/activity-admin`'s `useActivityLog`, pinned to `subjectId`),
 **Access** (suspend/reactivate **plus the password-reset link**), and
 **Preferences** (`UserPreferencesPage` —
 the colour-theme picker Light/Dark/System over `/api/preferences`, applied
@@ -210,7 +210,7 @@ and points at identity's `/identity/reset-password` route.
   user), never `apiClient` directly; wire→view mapping lives in
   `infrastructure/memberMapper`. Presentation-only member initials/avatar colors
   come from the shared `initialsOf`/`asAvatarColor`/`avatarColorForId` in
-  `@ortha/utils-admin` (no local copies).
+  `@orthacms/utils-admin` (no local copies).
 - Co-located `defineMessages` (ids `users.<area>.<key>`); `type` over
   `interface`; design-system primitives only; a11y per the `accessibility` skill.
 
@@ -219,12 +219,12 @@ and points at identity's `/identity/reset-password` route.
 Component *behaviour* lives in `apps/admin-e2e`, which drives a real browser —
 `src/users/` covers the roster, the wizard, the detail tabs, the destructive-action
 confirmations and the Role tab's guardrails. The package's own `vitest` specs
-(`npx nx test @ortha/users-admin`) hold only what a browser can't reach: the
+(`npx nx test @orthacms/users-admin`) hold only what a browser can't reach: the
 mapper's coercion rules, the `MemberEntity` guardrail matrix, and the query-key
 scoping — each needs inputs the API won't produce on demand (a custom role key, a
 member who is both you and the last admin).
 
 ## Commands
 
-- `npx nx typecheck @ortha/users-admin` / `npx nx lint @ortha/users-admin`
-- `npx nx test @ortha/users-admin` — the unit specs above
+- `npx nx typecheck @orthacms/users-admin` / `npx nx lint @orthacms/users-admin`
+- `npx nx test @orthacms/users-admin` — the unit specs above

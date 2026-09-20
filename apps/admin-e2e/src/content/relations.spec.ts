@@ -19,7 +19,7 @@ import { expectNoA11yViolations } from '../support/a11y';
 
 /**
  * The relation picker in the entry editor's Relations tab (from
- * `@ortha/content-admin`): assigning single + many relations by **title**,
+ * `@orthacms/content-admin`): assigning single + many relations by **title**,
  * searching and lazily scrolling candidates, the query-builder filter drawer,
  * removing links, and accessibility. The schema **and** the candidate rows are
  * mocked at the network layer — candidates come from `GET /api/content/:type`

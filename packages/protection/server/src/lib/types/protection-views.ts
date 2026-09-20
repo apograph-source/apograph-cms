@@ -1,4 +1,4 @@
-import type { ProtectionRule } from '@ortha/protection-domain';
+import type { ProtectionRule } from '@orthacms/protection-domain';
 
 /**
  * One rule as the settings tab reads it.

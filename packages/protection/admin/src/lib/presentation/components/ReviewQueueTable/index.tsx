@@ -7,7 +7,7 @@ import {
     TableHead,
     TableHeader,
     TableRow
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import type { ReviewQueueItem } from '../../../domain/types';
 import { ReviewerLabel } from '../ReviewerLabel';
 import { RequestAge } from '../RequestAge';

@@ -75,7 +75,7 @@ describe('the committed drizzle configs hold no secrets', () => {
     const root = workspaceRoot();
 
     it('declares no credentials in any generation config [cli:I-20]', () => {
-        // Only meaningful inside the monorepo; a published `@ortha/cli` has
+        // Only meaningful inside the monorepo; a published `@orthacms/cli` has
         // no workspace around it to scan.
         if (!root) return;
 

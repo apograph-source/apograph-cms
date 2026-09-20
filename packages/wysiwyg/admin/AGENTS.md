@@ -1,4 +1,4 @@
-# @ortha/wysiwyg-admin
+# @orthacms/wysiwyg-admin
 
 The **rich-text editing plugin** for the Ortha CMS admin UI. It owns how a
 `richtext` field looks and behaves in the entry form: the field shows the
@@ -15,7 +15,7 @@ tab and inside a localized type's Translated/Shared groups — without knowing
 about any of them.
 
 There is **no server counterpart**. `richtext` is an existing content field type
-(`@ortha/content-server`); this plugin changes the _control_, not the
+(`@orthacms/content-server`); this plugin changes the _control_, not the
 schema, the wire format, or the API.
 
 What it stores is the **document** — `editor.getJSON()`, the ProseMirror node
@@ -254,7 +254,7 @@ The editor knows how to **hold** an image or a video: `extensions/media` defines
 a resizable `<img>` and a resizable `<video controls>`, and ships one way to
 name one — paste a URL. It deliberately knows nothing about the Media Library.
 
-Browsing folders, filtering by kind, and uploading are `@ortha/media-admin`'s
+Browsing folders, filtering by kind, and uploading are `@orthacms/media-admin`'s
 whole job. Importing it here would make rich text unusable in an install without
 a media plugin, and pin the editor to one library's shape forever. So the editor
 declares `WYSIWYG_MEDIA_SLOT` and media-admin fills it — the same inversion
@@ -421,9 +421,9 @@ is an ordinary tab stop.
 
 ## Commands
 
-- `npx nx typecheck @ortha/wysiwyg-admin`
-- `npx nx lint @ortha/wysiwyg-admin`
-- `npx nx test @ortha/wysiwyg-admin` — the unit suite (vitest + jsdom). It is
+- `npx nx typecheck @orthacms/wysiwyg-admin`
+- `npx nx lint @orthacms/wysiwyg-admin`
+- `npx nx test @orthacms/wysiwyg-admin` — the unit suite (vitest + jsdom). It is
   deliberately **not** a second editor: what lives here is the pure rules
   (`domain/`), what the schema serializes into stored content, the document
   commands driven headlessly (clear-formatting, callout tones, column

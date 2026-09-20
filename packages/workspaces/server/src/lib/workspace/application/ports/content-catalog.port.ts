@@ -2,7 +2,7 @@ import type { ContentTypeDescriptor } from './content-type-descriptor';
 
 /**
  * The read-side port over the host's content catalogue: every content type a
- * workspace can be granted access to. `@ortha/content-server` implements it
+ * workspace can be granted access to. `@orthacms/content-server` implements it
  * over its code-defined registry and binds it to {@link CONTENT_CATALOG}; the
  * workspaces context injects the **token**, never the content package (which
  * depends back on this package for its route guards), keeping the graph acyclic.

@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { getDatabase } from '@ortha/database';
+import { getDatabase } from '@orthacms/database';
 import { count } from 'drizzle-orm';
 import {
     closeTestApp,

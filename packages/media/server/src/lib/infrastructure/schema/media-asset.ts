@@ -22,7 +22,7 @@ export const mediaKind = pgEnum('media_kind', [
 
 // The timed-text types live in `domain/value-objects/media-track` — the
 // aggregate owns them, this table only stores them — and are re-exported here
-// so `@ortha/media-server`'s public surface and every existing import path
+// so `@orthacms/media-server`'s public surface and every existing import path
 // are unchanged.
 export {
     MEDIA_TRACK_KIND,

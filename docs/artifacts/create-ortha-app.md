@@ -35,7 +35,7 @@ Ortha ships as a set of npm packages rather than as a finished application. That
 ### The problem it solves
 
 - **It removes day zero.** Between "heard about the CMS" and "seeing the admin UI on my laptop" there is one command, three short answers and `npm run dev`. No "first read up on how the composition root works".
-- **It gives a consistent set of versions.** Every `@ortha/*` package is released in lockstep, and the scaffolder writes **its own version** into every dependency in the manifest. The application is consistent by construction rather than because somebody was watching.
+- **It gives a consistent set of versions.** Every `@orthacms/*` package is released in lockstep, and the scaffolder writes **its own version** into every dependency in the manifest. The application is consistent by construction rather than because somebody was watching.
 - **It shows the reference composition.** The generated `plugins.ts` is not an "example" but a working composition root with comments explaining why the order is what it is. It doubles as the tutorial for adding a plugin of your own.
 - **It makes the choice explicit where one exists and removes it where none does.** File storage, the copilot's backends, the content API's protocols, and sign-in through an external provider — four genuine decisions. Everything else, the copilot included, is installed unconditionally, because offering a choice where there is only one right answer means asking the user to guess.
 - **It switches nothing on silently.** Both "expensive" decisions — sending content to an external model and opening a new endpoint — are off by default. The copilot is installed but with `COPILOT_ENABLED=false`; MCP, if chosen, with `MCP_ENABLED=false`.
@@ -63,11 +63,11 @@ The scaffolder never blocks on a question nobody is there to hear: with no TTY, 
 
 > **The key idea**
 >
-> The scaffolder **keeps no version list** and **never asks the registry for `latest`**. It reads its own version from its own `package.json` and substitutes it into every `@ortha/*` dependency as an exact value, with no caret. Two consequences follow: a release requires no template edit, and `npx create-ortha-app@0.3.0` reproducibly generates a 0.3.0 application rather than "whatever has shipped since".
+> The scaffolder **keeps no version list** and **never asks the registry for `latest`**. It reads its own version from its own `package.json` and substitutes it into every `@orthacms/*` dependency as an exact value, with no caret. Two consequences follow: a release requires no template edit, and `npx create-ortha-app@0.3.0` reproducibly generates a 0.3.0 application rather than "whatever has shipped since".
 
 ## 02. Its place in the system, and why the package is unscoped
 
-The monorepo has **60** publishable packages. Fifty-nine of them are `@ortha/*`. The sixtieth is `create-ortha-app`, the only unscoped one.
+The monorepo has **60** publishable packages. Fifty-nine of them are `@orthacms/*`. The sixtieth is `create-ortha-app`, the only unscoped one.
 
 ### Why the name has no scope
 
@@ -78,23 +78,23 @@ npx create-ortha-app my-cms
 npm create ortha-app my-cms
 ```
 
-`npm create <name>` expands into `npx create-<name>`, so the package name has to begin with `create-` and live in the root namespace. A package called `@ortha/create-app` would be reachable only as `npm create @ortha/app` — a form nobody types.
+`npm create <name>` expands into `npx create-<name>`, so the package name has to begin with `create-` and live in the root namespace. A package called `@orthacms/create-app` would be reachable only as `npm create @orthacms/app` — a form nobody types.
 
 The decision has one price, and it is visible in `nx.json`: the release project list cannot simply be a glob.
 
 ```
 "release": {
     "projects": [
-        "@ortha/*",
+        "@orthacms/*",
         "create-ortha-app",
-        "!@ortha/nx",
-        "!@ortha/copilot-provider-fake"
+        "!@orthacms/nx",
+        "!@orthacms/copilot-provider-fake"
     ],
     "projectsRelationship": "fixed"
 }
 ```
 
-`projectsRelationship: "fixed"` is the lockstep: every listed project shares one version and one tag. `@ortha/nx` (the internal Nx plugin) and `@ortha/copilot-provider-fake` (a private test fixture) are excluded explicitly.
+`projectsRelationship: "fixed"` is the lockstep: every listed project shares one version and one tag. `@orthacms/nx` (the internal Nx plugin) and `@orthacms/copilot-provider-fake` (a private test fixture) are excluded explicitly.
 
 ### The only package that declares no runtime dependencies
 
@@ -104,8 +104,8 @@ In its `package.json` the `dependencies` field is empty, deliberately: `npx` dow
 
 | Neighbour              | Relationship                                                                                                                                                                                                                                                                                                                  |
 | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| @ortha/cli          | The only `devDependency` the scaffolder writes into an application. The `dev/build/start/migrate/generate/studio` scripts are the `ortha` command. Its `LAYOUT` constants describe exactly the layout the template writes: `apps/server/tsconfig.json`, `apps/admin/vite.config.mts`, `dist/server/src/main.js`, `dist/admin` |
-| @ortha/nx           | Never reaches an application: the migration and release targets are the monorepo's business, and a generated application gets them from the CLI                                                                                                                                                                               |
+| @orthacms/cli          | The only `devDependency` the scaffolder writes into an application. The `dev/build/start/migrate/generate/studio` scripts are the `ortha` command. Its `LAYOUT` constants describe exactly the layout the template writes: `apps/server/tsconfig.json`, `apps/admin/vite.config.mts`, `dist/server/src/main.js`, `dist/admin` |
+| @orthacms/nx           | Never reaches an application: the migration and release targets are the monorepo's business, and a generated application gets them from the CLI                                                                                                                                                                               |
 | tools/release/pack.mjs | Copies the `templates/` directory into staging as is and adds it to `files` — the same way it handles plugins' `migrations/` directories. It also rewrites `bin` from the source file to the compiled one                                                                                                                     |
 | packages/\*/…          | Every publishable package must be classified in `src/lib/features.ts` — see section 4                                                                                                                                                                                                                                         |
 
@@ -115,7 +115,7 @@ The files under `templates/default` have the shape of an application: their own 
 
 | Where                       | What would happen without it                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| .nxignore                   | The most expensive one. Nx walks every directory; `@ortha/nx` would infer a `db:migrate` target onto a directory with no project name, and **the project graph would stop building entirely** — meaning every `nx` command in the repository would die. `.nxignore` was chosen rather than an `exclude` on our own plugin: the same problem afflicts any inference plugin — `@nx/js/typescript`, say, would infer `typecheck` from the template tsconfigs |
+| .nxignore                   | The most expensive one. Nx walks every directory; `@orthacms/nx` would infer a `db:migrate` target onto a directory with no project name, and **the project graph would stop building entirely** — meaning every `nx` command in the repository would die. `.nxignore` was chosen rather than an `exclude` on our own plugin: the same problem afflicts any inference plugin — `@nx/js/typescript`, say, would infer `typecheck` from the template tsconfigs |
 | tsconfig.lib.json → exclude | `tsc --build` would compile the application's files against the monorepo's "resolve from source" setting                                                                                                                                                                                                                                                                                                                                                     |
 | eslint.config.mjs → ignores | The same for linting                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | .prettierignore             | The template's JSON files hold tokens like `__APP_NAME__`; formatting them is meaningless                                                                                                                                                                                                                                                                                                                                                                    |
@@ -158,7 +158,7 @@ The media plugin always works; the only question is which adapter stands behind 
 
 #### What changes in the generated application
 
-1. **The manifest.** Exactly one `@ortha/media-provider-*` appears in `dependencies`.
+1. **The manifest.** Exactly one `@orthacms/media-provider-*` appears in `dependencies`.
    _the other four are not installed at all_
 2. **The factory import** in `apps/server/src/plugins.ts`: one `createLocalStorageProvider` / `createS3StorageProvider` / …
 3. **One expression inside `MediaServerPlugin({ … })`.** In the template that is five mutually exclusive `ortha:if` blocks around the `provider` field; in the generated file one line remains. The comment beside it says it plainly: changing the backend means changing this expression.
@@ -306,7 +306,7 @@ Flags are read in two forms — `--name=value` and `--name value`. The value `no
 
 ## 04. Package classification in features.ts
 
-The file `src/lib/features.ts` calls itself, in its own header, **the contract between the release and the scaffolder**. Every publishable `@ortha/*` package is accounted for here exactly once, and a test fails the build when it is not.
+The file `src/lib/features.ts` calls itself, in its own header, **the contract between the release and the scaffolder**. Every publishable `@orthacms/*` package is accounted for here exactly once, and a test fails the build when it is not.
 
 ### Four buckets, and no third option
 
@@ -317,7 +317,7 @@ The file `src/lib/features.ts` calls itself, in its own header, **the contract b
 | Feature.packages    | Installed when the corresponding capability is chosen                    | 12           |
 | TRANSITIVE_PACKAGES | An internal detail of another package; deliberately not declared         | 2            |
 
-That is **59** in total — exactly the number of `@ortha/*` packages the monorepo publishes. The sixtieth publishable package is `create-ortha-app` itself, and it does not classify itself.
+That is **59** in total — exactly the number of `@orthacms/*` packages the monorepo publishes. The sixtieth publishable package is `create-ortha-app` itself, and it does not classify itself.
 
 ### The mechanism that forces a decision
 
@@ -335,11 +335,11 @@ The guard's value lies in what does _not_ happen without it. Without it the temp
 
 #### How the check itself works
 
-1. **Enumerating reality.** `publishedPackages()` walks `packages/*` and `packages/*/*`, reads every `package.json` and takes the names beginning with `@ortha/` and not marked `private`. The source of truth is the disk, not a list.
+1. **Enumerating reality.** `publishedPackages()` walks `packages/*` and `packages/*/*`, reads every `package.json` and takes the names beginning with `@orthacms/` and not marked `private`. The source of truth is the disk, not a list.
    _a directory with no manifest is silently skipped_
 2. **Enumerating intent.** The `classified` set is the union of `CORE_PACKAGES`, `CORE_DEV_PACKAGES`, `TRANSITIVE_PACKAGES` and every `Feature.packages`.
 3. **Every package is classified.** `it.each(publishedPackages())('%s is classified')` — one test per package, so the report shows _which_ package was forgotten. The comment says outright what to do.
-4. **Nothing extra.** The reverse check: the classification holds no name absent from the disk (the exception is `@ortha/cli`, which reaches an application as a dev dependency).
+4. **Nothing extra.** The reverse check: the classification holds no name absent from the disk (the exception is `@orthacms/cli`, which reaches an application as a dev dependency).
 5. **No package is in two buckets at once.** The concatenation's length is compared against the set's size.
 6. **The list of "what an application does not get by default" is pinned in full.** A separate test compares the difference between published and installed against an explicit list — so "what does choosing nothing cost me?" has a written answer that cannot be changed silently.
 
@@ -351,7 +351,7 @@ The guard's value lies in what does _not_ happen without it. Without it the temp
 
 Built from `features.ts` verbatim. The "in the default application" column is the answer for `npx create-ortha-app my-cms --yes`.
 
-| Package (`@ortha/`…)    | Bucket                                | What it is                                                                                                                                            | By default                          |
+| Package (`@orthacms/`…)    | Bucket                                | What it is                                                                                                                                            | By default                          |
 | -------------------------- | ------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
 | activity-admin             | CORE_PACKAGES                         | The activity log screen                                                                                                                               | yes                                 |
 | activity-server            | CORE_PACKAGES                         | The activity log: the outbox subscriber and its table                                                                                                 | yes                                 |
@@ -435,7 +435,7 @@ Exactly **eleven** packages, and the list is pinned in full by a test: `content-
 
 ```
 --yes  →  44 (core) + 1 (media-provider-local)  = 45 in dependencies
-       →  1 (@ortha/cli)                      =  1 in devDependencies
+       →  1 (@orthacms/cli)                      =  1 in devDependencies
 46 @ortha packages in total — exactly the number the wizard's closing frame prints
 ```
 
@@ -466,11 +466,11 @@ my-cms/
     └── admin-e2e/          playwright.config.ts, src/{auth.spec,support/seed}
 ```
 
-**The same four applications the monorepo itself is built from.** Anyone who has read Ortha's source finds the same shape in their own project, and the `LAYOUT` constants in `@ortha/cli` get to describe one tree rather than two.
+**The same four applications the monorepo itself is built from.** Anyone who has read Ortha's source finds the same shape in their own project, and the `LAYOUT` constants in `@orthacms/cli` get to describe one tree rather than two.
 
 > **One package.json, deliberately**
 >
-> Not npm workspaces. Workspaces would let the two halves resolve **different copies** of a shared package, and `pack.mjs` pins internal dependencies for the release — so splitting risks two instances of `@ortha/design-system`: two React contexts and an interface that silently stops talking to itself.
+> Not npm workspaces. Workspaces would let the two halves resolve **different copies** of a shared package, and `pack.mjs` pins internal dependencies for the release — so splitting risks two instances of `@orthacms/design-system`: two React contexts and an interface that silently stops talking to itself.
 
 ### The application's scripts
 
@@ -504,7 +504,7 @@ One process serves both the API and the admin UI from one origin. In the monorep
 
 > **Why @source must be a bare directory**
 >
-> An `@source` with a glob in it still passes through the ignore rules, `node_modules` among them. A pattern such as `@ortha/*/dist/**/*.js` matches nothing, and the output is a stylesheet consisting of one theme block — about 15 kB, with no component utilities. Only a literal directory path registers as an explicit content root that bypasses those rules. The test checks both the exact string and the absence of an asterisk.
+> An `@source` with a glob in it still passes through the ignore rules, `node_modules` among them. A pattern such as `@orthacms/*/dist/**/*.js` matches nothing, and the output is a stylesheet consisting of one theme block — about 15 kB, with no component utilities. Only a literal directory path registers as an explicit content root that bypasses those rules. The test checks both the exact string and the absence of an asterisk.
 
 ### The server's composition root
 
@@ -530,7 +530,7 @@ The rest is ordering for readability: the slots are module-level singletons and 
 
 `apps/server/config/` is that place — one module per plugin, each exporting a builder, with `apps/server/ortha.config.ts` assembling them into the typed literal the host is handed. So the file at the top is the table of contents (what this application runs, in one screen), and the one module that owns a setting is where its derivation is read. Everything downstream receives typed values, so "where did this setting come from" still has exactly one answer.
 
-The readers themselves are **not** written there: `config/` touches `process.env` nowhere and goes through `@ortha/utils-server` instead, so _how_ a value is parsed is decided once for the monorepo and for every generated application at the same time. Four of them carry the reasoning:
+The readers themselves are **not** written there: `config/` touches `process.env` nowhere and goes through `@orthacms/utils-server` instead, so _how_ a value is parsed is decided once for the monorepo and for every generated application at the same time. Four of them carry the reasoning:
 
 - `requireEnv(name)` — fails at load time rather than a few seconds after startup. A missing `DATABASE_URL` resolved to `''` would reach `pg` as "use libpq's defaults", and the first request would fail with a message naming not one unset variable.
 - `readPositiveInt(name, fallback)` — deliberately **not** `Number(x) || fallback`, which is wrong in three directions at once and silent in all of them: `0` is falsy and is replaced by the default, a negative number is truthy and accepted (a negative session TTL issues sessions already expired), and `1e9` parses.
@@ -617,8 +617,8 @@ Three more details: `jest.setup.js` supplies placeholders because the specs impo
 
 This is the flow the guard in section 4 exists for. It always begins with a failing test.
 
-1. **The package is created** in `packages/<group>/<name>` with a manifest named `@ortha/<group>-<name>` and no `"private": true`.
-2. **`npx nx test create-ortha-app` fails.** One named case: `@ortha/<name> is classified`. The comment beside it says what to do.
+1. **The package is created** in `packages/<group>/<name>` with a manifest named `@orthacms/<group>-<name>` and no `"private": true`.
+2. **`npx nx test create-ortha-app` fails.** One named case: `@orthacms/<name> is classified`. The comment beside it says what to do.
    _a package with "private": true is not picked up by the enumeration — privacy is a decision too, just one already made_
 3. **Make the decision.** Three possible answers, exactly one of them right: does _every_ new application get this package; is it installed along with some capability; or is it an internal detail of another package that need not be declared.
 4. **Core.** Add the name to `CORE_PACKAGES`, in alphabetical order. If the package has a plugin that must be registered, add it to `templates/default/apps/server/src/plugins.ts` or `apps/admin/src/plugins.ts` **and to the expected list in the corresponding `plugins.spec.ts`**, or the generated application's tests will stop passing.
@@ -634,7 +634,7 @@ One template serves every combination through three directives — `ortha:if`, `
 
 ```
 // ortha:if copilot-anthropic
-import { createAnthropicProvider } from '@ortha/copilot-provider-anthropic';
+import { createAnthropicProvider } from '@orthacms/copilot-provider-anthropic';
 // ortha:end
 
 # ortha:ifnot graphql
@@ -656,13 +656,13 @@ The mechanism is deliberately line-based rather than an expressive language: tem
 
 ### The mechanism in one paragraph
 
-The scaffolder reads its own version from its own manifest (`ownVersion()`) and substitutes it into every `@ortha/*` dependency of the generated application. Since the release is lockstep, its version **is** the compatible set. Hence `npx create-ortha-app@0.4.0` generates a 0.4.0 application.
+The scaffolder reads its own version from its own manifest (`ownVersion()`) and substitutes it into every `@orthacms/*` dependency of the generated application. Since the release is lockstep, its version **is** the compatible set. Hence `npx create-ortha-app@0.4.0` generates a 0.4.0 application.
 
 ### Three properties that follow
 
 #### An exact pin, no caret
 
-`"@ortha/content-server": "0.4.2"`, not `"^0.4.2"`. A partial update can leave two copies of a shared package in `node_modules`: two instances of a React context, and the admin sidebar silently stops talking to its provider.
+`"@orthacms/content-server": "0.4.2"`, not `"^0.4.2"`. A partial update can leave two copies of a shared package in `node_modules`: two instances of a React context, and the admin sidebar silently stops talking to its provider.
 
 #### Reproducibility
 
@@ -692,16 +692,16 @@ A package's tarball is not its committed manifest. The workspace resolves packag
 
 `npm run release` from a clean copy of `main`: versioning from conventional commits, a `v{version}` tag, publishing and a GitHub Release. The publishes are **throttled and retried** — npm rate-limits an account's writes and several dozen tarballs go out in one run, so they are serialised with a gap and a `429` is backed off rather than failing the release.
 
-For a generated application, updating means raising every `@ortha/*` to one version at once. The README says so outright, and for the same reason: a partial update nests a second copy of a shared package.
+For a generated application, updating means raising every `@orthacms/*` to one version at once. The README says so outright, and for the same reason: a partial update nests a second copy of a shared package.
 
 ## 08. Invariants
 
 Statements that must always hold. Both a review list and a starting set of test assertions.
 
-- **I-01** — Every publishable `@ortha/*` package under `packages/` is classified in `features.ts` **exactly once**: core, dev core, a capability's packages, or transitive. An unclassified package fails a test.
-- **I-02** — The classification holds no name absent from the disk (the one allowed exception is `@ortha/cli`).
-- **I-03** — Every `@ortha/*` dependency of a generated application is pinned to the scaffolder's **exact** version — no caret, no range, no `latest`.
-- **I-04** — No `@ortha/*` version is written down in `features.ts` or in any template file — every one is stamped at render time from the scaffolder's own manifest. `features.ts` holds no version number at all; a template's own third-party dependency ranges are its business.
+- **I-01** — Every publishable `@orthacms/*` package under `packages/` is classified in `features.ts` **exactly once**: core, dev core, a capability's packages, or transitive. An unclassified package fails a test.
+- **I-02** — The classification holds no name absent from the disk (the one allowed exception is `@orthacms/cli`).
+- **I-03** — Every `@orthacms/*` dependency of a generated application is pinned to the scaffolder's **exact** version — no caret, no range, no `latest`.
+- **I-04** — No `@orthacms/*` version is written down in `features.ts` or in any template file — every one is stamped at render time from the scaffolder's own manifest. `features.ts` holds no version number at all; a template's own third-party dependency ranges are its business.
 - **I-05** — A rendered application contains not one `__PLACEHOLDER__` token and not one `ortha:if|ifnot|end` directive.
 - **I-06** — `package.json` never passes through the conditional blocks: its dependency set is assembled in code.
 - **I-07** — An unclosed `ortha:if` and an unpaired `ortha:end` **throw**, naming the file, rather than returning a truncated file.
@@ -770,9 +770,9 @@ The scaffolder is tested in two layers: the package's unit tests (ten spec files
 
 - **Grep for `__[A-Z_]+__` and for `ortha:` across every file** → zero matches for any combination of capabilities.
 - **`.gitignore` exists, `_gitignore` does not, and there is no `*.tmpl`** → and the first contains a `node_modules` line.
-- **`JSON.parse` of the generated `package.json`** → valid for any combination; the dependency keys are sorted; not one caret among the `@ortha/*`.
+- **`JSON.parse` of the generated `package.json`** → valid for any combination; the dependency keys are sorted; not one caret among the `@orthacms/*`.
 - **No whitespace scars** → files where blocks were removed contain no triple blank lines.
-- **`npm install` in the generated directory** → succeeds; `node_modules` holds one copy of `@ortha/design-system`.
+- **`npm install` in the generated directory** → succeeds; `node_modules` holds one copy of `@orthacms/design-system`.
 - **`npm run typecheck`** → both projects are clean for every combination, the two extremes included (nothing optional / everything optional).
 - **`npm test`** → both halves green with no `.env`. They were not until D-07 was fixed (section 11), and what keeps them green now is `composition.spec.ts` rather than this item.
 - **`npm run migrate` on a clean database** → succeeds; a re-run is idempotent.
@@ -796,10 +796,10 @@ The scaffolder is tested in two layers: the package's unit tests (ten spec files
 
 | Area                                                      | Who owns it                    | What the scaffolder does                                                                                      |
 | --------------------------------------------------------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------- |
-| Building, running and migrating the generated application | `@ortha/cli`                | Writes six scripts and `@ortha/cli` into `devDependencies`; keeps the file layout compatible with `LAYOUT` |
-| The monorepo's migration and release targets              | `@ortha/nx`                 | Nothing; the package never reaches an application                                                             |
+| Building, running and migrating the generated application | `@orthacms/cli`                | Writes six scripts and `@orthacms/cli` into `devDependencies`; keeps the file layout compatible with `LAYOUT` |
+| The monorepo's migration and release targets              | `@orthacms/nx`                 | Nothing; the package never reaches an application                                                             |
 | Version numbers and publishing                            | Nx Release + `tools/release/*` | Only **reads** its own version and stamps it into the dependencies                                            |
-| The admin UI's content, the API and the access rules      | the `@ortha/*` plugins      | Only composes: the plugin list and its order                                                                  |
+| The admin UI's content, the API and the access rules      | the `@orthacms/*` plugins      | Only composes: the plugin list and its order                                                                  |
 | Content types                                             | the application's owner        | Ships not one; leaves a comment with the migration descriptor's exact shape                                   |
 | The values of secrets and keys                            | the operator                   | Writes empty keys with comments; the only generated value is the first administrator's password               |
 | Installing dependencies                                   | npm                            | Runs `npm install` and reports a failure honestly, leaving the files in place                                 |
@@ -823,7 +823,7 @@ Found while checking this dossier against the source. None of it is a product bu
 | ---- | ----------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | D-01 | AGENTS.md (root and package)                                | "The wizard asks **three** questions"; the root file lists them as "the storage adapter, the hosted copilot backends, the content API's protocols"                                                        | **Fixed.** There are now **five** groups in `features.ts` — `MEDIA_PROVIDERS`, `COPILOT_PROVIDERS`, `SSO_PROVIDERS`, `PROTOCOLS`, `MAIL_PROVIDERS` — and both `AGENTS.md` files say five and name all of them, the sign-in question included. It had been described in neither                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | D-02 | create-ortha-app/AGENTS.md, "Feature selection"             | "S3 is in the registry and marked `available: false`, because the package was never released"; "the storage question is skipped while only one adapter is available"; "it will appear when S3 ships"      | All five adapters are marked `available: true`, and `features.spec.ts` holds a test **"offers the S3 adapter, now that it is implemented"**. The `selectable.length > 1` condition holds, so the question **is** asked. The paragraph describes a past state                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-| D-03 | create-ortha-app/AGENTS.md, the bucket table                | "`TRANSITIVE_PACKAGES` — an internal detail of another package; **currently empty**"                                                                                                                      | The bucket holds two packages: `@ortha/media-provider-memory` and `@ortha/media-provider-testkit`, with the reasoning spelled out right in `features.ts`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| D-03 | create-ortha-app/AGENTS.md, the bucket table                | "`TRANSITIVE_PACKAGES` — an internal detail of another package; **currently empty**"                                                                                                                      | The bucket holds two packages: `@orthacms/media-provider-memory` and `@orthacms/media-provider-testkit`, with the reasoning spelled out right in `features.ts`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | D-04 | create-ortha-app/AGENTS.md                                  | "This leaves **exactly five** packages out of the default app, and `features.spec.ts` lists them in full: the two hosted copilot backends, `content-graphql`, `mcp-server` and the unreleased S3 adapter" | The test lists **eleven**: plus the three SSO adapters and plus `media-provider-azure`, `media-provider-gcs`, `media-provider-vercel-blob`; and S3 has shipped                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | D-05 | create-ortha-app/AGENTS.md                                  | "Every question has a flag (`--media`, `--copilot`, `--protocols`)"                                                                                                                                       | **Fixed.** There are five — `--sso` and `--mail` as well — and the sentence names them all; `run.spec.ts` asserts one flag per question against `USAGE`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | D-06 | features.ts, `SSO_PROVIDERS` ↔ the template                | The picker offers three equal options: `sso-oidc`, `sso-github`, `sso-saml`                                                                                                                               | **Fixed.** There were **no** `ortha:if sso-github` / `ortha:if sso-saml` markers in any template file: choosing either added the package to the manifest and changed nothing else — no import, no registration in `plugins.ts`, no type in `ortha.config.ts`, no keys in `.env` — and `USAGE` tacitly acknowledged it by naming only `sso-oidc` in the flag's parentheses. Both are wired now: `config/sso-github.ts`, `config/sso-saml.ts`, their types and registrations in `config/identity.ts`, their builders in `plugins.ts`, and their keys in `.env`. The three share one `ssoProviders` key, one builder and one argument to `IdentityPlugin`, so `resolveFlags` derives a group flag `sso` — `ortha:if` is line-based and cannot say "any of these three". `generated-plugins.spec.ts` runs the rendered builder per provider and `generated-config.spec.ts` executes both new config modules |

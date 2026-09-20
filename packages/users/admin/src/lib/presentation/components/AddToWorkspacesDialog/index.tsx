@@ -13,7 +13,7 @@ import {
     Label,
     Spinner,
     cn
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import { useWorkspaceOptions } from '../../../application/useWorkspaceOptions';
 import { MemberAvatar } from '../MemberAvatar';
 

@@ -6,8 +6,8 @@ import {
     SegmentedControl,
     SegmentedControlItem,
     SidebarGroup
-} from '@ortha/design-system';
-import { useHasPermission } from '@ortha/identity-admin';
+} from '@orthacms/design-system';
+import { useHasPermission } from '@orthacms/identity-admin';
 import { useCopilotAvailable } from '../../application/useCopilotModels';
 import {
     COPILOT_USE,

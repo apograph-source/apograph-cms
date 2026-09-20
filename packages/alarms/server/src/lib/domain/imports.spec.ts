@@ -7,7 +7,7 @@ import { join } from 'node:path';
  * `domain/` layers.
  *
  * `domain/` must import nothing from `@nestjs/*`, `drizzle-orm`,
- * `class-validator`, or `../infrastructure`. The `@ortha/nx` layer-boundary
+ * `class-validator`, or `../infrastructure`. The `@orthacms/nx` layer-boundary
  * lint is not wired up, and the violation is always a one-line convenience — an
  * `@Injectable()` to make `filterTreeSegments` injectable, an `eq()` reached
  * for while writing a guard — that compiles, passes every test, and quietly
@@ -17,7 +17,7 @@ import { join } from 'node:path';
  * **nothing at all** outside itself, which is what lets `filterTreeSegments`
  * and `nextFindingState` be unit-tested against the shapes the query builder
  * actually emits. That is not asserted as a rule — a later import of the shared
- * `@ortha/database` kernel (a framework-free `DomainEvent` contract) would
+ * `@orthacms/database` kernel (a framework-free `DomainEvent` contract) would
  * be legitimate, exactly as it is in `workspaces` — but the four prohibitions
  * below are.
  */

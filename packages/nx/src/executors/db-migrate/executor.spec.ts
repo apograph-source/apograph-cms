@@ -3,7 +3,7 @@ import type { ExecutorContext } from '@nx/devkit';
 const applyPluginMigrations = jest.fn();
 const jitiImport = jest.fn();
 
-jest.mock('@ortha/cli', () => ({
+jest.mock('@orthacms/cli', () => ({
     applyPluginMigrations: (...args: unknown[]) =>
         applyPluginMigrations(...args)
 }));

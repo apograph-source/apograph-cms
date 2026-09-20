@@ -2,7 +2,7 @@
  * Typed configuration for this app.
  *
  * **`config/` is the single place that reads the environment**, and it reads it
- * only through the readers in `@ortha/utils-server` — never `process.env`
+ * only through the readers in `@orthacms/utils-server` — never `process.env`
  * directly. `readEnv` is where "an empty value means the setting is absent" is
  * decided, and `.env` ships keys with nothing on the right-hand side; a raw
  * `process.env['X'] ?? default` skips that decision and lets a blank line win
@@ -18,7 +18,7 @@
  * means editing one builder; adding a plugin means one module and one line here.
  *
  * *How* a value is parsed is decided in neither place: the readers come from
- * `@ortha/utils-server`. Each refuses a value it cannot honour instead of
+ * `@orthacms/utils-server`. Each refuses a value it cannot honour instead of
  * guessing, and the guessing is what makes a misconfigured deployment look
  * configured. Anything conditional is a *value* — a builder returns `undefined`
  * for a backend you did not configure, and `defined(…)` drops the keys that were
@@ -32,16 +32,16 @@ import { join } from 'node:path';
 import type {
     ApiDocsOptions,
     TrustProxySetting
-} from '@ortha/bootstrap-server';
-import type { I18nPluginConfig } from '@ortha/i18n-server';
-import type { SegmentsPluginConfig } from '@ortha/segments-server';
-import type { TransferPluginConfig } from '@ortha/transfer-server';
-import type { WebhooksPluginConfig } from '@ortha/webhooks-server';
+} from '@orthacms/bootstrap-server';
+import type { I18nPluginConfig } from '@orthacms/i18n-server';
+import type { SegmentsPluginConfig } from '@orthacms/segments-server';
+import type { TransferPluginConfig } from '@orthacms/transfer-server';
+import type { WebhooksPluginConfig } from '@orthacms/webhooks-server';
 // ortha:if graphql
-import type { ContentGraphqlPluginConfig } from '@ortha/content-graphql';
+import type { ContentGraphqlPluginConfig } from '@orthacms/content-graphql';
 // ortha:end
 // ortha:if mcp
-import type { McpPluginConfig } from '@ortha/mcp-server';
+import type { McpPluginConfig } from '@orthacms/mcp-server';
 // ortha:end
 import {
     readEnv,
@@ -49,7 +49,7 @@ import {
     readPositiveInt,
     readTrustProxy,
     requireEnv
-} from '@ortha/utils-server';
+} from '@orthacms/utils-server';
 
 import { docsConfig } from './config/docs';
 import { identityConfig, type AppIdentityConfig } from './config/identity';

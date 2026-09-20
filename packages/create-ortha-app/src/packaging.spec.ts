@@ -22,7 +22,7 @@ describe('the templates directory', () => {
     /**
      * `templates/default` is an app, in a workspace that resolves packages from
      * source — so every tool that walks directories has to be told it is data.
-     * Nx is the one that fails hardest: left visible, `@ortha/nx` infers a
+     * Nx is the one that fails hardest: left visible, `@orthacms/nx` infers a
      * `db:migrate` target onto a directory with no project name and **the whole
      * project graph fails to build**, taking every `nx` command in the repo
      * with it. The other three fail quietly instead — `tsc --build` compiling

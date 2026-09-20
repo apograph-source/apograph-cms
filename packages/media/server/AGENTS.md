@@ -1,4 +1,4 @@
-# @ortha/media-server
+# @orthacms/media-server
 
 The **media** bounded context — folders and assets for the Media Library, and
 the provider-agnostic storage seam. It owns its schema (`media_folder`,
@@ -30,11 +30,11 @@ http/            # thin controllers (one per use case) + to-http error mapper
 ## The one hard rule
 
 **`domain/` imports NOTHING from `@nestjs/*`, `drizzle-orm`, `class-validator`,
-or `infrastructure/`.** Only `@ortha/database`'s framework-free
-`createDomainEvent`/`DomainEvent`, `@ortha/media-domain`'s storage port, and
+or `infrastructure/`.** Only `@orthacms/database`'s framework-free
+`createDomainEvent`/`DomainEvent`, `@orthacms/media-domain`'s storage port, and
 node built-ins.
 
-That `@ortha/database` edge is why the aggregates stayed here when the port
+That `@orthacms/database` edge is why the aggregates stayed here when the port
 left: they are framework-free, but they are not _dependency_-free, and an
 adapter that inherited the shared kernel would inherit Drizzle with it.
 
@@ -52,7 +52,7 @@ the rule** — it is how the rule erodes without anything going red.
 
 **One provider per deployment, passed as one object** ([ADR-0012](../../../docs/adr/0012-one-storage-provider-per-deployment.md)).
 
-- **`StorageProvider`** lives in **`@ortha/media-domain`**, not here: a
+- **`StorageProvider`** lives in **`@orthacms/media-domain`**, not here: a
   NestJS-free port — `put` / `get` / `remove`, plus optional `directUrl()` and
   `verify()` — in a package that declares no dependencies of any kind. It moved
   out because an adapter needs one _value_ from it (`ObjectNotFoundError`, since
@@ -61,7 +61,7 @@ the rule** — it is how the rule erodes without anything going red.
   adapter installed NestJS, Drizzle, Express and Sharp. This package re-exports
   every one of those names, so nothing downstream changed.
   Implementations ship as **separate packages**
-  (`@ortha/media-provider-local`, `-s3`) and are constructed at the host's
+  (`@orthacms/media-provider-local`, `-s3`) and are constructed at the host's
   composition root (`apps/server/src/plugins.ts`) — this package never imports a
   concrete backend, and `MediaPluginConfig` names none either (it carries
   `maxUploadBytes` and nothing else; backend settings are the host's, typed by
@@ -84,7 +84,7 @@ the rule** — it is how the rule erodes without anything going red.
   `media_asset` table is _not_ a failure: migrations are a separate step, so a
   fresh database must still boot.
 - **Writing a provider** is one factory function plus one
-  `describeStorageProvider` call from `@ortha/media-provider-testkit`, which
+  `describeStorageProvider` call from `@orthacms/media-provider-testkit`, which
   is where the port's invariants live as a runnable suite. Shipped
   implementations: `-local` (the default install), `-memory` (the e2e harness,
   and offline development), `-s3` (S3-compatible: R2, AWS, MinIO, Spaces, B2,
@@ -307,14 +307,14 @@ carries the **derivative** routes too (`thumbUrl` / `previewUrl`, the same
 editor a thumbnail rather than a full-size original; an asset with no derivative
 (non-image, SVG, tiny) omits them and the admin falls back to `url`. Same open-host
 inversion as i18n binding content's `CONTENT_ENTRY_EXTENSION`: content declares
-the port, media binds it (hence the `@ortha/content-server` dependency; no
+the port, media binds it (hence the `@orthacms/content-server` dependency; no
 cycle — content doesn't depend on media). Both modules are global, so content's
 `EntryWriterService` resolves the binding regardless of registration order.
 
 ## The agent tools (`src/lib/copilot/`)
 
 This package contributes to the shared tool registry
-([`@ortha/tools-server`](../../tools/server/AGENTS.md)). Each binder injects
+([`@orthacms/tools-server`](../../tools/server/AGENTS.md)). Each binder injects
 `ToolRegistry` **`@Optional()`** and registers itself from `onModuleInit`: a
 deployment running neither the copilot nor MCP is normal, and media must boot
 without either.
@@ -508,7 +508,7 @@ MediaServerPlugin({
 ## Migrations
 
 Owns its schema, ships its migrations:
-`npx nx run @ortha/media-server:db:generate --name=<change>` then
+`npx nx run @orthacms/media-server:db:generate --name=<change>` then
 `npx nx run server:db:migrate`.
 
 ## Image derivatives
@@ -539,8 +539,8 @@ variant serving, and the admin side has `media-library.spec.ts` +
 
 ## Commands
 
-- `npx nx typecheck @ortha/media-server` / `npx nx lint @ortha/media-server`
-- `npx nx test @ortha/media-server` — the package's own jest suite. Besides
+- `npx nx typecheck @orthacms/media-server` / `npx nx lint @orthacms/media-server`
+- `npx nx test @orthacms/media-server` — the package's own jest suite. Besides
   the value objects and the framework-free helpers it now carries the checks a
   running server cannot show you: the layer rule above, that `media_asset` has
   no column (and no migration) that could hold a blob, that `STORAGE_PROVIDER`

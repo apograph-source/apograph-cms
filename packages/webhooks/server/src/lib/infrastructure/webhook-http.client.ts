@@ -9,7 +9,7 @@ import {
     isAllowedCustomHeader,
     parseRetryAfter,
     signatureHeader
-} from '@ortha/webhooks-domain';
+} from '@orthacms/webhooks-domain';
 import { Agent, request } from 'undici';
 import { InjectWebhooksConfig } from '../webhooks.tokens';
 import type { ResolvedWebhooksConfig } from '../types/webhooks-config';

@@ -1,5 +1,5 @@
 import { useIntl } from 'react-intl';
-import { cn } from '@ortha/design-system';
+import { cn } from '@orthacms/design-system';
 import type { InsightsWidgetSize } from '../../slots/insightsSlots';
 import type { InsightsBand } from '../../../utils/resolveInsightsLayout';
 import { useInsightsRange } from '../../../hooks/useInsightsRange';

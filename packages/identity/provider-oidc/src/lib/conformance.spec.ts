@@ -3,7 +3,7 @@ import {
     SSO_PROVIDER_CONFORMANCE_CHECKS,
     type SsoProviderConformanceCase,
     type SsoProviderConformanceReport
-} from '@ortha/identity-domain';
+} from '@orthacms/identity-domain';
 import { createOidcProvider } from './oidc-provider';
 import {
     callbackWith,

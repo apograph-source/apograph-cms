@@ -6,7 +6,7 @@
 
 > **Completed by [ADR-0007](0007-one-tool-registry-two-surfaces.md)**: §2's
 > second consumer arrived. The registry moved out of this package into
-> `@ortha/tools-server` (the copilot must not depend on a protocol it does
+> `@orthacms/tools-server` (the copilot must not depend on a protocol it does
 > not speak), and a tool now declares its `surfaces` — because sharing a
 > registry turned out not to mean sharing every tool.
 >
@@ -50,7 +50,7 @@ paths, and two places to add every future capability.
 
 **1. Expose the CMS as an MCP server, as a plugin, over a shared tool registry.**
 
-A new `@ortha/mcp-server` plugin owns the protocol and nothing else: the
+A new `@orthacms/mcp-server` plugin owns the protocol and nothing else: the
 Streamable HTTP endpoint at `POST /api/v1/mcp`, bearer authentication, workspace
 resolution, and JSON-RPC dispatch. It contains no content knowledge.
 

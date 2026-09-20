@@ -1,6 +1,6 @@
 import { defineMessages, useIntl } from 'react-intl';
 import { AlertTriangle } from 'lucide-react';
-import { Button } from '@ortha/design-system';
+import { Button } from '@orthacms/design-system';
 
 /** Intl descriptors for the sidebar's content-type load error, co-located. */
 const messages = defineMessages({

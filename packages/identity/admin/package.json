@@ -1,5 +1,5 @@
 {
-    "name": "@ortha/identity-admin",
+    "name": "@orthacms/identity-admin",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -16,9 +16,9 @@
         "src"
     ],
     "dependencies": {
-        "@ortha/bootstrap-admin": "*",
-        "@ortha/design-system": "*",
-        "@ortha/utils-admin": "*",
+        "@orthacms/bootstrap-admin": "*",
+        "@orthacms/design-system": "*",
+        "@orthacms/utils-admin": "*",
         "@tanstack/react-form": "^1.0.0",
         "@tanstack/react-query": "^5.0.0",
         "react-intl": "^7.0.0",

@@ -14,7 +14,7 @@ export default defineConfig(() => ({
     cacheDir: '../../../node_modules/.vite/packages/api-tokens/admin',
     plugins: [react()],
     test: {
-        name: '@ortha/api-tokens-admin',
+        name: '@orthacms/api-tokens-admin',
         watch: false,
         globals: true,
         environment: 'jsdom',

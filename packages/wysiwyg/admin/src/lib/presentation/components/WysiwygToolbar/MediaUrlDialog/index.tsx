@@ -10,7 +10,7 @@ import {
     DialogTitle,
     Input,
     Label
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import {
     WYSIWYG_MEDIA_KIND,
     type WysiwygMediaKind

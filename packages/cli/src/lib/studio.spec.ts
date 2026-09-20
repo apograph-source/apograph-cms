@@ -86,7 +86,7 @@ describe('runDrizzleKitStudio', () => {
      * The port that used to disappear.
      *
      * `if (options.port)` treated `0` as "not given", so `--port=0` started
-     * Studio on 4983 and said nothing — while `@ortha/nx`'s `db:studio`
+     * Studio on 4983 and said nothing — while `@orthacms/nx`'s `db:studio`
      * executor refused the same input with an explanation, so one flag on one
      * tool meant two different things depending on which half of the workspace
      * you were standing in.

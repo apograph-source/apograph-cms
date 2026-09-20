@@ -1,5 +1,5 @@
-import { toast } from '@ortha/design-system';
-import { ApiError } from '@ortha/utils-admin';
+import { toast } from '@orthacms/design-system';
+import { ApiError } from '@orthacms/utils-admin';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 import type { ReactNode } from 'react';
@@ -19,7 +19,7 @@ vi.mock('../../infrastructure/httpAuthGateway', () => ({
 // two cache writes is the invariant, and a real sweep would erase the evidence.
 vi.mock('../resetSessionCache', () => ({ resetSessionCache: vi.fn() }));
 
-vi.mock('@ortha/design-system', () => ({
+vi.mock('@orthacms/design-system', () => ({
     toast: { error: vi.fn(), success: vi.fn() }
 }));
 

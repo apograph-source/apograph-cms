@@ -12,7 +12,7 @@ import { type ContentLibraryPage } from '../support/pages/ContentLibraryPage';
 import { type TransferPage } from '../support/pages/TransferPage';
 
 /**
- * The export dialog (`@ortha/transfer-admin`), opened from the records
+ * The export dialog (`@orthacms/transfer-admin`), opened from the records
  * selection bar.
  *
  * What the graph walk puts in the file is settled server-side. What is only

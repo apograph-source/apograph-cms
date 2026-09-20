@@ -1,4 +1,4 @@
-import type { ServerPlugin } from '@ortha/bootstrap-server';
+import type { ServerPlugin } from '@orthacms/bootstrap-server';
 import { McpModule } from '../mcp.module';
 import type { McpPluginConfig } from '../types/mcp-config';
 

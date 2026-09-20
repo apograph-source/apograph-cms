@@ -1,5 +1,5 @@
 /**
- * `@ortha/mail-provider-console` — the offline mail adapter.
+ * `@orthacms/mail-provider-console` — the offline mail adapter.
  *
  * Writes every message to the log instead of sending it, so a development
  * install can read an invitation link without a mail server. Installed

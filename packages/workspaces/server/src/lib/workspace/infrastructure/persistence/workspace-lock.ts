@@ -1,5 +1,5 @@
 import { sql } from 'drizzle-orm';
-import type { Database } from '@ortha/database';
+import type { Database } from '@orthacms/database';
 
 /**
  * The minimal Drizzle executor the workspace locks need: the root client or an

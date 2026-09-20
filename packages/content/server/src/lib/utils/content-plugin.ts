@@ -1,4 +1,4 @@
-import type { ServerPlugin } from '@ortha/bootstrap-server';
+import type { ServerPlugin } from '@orthacms/bootstrap-server';
 import { ContentModule } from '../content.module';
 import { describeContentApi } from '../docs/describe-content-api';
 import { describeContentInsightsApi } from '../insights/docs/describe-content-insights-api';

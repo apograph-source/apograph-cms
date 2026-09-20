@@ -50,13 +50,13 @@ tick **dry-run** to rehearse. It needs one repository secret, `NPM_TOKEN`.
 
 |            |                                                                     |
 | ---------- | ------------------------------------------------------------------- |
-| Scope      | every project matching `@ortha/*` except `@ortha/nx`          |
+| Scope      | every project matching `@orthacms/*` except `@orthacms/nx`          |
 | Versioning | **fixed** — all packages move together, always the same version     |
 | Specifier  | conventional commits (`feat:` → minor, `fix:` → patch, `!` → major) |
 | Tag        | `v{version}`                                                        |
 | Changelog  | one workspace-level `CHANGELOG.md`, no per-project files            |
 
-`@ortha/nx` is `private` and stays out: it is workspace tooling, wired
+`@orthacms/nx` is `private` and stays out: it is workspace tooling, wired
 into this repo's `nx.json`, not something a consumer installs.
 
 The apps (`apps/admin`, `apps/server`) are private and never publish. They are
@@ -64,7 +64,7 @@ the reference host, not a distributable.
 
 ### The scaffolder's template needs no version edit
 
-`create-ortha-app` writes every `@ortha/*` dependency as `__ORTHA_VERSION__`
+`create-ortha-app` writes every `@orthacms/*` dependency as `__ORTHA_VERSION__`
 and stamps it with **its own version** at scaffold time, so a release carries
 the generated app forward with nothing to update by hand. There is no list of
 versions in the template to fall behind.
@@ -79,20 +79,20 @@ months later.
 `create-ortha-app` is the one published package **outside** the `@ortha`
 scope — unscoped so `npx create-ortha-app` works — so it is named explicitly in
 `release.projects` and in the `preVersionCommand` rather than being picked up by
-the `@ortha/*` glob. It ships in lockstep for a reason beyond tidiness: it
-stamps its own version into every `@ortha/*` dependency of the app it
+the `@orthacms/*` glob. It ships in lockstep for a reason beyond tidiness: it
+stamps its own version into every `@orthacms/*` dependency of the app it
 generates, so its version _is_ the matching set.
 
 ## How a tarball is built
 
 Workspace packages are consumed **from source** — their `exports` point at
-`./src/index.ts` and `tsconfig.base.json` supplies the `@ortha/source`
+`./src/index.ts` and `tsconfig.base.json` supplies the `@orthacms/source`
 condition (see [AGENTS.md](../AGENTS.md), "How packages resolve"). A consumer
 installing from npm has neither, so the checked-in manifest is not the one
 that ships.
 
 Three inferred targets do the work; all three come from
-[`@ortha/nx`](../packages/nx/AGENTS.md), so a new package gets them by
+[`@orthacms/nx`](../packages/nx/AGENTS.md), so a new package gets them by
 existing.
 
 1. **`build`** — `tsc --build tsconfig.lib.json`, emitting JS and `.d.ts` into
@@ -115,7 +115,7 @@ existing.
     with an error about the command not existing rather than about the file.
 
 3. **`nx-release-publish`** — publishes that staging directory rather than the
-   project root, via `packageRoot`. It runs `@ortha/nx:release-publish`
+   project root, via `packageRoot`. It runs `@orthacms/nx:release-publish`
    rather than the `@nx/js` one, because 37 publishes in a row is more than
    npm will take at full speed — see [Rate limits](#rate-limits) below.
 
@@ -194,12 +194,12 @@ unanswered, stop letting the release be the thing that creates names.
 
 #### Seeding the names ahead of the release
 
-`npm run release:reserve` creates the missing `@ortha/*` names on its own,
+`npm run release:reserve` creates the missing `@orthacms/*` names on its own,
 in batches, so that by the time a release runs every publish is a version bump
 — the case the gap and the backoff above already handle.
 
 ```sh
-npx nx run-many -t build,pack --projects=@ortha/*
+npx nx run-many -t build,pack --projects=@orthacms/*
 npm run release:reserve -- --dry-run        # probe and report, write nothing
 npm run release:reserve -- --limit=20       # create at most 20 names
 ```
@@ -210,7 +210,7 @@ dist-tag. What goes out is a genuine package rather than an empty placeholder,
 which is what an anti-abuse system reads as squatting — the last thing to do
 while rationed. The tag does not keep `latest` off it, though: npm points
 `latest` at a package's first version whatever `--tag` says, so until the real
-release `npm install @ortha/<name>` installs the reserved build. The
+release `npm install @orthacms/<name>` installs the reserved build. The
 reserved version does not disturb
 versioning: `nx release` derives the next one from conventional commits against
 the git tag and never asks the registry.

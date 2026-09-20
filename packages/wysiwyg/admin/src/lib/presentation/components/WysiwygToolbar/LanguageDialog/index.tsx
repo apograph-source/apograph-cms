@@ -1,7 +1,7 @@
 import { useEffect, useId, useState } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import type { Editor } from '@tiptap/react';
-import { isWellFormedLanguageTag } from '@ortha/content-domain';
+import { isWellFormedLanguageTag } from '@orthacms/content-domain';
 import {
     Button,
     Dialog,
@@ -12,7 +12,7 @@ import {
     DialogTitle,
     Input,
     Label
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 
 const messages = defineMessages({
     title: {

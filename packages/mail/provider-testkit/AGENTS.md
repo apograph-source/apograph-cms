@@ -1,9 +1,9 @@
-# @ortha/mail-provider-testkit
+# @orthacms/mail-provider-testkit
 
 Captures messages in memory instead of sending them, and can be told to fail —
 retryably or permanently — so the worker's backoff and its dead-letter path are
 exercisable without a mail server. The counterpart of
-`@ortha/media-provider-testkit`, installed under the same rule as the console
+`@orthacms/media-provider-testkit`, installed under the same rule as the console
 adapter: shipped with every app, offered by no picker, registered by no
 template.
 

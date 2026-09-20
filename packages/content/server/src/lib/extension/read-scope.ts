@@ -4,7 +4,7 @@
  *
  * Content-server declares the port and consults it from `PublicEntriesQuery`
  * and `PublicExpansionQuery`; an implementing plugin
- * (`@ortha/segments-server`, for reader entitlements) registers a scope
+ * (`@orthacms/segments-server`, for reader entitlements) registers a scope
  * through {@link contentReadScopeRegistrar}. Every fragment returned is AND-ed
  * onto the visibility predicate the public read already states, so a scope can
  * only ever *subtract* rows — there is no shape of return value that widens a

@@ -14,8 +14,8 @@ import {
     PermissionsGuard,
     RequirePermissions,
     type PublicUser
-} from '@ortha/identity-server';
-import { CurrentWorkspace, WorkspaceGuard } from '@ortha/workspaces-server';
+} from '@orthacms/identity-server';
+import { CurrentWorkspace, WorkspaceGuard } from '@orthacms/workspaces-server';
 import { UpdateAssetUseCase } from '../../application/use-cases/update-asset.use-case';
 import { AssetViewQuery } from '../../infrastructure/queries/asset-view.query';
 import { UpdateAssetDto } from '../../application/dto/update-asset.dto';

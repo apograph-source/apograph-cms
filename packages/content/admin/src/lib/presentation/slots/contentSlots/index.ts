@@ -1,6 +1,6 @@
 /**
  * The Content Library's **extension slots** — the named seams another admin
- * plugin (e.g. `@ortha/i18n-admin`) contributes UI and behavior into,
+ * plugin (e.g. `@orthacms/i18n-admin`) contributes UI and behavior into,
  * with no coupling beyond these contracts. Mirrors the workspace shell's
  * `WORKSPACE_SIDEBAR_SLOT` idiom: this package declares and renders the
  * slots; contributors register items via their `AdminPlugin.slots`.
@@ -17,8 +17,8 @@
 
 import type { ComponentType, ReactNode } from 'react';
 import type { MessageDescriptor } from 'react-intl';
-import { createSlot } from '@ortha/utils-admin';
-import type { FilterField } from '@ortha/query-builder-admin';
+import { createSlot } from '@orthacms/utils-admin';
+import type { FilterField } from '@orthacms/query-builder-admin';
 import type {
     ContentField,
     ContentTypeDetail,
@@ -318,7 +318,7 @@ export type EntryPublishGuardItem = {
  *
  * Content learns nothing about *what* refused it. It receives a sentence to show
  * and, when offered, a label and a callback — which is what lets
- * `@ortha/protection-server`'s admin half supply an approval rule, its
+ * `@orthacms/protection-server`'s admin half supply an approval rule, its
  * bypass dialog and its audit row without a word of any of it reaching here.
  *
  * **The first refusal wins**, mirroring the server port: later guards are still
@@ -546,7 +546,7 @@ export type EntryMenuItem = {
  * Extra actions in the entry editor's **⋯ menu**, beside the built-in Save /
  * Publish / Delete. Grouped by {@link ENTRY_MENU_GROUP} and rendered by
  * `EntryActions`, which also renders each item's `overlay` outside the menu.
- * `@ortha/i18n-admin` fills it with **Publish all locales** / **Unpublish
+ * `@orthacms/i18n-admin` fills it with **Publish all locales** / **Unpublish
  * all locales**.
  */
 export const ENTRY_MENU_SLOT = createSlot<EntryMenuItem>('content.entry.menu');
@@ -592,7 +592,7 @@ export type EntryPresave = {
      * State this plugin wants stored **alongside** the entry, read just before
      * the write and sent in the save body's `extensions` bag under the returned
      * keys — each of which must be an extension the server has registered
-     * (`@ortha/segments-server` registers `access`).
+     * (`@orthacms/segments-server` registers `access`).
      *
      * This is how a plugin's own state rides the entry's Save rather than a
      * second request of its own, and it is not merely tidier: the server writes
@@ -609,7 +609,7 @@ export type EntryPresave = {
      * Called after the write succeeded — to drop whatever `commit` consumed, and
      * to do the work that needed the saved record. It is **awaited**, still under
      * the busy cover, so a step may finish a write of its own here: that is how
-     * `@ortha/segments-admin` applies an entry's audiences on Save, which is
+     * `@orthacms/segments-admin` applies an entry's audiences on Save, which is
      * impossible from `commit` because a create has no id yet.
      *
      * The entry is already written by the time this runs, so throwing cannot
@@ -687,7 +687,7 @@ export type RevisionExtraItem = {
  * Rows in the entry editor's **revision preview** for state a plugin stores
  * alongside the entry rather than in its values — what content-server's
  * entry-write extensions record in `RevisionSnapshot.extra`.
- * `@ortha/segments-admin` fills it with the entry's audiences, so "what would
+ * `@orthacms/segments-admin` fills it with the entry's audiences, so "what would
  * restoring this version change" includes who could read it.
  *
  * Whether the two sides differ is decided by content (a structural compare of
@@ -818,7 +818,7 @@ export type EntryFieldControlItem = {
  *
  * This is a plain (non-hook) slot, so the render site resolves it with a `find`
  * rather than calling every item: a control is a component, and mounting it is
- * what runs its hooks. `@ortha/wysiwyg-admin` fills it with the TipTap
+ * what runs its hooks. `@orthacms/wysiwyg-admin` fills it with the TipTap
  * editor for `richtext` fields.
  */
 export const ENTRY_FIELD_CONTROL_SLOT = createSlot<EntryFieldControlItem>(
@@ -888,7 +888,7 @@ export type RecordsBulkActionItem = {
  * above the separator, so they never land under the same rule as Delete.
  *
  * The counterpart to {@link ENTRY_MENU_SLOT} for a set of records rather than
- * one — `@ortha/transfer-admin` fills both, so Export reads the same whether
+ * one — `@orthacms/transfer-admin` fills both, so Export reads the same whether
  * you are looking at a record or at a selection of them.
  *
  * **Clear** is deliberately not in this menu: it is the way out of a selection
@@ -951,7 +951,7 @@ export type RecordsMenuItem = {
  * toolbar — the counterpart to {@link ENTRY_MENU_SLOT} one level up.
  *
  * It is a menu rather than a row of buttons because what belongs here is the
- * occasional, whole-collection operation (`@ortha/transfer-admin` puts
+ * occasional, whole-collection operation (`@orthacms/transfer-admin` puts
  * Import in it), and those should not compete for width with the controls
  * people use on every visit — search, columns, filters.
  *

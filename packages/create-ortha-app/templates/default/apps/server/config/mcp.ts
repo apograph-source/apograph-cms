@@ -1,6 +1,6 @@
 // ortha:if mcp
-import type { McpPluginConfig } from '@ortha/mcp-server';
-import { readFlag, readPositiveInt } from '@ortha/utils-server';
+import type { McpPluginConfig } from '@orthacms/mcp-server';
+import { readFlag, readPositiveInt } from '@orthacms/utils-server';
 
 /** The MCP front door — off unless an operator turns it on. */
 export function mcpConfig(): McpPluginConfig {

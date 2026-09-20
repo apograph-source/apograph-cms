@@ -4,8 +4,8 @@ import {
     OP,
     type FilterEnumValue,
     type FilterField
-} from '@ortha/query-builder-admin';
-import { useCurrentWorkspace } from '@ortha/workspaces-admin';
+} from '@orthacms/query-builder-admin';
+import { useCurrentWorkspace } from '@orthacms/workspaces-admin';
 import { useSegments } from './hooks';
 
 const messages = defineMessages({
@@ -39,7 +39,7 @@ const messages = defineMessages({
 const GROUP = [messages.group] as const;
 
 /**
- * The wire names, matching `ACCESS_FILTER_FIELD` in `@ortha/segments-server`.
+ * The wire names, matching `ACCESS_FILTER_FIELD` in `@orthacms/segments-server`.
  * They are the SQL whitelist's keys, so the two sides must agree exactly.
  */
 const FIELD = {

@@ -12,7 +12,7 @@ type FetchInput = Parameters<typeof globalThis.fetch>[0];
 import type {
     SsoAuthorizeRequest,
     SsoCallback
-} from '@ortha/identity-domain';
+} from '@orthacms/identity-domain';
 
 export const ISSUER = 'https://idp.test';
 export const CLIENT_ID = 'ortha-cms';

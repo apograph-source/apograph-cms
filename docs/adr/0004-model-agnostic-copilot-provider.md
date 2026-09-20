@@ -43,7 +43,7 @@ We will treat the model as a **replaceable backend behind a port**, structurally
 identical to media storage.
 
 1. **The core depends on an interface, never a vendor.** `ModelProvider` is
-   declared in `@ortha/copilot-domain` (`stream(request, signal)` yielding
+   declared in `@orthacms/copilot-domain` (`stream(request, signal)` yielding
    text deltas, tool calls and a final usage record). No vendor SDK may be
    imported by `copilot/domain` or `copilot/server` — the same rule that keeps
    Drizzle and Nest out of any `domain/` layer.

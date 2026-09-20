@@ -2,9 +2,9 @@ import { defineMessages, useIntl } from 'react-intl';
 import {
     EntrySidebarSection,
     type EntrySlotContext
-} from '@ortha/content-admin';
-import { useAuth, useHasPermission } from '@ortha/identity-admin';
-import { SkeletonRegion, Skeleton, cn } from '@ortha/design-system';
+} from '@orthacms/content-admin';
+import { useAuth, useHasPermission } from '@orthacms/identity-admin';
+import { SkeletonRegion, Skeleton, cn } from '@orthacms/design-system';
 import { toneOf } from '../../../domain/types';
 import { reviewerRows } from '../../../domain/reviewerRows';
 import { reviewScopeOf, useEntryReview } from '../../../application/hooks';

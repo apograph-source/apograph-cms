@@ -8,7 +8,7 @@ import {
     type SsoProfile,
     type SsoProvider,
     type SsoProviderDescriptor
-} from '@ortha/identity-domain';
+} from '@orthacms/identity-domain';
 import type { FakeSsoProviderConfig, FakeSsoUser } from './config';
 
 /** Default signing value. Nothing secret rides on it — see the config doc. */

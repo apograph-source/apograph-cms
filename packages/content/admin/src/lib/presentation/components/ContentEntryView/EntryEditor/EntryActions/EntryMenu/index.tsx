@@ -9,7 +9,7 @@ import {
     DropdownMenuItem,
     DropdownMenuSeparator,
     DropdownMenuTrigger
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import {
     ENTRY_MENU_GROUP,
     ENTRY_MENU_GROUP_ORDER,

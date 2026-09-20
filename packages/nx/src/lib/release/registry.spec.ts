@@ -19,7 +19,7 @@ function packument(...versions: string[]) {
 }
 
 describe('probeRegistry', () => {
-    const request = { name: '@ortha/media-server', version: '0.3.0' };
+    const request = { name: '@orthacms/media-server', version: '0.3.0' };
 
     it('escapes a scoped name the way npm’s own clients do', async () => {
         fetchMock.mockResolvedValue(packument('0.3.0'));

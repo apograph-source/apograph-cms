@@ -70,11 +70,11 @@ The boundaries matter more than the capabilities here, because they are what exp
 
 > **The key architectural idea**
 >
-> A dashboard is the module that **slides into "knows about everyone" more reliably than any other**. The usual implementation imports content, media, locales, activity and copilot — and becomes a node that breaks on any change anywhere. Here it is done the other way round: the dependency is inverted. Insights declares two slots and imports nothing; it is `content-admin`, `media-admin` and `i18n-admin` that depend on `@ortha/insights-admin`, not the reverse. One command checks it: the package's `package.json` lists no feature package among its dependencies — only `bootstrap-admin`, `design-system`, `utils-admin`, `workspaces-admin` and `identity-admin`.
+> A dashboard is the module that **slides into "knows about everyone" more reliably than any other**. The usual implementation imports content, media, locales, activity and copilot — and becomes a node that breaks on any change anywhere. Here it is done the other way round: the dependency is inverted. Insights declares two slots and imports nothing; it is `content-admin`, `media-admin` and `i18n-admin` that depend on `@orthacms/insights-admin`, not the reverse. One command checks it: the package's `package.json` lists no feature package among its dependencies — only `bootstrap-admin`, `design-system`, `utils-admin`, `workspaces-admin` and `identity-admin`.
 
 ## 02. Its place in the system and the "frame only" principle
 
-There is exactly one package: `packages/insights/admin` → `@ortha/insights-admin`. There is no server half — there is nothing to compute, since all the arithmetic lives with the owners of the data. The plugin lives **strictly inside a workspace**: not one top-level route, not one entry in the global navigation.
+There is exactly one package: `packages/insights/admin` → `@orthacms/insights-admin`. There is no server half — there is nothing to compute, since all the arithmetic lives with the owners of the data. The plugin lives **strictly inside a workspace**: not one top-level route, not one entry in the global navigation.
 
 | What it contributes            | Where                 | Value                                                                                 |
 | ------------------------------ | --------------------- | ------------------------------------------------------------------------------------- |
@@ -119,7 +119,7 @@ Every rule that could _silently lose_ somebody else's card is gathered into one 
 
 ## 03. The widget slot contract
 
-Two extension points, both declared with `createSlot` from `@ortha/utils-admin`:
+Two extension points, both declared with `createSlot` from `@orthacms/utils-admin`:
 
 - `INSIGHTS_WIDGET_SLOT` — `createSlot<InsightsWidget>('insights.widget')`
 - `INSIGHTS_SECTION_SLOT` — `createSlot<InsightsSection>('insights.section')`
@@ -178,11 +178,11 @@ A heatmap or a list of five bars squeezed into a third of a phone screen stops b
 
 ### What a contribution looks like
 
-From the owning plugin's factory; it needs a dependency on `@ortha/insights-admin` — the same direction as for any slot filler:
+From the owning plugin's factory; it needs a dependency on `@orthacms/insights-admin` — the same direction as for any slot filler:
 
 | Step | What the contributor does                                                                                                                     |
 | ---- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1    | Adds `@ortha/insights-admin` to its own `package.json` dependencies                                                                        |
+| 1    | Adds `@orthacms/insights-admin` to its own `package.json` dependencies                                                                        |
 | 2    | Writes a component that internally renders a `<WidgetCard>` and one of the primitives                                                         |
 | 3    | Sets up a data hook: its own `queryKey` with `workspace.id` (and `days`, if the widget depends on the period), `retry: 1`, `enabled: canRead` |
 | 4    | Contributes an item into `INSIGHTS_WIDGET_SLOT` from its own `slots: [...]` factory, naming `section: INSIGHTS_SECTION_IDS.…`                 |
@@ -304,7 +304,7 @@ None of them belongs to Insights — they all live in the owners' server package
 
 ### 6.3 A new widget appearing in the system
 
-1. **The owning package adds a dependency** on `@ortha/insights-admin`.
+1. **The owning package adds a dependency** on `@orthacms/insights-admin`.
 2. **Writes a component** rendering a `WidgetCard` and one of the primitives; passes the four state flags of its own query into the card.
 3. **Contributes an item into `INSIGHTS_WIDGET_SLOT`** from its own factory, naming the section through `INSIGHTS_SECTION_IDS`.
 4. **The host picks the contribution up** at the next start. The plugin's registration order does not matter.
@@ -612,6 +612,6 @@ Found while checking this dossier against the source. Not product bugs in themse
 
 ---
 
-**A dossier of the `@ortha/insights-admin` package.** Written in the same frame as the `identity` artifact: business description → place in the system → the extension contract → the registry → routes and screens → flows → states → the range → charts → accessibility → invariants → checklist → boundaries → discrepancies. The central section here is the **widget registry**: no such list exists in the code, and cannot, because every line of it is declared in somebody else's package.
+**A dossier of the `@orthacms/insights-admin` package.** Written in the same frame as the `identity` artifact: business description → place in the system → the extension contract → the registry → routes and screens → flows → states → the range → charts → accessibility → invariants → checklist → boundaries → discrepancies. The central section here is the **widget registry**: no such list exists in the code, and cannot, because every line of it is declared in somebody else's package.
 
 The source is the source code: all of `packages/insights/admin/**`, the plugin factories of `content-admin`, `media-admin` and `i18n-admin`, their hooks and data gateways, the `/api/insights/*` controllers in `content-server`, `media-server` and `i18n-server`, the host's plugin composition and the e2e suites. The `AGENTS.md` files were used as a skeleton, but every claim was checked against the implementation — discrepancies went into section 14.

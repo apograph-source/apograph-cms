@@ -8,7 +8,7 @@
  * {@link describeWebhooksApi}.
  *
  * The vocabularies (`DELIVERY_STATUSES`, the event catalogue) are **imported**
- * from `@ortha/webhooks-domain` rather than restated: an enum in the
+ * from `@orthacms/webhooks-domain` rather than restated: an enum in the
  * reference that drifts from the one the server validates against is worse
  * than a bare string, because it looks authoritative.
  */
@@ -17,7 +17,7 @@ import {
     DELIVERY_STATUSES,
     WEBHOOK_EVENT_GROUPS,
     WEBHOOK_EVENT_KINDS
-} from '@ortha/webhooks-domain';
+} from '@orthacms/webhooks-domain';
 
 /** A JSON Schema fragment, as it appears in the OpenAPI document. */
 export type OpenApiSchema = Record<string, unknown>;

@@ -1,7 +1,7 @@
 import { join } from 'node:path';
 import type { ExecutorContext } from '@nx/devkit';
-import type { ServerPlugin } from '@ortha/bootstrap-server';
-import { applyPluginMigrations } from '@ortha/cli';
+import type { ServerPlugin } from '@orthacms/bootstrap-server';
+import { applyPluginMigrations } from '@orthacms/cli';
 import { createTsJiti } from '../../lib/jiti';
 
 /** Options for the `db-migrate` executor. */

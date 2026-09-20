@@ -9,13 +9,13 @@ import {
     TopBar,
     TopBarActions,
     TopBarIcon
-} from '@ortha/design-system';
-import { useCurrentWorkspace } from '@ortha/workspaces-admin';
+} from '@orthacms/design-system';
+import { useCurrentWorkspace } from '@orthacms/workspaces-admin';
 import { InsightsRangeProvider } from '../../../hooks/useInsightsRange';
 import { useInsightsLayout } from '../../../hooks/useInsightsLayout';
 import { InsightsRangePicker } from '../../components/InsightsRangePicker';
 import { InsightsSectionBand } from '../../components/InsightsSectionBand';
-import { useDocumentTitle } from '@ortha/utils-admin';
+import { useDocumentTitle } from '@orthacms/utils-admin';
 
 /** Intl descriptors for the insights page, co-located here. */
 const messages = defineMessages({

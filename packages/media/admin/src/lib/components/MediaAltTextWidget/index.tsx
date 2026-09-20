@@ -4,7 +4,7 @@ import {
     WidgetCard,
     WidgetChip,
     toneBackground
-} from '@ortha/insights-admin';
+} from '@orthacms/insights-admin';
 import { useMediaAltCoverage } from '../../hooks/useMediaInsights';
 
 /** Intl descriptors for the alt-text widget, co-located here. */

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { InjectDatabase, UnitOfWork, type Database } from '@ortha/database';
-import type { MailKind } from '@ortha/mail-domain';
+import { InjectDatabase, UnitOfWork, type Database } from '@orthacms/database';
+import type { MailKind } from '@orthacms/mail-domain';
 import { and, desc, eq, gt, inArray, isNull, lte, sql } from 'drizzle-orm';
 import { mailDeliveries } from './schema/mail-deliveries';
 

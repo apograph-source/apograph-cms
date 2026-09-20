@@ -1,7 +1,7 @@
 /** The copilot — its kill switch, its run ceilings, and its model backends. */
-import type { CopilotPluginConfig } from '@ortha/copilot-server';
-import type { AnthropicProviderConfig } from '@ortha/copilot-provider-anthropic';
-import type { OpenAiProviderConfig } from '@ortha/copilot-provider-openai';
+import type { CopilotPluginConfig } from '@orthacms/copilot-server';
+import type { AnthropicProviderConfig } from '@orthacms/copilot-provider-anthropic';
+import type { OpenAiProviderConfig } from '@orthacms/copilot-provider-openai';
 
 import {
     defined,
@@ -11,7 +11,7 @@ import {
     readOptionalPositiveInt,
     readPositiveInt,
     when
-} from '@ortha/utils-server';
+} from '@orthacms/utils-server';
 
 /**
  * Copilot settings, plus the connection settings for the model backends this

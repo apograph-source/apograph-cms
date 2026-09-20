@@ -342,7 +342,7 @@ describe('copilot provider registration', () => {
  * not an edge case — it is what following the instructions produces. `??` falls
  * back on `undefined`, not on `''`, so every `process.env['X'] ?? default` in
  * this folder handed the blank line the win over the default it was meant to
- * fall back to. The readers in `@ortha/utils-server` decide "empty means not
+ * fall back to. The readers in `@orthacms/utils-server` decide "empty means not
  * configured" once; these assert each site actually goes through them.
  *
  * Each case sets the *other* variables it needs, because `loadConfig` layers

@@ -9,7 +9,7 @@ import {
     Skeleton,
     TopBar,
     TopBarIcon
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 
 /** Intl descriptors for the insights skeleton, co-located here. */
 const messages = defineMessages({

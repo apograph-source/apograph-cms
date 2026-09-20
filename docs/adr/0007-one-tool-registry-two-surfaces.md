@@ -88,7 +88,7 @@ reasons that are not incidental:
 
 `ToolDefinition`, `ToolContext`, `ToolProvider`, `ToolRegistry`,
 `createToolContext` and `toToolError` move from `mcp/server` to
-`@ortha/tools-server`. `ToolRegistry.call` remains the single place a tool
+`@orthacms/tools-server`. `ToolRegistry.call` remains the single place a tool
 call is authorized, for both consumers.
 
 The move is not cosmetic. Importing the seam from `mcp/server` would make a

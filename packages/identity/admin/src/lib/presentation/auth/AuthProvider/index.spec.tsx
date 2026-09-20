@@ -2,8 +2,8 @@ import type { ReactNode } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { IntlProvider } from 'react-intl';
 import { act, render, screen } from '@testing-library/react';
-import { toast } from '@ortha/design-system';
-import { setUnauthorizedHandler } from '@ortha/utils-admin';
+import { toast } from '@orthacms/design-system';
+import { setUnauthorizedHandler } from '@orthacms/utils-admin';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
     currentUserKey,
@@ -35,8 +35,8 @@ vi.mock('../../../application/sessionEnded', () => ({
 
 // The transport seam. Mocking it is what gives the test a handle on the `401`
 // callback the provider installs, without driving a real axios request.
-vi.mock('@ortha/utils-admin', async (importOriginal) => ({
-    ...(await importOriginal<typeof import('@ortha/utils-admin')>()),
+vi.mock('@orthacms/utils-admin', async (importOriginal) => ({
+    ...(await importOriginal<typeof import('@orthacms/utils-admin')>()),
     setUnauthorizedHandler: vi.fn()
 }));
 

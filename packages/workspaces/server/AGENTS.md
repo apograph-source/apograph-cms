@@ -1,4 +1,4 @@
-# @ortha/workspaces-server
+# @orthacms/workspaces-server
 
 The **workspaces** bounded context — the tenancy boundary (workspaces, their
 memberships, and their content-access grants) and the `WorkspaceGuard` every
@@ -76,8 +76,8 @@ workspace you don't belong to, and no endpoint ever returns one.
 ## The one hard rule
 
 **`domain/` imports NOTHING from `@nestjs/*`, `drizzle-orm`, `class-validator`,
-or `infrastructure/`.** It may use `@ortha/database`'s framework-free
-`createDomainEvent`/`DomainEvent` and node built-ins only. The `@ortha/nx`
+or `infrastructure/`.** It may use `@orthacms/database`'s framework-free
+`createDomainEvent`/`DomainEvent` and node built-ins only. The `@orthacms/nx`
 layer-boundary lint isn't wired yet — self-enforce it. (The domain service and
 value objects are plain classes; the module wires `SlugUniquenessService` via a
 `useFactory` so the domain never sees `@Injectable`.)

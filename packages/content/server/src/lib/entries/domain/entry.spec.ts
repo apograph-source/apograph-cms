@@ -1,4 +1,4 @@
-import { ENTRY_STATUS } from '@ortha/content-domain';
+import { ENTRY_STATUS } from '@orthacms/content-domain';
 import { Entry } from './entry';
 import { EntryPublishBlockedError } from './entry-publish-blocked.error';
 import { ENTRY_EVENT_KINDS } from './events/entry-events';

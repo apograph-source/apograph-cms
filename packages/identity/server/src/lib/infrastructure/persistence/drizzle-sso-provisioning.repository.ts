@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { and, eq, ne } from 'drizzle-orm';
-import { UnitOfWork } from '@ortha/database';
+import { UnitOfWork } from '@orthacms/database';
 import { roles, users } from '../../schema';
 import type {
     ProvisionAccountInput,

@@ -1,4 +1,4 @@
-import { SsoVerificationError } from '@ortha/identity-domain';
+import { SsoVerificationError } from '@orthacms/identity-domain';
 import { createFakeSsoProvider } from './fake-sso-provider';
 import { CORE_SECRETS, callbackFrom } from './test-support';
 

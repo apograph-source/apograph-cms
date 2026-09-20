@@ -2,10 +2,10 @@ import { useEffect, useMemo, useState } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, ShieldCheck } from 'lucide-react';
-import { PageTopBar } from '@ortha/shell-admin';
-import { RequiredMark } from '@ortha/content-admin';
-import { useHasPermission } from '@ortha/identity-admin';
-import { ApiError, slugify, useDocumentTitle } from '@ortha/utils-admin';
+import { PageTopBar } from '@orthacms/shell-admin';
+import { RequiredMark } from '@orthacms/content-admin';
+import { useHasPermission } from '@orthacms/identity-admin';
+import { ApiError, slugify, useDocumentTitle } from '@orthacms/utils-admin';
 import {
     isValidSegment,
     validateSegment,
@@ -16,7 +16,7 @@ import {
     SEGMENT_TAGS_MAX,
     type SegmentIssue,
     type SegmentIssues
-} from '@ortha/segments-domain';
+} from '@orthacms/segments-domain';
 import {
     Alert,
     AlertDescription,
@@ -31,7 +31,7 @@ import {
     Spinner,
     Textarea,
     toast
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import {
     SEGMENTS_MANAGE,
     SEGMENTS_READ,
@@ -204,7 +204,7 @@ const COPY: Record<
  * "here, look at this one" a link instead of a set of directions.
  *
  * **The rules come from the kernel**, not from a pattern spelled out here:
- * `@ortha/segments-domain`'s `validateSegment` is the same function the
+ * `@orthacms/segments-domain`'s `validateSegment` is the same function the
  * server's DTO reads its constants from, so this form cannot accept something
  * the API then refuses.
  *

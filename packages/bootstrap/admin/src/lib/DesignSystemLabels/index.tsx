@@ -1,6 +1,6 @@
 import { useMemo, type ReactNode } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
-import { DesignSystemLabelsProvider } from '@ortha/design-system';
+import { DesignSystemLabelsProvider } from '@orthacms/design-system';
 
 /** Intl descriptors for the design system's own chrome, co-located here. */
 const messages = defineMessages({

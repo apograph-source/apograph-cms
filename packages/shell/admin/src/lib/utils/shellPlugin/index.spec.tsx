@@ -11,7 +11,7 @@ import { ShellPlugin } from './index';
  * it renders: the sidebar's rows, sections, footer widgets and palette groups
  * all arrive through slots, the contextual area through an override, and the two
  * page regions through portals. One `import { ContentPlugin } from
- * '@ortha/content-admin'` in here compiles, renders, and quietly makes the
+ * '@orthacms/content-admin'` in here compiles, renders, and quietly makes the
  * shell un-droppable from any app that does not want content — and nothing in a
  * browser suite would ever notice.
  *
@@ -49,10 +49,10 @@ if (!existsSync(join(PACKAGE_ROOT, 'package.json'))) {
  * - `utils-admin` — the slot mechanism itself.
  */
 const ALLOWED = [
-    '@ortha/bootstrap-admin',
-    '@ortha/design-system',
-    '@ortha/identity-admin',
-    '@ortha/utils-admin'
+    '@orthacms/bootstrap-admin',
+    '@orthacms/design-system',
+    '@orthacms/identity-admin',
+    '@orthacms/utils-admin'
 ];
 
 /** Every source file the package ships, specs and the jsdom setup aside. */
@@ -93,7 +93,7 @@ describe('the shell plugin', () => {
 
         expect(
             Object.keys(manifest.dependencies ?? {})
-                .filter((name) => name.startsWith('@ortha/'))
+                .filter((name) => name.startsWith('@orthacms/'))
                 .sort()
         ).toEqual(ALLOWED);
     });

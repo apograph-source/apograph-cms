@@ -5,7 +5,7 @@ import {
     AlertTitle,
     Button,
     Container
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 
 /** Intl descriptors for the content-library load error, co-located here. */
 const messages = defineMessages({

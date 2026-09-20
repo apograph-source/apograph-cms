@@ -4,11 +4,11 @@ import {
     PERMISSIONS,
     PermissionsGuard,
     RequirePermissions
-} from '@ortha/identity-server';
+} from '@orthacms/identity-server';
 import {
     WEBHOOK_EVENTS,
     type WebhookEventDescriptor
-} from '@ortha/webhooks-domain';
+} from '@orthacms/webhooks-domain';
 
 /**
  * `GET /api/webhook-events` — the catalogue of subscribable event kinds.

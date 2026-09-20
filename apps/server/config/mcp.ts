@@ -1,7 +1,7 @@
 /** The MCP front door — kill switch, identity, and the two result ceilings. */
-import type { McpPluginConfig } from '@ortha/mcp-server';
+import type { McpPluginConfig } from '@orthacms/mcp-server';
 
-import { readFlag, readPositiveInt } from '@ortha/utils-server';
+import { readFlag, readPositiveInt } from '@orthacms/utils-server';
 
 /** The MCP front door — kill switch, identity, and the two result ceilings. */
 export function mcpConfig(): McpPluginConfig {

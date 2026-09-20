@@ -11,7 +11,7 @@ const PASSWORD = 'SecurePass123!';
 
 /**
  * `GET /api/users?filter=<json>` — the structured query-builder filter wired
- * through `@ortha/utils-server`. Covers the functional path (scalar ops,
+ * through `@orthacms/utils-server`. Covers the functional path (scalar ops,
  * the `role` relation EXISTS subquery, OR groups) and the security boundary
  * (field/operator whitelist, depth/node caps) — a malformed or out-of-schema
  * filter must 400, never silently widen the result.

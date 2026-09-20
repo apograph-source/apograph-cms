@@ -12,7 +12,7 @@ import {
 import { type ContentLibraryPage } from '../support/pages/ContentLibraryPage';
 
 /**
- * The shell's **right panel** (`@ortha/shell-admin`'s `AppRightPanel` +
+ * The shell's **right panel** (`@orthacms/shell-admin`'s `AppRightPanel` +
  * `pageChrome`) — the third column a page fills with `RightPanelPortal`. The entry
  * editor's Properties panel is the only registration in the product, so it is the
  * fixture; what is under test is the chrome, not the editor.

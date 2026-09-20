@@ -2,7 +2,7 @@ import { mkdtempSync, rmSync } from 'node:fs';
 import { readdir } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join, relative, sep } from 'node:path';
-import { describeStorageProvider } from '@ortha/media-provider-testkit';
+import { describeStorageProvider } from '@orthacms/media-provider-testkit';
 import { createLocalStorageProvider } from './local-storage-provider';
 
 /** Every file under `dir`, as provider-style keys, sorted. */

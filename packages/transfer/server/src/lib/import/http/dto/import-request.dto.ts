@@ -7,7 +7,7 @@ import {
     RELATION_POLICY,
     type ConflictPolicy,
     type RelationPolicy
-} from '@ortha/transfer-domain';
+} from '@orthacms/transfer-domain';
 
 /**
  * Body for the import routes, alongside the uploaded file.

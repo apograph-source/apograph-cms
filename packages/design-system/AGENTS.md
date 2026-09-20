@@ -1,6 +1,6 @@
-# @ortha/design-system
+# @orthacms/design-system
 
-shadcn/ui library. Import as `import { Button, cn } from '@ortha/design-system'`.
+shadcn/ui library. Import as `import { Button, cn } from '@orthacms/design-system'`.
 
 ## Adding/editing components
 

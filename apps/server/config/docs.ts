@@ -1,7 +1,7 @@
 /** The OpenAPI document and the Scalar API reference it is served as. */
-import type { ApiDocsOptions } from '@ortha/bootstrap-server';
+import type { ApiDocsOptions } from '@orthacms/bootstrap-server';
 
-import { readFlag } from '@ortha/utils-server';
+import { readFlag } from '@orthacms/utils-server';
 
 import { isProduction } from './env';
 

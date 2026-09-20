@@ -1,7 +1,7 @@
 import { defineMessages, useIntl } from 'react-intl';
-import { Container } from '@ortha/design-system';
-import { useAuth } from '@ortha/identity-admin';
-import { byOrder, useDocumentTitle } from '@ortha/utils-admin';
+import { Container } from '@orthacms/design-system';
+import { useAuth } from '@orthacms/identity-admin';
+import { byOrder, useDocumentTitle } from '@orthacms/utils-admin';
 import { HOME_SECTION_SLOT } from '../../slots/homeSlots';
 
 /** Intl descriptors for {@link HomePage}, co-located with the component. */

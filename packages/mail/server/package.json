@@ -1,5 +1,5 @@
 {
-    "name": "@ortha/mail-server",
+    "name": "@orthacms/mail-server",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -18,13 +18,13 @@
     ],
     "dependencies": {
         "@nestjs/common": "^11.0.0",
-        "@ortha/bootstrap-server": "*",
-        "@ortha/database": "*",
-        "@ortha/mail-domain": "*",
+        "@orthacms/bootstrap-server": "*",
+        "@orthacms/database": "*",
+        "@orthacms/mail-domain": "*",
         "drizzle-orm": "^0.45.0"
     },
     "devDependencies": {
-        "@ortha/mail-provider-testkit": "*",
+        "@orthacms/mail-provider-testkit": "*",
         "drizzle-kit": "^0.31.0"
     }
 }

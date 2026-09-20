@@ -8,7 +8,7 @@ import {
     DialogHeader,
     DialogTitle,
     InputField
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 
 /** Intl descriptors for {@link RenameDialog}, co-located. */
 const messages = defineMessages({

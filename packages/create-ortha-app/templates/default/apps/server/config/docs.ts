@@ -1,6 +1,6 @@
 /** The OpenAPI document and the API reference it is served as. */
-import type { ApiDocsOptions } from '@ortha/bootstrap-server';
-import { isProduction, readFlag } from '@ortha/utils-server';
+import type { ApiDocsOptions } from '@orthacms/bootstrap-server';
+import { isProduction, readFlag } from '@orthacms/utils-server';
 
 /** The OpenAPI document and the API reference it is served as. */
 export function docsConfig(): ApiDocsOptions {

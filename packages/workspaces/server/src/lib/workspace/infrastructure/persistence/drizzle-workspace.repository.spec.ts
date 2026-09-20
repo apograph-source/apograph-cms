@@ -1,6 +1,6 @@
 import { getTableName } from 'drizzle-orm';
 import { PgDialect } from 'drizzle-orm/pg-core';
-import type { UnitOfWork } from '@ortha/database';
+import type { UnitOfWork } from '@orthacms/database';
 import { DrizzleWorkspaceRepository } from './drizzle-workspace.repository';
 import { WorkspaceMapper } from './workspace.mapper';
 import { Workspace } from '../../domain/workspace';

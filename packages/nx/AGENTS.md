@@ -1,4 +1,4 @@
-# @ortha/nx
+# @orthacms/nx
 
 The Ortha CMS **Nx plugin**. Adds first-class `nx` targets for database
 work and is the home for any future Ortha-specific Nx commands. Sits
@@ -6,8 +6,8 @@ alongside the `@nx/*` plugins in the root `nx.json`.
 
 ## Package
 
-- Name: `@ortha/nx`
-- Registered in `nx.json` under `plugins` (`"@ortha/nx"`).
+- Name: `@orthacms/nx`
+- Registered in `nx.json` under `plugins` (`"@orthacms/nx"`).
 - Consumed from source like the other workspace packages. Loaded directly
   as a TypeScript Nx plugin (no build step).
 
@@ -126,7 +126,7 @@ alongside the `@nx/*` plugins in the root `nx.json`.
 ## Architecture
 
 - **Thin executors over a core lib — and the database half of that lib now
-  lives in [`@ortha/cli`](../cli/AGENTS.md).** `db:generate`, `db:migrate`
+  lives in [`@orthacms/cli`](../cli/AGENTS.md).** `db:generate`, `db:migrate`
   and `db:studio` are adapters over `runDrizzleKitGenerate`,
   `applyPluginMigrations` and `runDrizzleKitStudio`, imported from that package.
   They used to live here, in `src/lib/drizzle/`, where an app installed from npm
@@ -144,7 +144,7 @@ alongside the `@nx/*` plugins in the root `nx.json`.
     loader `db:migrate` and `db:studio` use to import the TypeScript
     `ortha.config.ts` **from source**, which is a problem only this workspace
     has. A generated app compiles first and `require`s the JavaScript, so
-    `@ortha/cli` needs neither jiti nor swc.
+    `@orthacms/cli` needs neither jiti nor swc.
 - **Generate is per-plugin; apply is host-level.** Each workspace plugin
   owns its `drizzle.config.ts` and generates its own `migrations/`. The host
   applies all of them. npm-installed plugins ship their SQL pre-generated;

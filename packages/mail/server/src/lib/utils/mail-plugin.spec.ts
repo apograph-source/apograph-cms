@@ -1,5 +1,5 @@
-import { createTestkitMailProvider } from '@ortha/mail-provider-testkit';
-import type { MailProvider } from '@ortha/mail-domain';
+import { createTestkitMailProvider } from '@orthacms/mail-provider-testkit';
+import type { MailProvider } from '@orthacms/mail-domain';
 import { MailServerPlugin, type MailPluginOptions } from './mail-plugin';
 
 const config = {

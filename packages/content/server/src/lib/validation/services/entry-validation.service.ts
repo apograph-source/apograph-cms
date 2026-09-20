@@ -3,7 +3,7 @@
  * specs. The single authority — the admin renders the same rules
  * client-side as a courtesy, but nothing publishes without passing here.
  *
- * The rules themselves live in the shared `@ortha/content-domain` kernel
+ * The rules themselves live in the shared `@orthacms/content-domain` kernel
  * (pure, DB-free, unit-tested there); this stays as the injectable wrapper the
  * rest of the plugin and downstream plugins depend on, adapting a runtime
  * {@link AnyContentType} to the kernel's serialized-field-spec input. A content
@@ -15,7 +15,7 @@ import { Injectable } from '@nestjs/common';
 import {
     validateEntryValues,
     type ValidationResult
-} from '@ortha/content-domain';
+} from '@orthacms/content-domain';
 import type { AnyContentType } from '../../types/content-type';
 
 // Re-exported so the plugin's historical import sites (and the public barrel)
@@ -24,7 +24,7 @@ import type { AnyContentType } from '../../types/content-type';
 export type {
     ValidationIssue,
     ValidationResult
-} from '@ortha/content-domain';
+} from '@orthacms/content-domain';
 
 @Injectable()
 export class EntryValidationService {

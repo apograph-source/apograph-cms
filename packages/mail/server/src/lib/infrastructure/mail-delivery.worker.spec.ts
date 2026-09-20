@@ -1,4 +1,4 @@
-import { createTestkitMailProvider } from '@ortha/mail-provider-testkit';
+import { createTestkitMailProvider } from '@orthacms/mail-provider-testkit';
 import { MailDeliveryWorker } from './mail-delivery.worker';
 import type {
     ClaimedMail,

@@ -12,7 +12,7 @@
  * registry.
  */
 
-import { ENTRY_STATUS } from '@ortha/content-server';
+import { ENTRY_STATUS } from '@orthacms/content-server';
 import { LOCALE_DIR } from '../i18n.constants';
 
 /** A JSON Schema fragment, as it appears in the OpenAPI document. */

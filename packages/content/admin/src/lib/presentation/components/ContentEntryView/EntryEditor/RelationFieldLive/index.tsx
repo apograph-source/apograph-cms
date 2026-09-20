@@ -18,8 +18,8 @@ import {
     sortableKeyboardCoordinates,
     verticalListSortingStrategy
 } from '@dnd-kit/sortable';
-import { Button, Spinner } from '@ortha/design-system';
-import { useCurrentWorkspace } from '@ortha/workspaces-admin';
+import { Button, Spinner } from '@orthacms/design-system';
+import { useCurrentWorkspace } from '@orthacms/workspaces-admin';
 import type {
     ContentField,
     RelationRef,

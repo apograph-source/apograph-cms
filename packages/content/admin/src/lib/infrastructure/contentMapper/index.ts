@@ -3,7 +3,7 @@ import {
     FIELD_TYPE,
     type FieldType,
     type FilterField
-} from '@ortha/query-builder-admin';
+} from '@orthacms/query-builder-admin';
 import type {
     ContentType,
     ContentTypeSummaryResponse,

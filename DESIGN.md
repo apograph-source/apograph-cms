@@ -33,7 +33,7 @@ opposed to the *how* of [`ARCHITECTURE.md`](ARCHITECTURE.md).
 
 ## Visual language
 
-The component layer is the `@ortha/design-system` (shadcn/ui + Tailwind),
+The component layer is the `@orthacms/design-system` (shadcn/ui + Tailwind),
 governed by the `shadcn` skill.
 
 <!-- TODO: brand tokens, color, typography, spacing, tone of voice, motion. -->

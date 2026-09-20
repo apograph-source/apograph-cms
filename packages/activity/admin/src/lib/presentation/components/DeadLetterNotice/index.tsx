@@ -7,9 +7,9 @@ import {
     AlertTitle,
     Button,
     toast
-} from '@ortha/design-system';
-import { useHasPermission } from '@ortha/identity-admin';
-import { ApiError, HTTP_STATUS } from '@ortha/utils-admin';
+} from '@orthacms/design-system';
+import { useHasPermission } from '@orthacms/identity-admin';
+import { ApiError, HTTP_STATUS } from '@orthacms/utils-admin';
 import {
     useDeadLetters,
     DIALOG_DEAD_LETTER_LIMIT,

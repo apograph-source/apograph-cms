@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { and, asc, eq } from 'drizzle-orm';
-import { UnitOfWork, type Database } from '@ortha/database';
-import type { Skill, SkillMode } from '@ortha/copilot-domain';
+import { UnitOfWork, type Database } from '@orthacms/database';
+import type { Skill, SkillMode } from '@orthacms/copilot-domain';
 import { copilotSkills } from '../schema/skills';
 
 /** A CMS skill as the manage page reads it — the row, plus its provenance. */

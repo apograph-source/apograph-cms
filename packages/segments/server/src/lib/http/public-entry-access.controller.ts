@@ -18,13 +18,13 @@ import {
     WorkspaceGrantsQuery,
     type ContentTypeRegistry,
     type PublicApiToken
-} from '@ortha/content-server';
+} from '@orthacms/content-server';
 import {
     PERMISSIONS,
     Public,
     RequirePermissions
-} from '@ortha/identity-server';
-import { CurrentWorkspace } from '@ortha/workspaces-server';
+} from '@orthacms/identity-server';
+import { CurrentWorkspace } from '@orthacms/workspaces-server';
 import { EntryAccessService } from '../application/entry-access.service';
 import { PublicEntryAccessDto } from './segments.dto';
 

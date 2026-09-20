@@ -76,17 +76,17 @@ The `packages/identity` group is seven packages. The split is not cosmetic: a pr
 
 | Package         | npm name                           | Role                                                                                                                           | What it owns                                                                         |
 | --------------- | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
-| server          | @ortha/identity-server          | The NestJS plugin: routes, use cases, guards, the database schema, migrations, seeders                                         | 11 tables, 19 routes, RBAC, sessions, API tokens, the SSO core                       |
-| admin           | @ortha/identity-admin           | The admin plugin: the sign-in and one-time-link screens plus the "auth kit" (context, provider, route gate)                    | `/identity/*`, `AuthProvider`, `RequireAuth`, `useHasPermission`                     |
-| domain          | @ortha/identity-domain          | The framework-free core of the SSO seam: the `SsoProvider` port, the profile, open-redirect protection, a conformance test set | The contract every adapter must fulfil. **Zero dependencies** in its `package.json`  |
-| provider-oidc   | @ortha/identity-provider-oidc   | Generic OpenID Connect plus 5 presets (Google, Entra, Okta, Auth0, Keycloak)                                                   | Authorization Code + PKCE, id-token verification through `jose`/JWKS                 |
-| provider-github | @ortha/identity-provider-github | GitHub and GitHub Enterprise — OAuth2 with no id token                                                                         | Exchanging the code for a token, reading `/user/emails`, subject = the numeric id    |
-| provider-saml   | @ortha/identity-provider-saml   | SAML 2.0: the request by redirect, the response by POST form                                                                   | XML signature verification (`@node-saml/node-saml`), `RelayState` instead of `state` |
-| provider-fake   | @ortha/identity-provider-fake   | A scriptable provider for e2e and local development                                                                            | The whole handshake is deterministic, but the signature and nonce checks are real    |
+| server          | @orthacms/identity-server          | The NestJS plugin: routes, use cases, guards, the database schema, migrations, seeders                                         | 11 tables, 19 routes, RBAC, sessions, API tokens, the SSO core                       |
+| admin           | @orthacms/identity-admin           | The admin plugin: the sign-in and one-time-link screens plus the "auth kit" (context, provider, route gate)                    | `/identity/*`, `AuthProvider`, `RequireAuth`, `useHasPermission`                     |
+| domain          | @orthacms/identity-domain          | The framework-free core of the SSO seam: the `SsoProvider` port, the profile, open-redirect protection, a conformance test set | The contract every adapter must fulfil. **Zero dependencies** in its `package.json`  |
+| provider-oidc   | @orthacms/identity-provider-oidc   | Generic OpenID Connect plus 5 presets (Google, Entra, Okta, Auth0, Keycloak)                                                   | Authorization Code + PKCE, id-token verification through `jose`/JWKS                 |
+| provider-github | @orthacms/identity-provider-github | GitHub and GitHub Enterprise — OAuth2 with no id token                                                                         | Exchanging the code for a token, reading `/user/emails`, subject = the numeric id    |
+| provider-saml   | @orthacms/identity-provider-saml   | SAML 2.0: the request by redirect, the response by POST form                                                                   | XML signature verification (`@node-saml/node-saml`), `RelayState` instead of `state` |
+| provider-fake   | @orthacms/identity-provider-fake   | A scriptable provider for e2e and local development                                                                            | The whole handshake is deterministic, but the signature and nonce checks are real    |
 
 > **Neighbours that are easy to confuse**
 >
-> **`@ortha/users-server` / `users-admin`** — issuing invitations (`POST /api/users/invites`), disabling and re-enabling a member, issuing a reset link (`POST /api/users/:id/password-reset`), the members screen. **`@ortha/api-tokens-admin`** — the token UI; the token server, meanwhile, lives inside `identity-server`. **`@ortha/shell-admin`** — it is what assembles `AuthProvider` + `RequireAuth` into the layout; the host itself knows nothing about authorisation.
+> **`@orthacms/users-server` / `users-admin`** — issuing invitations (`POST /api/users/invites`), disabling and re-enabling a member, issuing a reset link (`POST /api/users/:id/password-reset`), the members screen. **`@orthacms/api-tokens-admin`** — the token UI; the token server, meanwhile, lives inside `identity-server`. **`@orthacms/shell-admin`** — it is what assembles `AuthProvider` + `RequireAuth` into the layout; the host itself knows nothing about authorisation.
 
 ## 03. Roles and permissions
 
@@ -134,7 +134,7 @@ The three system roles are created at application start idempotently (`ON CONFLI
 
 ## 04. Data model
 
-Identity owns eleven tables and **carries its own migrations** (`drizzle.config.ts` plus committed `migrations/*.sql`, applied by the host through `nx run server:db:migrate`, with its own migration journal table `__drizzle_migrations_identity`). The plugin opens no database connection — the client is injected from `@ortha/database`.
+Identity owns eleven tables and **carries its own migrations** (`drizzle.config.ts` plus committed `migrations/*.sql`, applied by the host through `nx run server:db:migrate`, with its own migration journal table `__drizzle_migrations_identity`). The plugin opens no database connection — the client is injected from `@orthacms/database`.
 
 | Table                | Purpose                                              | Key columns and constraints                                                                                                                                                                                                                                                                                         |
 | -------------------- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -609,7 +609,7 @@ Phrased as "action → expected result", so they can go into a test case without
 
 | Area                                                 | Who owns it                           | What Identity does                                                                      |
 | ---------------------------------------------------- | ------------------------------------- | --------------------------------------------------------------------------------------- |
-| The database connection and running migrations       | `@ortha/database` + `@ortha/nx` | Owns the schema and migration **files**, but not the connection and not the apply step  |
+| The database connection and running migrations       | `@orthacms/database` + `@orthacms/nx` | Owns the schema and migration **files**, but not the connection and not the apply step  |
 | Issuing invitations and reset links, the member list | `users-server` / `users-admin`        | Owns the `tokens` table and the **redemption** of links                                 |
 | Sending email                                        | nobody (not implemented)              | Hands the raw token to the calling administrator; sends nothing itself                  |
 | The activity log                                     | `activity`                            | Produces the events and owns the `ACTIVITY_RECORDER` port                               |

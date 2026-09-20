@@ -18,7 +18,7 @@ import {
     DropdownMenuSubContent,
     DropdownMenuSubTrigger,
     DropdownMenuTrigger
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import type { WysiwygMediaKind } from '../../../../domain/constants';
 import type { WysiwygMediaSourceItem } from '../../../slots/wysiwygSlots';
 import { useLiveEditorState } from '../../../hooks/useLiveEditorState';

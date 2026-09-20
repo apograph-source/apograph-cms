@@ -95,9 +95,9 @@ Three packages. Unlike `alarms`, the kernel here earned a package of its own: th
 
 | Package                                                 | Owns                                                                                                                                                                       | Depends on                                                      |
 | ------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
-| `@ortha/webhooks-domain`<br>packages/webhooks/domain | The event catalogue, the subscription filter, the HMAC envelope and its verification, the retry policy, the URL policy, the delivery vocabulary. **No framework, no I/O.** | Nothing but `node:crypto`                                       |
-| `@ortha/webhooks-server`<br>packages/webhooks/server | Three tables and one migration, the outbox subscriber, the delivery worker, the HTTP client, the three controllers.                                                        | `database`, `identity-server`, `webhooks-domain`, `undici`      |
-| `@ortha/webhooks-admin`<br>packages/webhooks/admin   | Four routes in the sidebar's `directory` group: the endpoint list, the editor (create and edit), the endpoint page with its two tabs.                                      | `design-system`, `identity-admin`, `shell-admin`, `utils-admin` |
+| `@orthacms/webhooks-domain`<br>packages/webhooks/domain | The event catalogue, the subscription filter, the HMAC envelope and its verification, the retry policy, the URL policy, the delivery vocabulary. **No framework, no I/O.** | Nothing but `node:crypto`                                       |
+| `@orthacms/webhooks-server`<br>packages/webhooks/server | Three tables and one migration, the outbox subscriber, the delivery worker, the HTTP client, the three controllers.                                                        | `database`, `identity-server`, `webhooks-domain`, `undici`      |
+| `@orthacms/webhooks-admin`<br>packages/webhooks/admin   | Four routes in the sidebar's `directory` group: the endpoint list, the editor (create and edit), the endpoint page with its two tabs.                                      | `design-system`, `identity-admin`, `shell-admin`, `utils-admin` |
 
 > **The admin does not import the domain package**
 >

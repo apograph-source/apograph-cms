@@ -1,15 +1,15 @@
-import type { DomainEvent } from '@ortha/database';
+import type { DomainEvent } from '@orthacms/database';
 import type {
     WebhookActor,
     WebhookRoutableEvent,
     WebhookSourceEvent
-} from '@ortha/webhooks-domain';
+} from '@orthacms/webhooks-domain';
 
 /**
  * Turns an outbox `DomainEvent` into the shapes the webhooks domain works in.
  *
  * This is the only file that knows both vocabularies. Keeping it at the edge is
- * what lets `@ortha/webhooks-domain` — and therefore the contract external
+ * what lets `@orthacms/webhooks-domain` — and therefore the contract external
  * receivers depend on — stay ignorant of how the outbox happens to store an
  * event today.
  */

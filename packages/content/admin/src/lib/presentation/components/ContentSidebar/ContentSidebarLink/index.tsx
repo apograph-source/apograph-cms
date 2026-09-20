@@ -1,6 +1,6 @@
 import type { ComponentType } from 'react';
 import { NavLink } from 'react-router-dom';
-import { cn } from '@ortha/design-system';
+import { cn } from '@orthacms/design-system';
 
 type ContentSidebarLinkProps = {
     /** Absolute path this row links to. */

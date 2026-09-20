@@ -3,7 +3,7 @@ import {
     SSO_PROVIDER_CONFORMANCE_CHECKS,
     type SsoProviderConformanceCase,
     type SsoProviderConformanceReport
-} from '@ortha/identity-domain';
+} from '@orthacms/identity-domain';
 import { createFakeSsoProvider } from './fake-sso-provider';
 import { CORE_SECRETS, callbackFrom } from './test-support';
 

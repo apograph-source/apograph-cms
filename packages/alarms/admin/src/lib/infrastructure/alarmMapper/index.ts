@@ -12,7 +12,7 @@ import type {
 /**
  * The wire shapes `/api/alarms` returns.
  *
- * Restated here rather than imported from `@ortha/alarms-server`: the admin
+ * Restated here rather than imported from `@orthacms/alarms-server`: the admin
  * does not import server packages, and the anti-corruption layer is the point —
  * a column rename on the server surfaces as a compile error in this one file
  * rather than spreading through components.

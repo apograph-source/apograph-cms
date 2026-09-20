@@ -1,4 +1,4 @@
-import type { PermissionKey } from '@ortha/identity-server';
+import type { PermissionKey } from '@orthacms/identity-server';
 
 /**
  * A JSON Schema fragment. Tools declare their input shape as **plain JSON

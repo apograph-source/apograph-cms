@@ -4,7 +4,7 @@
  *
  * A token's bucket names workspaces owned by a **different** plugin, so the
  * join table deliberately carries no cross-plugin foreign key (identity must
- * not depend on `@ortha/workspaces-server`, which depends back on identity).
+ * not depend on `@orthacms/workspaces-server`, which depends back on identity).
  * Without a check somewhere, that means minting a token scoped to an id nobody
  * ever created succeeds and leaves a row pointing at nothing
  * (BUG-identity-server-06) — an operator sees a token that appears configured

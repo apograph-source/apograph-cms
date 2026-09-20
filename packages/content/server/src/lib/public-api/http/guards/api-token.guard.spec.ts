@@ -13,7 +13,7 @@ import {
     type ApiTokenRecord,
     type ApiTokenService,
     type PermissionKey
-} from '@ortha/identity-server';
+} from '@orthacms/identity-server';
 import { ApiTokenGuard } from './api-token.guard';
 import type { ApiTokenRequest } from '../api-token-request';
 

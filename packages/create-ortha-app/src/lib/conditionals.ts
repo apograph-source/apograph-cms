@@ -5,7 +5,7 @@
  * it, so the same three forms work in TypeScript, YAML, `.env` and Markdown:
  *
  *     // ortha:if copilot
- *     import { CopilotPlugin } from '@ortha/copilot-server';
+ *     import { CopilotPlugin } from '@orthacms/copilot-server';
  *     // ortha:end
  *
  *     # ortha:ifnot graphql

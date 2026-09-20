@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useHasPermission } from '@ortha/identity-admin';
-import { isComposingText } from '@ortha/utils-admin';
+import { useHasPermission } from '@orthacms/identity-admin';
+import { isComposingText } from '@orthacms/utils-admin';
 import { useCopilotAvailable } from '../../application/useCopilotModels';
 import { useCopilotSessions } from '../../application/useCopilotSessions';
 import { useRouteContext } from '../../application/useRouteContext';

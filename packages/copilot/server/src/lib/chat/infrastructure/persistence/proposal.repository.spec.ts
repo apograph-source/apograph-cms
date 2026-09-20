@@ -1,6 +1,6 @@
 import { getTableName, type SQL } from 'drizzle-orm';
 import { PgDialect } from 'drizzle-orm/pg-core';
-import type { Database } from '@ortha/database';
+import type { Database } from '@orthacms/database';
 import { ProposalRepository } from './proposal.repository';
 
 const PROPOSAL = '11111111-1111-4111-8111-111111111111';

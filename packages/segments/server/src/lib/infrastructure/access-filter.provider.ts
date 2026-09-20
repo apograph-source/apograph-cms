@@ -1,19 +1,19 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { and, eq, exists, not, sql, type SQL } from 'drizzle-orm';
 import type { PgColumn } from 'drizzle-orm/pg-core';
-import { InjectDatabase, type Database } from '@ortha/database';
+import { InjectDatabase, type Database } from '@orthacms/database';
 import type {
     AnyContentType,
     EntryFilterContext,
     EntryFilterExtension,
     EntryFilterProvider
-} from '@ortha/content-server';
+} from '@orthacms/content-server';
 import {
     FilterOperator,
     ScalarFieldType,
     type FieldSchema,
     type ParsedRule
-} from '@ortha/utils-server';
+} from '@orthacms/utils-server';
 import { entryAccess } from '../schema/entry-access';
 import { SegmentCatalogService } from '../application/segment-catalog.service';
 import { uuidArray } from './uuid-array';

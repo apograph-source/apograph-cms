@@ -2,8 +2,8 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { IntlProvider } from 'react-intl';
 import { MemoryRouter } from 'react-router-dom';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { Input } from '@ortha/design-system';
-import { wireSlotContributions } from '@ortha/utils-admin';
+import { Input } from '@orthacms/design-system';
+import { wireSlotContributions } from '@orthacms/utils-admin';
 import {
     SIDEBAR_NAV_SLOT,
     type SidebarItem
@@ -38,9 +38,9 @@ import { SidebarSearch } from './index';
 
 const auth = vi.hoisted(() => ({ permissions: [] as string[] }));
 
-vi.mock('@ortha/identity-admin', async (importOriginal) => {
+vi.mock('@orthacms/identity-admin', async (importOriginal) => {
     const actual =
-        await importOriginal<typeof import('@ortha/identity-admin')>();
+        await importOriginal<typeof import('@orthacms/identity-admin')>();
     return {
         ...actual,
         useHasPermission: (permission: string) =>

@@ -1,4 +1,4 @@
-import type { DomainEvent, OutboxWriter, UnitOfWork } from '@ortha/database';
+import type { DomainEvent, OutboxWriter, UnitOfWork } from '@orthacms/database';
 import { ChangePasswordUseCase } from './change-password.use-case';
 import { UserAccount } from '../../domain/user-account';
 import { UserAccountNotFoundError } from '../../domain/errors';

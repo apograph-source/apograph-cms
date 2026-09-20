@@ -1,5 +1,5 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import { attachActor, OutboxWriter, UnitOfWork } from '@ortha/database';
+import { attachActor, OutboxWriter, UnitOfWork } from '@orthacms/database';
 import {
     normalizeSsoProfile,
     assertSsoProfile,
@@ -11,8 +11,8 @@ import {
     type SsoProvider,
     type SsoRegistry,
     type SsoRoleResolver
-} from '@ortha/identity-domain';
-import type { DomainEvent } from '@ortha/database';
+} from '@orthacms/identity-domain';
+import type { DomainEvent } from '@orthacms/database';
 import { Optional } from '@nestjs/common';
 import {
     IDENTITY_EVENT_KINDS,

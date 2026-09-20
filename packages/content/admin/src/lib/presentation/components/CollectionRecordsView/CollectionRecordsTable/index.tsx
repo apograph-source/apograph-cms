@@ -10,7 +10,7 @@ import {
     TableHead,
     TableHeader,
     TableRow
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import type { EntryRecord } from '../../../../domain/types/contentType';
 import type { EntryColumn } from '../../../../domain/entryColumns';
 import { COLUMN_KIND, CONTENT_FIELD_TYPE } from '../../../../domain/constants';

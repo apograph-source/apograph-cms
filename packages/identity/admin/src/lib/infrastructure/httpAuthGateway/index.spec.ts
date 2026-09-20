@@ -1,11 +1,11 @@
-import { ApiError, apiClient } from '@ortha/utils-admin';
+import { ApiError, apiClient } from '@orthacms/utils-admin';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { httpAuthGateway } from './index';
 
 // Only the wire is stubbed: `toApiError`, `ApiError` and `HTTP_STATUS` stay
 // real, because how a failure is classified is precisely what is under test.
-vi.mock('@ortha/utils-admin', async (importOriginal) => ({
-    ...(await importOriginal<typeof import('@ortha/utils-admin')>()),
+vi.mock('@orthacms/utils-admin', async (importOriginal) => ({
+    ...(await importOriginal<typeof import('@orthacms/utils-admin')>()),
     apiClient: { get: vi.fn(), post: vi.fn() }
 }));
 

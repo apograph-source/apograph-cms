@@ -1,4 +1,4 @@
-import { cn } from '@ortha/design-system';
+import { cn } from '@orthacms/design-system';
 
 /**
  * A tiny, non-interactive mock of the admin chrome — a dark sidebar rail beside

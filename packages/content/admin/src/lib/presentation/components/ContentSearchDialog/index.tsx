@@ -8,7 +8,7 @@ import {
     CommandInput,
     CommandList,
     Kbd
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import type { ContentType } from '../../../domain/types/contentType';
 import { groupContentTypes } from '../../../domain/groupContentTypes';
 import { ContentSearchItem } from './ContentSearchItem';

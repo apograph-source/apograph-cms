@@ -4,8 +4,8 @@ import {
     OutboxWriter,
     UnitOfWork,
     type DomainEvent
-} from '@ortha/database';
-import type { PublicUser } from '@ortha/identity-server';
+} from '@orthacms/database';
+import type { PublicUser } from '@orthacms/identity-server';
 import { MemberId } from '../../domain/value-objects/member-id';
 import { Role } from '../../domain/value-objects/role';
 import { MemberNotFoundError, SelfActionError } from '../../domain/errors';

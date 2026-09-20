@@ -17,7 +17,7 @@ import {
     MAX_RUN_SKILLS,
     MAX_SKILL_NAME_LENGTH,
     SKILL_NAME_PATTERN
-} from '@ortha/copilot-domain';
+} from '@orthacms/copilot-domain';
 
 /** Longest message we accept. Bounds the prompt before the model bounds it. */
 export const MAX_MESSAGE_LENGTH = 8_000;

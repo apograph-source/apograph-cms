@@ -2,7 +2,7 @@ import {
     asAvatarColor,
     avatarColorForId,
     initialsOf
-} from '@ortha/utils-admin';
+} from '@orthacms/utils-admin';
 import type {
     InvitedMember,
     Member,
@@ -14,7 +14,7 @@ import type {
 
 // The shared wire→model contract for a member. The admin can't import the
 // server package (separate apps / module boundaries), so these wire types
-// mirror `@ortha/users-server`'s `MemberView`. Every request function that
+// mirror `@orthacms/users-server`'s `MemberView`. Every request function that
 // returns a member maps it through `toMember`, so the shape and the mapper
 // live together here and each hook owns only its own endpoint call.
 

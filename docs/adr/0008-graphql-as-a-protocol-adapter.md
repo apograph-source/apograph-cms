@@ -29,7 +29,7 @@ whether the schema may be global, and whether to adopt `@nestjs/graphql`.
 **We will serve GraphQL as an adapter over the existing public API, and never as
 a second implementation of it.** A resolver translates a GraphQL field and its
 arguments into the DTO the REST read already takes, calls the same service, and
-maps the result. `@ortha/content-graphql` owns the schema, the resolvers,
+maps the result. `@orthacms/content-graphql` owns the schema, the resolvers,
 the cost budget, and the error mapping — and nothing else. It has no schema, no
 migrations, and no credential of its own; a token minted before it existed works
 against it unchanged.

@@ -3,8 +3,8 @@ import {
     PERMISSIONS,
     PermissionsGuard,
     RequirePermissions
-} from '@ortha/identity-server';
-import { CurrentWorkspace, WorkspaceGuard } from '@ortha/workspaces-server';
+} from '@orthacms/identity-server';
+import { CurrentWorkspace, WorkspaceGuard } from '@orthacms/workspaces-server';
 import { LocalizationCoverageQuery } from '../../infrastructure/queries/localization-coverage.query';
 import type { I18nCoverageView } from '../../types/i18n-insights-view';
 

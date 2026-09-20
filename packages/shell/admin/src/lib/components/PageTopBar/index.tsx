@@ -10,7 +10,7 @@ import {
     BreadcrumbSeparator,
     TopBar,
     TopBarIcon
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import { PageActions } from '../PageActions';
 
 /** Intl descriptors for {@link PageTopBar}, co-located here. */

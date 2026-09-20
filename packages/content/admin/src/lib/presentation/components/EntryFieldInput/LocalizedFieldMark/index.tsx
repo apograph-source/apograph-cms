@@ -4,7 +4,7 @@ import {
     Tooltip,
     TooltipContent,
     TooltipTrigger
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 
 const messages = defineMessages({
     localized: {

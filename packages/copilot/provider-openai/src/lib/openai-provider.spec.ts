@@ -1,4 +1,4 @@
-import type { ModelRequest, ModelStreamEvent } from '@ortha/copilot-domain';
+import type { ModelRequest, ModelStreamEvent } from '@orthacms/copilot-domain';
 import { createOpenAiProvider } from './openai-provider';
 
 /** Builds an SSE response body from chunk objects, plus the `[DONE]` sentinel. */

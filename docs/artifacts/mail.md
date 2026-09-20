@@ -34,11 +34,11 @@ the behaviour the product shipped with (I-01).
 
 | Package                           | What it is                                                                                                                                                                                                                |
 | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `@ortha/mail-domain`           | The kernel. Two ports (`MailProvider` outward, `MailDispatcher` inward), the message and its receipt, `MailPermanentError`, the links, the templates, the retry schedule. **No dependencies at all**, asserted by a test. |
-| `@ortha/mail-server`           | The plugin. One table, the dispatcher adapter, the worker, the boot check.                                                                                                                                                |
-| `@ortha/mail-provider-smtp`    | The backend a deployment runs, over `nodemailer`.                                                                                                                                                                         |
-| `@ortha/mail-provider-console` | Writes messages to the log. Ships with every app, offered by no picker.                                                                                                                                                   |
-| `@ortha/mail-provider-testkit` | Captures messages, and can be told to fail. Same install rule.                                                                                                                                                            |
+| `@orthacms/mail-domain`           | The kernel. Two ports (`MailProvider` outward, `MailDispatcher` inward), the message and its receipt, `MailPermanentError`, the links, the templates, the retry schedule. **No dependencies at all**, asserted by a test. |
+| `@orthacms/mail-server`           | The plugin. One table, the dispatcher adapter, the worker, the boot check.                                                                                                                                                |
+| `@orthacms/mail-provider-smtp`    | The backend a deployment runs, over `nodemailer`.                                                                                                                                                                         |
+| `@orthacms/mail-provider-console` | Writes messages to the log. Ships with every app, offered by no picker.                                                                                                                                                   |
+| `@orthacms/mail-provider-testkit` | Captures messages, and can be told to fail. Same install rule.                                                                                                                                                            |
 
 There is no `mail/admin`. The admin changes this feature needs are in
 `users-admin`, where the invitation and reset flows already live.

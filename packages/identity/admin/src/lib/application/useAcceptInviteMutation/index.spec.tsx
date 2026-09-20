@@ -1,4 +1,4 @@
-import { ApiError } from '@ortha/utils-admin';
+import { ApiError } from '@orthacms/utils-admin';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 import type { ReactNode } from 'react';

@@ -1,6 +1,6 @@
 import request from 'supertest';
 import type { Response } from 'supertest';
-import { PERMISSION_KEYS } from '@ortha/identity-server';
+import { PERMISSION_KEYS } from '@orthacms/identity-server';
 import {
     closeTestApp,
     createTestApp,

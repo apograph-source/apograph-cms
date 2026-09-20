@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { defineMessages, useIntl } from 'react-intl';
-import { HTTP_STATUS, useDocumentTitle } from '@ortha/utils-admin';
+import { HTTP_STATUS, useDocumentTitle } from '@orthacms/utils-admin';
 import { AuthLayout } from '../../components/AuthLayout';
 import { LoginForm } from '../../components/LoginForm';
 import type { LoginCredentials } from '../../../../types/auth';

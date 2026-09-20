@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { setTitleDecorator } from '@ortha/utils-admin';
+import { setTitleDecorator } from '@orthacms/utils-admin';
 import { badgedTitle } from './tabBadge';
 
 /** The favicon link the admin ships, and the one we swap. */

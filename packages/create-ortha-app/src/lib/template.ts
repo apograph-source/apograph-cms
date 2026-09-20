@@ -30,7 +30,7 @@ export interface TemplateValues {
     adminEmail: string;
     /** Password for that admin. */
     adminPassword: string;
-    /** The `@ortha/*` version every dependency is pinned to. */
+    /** The `@orthacms/*` version every dependency is pinned to. */
     orthaVersion: string;
     /** Which optional features the app was scaffolded with. */
     selection: FeatureSelection;
@@ -77,7 +77,7 @@ export function render(contents: string, values: TemplateValues): string {
  *
  * The dependency map is **rebuilt**, not patched: the template ships a manifest
  * with the non-Ortha dependencies and an empty `@ortha` set, and the chosen
- * packages are merged in and re-sorted here. Every `@ortha/*` range is the
+ * packages are merged in and re-sorted here. Every `@orthacms/*` range is the
  * scaffolder's own version, exactly — no caret. Releases are lockstep, and a
  * partial upgrade can leave two copies of a shared package in `node_modules`,
  * which means two React context instances and an admin whose sidebar silently

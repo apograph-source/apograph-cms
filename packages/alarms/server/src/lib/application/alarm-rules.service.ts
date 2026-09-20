@@ -4,14 +4,14 @@ import {
     OutboxWriter,
     UnitOfWork,
     type EventActor
-} from '@ortha/database';
+} from '@orthacms/database';
 import {
     EntryMatchQuery,
     InjectContentRegistry,
     WorkspaceGrantsQuery,
     type AnyContentType,
     type ContentTypeRegistry
-} from '@ortha/content-server';
+} from '@orthacms/content-server';
 import {
     AlarmRuleNotFoundError,
     UnknownAlarmContentTypeError

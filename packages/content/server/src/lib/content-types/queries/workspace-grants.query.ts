@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { eq } from 'drizzle-orm';
-import { InjectDatabase, type Database } from '@ortha/database';
-import { workspaceContent } from '@ortha/workspaces-server';
+import { InjectDatabase, type Database } from '@orthacms/database';
+import { workspaceContent } from '@orthacms/workspaces-server';
 
 /**
  * Reads a workspace's **content grants** — the `workspace_content` slugs the
  * open workspace may access, written by the workspace create/edit wizard.
  *
  * The grants are workspaces-owned data, but the dependency only runs one way:
- * content-server already depends on `@ortha/workspaces-server` for
+ * content-server already depends on `@orthacms/workspaces-server` for
  * `WorkspaceGuard`, and that package deliberately re-exports its Drizzle
  * schema. Inverting this into a port would mean workspaces depending on
  * content, which is the cycle `CONTENT_CATALOG` exists to avoid.

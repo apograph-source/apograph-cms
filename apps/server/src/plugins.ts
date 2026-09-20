@@ -1,36 +1,36 @@
 import { join } from 'node:path';
-import type { ServerPlugin } from '@ortha/bootstrap-server';
-import { ActivityPlugin } from '@ortha/activity-server';
-import { ContentPlugin, ContentViewsPlugin } from '@ortha/content-server';
-import { ContentGraphqlPlugin } from '@ortha/content-graphql';
+import type { ServerPlugin } from '@orthacms/bootstrap-server';
+import { ActivityPlugin } from '@orthacms/activity-server';
+import { ContentPlugin, ContentViewsPlugin } from '@orthacms/content-server';
+import { ContentGraphqlPlugin } from '@orthacms/content-graphql';
 import {
     CopilotPlugin,
     type ProviderRegistration
-} from '@ortha/copilot-server';
-import { createAnthropicProvider } from '@ortha/copilot-provider-anthropic';
-import { createOpenAiProvider } from '@ortha/copilot-provider-openai';
-import { DatabasePlugin } from '@ortha/database';
-import { I18nServerPlugin } from '@ortha/i18n-server';
-import { IdentityPlugin } from '@ortha/identity-server';
-import { createOidcProvider } from '@ortha/identity-provider-oidc';
-import { createGithubProvider } from '@ortha/identity-provider-github';
-import { createSamlProvider } from '@ortha/identity-provider-saml';
-import { MailServerPlugin } from '@ortha/mail-server';
-import { createSmtpMailProvider } from '@ortha/mail-provider-smtp';
-import { createConsoleMailProvider } from '@ortha/mail-provider-console';
-import { McpPlugin } from '@ortha/mcp-server';
-import { MediaServerPlugin } from '@ortha/media-server';
-import { TransferPlugin } from '@ortha/transfer-server';
-import { AlarmsPlugin } from '@ortha/alarms-server';
-import { SegmentsPlugin } from '@ortha/segments-server';
-import { ProtectionPlugin } from '@ortha/protection-server';
-import { WebhooksPlugin } from '@ortha/webhooks-server';
-import { createLocalStorageProvider } from '@ortha/media-provider-local';
-import { UsersPlugin } from '@ortha/users-server';
-import { WorkspacesPlugin } from '@ortha/workspaces-server';
+} from '@orthacms/copilot-server';
+import { createAnthropicProvider } from '@orthacms/copilot-provider-anthropic';
+import { createOpenAiProvider } from '@orthacms/copilot-provider-openai';
+import { DatabasePlugin } from '@orthacms/database';
+import { I18nServerPlugin } from '@orthacms/i18n-server';
+import { IdentityPlugin } from '@orthacms/identity-server';
+import { createOidcProvider } from '@orthacms/identity-provider-oidc';
+import { createGithubProvider } from '@orthacms/identity-provider-github';
+import { createSamlProvider } from '@orthacms/identity-provider-saml';
+import { MailServerPlugin } from '@orthacms/mail-server';
+import { createSmtpMailProvider } from '@orthacms/mail-provider-smtp';
+import { createConsoleMailProvider } from '@orthacms/mail-provider-console';
+import { McpPlugin } from '@orthacms/mcp-server';
+import { MediaServerPlugin } from '@orthacms/media-server';
+import { TransferPlugin } from '@orthacms/transfer-server';
+import { AlarmsPlugin } from '@orthacms/alarms-server';
+import { SegmentsPlugin } from '@orthacms/segments-server';
+import { ProtectionPlugin } from '@orthacms/protection-server';
+import { WebhooksPlugin } from '@orthacms/webhooks-server';
+import { createLocalStorageProvider } from '@orthacms/media-provider-local';
+import { UsersPlugin } from '@orthacms/users-server';
+import { WorkspacesPlugin } from '@orthacms/workspaces-server';
 import type { OrthaConfig } from '../ortha.config';
-import type { SsoRegistration } from '@ortha/identity-domain';
-import type { MailProvider } from '@ortha/mail-domain';
+import type { SsoRegistration } from '@orthacms/identity-domain';
+import type { MailProvider } from '@orthacms/mail-domain';
 import { contentTypes } from './content';
 
 /**
@@ -45,7 +45,7 @@ import { contentTypes } from './content';
  *
  * **A clone with no keys gets an empty list**, and therefore no copilot: there
  * is no scripted offline adapter in this list any more. The fake provider is a
- * test fixture (`@ortha/copilot-provider-fake`, private and unpublished) and
+ * test fixture (`@orthacms/copilot-provider-fake`, private and unpublished) and
  * registering it here made a misconfigured production deployment answer every
  * question with a canned sentence instead of failing. `COPILOT_ENABLED` is off
  * by default, so an empty list is the ordinary state of a fresh clone and boots
@@ -82,7 +82,7 @@ export function copilotProviders(
  * can only fail, and every SSO failure deliberately looks the same, so the
  * person clicking it would learn nothing.
  *
- * No scripted provider is registered here. `@ortha/identity-provider-fake`
+ * No scripted provider is registered here. `@orthacms/identity-provider-fake`
  * ships and is what `server-e2e` registers, but a scripted identity provider in
  * a running deployment signs people in without anyone authenticating, so the
  * host does not register one — the same reason the copilot's fake adapter is
@@ -99,7 +99,7 @@ export function copilotProviders(
  * The name is what `/api/auth/sso/<name>/start` and every `sso_identities` row
  * refer to the provider by, so renaming a registration orphans its links.
  * `ssoCallbackUrl(config.plugins.identity, name)` from
- * `@ortha/identity-server` builds the exact callback URL to register with
+ * `@orthacms/identity-server` builds the exact callback URL to register with
  * the provider — exact because most providers match that string byte for byte,
  * and a trailing slash makes it a different URL to them.
  */

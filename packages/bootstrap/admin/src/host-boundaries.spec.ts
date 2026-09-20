@@ -73,7 +73,7 @@ describe('the admin host’s boundaries', () => {
         // the shell contributes, and the host mounts that layout without knowing
         // what is inside it — which is what lets an installation replace or omit
         // the gate without touching `packages/bootstrap`.
-        expect(declared).not.toContain('@ortha/identity-admin');
+        expect(declared).not.toContain('@orthacms/identity-admin');
 
         expect(matching(/@ortha\/identity-admin/)).toEqual([]);
         // The three words the dossier names, as imported symbols rather than
@@ -103,8 +103,8 @@ describe('the admin host’s boundaries', () => {
  * primitives) and `utils-admin` (the slot mechanism).
  */
 describe('the admin host holds no domain logic', () => {
-    /** The `@ortha/*` packages the host is allowed to know about. */
-    const CHROME = ['@ortha/design-system', '@ortha/utils-admin'];
+    /** The `@orthacms/*` packages the host is allowed to know about. */
+    const CHROME = ['@orthacms/design-system', '@orthacms/utils-admin'];
 
     it('imports only the two domain-free packages [bootstrap:I-01]', () => {
         const imported = new Set(
@@ -138,7 +138,7 @@ describe('the admin host holds no domain logic', () => {
         });
 
         expect(
-            declared.filter((name) => name.startsWith('@ortha/'))
+            declared.filter((name) => name.startsWith('@orthacms/'))
         ).toEqual(CHROME);
     });
 });

@@ -1,4 +1,4 @@
-import { MAIL_KINDS } from '@ortha/mail-domain';
+import { MAIL_KINDS } from '@orthacms/mail-domain';
 import { MailDispatcherService } from './mail-dispatcher.service';
 import type {
     MailDeliveryRepository,

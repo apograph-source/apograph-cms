@@ -2,8 +2,8 @@ import { useState, type ReactNode } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { Link, Navigate } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, Info, Search, Users } from 'lucide-react';
-import { PageTopBar } from '@ortha/shell-admin';
-import { useHasPermission } from '@ortha/identity-admin';
+import { PageTopBar } from '@orthacms/shell-admin';
+import { useHasPermission } from '@orthacms/identity-admin';
 import {
     Alert,
     AlertDescription,
@@ -29,7 +29,7 @@ import {
     WizardFooter,
     WizardStepCard,
     cn
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import { useInviteMemberFlow } from '../../../application/useInviteMemberFlow';
 import { useWorkspaceOptions } from '../../../application/useWorkspaceOptions';
 import { Email } from '../../../domain/value-objects/email';
@@ -37,7 +37,7 @@ import type { MemberRole } from '../../../domain/types/member';
 import { MemberAvatar } from '../../components/MemberAvatar';
 import { InviteSent } from '../../components/InviteSent';
 import { WorkspaceOptionsSkeleton } from '../../components/MembersSkeleton';
-import { useDocumentTitle } from '@ortha/utils-admin';
+import { useDocumentTitle } from '@orthacms/utils-admin';
 
 const messages = defineMessages({
     title: { id: 'users.invitePage.title', defaultMessage: 'Invite a member' },

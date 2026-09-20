@@ -2,7 +2,7 @@
 
 The **API** — a NestJS application. Like the admin app, this is a thin entry
 point: it holds almost no logic. It assembles the product by handing a list of
-**server plugins** to the `@ortha/bootstrap-server` host.
+**server plugins** to the `@orthacms/bootstrap-server` host.
 
 ## What's here
 
@@ -21,13 +21,13 @@ point: it holds almost no logic. It assembles the product by handing a list of
 - `ortha.config.ts` — host config: the flat object naming what this deployment
   runs. It **assembles** rather than derives — one builder per plugin, each in
   its own module under `config/`. It stays the entry point because
-  `@ortha/cli` looks for exactly `dist/server/ortha.config.js`, `@ortha/nx`
+  `@orthacms/cli` looks for exactly `dist/server/ortha.config.js`, `@orthacms/nx`
   infers the migration targets onto the project that has an `ortha.config.ts`,
   and `src/plugins.ts` and `apps/server-e2e` import its types.
 - `config/` — the single place that reads the environment, and it does so
   **only** through the readers (`readEnv`, `requireEnv`, `readPositiveInt`,
   `readList`, `readFlag`, `readTrustProxy`, `readNodeEnv`) in
-  `@ortha/utils-server`, shared with the scaffolder's template so a
+  `@orthacms/utils-server`, shared with the scaffolder's template so a
   generated app validates its environment the same way. These modules name the
   variables and the defaults; the readers decide what a value has to look like.
   **No module here writes `process.env[…]`** — a test asserts it. `readEnv` is
@@ -83,7 +83,7 @@ generic version of this problem, for any plugin's schema barrel, is ORT-130.
 - Cross-cutting guards are global: `AuthGuard` (session), `PermissionsGuard`
   (RBAC), `OriginGuard` (CSRF on state-changing POSTs).
 - Each plugin owns its Drizzle schema + migrations; the shared
-  `@ortha/database` plugin owns the single connection.
+  `@orthacms/database` plugin owns the single connection.
 
 ## Working here
 

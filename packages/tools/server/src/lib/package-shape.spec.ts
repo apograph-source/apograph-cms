@@ -114,7 +114,7 @@ const MANIFEST = JSON.parse(
     devDependencies?: Record<string, string>;
 };
 
-describe('the shape of @ortha/tools-server [tools:I-24]', () => {
+describe('the shape of @orthacms/tools-server [tools:I-24]', () => {
     it('reads the package at all', () => {
         // The guard on the guard. A walk that found nothing — a renamed
         // directory, a changed extension — would pass every check below while
@@ -130,7 +130,7 @@ describe('the shape of @ortha/tools-server [tools:I-24]', () => {
          * decides where it lands alphabetically, so a literal order would be a
          * second thing to remember on a rename.
          */
-        const ALLOWED = ['@nestjs/common', '@ortha/identity-server'];
+        const ALLOWED = ['@nestjs/common', '@orthacms/identity-server'];
 
         /**
          * Every module specifier the package's own code imports or re-exports,
@@ -172,7 +172,7 @@ describe('the shape of @ortha/tools-server [tools:I-24]', () => {
              * - `@nestjs/common` — `@Injectable`/`@Global` and the HTTP
              *   exception classes refusals are signalled with. Nest is the DI
              *   container both consumers already run in, not a transport.
-             * - `@ortha/identity-server` — `PermissionKey` and
+             * - `@orthacms/identity-server` — `PermissionKey` and
              *   `PERMISSION_KEYS`. The package keeps no dictionary of its own,
              *   which is the point of I-04's neighbour: rights are named by
              *   identity and *resolved* by whoever authenticated the caller.

@@ -33,7 +33,7 @@ import { renderTemplate, type TemplateValues } from './template';
  *
  * Both sides are *read* rather than restated: the paths come out of the
  * rendered README and are looked for in the rendered app, and the CLI's
- * commands and layout come out of `@ortha/cli`'s own source. A test that
+ * commands and layout come out of `@orthacms/cli`'s own source. A test that
  * only asserted the README contains some string would pass on a README that is
  * wrong about everything else.
  */
@@ -41,11 +41,11 @@ import { renderTemplate, type TemplateValues } from './template';
 const TEMPLATE = join(__dirname, '../../templates/default');
 const workspaceRoot = join(__dirname, '../../../..');
 
-/** A source file of `@ortha/cli`, read through the workspace link. */
+/** A source file of `@orthacms/cli`, read through the workspace link. */
 function cliSource(path: string): string {
     return readFileSync(
         join(
-            realpathSync(join(workspaceRoot, 'node_modules/@ortha/cli')),
+            realpathSync(join(workspaceRoot, 'node_modules/@orthacms/cli')),
             path
         ),
         'utf8'
@@ -136,7 +136,7 @@ const CREATED_BY_FOLLOWING_THE_README = new Set([
 /**
  * The app-relative paths a piece of inline code names.
  *
- * A URL path (`/api/v1/mcp`), a package (`@ortha/database`), and anything
+ * A URL path (`/api/v1/mcp`), a package (`@orthacms/database`), and anything
  * with a space in it are not file paths and are left alone; a glob is trimmed
  * to the directory in front of its first `*`, since that is the part that has
  * to exist. `../../` is deliberately excluded — after this fix the README names
@@ -182,7 +182,7 @@ describe('the generated README’s paths', () => {
     });
 
     /**
-     * The layout the README describes is a convention `@ortha/cli` enforces,
+     * The layout the README describes is a convention `@orthacms/cli` enforces,
      * not a suggestion: `ortha generate` refuses outright when the app has no
      * `drizzle.config.ts` at exactly this path.
      */

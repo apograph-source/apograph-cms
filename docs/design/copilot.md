@@ -9,7 +9,7 @@ what the signed-in person is allowed to do.
 > Every string a user reads says **Ortha AI** — the panel title, the sidebar
 > launcher, the empty state, the error frames, and how the model introduces
 > itself. Everything a user does not read keeps the `copilot` name: the packages
-> (`@ortha/copilot-*`), the routes (`/api/copilot/runs`), the permission
+> (`@orthacms/copilot-*`), the routes (`/api/copilot/runs`), the permission
 > keys (`copilot:use`), the tables
 > (`copilot_conversations`, …), the i18n message ids (`copilot.panel.title`),
 > and this document.
@@ -415,7 +415,7 @@ Phases 0–4 deliver the whole product statement. Phase 5 is optional.
 | Call content logic in-process   | ready      | Logic already lives in injectable services: `EntriesService.list(type, query, workspaceId)`, `EntryWriterService.update(type, id, values, workspaceId, relations, userId)`. Tools are thin wrappers; no refactor. |
 | Resolve permissions in code     | ready      | `PermissionsService.forRole(roleId)` + the pure `AccessPolicy.canAll(actor, …)`. The capability profile is ~20 lines on top.                                                                                      |
 | Add the new permission keys     | ready      | **No migration** — `seedSystemRoles` is idempotent and runs each boot from `PERMISSIONS` / `SYSTEM_ROLES` (`ON CONFLICT DO NOTHING`).                                                                             |
-| Own tables & migrations         | ready      | `@ortha/nx` infers `db:generate` from a `drizzle.config.ts`; the host's `db:migrate` reads `plugins.ts`.                                                                                                       |
+| Own tables & migrations         | ready      | `@orthacms/nx` infers `db:generate` from a `drizzle.config.ts`; the host's `db:migrate` reads `plugins.ts`.                                                                                                       |
 | Stream a response               | clear path | `createServer` adds only a global prefix and `ValidationPipe` — no compression or global interceptor to buffer a stream. Node 22 gives native `fetch` server-side.                                                |
 | Export `AccessPolicy` / `Actor` | not needed | Superseded in phase 1 — the profile rule is a pure function in `copilot/domain`, which imports nothing and so cannot reach a class behind a Nest barrel. See the phase-1 notes above.                             |
 | New npm dependencies            | two        | `@anthropic-ai/sdk` now; `@modelcontextprotocol/sdk` at phase 4. **Still two after phase 1** — markdown rendering and JSON Schema validation were written locally rather than pulled in.                          |

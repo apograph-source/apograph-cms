@@ -4,7 +4,7 @@
  * `color` widget on a routed single.
  */
 
-import { single, field } from '@ortha/content-server/define';
+import { single, field } from '@orthacms/content-server/define';
 
 export const site_settings = single('site_settings', {
     label: 'Site settings',

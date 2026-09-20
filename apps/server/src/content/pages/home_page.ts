@@ -8,7 +8,7 @@ import {
     single,
     field,
     type AnyContentType
-} from '@ortha/content-server/define';
+} from '@orthacms/content-server/define';
 import { article } from '../collections/article';
 
 export const home_page = single('home_page', {

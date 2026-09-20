@@ -1,10 +1,10 @@
-# @ortha/media-provider-local
+# @orthacms/media-provider-local
 
 The **default** storage provider for the Media Library — a filesystem
 `StorageProvider` that streams blobs to a directory on disk. Depends only on
-`@ortha/media-domain` — the port package, which itself declares nothing — and
+`@orthacms/media-domain` — the port package, which itself declares nothing — and
 node built-ins; it imports no framework, and reaches none transitively either.
-(It used to take the port from `@ortha/media-server`, whose barrel re-exports
+(It used to take the port from `@orthacms/media-server`, whose barrel re-exports
 `MediaModule`, so installing this package installed NestJS.)
 
 ## What it exports
@@ -98,10 +98,10 @@ at a persistent volume for a real deployment (a fresh container's disk is wiped)
 
 ## Commands
 
-- `npx nx test @ortha/media-provider-local` — the unit suite, in two files.
+- `npx nx test @orthacms/media-provider-local` — the unit suite, in two files.
   `local-storage-provider.spec.ts` covers what is specific to a filesystem;
   `local-storage-provider.contract.spec.ts` runs `describeStorageProvider` from
-  `@ortha/media-provider-testkit`, the shared port contract every provider is
+  `@orthacms/media-provider-testkit`, the shared port contract every provider is
   held to. Both run against a **real temporary directory**, not a mocked `fs`:
   every claim worth making here is about bytes, modes, and what survives a
   failure, and a mock can only confirm which calls were made. Assert on the
@@ -114,7 +114,7 @@ at a persistent volume for a real deployment (a fresh container's disk is wiped)
   runs as root (CI images and devcontainers routinely do) reports 50 passed and
   1 skipped rather than a red suite for a property of the *user*. Run the suite
   as a normal user to actually exercise it.
-- `npx nx typecheck @ortha/media-provider-local` / `npx nx lint @ortha/media-provider-local`
+- `npx nx typecheck @orthacms/media-provider-local` / `npx nx lint @orthacms/media-provider-local`
 - The cross-package half lives in `apps/server-e2e/src/server/media/media-local-storage.spec.ts`,
   which boots the app with `createTestApp({ localMediaRoot })` so the media
   routes run on this provider instead of the harness's in-memory `Map`.

@@ -3,7 +3,7 @@ import {
     InternalServerErrorException,
     type ExecutionContext
 } from '@nestjs/common';
-import type { AuthenticatedRequest } from '@ortha/identity-server';
+import type { AuthenticatedRequest } from '@orthacms/identity-server';
 import { CurrentWorkspace } from './current-workspace.decorator';
 
 /** Nest's own metadata key for a handler's param decorators. */

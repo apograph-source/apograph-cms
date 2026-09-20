@@ -11,7 +11,7 @@ import {
     Label,
     MultiSelect,
     Switch
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import type {
     WebhookEndpoint,
     WebhookEventOption

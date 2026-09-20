@@ -32,7 +32,7 @@ export default async function globalSetup(): Promise<void> {
 
     const [{ applyPluginMigrations }, { default: config }, { buildPlugins }] =
         await Promise.all([
-            import('@ortha/cli'),
+            import('@orthacms/cli'),
             import('../../server/ortha.config'),
             import('../../server/src/plugins')
         ]);

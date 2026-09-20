@@ -19,7 +19,7 @@ import { mockContentSchema } from '../support/api/content';
 const AFTER_RETRIES = { timeout: 15_000 };
 
 /**
- * The Workspaces page (`@ortha/workspaces-admin`). The table reads
+ * The Workspaces page (`@orthacms/workspaces-admin`). The table reads
  * `GET /api/workspaces`, stubbed by `mockWorkspaces` (the FE analog of seeded
  * rows): four Active workspaces (Marketing site, Product docs, Support hub,
  * Internal wiki) and two Archived (Research archive, Events 2023); Product docs

@@ -1,6 +1,6 @@
 import request from 'supertest';
 import { sql } from 'drizzle-orm';
-import { getDatabase } from '@ortha/database';
+import { getDatabase } from '@orthacms/database';
 import {
     closeTestApp,
     createTestApp,

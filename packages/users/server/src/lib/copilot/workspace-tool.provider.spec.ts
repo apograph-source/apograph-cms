@@ -1,9 +1,9 @@
-import { PERMISSIONS } from '@ortha/identity-server';
+import { PERMISSIONS } from '@orthacms/identity-server';
 import type {
     ToolContext,
     ToolDefinition,
     ToolRegistry
-} from '@ortha/tools-server';
+} from '@orthacms/tools-server';
 import type { WorkspaceMembersQuery } from '../member/infrastructure/queries/workspace-members.query';
 import { WorkspaceCopilotToolProvider } from './workspace-tool.provider';
 

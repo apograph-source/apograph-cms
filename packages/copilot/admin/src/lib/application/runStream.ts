@@ -1,4 +1,4 @@
-import type { CopilotRunEvent } from '@ortha/copilot-domain';
+import type { CopilotRunEvent } from '@orthacms/copilot-domain';
 
 /** What starting a run needs. Mirrors the server's `CreateRunDto` exactly. */
 export interface StartRunRequest {
