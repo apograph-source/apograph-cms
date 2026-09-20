@@ -2,7 +2,11 @@ import { test } from '../support/fixtures';
 import { mockSignedIn } from '../support/api/auth';
 import { mockWorkspaces } from '../support/api/workspaces';
 import { mockContentSchema } from '../support/api/content';
-import { failedProposalRun, mockCopilotApi } from '../support/api/copilot';
+import {
+    failedProposalRun,
+    longFailedProposalRun,
+    mockCopilotApi
+} from '../support/api/copilot';
 import { expectNoA11yViolations } from '../support/a11y';
 
 const WORKSPACE_ID = 'ws_marketing';
@@ -65,6 +69,28 @@ test.describe('Agents view accessibility (axe, WCAG 2.1 A/AA)', () => {
         // its icon is `aria-hidden` (the sentence beside it is the accessible
         // version), and the destructive palette has to clear AA on the tinted
         // ground it sits on — none of which the passing card exercises.
+        await expectNoA11yViolations(makeAxe());
+    });
+
+    test('a change card whose reason does not fit', async ({
+        page,
+        agentsPage,
+        makeAxe
+    }) => {
+        await mockCopilotApi(page, { runBody: longFailedProposalRun });
+        await agentsPage.goto(WORKSPACE_ID);
+        await agentsPage.welcomeHeading().waitFor();
+
+        await agentsPage.ask('Translate that into German');
+        await agentsPage
+            .proposalCard('German translation of Prescribing Information')
+            .waitFor();
+
+        // Its own state, not a longer version of the one above:
+        // `scrollable-region-focusable` only fires where the element actually
+        // overflows, so the short-reason card scans green whether or not the
+        // block is reachable. This is the scan that says the bound did not
+        // trade a clipped message for an unreachable one.
         await expectNoA11yViolations(makeAxe());
     });
 
