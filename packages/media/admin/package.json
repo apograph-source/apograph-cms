@@ -1,5 +1,5 @@
 {
-    "name": "@ortha/media-admin",
+    "name": "@orthacms/media-admin",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -16,18 +16,18 @@
         "src"
     ],
     "dependencies": {
-        "@ortha/bootstrap-admin": "*",
-        "@ortha/content-admin": "*",
-        "@ortha/content-domain": "*",
-        "@ortha/design-system": "*",
-        "@ortha/identity-admin": "*",
-        "@ortha/utils-admin": "*",
-        "@ortha/workspaces-admin": "*",
-        "@ortha/wysiwyg-admin": "*",
+        "@orthacms/bootstrap-admin": "*",
+        "@orthacms/content-admin": "*",
+        "@orthacms/content-domain": "*",
+        "@orthacms/design-system": "*",
+        "@orthacms/identity-admin": "*",
+        "@orthacms/utils-admin": "*",
+        "@orthacms/workspaces-admin": "*",
+        "@orthacms/wysiwyg-admin": "*",
         "@tanstack/react-query": "^5.0.0",
         "lucide-react": "^1.17.0",
         "react-intl": "^7.0.0",
-        "@ortha/insights-admin": "*"
+        "@orthacms/insights-admin": "*"
     },
     "peerDependencies": {
         "react": "^19.0.0",

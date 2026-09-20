@@ -19,7 +19,7 @@ import {
     DropdownMenuTrigger,
     Spinner,
     cn
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import {
     VIEW_VISIBILITY,
     type SavedView

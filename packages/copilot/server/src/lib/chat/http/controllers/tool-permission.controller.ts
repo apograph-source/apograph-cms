@@ -16,9 +16,9 @@ import {
     PermissionsGuard,
     RequirePermissions,
     type PublicUser
-} from '@ortha/identity-server';
-import { CurrentWorkspace, WorkspaceGuard } from '@ortha/workspaces-server';
-import { attachActor, OutboxWriter, UnitOfWork } from '@ortha/database';
+} from '@orthacms/identity-server';
+import { CurrentWorkspace, WorkspaceGuard } from '@orthacms/workspaces-server';
+import { attachActor, OutboxWriter, UnitOfWork } from '@orthacms/database';
 import { toolPermissionEvent } from '../../../copilot.events';
 import { ToolPermissionBroker } from '../../application/tool-permission.broker';
 import { DecideToolPermissionDto } from '../../application/dto/decide-tool-permission.dto';

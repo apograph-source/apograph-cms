@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import type { Editor } from '@tiptap/react';
 import { Bold, Italic, List, ListOrdered, Redo2, Undo2 } from 'lucide-react';
-import { byOrder } from '@ortha/utils-admin';
+import { byOrder } from '@orthacms/utils-admin';
 import {
     WYSIWYG_MEDIA_KINDS,
     type WysiwygMediaKind

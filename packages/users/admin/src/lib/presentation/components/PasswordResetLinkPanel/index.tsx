@@ -6,7 +6,7 @@ import {
     AlertDescription,
     Button,
     toast
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 
 /** Intl descriptors for {@link PasswordResetLinkPanel}, co-located with the component. */
 const messages = defineMessages({

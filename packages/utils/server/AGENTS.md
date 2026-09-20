@@ -1,4 +1,4 @@
-# @ortha/utils-server
+# @orthacms/utils-server
 
 Server-side shared utilities for Ortha CMS. Three concerns:
 
@@ -24,8 +24,8 @@ plugin can import.
 
 ## Package
 
-- Name: `@ortha/utils-server`
-- Import: `import { applyFilterTree, parseFilterTree } from '@ortha/utils-server'`
+- Name: `@orthacms/utils-server`
+- Import: `import { applyFilterTree, parseFilterTree } from '@orthacms/utils-server'`
 
 ## Environment readers (`env.ts`)
 
@@ -57,7 +57,7 @@ Four things here are decisions rather than details:
   the duplication this module exists to end — and the shape that made the
   erasure above easy to get wrong.
 - **`readTrustProxy` returns `boolean | number | string` structurally**, rather
-  than importing `TrustProxySetting` from `@ortha/bootstrap-server`. This is
+  than importing `TrustProxySetting` from `@orthacms/bootstrap-server`. This is
   a leaf helper package and the host that imports it must not become a
   dependency of it; the host's own `trustProxy?: TrustProxySetting` field is
   what checks the two still agree.
@@ -228,5 +228,5 @@ Internal files (not exported): `parse-filter-tree.ts`, `tree-to-drizzle.ts`,
 
 ## Commands
 
-- `npx nx typecheck @ortha/utils-server`
-- `npx nx test @ortha/utils-server`
+- `npx nx typecheck @orthacms/utils-server`
+- `npx nx test @orthacms/utils-server`

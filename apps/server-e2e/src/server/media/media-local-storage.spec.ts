@@ -11,7 +11,7 @@ import {
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import request from 'supertest';
-import { getPool } from '@ortha/database';
+import { getPool } from '@orthacms/database';
 import {
     closeTestApp,
     createTestApp,
@@ -33,7 +33,7 @@ const DOC = Buffer.from('the quick brown fox jumps over the lazy dog\n');
 
 /**
  * The media routes against the **real** filesystem provider
- * (`@ortha/media-provider-local`) rather than the harness's in-memory
+ * (`@orthacms/media-provider-local`) rather than the harness's in-memory
  * `Map`, rooted at a throwaway temp directory.
  *
  * Everything here is a claim about the disk that a `Map` cannot answer: where

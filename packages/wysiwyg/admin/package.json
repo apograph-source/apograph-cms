@@ -1,5 +1,5 @@
 {
-    "name": "@ortha/wysiwyg-admin",
+    "name": "@orthacms/wysiwyg-admin",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -17,11 +17,11 @@
         "src"
     ],
     "dependencies": {
-        "@ortha/bootstrap-admin": "*",
-        "@ortha/content-admin": "*",
-        "@ortha/content-domain": "*",
-        "@ortha/design-system": "*",
-        "@ortha/utils-admin": "*",
+        "@orthacms/bootstrap-admin": "*",
+        "@orthacms/content-admin": "*",
+        "@orthacms/content-domain": "*",
+        "@orthacms/design-system": "*",
+        "@orthacms/utils-admin": "*",
         "@tiptap/core": "^3.29.2",
         "@tiptap/extension-highlight": "^3.29.2",
         "@tiptap/extension-table": "^3.29.2",

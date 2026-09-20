@@ -166,7 +166,7 @@ function verify(secret, header, rawBody, toleranceSeconds = 300) {
 }
 ```
 
-`@ortha/webhooks-domain` exports `verifySignature` with exactly this
+`@orthacms/webhooks-domain` exports `verifySignature` with exactly this
 behaviour, so a JavaScript receiver can import it rather than reimplement it.
 
 ## What a receiver must handle

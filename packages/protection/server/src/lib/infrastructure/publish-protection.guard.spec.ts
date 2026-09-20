@@ -5,7 +5,7 @@ import {
 import type {
     ContentPublishGuardContext,
     PublishVerdict
-} from '@ortha/content-server';
+} from '@orthacms/content-server';
 import type { ProtectionRuleView } from '../types/protection-views';
 import type { StoredApproval } from './review-approval.repository';
 

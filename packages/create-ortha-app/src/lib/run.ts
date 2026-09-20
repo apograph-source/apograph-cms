@@ -117,7 +117,7 @@ function selected(
 }
 
 /**
- * This package's own version, which every `@ortha/*` dependency in the
+ * This package's own version, which every `@orthacms/*` dependency in the
  * generated app is pinned to.
  *
  * The scaffolder is released in lockstep with the packages it scaffolds, so its

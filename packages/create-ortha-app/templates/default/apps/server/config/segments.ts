@@ -1,4 +1,4 @@
-import type { SegmentsPluginConfig } from '@ortha/segments-server';
+import type { SegmentsPluginConfig } from '@orthacms/segments-server';
 
 /** Reader entitlements — where a reader's tags come from. */
 export function segmentsConfig(): SegmentsPluginConfig {

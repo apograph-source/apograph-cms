@@ -17,7 +17,7 @@ import {
 } from '../support/api/transfer';
 
 /**
- * The import dialog (`@ortha/transfer-admin`), in the collection's ⋯ menu.
+ * The import dialog (`@orthacms/transfer-admin`), in the collection's ⋯ menu.
  *
  * The mechanics of an import — the depth rule, the natural keys, the verdicts
  * themselves, the revision counts — are pinned against a real database in

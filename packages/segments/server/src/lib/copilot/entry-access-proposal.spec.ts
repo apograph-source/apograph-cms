@@ -1,6 +1,6 @@
-import type { ToolContext, ToolDefinition } from '@ortha/tools-server';
-import type { ProposalActor } from '@ortha/copilot-domain';
-import type { Segment } from '@ortha/segments-domain';
+import type { ToolContext, ToolDefinition } from '@orthacms/tools-server';
+import type { ProposalActor } from '@orthacms/copilot-domain';
+import type { Segment } from '@orthacms/segments-domain';
 import {
     EntryAccessProposalProvider,
     SEGMENTS_PROPOSAL_KINDS

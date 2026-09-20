@@ -1,7 +1,7 @@
 import { asc, desc, type SQL } from 'drizzle-orm';
 import { plainToInstance } from 'class-transformer';
 import { validateSync } from 'class-validator';
-import type { Database } from '@ortha/database';
+import type { Database } from '@orthacms/database';
 import { activityEvents } from '../../schema';
 import { SORTABLE_FIELDS } from '../activity.constants';
 import { ListActivityQueryDto } from '../dto/list-activity-query.dto';

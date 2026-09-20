@@ -1,5 +1,5 @@
 import type { SQL } from 'drizzle-orm';
-import { ScalarFieldType, type ParsedRule } from '@ortha/utils-server';
+import { ScalarFieldType, type ParsedRule } from '@orthacms/utils-server';
 import type { AnyContentType } from '../types/content-type';
 import type {
     EntryFilterContext,

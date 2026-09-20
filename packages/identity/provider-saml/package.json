@@ -1,5 +1,5 @@
 {
-    "name": "@ortha/identity-provider-saml",
+    "name": "@orthacms/identity-provider-saml",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -17,7 +17,7 @@
     ],
     "dependencies": {
         "@node-saml/node-saml": "^5.1.0",
-        "@ortha/identity-domain": "*",
+        "@orthacms/identity-domain": "*",
         "selfsigned": "^5.5.0",
         "xml-crypto": "^6.1.2"
     }

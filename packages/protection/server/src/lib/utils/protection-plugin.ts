@@ -1,5 +1,5 @@
 import { join } from 'node:path';
-import type { ServerPlugin } from '@ortha/bootstrap-server';
+import type { ServerPlugin } from '@orthacms/bootstrap-server';
 import { ProtectionModule } from '../protection.module';
 import { describeProtectionApi } from '../docs/describe-protection-api';
 

@@ -9,7 +9,7 @@ import {
     SheetHeader,
     SheetTitle,
     Spinner
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import type { WebhookDeliveryDetail } from '../../../../domain/types/webhook';
 import { DeliveryStatusBadge } from '../../DeliveryStatusBadge';
 

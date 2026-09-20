@@ -4,8 +4,8 @@ import {
     PERMISSIONS,
     Public,
     RequirePermissions
-} from '@ortha/identity-server';
-import { CurrentWorkspace } from '@ortha/workspaces-server';
+} from '@orthacms/identity-server';
+import { CurrentWorkspace } from '@orthacms/workspaces-server';
 import { InjectContentRegistry } from '../../../content.tokens';
 import type {
     ContentTypeRegistry,

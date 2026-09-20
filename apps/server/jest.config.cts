@@ -20,7 +20,7 @@ module.exports = {
         '^.+\\.[tj]s$': ['@swc/jest', swcJestConfig]
     },
     // `jose` ships ESM only, and this project reaches it through
-    // `plugins.ts` → `@ortha/identity-provider-oidc`. Node 22 can
+    // `plugins.ts` → `@orthacms/identity-provider-oidc`. Node 22 can
     // `require()` an ESM package, but Jest resolves through its own registry,
     // so without this exception every suite here dies at import time on a bare
     // `export {` inside jose. The negative lookahead keeps the rest of

@@ -1,5 +1,5 @@
 import { defineMessages, useIntl } from 'react-intl';
-import { DatePicker, DateTimePicker } from '@ortha/design-system';
+import { DatePicker, DateTimePicker } from '@orthacms/design-system';
 
 const messages = defineMessages({
     datePlaceholder: {

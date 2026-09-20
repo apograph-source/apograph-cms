@@ -1,5 +1,5 @@
-import type { OpenApiDocument } from '@ortha/bootstrap-server';
-import { IMPORT_REASON } from '@ortha/transfer-domain';
+import type { OpenApiDocument } from '@orthacms/bootstrap-server';
+import { IMPORT_REASON } from '@orthacms/transfer-domain';
 import { describeTransferApi } from './describe-transfer-api';
 
 /**

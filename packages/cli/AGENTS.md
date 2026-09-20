@@ -1,28 +1,28 @@
-# @ortha/cli
+# @orthacms/cli
 
 The `ortha` command — how an **installed** Ortha CMS app is built, run and
-migrated. The counterpart to [`@ortha/nx`](../nx/AGENTS.md), which does the
+migrated. The counterpart to [`@orthacms/nx`](../nx/AGENTS.md), which does the
 same jobs inside this monorepo.
 
 ## Package
 
-- Name: `@ortha/cli`
+- Name: `@orthacms/cli`
 - Binary: `ortha`
 - A devDependency of a generated app (see
   [`create-ortha-app`](../create-ortha-app/AGENTS.md)), and a dependency of
-  `@ortha/nx`.
+  `@orthacms/nx`.
 - **CommonJS** (no `"type": "module"`), so `require`/`__dirname` are available
   and `import.meta` is not.
 
 ## Why it exists
 
-Everything a consumer needs to *operate* an app used to live in `@ortha/nx`,
+Everything a consumer needs to *operate* an app used to live in `@orthacms/nx`,
 which is `private` and will never be published: `applyPluginMigrations` was
 reachable only through an Nx executor, so an app installed from npm had no way
 to migrate its database at all.
 
 The core rule this package encodes: **the monorepo and every generated app go
-through one implementation.** `@ortha/nx`'s `db:migrate`, `db:generate` and
+through one implementation.** `@orthacms/nx`'s `db:migrate`, `db:generate` and
 `db:studio` executors are thin adapters over the functions exported here. Two
 implementations of "apply migrations in plugin order" would be two chances to
 get the most destructive operation in the system wrong.
@@ -44,7 +44,7 @@ get the most destructive operation in the system wrong.
 
 - **Thin commands over a core lib.** Logic lives in `src/lib/`
   (`migrate.ts`, `generate.ts`, `studio.ts`); `src/lib/commands/` adapts it to
-  argv, and `src/index.ts` re-exports it for `@ortha/nx`. The specs sit
+  argv, and `src/index.ts` re-exports it for `@orthacms/nx`. The specs sit
   beside the code and mock at the process boundary (`node:child_process`, `pg`),
   so the package tests without a database.
 - **Compile first, then read JavaScript.** `ortha migrate` builds the server and
@@ -53,7 +53,7 @@ get the most destructive operation in the system wrong.
   configured for legacy decorators, because the plugin graph is full of
   decorated Nest classes and jiti's bundled babel crashes on them. A generated
   app has its own build step, so **that whole problem stays out of the consumer
-  path**; `jiti` remains a dependency of `@ortha/nx` alone.
+  path**; `jiti` remains a dependency of `@orthacms/nx` alone.
 
     Two details that are easy to get wrong here, both measured:
 
@@ -91,9 +91,9 @@ get the most destructive operation in the system wrong.
 
 ## Tests
 
-`npx nx test @ortha/cli` — jest, `.spec.ts` beside the source.
+`npx nx test @orthacms/cli` — jest, `.spec.ts` beside the source.
 
 ## Commands
 
-- `npm exec nx typecheck @ortha/cli`
-- `npm exec nx build @ortha/cli`
+- `npm exec nx typecheck @orthacms/cli`
+- `npm exec nx build @orthacms/cli`

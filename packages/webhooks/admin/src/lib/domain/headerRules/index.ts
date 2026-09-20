@@ -1,7 +1,7 @@
 /**
  * Which custom headers an endpoint may set.
  *
- * A **deliberate copy** of `@ortha/webhooks-domain`'s `isAllowedCustomHeader`
+ * A **deliberate copy** of `@orthacms/webhooks-domain`'s `isAllowedCustomHeader`
  * rather than an import: that package's barrel reaches `node:crypto` through
  * the signature helpers, and pulling it into the browser bundle takes the whole
  * admin down at load. The server enforces the same rule on every write — this

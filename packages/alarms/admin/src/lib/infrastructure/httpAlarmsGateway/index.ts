@@ -1,4 +1,4 @@
-import { apiClient } from '@ortha/utils-admin';
+import { apiClient } from '@orthacms/utils-admin';
 import type {
     AlarmFinding,
     AlarmFindingList,

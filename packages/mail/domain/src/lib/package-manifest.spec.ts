@@ -8,11 +8,11 @@ import { join } from 'node:path';
  * and `users-server` imports it purely for the dispatcher token it injects
  * optionally. A dependency added here is inherited by all of them, and the one
  * that would hurt most is the framework: the whole point of a separate kernel
- * is that `npm i @ortha/mail-provider-smtp` installs an SMTP client, not
- * NestJS and Drizzle. `@ortha/media-domain` holds the same line for the same
+ * is that `npm i @orthacms/mail-provider-smtp` installs an SMTP client, not
+ * NestJS and Drizzle. `@orthacms/media-domain` holds the same line for the same
  * reason.
  */
-describe('@ortha/mail-domain package manifest', () => {
+describe('@orthacms/mail-domain package manifest', () => {
     const manifest = JSON.parse(
         readFileSync(join(__dirname, '..', '..', 'package.json'), 'utf8')
     ) as {
@@ -23,7 +23,7 @@ describe('@ortha/mail-domain package manifest', () => {
     };
 
     it('is the package it claims to be', () => {
-        expect(manifest.name).toBe('@ortha/mail-domain');
+        expect(manifest.name).toBe('@orthacms/mail-domain');
     });
 
     it.each(['dependencies', 'peerDependencies', 'devDependencies'] as const)(

@@ -1,4 +1,4 @@
-# @ortha/mail-provider-smtp
+# @orthacms/mail-provider-smtp
 
 The SMTP mail adapter, over `nodemailer`. **The default answer, not a
 fallback**: Resend, SES, Postmark, SendGrid, Mailgun, Google Workspace,

@@ -80,7 +80,7 @@ export const ENTRY_TAB = {
     Media: 'media',
     /**
      * Who may **read** the entry once it is published — contributed by
-     * `@ortha/segments-admin`. A slug the router knows, declared here rather
+     * `@orthacms/segments-admin`. A slug the router knows, declared here rather
      * than by the contributor, because the set is closed: `ENTRY_TAB_SLOT` drops
      * an item naming a slug this list does not carry, since the route table
      * would match the segment while `entryTabFromPath` could not resolve it.
@@ -88,7 +88,7 @@ export const ENTRY_TAB = {
     Access: 'access',
     /**
      * What was **done** to this record and by whom — contributed by
-     * `@ortha/activity-admin`. Declared here for the same reason as Access:
+     * `@orthacms/activity-admin`. Declared here for the same reason as Access:
      * the set is closed, because the route table would match a segment
      * `entryTabFromPath` could not resolve.
      *
@@ -163,7 +163,7 @@ export const DEFAULT_PAGE_SIZE = 10;
 
 /**
  * Content field type identifiers — the admin mirror of the server's
- * `CONTENT_FIELD_TYPE` (`@ortha/content-server`). Kept as a local constant
+ * `CONTENT_FIELD_TYPE` (`@orthacms/content-server`). Kept as a local constant
  * (the admin deliberately doesn't import across the server boundary, like its
  * wire types) so every `switch (field.type)` references a named member instead
  * of a bare string literal. Must stay in lock-step with the server set.
@@ -185,7 +185,7 @@ export const CONTENT_FIELD_TYPE = {
 
 /**
  * Per-entry verdicts in a bulk-publish dry run — the admin mirror of the
- * server's `BULK_VERDICT` (`@ortha/content-server`). Drives the icon/label
+ * server's `BULK_VERDICT` (`@orthacms/content-server`). Drives the icon/label
  * for each row in the {@link BulkPublishDialog}. Must stay in lock-step.
  */
 export const BULK_VERDICT = {

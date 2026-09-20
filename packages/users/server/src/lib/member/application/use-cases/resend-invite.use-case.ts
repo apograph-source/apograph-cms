@@ -1,6 +1,6 @@
 import { Inject, Injectable, Optional } from '@nestjs/common';
-import { attachActor, OutboxWriter, UnitOfWork } from '@ortha/database';
-import type { PublicUser } from '@ortha/identity-server';
+import { attachActor, OutboxWriter, UnitOfWork } from '@orthacms/database';
+import type { PublicUser } from '@orthacms/identity-server';
 import { INVITE_RESEND_COOLDOWN_SECONDS } from '../../member.constants';
 import { MemberId } from '../../domain/value-objects/member-id';
 import { MemberNotFoundError } from '../../domain/errors';

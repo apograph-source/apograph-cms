@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { getPool } from '@ortha/database';
+import { getPool } from '@orthacms/database';
 import {
     closeTestApp,
     createTestApp,
@@ -42,7 +42,7 @@ const OUTSIDER = 'review-outsider@example.com';
  * rather than a veto, and that asking for review twice updates one row instead
  * of stacking a second into somebody's queue.
  *
- * The counting itself is `evaluateProtection` in `@ortha/protection-domain`
+ * The counting itself is `evaluateProtection` in `@orthacms/protection-domain`
  * and is unit-tested there. What is tested here is that the server hands it the
  * right head revision and the right votes — the half a pure function cannot
  * check.

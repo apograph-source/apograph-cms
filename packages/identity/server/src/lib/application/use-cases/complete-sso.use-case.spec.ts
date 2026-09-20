@@ -1,5 +1,5 @@
 import { Logger } from '@nestjs/common';
-import type { DomainEvent, OutboxWriter, UnitOfWork } from '@ortha/database';
+import type { DomainEvent, OutboxWriter, UnitOfWork } from '@orthacms/database';
 import {
     SsoVerificationError,
     type SsoCallback,
@@ -8,7 +8,7 @@ import {
     type SsoRegistry,
     type SsoRoleContext,
     type SsoRoleResolver
-} from '@ortha/identity-domain';
+} from '@orthacms/identity-domain';
 import {
     CompleteSsoUseCase,
     type CompleteSsoInput

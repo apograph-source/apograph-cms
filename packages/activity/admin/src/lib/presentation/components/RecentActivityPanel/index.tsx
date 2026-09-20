@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { defineMessages, useIntl } from 'react-intl';
-import { useHasPermission } from '@ortha/identity-admin';
+import { useHasPermission } from '@orthacms/identity-admin';
 import {
     Badge,
     Card,
@@ -8,7 +8,7 @@ import {
     CardHeader,
     CardTitle,
     Skeleton
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import { useActivityLog } from '../../../application/useActivityLog';
 import { activityDateTime } from '../../activityDateTime';
 import { formatActivityAction } from '../../activityMessages';

@@ -1,5 +1,5 @@
 import { defineMessages, useIntl } from 'react-intl';
-import { Alert, AlertDescription, AlertTitle } from '@ortha/design-system';
+import { Alert, AlertDescription, AlertTitle } from '@orthacms/design-system';
 import { ShieldAlert } from 'lucide-react';
 
 const messages = defineMessages({

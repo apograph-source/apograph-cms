@@ -1,5 +1,5 @@
 import { and, eq, inArray, notInArray } from 'drizzle-orm';
-import type { Database } from '@ortha/database';
+import type { Database } from '@orthacms/database';
 import { permissions, rolePermissions, roles } from '../../schema';
 import { PERMISSION_KEYS, SYSTEM_ROLES } from '../system-roles';
 

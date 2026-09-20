@@ -1,5 +1,5 @@
 /**
- * `@ortha/webhooks-domain` — the framework-free kernel behind outgoing
+ * `@orthacms/webhooks-domain` — the framework-free kernel behind outgoing
  * webhooks.
  *
  * Everything a delivery *means* lives here: which events can be subscribed to,

@@ -3,7 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { IntlProvider } from 'react-intl';
 import { MemoryRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { apiClient } from '@ortha/utils-admin';
+import { apiClient } from '@orthacms/utils-admin';
 import { InsightsPage } from './index';
 import {
     INSIGHTS_SECTION_SLOT,
@@ -41,7 +41,7 @@ import {
  * own, which would make the spy's list say nothing about the page.
  */
 
-vi.mock('@ortha/identity-admin', () => ({
+vi.mock('@orthacms/identity-admin', () => ({
     AuthStatus: { Authenticated: 'authenticated' },
     useAuth: () => ({
         status: 'authenticated',
@@ -55,7 +55,7 @@ const WORKSPACE = {
     slug: 'docs'
 };
 
-vi.mock('@ortha/workspaces-admin', () => ({
+vi.mock('@orthacms/workspaces-admin', () => ({
     useCurrentWorkspace: () => WORKSPACE
 }));
 

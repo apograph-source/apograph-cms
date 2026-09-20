@@ -1,11 +1,11 @@
 import { defineMessages, useIntl } from 'react-intl';
 import { AlertTriangle, CircleAlert } from 'lucide-react';
-import { RICH_TEXT_ISSUE } from '@ortha/content-domain';
+import { RICH_TEXT_ISSUE } from '@orthacms/content-domain';
 import type {
     RichTextIssueCode,
     RichTextStructureIssue
-} from '@ortha/content-domain';
-import { cn } from '@ortha/design-system';
+} from '@orthacms/content-domain';
+import { cn } from '@orthacms/design-system';
 
 const messages = defineMessages({
     heading: {

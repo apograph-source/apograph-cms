@@ -1,6 +1,6 @@
 // ortha:if sso-saml
-import type { SamlProviderConfig } from '@ortha/identity-provider-saml';
-import { defined, readEnv, readFlag } from '@ortha/utils-server';
+import type { SamlProviderConfig } from '@orthacms/identity-provider-saml';
+import { defined, readEnv, readFlag } from '@orthacms/utils-server';
 
 /**
  * The SAML provider, or nothing.

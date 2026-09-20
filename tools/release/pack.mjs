@@ -3,7 +3,7 @@
  *
  * In the workspace every package resolves **from source** — `exports` points
  * at `./src/index.ts` and `tsconfig.base.json` sets the
- * `@ortha/source` condition (see AGENTS.md, "How packages resolve").
+ * `@orthacms/source` condition (see AGENTS.md, "How packages resolve").
  * That is a workspace concern, and a published tarball cannot rely on it: a
  * consumer has no such condition and no way to compile our TypeScript.
  *
@@ -21,7 +21,7 @@
  *     README.md LICENSE
  *
  * `nx release publish` points its `packageRoot` here (the target is inferred
- * by `@ortha/nx`), so the tarball is exactly this directory.
+ * by `@orthacms/nx`), so the tarball is exactly this directory.
  *
  * It has to live at the workspace root rather than beside the package: the
  * root `workspaces` globs cover `packages/*`, so a staging directory inside

@@ -7,14 +7,14 @@ import {
     CollapsibleTrigger,
     Input,
     Spinner
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import {
     QueryBuilder,
     countRules,
     type FilterField,
     type FilterGroup,
     type RelationValueEditor
-} from '@ortha/query-builder-admin';
+} from '@orthacms/query-builder-admin';
 
 const messages = defineMessages({
     search: {

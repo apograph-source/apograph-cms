@@ -22,9 +22,9 @@
  * copilot's do not. `src/plugins.ts` already imports the adapter factory, so
  * importing its options type costs no new coupling.
  */
-import type { MailPluginConfig } from '@ortha/mail-server';
+import type { MailPluginConfig } from '@orthacms/mail-server';
 // ortha:if mail-smtp
-import type { SmtpMailProviderOptions } from '@ortha/mail-provider-smtp';
+import type { SmtpMailProviderOptions } from '@orthacms/mail-provider-smtp';
 // ortha:end
 import {
     defined,
@@ -33,7 +33,7 @@ import {
     readOptionalPositiveInt,
     requireEnv,
     when
-} from '@ortha/utils-server';
+} from '@orthacms/utils-server';
 
 // ortha:if mail-smtp
 /**

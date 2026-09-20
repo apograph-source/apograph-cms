@@ -1,7 +1,7 @@
 import {
     SsoVerificationError,
     type SsoProfile
-} from '@ortha/identity-domain';
+} from '@orthacms/identity-domain';
 import {
     DEFAULT_EMAIL_ATTRIBUTES,
     DEFAULT_NAME_ATTRIBUTES,

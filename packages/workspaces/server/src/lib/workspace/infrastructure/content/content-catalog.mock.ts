@@ -3,7 +3,7 @@ import type { ContentTypeDescriptor } from '../../application/ports/content-type
 /**
  * FALLBACK content catalogue, used only when no content plugin is registered to
  * bind {@link CONTENT_CATALOG} (e.g. the workspaces plugin booted standalone in
- * a test). When `@ortha/content-server` is present, the code-defined
+ * a test). When `@orthacms/content-server` is present, the code-defined
  * registry supersedes this. The `name` of each entry is the slug stored in
  * `workspace_content`.
  */

@@ -2,7 +2,7 @@ import { defineMessages, useIntl } from 'react-intl';
 import {
     SegmentedControl,
     SegmentedControlItem
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import { SEGMENT_STATE, type SegmentState } from '../../../domain/types';
 
 const messages = defineMessages({

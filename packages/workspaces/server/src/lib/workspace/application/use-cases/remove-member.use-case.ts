@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { attachActor, OutboxWriter, UnitOfWork } from '@ortha/database';
-import type { PublicUser } from '@ortha/identity-server';
+import { attachActor, OutboxWriter, UnitOfWork } from '@orthacms/database';
+import type { PublicUser } from '@orthacms/identity-server';
 import { WorkspaceId } from '../../domain/value-objects/workspace-id';
 import { WORKSPACE_EVENT_KINDS } from '../../domain/events/workspace-events';
 import {

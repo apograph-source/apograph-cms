@@ -27,12 +27,12 @@ answering them later, under a migration.
 So phase 0 is:
 
 1. **ADR-0013** — the port, and the authority rules that go with it.
-2. **`@ortha/identity-domain`** — a new framework-free package holding the
-   `SsoProvider` port, exactly as `@ortha/copilot-domain` holds
+2. **`@orthacms/identity-domain`** — a new framework-free package holding the
+   `SsoProvider` port, exactly as `@orthacms/copilot-domain` holds
    `ModelProvider`. It has to be its own package: an adapter must be able to
    depend on the port without dragging in Nest, Drizzle and identity's 108
    import sites.
-3. **`@ortha/identity-provider-fake`** — scripted, deterministic, no network.
+3. **`@orthacms/identity-provider-fake`** — scripted, deterministic, no network.
    It is how `server-e2e` drives the whole redirect dance in CI and how a
    contributor exercises the login page offline. Unlike the copilot's scripted
    adapter it is not registered by any host, and never was: a scripted identity
@@ -190,7 +190,7 @@ The copilot ships a package per vendor because the SDKs genuinely differ. SSO
 diverges here on purpose: **the wire is the same**, so most vendors are a
 preset, not a package.
 
-- **Generic OIDC** — `@ortha/identity-provider-oidc`. One adapter covering
+- **Generic OIDC** — `@orthacms/identity-provider-oidc`. One adapter covering
   Okta, Auth0, Keycloak, Google, Entra ID, Authentik, Zitadel, JumpCloud, Ping
   and GitLab through discovery + JWKS. This is the SSO equivalent of the
   copilot's OpenAI-compatible adapter, and it is the highest-leverage thing to

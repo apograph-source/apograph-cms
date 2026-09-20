@@ -5,7 +5,7 @@ import {
     isEmptyRichText,
     validateFieldValue,
     type ValidationIssue
-} from '@ortha/content-domain';
+} from '@orthacms/content-domain';
 import type {
     ContentField,
     ContentTypeDetail
@@ -14,7 +14,7 @@ import { toFieldSpec } from '../../infrastructure/entryFieldSpec';
 
 /**
  * Client-side validation copy. The **rules** are no longer mirrored here — they
- * live once, in the shared `@ortha/content-domain` kernel that the server also
+ * live once, in the shared `@orthacms/content-domain` kernel that the server also
  * validates against, so the admin and server can't drift. This module is a thin
  * i18n **anti-corruption layer**: it runs the kernel over a field's value and, for
  * a failing field, renders the kernel's (stable, English) issue reason as localized

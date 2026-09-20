@@ -1,4 +1,4 @@
-# @ortha/copilot-server
+# @orthacms/copilot-server
 
 The copilot **plugin**. Phase 0 bound the model seam; **phase 1 added the chat
 vertical slice** — the SSE run route, the bounded run engine, the capability
@@ -118,7 +118,7 @@ These are spike findings from phase 1, each now covered by a test.
 registry either. Both facts are settled by
 [ADR-0007](../../../docs/adr/0007-one-tool-registry-two-surfaces.md):
 
-- **The catalogue is `@ortha/tools-server`'s `ToolRegistry`** — the same
+- **The catalogue is `@orthacms/tools-server`'s `ToolRegistry`** — the same
   instance the MCP endpoint serves. `CopilotToolRegistry`,
   `COPILOT_TOOL_PROVIDER`, `ToolSpec` and `copilotToolsRegistrar` are gone. A
   binder implements `ToolProvider`, injects `ToolRegistry` `@Optional()`, and
@@ -660,13 +660,13 @@ registry ADR-0004 §5 anticipates ever lands.
 
 ## Package
 
-- Name: `@ortha/copilot-server`
+- Name: `@orthacms/copilot-server`
 - Register **after** `WorkspacesPlugin` (runs are workspace-scoped) and
   `IdentityPlugin` (runs execute as the calling user)
 
 ## Commands
 
-- `npx nx typecheck @ortha/copilot-server`
-- `npx nx lint @ortha/copilot-server`
-- `npx nx test @ortha/copilot-server`
-- `npx nx run @ortha/copilot-server:db:generate --name=<name>`
+- `npx nx typecheck @orthacms/copilot-server`
+- `npx nx lint @orthacms/copilot-server`
+- `npx nx test @orthacms/copilot-server`
+- `npx nx run @orthacms/copilot-server:db:generate --name=<name>`

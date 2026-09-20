@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { eq } from 'drizzle-orm';
-import { InjectDatabase, type Database } from '@ortha/database';
+import { InjectDatabase, type Database } from '@orthacms/database';
 import { userPreferences } from '../../schema';
 import type { UpdatePreferencesDto } from '../dto/update-preferences.dto';
 

@@ -4,7 +4,7 @@ import {
     Tooltip,
     TooltipContent,
     TooltipTrigger
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import {
     entryStatusView,
     ENTRY_STATUS_VIEW,

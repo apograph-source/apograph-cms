@@ -1,7 +1,7 @@
 import type { INestApplication } from '@nestjs/common';
 import { and, desc, eq, gt, isNull } from 'drizzle-orm';
 import { Pool } from 'pg';
-import { getDatabase, getPool } from '@ortha/database';
+import { getDatabase, getPool } from '@orthacms/database';
 import {
     RootAdminService,
     apiTokens,
@@ -12,13 +12,13 @@ import {
     tokens,
     users,
     type RootAdminOutcome
-} from '@ortha/identity-server';
+} from '@orthacms/identity-server';
 import {
     memberships,
     workspaceContent,
     workspaces
-} from '@ortha/workspaces-server';
-import { mediaAsset, mediaFolder } from '@ortha/media-server';
+} from '@orthacms/workspaces-server';
+import { mediaAsset, mediaFolder } from '@orthacms/media-server';
 // The e2e-owned generated content tables (from the harness's own content model,
 // NOT the app's collections). Specs reach these only through the helpers below.
 import {

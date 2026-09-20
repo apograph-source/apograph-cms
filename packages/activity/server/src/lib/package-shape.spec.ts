@@ -95,7 +95,7 @@ function codeLines(
 /** `path:line` for the assertion messages — the point of failing is to say where. */
 const at = (hit: { file: string; line: number }) => `${hit.file}:${hit.line}`;
 
-describe('the shape of @ortha/activity-server', () => {
+describe('the shape of @orthacms/activity-server', () => {
     describe('one writer, and it is the subscriber', () => {
         /** Every production source in the repository, tests excluded. */
         const REPO_CODE = codeLines([

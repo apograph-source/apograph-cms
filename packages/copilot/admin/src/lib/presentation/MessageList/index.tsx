@@ -6,8 +6,8 @@ import {
     type MessageDescriptor
 } from 'react-intl';
 import { CircleAlert, TriangleAlert } from 'lucide-react';
-import { Alert, AlertDescription, AlertTitle } from '@ortha/design-system';
-import type { ToolPermissionDecision } from '@ortha/copilot-domain';
+import { Alert, AlertDescription, AlertTitle } from '@orthacms/design-system';
+import type { ToolPermissionDecision } from '@orthacms/copilot-domain';
 import type { ChatMessage, ChatToolStep } from '../../domain/types/chat';
 import { Markdown } from '../Markdown';
 import { ToolStep } from '../ToolStep';

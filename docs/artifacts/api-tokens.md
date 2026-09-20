@@ -37,7 +37,7 @@ An external application — a site builder, a migration script, an AI agent — 
 
 A CMS does not store content only so that it can be looked at in the admin UI. The site's front end pulls it, a mobile app reads it, a migration script edits it, an external agent pages through it over MCP. All of these consumers need access, and none of them should go in under a living employee's account: that person will leave, change their password or lose a permission — and production goes down with them.
 
-**An API token is a separate identity for a machine.** It has a name ("Production storefront"), a list of workspaces it is allowed to work in, an access level (read-only or full CRUD), an optional expiry, and exactly one operation that cuts it off — revocation. The `@ortha/api-tokens-admin` package is the interface over all of that: the `/api-tokens` page in the global sidebar.
+**An API token is a separate identity for a machine.** It has a name ("Production storefront"), a list of workspaces it is allowed to work in, an access level (read-only or full CRUD), an optional expiry, and exactly one operation that cuts it off — revocation. The `@orthacms/api-tokens-admin` package is the interface over all of that: the `/api-tokens` page in the global sidebar.
 
 ### The problem it solves
 
@@ -64,8 +64,8 @@ They hold no `tokens:*` permission at all. There is no sidebar item; navigating 
 
 The boundaries matter more than the capabilities here: tokens are a topic smeared across three packages, and confusing them is expensive.
 
-- **It is not the token server.** The `POST`/`GET`/`DELETE /api/api-tokens` routes, the `api_tokens` and `api_token_workspaces` tables, secret generation, hashing, verification and revocation live in `@ortha/identity-server` (the `src/lib/api-tokens/` folder). What lives here is only a client to them. The server mechanics are described in detail in the Identity dossier; this document retells them only as far as is needed to understand the lifecycle.
-- **It is not the public API.** What a token is spent against is `/api/v1/…` from `@ortha/content-server` (plus media, segments, GraphQL and MCP). The bearer guard, the workspace resolution and the content-grant check are there.
+- **It is not the token server.** The `POST`/`GET`/`DELETE /api/api-tokens` routes, the `api_tokens` and `api_token_workspaces` tables, secret generation, hashing, verification and revocation live in `@orthacms/identity-server` (the `src/lib/api-tokens/` folder). What lives here is only a client to them. The server mechanics are described in detail in the Identity dossier; this document retells them only as far as is needed to understand the lifecycle.
+- **It is not the public API.** What a token is spent against is `/api/v1/…` from `@orthacms/content-server` (plus media, segments, GraphQL and MCP). The bearer guard, the workspace resolution and the content-grant check are there.
 - **It is not workspaces.** The list for the selector comes from `GET /api/workspaces`; the package itself knows nothing about workspaces beyond their `id` and `name`.
 - **It is not the activity log.** The events are produced by `identity-server`, the log rows are written by `activity`, and the `/activity` page displays them.
 - **It is not a second credential store.** MCP and GraphQL do not mint keys of their own: they accept exactly the same tokens, verified by the same `ApiTokenService.verify`. Revoking on this page kills access there too.
@@ -104,7 +104,7 @@ The package's public API (`src/index.ts`) is deliberately narrow: the plugin fac
 
 > **Neighbours that are easy to confuse**
 >
-> **`@ortha/identity-server`** — `ApiTokenService`, `DrizzleApiTokenRepository`, `ApiTokensController`, both tables, both migrations, the `scopePermissions` function. **`@ortha/content-server`** — `ApiTokenGuard` and `ApiTokenWorkspaceGuard`, that is, _spending_ a token. **`@ortha/workspaces-server`** — the `WORKSPACE_HEADER` constant (`x-workspace-id`) and the adapter for the `WORKSPACE_DIRECTORY` port. **`@ortha/activity`** — the log rows.
+> **`@orthacms/identity-server`** — `ApiTokenService`, `DrizzleApiTokenRepository`, `ApiTokensController`, both tables, both migrations, the `scopePermissions` function. **`@orthacms/content-server`** — `ApiTokenGuard` and `ApiTokenWorkspaceGuard`, that is, _spending_ a token. **`@orthacms/workspaces-server`** — the `WORKSPACE_HEADER` constant (`x-workspace-id`) and the adapter for the `WORKSPACE_DIRECTORY` port. **`@orthacms/activity`** — the log rows.
 
 ## 03. Permissions and token scope
 
@@ -369,7 +369,7 @@ They belong to other packages; they are listed because without them the token's 
 | POST /v1/graphql<br>GET /v1/graphql (sandbox)                                                 | `bearer` | `content:read` at the door, then per resolver             | content-graphql                       |
 | POST /v1/mcp                                                                                  | `bearer` | per each tool's `requires`                                | mcp-server (enabled by `MCP_ENABLED`) |
 
-The `X-Workspace-Id` header applies to all of the surfaces listed; MCP has an equivalent alternative, `?workspaceId=` on the endpoint URL. The header constant (`WORKSPACE_HEADER`) and the id-validation pattern live in `@ortha/workspaces-server`, so that the session path and the token path name a workspace the same way.
+The `X-Workspace-Id` header applies to all of the surfaces listed; MCP has an equivalent alternative, `?workspaceId=` on the endpoint URL. The header constant (`WORKSPACE_HEADER`) and the id-validation pattern live in `@orthacms/workspaces-server`, so that the session path and the token path name a workspace the same way.
 
 ## 08. Admin UI: the screen, its states, its behaviour
 
@@ -662,6 +662,6 @@ The other defects: an unparseable `expiresAt` reached `mint` as an Invalid Date 
 
 ---
 
-**The second artifact in the series.** Written from the `packages/api-tokens/admin` package in the same frame as the Identity dossier: business description → composition → permissions → data → lifecycle → flows → API → admin UI → constants → security → invariants → checklist → boundaries → discrepancies. The server-side mechanics of tokens belong to `@ortha/identity-server` and are described in the Identity dossier; here they are retold only as far as the token's lifecycle needs to hold together.
+**The second artifact in the series.** Written from the `packages/api-tokens/admin` package in the same frame as the Identity dossier: business description → composition → permissions → data → lifecycle → flows → API → admin UI → constants → security → invariants → checklist → boundaries → discrepancies. The server-side mechanics of tokens belong to `@orthacms/identity-server` and are described in the Identity dossier; here they are retold only as far as the token's lifecycle needs to hold together.
 
 The source is the source code: all of `packages/api-tokens/admin/**`, `packages/identity/server/src/lib/api-tokens/**` (the service, the repository, the controller, the DTOs, the domain scope function), `packages/identity/server/src/lib/schema/api-tokens.ts` and migrations `0002`/`0003`, the guards in `packages/content/server/src/lib/public-api/http/guards/**`, the event mapping in `packages/activity/server`, plus the e2e suites in `apps/admin-e2e/src/api-tokens/` and `apps/server-e2e/src/server/api-tokens/`. The `AGENTS.md` files were used as a skeleton, but every claim was checked against the implementation — discrepancies went into section 14.

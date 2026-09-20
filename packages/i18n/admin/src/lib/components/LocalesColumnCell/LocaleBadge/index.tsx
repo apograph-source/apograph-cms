@@ -1,11 +1,11 @@
 import { defineMessages, useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
-import { Badge } from '@ortha/design-system';
+import { Badge } from '@orthacms/design-system';
 import {
     entryStatusView,
     ENTRY_STATUS_VIEW_LABEL,
     ENTRY_STATUS_VIEW_VARIANT
-} from '@ortha/content-admin';
+} from '@orthacms/content-admin';
 import type { LocaleSummaryItem } from '../../../types/locale';
 
 const messages = defineMessages({

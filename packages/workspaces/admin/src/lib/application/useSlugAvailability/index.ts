@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { useDebouncedValue } from '@ortha/utils-admin';
+import { useDebouncedValue } from '@orthacms/utils-admin';
 import { Slug } from '../../domain/slug';
 import { SlugStatus } from '../../domain/types/wizard';
 import { httpWorkspaceGateway } from '../../infrastructure/httpWorkspaceGateway';

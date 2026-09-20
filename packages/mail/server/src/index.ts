@@ -1,5 +1,5 @@
 /**
- * `@ortha/mail-server` — the CMS's outgoing messages.
+ * `@orthacms/mail-server` — the CMS's outgoing messages.
  *
  * Owns one table (`mail_deliveries`) and ships its migrations, renders the
  * three transactional messages the product sends, and hands them to the one
@@ -12,7 +12,7 @@
  * still obeys ADR-0016's rule — claim, commit, then open a socket.
  *
  * What a message *says*, and the two ports either side of it, live in
- * `@ortha/mail-domain`.
+ * `@orthacms/mail-domain`.
  */
 
 export {

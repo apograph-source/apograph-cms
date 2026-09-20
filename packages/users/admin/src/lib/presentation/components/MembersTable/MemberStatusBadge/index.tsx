@@ -1,5 +1,5 @@
 import { defineMessages, useIntl } from 'react-intl';
-import { Badge, cn } from '@ortha/design-system';
+import { Badge, cn } from '@orthacms/design-system';
 import type { MemberStatus } from '../../../../domain/types/member';
 
 /** Intl descriptors for {@link MemberStatusBadge}, co-located with the component. */

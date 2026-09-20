@@ -6,7 +6,7 @@ import {
     EmptyHeader,
     EmptyMedia,
     EmptyTitle
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import { LibraryBig } from 'lucide-react';
 
 /** Intl descriptors for the content-library landing, co-located here. */

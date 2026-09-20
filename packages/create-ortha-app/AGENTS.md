@@ -8,13 +8,13 @@ consumes every package from npm.
 - Name: **`create-ortha-app`** — unscoped, so `npx create-ortha-app` and
   `npm create ortha-app` both work. It is the one package in this workspace
   outside the `@ortha` scope, which is why `nx.json`'s `release.projects`
-  names it explicitly alongside the `@ortha/*` glob.
+  names it explicitly alongside the `@orthacms/*` glob.
 - Binary: `create-ortha-app`
 - Released **in lockstep** with everything else.
 
 ## The version mechanism
 
-The scaffolder stamps **its own version** into every `@ortha/*` dependency of
+The scaffolder stamps **its own version** into every `@orthacms/*` dependency of
 the generated app (`__ORTHA_VERSION__`). Since the release is lockstep, its
 version _is_ the matching set — so `npx create-ortha-app@0.4.0` generates a
 0.4.0 app, and a generated app is internally consistent by construction.
@@ -31,12 +31,12 @@ registry is also what makes `create-ortha-app@<old>` reproducible.
 
 Two upkeep rules, both enforced by tests rather than by memory.
 
-**Releasing does not require a template edit.** Every `@ortha/*` dependency
+**Releasing does not require a template edit.** Every `@orthacms/*` dependency
 is written as `__ORTHA_VERSION__` and stamped with the scaffolder's own version
 at render time, so a lockstep release bumps the whole generated set with nothing
 to update here. There is no version list to fall behind.
 
-**Adding a package does require one.** Every published `@ortha/*` package
+**Adding a package does require one.** Every published `@orthacms/*` package
 must be classified in [`src/lib/features.ts`](src/lib/features.ts) as exactly
 one of:
 
@@ -53,7 +53,7 @@ publishes, nothing references it, and nobody notices until a user asks why the
 feature they read about is missing.
 
 **Everything reachable is declared.** A generated app's manifest lists every
-`@ortha/*` package it could import, the extension points included — the
+`@orthacms/*` package it could import, the extension points included — the
 `*-domain` kernels (`content`, `copilot`, `identity`, `media`, `segments`,
 `transfer`, `webhooks`) plus `tools-server` and `query-builder-admin`. Every one
 of them arrives transitively anyway, so an import resolves on npm's flat
@@ -184,7 +184,7 @@ separate places — each of which failed loudly the first time:
 
 | Where                         | Why                                                                                                                                                                                                                                                                  |
 | ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `.nxignore`                   | Nx inference walks every directory. Left visible, `@ortha/nx` infers a `db:migrate` target onto `templates/default/src/server` — a directory with no project name — and **the whole project graph fails to build**, taking every `nx` command in the repo with it |
+| `.nxignore`                   | Nx inference walks every directory. Left visible, `@orthacms/nx` infers a `db:migrate` target onto `templates/default/src/server` — a directory with no project name — and **the whole project graph fails to build**, taking every `nx` command in the repo with it |
 | `tsconfig.lib.json` `exclude` | `tsc --build` would compile app-shaped files against this workspace's resolve-from-source setup                                                                                                                                                                      |
 | `eslint.config.mjs` `ignores` | Same, for lint                                                                                                                                                                                                                                                       |
 | `.prettierignore`             | The files carry `__PLACEHOLDER__` tokens inside JSON                                                                                                                                                                                                                 |
@@ -219,11 +219,11 @@ my-cms/
 
 **The same four apps this repo is built from**, so anyone who has read the
 Ortha source finds the same shape in their project — and `LAYOUT` in
-`@ortha/cli` has one tree to describe rather than two.
+`@orthacms/cli` has one tree to describe rather than two.
 
 Still **one** `package.json`, deliberately: npm workspaces would let the two
 halves resolve different copies of a shared package, and `pack.mjs` pins
-internal deps per release, so a split risks two `@ortha/design-system`
+internal deps per release, so a split risks two `@orthacms/design-system`
 instances — two React contexts, and a UI that silently stops talking to itself.
 
 `apps/server/tsconfig.json` sets `rootDir` to the app directory, which is what
@@ -247,7 +247,7 @@ because it consumes packages from npm rather than from source:
    excludes `node_modules` from content detection, so without this the entire
    admin renders unstyled — and nothing errors. It must stay a **bare
    directory**: a `@source` containing a glob is still filtered through the
-   ignore rules, so `@ortha/*/dist/**/*.js` matches nothing and the emitted
+   ignore rules, so `@orthacms/*/dist/**/*.js` matches nothing and the emitted
    stylesheet is the theme block alone (~15 kB, no component utilities). Only a
    literal directory path is registered as an explicit content root that
    bypasses those rules.
@@ -262,7 +262,7 @@ One template serves every feature combination through `ortha:if` markers
 
 ```ts
 // ortha:if copilot
-import { CopilotPlugin } from '@ortha/copilot-server';
+import { CopilotPlugin } from '@orthacms/copilot-server';
 // ortha:end
 ```
 

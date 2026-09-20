@@ -12,14 +12,14 @@ import {
     DropdownMenuTrigger,
     badgeVariants,
     cn
-} from '@ortha/design-system';
-import { useHasPermission } from '@ortha/identity-admin';
-import { useUnsavedChangesApi } from '@ortha/utils-admin';
+} from '@orthacms/design-system';
+import { useHasPermission } from '@orthacms/identity-admin';
+import { useUnsavedChangesApi } from '@orthacms/utils-admin';
 import {
     ENTRY_MODE,
     type EntryStatus,
     type EntrySlotContext
-} from '@ortha/content-admin';
+} from '@orthacms/content-admin';
 import {
     CONTENT_CREATE,
     LOCALE_GROUP_PARAM,

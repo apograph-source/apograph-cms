@@ -1,4 +1,4 @@
-import { proposalEventActor } from '@ortha/copilot-server';
+import { proposalEventActor } from '@orthacms/copilot-server';
 import { Injectable } from '@nestjs/common';
 import { Readable } from 'node:stream';
 import type {
@@ -6,7 +6,7 @@ import type {
     ProposalApplier,
     ProposalApplyResult,
     ProposalTarget
-} from '@ortha/copilot-domain';
+} from '@orthacms/copilot-domain';
 import { UploadAssetUseCase } from '../application/use-cases/upload-asset.use-case';
 import { FILE_FORMATS, isFileFormat } from './file-formats';
 import { MEDIA_PROPOSAL_KINDS } from './proposal-kinds';

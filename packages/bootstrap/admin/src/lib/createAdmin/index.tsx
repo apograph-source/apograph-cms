@@ -9,12 +9,12 @@ import {
 } from 'react-router-dom';
 import { IntlProvider } from 'react-intl';
 import { QueryClientProvider } from '@tanstack/react-query';
-import { queryClient, wireSlotContributions } from '@ortha/utils-admin';
+import { queryClient, wireSlotContributions } from '@orthacms/utils-admin';
 import {
     AppearanceProvider,
     TooltipProvider,
     Toaster
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import { UnsavedChangesGuard } from '../UnsavedChangesGuard';
 import { AppErrorBoundary } from '../AppErrorBoundary';
 import { RouteAnnouncer } from '../RouteAnnouncer';

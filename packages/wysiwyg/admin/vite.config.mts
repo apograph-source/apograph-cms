@@ -22,7 +22,7 @@ export default defineConfig(() => ({
     cacheDir: '../../../node_modules/.vite/packages/wysiwyg/admin',
     plugins: [react()],
     test: {
-        name: '@ortha/wysiwyg-admin',
+        name: '@orthacms/wysiwyg-admin',
         watch: false,
         globals: true,
         environment: 'jsdom',

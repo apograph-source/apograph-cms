@@ -9,7 +9,7 @@ import {
 } from '../support/api/userDetail';
 
 /**
- * The toolbar account menu (`AccountMenu`, `@ortha/users-admin`,
+ * The toolbar account menu (`AccountMenu`, `@orthacms/users-admin`,
  * contributed to the shell's `NAVBAR_END_SLOT`): the signed-in user's avatar +
  * dropdown with their name/email, a link to their own profile, and Logout.
  * Signed in as Ada (a member in the roster) so "My profile" lands on a real

@@ -1,6 +1,6 @@
 // ortha:if sso-oidc
-import type { OidcProviderConfig } from '@ortha/identity-provider-oidc';
-import { defined, readEnv, readFlag } from '@ortha/utils-server';
+import type { OidcProviderConfig } from '@orthacms/identity-provider-oidc';
+import { defined, readEnv, readFlag } from '@orthacms/utils-server';
 
 /**
  * The OIDC provider, or nothing.

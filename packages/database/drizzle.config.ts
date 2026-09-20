@@ -2,7 +2,7 @@ import { defineConfig } from 'drizzle-kit';
 
 /**
  * Generation config for the database plugin's schema. `db:generate`
- * (the @ortha/nx plugin) runs drizzle-kit against this. Generation
+ * (the @orthacms/nx plugin) runs drizzle-kit against this. Generation
  * only diffs the schema against the snapshot — it never connects to a
  * database, so no `dbCredentials` (and no secret) is needed here.
  *

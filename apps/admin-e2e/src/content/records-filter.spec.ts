@@ -18,7 +18,7 @@ import {
 const ARTICLES_URL = `/workspaces/${RELATIONS_WORKSPACE.id}/content/article`;
 
 /**
- * The records-table **filter drawer** (`@ortha/query-builder-admin`) over a
+ * The records-table **filter drawer** (`@orthacms/query-builder-admin`) over a
  * collection with **relations** (`article` → `author`). This is the admin-side
  * wiring for relation filtering: the field picker (now a searchable, grouped
  * `Command`) offers a related type's fields under a breadcrumb, and applying a

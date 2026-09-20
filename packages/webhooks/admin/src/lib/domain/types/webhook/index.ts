@@ -1,7 +1,7 @@
 /**
  * Every state a delivery can be in.
  *
- * Restated here rather than imported from `@ortha/webhooks-domain`, and that
+ * Restated here rather than imported from `@orthacms/webhooks-domain`, and that
  * is deliberate twice over. It is the convention — the admin restates the
  * server's contracts locally, so a server-side rename surfaces as a type error
  * here instead of as `undefined` in a cell. And it is a hard requirement: that

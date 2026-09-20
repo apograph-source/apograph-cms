@@ -1,6 +1,6 @@
 import { Module, type DynamicModule } from '@nestjs/common';
-import { MAIL_DISPATCHER, MAIL_PROVIDER } from '@ortha/mail-domain';
-import type { MailProvider } from '@ortha/mail-domain';
+import { MAIL_DISPATCHER, MAIL_PROVIDER } from '@orthacms/mail-domain';
+import type { MailProvider } from '@orthacms/mail-domain';
 import { MAIL_CONFIG } from './mail.tokens';
 import { MailDispatcherService } from './application/mail-dispatcher.service';
 import { MailDeliveryRepository } from './infrastructure/mail-delivery.repository';

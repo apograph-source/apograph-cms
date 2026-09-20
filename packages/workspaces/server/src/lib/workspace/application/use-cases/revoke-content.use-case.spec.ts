@@ -1,5 +1,5 @@
-import type { OutboxWriter, UnitOfWork, DomainEvent } from '@ortha/database';
-import type { PublicUser } from '@ortha/identity-server';
+import type { OutboxWriter, UnitOfWork, DomainEvent } from '@orthacms/database';
+import type { PublicUser } from '@orthacms/identity-server';
 import { RevokeContentUseCase } from './revoke-content.use-case';
 import { ContentEntryCounterReader } from '../content/content-entry-counter.reader';
 import { Workspace } from '../../domain/workspace';

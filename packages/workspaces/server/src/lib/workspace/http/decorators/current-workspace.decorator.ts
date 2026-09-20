@@ -3,7 +3,7 @@ import {
     InternalServerErrorException,
     type ExecutionContext
 } from '@nestjs/common';
-import type { AuthenticatedRequest } from '@ortha/identity-server';
+import type { AuthenticatedRequest } from '@orthacms/identity-server';
 
 /**
  * Parameter decorator returning the workspace id that {@link WorkspaceGuard}

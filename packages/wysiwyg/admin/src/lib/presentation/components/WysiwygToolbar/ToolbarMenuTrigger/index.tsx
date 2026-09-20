@@ -6,7 +6,7 @@ import {
     TooltipContent,
     TooltipTrigger,
     cn
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 
 /**
  * The button that opens one of the toolbar's dropdowns (text style, colors,

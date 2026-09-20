@@ -17,7 +17,7 @@ const PENDING_MEMBER = DEFAULT_MEMBERS.filter(
 )[0];
 
 /**
- * The Members page (`/users`, `@ortha/users-admin`): rendering the roster,
+ * The Members page (`/users`, `@orthacms/users-admin`): rendering the roster,
  * search and its two empty states, the invite wizard, status-dependent row
  * actions, the failed read, and permission gating — of the page, of the nav
  * entry that points at it, and of the request behind it. The backend is the

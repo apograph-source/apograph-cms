@@ -1,6 +1,6 @@
 /**
  * The admin route that redeems a password reset. Owned by
- * `@ortha/identity-admin` (its router mounts `reset-password` under
+ * `@orthacms/identity-admin` (its router mounts `reset-password` under
  * `/identity`); repeated here for the same reason the invite path is — a path
  * string is not worth a package dependency, and the e2e suites assert the built
  * link so a drift would fail loudly.

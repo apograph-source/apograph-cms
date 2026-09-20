@@ -2,7 +2,7 @@ import { type Page } from '@playwright/test';
 import { type WorkspaceView } from './workspaces';
 
 /**
- * Mock layer for the i18n feature (`@ortha/i18n-admin` + the content
+ * Mock layer for the i18n feature (`@orthacms/i18n-admin` + the content
  * library's slots). Self-contained: it stubs the content-schema, records-list,
  * and the four `/api/i18n/**` endpoints for one localized collection
  * (`localized_post`), so a spec only needs `mockSignedIn`, `mockWorkspaces`,

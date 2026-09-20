@@ -7,7 +7,7 @@ import {
     type MailKind,
     type RevealableLink,
     type TransactionalMail
-} from '@ortha/mail-domain';
+} from '@orthacms/mail-domain';
 import { InjectMailConfig } from '../mail.tokens';
 import type { ResolvedMailConfig } from '../types/mail-config';
 import { MailDeliveryRepository } from '../infrastructure/mail-delivery.repository';

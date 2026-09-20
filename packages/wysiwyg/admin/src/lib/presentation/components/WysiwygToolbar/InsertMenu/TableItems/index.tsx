@@ -4,7 +4,7 @@ import {
     DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuSeparator
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import { useLiveEditorState } from '../../../../hooks/useLiveEditorState';
 
 const messages = defineMessages({

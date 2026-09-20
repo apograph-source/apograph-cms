@@ -1,12 +1,12 @@
 import { drizzle } from 'drizzle-orm/node-postgres';
-import type { Database, EventActor } from '@ortha/database';
-import type { UploadAssetUseCase } from '@ortha/media-server';
+import type { Database, EventActor } from '@orthacms/database';
+import type { UploadAssetUseCase } from '@orthacms/media-server';
 import {
     TransferAssetMap,
     emptyCounts,
     type ImportCounts,
     type TransferAssetRef
-} from '@ortha/transfer-domain';
+} from '@orthacms/transfer-domain';
 import {
     ImportMediaService,
     beginMediaRun,

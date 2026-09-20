@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
-import { Badge } from '@ortha/design-system';
+import { Badge } from '@orthacms/design-system';
 import type {
     MediaRef,
     RelationRef

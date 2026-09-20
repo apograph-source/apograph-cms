@@ -16,7 +16,7 @@ import {
 const SETTLED = { timeout: 20_000 };
 
 /**
- * The webhooks pages (`@ortha/webhooks-admin`): the list's derived states,
+ * The webhooks pages (`@orthacms/webhooks-admin`): the list's derived states,
  * the four page states, the editor's "All …" toggles, the one-time secret, and
  * the detail page's two tabs.
  */

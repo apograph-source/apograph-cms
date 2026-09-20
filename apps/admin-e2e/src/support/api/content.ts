@@ -504,8 +504,8 @@ export const READ_ONLY_SCHEMA_SEED: ContentTypeSummary[] = [
  * going inert: a plain text input, a `color`-widget text input (an `admin.widget`
  * hint the built-in control renders as text — the field this whole suite was
  * written for), a select, a boolean segmented control, a date picker, a rich-text
- * body (a *contributed* control, `@ortha/wysiwyg-admin`), and a media field
- * (a *contributed tab*, `@ortha/media-admin`). A regression that reaches only
+ * body (a *contributed* control, `@orthacms/wysiwyg-admin`), and a media field
+ * (a *contributed tab*, `@orthacms/media-admin`). A regression that reaches only
  * the built-ins would pass a single-field seed.
  */
 export const READ_ONLY_DETAIL_SEED: Record<string, ContentTypeDetail> = {

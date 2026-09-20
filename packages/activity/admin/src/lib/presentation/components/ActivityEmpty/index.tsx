@@ -8,7 +8,7 @@ import {
     EmptyHeader,
     EmptyMedia,
     EmptyTitle
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 
 /** Intl descriptors for {@link ActivityEmpty}, co-located with the component. */
 const messages = defineMessages({

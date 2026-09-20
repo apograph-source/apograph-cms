@@ -1,4 +1,4 @@
-import { MailPermanentError } from '@ortha/mail-domain';
+import { MailPermanentError } from '@orthacms/mail-domain';
 import { createSmtpMailProvider } from './smtp-mail-provider';
 import { describeSmtpError, isPermanentSmtpError } from './smtp-error';
 

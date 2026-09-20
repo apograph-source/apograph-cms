@@ -1,5 +1,5 @@
 import { defineMessages, useIntl } from 'react-intl';
-import { Alert, AlertDescription, AlertTitle } from '@ortha/design-system';
+import { Alert, AlertDescription, AlertTitle } from '@orthacms/design-system';
 import { Bell, TriangleAlert } from 'lucide-react';
 import type { AlarmRule } from '../../../types/alarm';
 import { RuleCard } from './RuleCard';

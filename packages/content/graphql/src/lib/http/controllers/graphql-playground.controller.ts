@@ -1,6 +1,6 @@
 import { Controller, Get, Header, Req } from '@nestjs/common';
 import { ApiExcludeEndpoint } from '@nestjs/swagger';
-import { Public } from '@ortha/identity-server';
+import { Public } from '@orthacms/identity-server';
 import { renderGraphiQL } from '@graphql-yoga/render-graphiql';
 import type { Request } from 'express';
 

@@ -9,10 +9,10 @@ import {
     PERMISSIONS,
     PermissionsGuard,
     RequirePermissions
-} from '@ortha/identity-server';
-import { CurrentWorkspace, WorkspaceGuard } from '@ortha/workspaces-server';
-import { InjectContentRegistry } from '@ortha/content-server';
-import type { ContentTypeRegistry } from '@ortha/content-server';
+} from '@orthacms/identity-server';
+import { CurrentWorkspace, WorkspaceGuard } from '@orthacms/workspaces-server';
+import { InjectContentRegistry } from '@orthacms/content-server';
+import type { ContentTypeRegistry } from '@orthacms/content-server';
 import {
     LocaleGroupService,
     type EntryLocalesView

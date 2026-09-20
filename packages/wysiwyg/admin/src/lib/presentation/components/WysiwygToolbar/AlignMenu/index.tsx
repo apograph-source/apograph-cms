@@ -8,7 +8,7 @@ import {
     DropdownMenuRadioGroup,
     DropdownMenuRadioItem,
     DropdownMenuTrigger
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import {
     MEDIA_ALIGNS,
     WYSIWYG_MEDIA_KINDS,

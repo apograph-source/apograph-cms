@@ -1,10 +1,10 @@
 import { useMutation } from '@tanstack/react-query';
-import { apiClient } from '@ortha/utils-admin';
+import { apiClient } from '@orthacms/utils-admin';
 import type {
     ConflictPolicy,
     ImportPreview,
     RelationPolicy
-} from '@ortha/transfer-domain';
+} from '@orthacms/transfer-domain';
 
 /** The settings both import routes take, as the dialog holds them. */
 export interface ImportOptions {

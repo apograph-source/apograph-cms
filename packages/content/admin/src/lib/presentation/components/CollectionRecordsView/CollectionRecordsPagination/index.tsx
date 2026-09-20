@@ -11,7 +11,7 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 
 /** Intl descriptors for {@link CollectionRecordsPagination}, co-located. */
 const messages = defineMessages({

@@ -3,7 +3,7 @@ import { BasePage } from './BasePage';
 
 /**
  * Page object for Insights at `/workspaces/:id/insights` (from
- * `@ortha/insights-admin`) — the section bands, the widget cards and the
+ * `@orthacms/insights-admin`) — the section bands, the widget cards and the
  * range picker. Seed it with `mockSignedIn`, `mockWorkspaces` and
  * `mockInsightsApi`.
  *

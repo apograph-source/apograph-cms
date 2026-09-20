@@ -168,7 +168,7 @@ export function readList(name: string, fallback: string): string[] {
  * ignoring forwarded headers entirely.
  *
  * Returns the union structurally rather than importing `TrustProxySetting`
- * from `@ortha/bootstrap-server`: this is a leaf helper package, and the
+ * from `@orthacms/bootstrap-server`: this is a leaf helper package, and the
  * host importing it must not become a dependency of it. The host's own
  * `trustProxy?: TrustProxySetting` field is what checks the two agree.
  */

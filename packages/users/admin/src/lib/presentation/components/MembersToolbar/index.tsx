@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
-import { SearchToolbar } from '@ortha/design-system';
+import { SearchToolbar } from '@orthacms/design-system';
 
 /** Intl descriptors for {@link MembersToolbar}, co-located with the component. */
 const messages = defineMessages({

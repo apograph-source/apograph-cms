@@ -5,7 +5,7 @@ import {
     useQueryClient,
     type QueryClient
 } from '@tanstack/react-query';
-import { type ApiError } from '@ortha/utils-admin';
+import { type ApiError } from '@orthacms/utils-admin';
 import type {
     EntryReview,
     EntryReviewStatus,

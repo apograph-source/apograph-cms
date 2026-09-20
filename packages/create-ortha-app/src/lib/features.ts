@@ -2,13 +2,13 @@
  * What a generated app is made of.
  *
  * **This file is the contract between the release and the scaffolder.** Every
- * published `@ortha/*` package is accounted for here exactly once — as core,
+ * published `@orthacms/*` package is accounted for here exactly once — as core,
  * as part of an optional feature, or as deliberately transitive — and
  * `features.spec.ts` fails the build when one is not. That guard is the point:
  * adding a package to the workspace should force a decision about whether a new
  * app gets it, rather than the template quietly falling a release behind.
  *
- * Versions are *not* listed. Every `@ortha/*` dependency is pinned to the
+ * Versions are *not* listed. Every `@orthacms/*` dependency is pinned to the
  * scaffolder's own version at render time (`__ORTHA_VERSION__`), so a release
  * bumps the whole set with no edit here.
  */
@@ -21,7 +21,7 @@ export interface Feature {
     label: string;
     /** One line under the label. */
     hint: string;
-    /** `@ortha/*` packages added to the app when this is enabled. */
+    /** `@orthacms/*` packages added to the app when this is enabled. */
     packages: readonly string[];
     /** Whether it starts ticked. */
     enabledByDefault: boolean;
@@ -102,60 +102,60 @@ export interface Feature {
  * pnpm at all.
  */
 export const CORE_PACKAGES: readonly string[] = [
-    '@ortha/activity-admin',
-    '@ortha/activity-server',
-    '@ortha/alarms-admin',
-    '@ortha/alarms-server',
-    '@ortha/api-tokens-admin',
-    '@ortha/bootstrap-admin',
-    '@ortha/bootstrap-server',
-    '@ortha/content-admin',
-    '@ortha/content-domain',
-    '@ortha/content-server',
-    '@ortha/copilot-admin',
-    '@ortha/copilot-domain',
-    '@ortha/copilot-server',
-    '@ortha/database',
-    '@ortha/design-system',
-    '@ortha/i18n-admin',
-    '@ortha/i18n-server',
-    '@ortha/identity-admin',
-    '@ortha/identity-domain',
-    '@ortha/identity-provider-fake',
-    '@ortha/identity-server',
-    '@ortha/insights-admin',
-    '@ortha/mail-domain',
-    '@ortha/mail-provider-console',
-    '@ortha/mail-provider-testkit',
-    '@ortha/media-admin',
-    '@ortha/media-domain',
-    '@ortha/media-server',
-    '@ortha/protection-admin',
-    '@ortha/protection-domain',
-    '@ortha/protection-server',
-    '@ortha/query-builder-admin',
-    '@ortha/segments-admin',
-    '@ortha/segments-domain',
-    '@ortha/segments-server',
-    '@ortha/shell-admin',
-    '@ortha/tools-server',
-    '@ortha/transfer-admin',
-    '@ortha/transfer-domain',
-    '@ortha/transfer-server',
-    '@ortha/users-admin',
-    '@ortha/users-server',
-    '@ortha/utils-admin',
-    '@ortha/utils-server',
-    '@ortha/webhooks-admin',
-    '@ortha/webhooks-domain',
-    '@ortha/webhooks-server',
-    '@ortha/workspaces-admin',
-    '@ortha/workspaces-server',
-    '@ortha/wysiwyg-admin'
+    '@orthacms/activity-admin',
+    '@orthacms/activity-server',
+    '@orthacms/alarms-admin',
+    '@orthacms/alarms-server',
+    '@orthacms/api-tokens-admin',
+    '@orthacms/bootstrap-admin',
+    '@orthacms/bootstrap-server',
+    '@orthacms/content-admin',
+    '@orthacms/content-domain',
+    '@orthacms/content-server',
+    '@orthacms/copilot-admin',
+    '@orthacms/copilot-domain',
+    '@orthacms/copilot-server',
+    '@orthacms/database',
+    '@orthacms/design-system',
+    '@orthacms/i18n-admin',
+    '@orthacms/i18n-server',
+    '@orthacms/identity-admin',
+    '@orthacms/identity-domain',
+    '@orthacms/identity-provider-fake',
+    '@orthacms/identity-server',
+    '@orthacms/insights-admin',
+    '@orthacms/mail-domain',
+    '@orthacms/mail-provider-console',
+    '@orthacms/mail-provider-testkit',
+    '@orthacms/media-admin',
+    '@orthacms/media-domain',
+    '@orthacms/media-server',
+    '@orthacms/protection-admin',
+    '@orthacms/protection-domain',
+    '@orthacms/protection-server',
+    '@orthacms/query-builder-admin',
+    '@orthacms/segments-admin',
+    '@orthacms/segments-domain',
+    '@orthacms/segments-server',
+    '@orthacms/shell-admin',
+    '@orthacms/tools-server',
+    '@orthacms/transfer-admin',
+    '@orthacms/transfer-domain',
+    '@orthacms/transfer-server',
+    '@orthacms/users-admin',
+    '@orthacms/users-server',
+    '@orthacms/utils-admin',
+    '@orthacms/utils-server',
+    '@orthacms/webhooks-admin',
+    '@orthacms/webhooks-domain',
+    '@orthacms/webhooks-server',
+    '@orthacms/workspaces-admin',
+    '@orthacms/workspaces-server',
+    '@orthacms/wysiwyg-admin'
 ];
 
 /** Packages the app needs to build and run itself, as devDependencies. */
-export const CORE_DEV_PACKAGES: readonly string[] = ['@ortha/cli'];
+export const CORE_DEV_PACKAGES: readonly string[] = ['@orthacms/cli'];
 
 /**
  * Packages deliberately left undeclared — published, but with no reason for a
@@ -175,8 +175,8 @@ export const CORE_DEV_PACKAGES: readonly string[] = ['@ortha/cli'];
  * it entirely is not.
  */
 export const TRANSITIVE_PACKAGES: readonly string[] = [
-    '@ortha/media-provider-memory',
-    '@ortha/media-provider-testkit'
+    '@orthacms/media-provider-memory',
+    '@orthacms/media-provider-testkit'
 ];
 
 /**
@@ -192,7 +192,7 @@ export const MEDIA_PROVIDERS: readonly Feature[] = [
         id: 'media-local',
         label: 'Local filesystem',
         hint: 'Writes to a directory on disk. Point MEDIA_LOCAL_ROOT at a volume in production.',
-        packages: ['@ortha/media-provider-local'],
+        packages: ['@orthacms/media-provider-local'],
         enabledByDefault: true,
         available: true
     },
@@ -200,7 +200,7 @@ export const MEDIA_PROVIDERS: readonly Feature[] = [
         id: 'media-azure',
         label: 'Azure Blob Storage',
         hint: 'Set MEDIA_AZURE_CONTAINER and a connection string. Managed identity needs a hand-built client — see the package docs.',
-        packages: ['@ortha/media-provider-azure'],
+        packages: ['@orthacms/media-provider-azure'],
         enabledByDefault: false,
         available: true
     },
@@ -208,7 +208,7 @@ export const MEDIA_PROVIDERS: readonly Feature[] = [
         id: 'media-gcs',
         label: 'Google Cloud Storage',
         hint: 'Native GCS auth. If an HMAC key is acceptable, the S3-compatible adapter reaches GCS too — one package fewer.',
-        packages: ['@ortha/media-provider-gcs'],
+        packages: ['@orthacms/media-provider-gcs'],
         enabledByDefault: false,
         available: true
     },
@@ -216,7 +216,7 @@ export const MEDIA_PROVIDERS: readonly Feature[] = [
         id: 'media-vercel-blob',
         label: 'Vercel Blob',
         hint: 'Smallest setup on Vercel — but every blob gets a permanent public URL, so not for confidential media.',
-        packages: ['@ortha/media-provider-vercel-blob'],
+        packages: ['@orthacms/media-provider-vercel-blob'],
         enabledByDefault: false,
         available: true
     },
@@ -224,7 +224,7 @@ export const MEDIA_PROVIDERS: readonly Feature[] = [
         id: 'media-s3',
         label: 'S3-compatible',
         hint: 'Cloudflare R2, AWS S3, MinIO, Spaces, B2, Wasabi — set MEDIA_S3_BUCKET and, for anything but AWS, MEDIA_S3_ENDPOINT.',
-        packages: ['@ortha/media-provider-s3'],
+        packages: ['@orthacms/media-provider-s3'],
         enabledByDefault: false,
         available: true
     }
@@ -249,7 +249,7 @@ export const COPILOT_PROVIDERS: readonly Feature[] = [
         id: 'copilot-anthropic',
         label: 'Claude (Anthropic)',
         hint: 'Native Claude. Needs ANTHROPIC_API_KEY.',
-        packages: ['@ortha/copilot-provider-anthropic'],
+        packages: ['@orthacms/copilot-provider-anthropic'],
         enabledByDefault: false,
         available: true
     },
@@ -257,7 +257,7 @@ export const COPILOT_PROVIDERS: readonly Feature[] = [
         id: 'copilot-openai',
         label: 'OpenAI-compatible endpoint',
         hint: 'Ollama, vLLM, LiteLLM, Azure or OpenAI. Needs COPILOT_OPENAI_BASE_URL.',
-        packages: ['@ortha/copilot-provider-openai'],
+        packages: ['@orthacms/copilot-provider-openai'],
         enabledByDefault: false,
         available: true
     }
@@ -295,7 +295,7 @@ export const SSO_PROVIDERS: readonly Feature[] = [
         id: 'sso-oidc',
         label: 'OpenID Connect single sign-on',
         hint: 'Okta, Auth0, Keycloak, Google, Entra ID and the rest. Needs SSO_OIDC_ISSUER and SSO_OIDC_CLIENT_ID.',
-        packages: ['@ortha/identity-provider-oidc'],
+        packages: ['@orthacms/identity-provider-oidc'],
         enabledByDefault: false,
         available: true
     },
@@ -303,7 +303,7 @@ export const SSO_PROVIDERS: readonly Feature[] = [
         id: 'sso-github',
         label: 'GitHub sign-in',
         hint: 'GitHub or GitHub Enterprise Server. Needs SSO_GITHUB_CLIENT_ID and SSO_GITHUB_CLIENT_SECRET.',
-        packages: ['@ortha/identity-provider-github'],
+        packages: ['@orthacms/identity-provider-github'],
         enabledByDefault: false,
         available: true
     },
@@ -311,7 +311,7 @@ export const SSO_PROVIDERS: readonly Feature[] = [
         id: 'sso-saml',
         label: 'SAML 2.0 single sign-on',
         hint: 'For an identity provider that speaks SAML rather than OIDC. Needs the IdP certificate and entry point.',
-        packages: ['@ortha/identity-provider-saml'],
+        packages: ['@orthacms/identity-provider-saml'],
         enabledByDefault: false,
         available: true
     }
@@ -345,7 +345,7 @@ export const PROTOCOLS: readonly Feature[] = [
         id: 'graphql',
         label: 'GraphQL content API',
         hint: 'POST /api/v1/graphql, alongside REST. Same tokens, same scopes.',
-        packages: ['@ortha/content-graphql'],
+        packages: ['@orthacms/content-graphql'],
         enabledByDefault: false,
         available: true
     },
@@ -353,7 +353,7 @@ export const PROTOCOLS: readonly Feature[] = [
         id: 'mcp',
         label: 'MCP server',
         hint: 'Lets an external agent do content CRUD with an API token. Off unless MCP_ENABLED=true.',
-        packages: ['@ortha/mcp-server'],
+        packages: ['@orthacms/mcp-server'],
         enabledByDefault: false,
         available: true
     }
@@ -397,7 +397,7 @@ export const MAIL_PROVIDERS: readonly Feature[] = [
         id: 'mail-smtp',
         label: 'SMTP relay',
         hint: 'Resend, SES, Postmark, SendGrid, Mailgun, Google Workspace, or a relay of your own. Needs SMTP_HOST, MAIL_FROM and APP_URL.',
-        packages: ['@ortha/mail-server', '@ortha/mail-provider-smtp'],
+        packages: ['@orthacms/mail-server', '@orthacms/mail-provider-smtp'],
         enabledByDefault: false,
         available: true
     }
@@ -419,7 +419,7 @@ export interface FeatureSelection {
 }
 
 /**
- * The `@ortha/*` dependencies for a selection, sorted.
+ * The `@orthacms/*` dependencies for a selection, sorted.
  *
  * Built here rather than with `ortha:if` blocks inside `package.json.tmpl`:
  * removing lines from JSON is how you get a trailing comma and an app that
@@ -437,7 +437,7 @@ export function resolvePackages(selection: FeatureSelection): string[] {
     return [...packages].sort();
 }
 
-/** The dev-time `@ortha/*` dependencies, sorted. */
+/** The dev-time `@orthacms/*` dependencies, sorted. */
 export function resolveDevPackages(): string[] {
     return [...CORE_DEV_PACKAGES].sort();
 }

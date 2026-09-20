@@ -1,7 +1,7 @@
 import request from 'supertest';
-import { getDatabase } from '@ortha/database';
+import { getDatabase } from '@orthacms/database';
 import { and, eq, sql } from 'drizzle-orm';
-import { contentEntryRevisions } from '@ortha/content-server/define';
+import { contentEntryRevisions } from '@orthacms/content-server/define';
 import {
     closeTestApp,
     createTestApp,

@@ -9,7 +9,7 @@ export default defineConfig(() => ({
     //  plugins: [],
     // },
     test: {
-        name: '@ortha/design-system',
+        name: '@orthacms/design-system',
         watch: false,
         globals: true,
         environment: 'jsdom',

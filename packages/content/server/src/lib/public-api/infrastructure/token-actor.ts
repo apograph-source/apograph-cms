@@ -1,5 +1,5 @@
-import { EVENT_ACTOR_TYPE, type EventActor } from '@ortha/database';
-import type { ToolActor } from '@ortha/tools-server';
+import { EVENT_ACTOR_TYPE, type EventActor } from '@orthacms/database';
+import type { ToolActor } from '@orthacms/tools-server';
 import type { PublicApiToken } from '../http/api-token-request';
 
 /**

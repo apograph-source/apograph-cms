@@ -1,10 +1,10 @@
-# @ortha/mail-domain
+# @orthacms/mail-domain
 
 The framework-free kernel behind outgoing mail: **two ports**, the copy between
 them, and the retry schedule. No NestJS, no Drizzle, no vendor SDK — and, by a
 test, **no dependencies at all** (`package-manifest.spec.ts`). That rule is the
-package's reason to exist: `npm i @ortha/mail-provider-smtp` should install
-an SMTP client, not a web framework. `@ortha/media-domain` holds the same
+package's reason to exist: `npm i @orthacms/mail-provider-smtp` should install
+an SMTP client, not a web framework. `@orthacms/media-domain` holds the same
 line for the same reason.
 
 ## What is here

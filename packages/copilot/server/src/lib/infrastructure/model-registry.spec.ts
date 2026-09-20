@@ -1,7 +1,7 @@
 import {
     UnknownModelProviderError,
     type ModelProvider
-} from '@ortha/copilot-domain';
+} from '@orthacms/copilot-domain';
 import { buildModelRegistry } from './model-registry';
 
 const provider = (models: string[] = ['m1']): ModelProvider => ({

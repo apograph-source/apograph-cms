@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { SIDEBAR_NAV_SLOT, type SidebarItem } from '@ortha/shell-admin';
+import { SIDEBAR_NAV_SLOT, type SidebarItem } from '@orthacms/shell-admin';
 import { buildPlugins } from './plugins';
 
 /**

@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
-import type { PublicUser } from '@ortha/identity-server';
-import { attachActor, OutboxWriter, UnitOfWork } from '@ortha/database';
+import type { PublicUser } from '@orthacms/identity-server';
+import { attachActor, OutboxWriter, UnitOfWork } from '@orthacms/database';
 import {
     SAVED_VIEW_EVENT_KINDS,
     savedViewEvent

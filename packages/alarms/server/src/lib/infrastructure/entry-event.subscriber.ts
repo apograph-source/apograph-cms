@@ -7,12 +7,12 @@ import {
     OutboxDispatcher,
     type DomainEvent,
     type DomainEventSubscriber
-} from '@ortha/database';
+} from '@orthacms/database';
 import {
     EntryMatchQuery,
     InjectContentRegistry,
     type ContentTypeRegistry
-} from '@ortha/content-server';
+} from '@orthacms/content-server';
 import { AlarmEvaluator } from './alarm-evaluator.service';
 import { AlarmFindingStore } from './alarm-finding.store';
 

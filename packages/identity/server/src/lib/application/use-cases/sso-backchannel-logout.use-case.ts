@@ -1,10 +1,10 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import { attachActor, OutboxWriter, UnitOfWork } from '@ortha/database';
+import { attachActor, OutboxWriter, UnitOfWork } from '@orthacms/database';
 import {
     SSO_REGISTRY,
     SsoVerificationError,
     type SsoRegistry
-} from '@ortha/identity-domain';
+} from '@orthacms/identity-domain';
 import {
     IDENTITY_EVENT_KINDS,
     identityEvent

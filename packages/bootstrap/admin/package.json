@@ -1,5 +1,5 @@
 {
-    "name": "@ortha/bootstrap-admin",
+    "name": "@orthacms/bootstrap-admin",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -13,8 +13,8 @@
         "./package.json": "./package.json"
     },
     "dependencies": {
-        "@ortha/design-system": "*",
-        "@ortha/utils-admin": "*",
+        "@orthacms/design-system": "*",
+        "@orthacms/utils-admin": "*",
         "@tanstack/react-query": "^5.0.0",
         "react-intl": "^7.0.0"
     },

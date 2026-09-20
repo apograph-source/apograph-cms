@@ -11,7 +11,7 @@ const PASSWORD = 'SecurePass123!';
 
 /**
  * `GET /api/activity?filter=<json>` — the structured query-builder filter
- * wired through `@ortha/utils-server`. Covers scalar ops, OR groups, and
+ * wired through `@orthacms/utils-server`. Covers scalar ops, OR groups, and
  * an `at` date range, plus the security boundary (field whitelist) — and that
  * it AND-composes with the existing structured params.
  */

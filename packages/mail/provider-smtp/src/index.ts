@@ -1,5 +1,5 @@
 /**
- * `@ortha/mail-provider-smtp` — the SMTP mail adapter, over `nodemailer`.
+ * `@orthacms/mail-provider-smtp` — the SMTP mail adapter, over `nodemailer`.
  *
  * The default answer for a self-hosted CMS: Resend, SES, Postmark, SendGrid,
  * Mailgun, Google Workspace, Microsoft 365 and any relay inside a perimeter are

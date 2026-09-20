@@ -1,4 +1,4 @@
-import type { TransferPluginConfig } from '@ortha/transfer-server';
+import type { TransferPluginConfig } from '@orthacms/transfer-server';
 
 /** Export/import — the per-type identity fields and the transfer ceilings. */
 export function transferConfig(): TransferPluginConfig {

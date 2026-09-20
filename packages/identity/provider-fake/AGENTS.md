@@ -1,4 +1,4 @@
-# @ortha/identity-provider-fake
+# @orthacms/identity-provider-fake
 
 A **scripted identity provider**: no network, no tenant, no clock skew, the same
 answer every run.
@@ -59,6 +59,6 @@ error one call later.
 
 ## Package
 
-- Name: `@ortha/identity-provider-fake`
-- Import: `import { createFakeSsoProvider } from '@ortha/identity-provider-fake'`
-- Depends only on `@ortha/identity-domain` (the port) and `node:crypto`.
+- Name: `@orthacms/identity-provider-fake`
+- Import: `import { createFakeSsoProvider } from '@orthacms/identity-provider-fake'`
+- Depends only on `@orthacms/identity-domain` (the port) and `node:crypto`.

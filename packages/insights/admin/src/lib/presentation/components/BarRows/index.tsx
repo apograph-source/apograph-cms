@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { cn } from '@ortha/design-system';
+import { cn } from '@orthacms/design-system';
 import { toneBackground, type ChartTone } from '../../../utils/chartTone';
 
 /** One fill within a {@link BarRowSpec}'s track. */

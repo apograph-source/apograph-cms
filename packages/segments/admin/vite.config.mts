@@ -11,7 +11,7 @@ export default defineConfig(() => ({
     cacheDir: '../../../node_modules/.vite/packages/segments/admin',
     plugins: [react()],
     test: {
-        name: '@ortha/segments-admin',
+        name: '@orthacms/segments-admin',
         watch: false,
         globals: true,
         environment: 'jsdom',

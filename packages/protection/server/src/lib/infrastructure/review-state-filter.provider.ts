@@ -1,19 +1,19 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { and, eq, exists, isNull, not, sql, type SQL } from 'drizzle-orm';
 import type { PgColumn } from 'drizzle-orm/pg-core';
-import { InjectDatabase, type Database } from '@ortha/database';
+import { InjectDatabase, type Database } from '@orthacms/database';
 import type {
     AnyContentType,
     EntryFilterContext,
     EntryFilterExtension,
     EntryFilterProvider
-} from '@ortha/content-server';
+} from '@orthacms/content-server';
 import {
     FilterOperator,
     ScalarFieldType,
     type FieldSchema,
     type ParsedRule
-} from '@ortha/utils-server';
+} from '@orthacms/utils-server';
 import { reviewRequests } from './schema/review-requests';
 
 /** The wire name of the virtual field. */

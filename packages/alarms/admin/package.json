@@ -1,5 +1,5 @@
 {
-    "name": "@ortha/alarms-admin",
+    "name": "@orthacms/alarms-admin",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -16,15 +16,15 @@
         "src"
     ],
     "dependencies": {
-        "@ortha/bootstrap-admin": "*",
-        "@ortha/content-admin": "*",
-        "@ortha/copilot-admin": "*",
-        "@ortha/design-system": "*",
-        "@ortha/identity-admin": "*",
-        "@ortha/query-builder-admin": "*",
-        "@ortha/shell-admin": "*",
-        "@ortha/utils-admin": "*",
-        "@ortha/workspaces-admin": "*",
+        "@orthacms/bootstrap-admin": "*",
+        "@orthacms/content-admin": "*",
+        "@orthacms/copilot-admin": "*",
+        "@orthacms/design-system": "*",
+        "@orthacms/identity-admin": "*",
+        "@orthacms/query-builder-admin": "*",
+        "@orthacms/shell-admin": "*",
+        "@orthacms/utils-admin": "*",
+        "@orthacms/workspaces-admin": "*",
         "@tanstack/react-query": "^5.0.0",
         "lucide-react": "^1.17.0",
         "react-intl": "^7.0.0"

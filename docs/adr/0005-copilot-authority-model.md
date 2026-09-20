@@ -159,7 +159,7 @@ a principal that acts.
   boot from those constants, so new keys and grants land on next start. Because
   admin holds the enumerated set rather than a wildcard, both must be granted
   explicitly — the seed test catches it if they are not.
-- Exporting `AccessPolicy` and `Actor` from `@ortha/identity-server` so the
+- Exporting `AccessPolicy` and `Actor` from `@orthacms/identity-server` so the
   copilot reuses the tested rule instead of re-implementing set membership.
 - Per-role rate limits (`@nestjs/throttler`, already used for login) rather than
   excluding roles from the feature.

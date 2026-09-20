@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { SSO_REQUEST_COOKIE } from '@ortha/identity-server';
+import { SSO_REQUEST_COOKIE } from '@orthacms/identity-server';
 import {
     closeTestApp,
     createTestApp,

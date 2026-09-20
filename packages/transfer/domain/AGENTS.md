@@ -1,4 +1,4 @@
-# `@ortha/transfer-domain`
+# `@orthacms/transfer-domain`
 
 The **transfer kernel** — what an export produces and an import consumes, with
 no framework in sight. No NestJS, no Drizzle, no React: the server package holds

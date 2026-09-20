@@ -1,4 +1,4 @@
-import type { AvatarColor } from '@ortha/design-system';
+import type { AvatarColor } from '@orthacms/design-system';
 
 /** Live state of the slug availability check. */
 export enum SlugStatus {

@@ -1,4 +1,4 @@
-# @ortha/bootstrap-server
+# @orthacms/bootstrap-server
 
 The server-side **host** for the Ortha CMS. Turns a list of plugins into a
 running NestJS app. Owns the cross-cutting wiring that must exist exactly once;
@@ -6,8 +6,8 @@ contains no features.
 
 ## Package
 
-- Name: `@ortha/bootstrap-server`
-- Import: `import { createServer, type ServerPlugin } from '@ortha/bootstrap-server'`
+- Name: `@orthacms/bootstrap-server`
+- Import: `import { createServer, type ServerPlugin } from '@orthacms/bootstrap-server'`
 - Server-only. Consumed from source like the other workspace packages.
 - Lives at `packages/bootstrap/server` (grouped layout); npm name stays
   hyphenated.
@@ -58,7 +58,7 @@ contains no features.
 - **Lifecycle.** Before `NestFactory.create`, `createServer` runs each plugin's
   `onPluginInit()` **in array order**. This is the hook a plugin uses for setup
   that must complete before the app boots (e.g.
-  [`@ortha/database`](../../database/AGENTS.md) opens its connection here).
+  [`@orthacms/database`](../../database/AGENTS.md) opens its connection here).
   List resource-providing plugins (database) first — but be precise about what
   that buys, because it is easy to over-claim: **every** hook runs before
   `NestFactory.create`, so by the time any provider is instantiated the database
@@ -176,12 +176,12 @@ registered **first**, so it still wins when it lives under the UI mount.
 - **Auth is plugin-described.** The host has no guards, so it doesn't invent
   security schemes: a plugin declares its own through `ServerPlugin.docs`
   (`securitySchemes` + `defaultSecurity`), and `setupApiDocs` merges every
-  plugin's contribution. `@ortha/identity-server` contributes the
+  plugin's contribution. `@orthacms/identity-server` contributes the
   `ortha_session` cookie and the bearer API token.
 - **A plugin with a dynamic contract describes itself.** `ServerPlugin.docs`
   also takes a `decorate(document)` hook, run last (after tagging), in
   registration order. It exists because the scanner only sees static
-  TypeScript: `@ortha/content-server` serves every code-defined content type
+  TypeScript: `@orthacms/content-server` serves every code-defined content type
   through one generic controller set, so it uses this hook to add a schema per
   registered type and attach them to its own routes — see that package's
   `AGENTS.md`. A plugin amends only what it owns; the document is shared.
@@ -217,7 +217,7 @@ by converting the view interfaces to decorated classes. Use the mechanism the
 document already runs on: `ServerPlugin.docs.decorate`. It writes plain OpenAPI
 schema objects onto the finished document, needs no decorator and no class, and
 so sidesteps the domain-purity rule entirely.
-`@ortha/content-server`'s `src/lib/docs/` is the worked example — a schema
+`@orthacms/content-server`'s `src/lib/docs/` is the worked example — a schema
 module, a route table keyed by what follows the plugin's prefix, and a pass that
 writes the schema onto whichever 2xx key the scanner already emitted (never
 inventing a status code). A plugin with a fixed contract needs perhaps 100 lines
@@ -290,7 +290,7 @@ createServer({
   controllers — see [the response-schema gap](#the-response-schema-gap)
 - Lifecycle beyond `onPluginInit` and `enableShutdownHooks`. The host turns
   shutdown hooks **on**, so a plugin gets `onModuleDestroy` on `SIGTERM`; what
-  it does with it is the plugin's business. Note `@ortha/database` binds
+  it does with it is the plugin's business. Note `@orthacms/database` binds
   none, so the pg pool is not drained on shutdown — harmless when the process
   is about to exit anyway, and the reason an embedding host that keeps running
   must call `closeDatabase()` itself.
@@ -317,7 +317,7 @@ with an app around it, so this is where most of it lives:
   observable: distinct forwarded clients get distinct rate-limit buckets, and
   the forwarded address — not the proxy's — lands on the session row.
 
-**The package's own unit specs** (jest; `npm exec nx test @ortha/bootstrap-server`)
+**The package's own unit specs** (jest; `npm exec nx test @orthacms/bootstrap-server`)
 — the composition root's _ordering_, which no request can see. `NestFactory.create` is
 mocked and the application it returns is a recording object, so the sequence of
 calls the host makes on it is the observable: every `onPluginInit` awaited in
@@ -350,7 +350,7 @@ straight in (I-12). Nothing had to be exported to reach the branch.
 The same file also pins the host's own emptiness (I-01, first sentence): no
 `CanActivate`, no `@Controller` or method decorator — the reference routes are
 registered on the http adapter and deliberately are not these — no `pgTable`,
-and a manifest declaring no `@ortha/*` at all. Its second sentence ("adding a
+and a manifest declaring no `@orthacms/*` at all. Its second sentence ("adding a
 capability never requires editing a file in `packages/bootstrap`") is a claim
 about future diffs and stays uncovered by design.
 
@@ -361,5 +361,5 @@ by hand against the built bundle (six concurrent logins, all reset before, all
 
 ## Commands
 
-- `npm exec nx typecheck @ortha/bootstrap-server`
-- `npm exec nx build @ortha/bootstrap-server`
+- `npm exec nx typecheck @orthacms/bootstrap-server`
+- `npm exec nx build @orthacms/bootstrap-server`

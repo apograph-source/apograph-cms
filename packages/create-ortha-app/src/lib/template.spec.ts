@@ -95,7 +95,7 @@ describe('the scaffolded app, whatever the features', () => {
         const ortha = Object.entries({
             ...dependencies,
             ...devDependencies
-        }).filter(([name]) => name.startsWith('@ortha/'));
+        }).filter(([name]) => name.startsWith('@orthacms/'));
 
         expect(ortha.length).toBeGreaterThan(0);
         for (const [, range] of ortha) expect(range).toBe('9.9.9');
@@ -109,7 +109,7 @@ describe('the scaffolded app, whatever the features', () => {
      */
     it('pins them exactly, with no caret', () => {
         for (const [name, range] of Object.entries(manifest().dependencies)) {
-            if (!name.startsWith('@ortha/')) continue;
+            if (!name.startsWith('@orthacms/')) continue;
             expect(range.startsWith('^')).toBe(false);
         }
     });
@@ -287,7 +287,7 @@ describe('the scaffolded app, whatever the features', () => {
      *
      * It has to be a bare directory: a `@source` carrying a glob is still run
      * through the ignore rules (which exclude `node_modules`), so a pattern
-     * like `@ortha/*\/dist/**\/*.js` matches zero files and the build is
+     * like `@orthacms/*\/dist/**\/*.js` matches zero files and the build is
      * silently unstyled. Only a literal directory becomes an explicit content
      * root. Hence the assertion on the exact, glob-free string.
      */
@@ -313,8 +313,8 @@ describe('with nothing optional chosen', () => {
 
         expect(names).toEqual(
             expect.arrayContaining([
-                '@ortha/copilot-server',
-                '@ortha/copilot-admin'
+                '@orthacms/copilot-server',
+                '@orthacms/copilot-admin'
             ])
         );
         expect(rendered('apps/server/src/plugins.ts')).toContain(
@@ -332,9 +332,9 @@ describe('with nothing optional chosen', () => {
     it('installs no model backend at all', () => {
         const names = Object.keys(manifest().dependencies);
 
-        expect(names).not.toContain('@ortha/copilot-provider-anthropic');
-        expect(names).not.toContain('@ortha/copilot-provider-openai');
-        expect(names).not.toContain('@ortha/copilot-provider-fake');
+        expect(names).not.toContain('@orthacms/copilot-provider-anthropic');
+        expect(names).not.toContain('@orthacms/copilot-provider-openai');
+        expect(names).not.toContain('@orthacms/copilot-provider-fake');
         expect(rendered('.env')).not.toContain('ANTHROPIC_API_KEY');
     });
 
@@ -379,13 +379,13 @@ describe('with a copilot provider', () => {
 
     it('adds the chosen backend', () => {
         expect(Object.keys(manifest().dependencies)).toContain(
-            '@ortha/copilot-provider-anthropic'
+            '@orthacms/copilot-provider-anthropic'
         );
     });
 
     it('does not install the provider that was not chosen', () => {
         expect(Object.keys(manifest().dependencies)).not.toContain(
-            '@ortha/copilot-provider-openai'
+            '@orthacms/copilot-provider-openai'
         );
     });
 
@@ -443,7 +443,7 @@ describe('with every protocol', () => {
 
     it('installs and registers GraphQL', () => {
         expect(Object.keys(manifest().dependencies)).toContain(
-            '@ortha/content-graphql'
+            '@orthacms/content-graphql'
         );
         expect(rendered('apps/server/src/plugins.ts')).toContain(
             'ContentGraphqlPlugin'
@@ -452,7 +452,7 @@ describe('with every protocol', () => {
 
     it('installs and registers MCP', () => {
         expect(Object.keys(manifest().dependencies)).toContain(
-            '@ortha/mcp-server'
+            '@orthacms/mcp-server'
         );
         expect(rendered('apps/server/src/plugins.ts')).toContain('McpPlugin');
     });
@@ -568,7 +568,7 @@ describe('every combination', () => {
         );
 
         expect(source).not.toMatch(/ortha:(if|ifnot|end)/);
-        expect(source).not.toContain('@ortha/');
+        expect(source).not.toContain('@orthacms/');
     });
 
     it.each(SELECTIONS)(
@@ -580,7 +580,7 @@ describe('every combination', () => {
                 dependencies: Record<string, string>;
             };
             expect(Object.keys(parsed.dependencies)).toEqual(
-                expect.arrayContaining(['@ortha/content-server', 'react'])
+                expect.arrayContaining(['@orthacms/content-server', 'react'])
             );
         }
     );
@@ -639,7 +639,7 @@ describe('every combination', () => {
             scaffold(id, 'rest');
 
             const adapters = Object.keys(manifest().dependencies).filter(
-                (name) => name.startsWith('@ortha/media-provider-')
+                (name) => name.startsWith('@orthacms/media-provider-')
             );
             expect(adapters).toEqual([pkg]);
 

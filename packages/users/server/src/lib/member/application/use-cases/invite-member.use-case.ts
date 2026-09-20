@@ -1,6 +1,6 @@
 import { Inject, Injectable, Optional } from '@nestjs/common';
-import { attachActor, OutboxWriter, UnitOfWork } from '@ortha/database';
-import type { PublicUser } from '@ortha/identity-server';
+import { attachActor, OutboxWriter, UnitOfWork } from '@orthacms/database';
+import type { PublicUser } from '@orthacms/identity-server';
 import { Member } from '../../domain/member';
 import { Role } from '../../domain/value-objects/role';
 import { EmailTakenError } from '../../domain/errors';

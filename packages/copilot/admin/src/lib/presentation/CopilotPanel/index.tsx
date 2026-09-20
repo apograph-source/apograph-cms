@@ -9,7 +9,7 @@ import {
     SquareArrowOutUpRight,
     X
 } from 'lucide-react';
-import { Button, cn } from '@ortha/design-system';
+import { Button, cn } from '@orthacms/design-system';
 import type { CopilotChat } from '../../application/useCopilotChat';
 import {
     keyboardStep,
@@ -18,7 +18,7 @@ import {
     type PanelFrameControls
 } from '../../application/usePanelFrame';
 import { Composer } from '../Composer';
-import { useHasPermission } from '@ortha/identity-admin';
+import { useHasPermission } from '@orthacms/identity-admin';
 import { MEDIA_CREATE } from '../../domain/agentsRoute';
 import { useComposerAttachments } from '../../application/useComposerAttachments';
 import { useComposerSkills } from '../../application/useComposerSkills';

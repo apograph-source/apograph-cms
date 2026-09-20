@@ -4,8 +4,8 @@ import {
     toTokenActor,
     type EntryLocator,
     type RelationDelta
-} from '@ortha/content-server';
-import { PERMISSIONS } from '@ortha/identity-server';
+} from '@orthacms/content-server';
+import { PERMISSIONS } from '@orthacms/identity-server';
 import { validateSync } from 'class-validator';
 import type { GraphQLFieldResolver } from 'graphql';
 import type { GraphqlContext } from './context';

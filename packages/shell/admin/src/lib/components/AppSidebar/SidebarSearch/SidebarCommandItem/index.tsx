@@ -1,6 +1,6 @@
 import { useIntl } from 'react-intl';
-import { useHasPermission } from '@ortha/identity-admin';
-import { CommandItem } from '@ortha/design-system';
+import { useHasPermission } from '@orthacms/identity-admin';
+import { CommandItem } from '@orthacms/design-system';
 import type { SidebarItem } from '../../../../slots/sidebarSlots';
 
 type SidebarCommandItemProps = {

@@ -6,7 +6,7 @@ import {
     TableHead,
     TableHeader,
     TableRow
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import { ActivityRow } from './ActivityRow';
 import type { ActivityEvent } from '../../../types/activityEvent';
 

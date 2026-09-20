@@ -1,5 +1,5 @@
 {
-    "name": "@ortha/insights-admin",
+    "name": "@orthacms/insights-admin",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -16,14 +16,14 @@
         "src"
     ],
     "dependencies": {
-        "@ortha/bootstrap-admin": "*",
-        "@ortha/design-system": "*",
-        "@ortha/utils-admin": "*",
-        "@ortha/workspaces-admin": "*",
+        "@orthacms/bootstrap-admin": "*",
+        "@orthacms/design-system": "*",
+        "@orthacms/utils-admin": "*",
+        "@orthacms/workspaces-admin": "*",
         "@tanstack/react-query": "^5.0.0",
         "lucide-react": "^1.17.0",
         "react-intl": "^7.0.0",
-        "@ortha/identity-admin": "*"
+        "@orthacms/identity-admin": "*"
     },
     "peerDependencies": {
         "react": "^19.0.0",

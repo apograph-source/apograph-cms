@@ -25,7 +25,7 @@ import { type ContentLibraryPage } from '../support/pages/ContentLibraryPage';
 const SETTLED = { timeout: 20_000 };
 
 /**
- * What `@ortha/i18n-admin` does when it is **not** on the happy path.
+ * What `@orthacms/i18n-admin` does when it is **not** on the happy path.
  *
  * Every surface in the plugin is gated on a read — the configured locale list,
  * a record's translation group, a page's batch of groups — and each of those

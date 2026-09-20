@@ -1,5 +1,5 @@
 {
-    "name": "@ortha/mail-provider-smtp",
+    "name": "@orthacms/mail-provider-smtp",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -16,7 +16,7 @@
         "src"
     ],
     "dependencies": {
-        "@ortha/mail-domain": "*",
+        "@orthacms/mail-domain": "*",
         "nodemailer": "^7.0.0"
     },
     "devDependencies": {

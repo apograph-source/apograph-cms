@@ -1,6 +1,6 @@
 import { Test } from '@nestjs/testing';
-import type { ProposalActor, ProposalDraft } from '@ortha/copilot-domain';
-import type { ToolContext, ToolDefinition } from '@ortha/tools-server';
+import type { ProposalActor, ProposalDraft } from '@orthacms/copilot-domain';
+import type { ToolContext, ToolDefinition } from '@orthacms/tools-server';
 import { UploadAssetUseCase } from '../application/use-cases/upload-asset.use-case';
 import type { ListFoldersQuery } from '../infrastructure/queries/list-folders.query';
 import { CreateFileProposalApplier } from './create-file-proposal.applier';

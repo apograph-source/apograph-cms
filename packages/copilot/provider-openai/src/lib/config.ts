@@ -1,4 +1,4 @@
-import type { ModelCapabilities } from '@ortha/copilot-domain';
+import type { ModelCapabilities } from '@orthacms/copilot-domain';
 
 /** Options for `createOpenAiProvider`. */
 export interface OpenAiProviderConfig {

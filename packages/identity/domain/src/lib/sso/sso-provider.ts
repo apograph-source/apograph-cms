@@ -124,7 +124,7 @@ export interface SsoLogoutRequest {
 
 /**
  * The identity-provider boundary. Implementations live in separate packages
- * (`@ortha/identity-provider-oidc`, `@ortha/identity-provider-fake`, …)
+ * (`@orthacms/identity-provider-oidc`, `@orthacms/identity-provider-fake`, …)
  * and are registered at the composition root. The identity plugin depends only
  * on this interface — never on a protocol library
  * ([ADR-0013](../../../../../../docs/adr/0013-sso-provider-port.md) §1).

@@ -5,7 +5,7 @@ import { mockWorkspaces } from '../support/api/workspaces';
 import { mockApiTokensApi } from '../support/api/apiTokens';
 
 /**
- * What `@ortha/bootstrap-admin` mounts for itself.
+ * What `@orthacms/bootstrap-admin` mounts for itself.
  *
  * Every admin plugin renders through this host, so its defects are whole-app
  * shaped — and until now nothing exercised it directly: the routing suites go

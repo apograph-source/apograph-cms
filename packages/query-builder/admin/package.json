@@ -1,5 +1,5 @@
 {
-    "name": "@ortha/query-builder-admin",
+    "name": "@orthacms/query-builder-admin",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -16,7 +16,7 @@
         "src"
     ],
     "dependencies": {
-        "@ortha/design-system": "*",
+        "@orthacms/design-system": "*",
         "lucide-react": "^1.17.0",
         "react-intl": "^7.0.0"
     },

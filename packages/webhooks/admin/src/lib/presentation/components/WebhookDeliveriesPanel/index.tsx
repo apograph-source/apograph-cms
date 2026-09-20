@@ -16,7 +16,7 @@ import {
     TableHeader,
     TableRow,
     toast
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import { DELIVERY_STATUSES } from '../../../domain/types/webhook';
 import {
     DEFAULT_PAGE_SIZE,

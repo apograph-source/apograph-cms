@@ -60,7 +60,7 @@ describe('db:generate inference', () => {
 
         expect(targets['packages/media/server/drizzle.config.ts']).toEqual({
             'db:generate': {
-                executor: '@ortha/nx:db-generate',
+                executor: '@orthacms/nx:db-generate',
                 options: {
                     cwd: 'packages/media/server',
                     config: 'drizzle.config.ts'
@@ -108,7 +108,7 @@ describe('db:migrate / db:studio inference', () => {
 
         expect(targets['apps/server/ortha.config.ts']).toEqual({
             'db:migrate': {
-                executor: '@ortha/nx:db-migrate',
+                executor: '@orthacms/nx:db-migrate',
                 options: {
                     config: 'apps/server/ortha.config.ts',
                     plugins: 'apps/server/src/plugins.ts'
@@ -116,7 +116,7 @@ describe('db:migrate / db:studio inference', () => {
                 cache: false
             },
             'db:studio': {
-                executor: '@ortha/nx:db-studio',
+                executor: '@orthacms/nx:db-studio',
                 options: { config: 'apps/server/ortha.config.ts' },
                 cache: false
             }
@@ -139,7 +139,7 @@ describe('packages/* build, pack and publish inference', () => {
 
     it('gives a publishable package build, pack and a redirected nx-release-publish [nx:I-15] [nx:I-18] [nx:I-19]', async () => {
         const file = stagePackage('packages/utils/admin', {
-            name: '@ortha/utils-admin'
+            name: '@orthacms/utils-admin'
         });
 
         const targets = (await infer(file))[file];
@@ -155,7 +155,7 @@ describe('packages/* build, pack and publish inference', () => {
         });
         expect(targets['pack']['cache']).toBe(false);
         expect(targets['nx-release-publish']).toEqual({
-            executor: '@ortha/nx:release-publish',
+            executor: '@orthacms/nx:release-publish',
             options: { packageRoot: 'dist/pack/packages/utils/admin' }
         });
     });
@@ -178,12 +178,12 @@ describe('packages/* build, pack and publish inference', () => {
         ) as { targetDefaults: Record<string, { executor?: string }> };
 
         const file = stagePackage('packages/utils/admin', {
-            name: '@ortha/utils-admin'
+            name: '@orthacms/utils-admin'
         });
         const inferred = (await infer(file))[file]['nx-release-publish'];
 
         expect(nxJson.targetDefaults['nx-release-publish'].executor).toBe(
-            '@ortha/nx:release-publish'
+            '@orthacms/nx:release-publish'
         );
         expect(inferred['executor']).toBe(
             nxJson.targetDefaults['nx-release-publish'].executor
@@ -200,7 +200,7 @@ describe('packages/* build, pack and publish inference', () => {
 
     it('gives a private package build only — workspace tooling is not a distributable [nx:I-17]', async () => {
         const file = stagePackage('packages/nx', {
-            name: '@ortha/nx',
+            name: '@orthacms/nx',
             private: true
         });
 
@@ -211,7 +211,7 @@ describe('packages/* build, pack and publish inference', () => {
         [
             'a manifest outside packages/',
             (): string =>
-                stagePackage('apps/admin', { name: '@ortha/admin' })
+                stagePackage('apps/admin', { name: '@orthacms/admin' })
         ],
         [
             'the workspace-root manifest',
@@ -226,7 +226,7 @@ describe('packages/* build, pack and publish inference', () => {
             (): string =>
                 stagePackage(
                     'packages/nolib',
-                    { name: '@ortha/nolib' },
+                    { name: '@orthacms/nolib' },
                     { tsconfig: false }
                 )
         ]

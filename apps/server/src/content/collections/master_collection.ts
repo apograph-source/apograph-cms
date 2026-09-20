@@ -24,7 +24,7 @@ import {
     collection,
     field,
     type AnyContentType
-} from '@ortha/content-server/define';
+} from '@orthacms/content-server/define';
 import { author } from './author';
 import { seo_meta } from './seo_meta';
 import { tag } from './tag';

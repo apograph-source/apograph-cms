@@ -2,12 +2,12 @@ import { createHash } from 'node:crypto';
 import { PassThrough, Readable } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
 import { BlobNotFoundError, del, head, put } from '@vercel/blob';
-import { ObjectNotFoundError } from '@ortha/media-domain';
+import { ObjectNotFoundError } from '@orthacms/media-domain';
 import type {
     PutObject,
     StorageProvider,
     StoredObject
-} from '@ortha/media-domain';
+} from '@orthacms/media-domain';
 
 /**
  * The three calls this adapter makes, as an injectable seam.

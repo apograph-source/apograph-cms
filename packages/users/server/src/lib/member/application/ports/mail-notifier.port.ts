@@ -2,7 +2,7 @@ import {
     MAIL_DISPATCHER,
     MAIL_KINDS,
     type MailDispatcher
-} from '@ortha/mail-domain';
+} from '@orthacms/mail-domain';
 
 /**
  * How this context reaches the mailer, and the one decision that comes with it.

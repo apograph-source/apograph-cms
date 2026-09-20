@@ -7,7 +7,7 @@ import {
     SegmentedControl,
     SegmentedControlCount,
     SegmentedControlItem
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 
 /** The status the list is filtered by. `Active` is the default view. */
 export type StatusFilter = 'All' | 'Active' | 'Archived';

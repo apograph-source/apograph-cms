@@ -4,8 +4,8 @@ import {
     OP,
     type FilterEnumValue,
     type FilterField
-} from '@ortha/query-builder-admin';
-import type { ContentTypeDetail } from '@ortha/content-admin';
+} from '@orthacms/query-builder-admin';
+import type { ContentTypeDetail } from '@orthacms/content-admin';
 import { LOCALE_FILTER_FIELD } from '../../constants';
 import { useLocales } from '../../api/useLocales';
 

@@ -4,7 +4,7 @@ import {
     UnauthorizedException,
     type ExecutionContext
 } from '@nestjs/common';
-import { WORKSPACE_HEADER } from '@ortha/workspaces-server';
+import { WORKSPACE_HEADER } from '@orthacms/workspaces-server';
 import { ApiTokenWorkspaceGuard } from './api-token-workspace.guard';
 import type { ApiTokenRequest, PublicApiToken } from '../api-token-request';
 

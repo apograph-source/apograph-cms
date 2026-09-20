@@ -18,7 +18,7 @@ import {
     TopBar,
     TopBarActions,
     TopBarIcon
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import { useConversations } from '../../../application/useConversations';
 import { readAgentThreadId } from '../../../domain/agentsRoute';
 import { AgentsRailList } from '../AgentsRailList';

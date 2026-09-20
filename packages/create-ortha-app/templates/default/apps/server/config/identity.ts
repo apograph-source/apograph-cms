@@ -1,13 +1,13 @@
 /** Identity — sessions, tokens, the SSO handshake, and the first admin. */
-import type { IdentityPluginConfig } from '@ortha/identity-server';
+import type { IdentityPluginConfig } from '@orthacms/identity-server';
 // ortha:if sso-oidc
-import type { OidcProviderConfig } from '@ortha/identity-provider-oidc';
+import type { OidcProviderConfig } from '@orthacms/identity-provider-oidc';
 // ortha:end
 // ortha:if sso-github
-import type { GithubProviderConfig } from '@ortha/identity-provider-github';
+import type { GithubProviderConfig } from '@orthacms/identity-provider-github';
 // ortha:end
 // ortha:if sso-saml
-import type { SamlProviderConfig } from '@ortha/identity-provider-saml';
+import type { SamlProviderConfig } from '@orthacms/identity-provider-saml';
 // ortha:end
 import {
     defined,
@@ -15,7 +15,7 @@ import {
     readEnv,
     readList,
     readPositiveInt
-} from '@ortha/utils-server';
+} from '@orthacms/utils-server';
 
 // ortha:if sso-oidc
 import { oidcProvider } from './sso-oidc';

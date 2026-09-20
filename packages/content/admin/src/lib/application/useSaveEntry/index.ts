@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { type ApiError } from '@ortha/utils-admin';
-import { useCurrentWorkspace } from '@ortha/workspaces-admin';
+import { type ApiError } from '@orthacms/utils-admin';
+import { useCurrentWorkspace } from '@orthacms/workspaces-admin';
 import type { EntryRecord } from '../../domain/types/contentType';
 import { contentEntryKey } from '../../infrastructure/contentKeys';
 import { httpContentGateway } from '../../infrastructure/httpContentGateway';

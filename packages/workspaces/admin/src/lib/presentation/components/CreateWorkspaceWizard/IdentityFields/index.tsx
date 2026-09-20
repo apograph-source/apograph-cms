@@ -7,7 +7,7 @@ import {
     FieldLabel,
     Input,
     Textarea
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import { useBasicsSchema } from '../../../hooks/useBasicsSchema';
 import type { UseSlugResult } from '../../../hooks/useSlug';
 import type { WizardData } from '../../../../domain/types/wizard';

@@ -1,6 +1,6 @@
 import { getTableName } from 'drizzle-orm';
 import { PgDialect, QueryBuilder } from 'drizzle-orm/pg-core';
-import type { UnitOfWork } from '@ortha/database';
+import type { UnitOfWork } from '@orthacms/database';
 import { DrizzleApiTokenRepository } from './drizzle-api-token.repository';
 
 const TOKEN = '99999999-9999-4999-8999-999999999999';

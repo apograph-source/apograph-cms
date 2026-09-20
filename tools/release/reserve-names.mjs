@@ -1,5 +1,5 @@
 /**
- * Creates the `@ortha/*` **package names** on npm, ahead of a release and
+ * Creates the `@orthacms/*` **package names** on npm, ahead of a release and
  * separately from it.
  *
  * npm meters two different things. How fast an account *writes* is handled by
@@ -15,7 +15,7 @@
  * release is left to do only what it is good at: bumping versions on names
  * that already exist.
  *
- *     npx nx run-many -t build,pack --projects=@ortha/*
+ *     npx nx run-many -t build,pack --projects=@orthacms/*
  *     node tools/release/reserve-names.mjs --limit=20
  *
  * What goes out is the **real staged tarball** at a prerelease version under a
@@ -23,7 +23,7 @@
  * anti-abuse system reads as name squatting, the last thing to do while
  * rationed. The tag does not keep `latest` off it: npm points `latest` at a
  * package's first version whatever `--tag` says, so until the real release
- * `npm install @ortha/<name>` installs the reserved build.
+ * `npm install @orthacms/<name>` installs the reserved build.
  *
  * The reserved version does not disturb versioning: `nx.json` derives the next
  * version from conventional commits against the git tag, with a `disk`
@@ -76,7 +76,7 @@ const staged = findStaged(join(workspaceRoot, 'dist', 'pack'));
 if (staged.length === 0) {
     fail(
         'reserve: nothing staged under dist/pack.\n' +
-            '        Run `npx nx run-many -t build,pack --projects=@ortha/*` first.'
+            '        Run `npx nx run-many -t build,pack --projects=@orthacms/*` first.'
     );
 }
 

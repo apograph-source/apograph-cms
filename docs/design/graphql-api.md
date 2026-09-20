@@ -71,7 +71,7 @@ not have: **a single request must have a bounded cost** (§9).
 
 ## 3. Where the code goes
 
-A new package, `packages/content/graphql` → **`@ortha/content-graphql`**, a
+A new package, `packages/content/graphql` → **`@orthacms/content-graphql`**, a
 sibling of `content/server` inside the `content` group.
 
 Why its own package rather than a folder inside `content/server`:

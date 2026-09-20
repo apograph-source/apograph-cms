@@ -8,13 +8,13 @@ import {
     type BlockBlobClient,
     type ContainerClient
 } from '@azure/storage-blob';
-import { ObjectNotFoundError } from '@ortha/media-domain';
+import { ObjectNotFoundError } from '@orthacms/media-domain';
 import type {
     DirectUrlOptions,
     PutObject,
     StorageProvider,
     StoredObject
-} from '@ortha/media-domain';
+} from '@orthacms/media-domain';
 
 /**
  * Settings for Azure Blob Storage.

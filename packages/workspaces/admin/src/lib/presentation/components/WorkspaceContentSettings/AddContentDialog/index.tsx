@@ -15,7 +15,7 @@ import {
     InputGroupAddon,
     InputGroupInput,
     Spinner
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import type { ContentType } from '../../../../domain/types/wizard';
 import { isPage } from '..';
 

@@ -18,7 +18,7 @@ import {
     Spinner,
     Textarea,
     toast
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import {
     QueryBuilderPanel,
     QueryBuilderSummary,
@@ -26,7 +26,7 @@ import {
     jsonFilterToTree,
     treeToJsonFilter,
     type FilterGroup
-} from '@ortha/query-builder-admin';
+} from '@orthacms/query-builder-admin';
 import {
     RECORDS_FILTER_FIELDS_SLOT,
     RelationValuePicker,
@@ -35,10 +35,10 @@ import {
     useContentTypes,
     useFilterFields,
     type ContentTypeDetail
-} from '@ortha/content-admin';
-import { useHasPermission } from '@ortha/identity-admin';
-import { PageTopBar } from '@ortha/shell-admin';
-import { useCurrentWorkspace } from '@ortha/workspaces-admin';
+} from '@orthacms/content-admin';
+import { useHasPermission } from '@orthacms/identity-admin';
+import { PageTopBar } from '@orthacms/shell-admin';
+import { useCurrentWorkspace } from '@orthacms/workspaces-admin';
 import { BellRing, SlidersHorizontal, TriangleAlert } from 'lucide-react';
 import { useAlarmRules } from '../../../application/useAlarmRules';
 import {

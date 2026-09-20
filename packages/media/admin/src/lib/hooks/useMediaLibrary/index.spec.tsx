@@ -31,14 +31,14 @@ vi.mock('../../infrastructure/httpMediaGateway', () => ({
     }
 }));
 
-vi.mock('@ortha/design-system', () => ({
+vi.mock('@orthacms/design-system', () => ({
     toast: { error: vi.fn(), success: vi.fn() }
 }));
 
 /** The open workspace, swapped between renders by the cache-key cases. */
 let workspaceId = 'ws-alpha';
 
-vi.mock('@ortha/workspaces-admin', () => ({
+vi.mock('@orthacms/workspaces-admin', () => ({
     useCurrentWorkspace: () => ({ id: workspaceId, name: 'Alpha', slug: 'a' })
 }));
 

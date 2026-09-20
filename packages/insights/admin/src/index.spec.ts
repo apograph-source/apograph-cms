@@ -19,7 +19,7 @@ const PACKAGE_ROOT = process.cwd();
 const HERE = join(PACKAGE_ROOT, 'src');
 const GROUP_ROOT = join(PACKAGE_ROOT, '..');
 
-/** Every `@ortha/*` specifier imported anywhere under `src/`. */
+/** Every `@orthacms/*` specifier imported anywhere under `src/`. */
 function workspaceImports(dir: string): Set<string> {
     const found = new Set<string>();
     for (const entry of readdirSync(dir, { withFileTypes: true })) {
@@ -44,21 +44,21 @@ function workspaceImports(dir: string): Set<string> {
  * owns a widget.
  */
 const ALLOWED = [
-    '@ortha/bootstrap-admin',
-    '@ortha/design-system',
-    '@ortha/identity-admin',
-    '@ortha/utils-admin',
-    '@ortha/workspaces-admin'
+    '@orthacms/bootstrap-admin',
+    '@orthacms/design-system',
+    '@orthacms/identity-admin',
+    '@orthacms/utils-admin',
+    '@orthacms/workspaces-admin'
 ];
 
-describe('@ortha/insights-admin dependencies', () => {
+describe('@orthacms/insights-admin dependencies', () => {
     const manifest = JSON.parse(
         readFileSync(join(PACKAGE_ROOT, 'package.json'), 'utf8')
     ) as { dependencies?: Record<string, string> };
 
     it('declares no feature package as a dependency [insights:I-01]', () => {
         const declared = Object.keys(manifest.dependencies ?? {})
-            .filter((name) => name.startsWith('@ortha/'))
+            .filter((name) => name.startsWith('@orthacms/'))
             .sort();
 
         // `content-admin`, `media-admin` and `i18n-admin` depend on *this*
@@ -77,7 +77,7 @@ describe('@ortha/insights-admin dependencies', () => {
     });
 });
 
-describe('@ortha/insights-admin shape', () => {
+describe('@orthacms/insights-admin shape', () => {
     it('has no server half and ships no migrations [insights:I-25]', () => {
         // Insights reads endpoints owned by `content-server`, `media-server`
         // and `i18n-server`. Owning a table here would mean owning a
@@ -99,7 +99,7 @@ describe('@ortha/insights-admin shape', () => {
         expect(
             Object.keys(manifest.dependencies ?? {}).filter(
                 (name) =>
-                    name === '@ortha/database' ||
+                    name === '@orthacms/database' ||
                     name.endsWith('-server') ||
                     name === 'drizzle-orm'
             )

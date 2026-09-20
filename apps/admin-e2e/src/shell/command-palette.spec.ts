@@ -7,7 +7,7 @@ import { mockContentSchema } from '../support/api/content';
 import { type BrowserGlobals } from '../support/browserGlobals';
 
 /**
- * The global command palette (`SidebarSearch`, from `@ortha/shell-admin`):
+ * The global command palette (`SidebarSearch`, from `@orthacms/shell-admin`):
  * the sidebar's search trigger opens a ⌘K `CommandDialog`. Its suggestions are
  * the primary-nav destinations (`SIDEBAR_NAV_SLOT`) plus plugin-contributed
  * groups via `COMMAND_SLOT` — active workspaces (`workspaces-admin`) and each

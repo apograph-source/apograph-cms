@@ -1,4 +1,4 @@
-# @ortha/activity-server
+# @orthacms/activity-server
 
 The audit-log **plugin** for the Ortha CMS server. It owns the
 `activity_events` schema (and **ships its own migrations**), records events by
@@ -72,7 +72,7 @@ Under `/api/activity`:
 
     It resets the outbox row **in place** — `attempts = 0`,
     `next_attempt_at = NULL`, `last_error` kept — through
-    `OutboxDispatcher.retryDeadLetter`. The mechanism is `@ortha/database`'s;
+    `OutboxDispatcher.retryDeadLetter`. The mechanism is `@orthacms/database`'s;
     only the route is this plugin's, exactly as the read side is already split.
     The table it touches is `outbox_events`, not `activity_events`, so
     `activity:I-01` still holds: nothing here changes or deletes an audit row.
@@ -120,7 +120,7 @@ Two of the shapes are worth stating rather than inferring:
 
 `activity/infrastructure/audit-event.subscriber.ts` (`AuditEventSubscriber`) is
 the **single live audit writer**. It self-registers with the
-`OutboxDispatcher` (from `@ortha/database`) on `OnApplicationBootstrap`; the
+`OutboxDispatcher` (from `@orthacms/database`) on `OnApplicationBootstrap`; the
 dispatcher then delivers every audited domain event to it. `handle(event)` maps
 the event to the same `activity_events` row the old in-band recorder wrote, via
 the **pure** `audit-event-mapping.ts` (`toAuditRow`) — the event-kind → audit-kind
@@ -147,7 +147,7 @@ unreadable one that no client can repair; refusing makes the gap loud instead.
 kind's produced row equals what the in-band `recorder.record(...)` wrote.
 
 `ActivityService.record(...)` and the `ACTIVITY_RECORDER` token (the port lives
-in **`@ortha/identity-server`**, the foundational package; this module binds
+in **`@orthacms/identity-server`**, the foundational package; this module binds
 it) are **retained but `@deprecated`** — nothing writes through them anymore.
 They keep the public surface stable. That indirection kept the package graph
 acyclic (identity never depended on this package); the outbox now decouples them
@@ -210,7 +210,7 @@ would render as a raw token, and a dead label the server can no longer produce,
 are both failing tests.
 
 The spec reads the admin's catalogue module **as text**. An ordinary import
-would work and would also put `@ortha/activity-admin` in this package's
+would work and would also put `@orthacms/activity-admin` in this package's
 project graph — `nx sync` adds the TypeScript project reference immediately, and
 the audit plugin starts depending on a React package. Keep that module
 import-free at the other end, or move both lists into a shared package.
@@ -256,7 +256,7 @@ The fence is what makes that safe; omission would only make the tool less useful
 
 ## Commands
 
-- `npx nx test @ortha/activity-server` — the unit suite, DB-free and a couple
+- `npx nx test @orthacms/activity-server` — the unit suite, DB-free and a couple
   of seconds. Beyond the mapping parity net it holds three checks made of
   _absences_, which no e2e run can see: `package-shape.spec.ts` reads the source
   tree for a second writer, a connection opened here, a second table, or an
@@ -264,5 +264,5 @@ The fence is what makes that safe; omission would only make the tool less useful
   subscriber's `kinds` **is** `AUDITED_EVENT_KINDS` rather than `'*'`;
   `activity-list-order.spec.ts` and `activity-filter.spec.ts` render the built
   predicate and order clause with Drizzle's own dialect.
-- `npx nx run "@ortha/activity-server:db:generate" --name=<change>` (commit the SQL)
-- `npx nx typecheck @ortha/activity-server` / `npx nx lint @ortha/activity-server`
+- `npx nx run "@orthacms/activity-server:db:generate" --name=<change>` (commit the SQL)
+- `npx nx typecheck @orthacms/activity-server` / `npx nx lint @orthacms/activity-server`

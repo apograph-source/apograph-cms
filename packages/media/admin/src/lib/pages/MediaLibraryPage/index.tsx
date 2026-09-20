@@ -8,9 +8,9 @@ import {
     DrawerTitle,
     cn,
     toast
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import { PanelLeft } from 'lucide-react';
-import { useHasPermission } from '@ortha/identity-admin';
+import { useHasPermission } from '@orthacms/identity-admin';
 import {
     MEDIA_CREATE,
     MEDIA_DELETE,
@@ -36,7 +36,7 @@ import { RenameDialog } from '../../components/RenameDialog';
 import { MoveAssetsDialog } from '../../components/MoveAssetsDialog';
 import { UploadDialog } from '../../components/UploadDialog';
 import { folderContents } from '../../utils/folderContents';
-import { useDocumentTitle } from '@ortha/utils-admin';
+import { useDocumentTitle } from '@orthacms/utils-admin';
 
 /** Intl descriptors for the Media Library page + its toasts, co-located. */
 const messages = defineMessages({
@@ -172,7 +172,7 @@ type DeleteTarget =
 /**
  * The Media Library, mounted inside the workspace shell at
  * `/workspaces/:id/media`. `useMediaLibrary` is the store — folders and the open
- * folder's assets come from `@ortha/media-server`, and every action (browse
+ * folder's assets come from `@orthacms/media-server`, and every action (browse
  * folders, upload, create folder, rename, duplicate, move, delete, filter, sort,
  * open the detail drawer) runs against the API, firing a toast per action —
  * except uploads, whose status lives in the `MediaUploadBanner`. Controls gate

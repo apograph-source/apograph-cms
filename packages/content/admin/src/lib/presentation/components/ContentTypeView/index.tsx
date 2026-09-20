@@ -7,7 +7,7 @@ import {
     EmptyHeader,
     EmptyMedia,
     EmptyTitle
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import { FileQuestion } from 'lucide-react';
 import type { ContentType } from '../../../domain/types/contentType';
 import {

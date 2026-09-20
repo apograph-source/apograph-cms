@@ -67,7 +67,7 @@ export class ListActivityQueryDto {
     /**
      * Restrict to actions performed by one kind of principal — `user` or
      * `api_token`. Free text rather than an enum for the same reason `kind` is:
-     * the values are owned by `@ortha/database`'s `EVENT_ACTOR_TYPE`, and a
+     * the values are owned by `@orthacms/database`'s `EVENT_ACTOR_TYPE`, and a
      * copy here would be a second catalogue to keep in step.
      */
     @ApiPropertyOptional({

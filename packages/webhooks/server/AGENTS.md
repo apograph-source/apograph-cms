@@ -1,4 +1,4 @@
-# @ortha/webhooks-server
+# @orthacms/webhooks-server
 
 The **webhooks plugin** — outgoing HTTP notifications about content changes.
 Owns three tables, subscribes to the transactional outbox, and sends from a
@@ -123,7 +123,7 @@ Two things in it are load-bearing:
   `responseSnippet` come back with it. If that method is ever narrowed to match
   its type, narrow the route table with it.
 
-The delivery vocabularies come from `@ortha/webhooks-domain` rather than
+The delivery vocabularies come from `@orthacms/webhooks-domain` rather than
 being restated, so an enum in the reference cannot drift from the one the server
 enforces.
 
@@ -171,6 +171,6 @@ Two things about the e2e harness are worth knowing before you change it:
 
 ## Commands
 
-- `npx nx test @ortha/webhooks-server`
-- `npx nx run @ortha/webhooks-server:db:generate --name=<change>`
-- `npx nx run-many -t typecheck lint -p @ortha/webhooks-server`
+- `npx nx test @orthacms/webhooks-server`
+- `npx nx run @orthacms/webhooks-server:db:generate --name=<change>`
+- `npx nx run-many -t typecheck lint -p @orthacms/webhooks-server`

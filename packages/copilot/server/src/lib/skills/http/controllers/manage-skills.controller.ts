@@ -15,7 +15,7 @@ import {
     UseGuards
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { attachActor, OutboxWriter, UnitOfWork } from '@ortha/database';
+import { attachActor, OutboxWriter, UnitOfWork } from '@orthacms/database';
 import {
     COPILOT_EVENT_KINDS,
     copilotSkillEvent
@@ -27,8 +27,8 @@ import {
     PermissionsGuard,
     RequirePermissions,
     type PublicUser
-} from '@ortha/identity-server';
-import { CurrentWorkspace, WorkspaceGuard } from '@ortha/workspaces-server';
+} from '@orthacms/identity-server';
+import { CurrentWorkspace, WorkspaceGuard } from '@orthacms/workspaces-server';
 import {
     SkillCatalogService,
     type SkillSummary

@@ -11,7 +11,7 @@ import {
 } from '../support/api/userDetail';
 
 /**
- * The user detail page (`/users/:id`, `@ortha/users-admin`): the hero +
+ * The user detail page (`/users/:id`, `@orthacms/users-admin`): the hero +
  * stats + side-rail shell, tab navigation, the General name edit, session
  * revocation, and permission-gated tabs. Backed by the `mockUserDetail` /
  * `mockUserSessions` / activity mocks; `mockSignedIn` satisfies the shell's

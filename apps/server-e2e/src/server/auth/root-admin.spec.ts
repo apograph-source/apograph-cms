@@ -19,7 +19,7 @@ const ROOT_PASSWORD = 'RootSecret123!';
  * `rootAdmin` config, so `RootAdminSeeder` provisions the account during
  * `app.init()` — exactly as a real boot with `ORTHA_ROOT_ADMIN_EMAIL` set.
  *
- * One app per spec file: the `@ortha/database` pool is a per-file
+ * One app per spec file: the `@orthacms/database` pool is a per-file
  * singleton, so this suite does not `resetDb` (that would wipe the
  * boot-provisioned admin); the idempotency/non-destructive cases use distinct
  * emails to stay independent of the boot account.

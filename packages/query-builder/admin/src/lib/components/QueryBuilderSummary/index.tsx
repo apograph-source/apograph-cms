@@ -1,6 +1,6 @@
 import { defineMessages, useIntl, type IntlShape } from 'react-intl';
 import { X } from 'lucide-react';
-import { cn } from '@ortha/design-system';
+import { cn } from '@orthacms/design-system';
 import type { FilterField } from '../../types/filter-field.type';
 import {
     isRule,
@@ -49,7 +49,7 @@ function flattenRules(group: FilterGroup): FilterRule[] {
  * An **enum** rule is rendered through the field's declared members, because the
  * value on the wire is an opaque id and the chip is the only place the rule is
  * read once the panel has collapsed. A plugin's virtual fields make that
- * unmissable: `@ortha/segments-admin` filters by a segment's **uuid** — the
+ * unmissable: `@orthacms/segments-admin` filters by a segment's **uuid** — the
  * key is renameable, so the id is the only stable handle — and an unresolved
  * chip reads "Can be seen by is d19a552b-630a-…", which names neither the
  * audience nor the mistake if it is the wrong one.

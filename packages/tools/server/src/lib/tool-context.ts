@@ -1,4 +1,4 @@
-import type { PermissionKey } from '@ortha/identity-server';
+import type { PermissionKey } from '@orthacms/identity-server';
 import type { ToolActor, ToolContext } from './tool';
 
 /**

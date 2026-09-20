@@ -62,7 +62,7 @@ Does not touch shell at all. Puts an entry into a slot, a route into `routes`, o
 
 - **It is not authentication.** `AuthProvider`, `RequireAuth`, `useHasPermission`, the sign-in screen — all of that is `identity-admin`. Shell only _places_ two of them in the right order.
 - **It is not the router.** Splitting routes into public and private, the ordering, path collisions, the catch-all — that is `bootstrap-admin`.
-- **It is not the design system.** `Sidebar`, `SidebarProvider`, `TopBar`, `CommandDialog`, the sidebar-state cookie, ⌘B, the mobile breakpoint — those are `@ortha/design-system` primitives. Shell composes them and translates their labels.
+- **It is not the design system.** `Sidebar`, `SidebarProvider`, `TopBar`, `CommandDialog`, the sidebar-state cookie, ⌘B, the mobile breakpoint — those are `@orthacms/design-system` primitives. Shell composes them and translates their labels.
 - **It is not the workspace shell.** The sidebar's contextual area inside `/workspaces/:id/*` is taken over entirely by `workspaces-admin` through `useSidebarContent`. At that moment shell draws only the footer.
 - **It is not search.** The palette is a shell: the “Go to” list is built from the navigation slot, and everything else is supplied by plugins.
 
@@ -72,7 +72,7 @@ Does not touch shell at all. Puts an entry into a slot, a route into `routes`, o
 
 ## 02. Package composition and place in the system
 
-This is a **grouped** package with a single group member: `packages/shell/admin` → `@ortha/shell-admin`. There is no server half and none is intended — shell owns neither tables nor API routes. It resolves from source (`exports` → `./src/index.ts`) and needs no build.
+This is a **grouped** package with a single group member: `packages/shell/admin` → `@orthacms/shell-admin`. There is no server half and none is intended — shell owns neither tables nor API routes. It resolves from source (`exports` → `./src/index.ts`) and needs no build.
 
 ### 2.1 Modules
 
@@ -100,16 +100,16 @@ This is a **grouped** package with a single group member: `packages/shell/admin`
 
 | Dependency                | Why this one specifically                                                                                                                                        |
 | ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| @ortha/identity-admin  | `AuthProvider`, `RequireAuth` (the layout), `useHasPermission` (the row gate), `useAuth` + `AuthStatus` (the name in the greeting, recomputing group visibility) |
-| @ortha/design-system   | `Sidebar`/`SidebarProvider`/`SidebarInset`/`SidebarTrigger`, `TopBar`, `CommandDialog`, `Container`, `Logo`, `Kbd`, `useIsMobile`, `cn`                          |
-| @ortha/utils-admin     | `createSlot`, `byOrder`, `useDocumentTitle`, `isComposingText`                                                                                                   |
-| @ortha/bootstrap-admin | only the `AdminPlugin` type                                                                                                                                      |
+| @orthacms/identity-admin  | `AuthProvider`, `RequireAuth` (the layout), `useHasPermission` (the row gate), `useAuth` + `AuthStatus` (the name in the greeting, recomputing group visibility) |
+| @orthacms/design-system   | `Sidebar`/`SidebarProvider`/`SidebarInset`/`SidebarTrigger`, `TopBar`, `CommandDialog`, `Container`, `Logo`, `Kbd`, `useIsMobile`, `cn`                          |
+| @orthacms/utils-admin     | `createSlot`, `byOrder`, `useDocumentTitle`, `isComposingText`                                                                                                   |
+| @orthacms/bootstrap-admin | only the `AdminPlugin` type                                                                                                                                      |
 | lucide-react              | icons (`HomeIcon`, `Search`, `PanelRightOpen`, `PanelRightClose`)                                                                                                |
 | react-intl                | 27 keys, `defineMessages` co-located in every component, the `shell.` prefix                                                                                     |
 
 > **The direction of the dependency**
 >
-> Shell depends on `identity-admin`, but **not the other way round**, and no feature plugin is imported by shell. The reverse direction — plugins importing slots from `@ortha/shell-admin` — is the entire extension mechanism. There are no cycles: a slot is pure data, and there is no React in the slot module.
+> Shell depends on `identity-admin`, but **not the other way round**, and no feature plugin is imported by shell. The reverse direction — plugins importing slots from `@orthacms/shell-admin` — is the entire extension mechanism. There are no cycles: a slot is pure data, and there is no React in the slot module.
 
 ### 2.3 Load order
 
@@ -158,7 +158,7 @@ So four of the six rows are gated. “Home” and “Workspaces” are visible t
 
 ## 04. Slot map
 
-A slot is a named extension point created by `createSlot<T>(name)` from `@ortha/utils-admin`. It is pure data: the slot module imports no React and knows nothing about who writes into it or who reads it. A plugin declares its contributions declaratively in the `slots` field, and the host registers them all at once before the first render.
+A slot is a named extension point created by `createSlot<T>(name)` from `@orthacms/utils-admin`. It is pure data: the slot module imports no React and knows nothing about who writes into it or who reads it. A plugin declares its contributions declaratively in the `slots` field, and the host registers them all at once before the first render.
 
 ### 4.1 The mechanics — what to know before reading the tables
 
@@ -453,7 +453,7 @@ Every read and every write is wrapped in `try/catch`: private mode, disabled sit
 
 ## 08. The tab title and its registry
 
-The registry lives in `@ortha/utils-admin` (`src/lib/documentTitle`), but shell is its first and exemplary consumer, and it is shell's frame that makes the tab title the only stable landmark when switching windows.
+The registry lives in `@orthacms/utils-admin` (`src/lib/documentTitle`), but shell is its first and exemplary consumer, and it is shell's frame that makes the tab title the only stable landmark when switching windows.
 
 ### 8.1 How it works
 

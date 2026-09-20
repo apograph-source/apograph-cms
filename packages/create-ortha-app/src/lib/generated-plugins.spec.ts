@@ -43,7 +43,7 @@ const values = (...ids: string[]): TemplateValues => ({
     selection: { enabled: new Set(ids) }
 });
 
-/** What a stubbed `@ortha/*` module hands back for any named export. */
+/** What a stubbed `@orthacms/*` module hands back for any named export. */
 interface Stub {
     /** The export that was called — so a test can name which adapter ran. */
     factory: string;
@@ -61,7 +61,7 @@ afterEach(() => {
 });
 
 /**
- * Renders the app and evaluates its `plugins.ts` with every `@ortha/*`
+ * Renders the app and evaluates its `plugins.ts` with every `@orthacms/*`
  * import stubbed.
  *
  * Each stubbed export is a function returning `{ factory, settings }`, so a

@@ -1,4 +1,4 @@
-import type { DomainEvent, OutboxWriter, UnitOfWork } from '@ortha/database';
+import type { DomainEvent, OutboxWriter, UnitOfWork } from '@orthacms/database';
 import { InvalidCredentialsError } from '../../auth/errors';
 import type { HashingService } from '../../auth/services/hashing.service';
 import type {

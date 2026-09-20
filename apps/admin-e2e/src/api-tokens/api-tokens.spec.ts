@@ -18,7 +18,7 @@ import {
 const SETTLED = { timeout: 20_000 };
 
 /**
- * The API tokens page at `/api-tokens` (`@ortha/api-tokens-admin`): the
+ * The API tokens page at `/api-tokens` (`@orthacms/api-tokens-admin`): the
  * table's derived states, the four page states, the create dialog's contract
  * with the server, revocation, and the URL-backed pager.
  *

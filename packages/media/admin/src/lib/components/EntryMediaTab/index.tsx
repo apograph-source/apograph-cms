@@ -2,7 +2,7 @@ import { defineMessages, useIntl } from 'react-intl';
 import {
     CONTENT_FIELD_TYPE,
     type EntryTabContext
-} from '@ortha/content-admin';
+} from '@orthacms/content-admin';
 import { MEDIA_PRESAVE_ID } from '../../hooks/usePendingMediaUploads';
 import type { MediaPendingUploads } from '../../types/pendingUpload';
 import { MediaFieldSection } from './MediaFieldSection';

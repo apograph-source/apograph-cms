@@ -26,7 +26,7 @@ After adding or updating a component, **two repo-specific steps are mandatory** 
    - `@/lib/utils` → `../../utils` (from a file in `src/lib/components/ui/`)
    - `@/lib/components/ui/<x>` → `./<x>` (sibling UI component)
    - `@/lib/hooks/<x>` → `../../hooks/<x>`
-2. **Export from the barrel.** Add the component's exports (and any `*Props` types) to `packages/design-system/src/index.ts` so consumers can `import { X } from '@ortha/design-system'`.
+2. **Export from the barrel.** Add the component's exports (and any `*Props` types) to `packages/design-system/src/index.ts` so consumers can `import { X } from '@orthacms/design-system'`.
 
 Stack facts (from `components.json`): style `new-york`, base color `neutral`, `radix` primitives, `lucide` icons, **Tailwind v4**. Theme tokens (`@theme inline`) live in `apps/admin/src/styles.css` — that is the `tailwindCss` file; edit it for theme changes, never create a new one. New component directories are auto-scanned via the `@source` glob already in that file.
 

@@ -6,7 +6,7 @@ import {
     type SsoProfile,
     type SsoProvider,
     type SsoProviderDescriptor
-} from '@ortha/identity-domain';
+} from '@orthacms/identity-domain';
 import {
     resolveGithubConfig,
     type GithubProviderConfig,

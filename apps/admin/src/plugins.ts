@@ -1,21 +1,21 @@
-import type { AdminPlugin } from '@ortha/bootstrap-admin';
-import { IdentityPlugin } from '@ortha/identity-admin';
-import { ShellPlugin } from '@ortha/shell-admin';
-import { WorkspacesPlugin } from '@ortha/workspaces-admin';
-import { ContentPlugin } from '@ortha/content-admin';
-import { I18nPlugin } from '@ortha/i18n-admin';
-import { WysiwygPlugin } from '@ortha/wysiwyg-admin';
-import { MediaPlugin } from '@ortha/media-admin';
-import { InsightsPlugin } from '@ortha/insights-admin';
-import { UsersPlugin } from '@ortha/users-admin';
-import { ActivityPlugin } from '@ortha/activity-admin';
-import { ApiTokensPlugin } from '@ortha/api-tokens-admin';
-import { WebhooksPlugin } from '@ortha/webhooks-admin';
-import { CopilotPlugin } from '@ortha/copilot-admin';
-import { transferAdminPlugin } from '@ortha/transfer-admin';
-import { AlarmsPlugin } from '@ortha/alarms-admin';
-import { SegmentsPlugin } from '@ortha/segments-admin';
-import { ProtectionPlugin } from '@ortha/protection-admin';
+import type { AdminPlugin } from '@orthacms/bootstrap-admin';
+import { IdentityPlugin } from '@orthacms/identity-admin';
+import { ShellPlugin } from '@orthacms/shell-admin';
+import { WorkspacesPlugin } from '@orthacms/workspaces-admin';
+import { ContentPlugin } from '@orthacms/content-admin';
+import { I18nPlugin } from '@orthacms/i18n-admin';
+import { WysiwygPlugin } from '@orthacms/wysiwyg-admin';
+import { MediaPlugin } from '@orthacms/media-admin';
+import { InsightsPlugin } from '@orthacms/insights-admin';
+import { UsersPlugin } from '@orthacms/users-admin';
+import { ActivityPlugin } from '@orthacms/activity-admin';
+import { ApiTokensPlugin } from '@orthacms/api-tokens-admin';
+import { WebhooksPlugin } from '@orthacms/webhooks-admin';
+import { CopilotPlugin } from '@orthacms/copilot-admin';
+import { transferAdminPlugin } from '@orthacms/transfer-admin';
+import { AlarmsPlugin } from '@orthacms/alarms-admin';
+import { SegmentsPlugin } from '@orthacms/segments-admin';
+import { ProtectionPlugin } from '@orthacms/protection-admin';
 
 /**
  * Builds the admin's plugin list — the app's whole composition, mirroring

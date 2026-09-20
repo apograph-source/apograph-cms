@@ -1,4 +1,4 @@
-# `@ortha/segments-domain`
+# `@orthacms/segments-domain`
 
 The **segmentation kernel** — who may read a published entry, decided by one
 pure function over two lists. No NestJS, no Drizzle, no React.
@@ -71,5 +71,5 @@ for a different audience.
 
 ## Commands
 
-- `npx nx test @ortha/segments-domain` — the decision table lives here.
-- `npx nx typecheck @ortha/segments-domain`
+- `npx nx test @orthacms/segments-domain` — the decision table lives here.
+- `npx nx typecheck @orthacms/segments-domain`

@@ -36,7 +36,7 @@ function seed(): WorkspaceView {
 }
 
 /**
- * The workspace settings page (`@ortha/workspaces-admin`), mounted in the
+ * The workspace settings page (`@orthacms/workspaces-admin`), mounted in the
  * shell at `/workspaces/:id/settings`. Drives the four left-rail sections —
  * General, Members, Content, Danger zone — against the stateful
  * `mockWorkspaceSettingsApi`, plus the read-only (viewer) variant and an

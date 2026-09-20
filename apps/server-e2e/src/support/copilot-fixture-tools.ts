@@ -1,4 +1,4 @@
-import type { ToolDefinition, ToolProvider } from '@ortha/tools-server';
+import type { ToolDefinition, ToolProvider } from '@orthacms/tools-server';
 
 /**
  * Fixture tools, registered by the copilot suite only.

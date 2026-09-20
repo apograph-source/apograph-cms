@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { eq } from 'drizzle-orm';
-import { UnitOfWork } from '@ortha/database';
-import { sessions } from '@ortha/identity-server';
+import { UnitOfWork } from '@orthacms/database';
+import { sessions } from '@orthacms/identity-server';
 import type { SessionRevoker } from '../../application/ports/session-revoker.port';
 
 /**

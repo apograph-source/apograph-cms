@@ -19,15 +19,15 @@
 import { Inject, Injectable, Logger, Optional } from '@nestjs/common';
 import { Readable } from 'node:stream';
 import { and, eq } from 'drizzle-orm';
-import { InjectDatabase, type Database } from '@ortha/database';
-import type { EventActor } from '@ortha/database';
-import { mediaAsset } from '@ortha/media-server';
-import { UploadAssetUseCase } from '@ortha/media-server';
+import { InjectDatabase, type Database } from '@orthacms/database';
+import type { EventActor } from '@orthacms/database';
+import { mediaAsset } from '@orthacms/media-server';
+import { UploadAssetUseCase } from '@orthacms/media-server';
 import {
     TransferAssetMap,
     type ImportCounts,
     type TransferAssetRef
-} from '@ortha/transfer-domain';
+} from '@orthacms/transfer-domain';
 
 /**
  * One import run's media bookkeeping.

@@ -1,5 +1,5 @@
 {
-    "name": "@ortha/nx",
+    "name": "@orthacms/nx",
     "version": "0.0.1",
     "license": "MIT",
     "private": true,
@@ -16,8 +16,8 @@
     "executors": "./executors.json",
     "dependencies": {
         "@nx/devkit": "22.7.5",
-        "@ortha/bootstrap-server": "*",
-        "@ortha/cli": "*",
+        "@orthacms/bootstrap-server": "*",
+        "@orthacms/cli": "*",
         "@swc/core": "~1.15.5",
         "jiti": "^2.4.0"
     }

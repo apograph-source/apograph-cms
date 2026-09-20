@@ -25,14 +25,14 @@
 import { ForbiddenException, HttpException, Injectable } from '@nestjs/common';
 import { and, eq, inArray, isNull, type SQL } from 'drizzle-orm';
 import type { PgColumn } from 'drizzle-orm/pg-core';
-import { InjectDatabase, UnitOfWork, type Database } from '@ortha/database';
-import type { EventActor } from '@ortha/database';
+import { InjectDatabase, UnitOfWork, type Database } from '@orthacms/database';
+import type { EventActor } from '@orthacms/database';
 import {
     EntryWriterService,
     InjectContentRegistry,
     type AnyContentType,
     type ContentTypeRegistry
-} from '@ortha/content-server';
+} from '@orthacms/content-server';
 import {
     CONFLICT_POLICY,
     IMPORT_ACTION,
@@ -55,7 +55,7 @@ import {
     type TransferDocument,
     type TransferRecord,
     type TransferRef
-} from '@ortha/transfer-domain';
+} from '@orthacms/transfer-domain';
 import { TransferSchemaCatalog } from '../../schema/schema-catalog.service';
 import {
     ImportMediaService,

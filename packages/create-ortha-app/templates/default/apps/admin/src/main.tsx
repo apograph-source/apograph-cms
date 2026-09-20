@@ -1,4 +1,4 @@
-import { createAdmin } from '@ortha/bootstrap-admin';
+import { createAdmin } from '@orthacms/bootstrap-admin';
 import { buildPlugins } from './plugins';
 import './styles.css';
 

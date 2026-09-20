@@ -2,7 +2,7 @@
 
 The admin **UI** — a React 19 + Vite SPA. This app is a thin entry point: it
 holds almost no logic. It assembles the product by handing a list of **admin
-plugins** to the `@ortha/bootstrap-admin` host.
+plugins** to the `@orthacms/bootstrap-admin` host.
 
 ## What's here
 

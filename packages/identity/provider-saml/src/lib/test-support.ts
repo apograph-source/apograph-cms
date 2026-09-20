@@ -3,7 +3,7 @@ import { generate } from 'selfsigned';
 import type {
     SsoAuthorizeRequest,
     SsoCallback
-} from '@ortha/identity-domain';
+} from '@orthacms/identity-domain';
 
 export const ENTRY_POINT = 'https://idp.test/sso';
 export const SP_ISSUER = 'https://cms.test/saml';

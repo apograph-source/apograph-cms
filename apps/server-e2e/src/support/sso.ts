@@ -1,11 +1,11 @@
 import type {
     SsoRoleContext,
     SsoRoleResolver
-} from '@ortha/identity-domain';
+} from '@orthacms/identity-domain';
 import {
     createFakeSsoProvider,
     type FakeSsoProvider
-} from '@ortha/identity-provider-fake';
+} from '@orthacms/identity-provider-fake';
 
 /** The scripted people the e2e identity provider can sign in. */
 export const SSO_SUBJECTS = {

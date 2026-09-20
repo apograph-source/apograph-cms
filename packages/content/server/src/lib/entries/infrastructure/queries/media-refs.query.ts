@@ -1,5 +1,5 @@
 import { Injectable, Optional } from '@nestjs/common';
-import { toMediaValueRef, type MediaValueRef } from '@ortha/content-domain';
+import { toMediaValueRef, type MediaValueRef } from '@orthacms/content-domain';
 import type { AnyContentType } from '../../../types/content-type';
 import { CONTENT_FIELD_TYPE } from '../../../types/fields';
 import {

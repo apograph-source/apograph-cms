@@ -1,6 +1,6 @@
 import { defineMessages, useIntl } from 'react-intl';
 import { Plus, Webhook } from 'lucide-react';
-import { Button } from '@ortha/design-system';
+import { Button } from '@orthacms/design-system';
 
 const messages = defineMessages({
     title: {

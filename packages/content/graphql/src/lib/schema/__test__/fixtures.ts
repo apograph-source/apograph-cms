@@ -1,6 +1,6 @@
-import { collection, field, single } from '@ortha/content-server/define';
-import { ContentTypeRegistry } from '@ortha/content-server';
-import type { AnyContentType } from '@ortha/content-server';
+import { collection, field, single } from '@orthacms/content-server/define';
+import { ContentTypeRegistry } from '@orthacms/content-server';
+import type { AnyContentType } from '@orthacms/content-server';
 
 /**
  * A small content model for the schema tests — real `collection()` / `single()`

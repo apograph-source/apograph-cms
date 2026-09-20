@@ -1,4 +1,4 @@
-import { ApiError } from '@ortha/utils-admin';
+import { ApiError } from '@orthacms/utils-admin';
 import type { EntryValidationIssue } from '../../domain/types/contentType';
 
 /**

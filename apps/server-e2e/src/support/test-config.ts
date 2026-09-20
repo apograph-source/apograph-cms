@@ -1,16 +1,16 @@
-import type { TrustProxySetting } from '@ortha/bootstrap-server';
-import type { ContentGraphqlLimits } from '@ortha/content-graphql';
+import type { TrustProxySetting } from '@orthacms/bootstrap-server';
+import type { ContentGraphqlLimits } from '@orthacms/content-graphql';
 import type {
     IdentityRateLimitConfig,
     IdentityRootAdminConfig,
     IdentitySessionConfig,
     IdentitySsoConfig
-} from '@ortha/identity-server';
-import type { RunLimits } from '@ortha/copilot-domain';
-import type { LocaleDef, OrphanedLocalePolicy } from '@ortha/i18n-server';
-import type { TransferLimits } from '@ortha/transfer-domain';
-import type { WebhooksPluginConfig } from '@ortha/webhooks-server';
-import type { MailPluginConfig } from '@ortha/mail-server';
+} from '@orthacms/identity-server';
+import type { RunLimits } from '@orthacms/copilot-domain';
+import type { LocaleDef, OrphanedLocalePolicy } from '@orthacms/i18n-server';
+import type { TransferLimits } from '@orthacms/transfer-domain';
+import type { WebhooksPluginConfig } from '@orthacms/webhooks-server';
+import type { MailPluginConfig } from '@orthacms/mail-server';
 import type { OrthaConfig } from '../../../server/ortha.config';
 
 /**

@@ -22,7 +22,7 @@ import {
     scriptCopilot
 } from '../../support/copilot';
 import { FixtureToolProvider } from '../../support/copilot-fixture-tools';
-import { DEFAULT_RUN_LIMITS } from '@ortha/copilot-domain';
+import { DEFAULT_RUN_LIMITS } from '@orthacms/copilot-domain';
 import { assembledText, framesOfType, parseSse } from '../../support/sse';
 import { TEST_ALLOWED_ORIGIN } from '../../support/test-config';
 

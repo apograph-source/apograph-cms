@@ -1,5 +1,5 @@
 {
-    "name": "@ortha/identity-provider-fake",
+    "name": "@orthacms/identity-provider-fake",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -16,6 +16,6 @@
         "src"
     ],
     "dependencies": {
-        "@ortha/identity-domain": "*"
+        "@orthacms/identity-domain": "*"
     }
 }

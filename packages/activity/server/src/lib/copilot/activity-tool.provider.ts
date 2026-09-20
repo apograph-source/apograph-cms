@@ -1,7 +1,7 @@
 import { Injectable, Optional, type OnModuleInit } from '@nestjs/common';
-import { PERMISSIONS } from '@ortha/identity-server';
-import { ToolRegistry } from '@ortha/tools-server';
-import type { ToolDefinition, ToolProvider } from '@ortha/tools-server';
+import { PERMISSIONS } from '@orthacms/identity-server';
+import { ToolRegistry } from '@orthacms/tools-server';
+import type { ToolDefinition, ToolProvider } from '@orthacms/tools-server';
 import { ActivityService } from '../activity/services/activity.service';
 
 /** Events a single `activity_recent` call may return. */

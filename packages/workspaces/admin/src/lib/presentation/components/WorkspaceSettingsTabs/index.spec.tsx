@@ -8,7 +8,7 @@ import { WorkspaceSettingsTabs } from './index';
 
 const hasPermission = vi.fn((_permission: string) => true);
 
-vi.mock('@ortha/identity-admin', () => ({
+vi.mock('@orthacms/identity-admin', () => ({
     useHasPermission: (permission: string) => hasPermission(permission)
 }));
 

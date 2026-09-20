@@ -1,6 +1,6 @@
 import { join } from 'node:path';
-import type { ServerPlugin } from '@ortha/bootstrap-server';
-import { assertAppUrl, type MailProvider } from '@ortha/mail-domain';
+import type { ServerPlugin } from '@orthacms/bootstrap-server';
+import { assertAppUrl, type MailProvider } from '@orthacms/mail-domain';
 import { MailModule } from '../mail.module';
 import type { MailPluginConfig } from '../types/mail-config';
 

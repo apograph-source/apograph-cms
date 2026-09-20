@@ -6,7 +6,7 @@ import {
 
 /**
  * The three fields the decision reads. A real `ToolDefinition` from
- * `@ortha/tools-server` satisfies this — the point of the structural type
+ * `@orthacms/tools-server` satisfies this — the point of the structural type
  * is that this package can decide without importing that one.
  */
 function tool(

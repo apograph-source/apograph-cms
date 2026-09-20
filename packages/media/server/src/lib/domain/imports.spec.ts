@@ -11,7 +11,7 @@ import { join } from 'node:path';
  * re-exports them, which is the dependency the right way round.
  *
  * `domain/` must import nothing from `@nestjs/*`, `drizzle-orm`,
- * `class-validator`, or `../infrastructure`. The `@ortha/nx` layer-boundary
+ * `class-validator`, or `../infrastructure`. The `@orthacms/nx` layer-boundary
  * lint is not wired up, and the violation is always a one-line convenience —
  * an `@Injectable()` to make a value object injectable, a persistence type
  * borrowed because it happened to have the right fields — that compiles,
@@ -22,7 +22,7 @@ import { join } from 'node:path';
  * anyway the moment someone tries to move it.
  *
  * **The accurate claim is "framework-free", not "dependency-free."** `domain/`
- * *does* import `@ortha/database`, for the framework-free `DomainEvent` /
+ * *does* import `@orthacms/database`, for the framework-free `DomainEvent` /
  * `createDomainEvent` contract (`events/media-events.ts`), and `node:` built-ins
  * (`randomUUID` in the id value objects, `Readable` in the storage port). Both
  * are outside the four prohibitions rather than exceptions to them — do not
@@ -70,7 +70,7 @@ describe('domain layer imports', () => {
         expect(FILES.length).toBeGreaterThan(10);
         expect(FILES.some((path) => path.endsWith('asset.ts'))).toBe(true);
         // The storage port itself no longer lives here — it moved to
-        // `@ortha/media-domain` so an adapter can speak it without
+        // `@orthacms/media-domain` so an adapter can speak it without
         // installing NestJS. The aggregates it serves stayed.
         expect(FILES.some((path) => path.endsWith('folder.ts'))).toBe(true);
         expect(
@@ -88,7 +88,7 @@ describe('domain layer imports', () => {
 
     it('does depend on the shared kernel — framework-free, not dependency-free', () => {
         const kernelUsers = FILES.filter((path) =>
-            specifiersOf(path).includes('@ortha/database')
+            specifiersOf(path).includes('@orthacms/database')
         );
         expect(kernelUsers.length).toBeGreaterThan(0);
     });

@@ -1,4 +1,4 @@
-import { apiClient, HTTP_STATUS, toApiError } from '@ortha/utils-admin';
+import { apiClient, HTTP_STATUS, toApiError } from '@orthacms/utils-admin';
 import type {
     AcceptInviteInput,
     CurrentUser,

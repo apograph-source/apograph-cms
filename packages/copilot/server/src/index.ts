@@ -16,7 +16,7 @@ export { buildModelRegistry } from './lib/infrastructure/model-registry';
 export type { ProviderRegistration } from './lib/infrastructure/model-registry';
 
 // Tools are no longer registered here. A binding plugin registers with the
-// shared `ToolRegistry` from `@ortha/tools-server` — the same catalogue the
+// shared `ToolRegistry` from `@orthacms/tools-server` — the same catalogue the
 // MCP endpoint serves — and marks a copilot-only tool `surfaces: ['copilot']`
 // (ADR-0006 §2).
 export { ProposalApplierRegistry } from './lib/chat/application/proposal-applier.registry';

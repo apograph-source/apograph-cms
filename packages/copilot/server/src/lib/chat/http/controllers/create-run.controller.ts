@@ -17,8 +17,8 @@ import {
     PermissionsGuard,
     RequirePermissions,
     type PublicUser
-} from '@ortha/identity-server';
-import { CurrentWorkspace, WorkspaceGuard } from '@ortha/workspaces-server';
+} from '@orthacms/identity-server';
+import { CurrentWorkspace, WorkspaceGuard } from '@orthacms/workspaces-server';
 import { CreateRunDto } from '../../application/dto/create-run.dto';
 import {
     AttachmentError,
@@ -26,7 +26,7 @@ import {
     RunEngine,
     UnknownModelChoiceError
 } from '../../application/run-engine.service';
-import { UnknownModelError } from '@ortha/copilot-domain';
+import { UnknownModelError } from '@orthacms/copilot-domain';
 import { ContentTypeSummaryService } from '../../application/content-type-summary.service';
 import { SkillResolutionError } from '../../../skills/application/skill-catalog.service';
 import { SseStream } from '../sse-stream';

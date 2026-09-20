@@ -1,7 +1,7 @@
 import { useLayoutEffect, useRef } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { Plus, Sparkles, X } from 'lucide-react';
-import { cn, Kbd } from '@ortha/design-system';
+import { cn, Kbd } from '@orthacms/design-system';
 import type { CopilotSession } from '../../application/sessions';
 import {
     NEW_CHAT_KEY_SHORTCUTS,

@@ -1,5 +1,5 @@
 import { useEffect, useRef, type ReactNode } from 'react';
-import { Logo } from '@ortha/design-system';
+import { Logo } from '@orthacms/design-system';
 
 /**
  * Props for the {@link AuthLayout} component.

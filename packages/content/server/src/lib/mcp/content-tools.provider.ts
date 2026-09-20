@@ -4,7 +4,7 @@ import {
     OnModuleInit,
     Optional
 } from '@nestjs/common';
-import { PERMISSIONS } from '@ortha/identity-server';
+import { PERMISSIONS } from '@orthacms/identity-server';
 import {
     ToolRegistry,
     type ResourceContents,
@@ -12,7 +12,7 @@ import {
     type ToolContext,
     type ToolDefinition,
     type ToolProvider
-} from '@ortha/tools-server';
+} from '@orthacms/tools-server';
 import { InjectContentRegistry } from '../content.tokens';
 import { toToolEventActor } from '../public-api/infrastructure/token-actor';
 import type {

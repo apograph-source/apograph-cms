@@ -2,7 +2,7 @@ import { Inject, Injectable, Logger, Optional } from '@nestjs/common';
 import {
     COPILOT_PROPOSAL_APPLIER,
     type ProposalApplier
-} from '@ortha/copilot-domain';
+} from '@orthacms/copilot-domain';
 
 /**
  * The `kind` → applier lookup, filled by the plugins that own the writes.

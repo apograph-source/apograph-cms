@@ -3,7 +3,7 @@ import { BasePage } from './BasePage';
 
 /**
  * Page object for the accept-invite screen at
- * `/identity/accept-invite?token=…` (from `@ortha/identity-admin`). Owns
+ * `/identity/accept-invite?token=…` (from `@orthacms/identity-admin`). Owns
  * every selector the accept suite needs, so specs assert behavior without
  * touching the DOM.
  *

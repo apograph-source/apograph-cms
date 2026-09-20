@@ -1,7 +1,7 @@
 import { Link, useMatch, useParams } from 'react-router-dom';
 import { useIntl } from 'react-intl';
-import { useHasPermission } from '@ortha/identity-admin';
-import { SidebarMenuButton, SidebarMenuItem } from '@ortha/design-system';
+import { useHasPermission } from '@orthacms/identity-admin';
+import { SidebarMenuButton, SidebarMenuItem } from '@orthacms/design-system';
 import type { WorkspaceNavItem } from '../../../slots/workspaceSlots';
 
 type WorkspaceNavButtonProps = {

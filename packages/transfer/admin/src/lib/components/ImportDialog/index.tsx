@@ -16,14 +16,14 @@ import {
     RadioGroupItem,
     Spinner,
     toast
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import {
     CONFLICT_POLICY,
     RELATION_POLICY,
     type ConflictPolicy,
     type ImportPreview,
     type RelationPolicy
-} from '@ortha/transfer-domain';
+} from '@orthacms/transfer-domain';
 import { useImportPreview } from '../../api/useImportPreview';
 import { useImportApply } from '../../api/useImportApply';
 import { ImportVerdictList } from '../ImportVerdictList';

@@ -1,7 +1,7 @@
 import { randomBytes } from 'node:crypto';
 import { Injectable } from '@nestjs/common';
 import { and, desc, eq, gt, isNull, ne } from 'drizzle-orm';
-import { UnitOfWork } from '@ortha/database';
+import { UnitOfWork } from '@orthacms/database';
 import { sessions } from '../../schema';
 import { SessionPolicy } from '../../domain/session-policy';
 import type { SessionContext } from '../../domain/session';

@@ -1,6 +1,6 @@
 import { createServer, type Server } from 'node:http';
 import type { AddressInfo } from 'node:net';
-import { assertUrlShape } from '@ortha/webhooks-domain';
+import { assertUrlShape } from '@orthacms/webhooks-domain';
 import {
     resolveWebhooksConfig,
     type WebhooksPluginConfig

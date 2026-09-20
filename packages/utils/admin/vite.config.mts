@@ -11,7 +11,7 @@ export default defineConfig(() => ({
     cacheDir: '../../../node_modules/.vite/packages/utils/admin',
     plugins: [react()],
     test: {
-        name: '@ortha/utils-admin',
+        name: '@orthacms/utils-admin',
         watch: false,
         globals: true,
         environment: 'jsdom',

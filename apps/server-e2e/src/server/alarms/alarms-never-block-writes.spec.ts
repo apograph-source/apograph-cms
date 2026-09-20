@@ -1,6 +1,6 @@
 import request from 'supertest';
-import { getPool } from '@ortha/database';
-import { ALARM_SEVERITIES } from '@ortha/alarms-server';
+import { getPool } from '@orthacms/database';
+import { ALARM_SEVERITIES } from '@orthacms/alarms-server';
 import {
     closeTestApp,
     createTestApp,

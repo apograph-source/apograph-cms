@@ -2,8 +2,8 @@ import { act, render, waitFor } from '@testing-library/react';
 import { IntlProvider } from 'react-intl';
 import { vi } from 'vitest';
 import type { Editor } from '@tiptap/core';
-import type { RichTextDocument } from '@ortha/content-domain';
-import { TooltipProvider } from '@ortha/design-system';
+import type { RichTextDocument } from '@orthacms/content-domain';
+import { TooltipProvider } from '@orthacms/design-system';
 import { WysiwygEditorPanel } from '.';
 
 /**

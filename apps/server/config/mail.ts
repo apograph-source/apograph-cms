@@ -1,6 +1,6 @@
 /** Mail — the one backend this deployment sends through, and what it sends as. */
-import type { MailPluginConfig } from '@ortha/mail-server';
-import type { SmtpMailProviderOptions } from '@ortha/mail-provider-smtp';
+import type { MailPluginConfig } from '@orthacms/mail-server';
+import type { SmtpMailProviderOptions } from '@orthacms/mail-provider-smtp';
 
 import {
     defined,
@@ -9,7 +9,7 @@ import {
     readOptionalPositiveInt,
     requireEnv,
     when
-} from '@ortha/utils-server';
+} from '@orthacms/utils-server';
 
 /**
  * Which backend `plugins.ts` constructs, or `undefined` for a deployment that

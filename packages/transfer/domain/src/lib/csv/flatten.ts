@@ -17,7 +17,7 @@ import {
     htmlToRichTextDocument,
     isRichTextDocument,
     richTextPlainText
-} from '@ortha/content-domain';
+} from '@orthacms/content-domain';
 import type {
     TransferAssetRef,
     TransferRecord,

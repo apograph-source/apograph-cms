@@ -1,5 +1,5 @@
 import { defineMessages, useIntl } from 'react-intl';
-import { Button, Separator } from '@ortha/design-system';
+import { Button, Separator } from '@orthacms/design-system';
 import { Copy, Download, FolderInput, Trash2, X } from 'lucide-react';
 
 /** Intl descriptors for {@link MediaSelectionBar}, co-located. */

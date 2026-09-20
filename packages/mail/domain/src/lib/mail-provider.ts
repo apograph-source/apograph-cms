@@ -1,7 +1,7 @@
 /**
  * The mail boundary — **one** implementation per deployment, constructed at the
  * composition root and handed to `MailServerPlugin` as a plain object
- * (`@ortha/mail-provider-smtp`, `-console`, …). The mail core depends only on
+ * (`@orthacms/mail-provider-smtp`, `-console`, …). The mail core depends only on
  * this interface and never on a concrete backend.
  *
  * The shape is deliberately `StorageProvider`'s: an `id` recorded on the row

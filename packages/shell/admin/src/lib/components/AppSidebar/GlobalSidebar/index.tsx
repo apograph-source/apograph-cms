@@ -1,5 +1,5 @@
 import { defineMessages, useIntl } from 'react-intl';
-import { AuthStatus, useAuth } from '@ortha/identity-admin';
+import { AuthStatus, useAuth } from '@orthacms/identity-admin';
 import {
     Logo,
     SidebarContent,
@@ -9,8 +9,8 @@ import {
     SidebarHeader,
     SidebarMenu,
     SidebarTrigger
-} from '@ortha/design-system';
-import { byOrder } from '@ortha/utils-admin';
+} from '@orthacms/design-system';
+import { byOrder } from '@orthacms/utils-admin';
 import {
     SIDEBAR_NAV_SLOT,
     SIDEBAR_SECTION_SLOT,

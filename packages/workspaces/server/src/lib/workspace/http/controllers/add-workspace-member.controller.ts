@@ -14,7 +14,7 @@ import {
     PermissionsGuard,
     RequirePermissions,
     type PublicUser
-} from '@ortha/identity-server';
+} from '@orthacms/identity-server';
 import { WorkspaceMemberGuard } from '../guards/workspace-member.guard';
 import { AddMemberUseCase } from '../../application/use-cases/add-member.use-case';
 import { AddWorkspaceMemberDto } from '../../application/dto/add-workspace-member.dto';

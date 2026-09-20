@@ -37,9 +37,9 @@ const dependencyNames = [
     ...Object.keys(manifest.peerDependencies ?? {})
 ];
 
-describe('@ortha/design-system package manifest', () => {
+describe('@orthacms/design-system package manifest', () => {
     it('is the package it claims to be', () => {
-        expect(manifest.name).toBe('@ortha/design-system');
+        expect(manifest.name).toBe('@orthacms/design-system');
     });
 
     it('publishes one root entry plus the stylesheet, and no other subpath [design-system:I-02]', () => {

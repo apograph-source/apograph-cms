@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { and, count, desc, eq, inArray, isNull } from 'drizzle-orm';
-import { UnitOfWork } from '@ortha/database';
+import { UnitOfWork } from '@orthacms/database';
 import { apiTokens, apiTokenWorkspaces } from '../../../schema';
 import type { ApiTokenScope } from '../../domain/api-token-scope';
 

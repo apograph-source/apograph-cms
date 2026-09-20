@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import type { ApiError } from '@ortha/utils-admin';
+import type { ApiError } from '@orthacms/utils-admin';
 import { httpMemberGateway } from '../../infrastructure/httpMemberGateway';
 import type { RevokeSessionInput } from '../../infrastructure/memberGateway';
 import { membersKeys } from '../../infrastructure/membersKeys';

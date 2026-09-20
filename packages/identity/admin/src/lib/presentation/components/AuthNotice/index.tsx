@@ -1,4 +1,4 @@
-import { Alert, AlertDescription } from '@ortha/design-system';
+import { Alert, AlertDescription } from '@orthacms/design-system';
 
 /** Props for the {@link AuthNotice} component. */
 type AuthNoticeProps = {

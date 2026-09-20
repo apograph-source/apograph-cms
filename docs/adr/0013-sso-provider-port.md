@@ -44,7 +44,7 @@ structurally identical to the model provider and the storage provider — and we
 will keep every security-critical step of the handshake in the core.
 
 1. **The core depends on an interface, never a vendor.** `SsoProvider` is
-   declared in a new framework-free package, `@ortha/identity-domain`:
+   declared in a new framework-free package, `@orthacms/identity-domain`:
    `authorize(request)` returning a redirect, and `complete(callback)` returning
    a verified, normalised `SsoProfile`. No protocol library may be imported by
    `identity/domain` or `identity/server`. Adapters may depend on one —
@@ -98,7 +98,7 @@ will keep every security-critical step of the handshake in the core.
 - **A second way into an account.** Every rule that protected the password path
   — `disabled` accounts stay locked out, credential changes evict sessions —
   now has to be enforced on a second path, and tested there.
-- **A new package on identity's critical path.** `@ortha/identity-domain`
+- **A new package on identity's critical path.** `@orthacms/identity-domain`
   exists so an adapter need not depend on Nest and Drizzle. Identity's public
   barrel stays untouched, but the workspace gains a package that
   `create-ortha-app`'s coverage guard will require a decision about.

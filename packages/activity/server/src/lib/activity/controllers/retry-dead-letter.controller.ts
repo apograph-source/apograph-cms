@@ -17,7 +17,7 @@ import {
     OutboxWriter,
     UnitOfWork,
     type RetriedDeadLetter
-} from '@ortha/database';
+} from '@orthacms/database';
 import {
     CurrentUser,
     OriginGuard,
@@ -25,7 +25,7 @@ import {
     PermissionsGuard,
     RequirePermissions,
     type PublicUser
-} from '@ortha/identity-server';
+} from '@orthacms/identity-server';
 import { OUTBOX_RETRY_AUDIT } from '../activity.constants';
 
 /**

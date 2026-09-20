@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Webhook } from 'lucide-react';
-import { PageTopBar } from '@ortha/shell-admin';
-import { useHasPermission } from '@ortha/identity-admin';
-import { useDocumentTitle } from '@ortha/utils-admin';
+import { PageTopBar } from '@orthacms/shell-admin';
+import { useHasPermission } from '@orthacms/identity-admin';
+import { useDocumentTitle } from '@orthacms/utils-admin';
 import {
     Alert,
     AlertDescription,
@@ -13,7 +13,7 @@ import {
     ContainerHeader,
     Spinner,
     toast
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import { useWebhookEndpoint } from '../../../application/useWebhookEndpoints';
 import { useWebhookEvents } from '../../../application/useWebhookEvents';
 import { useWorkspaceOptions } from '../../../application/useWorkspaceOptions';

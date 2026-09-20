@@ -9,7 +9,7 @@ import {
 import { expectNoA11yViolations } from '../support/a11y';
 
 /**
- * The Activity Log page (`/activity`, `@ortha/activity-admin`): rendering
+ * The Activity Log page (`/activity`, `@orthacms/activity-admin`): rendering
  * the audit trail, expandable rows revealing details, the filter toolbar
  * driving the `/api/activity` mock, the "System" actor rendering, and the
  * `activity:read` gate (no nav entry, a no-access state for users who lack it).

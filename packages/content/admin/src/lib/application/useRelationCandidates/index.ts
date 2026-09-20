@@ -2,8 +2,8 @@ import { keepPreviousData, useInfiniteQuery } from '@tanstack/react-query';
 import {
     treeToJsonFilter,
     type FilterGroup
-} from '@ortha/query-builder-admin';
-import { useCurrentWorkspace } from '@ortha/workspaces-admin';
+} from '@orthacms/query-builder-admin';
+import { useCurrentWorkspace } from '@orthacms/workspaces-admin';
 import type { ContentField } from '../../domain/types/contentType';
 import { relationLabel } from '../../domain/relationLabel';
 import { relationCandidatesKey } from '../../infrastructure/contentKeys';

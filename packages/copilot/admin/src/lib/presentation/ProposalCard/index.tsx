@@ -1,6 +1,6 @@
 import { defineMessages, useIntl } from 'react-intl';
 import { CircleAlert, Sparkles } from 'lucide-react';
-import { Alert, AlertDescription, Badge } from '@ortha/design-system';
+import { Alert, AlertDescription, Badge } from '@orthacms/design-system';
 import type { ChatProposal } from '../../domain/types/chat';
 
 const messages = defineMessages({

@@ -5,7 +5,7 @@
  * validation, and the admin's dynamic form rendering.
  */
 
-import type { RichTextStructureMode } from '@ortha/content-domain';
+import type { RichTextStructureMode } from '@orthacms/content-domain';
 import type { AnyContentType } from './content-type';
 
 /**

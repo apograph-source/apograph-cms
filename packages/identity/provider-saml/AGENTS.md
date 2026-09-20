@@ -1,4 +1,4 @@
-# @ortha/identity-provider-saml
+# @orthacms/identity-provider-saml
 
 SAML 2.0 — HTTP-Redirect for the request, HTTP-POST for the response.
 
@@ -74,6 +74,6 @@ reason anyone found out.
 
 ## Package
 
-- Name: `@ortha/identity-provider-saml`
-- Import: `import { createSamlProvider } from '@ortha/identity-provider-saml'`
-- Depends on `@ortha/identity-domain` and `@node-saml/node-saml`.
+- Name: `@orthacms/identity-provider-saml`
+- Import: `import { createSamlProvider } from '@orthacms/identity-provider-saml'`
+- Depends on `@orthacms/identity-domain` and `@node-saml/node-saml`.

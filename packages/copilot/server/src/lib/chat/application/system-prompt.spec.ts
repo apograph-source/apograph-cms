@@ -1,4 +1,4 @@
-import { MAX_SKILL_SUMMARIES, type Skill } from '@ortha/copilot-domain';
+import { MAX_SKILL_SUMMARIES, type Skill } from '@orthacms/copilot-domain';
 import { buildSystemPrompt, type SystemPromptInput } from './system-prompt';
 
 /**

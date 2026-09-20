@@ -1,4 +1,4 @@
-import { MailPermanentError } from '@ortha/mail-domain';
+import { MailPermanentError } from '@orthacms/mail-domain';
 import { createTestkitMailProvider } from './testkit-mail-provider';
 
 const message = {

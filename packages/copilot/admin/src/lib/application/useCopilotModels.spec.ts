@@ -1,4 +1,4 @@
-import { HTTP_STATUS } from '@ortha/utils-admin';
+import { HTTP_STATUS } from '@orthacms/utils-admin';
 import {
     copilotIsOff,
     DEFAULT_MODEL_CHOICE,

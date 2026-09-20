@@ -12,8 +12,8 @@ import {
     PermissionsGuard,
     RequirePermissions,
     type PublicUser
-} from '@ortha/identity-server';
-import { CurrentWorkspace, WorkspaceGuard } from '@ortha/workspaces-server';
+} from '@orthacms/identity-server';
+import { CurrentWorkspace, WorkspaceGuard } from '@orthacms/workspaces-server';
 import { EntryReviewService } from '../../application/entry-review.service';
 import { UnknownProtectedContentTypeError } from '../../domain/errors';
 import type { NewEntryProtectionView } from '../../types/protection-views';

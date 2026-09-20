@@ -8,10 +8,10 @@ import {
     SegmentedControlItem,
     Skeleton,
     SkeletonRegion
-} from '@ortha/design-system';
-import { useAuth } from '@ortha/identity-admin';
-import { PageTopBar } from '@ortha/shell-admin';
-import { useCurrentWorkspace } from '@ortha/workspaces-admin';
+} from '@orthacms/design-system';
+import { useAuth } from '@orthacms/identity-admin';
+import { PageTopBar } from '@orthacms/shell-admin';
+import { useCurrentWorkspace } from '@orthacms/workspaces-admin';
 import { ShieldCheck } from 'lucide-react';
 import { useReviewQueue } from '../../../application/hooks';
 import { splitQueue } from '../../../domain/types';

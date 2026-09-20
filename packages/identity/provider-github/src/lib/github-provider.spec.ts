@@ -1,4 +1,4 @@
-import { SsoVerificationError } from '@ortha/identity-domain';
+import { SsoVerificationError } from '@orthacms/identity-domain';
 import { createGithubProvider } from './github-provider';
 import {
     callbackWith,

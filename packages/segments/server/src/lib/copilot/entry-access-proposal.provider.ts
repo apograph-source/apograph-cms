@@ -3,10 +3,10 @@ import {
     ToolRegistry,
     type ToolDefinition,
     type ToolProvider
-} from '@ortha/tools-server';
-import type { ProposalChange, ProposalDraft } from '@ortha/copilot-domain';
-import { PERMISSIONS } from '@ortha/identity-server';
-import { isOfferedIn } from '@ortha/segments-domain';
+} from '@orthacms/tools-server';
+import type { ProposalChange, ProposalDraft } from '@orthacms/copilot-domain';
+import { PERMISSIONS } from '@orthacms/identity-server';
+import { isOfferedIn } from '@orthacms/segments-domain';
 import { EntryAccessService } from '../application/entry-access.service';
 import { SegmentCatalogService } from '../application/segment-catalog.service';
 

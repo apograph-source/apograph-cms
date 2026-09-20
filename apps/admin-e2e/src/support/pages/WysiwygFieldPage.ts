@@ -3,7 +3,7 @@ import { BasePage } from './BasePage';
 
 /**
  * Page object for the **rich-text field** — the WYSIWYG plugin's
- * (`@ortha/wysiwyg-admin`) `ENTRY_FIELD_CONTROL_SLOT` contribution: a
+ * (`@orthacms/wysiwyg-admin`) `ENTRY_FIELD_CONTROL_SLOT` contribution: a
  * preview of the stored content in the entry form, expanding into a TipTap
  * editor that takes over the entry editor's **work area**.
  *
@@ -480,7 +480,7 @@ export class WysiwygFieldPage extends BasePage {
 
     /**
      * Pick one asset in the Media Library picker and confirm. The picker is
-     * `@ortha/media-admin`'s own — the same one a media *field* opens.
+     * `@orthacms/media-admin`'s own — the same one a media *field* opens.
      */
     async pickLibraryAsset(name: string): Promise<void> {
         const picker = this.page.getByRole('dialog', { name: 'Select assets' });

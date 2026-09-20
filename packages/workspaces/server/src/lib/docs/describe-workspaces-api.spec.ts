@@ -1,4 +1,4 @@
-import type { OpenApiDocument } from '@ortha/bootstrap-server';
+import type { OpenApiDocument } from '@orthacms/bootstrap-server';
 import { describeWorkspacesApi } from './describe-workspaces-api';
 
 /** One operation, as `@nestjs/swagger` leaves it: a 2xx key with no content. */

@@ -1,4 +1,4 @@
-import { Separator } from '@ortha/design-system';
+import { Separator } from '@orthacms/design-system';
 import { GrantedContentRow, type GrantedContent } from '../GrantedContentRow';
 
 /** Props for {@link GrantedContentGroup}. */

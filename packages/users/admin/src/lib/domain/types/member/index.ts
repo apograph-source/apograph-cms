@@ -1,4 +1,4 @@
-import type { AvatarColor } from '@ortha/design-system';
+import type { AvatarColor } from '@orthacms/design-system';
 
 /** The three assignable system roles, by stable key. */
 export type MemberRole = 'admin' | 'contributor' | 'viewer';

@@ -8,7 +8,7 @@
  * asset/folder lifecycle).
  *
  * **This list must stay in step with the server's audit catalogue**
- * (`FACET_MAPPERS` in `@ortha/activity-server`'s `audit-event-mapping.ts`,
+ * (`FACET_MAPPERS` in `@orthacms/activity-server`'s `audit-event-mapping.ts`,
  * whose *output* `kind`s these are — not its input event kinds). A kind the
  * server writes and this list omits is not a type error anywhere: the mapper
  * casts `dto.kind as ActivityKind`, `formatActivityAction` finds no descriptor,

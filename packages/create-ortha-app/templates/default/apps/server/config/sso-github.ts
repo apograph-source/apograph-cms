@@ -1,6 +1,6 @@
 // ortha:if sso-github
-import type { GithubProviderConfig } from '@ortha/identity-provider-github';
-import { defined, readEnv, readList } from '@ortha/utils-server';
+import type { GithubProviderConfig } from '@orthacms/identity-provider-github';
+import { defined, readEnv, readList } from '@orthacms/utils-server';
 
 /**
  * The GitHub provider, or nothing.

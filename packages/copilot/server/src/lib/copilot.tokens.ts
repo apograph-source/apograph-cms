@@ -7,7 +7,7 @@ import { Inject } from '@nestjs/common';
  * `copilot.module.ts`.
  *
  * The model-provider seam's tokens (`MODEL_REGISTRY`, `MODEL_RESOLVER`) live
- * in `@ortha/copilot-domain` alongside the port they bind, so an adapter
+ * in `@orthacms/copilot-domain` alongside the port they bind, so an adapter
  * package never has to import the server.
  */
 

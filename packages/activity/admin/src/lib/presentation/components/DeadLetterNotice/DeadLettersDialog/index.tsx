@@ -18,7 +18,7 @@ import {
     TableHead,
     TableHeader,
     TableRow
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import { activityDateTime } from '../../../activityDateTime';
 import type { DeadLetter } from '../../../../types/deadLetter';
 

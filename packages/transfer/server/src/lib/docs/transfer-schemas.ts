@@ -2,7 +2,7 @@
  * The OpenAPI schemas the transfer plugin contributes.
  *
  * Everything an export or import route answers is a framework-free `interface`
- * in `@ortha/transfer-domain` — `ExportPreview`, `ImportPreview`,
+ * in `@orthacms/transfer-domain` — `ExportPreview`, `ImportPreview`,
  * `ImportResult` — which the swagger scanner cannot see and ADR-0003 forbids
  * decorating. So the shapes are written out here.
  *
@@ -17,7 +17,7 @@ import {
     IMPORT_REASON,
     TRANSFER_FORMAT_CAPABILITIES,
     TRANSFER_FORMATS
-} from '@ortha/transfer-domain';
+} from '@orthacms/transfer-domain';
 import type { OpenApiSchema } from './openapi-writer';
 
 /** Schema name of the export dry run's answer. */

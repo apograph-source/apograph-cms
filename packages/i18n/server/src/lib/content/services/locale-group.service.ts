@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { and, eq, inArray, isNull, type AnyColumn } from 'drizzle-orm';
-import { InjectDatabase, type Database } from '@ortha/database';
-import type { AnyContentType, EntryStatus } from '@ortha/content-server';
+import { InjectDatabase, type Database } from '@orthacms/database';
+import type { AnyContentType, EntryStatus } from '@orthacms/content-server';
 import type { LocaleDir } from '../../i18n.constants';
 import { LocaleRegistryService } from '../../locales/services/locale-registry.service';
 

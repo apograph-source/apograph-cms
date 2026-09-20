@@ -95,5 +95,5 @@ enforces the pool — it is a scheduling decision, and `list` is there to show
 who currently holds what.
 
 `npm install` per worktree is unavoidable: this is npm workspaces with
-`customConditions: ["@ortha/source"]` resolution, and symlinking a shared
+`customConditions: ["@orthacms/source"]` resolution, and symlinking a shared
 root `node_modules` breaks it.

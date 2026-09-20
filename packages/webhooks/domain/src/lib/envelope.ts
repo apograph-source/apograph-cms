@@ -1,7 +1,7 @@
 /**
  * The body a webhook POST carries, and how one is built from a domain event.
  *
- * Framework-free on purpose: the server maps `@ortha/database`'s
+ * Framework-free on purpose: the server maps `@orthacms/database`'s
  * `DomainEvent` into {@link WebhookSourceEvent} at the edge, so this file — and
  * therefore the contract external receivers depend on — never learns what the
  * outbox looks like.

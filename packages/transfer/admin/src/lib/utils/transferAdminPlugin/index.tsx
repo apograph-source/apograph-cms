@@ -1,4 +1,4 @@
-import type { AdminPlugin } from '@ortha/bootstrap-admin';
+import type { AdminPlugin } from '@orthacms/bootstrap-admin';
 import {
     ENTRY_MENU_GROUP,
     ENTRY_MENU_SLOT,
@@ -7,7 +7,7 @@ import {
     type EntryMenuItem,
     type RecordsBulkActionItem,
     type RecordsMenuItem
-} from '@ortha/content-admin';
+} from '@orthacms/content-admin';
 import { EXPORT_MENU_ORDER, SLOT_ITEM_ID } from '../../constants';
 import { useExportEntryAction } from '../../hooks/useExportEntryAction';
 import { useExportBulkAction } from '../../hooks/useExportBulkAction';

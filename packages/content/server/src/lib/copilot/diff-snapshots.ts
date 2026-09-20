@@ -58,7 +58,7 @@ function sameLinks(a: readonly string[], b: readonly string[]): boolean {
  * **order-sensitively** because the owning side's order is meaningful data. The
  * duplication is deliberate for now: the two sides type their schema
  * differently (`SerializedContentType` here, the admin's `ContentTypeDetail`
- * there), so sharing this through `@ortha/content-domain` means unifying
+ * there), so sharing this through `@orthacms/content-domain` means unifying
  * those types first — a refactor, not a feature. If the rules ever disagree,
  * that is the fix, not a third copy.
  */

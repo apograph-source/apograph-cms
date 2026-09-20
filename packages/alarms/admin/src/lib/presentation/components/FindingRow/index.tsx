@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { defineMessages, useIntl } from 'react-intl';
-import { useCurrentWorkspace } from '@ortha/workspaces-admin';
+import { useCurrentWorkspace } from '@orthacms/workspaces-admin';
 import type { AlarmFinding } from '../../../types/alarm';
 
 const messages = defineMessages({

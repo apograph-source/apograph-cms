@@ -1,5 +1,5 @@
 {
-    "name": "@ortha/cli",
+    "name": "@orthacms/cli",
     "version": "0.5.2",
     "license": "MIT",
     "description": "The `ortha` command — build, run and migrate an Ortha CMS app.",
@@ -17,7 +17,7 @@
         "./package.json": "./package.json"
     },
     "dependencies": {
-        "@ortha/bootstrap-server": "*",
+        "@orthacms/bootstrap-server": "*",
         "drizzle-kit": "^0.31.0",
         "drizzle-orm": "^0.45.0",
         "pg": "^8.13.0"

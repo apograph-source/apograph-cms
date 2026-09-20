@@ -1,7 +1,7 @@
 import { getTableName } from 'drizzle-orm';
 import { PgDialect } from 'drizzle-orm/pg-core';
-import type { UnitOfWork } from '@ortha/database';
-import { apiTokens, apiTokenWorkspaces } from '@ortha/identity-server';
+import type { UnitOfWork } from '@orthacms/database';
+import { apiTokens, apiTokenWorkspaces } from '@orthacms/identity-server';
 import { ApiTokenGrantsPurger } from './api-token-grants.purger';
 import { WorkspacePurgeRegistry } from '../../application/workspace-purge.registry';
 
@@ -44,7 +44,7 @@ function renderedSql(condition: unknown): string {
 
 /**
  * The one purger that lives on this side of the dependency edge: this package
- * depends on `@ortha/identity-server`, so identity cannot depend back on it
+ * depends on `@orthacms/identity-server`, so identity cannot depend back on it
  * to reach the registry, and the adapter for identity's table sits here.
  *
  * What it removes is a token's **workspace bucket** — which workspaces one API

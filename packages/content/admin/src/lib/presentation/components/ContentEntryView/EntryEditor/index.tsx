@@ -11,7 +11,7 @@ import {
     ConfirmDialog,
     cn,
     toast
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import type {
     ContentField,
     ContentTypeDetail,
@@ -19,9 +19,9 @@ import type {
     RelationDelta,
     StagedRelation
 } from '../../../../domain/types/contentType';
-import { ApiError, useUnsavedChanges } from '@ortha/utils-admin';
-import { useHasPermission } from '@ortha/identity-admin';
-import { PageActionsPortal, RightPanelPortal } from '@ortha/shell-admin';
+import { ApiError, useUnsavedChanges } from '@orthacms/utils-admin';
+import { useHasPermission } from '@orthacms/identity-admin';
+import { PageActionsPortal, RightPanelPortal } from '@orthacms/shell-admin';
 import {
     CONTENT_CREATE,
     CONTENT_FIELD_TYPE,

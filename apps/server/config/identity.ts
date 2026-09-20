@@ -1,8 +1,8 @@
 /** Identity — sessions, tokens, the SSO handshake, and the SSO providers. */
-import type { IdentityPluginConfig } from '@ortha/identity-server';
-import type { OidcProviderConfig } from '@ortha/identity-provider-oidc';
-import type { GithubProviderConfig } from '@ortha/identity-provider-github';
-import type { SamlProviderConfig } from '@ortha/identity-provider-saml';
+import type { IdentityPluginConfig } from '@orthacms/identity-server';
+import type { OidcProviderConfig } from '@orthacms/identity-provider-oidc';
+import type { GithubProviderConfig } from '@orthacms/identity-provider-github';
+import type { SamlProviderConfig } from '@orthacms/identity-provider-saml';
 
 import {
     defined,
@@ -13,7 +13,7 @@ import {
     readOptionalPositiveInt,
     readPositiveInt,
     when
-} from '@ortha/utils-server';
+} from '@orthacms/utils-server';
 
 import { isProduction } from './env';
 

@@ -1,4 +1,4 @@
-# @ortha/identity-provider-github
+# @orthacms/identity-provider-github
 
 GitHub sign-in — github.com and GitHub Enterprise Server.
 
@@ -49,7 +49,7 @@ can be reached at it.
 
 ## Tests
 
-`conformance.spec.ts` runs the shared kit from `@ortha/identity-domain`. Two
+`conformance.spec.ts` runs the shared kit from `@orthacms/identity-domain`. Two
 of its scenarios mean something different on this wire, and saying so is the
 point — a clause that quietly did not apply would be a clause nobody checked:
 
@@ -62,7 +62,7 @@ This is the adapter that proves the port is not quietly OIDC-shaped.
 
 ## Package
 
-- Name: `@ortha/identity-provider-github`
-- Import: `import { createGithubProvider } from '@ortha/identity-provider-github'`
-- Depends only on `@ortha/identity-domain`. No SDK: the two endpoints and two
+- Name: `@orthacms/identity-provider-github`
+- Import: `import { createGithubProvider } from '@orthacms/identity-provider-github'`
+- Depends only on `@orthacms/identity-domain`. No SDK: the two endpoints and two
   reads are plain `fetch`, and there is no cryptography here to get wrong.

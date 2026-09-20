@@ -10,7 +10,7 @@ import {
     isExhausted,
     nextAttemptDelayMs,
     type MailProvider
-} from '@ortha/mail-domain';
+} from '@orthacms/mail-domain';
 import { Inject } from '@nestjs/common';
 import { InjectMailConfig } from '../mail.tokens';
 import type { ResolvedMailConfig } from '../types/mail-config';

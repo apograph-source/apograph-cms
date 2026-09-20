@@ -5,7 +5,7 @@ import {
     avatarColorVar,
     cn,
     type AvatarColor
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 
 type WorkspaceAvatarProps = {
     /** Initials rendered as the avatar content. */

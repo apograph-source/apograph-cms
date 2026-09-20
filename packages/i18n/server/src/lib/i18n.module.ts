@@ -1,6 +1,6 @@
 import { DynamicModule, Module } from '@nestjs/common';
-import { CONTENT_ENTRY_EXTENSION } from '@ortha/content-server';
-import { copilotAppliersRegistrar } from '@ortha/copilot-server';
+import { CONTENT_ENTRY_EXTENSION } from '@orthacms/content-server';
+import { copilotAppliersRegistrar } from '@orthacms/copilot-server';
 import { I18N_CONFIG } from './i18n.constants';
 import type { I18nPluginConfig } from './types/locale';
 import { LocaleRegistryService } from './locales/services/locale-registry.service';

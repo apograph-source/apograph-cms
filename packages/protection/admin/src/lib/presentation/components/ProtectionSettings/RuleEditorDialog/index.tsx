@@ -15,7 +15,7 @@ import {
     Input,
     Switch,
     toast
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import {
     DEFAULT_PROTECTION_RULE,
     REQUIRED_APPROVALS_MAX,

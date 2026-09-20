@@ -13,7 +13,7 @@ import {
     collection,
     field,
     type AnyContentType
-} from '@ortha/content-server/define';
+} from '@orthacms/content-server/define';
 import { article } from './article';
 
 export const tag = collection('tag', {

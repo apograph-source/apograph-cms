@@ -8,7 +8,7 @@ import {
     CardTitle,
     FieldGroup,
     cn
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import type { LoginCredentials } from '../../../../types/auth';
 import { useLoginSchema } from './useLoginSchema';
 import { AuthField } from '../AuthField';

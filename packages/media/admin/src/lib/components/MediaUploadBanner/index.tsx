@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
-import { Button, Progress } from '@ortha/design-system';
+import { Button, Progress } from '@orthacms/design-system';
 import { UploadCloud, X } from 'lucide-react';
 import { UPLOAD_STATUS } from '../../constants';
 import type { UploadItem, UploadSummary } from '../../types/upload';

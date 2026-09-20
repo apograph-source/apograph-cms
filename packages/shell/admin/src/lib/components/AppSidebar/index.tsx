@@ -1,6 +1,6 @@
 import { defineMessages, useIntl } from 'react-intl';
-import { Sidebar, SidebarFooter } from '@ortha/design-system';
-import { byOrder } from '@ortha/utils-admin';
+import { Sidebar, SidebarFooter } from '@orthacms/design-system';
+import { byOrder } from '@orthacms/utils-admin';
 import { SIDEBAR_FOOTER_SLOT } from '../../slots/sidebarSlots';
 import { useSidebarContentOverride } from '../../utils/sidebarContent';
 import { GlobalSidebar } from './GlobalSidebar';

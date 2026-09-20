@@ -19,8 +19,8 @@ import {
     Textarea,
     toast,
     type AvatarColor
-} from '@ortha/design-system';
-import { initialsOf } from '@ortha/utils-admin';
+} from '@orthacms/design-system';
+import { initialsOf } from '@orthacms/utils-admin';
 import type { Workspace } from '../../../domain/types/workspace';
 import { useWorkspaceProfileSchema } from '../../hooks/useWorkspaceProfileSchema';
 import { useUpdateWorkspace } from '../../../application/useUpdateWorkspace';

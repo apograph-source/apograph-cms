@@ -1,5 +1,5 @@
 import { Logger } from '@nestjs/common';
-import type { DomainEvent } from '@ortha/database';
+import type { DomainEvent } from '@orthacms/database';
 import { EntryPublishedSubscriber } from './entry-published.subscriber';
 
 const ENTRY = '44444444-4444-4444-8444-444444444444';

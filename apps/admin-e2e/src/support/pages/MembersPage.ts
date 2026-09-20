@@ -2,7 +2,7 @@ import { type Locator, type Page } from '@playwright/test';
 import { BasePage } from './BasePage';
 
 /**
- * Page object for the Members page at `/users` (from `@ortha/users-admin`).
+ * Page object for the Members page at `/users` (from `@orthacms/users-admin`).
  *
  * Data comes from the `GET /api/users` mock (`mockMembers`); tests also need
  * `mockSignedIn` for the auth probe, since the page lives behind the shell's

@@ -10,10 +10,10 @@ import {
     SegmentedControlCount,
     SegmentedControlItem,
     toast
-} from '@ortha/design-system';
-import { useHasPermission } from '@ortha/identity-admin';
-import { PageTopBar } from '@ortha/shell-admin';
-import { useCurrentWorkspace } from '@ortha/workspaces-admin';
+} from '@orthacms/design-system';
+import { useHasPermission } from '@orthacms/identity-admin';
+import { PageTopBar } from '@orthacms/shell-admin';
+import { useCurrentWorkspace } from '@orthacms/workspaces-admin';
 import { BellRing, Plus } from 'lucide-react';
 import { useAlarmRules } from '../../../application/useAlarmRules';
 import { useAlarmSummary } from '../../../application/useAlarmSummary';

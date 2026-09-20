@@ -10,10 +10,10 @@ import {
     EmptyMedia,
     EmptyTitle,
     toast
-} from '@ortha/design-system';
-import { useHasPermission } from '@ortha/identity-admin';
-import type { MediaRef } from '@ortha/content-admin';
-import { toMediaValueRef, type MediaValueRef } from '@ortha/content-domain';
+} from '@orthacms/design-system';
+import { useHasPermission } from '@orthacms/identity-admin';
+import type { MediaRef } from '@orthacms/content-admin';
+import { toMediaValueRef, type MediaValueRef } from '@orthacms/content-domain';
 import { MEDIA_CREATE, MEDIA_KIND, MEDIA_READ } from '../../constants';
 import type { MediaAsset } from '../../types/mediaAsset';
 import type { MediaFieldDisplay } from '../../types/mediaFieldDisplay';

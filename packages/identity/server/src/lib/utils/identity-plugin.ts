@@ -1,9 +1,9 @@
 import { join } from 'node:path';
-import type { ServerPlugin } from '@ortha/bootstrap-server';
+import type { ServerPlugin } from '@orthacms/bootstrap-server';
 import type {
     SsoRegistration,
     SsoRoleResolver
-} from '@ortha/identity-domain';
+} from '@orthacms/identity-domain';
 import { assertProvisionableDomains } from '../domain/sso-provisioning-policy';
 import type { IdentityPluginConfig } from '../types';
 import { IdentityModule } from '../identity.module';
@@ -109,7 +109,7 @@ function assertOptions(
 /**
  * Creates the identity plugin. Register it **after** `DatabasePlugin` in
  * the `plugins` array — identity is DB-backed and injects the client from
- * `@ortha/database`'s global `DatabaseModule`, which must be wired
+ * `@orthacms/database`'s global `DatabaseModule`, which must be wired
  * first.
  *
  * System-role seeding (FR-6) runs from a NestJS `OnApplicationBootstrap`
@@ -140,7 +140,7 @@ export function IdentityPlugin(
             // Lazy — only called at migrate time, never at boot. Source
             // layout: src/lib/utils → ../../../migrations = <pkg>/migrations.
             // When this package is BUILT/published, switch to a package-root
-            // anchor (dirname(require.resolve('@ortha/identity-server/package.json'))).
+            // anchor (dirname(require.resolve('@orthacms/identity-server/package.json'))).
             dir: () => join(__dirname, '../../../migrations'),
             table: '__drizzle_migrations_identity'
         },

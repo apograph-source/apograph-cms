@@ -1,4 +1,4 @@
-import { SsoVerificationError } from '@ortha/identity-domain';
+import { SsoVerificationError } from '@orthacms/identity-domain';
 import { createOidcProvider } from './oidc-provider';
 import {
     BACKCHANNEL_LOGOUT_EVENT,

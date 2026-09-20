@@ -7,8 +7,8 @@
  * `src/plugins.ts` imports; nothing inside the media package changes.
  */
 // ortha:if media-local
-import type { LocalStorageConfig } from '@ortha/media-provider-local';
-import { readEnv } from '@ortha/utils-server';
+import type { LocalStorageConfig } from '@orthacms/media-provider-local';
+import { readEnv } from '@orthacms/utils-server';
 
 /** Local-filesystem blobs. */
 export function mediaStorage(): LocalStorageConfig {
@@ -20,8 +20,8 @@ export function mediaStorage(): LocalStorageConfig {
 }
 // ortha:end
 // ortha:if media-vercel-blob
-import type { VercelBlobStorageConfig } from '@ortha/media-provider-vercel-blob';
-import { defined, readEnv } from '@ortha/utils-server';
+import type { VercelBlobStorageConfig } from '@orthacms/media-provider-vercel-blob';
+import { defined, readEnv } from '@orthacms/utils-server';
 /** Vercel Blob. */
 export function mediaStorage(): VercelBlobStorageConfig {
     return defined({
@@ -32,8 +32,8 @@ export function mediaStorage(): VercelBlobStorageConfig {
 }
 // ortha:end
 // ortha:if media-gcs
-import type { GcsStorageConfig } from '@ortha/media-provider-gcs';
-import { defined, readEnv, readFlag, requireEnv } from '@ortha/utils-server';
+import type { GcsStorageConfig } from '@orthacms/media-provider-gcs';
+import { defined, readEnv, readFlag, requireEnv } from '@orthacms/utils-server';
 /** Google Cloud Storage. */
 export function mediaStorage(): GcsStorageConfig {
     return defined({
@@ -48,8 +48,8 @@ export function mediaStorage(): GcsStorageConfig {
 }
 // ortha:end
 // ortha:if media-azure
-import type { AzureStorageConfig } from '@ortha/media-provider-azure';
-import { requireEnv } from '@ortha/utils-server';
+import type { AzureStorageConfig } from '@orthacms/media-provider-azure';
+import { requireEnv } from '@orthacms/utils-server';
 /** Azure Blob Storage. */
 export function mediaStorage(): AzureStorageConfig {
     return {
@@ -59,8 +59,8 @@ export function mediaStorage(): AzureStorageConfig {
 }
 // ortha:end
 // ortha:if media-s3
-import type { S3StorageConfig } from '@ortha/media-provider-s3';
-import { defined, readEnv, readFlag, requireEnv } from '@ortha/utils-server';
+import type { S3StorageConfig } from '@orthacms/media-provider-s3';
+import { defined, readEnv, readFlag, requireEnv } from '@orthacms/utils-server';
 /** S3 or an S3-compatible endpoint — R2, MinIO, Spaces, B2. */
 export function mediaStorage(): S3StorageConfig {
     const accessKeyId = readEnv('MEDIA_S3_ACCESS_KEY_ID');

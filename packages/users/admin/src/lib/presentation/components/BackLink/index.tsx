@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
-import { cn } from '@ortha/design-system';
+import { cn } from '@orthacms/design-system';
 
 /**
  * A muted "back" link with a leading arrow — the detail page's return path to

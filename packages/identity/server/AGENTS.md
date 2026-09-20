@@ -1,4 +1,4 @@
-# @ortha/identity-server
+# @orthacms/identity-server
 
 The identity **plugin** for the Ortha CMS server. It is the foundational
 package: it answers _"who is this person?"_ (authentication) and _"what are they
@@ -12,7 +12,7 @@ sessions, tokens, api_tokens, api_token_workspaces, user_preferences,
 sso_identities, sso_auth_requests. `api_token_workspaces` is owned here but
 **purged** by `workspaces-server`'s local `ApiTokenGrantsPurger`, because that
 package depends on this one and so cannot be depended on back) — and **ships its migrations** (`drizzle.config.ts` + committed
-`migrations/`, applied by `@ortha/nx`'s `db:migrate`). It also **seeds the
+`migrations/`, applied by `@orthacms/nx`'s `db:migrate`). It also **seeds the
 system roles** (`admin`/`contributor`/`viewer`) idempotently on boot and
 protects them from deletion (RBAC, FR-6). It also handles **email/password
 login & logout**: the `auth/` feature (`LoginController`, `MeController`,
@@ -100,7 +100,7 @@ infrastructure/  # adapters — the only layer that knows Drizzle/pg
 ### The one hard rule
 
 **`domain/` imports NOTHING from `@nestjs/*`, `drizzle-orm`, `class-validator`,
-or `infrastructure/`.** It may use `@ortha/database`'s framework-free
+or `infrastructure/`.** It may use `@orthacms/database`'s framework-free
 `createDomainEvent`/`DomainEvent` and node built-ins only. The layer-boundary
 lint isn't wired yet — self-enforce it.
 
@@ -188,17 +188,17 @@ the bootstrap path is not on the DDD critical path.
 
 `src/index.ts` is **byte-identical** to before this refactor — including
 `export * from './lib/schema'`. `schema/` stays at `src/lib/schema/` (owned by
-identity, migrated by `@ortha/nx`) precisely to keep that re-export verbatim;
+identity, migrated by `@orthacms/nx`) precisely to keep that re-export verbatim;
 conceptually it is identity's persistence layer. Every guard, decorator, service,
 error, and type the barrel exports keeps its path, so no consumer import moved.
 
 ## Package
 
-- Name: `@ortha/identity-server`
-- Import: `import { IdentityPlugin } from '@ortha/identity-server'`
+- Name: `@orthacms/identity-server`
+- Import: `import { IdentityPlugin } from '@orthacms/identity-server'`
 - Grouped package (`packages/identity/server`), server-only. Consumed from
   source like the other workspace packages (`exports` → `./src/index.ts`,
-  `customConditions: ["@ortha/source"]`).
+  `customConditions: ["@orthacms/source"]`).
 
 ## Conventions
 
@@ -220,7 +220,7 @@ error, and type the barrel exports keeps its path, so no consumer import moved.
     - `root-admin/` — `services/` (`RootAdminService`), `seeders/`
       (`RootAdminSeeder`), `errors/`.
     - `workspaces/` — **moved out.** Workspaces, memberships and content
-      grants now live in `@ortha/workspaces-server`, in the tactical-DDD
+      grants now live in `@orthacms/workspaces-server`, in the tactical-DDD
       layout, with their own tables and migrations. `WorkspaceGuard`,
       `@CurrentWorkspace()` and the `WorkspacePurger` port are exported from
       there, not from here. See
@@ -265,7 +265,7 @@ error, and type the barrel exports keeps its path, so no consumer import moved.
       and expired tokens identically (no enumeration signal) and refreshes
       `last_used_at` fire-and-forget on a 60s throttle. The guard that
       authenticates `Authorization: Bearer` ships with the public content API it
-      protects — `@ortha/content-server`'s `public-api/`, which consumes
+      protects — `@orthacms/content-server`'s `public-api/`, which consumes
       `ApiTokenService` plus the RBAC primitives this barrel exports
       (`PERMISSIONS_KEY`, `Permission`, `AccessPolicy`, `Actor`) so its scope
       check *is* the same decision the session `PermissionsGuard` makes.
@@ -276,7 +276,7 @@ error, and type the barrel exports keeps its path, so no consumer import moved.
       and `CONTENT_ENTRY_COUNTER` (`content-entry-counter.ts`, how many entries
       of a type a workspace holds). The controller and the workspace create flow
       (an "all content" grant) resolve the catalogue against whatever binds it —
-      `@ortha/content-server`'s code-defined registry in the assembled app —
+      `@orthacms/content-server`'s code-defined registry in the assembled app —
       falling back to the `CONTENT_TYPES` mock at the feature root when no
       content plugin is present. The counter backs the "revoke a content grant
       only when empty" rule (a missing binding means zero entries, so the type
@@ -328,7 +328,7 @@ error, and type the barrel exports keeps its path, so no consumer import moved.
 
 ## Architecture
 
-- **Plugin, not an app.** Mirrors `@ortha/database`: exposes
+- **Plugin, not an app.** Mirrors `@orthacms/database`: exposes
   `IdentityPlugin(config)` returning the standard
   [`ServerPlugin`](../../bootstrap/server/src/lib/types/server-plugin.ts) shape,
   wired by the host in `apps/server/src/main.ts`.
@@ -336,9 +336,9 @@ error, and type the barrel exports keeps its path, so no consumer import moved.
   services are injectable from any plugin module without an import. The config is
   provided under an internal `IDENTITY_CONFIG` token (in a dependency-free
   `identity.tokens.ts`). The Drizzle client is injected straight from
-  `@ortha/database`'s global `DatabaseModule` with `@InjectDatabase()` —
+  `@orthacms/database`'s global `DatabaseModule` with `@InjectDatabase()` —
   identity registers no db provider of its own. Annotate the injected client as
-  `Database` (re-exported from `@ortha/database`), not `NodePgDatabase`, so a
+  `Database` (re-exported from `@orthacms/database`), not `NodePgDatabase`, so a
   dialect change stays a one-line edit in that package.
 - **Lifecycle.** Seeding runs from `SystemRolesSeeder`, a provider implementing
   NestJS `OnApplicationBootstrap`, so the Drizzle client is **injected** rather
@@ -363,7 +363,7 @@ error, and type the barrel exports keeps its path, so no consumer import moved.
   deliberately left undescribed: they answer `302` with no body, and the
   `200`/`201` the scanner emitted for their `Promise<void>` handlers is an
   artefact. `/api/users/{id}/sessions` is described here, not by
-  `@ortha/users-server`, because identity serves it — the two plugins share
+  `@orthacms/users-server`, because identity serves it — the two plugins share
   the `/api/users` prefix and each names only its own tails.
   `/api/preferences` is described by a **second** pass in the same folder
   (`describe-preferences-api.ts`), composed into the same `decorate`. It is
@@ -385,14 +385,14 @@ error, and type the barrel exports keeps its path, so no consumer import moved.
 ## Decisions (recorded for the epic)
 
 - **DB-client acquisition (§5 — superseded).** The original scaffold decided
-  identity must never import `@ortha/database`, depending only on the Drizzle
-  client _type_. **Retired:** identity now depends on `@ortha/database` and
+  identity must never import `@orthacms/database`, depending only on the Drizzle
+  client _type_. **Retired:** identity now depends on `@orthacms/database` and
   injects the client with `@InjectDatabase()` — the consumption pattern that
   plugin documents. Rationale for the reversal: the decoupling only paid off if
   identity ran against a _different_ db provider, which is not a goal — the
   database plugin is the sole provider, and the ORM is fixed (Drizzle).
   Dialect-portability is instead handled narrowly: consumers annotate with the
-  `Database` alias (owned by `@ortha/database`), so a dialect change is a
+  `Database` alias (owned by `@orthacms/database`), so a dialect change is a
   one-line edit there, not a sweep. (Inherently dialect-bound bits remain: the
   `pg-core` schema and pg-specific query methods like `onConflictDoNothing`.)
 - **Cross-origin cookies (settled in #8 — same-origin dev proxy).** Admin
@@ -460,8 +460,8 @@ error, and type the barrel exports keeps its path, so no consumer import moved.
 ## Not owned here
 
 - **DB connection / migration _execution_** — injects the Drizzle client from
-  `@ortha/database`; owns neither the connection nor the apply step (that
-  plugin + `@ortha/nx`'s `db:migrate` do that). Identity **does** own its
+  `@orthacms/database`; owns neither the connection nor the apply step (that
+  plugin + `@orthacms/nx`'s `db:migrate` do that). Identity **does** own its
   schema and migration _files_
   (`src/lib/schema`, `drizzle.config.ts`, the committed `migrations/`), which
   `db:generate` produces.
@@ -480,7 +480,7 @@ error, and type the barrel exports keeps its path, so no consumer import moved.
 ## Single sign-on (the seam)
 
 Identity also **authenticates against an external identity provider**. The port
-itself lives in `@ortha/identity-domain` so an adapter can depend on it
+itself lives in `@orthacms/identity-domain` so an adapter can depend on it
 without depending on this package; what lives here is everything that turns a
 verified profile into an Ortha session
 ([ADR-0013](../../../docs/adr/0013-sso-provider-port.md)).
@@ -659,5 +659,5 @@ createServer({
 
 ## Commands
 
-- `npm exec nx typecheck @ortha/identity-server`
-- `npm exec nx lint @ortha/identity-server`
+- `npm exec nx typecheck @orthacms/identity-server`
+- `npm exec nx lint @orthacms/identity-server`

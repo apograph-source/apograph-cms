@@ -6,7 +6,7 @@ import {
     EmptyHeader,
     EmptyMedia,
     EmptyTitle
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 
 type ContentComingSoonProps = {
     /** Illustrative icon for the empty state. */

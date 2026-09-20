@@ -1,6 +1,6 @@
 import { defineMessages, useIntl } from 'react-intl';
 import { Check } from 'lucide-react';
-import { cn } from '@ortha/design-system';
+import { cn } from '@orthacms/design-system';
 import type { MediaAsset } from '../../../types/mediaAsset';
 import { formatBytes } from '../../../utils/formatBytes';
 import { MediaThumbnail } from '../../MediaThumbnail';

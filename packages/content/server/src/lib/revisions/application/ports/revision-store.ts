@@ -1,5 +1,5 @@
 import { Inject } from '@nestjs/common';
-import type { Database } from '@ortha/database';
+import type { Database } from '@orthacms/database';
 import type { DbTransaction } from '../../../entries/infrastructure/persistence/relation-link.service';
 import type { Revision } from '../../domain/revision';
 import type {

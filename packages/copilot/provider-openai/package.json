@@ -1,5 +1,5 @@
 {
-    "name": "@ortha/copilot-provider-openai",
+    "name": "@orthacms/copilot-provider-openai",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -16,6 +16,6 @@
         "src"
     ],
     "dependencies": {
-        "@ortha/copilot-domain": "*"
+        "@orthacms/copilot-domain": "*"
     }
 }

@@ -1,14 +1,14 @@
 import { Suspense, lazy } from 'react';
-import type { AdminPlugin } from '@ortha/bootstrap-admin';
-import { COMMAND_SLOT } from '@ortha/shell-admin';
+import type { AdminPlugin } from '@orthacms/bootstrap-admin';
+import { COMMAND_SLOT } from '@orthacms/shell-admin';
 import {
     WORKSPACE_ROUTE_SLOT,
     WORKSPACE_SECTION_SLOT
-} from '@ortha/workspaces-admin';
+} from '@orthacms/workspaces-admin';
 import {
     INSIGHTS_SECTION_IDS,
     INSIGHTS_WIDGET_SLOT
-} from '@ortha/insights-admin';
+} from '@orthacms/insights-admin';
 import { CONTENT_READ, CONTENT_SEGMENT } from '../../domain/constants';
 import { ContentLibraryPageSkeleton } from '../components/ContentLibrarySkeleton';
 import { ContentNavSection } from '../components/ContentNavSection';
@@ -40,7 +40,7 @@ export type ContentAdminPlugin = AdminPlugin;
  * only the **Content** section of the workspace sidebar (the content-type nav +
  * ⌘K search, `WORKSPACE_SECTION_SLOT`) + its `content/*` route (the
  * lowest-order route, so the workspace base lands here). Both go into the
- * workspace shell's slots (owned by `@ortha/workspaces-admin`), so register
+ * workspace shell's slots (owned by `@orthacms/workspaces-admin`), so register
  * it after `WorkspacesPlugin()`.
  */
 export function ContentPlugin(): ContentAdminPlugin {

@@ -3,7 +3,7 @@ import { BasePage } from './BasePage';
 
 /**
  * Page object for the workspace settings page at `/workspaces/:id/settings`
- * (from `@ortha/workspaces-admin`). A left-rail page — General, Members,
+ * (from `@orthacms/workspaces-admin`). A left-rail page — General, Members,
  * Content, and Danger zone are nested routes reached from the side nav —
  * mounted inside the workspace shell. Backed by `mockWorkspaceSettingsApi` (the
  * stateful settings mock).

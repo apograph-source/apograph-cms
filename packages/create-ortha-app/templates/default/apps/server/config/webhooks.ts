@@ -1,5 +1,5 @@
-import type { WebhooksPluginConfig } from '@ortha/webhooks-server';
-import { readFlag, readPositiveInt } from '@ortha/utils-server';
+import type { WebhooksPluginConfig } from '@orthacms/webhooks-server';
+import { readFlag, readPositiveInt } from '@orthacms/utils-server';
 
 /**
  * Outgoing webhooks — how hard the sender pushes, and where it may reach.

@@ -1,4 +1,4 @@
-# @ortha/shell-admin
+# @orthacms/shell-admin
 
 The **shell plugin** for the Ortha CMS admin UI — the authenticated app chrome.
 It contributes the layout (a **left sidebar** — `AppSidebar` — beside a `<main>`
@@ -77,7 +77,7 @@ target to exist, and keeping the panel host mounted means collapsing never
 unmounts the filler and throws away its state.
 
 It **owns the sidebar's slots** — all `createSlot` extension points (primitive
-from `@ortha/utils-admin`):
+from `@orthacms/utils-admin`):
 
 - `SIDEBAR_NAV_SLOT` — the primary nav, grouped Overview / Directory (each
   `SidebarItem` carries a `group` + `icon`). The shell contributes Home; feature
@@ -117,8 +117,8 @@ other overlay in the app.
 
 ## Package
 
-- Name: `@ortha/shell-admin`
-- Import: `import { ShellPlugin } from '@ortha/shell-admin'`
+- Name: `@orthacms/shell-admin`
+- Import: `import { ShellPlugin } from '@orthacms/shell-admin'`
 - Grouped package (`packages/shell/admin`), admin-only. Consumed from source
   (`exports` → `./src/index.ts`); no build step.
 
@@ -156,13 +156,13 @@ order, Component }`) — the home dashboard's tiles + panels.
 
 ## Architecture
 
-- **Layout _and_ gate.** The host (`@ortha/bootstrap-admin`) owns only the
+- **Layout _and_ gate.** The host (`@orthacms/bootstrap-admin`) owns only the
   public/private split and mounts the `layout` as the parent of private routes —
   it is auth-agnostic. This plugin makes the layout gated by composing identity's
   pieces: `<AuthProvider><RequireAuth><AppShell/></RequireAuth></AuthProvider>`.
   So `AuthProvider` (the `/auth/me` source) and `RequireAuth` (the gate) wrap the
   private subtree; private pages render in `AppShell`'s `<Outlet/>` behind one
-  check. This is why the shell **depends on `@ortha/identity-admin`**.
+  check. This is why the shell **depends on `@orthacms/identity-admin`**.
 - **Private by default.** The routes carry no `public` flag, so they mount under
   the gated layout. Public screens (sign-in) come from the identity plugin and
   sit outside the shell.
@@ -189,13 +189,13 @@ order, Component }`) — the home dashboard's tiles + panels.
   `components/AppSidebar/` (only `AppSidebar` uses them), not in `components/`.
 - User-facing strings go through `react-intl` (`defineMessages` + `useIntl`),
   co-located in the component file; ids namespaced `shell.<area>.<key>`
-- UI is built from `@ortha/design-system` components, not bespoke markup
+- UI is built from `@orthacms/design-system` components, not bespoke markup
 
 ## Commands
 
-- `npm exec nx typecheck @ortha/shell-admin`
-- `npm exec nx lint @ortha/shell-admin`
-- `npm exec nx test @ortha/shell-admin` — vitest + jsdom (`vite.config.mts`,
+- `npm exec nx typecheck @orthacms/shell-admin`
+- `npm exec nx lint @orthacms/shell-admin`
+- `npm exec nx test @orthacms/shell-admin` — vitest + jsdom (`vite.config.mts`,
   `src/test-setup.ts`). What lives here is the handful of rules a browser cannot
   attribute: the contextual area's ownership token and the `useSidebarContent`
   factory+deps contract, the portal hosts staying mounted across a collapse, the

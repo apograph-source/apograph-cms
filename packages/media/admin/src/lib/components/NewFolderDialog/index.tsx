@@ -9,7 +9,7 @@ import {
     DialogHeader,
     DialogTitle,
     InputField
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 
 /** Intl descriptors for {@link NewFolderDialog}, co-located. */
 const messages = defineMessages({

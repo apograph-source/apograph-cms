@@ -4,7 +4,7 @@ import {
     type ToolContext,
     type ToolDefinition,
     type ToolProvider
-} from '@ortha/tools-server';
+} from '@orthacms/tools-server';
 import {
     InjectContentRegistry,
     InjectRevisionStore,
@@ -12,8 +12,8 @@ import {
     type ContentTypeRegistry,
     type RevisionStore,
     type SnapshotFieldChange
-} from '@ortha/content-server';
-import { PERMISSIONS } from '@ortha/identity-server';
+} from '@orthacms/content-server';
+import { PERMISSIONS } from '@orthacms/identity-server';
 import { ReviewStatusQuery } from '../application/review-status.query';
 import { EntryReviewService } from '../application/entry-review.service';
 import { ReviewApprovalRepository } from '../infrastructure/review-approval.repository';

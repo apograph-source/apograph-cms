@@ -1,5 +1,5 @@
-import type { DomainEvent } from '@ortha/database';
-import { IDENTITY_ACTIVITY_KINDS } from '@ortha/identity-server';
+import type { DomainEvent } from '@orthacms/database';
+import { IDENTITY_ACTIVITY_KINDS } from '@orthacms/identity-server';
 import { OUTBOX_RETRY_AUDIT } from '../activity.constants';
 
 /**

@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { apiClient, STALE_TIME } from '@ortha/utils-admin';
+import { apiClient, STALE_TIME } from '@orthacms/utils-admin';
 
 /** A thread as the list renders it. */
 export interface CopilotConversation {

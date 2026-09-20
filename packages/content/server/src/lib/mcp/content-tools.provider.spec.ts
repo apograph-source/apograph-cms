@@ -1,5 +1,5 @@
 import { NotFoundException } from '@nestjs/common';
-import type { ToolContext, ToolDefinition } from '@ortha/tools-server';
+import type { ToolContext, ToolDefinition } from '@orthacms/tools-server';
 import type { ContentTypeRegistry } from '../registry/content-type-registry';
 import type { WorkspaceGrantsQuery } from '../content-types/queries/workspace-grants.query';
 import type { PublicEntriesQuery } from '../public-api/infrastructure/public-entries.query';

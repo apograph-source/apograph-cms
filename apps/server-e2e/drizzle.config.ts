@@ -8,7 +8,7 @@ import { defineConfig } from 'drizzle-kit';
  * emits into an e2e-owned migrations dir, so the harness never depends on the
  * app's collections.
  *
- * `db:generate` (the @ortha/nx plugin, inferred from this file) runs
+ * `db:generate` (the @orthacms/nx plugin, inferred from this file) runs
  * drizzle-kit against this config. Generation only diffs the schema against the
  * snapshot — it never connects to a database, so no `dbCredentials` is needed.
  * The emitted SQL is applied by `global-setup` via the migrations descriptor

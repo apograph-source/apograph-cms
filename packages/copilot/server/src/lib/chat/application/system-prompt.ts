@@ -2,7 +2,7 @@ import {
     MAX_SKILL_SUMMARIES,
     UNTRUSTED_DATA_RULE,
     type Skill
-} from '@ortha/copilot-domain';
+} from '@orthacms/copilot-domain';
 
 /**
  * The surface a run was started from, plus whatever the client knows about

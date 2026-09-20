@@ -1,17 +1,17 @@
 import { Suspense, lazy } from 'react';
-import type { AdminPlugin } from '@ortha/bootstrap-admin';
+import type { AdminPlugin } from '@orthacms/bootstrap-admin';
 import {
     ENTRY_SIDEBAR_WIDGET_SLOT,
     RECORDS_COLUMN_SLOT,
     RECORDS_TOOLBAR_SLOT,
     type ContentTypeDetail,
     type EntryRecord
-} from '@ortha/content-admin';
+} from '@orthacms/content-admin';
 import {
     WORKSPACE_NAV_SLOT,
     WORKSPACE_ROUTE_SLOT
-} from '@ortha/workspaces-admin';
-import { COPILOT_TOOL_RESULT_SLOT } from '@ortha/copilot-admin';
+} from '@orthacms/workspaces-admin';
+import { COPILOT_TOOL_RESULT_SLOT } from '@orthacms/copilot-admin';
 import { BellRing } from 'lucide-react';
 import { AlarmsSkeleton } from '../../presentation/components/AlarmsSkeleton';
 import { AlarmsColumnCell } from '../../presentation/components/AlarmsColumnCell';

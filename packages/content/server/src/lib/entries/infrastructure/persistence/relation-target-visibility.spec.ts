@@ -1,5 +1,5 @@
 import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
-import type { Database } from '@ortha/database';
+import type { Database } from '@orthacms/database';
 import {
     ContentReadScopeRegistry,
     type ContentReadScope

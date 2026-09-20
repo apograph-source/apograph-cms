@@ -6,7 +6,7 @@ import {
     type AnyContentType,
     type ContentTypeRegistry,
     type PublicEntry
-} from '@ortha/content-server';
+} from '@orthacms/content-server';
 import {
     GraphQLBoolean,
     GraphQLID,

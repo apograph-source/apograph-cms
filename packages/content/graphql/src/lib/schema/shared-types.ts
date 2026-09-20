@@ -1,4 +1,4 @@
-import { CONTENT_TYPE_KIND } from '@ortha/content-server';
+import { CONTENT_TYPE_KIND } from '@orthacms/content-server';
 import {
     GraphQLBoolean,
     GraphQLEnumType,

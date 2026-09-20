@@ -18,9 +18,9 @@ import { HomePage } from './index';
  * load; under jsdom that starts empty and falls back to "Admin".
  */
 
-vi.mock('@ortha/identity-admin', async (importOriginal) => {
+vi.mock('@orthacms/identity-admin', async (importOriginal) => {
     const actual =
-        await importOriginal<typeof import('@ortha/identity-admin')>();
+        await importOriginal<typeof import('@orthacms/identity-admin')>();
     return {
         ...actual,
         useAuth: () => ({

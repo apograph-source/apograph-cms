@@ -20,7 +20,7 @@
  * admin's schemas until {@link PUBLIC_ENTRY_ROUTES} existed.
  */
 
-import type { OpenApiDocument } from '@ortha/bootstrap-server';
+import type { OpenApiDocument } from '@orthacms/bootstrap-server';
 import type { SerializedContentType } from '../registry/content-type-registry';
 import type { OpenApiSchema } from './field-schema';
 import { buildContentSchemas, ref, schemaNamesOf } from './content-schemas';
@@ -115,7 +115,7 @@ const ENTRY_ROUTES: Record<string, Record<string, OperationSpec>> = {
     '/bulk/delete': { post: shared('BulkActionResult') },
     '/bulk/restore': { post: shared('BulkActionResult') },
     '/bulk/purge': { post: shared('BulkActionResult') },
-    // Mounted here by `@ortha/transfer-server`, which describes their
+    // Mounted here by `@orthacms/transfer-server`, which describes their
     // bodies; see {@link FOREIGN}.
     '/export': { post: FOREIGN },
     '/export/preview': { post: FOREIGN },
@@ -176,7 +176,7 @@ const PUBLIC_ENTRY_ROUTES: Record<string, Record<string, OperationSpec>> = {
     '/bulk/publish': { post: shared('BulkPublishResult') },
     '/bulk/unpublish': { post: shared('BulkActionResult') },
     '/bulk/delete': { post: shared('BulkActionResult') },
-    // Mounted here by `@ortha/segments-server`, which describes its bodies;
+    // Mounted here by `@orthacms/segments-server`, which describes its bodies;
     // see {@link FOREIGN}.
     '/{id}/access': { get: FOREIGN, put: FOREIGN }
 };

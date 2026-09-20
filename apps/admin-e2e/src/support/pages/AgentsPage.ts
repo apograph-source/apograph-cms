@@ -2,7 +2,7 @@ import { type Locator, type Page } from '@playwright/test';
 import { BasePage } from './BasePage';
 
 /**
- * Page object for the **Agents view** (`@ortha/copilot-admin`) — the
+ * Page object for the **Agents view** (`@orthacms/copilot-admin`) — the
  * full-page chat at `/workspaces/:id/agents`, its thread rail, the composer, and
  * the sidebar's CMS ⇄ Agents switcher. Seed it with `mockSignedIn`,
  * `mockWorkspaces` and `mockCopilotApi`.

@@ -1,7 +1,7 @@
 import {
     ENTRY_FIELD_CONTROL_SLOT,
     type EntryFieldControlItem
-} from '@ortha/content-admin';
+} from '@orthacms/content-admin';
 import { WysiwygPlugin } from '.';
 
 /**

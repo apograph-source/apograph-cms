@@ -1,5 +1,5 @@
 import { defineMessages, useIntl } from 'react-intl';
-import { Badge, cn } from '@ortha/design-system';
+import { Badge, cn } from '@orthacms/design-system';
 import type { WorkspaceStatus } from '../../../domain/types/workspace';
 
 /** Intl descriptors for {@link StatusChip}, co-located with the component. */

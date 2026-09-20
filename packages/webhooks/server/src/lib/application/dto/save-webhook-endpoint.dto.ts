@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { WEBHOOK_EVENT_KINDS } from '@ortha/webhooks-domain';
+import { WEBHOOK_EVENT_KINDS } from '@orthacms/webhooks-domain';
 import {
     ArrayMaxSize,
     IsArray,

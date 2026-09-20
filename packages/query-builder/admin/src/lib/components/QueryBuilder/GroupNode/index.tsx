@@ -5,7 +5,7 @@ import {
     SegmentedControl,
     SegmentedControlItem,
     cn
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import type {
     FilterField,
     RelationValueEditor

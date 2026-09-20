@@ -84,7 +84,7 @@ One reading tool, `admin_alarms_findings` — so that the question “what is wr
 ### What Alarms is not
 
 - **It is not validation.** Validation refuses; an alarm reports. There is no overlap between them by construction.
-- **It is not a query language.** A condition can be expressed with exactly what the entry list can be filtered by — no more and no less. If the operator you need is missing, the thing to extend is the **filter engine** (`FilterOperator` in `@ortha/utils-server` and `buildEntryFilterSurface` in content), not alarms.
+- **It is not a query language.** A condition can be expressed with exactly what the entry list can be filtered by — no more and no less. If the operator you need is missing, the thing to extend is the **filter engine** (`FilterOperator` in `@orthacms/utils-server` and `buildEntryFilterSurface` in content), not alarms.
 - **It is not aggregates.** “Two products share a slug”, “a section has fewer than three articles” are a `GROUP BY`, not a predicate over one row. That would need a second kind of rule and a second evaluator. It is **out of scope**, not “planned”.
 - **It is not notifications.** No emails and no webhooks. Outbound delivery is a separate feature on the existing outbox with its retries and dead letters, not a queue inside alarms.
 - **It is not about media and not about users.** A rule's subject is only a content entry. The mechanism generalises, but a port for generalising is worth designing after a second subject appears, not before.
@@ -96,8 +96,8 @@ The `packages/alarms` group is **two** packages. There is no separate `domain` p
 
 | Package | npm name                | Role                                                                                                                                                    | What it owns                                                                                                                                                           |
 | ------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| server  | @ortha/alarms-server | The NestJS plugin: two controllers, the rule lifecycle service, the evaluator, the outbox subscriber, the periodic sweep, the schema and the migrations | 2 tables, 9 routes, 1 copilot tool, the `__drizzle_migrations_alarms` migration journal                                                                                |
-| admin   | @ortha/alarms-admin  | The admin plugin: the alarms page, the alarm editor and contributions into six slots                                                                    | `/workspaces/:id/alarms*` (3 routes), the checks block in the entry panel, the “Checks” column, the “Save as alarm” button, the rendering of the copilot tool's result |
+| server  | @orthacms/alarms-server | The NestJS plugin: two controllers, the rule lifecycle service, the evaluator, the outbox subscriber, the periodic sweep, the schema and the migrations | 2 tables, 9 routes, 1 copilot tool, the `__drizzle_migrations_alarms` migration journal                                                                                |
+| admin   | @orthacms/alarms-admin  | The admin plugin: the alarms page, the alarm editor and contributions into six slots                                                                    | `/workspaces/:id/alarms*` (3 routes), the checks block in the entry panel, the “Checks” column, the “Save as alarm” button, the rendering of the copilot tool's result |
 
 ### The server package's layout
 
@@ -122,12 +122,12 @@ The package has been moved onto layers (`ADR-0003`): `domain / application / inf
 
 ### What it depends on, and why registration order matters
 
-- `@ortha/content-server` — `EntryMatchQuery` (evaluating the filter), `WorkspaceGrantsQuery` (the workspace's grants), the type registry. **AlarmsPlugin registers after ContentPlugin.**
-- `@ortha/database` — the database client through `@InjectDatabase()` and the `OutboxDispatcher`, which the subscriber registers with at bootstrap. **After DatabasePlugin.**
-- `@ortha/identity-server` — `PermissionsGuard`, `RequirePermissions`, `OriginGuard`, the `PERMISSIONS` catalogue.
-- `@ortha/workspaces-server` — `WorkspaceGuard` and `@CurrentWorkspace()`.
-- `@ortha/tools-server` — the shared tool registry; injected `@Optional()`, so a deployment without the copilot and without MCP simply does not register the tool.
-- `@ortha/utils-server` — `FilterException`, `isUniqueViolation`.
+- `@orthacms/content-server` — `EntryMatchQuery` (evaluating the filter), `WorkspaceGrantsQuery` (the workspace's grants), the type registry. **AlarmsPlugin registers after ContentPlugin.**
+- `@orthacms/database` — the database client through `@InjectDatabase()` and the `OutboxDispatcher`, which the subscriber registers with at bootstrap. **After DatabasePlugin.**
+- `@orthacms/identity-server` — `PermissionsGuard`, `RequirePermissions`, `OriginGuard`, the `PERMISSIONS` catalogue.
+- `@orthacms/workspaces-server` — `WorkspaceGuard` and `@CurrentWorkspace()`.
+- `@orthacms/tools-server` — the shared tool registry; injected `@Optional()`, so a deployment without the copilot and without MCP simply does not register the tool.
+- `@orthacms/utils-server` — `FilterException`, `isUniqueViolation`.
 
 In `apps/server/src/plugins.ts` the plugin is registered as `AlarmsPlugin()` — **with no arguments at all**. Both packages are in the application generator's `CORE_PACKAGES`, that is, they are installed into a generated application unconditionally.
 
@@ -158,7 +158,7 @@ There are exactly two permissions, and they are split along one axis: **“who m
 
 ## 04. Data model
 
-The plugin owns **two** tables and carries its own migrations (`drizzle.config.ts` + committed `migrations/*.sql`, its own `__drizzle_migrations_alarms` journal, applied by the host through `nx run server:db:migrate`). The plugin opens no database connection — the client is injected from `@ortha/database`.
+The plugin owns **two** tables and carries its own migrations (`drizzle.config.ts` + committed `migrations/*.sql`, its own `__drizzle_migrations_alarms` journal, applied by the host through `nx run server:db:migrate`). The plugin opens no database connection — the client is injected from `@orthacms/database`.
 
 | Table          | Purpose                            | Key fields and constraints                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | -------------- | ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -745,7 +745,7 @@ The wording is “action → expected result”. The existing suites are `apps/s
 
 | Area                                           | Who owns it                                                                                                            | What Alarms does                                                                                                                                                                                                                                                                  |
 | ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| The database connection and running migrations | `@ortha/database` + `@ortha/nx`                                                                                  | Owns the schema and migration **files** but not the connection and not the application step                                                                                                                                                                                       |
+| The database connection and running migrations | `@orthacms/database` + `@orthacms/nx`                                                                                  | Owns the schema and migration **files** but not the connection and not the application step                                                                                                                                                                                       |
 | The filter grammar and its evaluation          | `utils-server` (`FilterOperator`, `parseFilterTree`) + `content-server` (`EntryMatchQuery`, `buildEntryFilterSurface`) | **Only calls them.** If the operator you need is missing, the engine is extended, not alarms                                                                                                                                                                                      |
 | Hard content-validity rules                    | `content-server`: `EntryValidationService`, `publish-gate.ts`, `EntryWriterService`                                    | Nothing. An alarm does not refuse and cannot learn to refuse                                                                                                                                                                                                                      |
 | Entry lifecycle events                         | `content-server` raises them, `OutboxDispatcher` delivers them                                                         | Subscribes to seven kinds; registers with the dispatcher at bootstrap                                                                                                                                                                                                             |

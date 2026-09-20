@@ -21,7 +21,7 @@ import {
     collection,
     field,
     type AnyContentType
-} from '@ortha/content-server/define';
+} from '@orthacms/content-server/define';
 import { author } from './author';
 import { category } from './category';
 import { comment } from './comment';

@@ -1,7 +1,7 @@
 import {
     SsoVerificationError,
     type SsoProfile
-} from '@ortha/identity-domain';
+} from '@orthacms/identity-domain';
 import type { ResolvedOidcConfig } from './config';
 
 /** An identity token's verified payload, as far as this adapter reads it. */

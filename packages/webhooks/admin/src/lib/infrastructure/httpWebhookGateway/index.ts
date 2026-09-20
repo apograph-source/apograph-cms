@@ -1,4 +1,4 @@
-import { apiClient, toApiError } from '@ortha/utils-admin';
+import { apiClient, toApiError } from '@orthacms/utils-admin';
 import type {
     CreatedWebhookEndpoint,
     WebhookDelivery,

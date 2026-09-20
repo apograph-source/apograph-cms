@@ -1,6 +1,6 @@
 // ortha:if copilot-openai
-import type { OpenAiProviderConfig } from '@ortha/copilot-provider-openai';
-import { readEnv, readList } from '@ortha/utils-server';
+import type { OpenAiProviderConfig } from '@orthacms/copilot-provider-openai';
+import { readEnv, readList } from '@orthacms/utils-server';
 
 /**
  * An OpenAI-wire backend, or nothing. No default endpoint: an unset variable

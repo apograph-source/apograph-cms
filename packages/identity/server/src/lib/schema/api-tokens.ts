@@ -72,7 +72,7 @@ export const apiTokens = pgTable('api_tokens', {
  *
  * `token_id` cascades, so deleting a token can never leave orphan grants.
  * `workspace_id` is a plain uuid with **no** cross-plugin FK — the `workspaces`
- * table belongs to `@ortha/workspaces-server`, exactly like the
+ * table belongs to `@orthacms/workspaces-server`, exactly like the
  * `workspace_id` on the generated `content_*` tables; tenancy is enforced in
  * the app layer.
  */

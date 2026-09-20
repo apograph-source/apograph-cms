@@ -2,7 +2,7 @@
  * Typed application configuration for the Ortha CMS server.
  *
  * `config/` is the single place that reads the environment, and it reads it
- * **only** through the readers in `@ortha/utils-server` — no module in the
+ * **only** through the readers in `@orthacms/utils-server` — no module in the
  * folder touches `process.env` itself, which `src/ortha.config.spec.ts`
  * enforces. That is not style: `readEnv` is where "an empty value means the
  * setting is absent" is decided, and `.env.example` ships forty-odd keys with
@@ -21,13 +21,13 @@
  * a `...(x ? { key } : {})` spread in the middle of the object it configures.
  *
  * This file stays the entry point rather than becoming another module in the
- * folder: `@ortha/cli` looks for exactly `dist/server/ortha.config.js`
- * (`LAYOUT.compiledConfig`), `@ortha/nx` infers the migration targets onto
+ * folder: `@orthacms/cli` looks for exactly `dist/server/ortha.config.js`
+ * (`LAYOUT.compiledConfig`), `@orthacms/nx` infers the migration targets onto
  * the project that has an `ortha.config.ts`, and the types below are imported
  * from here by `src/plugins.ts` and by `apps/server-e2e`.
  *
  * *How* a value is parsed is not decided in this folder at all: the readers
- * come from `@ortha/utils-server`, shared with the scaffolder's template so
+ * come from `@orthacms/utils-server`, shared with the scaffolder's template so
  * a generated app validates its environment exactly as this one does. `config/`
  * names the variables and their defaults; the readers decide what a value has
  * to look like to be honoured, and refuse it otherwise.
@@ -36,18 +36,18 @@
 import type {
     ApiDocsOptions,
     TrustProxySetting
-} from '@ortha/bootstrap-server';
-import type { I18nPluginConfig } from '@ortha/i18n-server';
-import type { ContentGraphqlPluginConfig } from '@ortha/content-graphql';
-import type { McpPluginConfig } from '@ortha/mcp-server';
-import type { TransferPluginConfig } from '@ortha/transfer-server';
-import type { SegmentsPluginConfig } from '@ortha/segments-server';
-import type { WebhooksPluginConfig } from '@ortha/webhooks-server';
+} from '@orthacms/bootstrap-server';
+import type { I18nPluginConfig } from '@orthacms/i18n-server';
+import type { ContentGraphqlPluginConfig } from '@orthacms/content-graphql';
+import type { McpPluginConfig } from '@orthacms/mcp-server';
+import type { TransferPluginConfig } from '@orthacms/transfer-server';
+import type { SegmentsPluginConfig } from '@orthacms/segments-server';
+import type { WebhooksPluginConfig } from '@orthacms/webhooks-server';
 import {
     readNonNegativeInt,
     readPositiveInt,
     requireEnv
-} from '@ortha/utils-server';
+} from '@orthacms/utils-server';
 
 import { bodyLimit, trustProxy } from './config/server';
 import { docsConfig } from './config/docs';

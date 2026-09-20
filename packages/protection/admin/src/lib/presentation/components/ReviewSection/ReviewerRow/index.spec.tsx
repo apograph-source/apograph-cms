@@ -4,7 +4,7 @@ import { describe, expect, it, vi } from 'vitest';
 import type { ReviewerRowView } from '../../../../domain/reviewerRows';
 import { ReviewerRow } from './index';
 
-vi.mock('@ortha/workspaces-admin', () => ({
+vi.mock('@orthacms/workspaces-admin', () => ({
     useCurrentWorkspace: () => ({
         id: 'ws',
         members: [

@@ -1,6 +1,6 @@
 import { defineMessages, useIntl } from 'react-intl';
 import { X } from 'lucide-react';
-import { Button } from '@ortha/design-system';
+import { Button } from '@orthacms/design-system';
 import type { WorkspaceMember } from '../../../../domain/types/workspace';
 import { WorkspaceAvatar } from '../../WorkspaceAvatar';
 

@@ -24,7 +24,7 @@ import {
     type TransferFile,
     type TransferFormat,
     type TransferLimits
-} from '@ortha/transfer-domain';
+} from '@orthacms/transfer-domain';
 import {
     ZipReadError,
     looksLikeZip,

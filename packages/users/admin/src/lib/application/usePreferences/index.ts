@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { AuthStatus, useAuth } from '@ortha/identity-admin';
+import { AuthStatus, useAuth } from '@orthacms/identity-admin';
 import {
     httpPreferencesGateway,
     preferencesKeys,

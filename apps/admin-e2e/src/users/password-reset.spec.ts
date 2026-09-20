@@ -18,7 +18,7 @@ const KATHERINE = DEFAULT_MEMBERS[3];
 
 /**
  * The Access tab's password card (`/users/:id/access`,
- * `@ortha/users-admin`): an admin generates a single-use reset link for a
+ * `@orthacms/users-admin`): an admin generates a single-use reset link for a
  * member and hands it over, because nothing emails one yet.
  *
  * The behaviour that matters is what happens around the secret. Generating

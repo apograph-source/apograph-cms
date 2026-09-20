@@ -7,7 +7,7 @@ import {
     EmptyHeader,
     EmptyMedia,
     EmptyTitle
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 import { FileSearch, ImagePlus, UploadCloud } from 'lucide-react';
 
 /** Intl descriptors for {@link MediaEmptyState}, co-located. */

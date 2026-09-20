@@ -168,7 +168,7 @@ until an operator clears its `attempts`. It is no longer only findable with SQL:
 package as dependency-free, and every one of them is reading the checked-in `package.json`.
 `tools/release/pack.mjs` writes `tslib` into every staged manifest — unconditionally, because
 `importHelpers` is on workspace-wide and the emitted JS reaches for the helper runtime whether
-or not the source ever mentions it. So `npm i @ortha/media-provider-s3` fetches four
+or not the source ever mentions it. So `npm i @orthacms/media-provider-s3` fetches four
 packages, and `npx create-ortha-app` — whose empty `dependencies` field is a deliberate choice
 about how long the very first command takes — fetches two. The gap is a few kilobytes and a
 whole sentence, and nothing pinned it: `tslib` appeared in `pack.spec.ts` only as a fixture

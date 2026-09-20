@@ -9,7 +9,7 @@ import {
     Skeleton,
     TopBar,
     TopBarIcon
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 
 // The product is **Ortha AI**; the code keeps `copilot`. See the naming note in
 // `docs/design/copilot.md`.

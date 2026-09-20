@@ -8,12 +8,12 @@ import {
     OutboxDispatcher,
     type DomainEvent,
     type DomainEventSubscriber
-} from '@ortha/database';
+} from '@orthacms/database';
 import {
     SUBSCRIBABLE_OUTBOX_KINDS,
     buildEnvelope,
     matches
-} from '@ortha/webhooks-domain';
+} from '@orthacms/webhooks-domain';
 import { WebhookDeliveryRepository } from './webhook-delivery.repository';
 import { WebhookEndpointRepository } from './webhook-endpoint.repository';
 import { toRoutableEvent, toSourceEvent } from './event-mapping';

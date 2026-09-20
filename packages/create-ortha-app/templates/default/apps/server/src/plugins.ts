@@ -1,66 +1,66 @@
-import type { ServerPlugin } from '@ortha/bootstrap-server';
-import { ActivityPlugin } from '@ortha/activity-server';
-import { ContentPlugin, ContentViewsPlugin } from '@ortha/content-server';
-import { DatabasePlugin } from '@ortha/database';
-import { I18nServerPlugin } from '@ortha/i18n-server';
-import { IdentityPlugin } from '@ortha/identity-server';
+import type { ServerPlugin } from '@orthacms/bootstrap-server';
+import { ActivityPlugin } from '@orthacms/activity-server';
+import { ContentPlugin, ContentViewsPlugin } from '@orthacms/content-server';
+import { DatabasePlugin } from '@orthacms/database';
+import { I18nServerPlugin } from '@orthacms/i18n-server';
+import { IdentityPlugin } from '@orthacms/identity-server';
 // ortha:if sso
-import type { SsoRegistration } from '@ortha/identity-domain';
+import type { SsoRegistration } from '@orthacms/identity-domain';
 // ortha:end
 // ortha:if sso-oidc
-import { createOidcProvider } from '@ortha/identity-provider-oidc';
+import { createOidcProvider } from '@orthacms/identity-provider-oidc';
 // ortha:end
 // ortha:if sso-github
-import { createGithubProvider } from '@ortha/identity-provider-github';
+import { createGithubProvider } from '@orthacms/identity-provider-github';
 // ortha:end
 // ortha:if sso-saml
-import { createSamlProvider } from '@ortha/identity-provider-saml';
+import { createSamlProvider } from '@orthacms/identity-provider-saml';
 // ortha:end
 // ortha:if mail
-import { MailServerPlugin } from '@ortha/mail-server';
+import { MailServerPlugin } from '@orthacms/mail-server';
 // ortha:end
 // ortha:if mail-smtp
-import { createSmtpMailProvider } from '@ortha/mail-provider-smtp';
+import { createSmtpMailProvider } from '@orthacms/mail-provider-smtp';
 // ortha:end
-import { MediaServerPlugin } from '@ortha/media-server';
+import { MediaServerPlugin } from '@orthacms/media-server';
 // ortha:if media-local
-import { createLocalStorageProvider } from '@ortha/media-provider-local';
+import { createLocalStorageProvider } from '@orthacms/media-provider-local';
 // ortha:end
 // ortha:if media-s3
-import { createS3StorageProvider } from '@ortha/media-provider-s3';
+import { createS3StorageProvider } from '@orthacms/media-provider-s3';
 // ortha:end
 // ortha:if media-azure
-import { createAzureStorageProvider } from '@ortha/media-provider-azure';
+import { createAzureStorageProvider } from '@orthacms/media-provider-azure';
 // ortha:end
 // ortha:if media-gcs
-import { createGcsStorageProvider } from '@ortha/media-provider-gcs';
+import { createGcsStorageProvider } from '@orthacms/media-provider-gcs';
 // ortha:end
 // ortha:if media-vercel-blob
-import { createVercelBlobStorageProvider } from '@ortha/media-provider-vercel-blob';
+import { createVercelBlobStorageProvider } from '@orthacms/media-provider-vercel-blob';
 // ortha:end
-import { UsersPlugin } from '@ortha/users-server';
-import { AlarmsPlugin } from '@ortha/alarms-server';
-import { SegmentsPlugin } from '@ortha/segments-server';
-import { ProtectionPlugin } from '@ortha/protection-server';
-import { TransferPlugin } from '@ortha/transfer-server';
-import { WebhooksPlugin } from '@ortha/webhooks-server';
+import { UsersPlugin } from '@orthacms/users-server';
+import { AlarmsPlugin } from '@orthacms/alarms-server';
+import { SegmentsPlugin } from '@orthacms/segments-server';
+import { ProtectionPlugin } from '@orthacms/protection-server';
+import { TransferPlugin } from '@orthacms/transfer-server';
+import { WebhooksPlugin } from '@orthacms/webhooks-server';
 // ortha:if graphql
-import { ContentGraphqlPlugin } from '@ortha/content-graphql';
+import { ContentGraphqlPlugin } from '@orthacms/content-graphql';
 // ortha:end
 // ortha:if mcp
-import { McpPlugin } from '@ortha/mcp-server';
+import { McpPlugin } from '@orthacms/mcp-server';
 // ortha:end
 import {
     CopilotPlugin,
     type ProviderRegistration
-} from '@ortha/copilot-server';
+} from '@orthacms/copilot-server';
 // ortha:if copilot-anthropic
-import { createAnthropicProvider } from '@ortha/copilot-provider-anthropic';
+import { createAnthropicProvider } from '@orthacms/copilot-provider-anthropic';
 // ortha:end
 // ortha:if copilot-openai
-import { createOpenAiProvider } from '@ortha/copilot-provider-openai';
+import { createOpenAiProvider } from '@orthacms/copilot-provider-openai';
 // ortha:end
-import { WorkspacesPlugin } from '@ortha/workspaces-server';
+import { WorkspacesPlugin } from '@orthacms/workspaces-server';
 import type { OrthaConfig } from '../ortha.config';
 
 /**
@@ -90,7 +90,7 @@ import type { OrthaConfig } from '../ortha.config';
  * `/api/auth/sso/<name>/start` and every `sso_identities` row refer to the
  * provider by, so renaming a registration orphans its links. Register the
  * callback URL `<publicBaseUrl>/api/auth/sso/<name>/callback` with the
- * provider; `ssoCallbackUrl` from `@ortha/identity-server` builds the exact
+ * provider; `ssoCallbackUrl` from `@orthacms/identity-server` builds the exact
  * string, which matters because most providers match it byte for byte.
  */
 export function ssoProviders(config: OrthaConfig): SsoRegistration[] {

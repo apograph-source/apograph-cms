@@ -8,7 +8,7 @@ import {
     TableHead,
     TableHeader,
     TableRow
-} from '@ortha/design-system';
+} from '@orthacms/design-system';
 
 /** Intl descriptors for the activity skeletons, co-located here. */
 const messages = defineMessages({

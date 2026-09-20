@@ -1,4 +1,4 @@
-import { Skeleton } from '@ortha/design-system';
+import { Skeleton } from '@orthacms/design-system';
 
 /**
  * Loading placeholder for the content sidebar region: a header block with a

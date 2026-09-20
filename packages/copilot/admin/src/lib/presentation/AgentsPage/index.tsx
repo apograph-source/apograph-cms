@@ -7,16 +7,16 @@ import {
     EmptyHeader,
     EmptyMedia,
     EmptyTitle
-} from '@ortha/design-system';
-import { useHasPermission } from '@ortha/identity-admin';
-import { useCurrentWorkspace } from '@ortha/workspaces-admin';
+} from '@orthacms/design-system';
+import { useHasPermission } from '@orthacms/identity-admin';
+import { useCurrentWorkspace } from '@orthacms/workspaces-admin';
 import { useCopilotAvailable } from '../../application/useCopilotModels';
 import { useRouteContext } from '../../application/useRouteContext';
 import { COPILOT_USE, agentsPath } from '../../domain/agentsRoute';
 import { AgentsRail } from './AgentsRail';
 import { AgentsThread } from './AgentsThread';
 import { AgentsTopBar } from './AgentsTopBar';
-import { useDocumentTitle } from '@ortha/utils-admin';
+import { useDocumentTitle } from '@orthacms/utils-admin';
 
 const messages = defineMessages({
     heading: {

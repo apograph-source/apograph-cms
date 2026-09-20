@@ -2,7 +2,7 @@ import type {
     MailMessage,
     MailProvider,
     MailReceipt
-} from '@ortha/mail-domain';
+} from '@orthacms/mail-domain';
 
 /** Where the adapter writes. Injectable purely so a test can read it back. */
 export type ConsoleMailSink = (line: string) => void;
