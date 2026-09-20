@@ -17,7 +17,7 @@ export interface ApiDocsOptions {
     path?: string;
     /** Where the raw OpenAPI JSON is served. Defaults to `/reference/json`. */
     jsonPath?: string;
-    /** Document title. Defaults to "Apograph CMS API". */
+    /** Document title. Defaults to "Ortha CMS API". */
     title?: string;
     /** Document description (markdown). */
     description?: string;

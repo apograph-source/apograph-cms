@@ -28,7 +28,7 @@ function describeError(error: unknown): string {
 }
 
 /**
- * Bootstraps the Apograph CMS server: runs each plugin's `onPluginInit`
+ * Bootstraps the Ortha CMS server: runs each plugin's `onPluginInit`
  * hook in order, imports every plugin's NestJS module, applies the proxy
  * trust setting, sets the global prefix, the body-size cap and a strict
  * validation pipe, generates the OpenAPI document and mounts the Scalar API

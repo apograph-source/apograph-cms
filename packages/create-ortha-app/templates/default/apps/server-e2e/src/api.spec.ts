@@ -36,8 +36,8 @@ describe('the API', () => {
                 .post('/api/auth/login')
                 .set('Origin', ALLOWED_ORIGIN)
                 .send({
-                    email: process.env['APOGRAPH_ROOT_ADMIN_EMAIL'],
-                    password: process.env['APOGRAPH_ROOT_ADMIN_PASSWORD']
+                    email: process.env['ORTHA_ROOT_ADMIN_EMAIL'],
+                    password: process.env['ORTHA_ROOT_ADMIN_PASSWORD']
                 })
                 .expect(201);
 
@@ -51,8 +51,8 @@ describe('the API', () => {
                 .post('/api/auth/login')
                 .set('Origin', ALLOWED_ORIGIN)
                 .send({
-                    email: process.env['APOGRAPH_ROOT_ADMIN_EMAIL'],
-                    password: process.env['APOGRAPH_ROOT_ADMIN_PASSWORD']
+                    email: process.env['ORTHA_ROOT_ADMIN_EMAIL'],
+                    password: process.env['ORTHA_ROOT_ADMIN_PASSWORD']
                 })
                 .expect(201);
 
@@ -66,7 +66,7 @@ describe('the API', () => {
                 .post('/api/auth/login')
                 .set('Origin', ALLOWED_ORIGIN)
                 .send({
-                    email: process.env['APOGRAPH_ROOT_ADMIN_EMAIL'],
+                    email: process.env['ORTHA_ROOT_ADMIN_EMAIL'],
                     password: 'not-the-password'
                 })
                 .expect(401);

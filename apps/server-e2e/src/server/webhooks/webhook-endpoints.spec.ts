@@ -157,7 +157,7 @@ describe('Webhook endpoints API', () => {
                     url: 'https://example.com/hooks',
                     // Setting this would let configuration claim a delivery was
                     // something it is not.
-                    headers: { 'X-Apograph-Event': 'entry.published' }
+                    headers: { 'X-Ortha-Event': 'entry.published' }
                 })
                 .expect(422);
         });

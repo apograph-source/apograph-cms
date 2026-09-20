@@ -113,7 +113,7 @@ own comments admit the gap. Stamping it where the fact occurs closes it for both
 
 - **Ordering guarantees.** Attempts are retried on independent schedules and
   several workers may be sending at once, so deliveries can arrive out of order.
-  Receivers deduplicate on `X-Apograph-Event-Id` and order by `occurredAt`. This is
+  Receivers deduplicate on `X-Ortha-Event-Id` and order by `occurredAt`. This is
   documented prominently rather than quietly.
 - **Exactly-once delivery.** It is at-least-once end to end, as the outbox is.
 - **Aggregated events.** Publishing five hundred records produces five hundred

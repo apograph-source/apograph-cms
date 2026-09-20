@@ -133,7 +133,7 @@ export interface ChatAttachment {
     kind: string;
     /** Size in bytes. */
     size: number;
-    /** Whether Apograph AI can read the contents, or only see that it exists. */
+    /** Whether Ortha AI can read the contents, or only see that it exists. */
     readable: boolean;
 }
 

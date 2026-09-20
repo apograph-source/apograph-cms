@@ -24,7 +24,7 @@ export function badgeCount(sessions: readonly CopilotSession[]): number {
  * open, and the end of the title is the first thing a browser throws away.
  *
  * `base` is the title with no badge on it — the caller captures that once, at
- * mount, so repeated updates cannot stack `(1) (2) Apograph CMS`.
+ * mount, so repeated updates cannot stack `(1) (2) Ortha CMS`.
  */
 export function badgedTitle(base: string, count: number): string {
     return count > 0 ? `(${count}) ${base}` : base;

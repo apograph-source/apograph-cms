@@ -1,6 +1,6 @@
 # Contributing
 
-Apograph CMS is MIT licensed, and every package in `packages/` states that
+Ortha CMS is MIT licensed, and every package in `packages/` states that
 licence in its own `package.json`. A release refuses to stage a package that
 omits the field or names a different licence (`tools/release/pack.mjs`), so
 the licence a consumer's scanner reads off a tarball is always the one this

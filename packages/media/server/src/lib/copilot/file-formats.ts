@@ -1,5 +1,5 @@
 /**
- * The text formats Apograph AI may author into the media library, and the MIME
+ * The text formats Ortha AI may author into the media library, and the MIME
  * type + extension each one stores as.
  *
  * **The model picks a format, never a MIME type.** Handed a free-text

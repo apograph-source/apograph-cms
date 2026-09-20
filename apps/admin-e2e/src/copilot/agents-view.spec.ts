@@ -236,7 +236,7 @@ test.describe('Agents view — the rail and the thread', () => {
         agentsPage
     }) => {
         // Every permission the admin has, minus the one this surface is gated
-        // on — the shape of a role that can edit content but not use Apograph AI.
+        // on — the shape of a role that can edit content but not use Ortha AI.
         await mockSignedIn(page, { permissions: ['workspaces:read'] });
         await mockCopilotApi(page);
         await agentsPage.goto(WORKSPACE_ID);

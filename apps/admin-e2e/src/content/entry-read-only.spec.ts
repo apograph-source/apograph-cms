@@ -100,7 +100,7 @@ test.describe('Entry editor — read-only', () => {
             // preview rather than a blanked-out form.
             await expect(
                 contentLibraryPage.fieldTextbox('Title', { exact: true })
-            ).toHaveValue('Welcome to Apograph');
+            ).toHaveValue('Welcome to Ortha');
             await expect(
                 contentLibraryPage.fieldTextbox('Accent color')
             ).toHaveValue('#4f46e5');
