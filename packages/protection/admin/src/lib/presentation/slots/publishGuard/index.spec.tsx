@@ -21,6 +21,14 @@ import { usePublishProtectionVerdict } from './index';
 
 const reads = vi.hoisted(() => ({
     review: undefined as EntryReview | undefined,
+    /** Whether the review read failed — silence, never a refusal. */
+    reviewFailed: false,
+    /**
+     * What an answer already cached for the entry said about the **type**, which
+     * outlives the version it was about. `useEntryReview` reports it beside the
+     * query so the verdict can tell "no rule" from "a rule being re-read".
+     */
+    typeKnownProtected: false,
     fresh: undefined as NewEntryProtection | undefined,
     reviewScope: vi.fn(),
     freshEnabled: vi.fn()
@@ -33,7 +41,11 @@ vi.mock('../../../application/hooks', async (importOriginal) => {
         reviewScopeOf: actual.reviewScopeOf,
         useEntryReview: (scope: unknown) => {
             reads.reviewScope(scope);
-            return { data: scope ? reads.review : undefined };
+            return {
+                data: scope ? reads.review : undefined,
+                isError: !!scope && reads.reviewFailed,
+                typeKnownProtected: !!scope && reads.typeKnownProtected
+            };
         },
         useNewEntryProtection: (
             _workspaceId: string,
@@ -136,6 +148,8 @@ function draw(context: EntrySlotContext, dirty = false) {
 beforeEach(() => {
     latest = null;
     reads.review = undefined;
+    reads.reviewFailed = false;
+    reads.typeKnownProtected = false;
     reads.fresh = undefined;
     reads.reviewScope.mockReset();
     reads.freshEnabled.mockReset();
@@ -221,6 +235,87 @@ describe('usePublishProtectionVerdict — which read answers [protection:I-18]',
         expect(latest).toBeNull();
 
         draw(CREATING);
+        expect(latest).toBeNull();
+    });
+});
+
+/**
+ * The beat after a save, where the review key has moved and the answer for the
+ * version Publish would ship has not landed yet.
+ *
+ * Answering `null` there let all three publish paths go live with no reason on
+ * them — and took the bypass off `action`, so an administrator's click published
+ * without `bypass: true` and met a 403 instead of the confirmation. The verdict
+ * has to hold, without borrowing the previous version's numbers to do it
+ * (`protection:I-18`, `protection:I-21`).
+ */
+describe('usePublishProtectionVerdict — the beat after a save [protection:I-18]', () => {
+    const CHECKING =
+        'Checking the review state of this version — Publish is held until it comes back.';
+
+    it('holds Publish while it re-reads a type it knows is protected', () => {
+        reads.typeKnownProtected = true;
+        draw(SAVED, false);
+
+        expect(latest).toEqual({ blocked: true, reason: CHECKING });
+    });
+
+    /**
+     * No `action`, which is the point: with no numbers there is nothing for a
+     * bypass dialog to state, and a way through that published without
+     * `bypass: true` is worse than a held button. One verdict, so the primary
+     * button, the ⋯ menu's Save & publish and the bypass are shut together
+     * (`protection:I-21`).
+     */
+    it('offers no way through, and nothing to mount, while it is checking', () => {
+        reads.typeKnownProtected = true;
+        draw(SAVED, false);
+
+        expect(latest?.action).toBeUndefined();
+        expect(latest?.overlay).toBeUndefined();
+    });
+
+    it('holds it with unsaved edits on screen too', () => {
+        // `afterSave`'s numbers are just as absent as the head's.
+        reads.typeKnownProtected = true;
+        draw(SAVED, true);
+
+        expect(latest).toEqual({ blocked: true, reason: CHECKING });
+    });
+
+    it('says nothing when nothing is known about the type yet', () => {
+        // Every first render of every editor: silence, as documented.
+        draw(SAVED, false);
+
+        expect(latest).toBeNull();
+    });
+
+    it('says nothing when the review read failed', () => {
+        // An unreachable API must not read as a refused publish, even on a type
+        // a previous answer said was protected. The server refuses regardless.
+        reads.typeKnownProtected = true;
+        reads.reviewFailed = true;
+        draw(SAVED, false);
+
+        expect(latest).toBeNull();
+    });
+
+    it('goes back to answering from the read the moment it lands', () => {
+        // The hold never shadows the dirty branch: an answer in hand decides.
+        reads.typeKnownProtected = true;
+        reads.review = review();
+        draw(SAVED, true);
+
+        expect(latest).toMatchObject({
+            blocked: true,
+            reason: 'Saving your changes starts a new version: 1 approval required, 0 would count.'
+        });
+    });
+
+    it('says nothing on a create form, which has no version to re-read', () => {
+        reads.typeKnownProtected = true;
+        draw(CREATING);
+
         expect(latest).toBeNull();
     });
 });

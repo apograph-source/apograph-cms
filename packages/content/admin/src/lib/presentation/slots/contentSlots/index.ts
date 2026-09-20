@@ -158,7 +158,7 @@ export type EntrySidebarWidgetItem = {
     /** Stable id (used as the React key). */
     id: string;
     /**
-     * The widget, rendered below the Revisions block. The rail is **one flat
+     * The widget, rendered below the Details block. The rail is **one flat
      * panel** whose blocks are separated by dividers, so a widget should render
      * the exported `EntrySidebarSection` (and `EntrySidebarRow`) rather than a
      * card of its own — otherwise it is the one floating box in the panel.
@@ -169,6 +169,42 @@ export type EntrySidebarWidgetItem = {
 /** Sections appended to the entry editor's Properties rail. */
 export const ENTRY_SIDEBAR_WIDGET_SLOT = createSlot<EntrySidebarWidgetItem>(
     'content.entry.sidebar'
+);
+
+/**
+ * One contributed row in the entry editor's **Details** block.
+ *
+ * For a property of the open record that belongs *beside* its id and timestamps
+ * rather than in a section of its own — the i18n plugin's translation-group id
+ * is the case this exists for. A whole block for one read-only line is what the
+ * rail is being slimmed of.
+ */
+export type EntryDetailsRowItem = {
+    /** Stable id (used as the React key). */
+    id: string;
+    /**
+     * Sort among the contributed rows; built-in rows always come first.
+     *
+     * Load-bearing: `Slot.getItems()` hands back registration order, not sorted
+     * order, so the render site sorts on this (as `ENTRY_MENU_SLOT`'s site
+     * does).
+     */
+    order: number;
+    /** Limit the row to certain types; omitted = every type. */
+    appliesTo?: (schema: ContentTypeDetail) => boolean;
+    /**
+     * The row, rendered inside Details' `<dl>` — so it must render
+     * `EntrySidebarRow` (a `<dt>`/`<dd>` pair) or `null`, never a `<section>`.
+     */
+    Component: ComponentType<EntrySlotContext>;
+};
+
+/**
+ * Rows appended to the entry editor's **Details** block, after the built-in
+ * ones (Status / Created / Last updated / Entry ID).
+ */
+export const ENTRY_DETAILS_ROW_SLOT = createSlot<EntryDetailsRowItem>(
+    'content.entry.details'
 );
 
 /** One entry-header contribution (an inline element beside the editor title). */

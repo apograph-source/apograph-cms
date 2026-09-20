@@ -17,6 +17,7 @@ import {
     type TestApp
 } from '../../support/test-app';
 import { resetDb } from '../../support/seed';
+import { countOutbox, readOutboxRow } from '../../support/outbox';
 
 /** Collects what it was handed. Scoped to test-only kinds so it sees nothing else. */
 class Collector implements DomainEventSubscriber {
@@ -425,7 +426,9 @@ describe('OutboxDispatcher (drain, retry ceiling, concurrency)', () => {
         // `database:I-18` does not apply), its own pool client, its own
         // transaction. Nothing in the claim is about operating-system
         // processes; it is about two concurrent claim transactions.
-        const second = new OutboxDispatcher(db, []);
+        // Retention off for this second dispatcher: it exists to hold a claim
+        // transaction open, and a sweep from it would be noise.
+        const second = new OutboxDispatcher(db, [], 0);
 
         /**
          * Neither subscriber may return until *both* have been called.
@@ -498,4 +501,174 @@ describe('OutboxDispatcher (drain, retry ceiling, concurrency)', () => {
             await countWhere('dispatched_at IS NOT NULL', 'qa.disjoint')
         ).toBe(200);
     }, 25_000);
+
+    /**
+     * The un-park primitive: `retryDeadLetter` resets a parked row **in place**
+     * so the drain claims it again.
+     *
+     * The parked state here is reached by failing a real subscriber fifteen
+     * times through the real dispatcher, not by an `UPDATE attempts = 15`. That
+     * distinction is the test: a suite that parks a row with its own write and
+     * then un-parks it is asserting its own `UPDATE`, and would stay green if
+     * the ceiling, the backoff or the claim predicate changed underneath it.
+     */
+    describe('retryDeadLetter — putting a parked event back in the queue', () => {
+        /** Fails until `fixed` is set, then succeeds — a cause an operator repaired. */
+        class FailsUntilFixed implements DomainEventSubscriber {
+            fixed = false;
+            calls = 0;
+            readonly delivered: string[] = [];
+            constructor(readonly kinds: readonly string[] | '*') {}
+            async handle(event: DomainEvent): Promise<void> {
+                this.calls += 1;
+                if (!this.fixed) {
+                    throw new Error('the cause has not been fixed yet');
+                }
+                this.delivered.push(event.eventId);
+            }
+        }
+
+        /** Drive one row to the ceiling through the real drain, and return its id. */
+        async function parkThroughTheDispatcher(
+            subscriber: FailsUntilFixed,
+            kind: string
+        ): Promise<string> {
+            await seedPending(1, kind);
+            for (let i = 0; i < MAX_DELIVERY_ATTEMPTS + 2; i += 1) {
+                await makeRetriesDue();
+                await dispatcher.drain();
+            }
+            const { rows } = await getPool().query(
+                `SELECT id, attempts, dispatched_at, last_error
+                   FROM outbox_events WHERE kind = $1`,
+                [kind]
+            );
+            expect(rows[0].attempts).toBe(MAX_DELIVERY_ATTEMPTS);
+            expect(rows[0].dispatched_at).toBeNull();
+            expect(rows[0].last_error).not.toBeNull();
+            expect(subscriber.calls).toBe(MAX_DELIVERY_ATTEMPTS);
+            return rows[0].id as string;
+        }
+
+        it('resets the row in place and the next drain delivers it [database:I-12] [database:I-16]', async () => {
+            const subscriber = new FailsUntilFixed(['qa.unpark']);
+            dispatcher.register(subscriber);
+            const id = await parkThroughTheDispatcher(subscriber, 'qa.unpark');
+
+            // The control: parked means parked. Even with the cause repaired,
+            // a drain does not look at it again — `attempts >= 15` is out of
+            // the selection.
+            subscriber.fixed = true;
+            await makeRetriesDue();
+            await dispatcher.drain();
+            expect(subscriber.delivered).toHaveLength(0);
+
+            const result = await dispatcher.retryDeadLetter(id);
+            expect(result.outcome).toBe('retried');
+            if (result.outcome !== 'retried') throw new Error('unreachable');
+
+            // `attempts` back to zero **and** the schedule cleared. Clearing
+            // only the first leaves a row the claim predicate still refuses for
+            // up to five minutes, which reads to an operator as "the button did
+            // nothing".
+            expect(result.event.id).toBe(id);
+            expect(result.event.attempts).toBe(0);
+            expect(result.event.nextAttemptAt).toBeNull();
+            // Preserved: the only surviving record of why it parked.
+            expect(result.event.lastError).not.toBeNull();
+
+            const row = await readOutboxRow(id);
+            expect(row?.attempts).toBe(0);
+            expect(row?.nextAttemptAt).toBeNull();
+            expect(row?.lastError).not.toBeNull();
+
+            // No copy. A fresh id would be a different fact to every
+            // subscriber — the activity insert deduplicates on this PK and
+            // webhook receivers on `X-Ortha-Event-Id` — so a partly
+            // succeeded delivery would be applied twice.
+            expect(await countOutbox('qa.unpark')).toBe(1);
+
+            await dispatcher.drain();
+            expect(subscriber.delivered).toEqual([id]);
+            expect((await readOutboxRow(id))?.dispatchedAt).not.toBeNull();
+        }, 25_000);
+
+        it('answers not-found for an unknown id', async () => {
+            const result = await dispatcher.retryDeadLetter(
+                '00000000-0000-4000-8000-0000000000ff'
+            );
+            expect(result.outcome).toBe('not-found');
+        });
+
+        it('answers not-found for a row that has already been delivered', async () => {
+            // Deliberately indistinguishable from the unknown id above: a
+            // caller who should not know an event exists must not learn it from
+            // the difference.
+            const collector = new Collector(['qa.retry.done']);
+            dispatcher.register(collector);
+            await seedPending(1, 'qa.retry.done');
+            await dispatcher.drain();
+            const { rows } = await getPool().query(
+                `SELECT id FROM outbox_events WHERE kind = 'qa.retry.done'`
+            );
+
+            const result = await dispatcher.retryDeadLetter(rows[0].id);
+            expect(result.outcome).toBe('not-found');
+        });
+
+        it('refuses a row that has not given up yet, and leaves it alone', async () => {
+            const failing = new AlwaysFails(['qa.retry.climbing']);
+            dispatcher.register(failing);
+            await seedPending(1, 'qa.retry.climbing');
+            await dispatcher.drain();
+            const { rows } = await getPool().query(
+                `SELECT id FROM outbox_events WHERE kind = 'qa.retry.climbing'`
+            );
+            const id = rows[0].id as string;
+
+            const result = await dispatcher.retryDeadLetter(id);
+            expect(result).toEqual({ outcome: 'not-parked', attempts: 1 });
+
+            // Untouched: the backoff it is serving is not something a retry may
+            // quietly cancel.
+            const row = await readOutboxRow(id);
+            expect(row?.attempts).toBe(1);
+            expect(row?.nextAttemptAt).not.toBeNull();
+        });
+    });
+
+    it('does not let a retention sweep extend the shutdown wait [database:I-20]', async () => {
+        // The sweep runs at the tail of a poll tick, **after** the drain has
+        // returned and outside its claim transaction — so `onModuleDestroy`,
+        // which waits out the drain in flight, must not also end up waiting out
+        // a sweep. Moving the sweep inside `drainOnce` would make the shutdown
+        // wait unbounded by a second thing.
+        //
+        // The assertion is exact rather than a timing bound: with no drain in
+        // flight, `onModuleDestroy` resolves on a microtask, while the sweep
+        // cannot settle before at least one round trip to Postgres. If the
+        // shutdown ever awaited the sweep, `sweepSettled` would be true here.
+        await getPool().query(
+            `INSERT INTO outbox_events
+                 (kind, aggregate_type, aggregate_id, payload, occurred_at, dispatched_at)
+             SELECT 'qa.sweep', 'qa-outbox', g::text, '{}'::jsonb,
+                    now() - interval '90 days', now() - interval '90 days'
+             FROM generate_series(1, 2000) AS g`
+        );
+
+        let sweepSettled = false;
+        const sweep = dispatcher
+            .pruneDelivered(new Date(Date.now() - 30 * 24 * 60 * 60_000))
+            .then((removed) => {
+                sweepSettled = true;
+                return removed;
+            });
+
+        await dispatcher.onModuleDestroy();
+        expect(sweepSettled).toBe(false);
+
+        // …and the sweep itself still finishes, on its own schedule.
+        await expect(sweep).resolves.toBe(2000);
+        expect(await countOutbox('qa.sweep')).toBe(0);
+    });
 });

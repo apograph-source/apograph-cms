@@ -14,7 +14,8 @@ import { type ContentLibraryPage } from '../support/pages/ContentLibraryPage';
  * Content localization in the admin (`@ortha/i18n-admin`), driving the
  * Content Library's extension slots against a mocked API: the records-toolbar
  * locale switcher (and its `?locale=` round-trip), the Locales table column,
- * and the entry editor's locale panel (open a sibling, create a translation).
+ * and the entry editor's title-row locale chip and the menu it opens (open a
+ * sibling, create a translation).
  */
 test.describe('Content i18n', () => {
     test.beforeEach(async ({ page }) => {
@@ -100,7 +101,7 @@ test.describe('Content i18n', () => {
         // Working in Relations, switch to the German sibling…
         await contentLibraryPage.openEditorTab('Relations');
         await expect(page).toHaveURL(/\/relations$/);
-        await contentLibraryPage.switchLocale('Deutsch').click();
+        await contentLibraryPage.switchToLocale('Deutsch');
 
         // …the editor re-targets the sibling **on the same tab**, instead of
         // dumping the user back on General mid-task.
@@ -321,28 +322,49 @@ test.describe('Content i18n', () => {
             .click();
 
         await expect(contentLibraryPage.editorSave).toBeVisible();
-        await expect(contentLibraryPage.localeWidget).toBeVisible();
 
-        // The title chip names the open locale (code + label).
+        // The chip names the open locale (code + label) and says how much of
+        // the group exists — G1 has en + de of four configured locales.
         await expect(contentLibraryPage.editorTitleChip).toHaveText(
-            'EN · English'
+            'EN · English2/4'
         );
-        // The widget explains itself (saved-record copy).
-        await expect(
-            contentLibraryPage.paneText(/Switch between this record/)
-        ).toBeVisible();
 
+        await contentLibraryPage.openLocaleMenu();
+        // The current locale is the checked radio item.
+        await expect(
+            contentLibraryPage.localeMenuItem('English')
+        ).toHaveAttribute('aria-checked', 'true');
         // The de sibling exists → switch; fr is missing → create.
         await expect(contentLibraryPage.switchLocale('Deutsch')).toBeVisible();
         await expect(
             contentLibraryPage.createTranslation('Français')
         ).toBeVisible();
+        // Each existing sibling carries its publish state.
+        await expect(contentLibraryPage.switchLocale('Deutsch')).toContainText(
+            /Published|Draft|Modified/
+        );
+        await contentLibraryPage.closeLocaleMenu();
 
-        // The widget surfaces the record's translation-group id, with an info
-        // affordance explaining what it is.
+        // The record's translation-group id is a row of **Details**, with an
+        // info affordance explaining what it is — not a rail block of its own.
         await expect(contentLibraryPage.localeGroupLabel).toBeVisible();
         await expect(contentLibraryPage.localeGroupHelp).toBeVisible();
         await expect(contentLibraryPage.localeGroupId('G1')).toBeVisible();
+    });
+
+    test('the rail carries no Locale block and no Revisions block [ORT-227]', async ({
+        contentLibraryPage
+    }) => {
+        await openCollection(contentLibraryPage);
+        await contentLibraryPage.recordLink('Winter boots').click();
+        await expect(contentLibraryPage.editorSave).toBeVisible();
+
+        // The rail is the publish gate + Details, and the blocks those two
+        // replaced are gone: locale switching is the title chip's menu, and an
+        // entry's versions are read in the History tab.
+        await expect(contentLibraryPage.railBlock('Details')).toBeVisible();
+        await expect(contentLibraryPage.railBlock('Locale')).toHaveCount(0);
+        await expect(contentLibraryPage.railBlock('Revisions')).toHaveCount(0);
     });
 
     test('switching to an existing sibling opens that locale row', async ({
@@ -354,9 +376,9 @@ test.describe('Content i18n', () => {
             .recordsTable('Localized posts')
             .getByRole('link', { name: /Winter boots/ })
             .click();
-        await expect(contentLibraryPage.localeWidget).toBeVisible();
+        await expect(contentLibraryPage.editorSave).toBeVisible();
 
-        await contentLibraryPage.switchLocale('Deutsch').click();
+        await contentLibraryPage.switchToLocale('Deutsch');
 
         // The switch flourish plays and carries across the navigation.
         await expect(contentLibraryPage.localeSwitchOverlay).toHaveText(
@@ -365,7 +387,7 @@ test.describe('Content i18n', () => {
         await expect(page).toHaveURL(/\/localized_post\/lp-de-1$/);
         // The title chip follows the open locale.
         await expect(contentLibraryPage.editorTitleChip).toHaveText(
-            'DE · Deutsch'
+            'DE · Deutsch2/4'
         );
     });
 
@@ -378,9 +400,9 @@ test.describe('Content i18n', () => {
             .recordsTable('Localized posts')
             .getByRole('link', { name: /Winter boots/ })
             .click();
-        await expect(contentLibraryPage.localeWidget).toBeVisible();
+        await expect(contentLibraryPage.editorSave).toBeVisible();
 
-        await contentLibraryPage.createTranslation('Français').click();
+        await contentLibraryPage.startTranslation('Français');
 
         // Lands on a create form scoped to the target locale + the same group.
         await expect(page).toHaveURL(/\/localized_post\/new\?/);
@@ -405,19 +427,17 @@ test.describe('Content i18n', () => {
         // The create form starts in the default locale; the widget is live even
         // though nothing is saved yet.
         await expect(page).toHaveURL(/\/localized_post\/new$/);
-        await expect(contentLibraryPage.localeWidget).toBeVisible();
+        await expect(contentLibraryPage.editorSave).toBeVisible();
 
-        // The chip shows the default locale, and the widget uses its create copy.
+        // The chip shows the default locale. Nothing of this record exists yet,
+        // so none of the four locales is translated.
         await expect(contentLibraryPage.editorTitleChip).toHaveText(
-            'EN · English'
+            'EN · English0/4'
         );
-        await expect(
-            contentLibraryPage.paneText(/Choose the locale for this new record/)
-        ).toBeVisible();
 
         // Switch the form's target locale to German (no group yet — a fresh
         // record, just re-scoped).
-        await contentLibraryPage.createTranslation('Deutsch').click();
+        await contentLibraryPage.startTranslation('Deutsch');
 
         await expect(page).toHaveURL(/\/localized_post\/new\?/);
         await expect(page).toHaveURL(/locale=de/);
@@ -433,17 +453,64 @@ test.describe('Content i18n', () => {
             .recordsTable('Localized posts')
             .getByRole('link', { name: /Winter boots/ })
             .click();
-        await expect(contentLibraryPage.localeWidget).toBeVisible();
+        await expect(contentLibraryPage.editorSave).toBeVisible();
 
         // Start a French translation of group G1 (which already has en + de).
-        await contentLibraryPage.createTranslation('Français').click();
+        await contentLibraryPage.startTranslation('Français');
         await expect(page).toHaveURL(/localeGroupId=G1/);
         await contentLibraryPage.localeSwitchSettled();
 
-        // On that draft form the widget still knows the group's members, so the
+        // On that draft form the chip still knows the group's members, so the
         // existing German sibling is a switch target.
-        await contentLibraryPage.switchLocale('Deutsch').click();
+        await contentLibraryPage.switchToLocale('Deutsch');
         await expect(page).toHaveURL(/\/localized_post\/lp-de-1$/);
+    });
+
+    test('picking a locale with unsaved edits asks first, then completes', async ({
+        page,
+        contentLibraryPage
+    }) => {
+        await openCollection(contentLibraryPage);
+        await contentLibraryPage.recordLink('Winter boots').click();
+        await expect(contentLibraryPage.editorSave).toBeVisible();
+
+        // Dirty the form. A switch leaves this record for another, so these
+        // edits are about to be thrown away.
+        await contentLibraryPage.fieldTextbox('Title').fill('Winter boots v2');
+
+        await contentLibraryPage.switchToLocale('Deutsch');
+
+        // The prompt is the app-wide one, rendered by `UnsavedChangesProvider`
+        // at app level — which is what lets it outlive the menu that raised it.
+        // A dialog owned by the menu would unmount with it, and the pick would
+        // be silently dropped.
+        await expect(contentLibraryPage.unsavedChangesDialog).toBeVisible();
+        await contentLibraryPage.confirmDiscardChanges();
+
+        // Confirming still completes the navigation: the switch was scheduled
+        // behind the cover, and nothing in the closing menu may cancel it.
+        await contentLibraryPage.localeSwitchSettled();
+        await expect(page).toHaveURL(/\/localized_post\/lp-de-1$/);
+    });
+
+    test('declining the unsaved-changes prompt keeps the record and its edits', async ({
+        page,
+        contentLibraryPage
+    }) => {
+        await openCollection(contentLibraryPage);
+        await contentLibraryPage.recordLink('Winter boots').click();
+        await expect(contentLibraryPage.editorSave).toBeVisible();
+        await contentLibraryPage.fieldTextbox('Title').fill('Winter boots v2');
+
+        await contentLibraryPage.switchToLocale('Deutsch');
+        await contentLibraryPage.unsavedChangesDialog
+            .getByRole('button', { name: 'Keep editing' })
+            .click();
+
+        await expect(page).toHaveURL(/\/localized_post\/lp-en-1$/);
+        await expect(contentLibraryPage.fieldTextbox('Title')).toHaveValue(
+            'Winter boots v2'
+        );
     });
 
     test('the relation picker on a translation-create form is scoped to that locale [i18n:I-31]', async ({
@@ -504,11 +571,14 @@ test.describe('Content i18n', () => {
             await contentLibraryPage.fieldTextbox('Title').fill('Winter boots');
             await contentLibraryPage.saveDraft();
 
-            // The create POST lands the editor on the new record's own URL.
+            // The create POST lands the editor on the new record's own URL,
+            // and the saved record's locale menu offers the missing German one.
             await expect(page).toHaveURL(/\/localized_post\/lp-en-new$/);
+            await contentLibraryPage.openLocaleMenu();
             await expect(
                 contentLibraryPage.createTranslation('Deutsch')
             ).toBeVisible();
+            await contentLibraryPage.closeLocaleMenu();
             return writes;
         }
 
@@ -520,7 +590,7 @@ test.describe('Content i18n', () => {
 
             // Switch to the (missing) German locale — a fresh create form for the
             // same translation group, on the reused editor.
-            await contentLibraryPage.createTranslation('Deutsch').click();
+            await contentLibraryPage.startTranslation('Deutsch');
             await expect(page).toHaveURL(/\/localized_post\/new\?/);
             await expect(page).toHaveURL(/locale=de/);
             // The switch cover holds the page inert until the destination has
@@ -553,7 +623,7 @@ test.describe('Content i18n', () => {
         }) => {
             const writes = await createEnglishDraft(page, contentLibraryPage);
 
-            await contentLibraryPage.createTranslation('Deutsch').click();
+            await contentLibraryPage.startTranslation('Deutsch');
             await expect(page).toHaveURL(/locale=de/);
             await contentLibraryPage.localeSwitchSettled();
 

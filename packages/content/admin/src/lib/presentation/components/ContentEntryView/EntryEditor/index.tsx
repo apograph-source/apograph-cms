@@ -48,6 +48,7 @@ import { fieldLabel } from '../../../../domain/entryColumns';
 import { entryTabForField } from '../../../../domain/entryTab';
 import { toRelationIds } from '../../../../domain/relationIds';
 import { EntryActions } from './EntryActions';
+import { EntryChangedNotice } from './EntryChangedNotice';
 import { EntryFieldSections } from './EntryFieldSections';
 import { EntrySidebar, type PublishGateItem } from './EntrySidebar';
 import { EntryTabIssues } from './EntryTabIssues';
@@ -187,6 +188,7 @@ function stagedToWire(staged: StagedRelation): RelationDelta {
 export function EntryEditor({
     schema,
     initialValues,
+    seedKey,
     entry,
     isCreate,
     publishable,
@@ -207,6 +209,14 @@ export function EntryEditor({
 }: {
     schema: ContentTypeDetail;
     initialValues: Record<string, unknown>;
+    /**
+     * Which record (or create session) `initialValues` belongs to, so the form
+     * can tell "a different record opened" from "this record was read again"
+     * — see {@link useEntryForm}. This editor is **reused**, not remounted, as
+     * the route moves between records, so the distinction cannot be left to the
+     * component lifecycle.
+     */
+    seedKey: string;
     entry?: EntryRecord;
     isCreate: boolean;
     publishable: boolean;
@@ -235,6 +245,13 @@ export function EntryEditor({
             dirty?: boolean;
             /** Whether to publish past a publish guard, forwarded as is. */
             bypass?: boolean;
+            /**
+             * Called the moment a write lands — before a chained publish that
+             * may still be refused. The editor re-arms its form seeding here,
+             * since a write it made primes the read-one cache and so produces a
+             * seed of its own.
+             */
+            onWriteLanded?: () => void;
         }
     ) => Promise<void>;
     /** Revert a published entry to draft — only on a saved publishable entry. */
@@ -332,8 +349,19 @@ export function EntryEditor({
 
     // A scalar/single field is dirty when its value differs from the seed; a
     // many/inverse field is dirty when its staging holds any pending change.
+    //
+    // Against **the form's own seed**, not the `initialValues` prop. The two
+    // part company exactly when a re-seed has been refused (`ORT-230`): the
+    // prop is then the record as the server now holds it — a colleague's save —
+    // while the seed is what this author started from. Measured against the
+    // prop, every field the colleague touched reads as this author's edit, so
+    // the shared-field confirmation named fields nobody here had typed in.
+    //
+    // `isDirty` below still reads true after a refusal, because the edit that
+    // caused the refusal is an edit against the seed too — which is what keeps
+    // the unsaved-changes guard armed, the half of `ORT-230` that matters most.
     const isFieldDirty = (name: string) =>
-        norm(form.values[name]) !== norm(initialValues[name]);
+        norm(form.values[name]) !== norm(form.seedValues[name]);
     const isRelationDirty = (name: string) => isStagedDirty(stagedFor(name));
 
     // Relation fields hidden because their target collection isn't granted to the
@@ -401,7 +429,8 @@ export function EntryEditor({
     );
 
     const form = useEntryForm(schema, initialValues, {
-        ignoreFields: validationIgnored
+        ignoreFields: validationIgnored,
+        seedKey
     });
 
     const visible = schema.fields.filter((field) => !isHidden(field));
@@ -556,8 +585,8 @@ export function EntryEditor({
 
     // Which tabs still hold something that blocks publishing — what the tab bar
     // marks with an asterisk. A set, not a tally: the marker says *that* a tab
-    // has outstanding fields, and the rail beside it is where the list of them
-    // already lives.
+    // has outstanding fields, and the rail's gate beside it is where they are
+    // named, since the gate lists precisely the failing checks.
     //
     // Same rule as `fieldGate`, resolved to a tab instead of a label: a field
     // counts when the strict (required-enforced) errors name it, which is
@@ -567,9 +596,9 @@ export function EntryEditor({
     //
     // `form.errors` is live and ungated by `submitted`, so a new entry shows
     // its markers from the moment it opens. That is deliberate and matches the
-    // rail beside it, which has always listed the same unmet fields before the
-    // first save — the marker says "this is what publishing still wants", not
-    // "you got something wrong just now".
+    // rail beside it, whose gate lists the same unmet fields before the first
+    // save — the marker says "this is what publishing still wants", not "you
+    // got something wrong just now".
     const unmetTabs = useMemo<Set<string>>(() => {
         const slugs = new Set<string>();
         for (const field of visible) {
@@ -626,7 +655,26 @@ export function EntryEditor({
                 relations: relationsPayload(),
                 ignoreFields: validationIgnored,
                 dirty: isDirty,
-                bypass: options.bypass
+                bypass: options.bypass,
+                // Re-arm seeding the moment a write lands. The response is what
+                // the editor then shows, and it reaches the form as a **new
+                // seed** — `useSaveEntry` primes the read-one cache with it
+                // inside `onSuccess` — which the form has by then refused,
+                // because the form is dirty and it is our own edits that made
+                // it so. Without re-arming, a save that worked leaves the
+                // editor dirty forever: the conflict banner sits there
+                // accusing the author of their own write, and the
+                // unsaved-changes guard keeps prompting on a saved record.
+                //
+                // It hangs off the write rather than this promise's `.then()`
+                // because a **landed save whose chained publish is refused**
+                // rejects — protection's 409, the server gate's 422 — and takes
+                // the `.catch()` branch below with a record already written.
+                // Only the flow can tell that from a save that never landed,
+                // and adopting the seed on a save that never landed would
+                // replace the author's values with the server's on a plain
+                // validation error.
+                onWriteLanded: () => form.acceptSeed()
             })
                 .then(() => setRelationDeltas({}))
                 .catch((error) => {
@@ -706,6 +754,36 @@ export function EntryEditor({
         const focusName = first?.name ?? names[0];
         requestAnimationFrame(() => {
             document.getElementById(`entry-field-${focusName}`)?.focus();
+        });
+    };
+
+    /**
+     * Take the record as the server now holds it, dropping this author's
+     * unsaved field edits — the conflict notice's way out.
+     *
+     * The control that runs this **unmounts with the notice** on the very next
+     * render, so focus would be left on `<body>`: React and Radix alike can
+     * only restore onto a node that still exists, which is why this package
+     * already puts focus back by hand after the saved-view delete dialog and
+     * after `onRowGone` in the records table. Here the right landing place is
+     * the form itself — its values have just changed under the reader, and the
+     * first field announces the new one as it takes focus. Deferred a frame
+     * because the notice is still mounted in this tick; a type whose fields all
+     * render through a contributed control that puts the id elsewhere focuses
+     * nothing, which is no worse than the fall-through it replaces.
+     */
+    const reloadFromServer = () => {
+        form.acceptSeed();
+        requestAnimationFrame(() => {
+            for (const field of generalFields) {
+                const control = document.getElementById(
+                    `entry-field-${field.name}`
+                );
+                if (control) {
+                    control.focus();
+                    return;
+                }
+            }
         });
     };
 
@@ -950,6 +1028,24 @@ export function EntryEditor({
                             />
 
                             {readOnly ? <ReadOnlyNotice /> : null}
+
+                            {/* The record changed underneath this form and the
+                                incoming values were refused rather than seeded
+                                over the author's. Under the title, beside the
+                                read-only banner, and deliberately **not** in
+                                the Properties rail: that column collapses, and
+                                a notice you can hide is not a notice. It is not
+                                routed through the view's error card either — a
+                                refusal, an absence and a failure are three
+                                different states (`content:I-40`). Read-only
+                                inherits the same condition as every other write
+                                affordance (`content:I-39`), though a form no
+                                one can type into cannot reach this anyway. */}
+                            {!readOnly && form.seedRefused ? (
+                                <EntryChangedNotice
+                                    onDiscard={reloadFromServer}
+                                />
+                            ) : null}
 
                             {ExpandedView && expandedContext ? (
                                 <ExpandedView {...expandedContext} />

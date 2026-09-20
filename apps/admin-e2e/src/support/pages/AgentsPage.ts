@@ -275,6 +275,59 @@ export class AgentsPage extends BasePage {
         return this.proposalError(summary).locator('svg');
     }
 
+    /**
+     * The scrolling block inside that banner — the server's reason itself.
+     *
+     * A `group` rather than the banner: the reason is height-bounded and
+     * scrolls, so it is its own focusable, named element, and the numbers the
+     * specs read (`scrollHeight` vs `clientHeight`) are that element's, not the
+     * alert's padding box.
+     */
+    proposalReason(summary: string | RegExp): Locator {
+        return this.proposalError(summary).getByRole('group', {
+            name: 'Why this change was not saved'
+        });
+    }
+
+    /**
+     * How the reason's box and its content compare, in one read.
+     *
+     * `scrollHeight > clientHeight` is the whole question both directions of
+     * the bound turn on: overflow means the block scrolls rather than growing,
+     * and equality means a short reason reserved no space and grew no
+     * scrollbar.
+     */
+    async proposalReasonScroll(
+        summary: string | RegExp
+    ): Promise<{ client: number; scroll: number; top: number }> {
+        return this.proposalReason(summary).evaluate((element) => {
+            // Typed by hand, the same idiom as `fileTransfer` below: this
+            // package's tsconfig has no DOM lib, so Playwright's
+            // `SVGElement | HTMLElement` is as far as the compiler gets and
+            // neither half of that union carries the scroll metrics.
+            const box = element as unknown as {
+                clientHeight: number;
+                scrollHeight: number;
+                scrollTop: number;
+            };
+            return {
+                client: box.clientHeight,
+                scroll: box.scrollHeight,
+                top: box.scrollTop
+            };
+        });
+    }
+
+    /** A change card's diff — the `<dl>` of fields the change touched. */
+    proposalDiff(summary: string | RegExp): Locator {
+        return this.proposalCard(summary).locator('dl');
+    }
+
+    /** A change card's status badge ("Saved", "Not saved", "Discarded"). */
+    proposalBadge(summary: string | RegExp, label: string): Locator {
+        return this.proposalCard(summary).getByText(label, { exact: true });
+    }
+
     /** A change card's closing line ("Nothing was saved."), for the spacing. */
     proposalFooter(summary: string | RegExp): Locator {
         return this.proposalCard(summary).locator('footer');

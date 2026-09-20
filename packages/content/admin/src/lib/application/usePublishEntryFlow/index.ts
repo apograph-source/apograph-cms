@@ -59,6 +59,21 @@ export type SubmitEntryInput = {
      * `ENTRY_PUBLISH_GUARD_SLOT`.
      */
     bypass?: boolean;
+    /**
+     * Called the moment a write of this submit **lands**, before anything that
+     * might still fail — the chained publish above all.
+     *
+     * Every entry write primes the read-one cache with its response, which
+     * reaches the editor as a fresh seed for its form. The form refuses a seed
+     * that would overwrite unsaved edits (`useEntryForm`, `ORT-230`), so the
+     * editor has to adopt the one **it caused** — and it cannot tell that from
+     * a colleague's, because both look like the same identity change. Only this
+     * hook knows a write landed, and a landed save whose publish is then refused
+     * is exactly the case where `submit` rejects with something already written.
+     *
+     * Called once per landed write, never on a write that failed.
+     */
+    onWriteLanded?: () => void;
 };
 
 /** The classified outcome of one submit, for the caller's toast + navigation. */
@@ -165,6 +180,7 @@ export function usePublishEntryFlow(
                     id: existingId,
                     bypass: input.bypass
                 });
+                input.onWriteLanded?.();
                 return {
                     saved: published,
                     wasCreate: false,
@@ -188,6 +204,12 @@ export function usePublishEntryFlow(
             // Record the new id before chaining publish: if publish then fails, the
             // draft persists and the user's retry must target it (not POST again).
             if (!existingId) setCreatedId(saved.id);
+            // Same reason, for the editor's form: this write landed and has
+            // already primed the read-one cache, so the seed it produced is the
+            // editor's own and must be adopted **whatever the publish below
+            // does**. Announced here rather than by the caller's `.then()`,
+            // which a refused publish never reaches.
+            input.onWriteLanded?.();
 
             // Saving a publishable entry as a draft moves it to draft **on the
             // server** (the save itself), while its previously-published *version*

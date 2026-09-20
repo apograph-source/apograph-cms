@@ -1,32 +1,20 @@
 import { useQuery } from '@tanstack/react-query';
-import { apiClient, toApiError } from '@ortha/utils-admin';
+import { httpActivityGateway } from '../../infrastructure/httpActivityGateway';
 import { activityKeys } from '../../infrastructure/activityKeys';
 
-/** One event that could not be recorded, as the server reports it. */
-export interface DeadLetter {
-    /** The event id — the handle an operator replays it by. */
-    id: string;
-    /** The event kind that could not be delivered. */
-    kind: string;
-    /** The aggregate root's type. */
-    aggregateType: string;
-    /** The aggregate root's id. */
-    aggregateId: string;
-    /** When the fact occurred (ISO-8601 on the wire). */
-    occurredAt: string;
-    /** How many delivery attempts were spent before it parked. */
-    attempts: number;
-    /** Why the last attempt failed. */
-    lastError: string | null;
-}
+/**
+ * Rows the banner asks for — enough to name the distinct kinds it lists, not a
+ * page anybody reads.
+ */
+export const NOTICE_DEAD_LETTER_LIMIT = 5;
 
-/** The envelope `GET /api/activity/dead-letters` returns. */
-export interface DeadLetterList {
-    /** How many events have given up in total. */
-    total: number;
-    /** The most recent of them. */
-    items: DeadLetter[];
-}
+/**
+ * Rows the dialog asks for. Large enough that an operator dealing with a real
+ * incident sees the whole of it in one go, small enough to stay one request;
+ * the dialog says "showing N of {total}" so a larger `total` is never silently
+ * implied away.
+ */
+export const DIALOG_DEAD_LETTER_LIMIT = 50;
 
 /**
  * How many events could not be recorded — the completeness of the log the page
@@ -38,23 +26,18 @@ export interface DeadLetterList {
  * that renders no rows because the *warning* about the rows errored is strictly
  * worse than one that renders the rows without the warning.
  *
- * Disabled until the caller confirms `activity:read` — the same key the route
- * is gated on.
+ * `limit` is part of the query key, so the banner's five rows and the dialog's
+ * fifty are two cache entries rather than one that overwrites the other.
+ *
+ * `enabled` must be the caller's confirmed `activity:read`, the same key the
+ * route is gated on: `activity:I-28` says the admin makes **no request at all**
+ * without it, and leaning on a page's early return instead is a guarantee that
+ * evaporates the moment a second surface mounts this hook.
  */
-export function useDeadLetters(enabled = true) {
+export function useDeadLetters(limit: number, enabled = true) {
     return useQuery({
-        queryKey: activityKeys.deadLetters(),
-        queryFn: async (): Promise<DeadLetterList> => {
-            try {
-                const { data } = await apiClient.get<DeadLetterList>(
-                    '/activity/dead-letters',
-                    { params: { limit: 5 } }
-                );
-                return data;
-            } catch (error) {
-                throw toApiError(error);
-            }
-        },
+        queryKey: activityKeys.deadLetters(limit),
+        queryFn: () => httpActivityGateway.deadLetters(limit),
         enabled
     });
 }

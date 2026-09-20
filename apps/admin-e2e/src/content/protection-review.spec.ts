@@ -159,7 +159,7 @@ test.describe('Publication protection in the entry editor', () => {
         page,
         contentLibraryPage
     }) => {
-        const writes = await mockEntryReview(page, {
+        const { writes } = await mockEntryReview(page, {
             required: 1,
             given: 0,
             candidates: [{ userId: 'u_ada', email: 'ada@ortha.dev' }]
@@ -222,7 +222,10 @@ test.describe('Publication protection in the entry editor', () => {
         page,
         contentLibraryPage
     }) => {
-        const writes = await mockEntryReview(page, { required: 2, given: 0 });
+        const { writes } = await mockEntryReview(page, {
+            required: 2,
+            given: 0
+        });
         await contentLibraryPage.gotoEntry(WS, TYPE, ENTRY);
 
         await page.getByRole('button', { name: 'Approve' }).click();

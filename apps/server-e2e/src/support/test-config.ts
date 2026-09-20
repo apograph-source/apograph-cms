@@ -220,6 +220,22 @@ export interface TestConfigOverrides {
      * destructive routes refuse (503) rather than trusting it.
      */
     omitContent?: boolean;
+    /**
+     * Override the database plugin's settings.
+     *
+     * Retention is **off** by default for the whole run, the same choice
+     * `AlarmsPlugin({ sweepIntervalMinutes: 0 })` and the webhooks sender make
+     * and for the same stated reason: the outbox poll is armed in
+     * `onApplicationBootstrap` in every spec file, so a background sweep
+     * deleting rows while a test is asserting on them is a flake nobody can
+     * read afterwards. The retention suite passes a window explicitly, and
+     * drives the sweep through the public `pruneDelivered` rather than waiting
+     * out the hourly guard.
+     */
+    database?: {
+        /** Days a delivered outbox row is kept; `0` (the default here) never prunes. */
+        outboxRetentionDays?: number;
+    };
 }
 
 export function buildTestConfig(
@@ -232,7 +248,11 @@ export function buildTestConfig(
         trustProxy: overrides.trustProxy,
         // The shipped default, so the parity suite asserts the real number.
         bodyLimit: overrides.bodyLimit ?? '1mb',
-        database: { url: connectionString },
+        database: {
+            url: connectionString,
+            // Off unless a suite asks: see `TestConfigOverrides.database`.
+            outboxRetentionDays: overrides.database?.outboxRetentionDays ?? 0
+        },
         // Read twice: `createTestApp` passes it to `setupApiDocs` (the Scalar
         // reference), and the GraphQL plugin reads it to decide whether to
         // register the GraphiQL playground. Off by default, as in production.

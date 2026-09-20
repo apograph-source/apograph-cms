@@ -105,6 +105,7 @@ The three system roles are created at application start idempotently (`ON CONFLI
 | users:update                      | edit a member, disable/enable, issue a reset, **sessions**                                            | ✓     | —           | —      |
 | users:delete                      | revoke an invitation / delete                                                                         | ✓     | —           | —      |
 | activity:read                     | the activity log                                                                                      | ✓     | —           | —      |
+| activity:manage                   | retry a parked outbox event (the audit trail's plumbing, not its contents)                            | ✓     | —           | —      |
 | content:read                      | read entries                                                                                          | ✓     | ✓           | ✓      |
 | content:create / update / publish | create, edit, publish                                                                                 | ✓     | ✓           | —      |
 | content:delete                    | delete entries                                                                                        | ✓     | —           | —      |

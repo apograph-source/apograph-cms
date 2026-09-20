@@ -98,11 +98,44 @@ already asked. _Approve_ is hidden once `callerApprovedHead` — the green check
 your row already says it — and comes back after a save.
 
 **The save is not invalidated — it is keyed.** `EntryReviewScope` carries the
-entry's `updatedAt`, so a save produces a new query key and the panel reads
-afresh. Protection never reaches into content's save path, and content never
-learns protection exists. An approval or a request, by contrast, invalidates **only** the review
-key: it moves no value, no relation and no revision, so refreshing the editor
-would refetch a record and a whole timeline to learn one number.
+entry's `updatedAt` and `entryReviewKey` carries it **last**, so a save produces
+a new query key and the panel reads afresh. Protection never reaches into
+content's save path, and content never learns protection exists. An approval or a
+request, by contrast, invalidates **only** this entry's review — by the key's
+**prefix**, because a vote moves no `updatedAt` and so cannot know which version
+the panel is holding; it moves no value, no relation and no revision either, so
+refreshing the editor would refetch a record and a whole timeline to learn one
+number. That is why the version sits at the end of the key rather than anywhere
+else: the prefix has to stay a prefix, or all four review actions refresh
+nothing.
+
+**An unprotected type mints no new key.** `reviewScopeOf` answers for any saved
+publishable entry and cannot know whether a rule exists — only the first response
+says `protected: false`. So `entryReviewVersion` reuses the token of a cached
+unprotected answer instead of the new `updatedAt`: with no rule, saving costs no
+request, which is the inertness I-03/I-04 promise, and it is safe because every
+reader bails on that flag before it looks at another field. The cost is that a
+rule written while such an editor is open is not noticed until it is reopened —
+the same trade the rule write already makes by not invalidating open panels.
+`entryReviewVersion` is pure and unit-tested, and `protection-refresh.spec.ts`
+pins both halves of the key in a browser: the chip rolling back from
+`Reviewed · N of N` to `Needs review · 0 of N` after a Save draft without a
+reload, and a save on an unprotected type issuing no second read at all. Neither
+passes without the version in the key and the gate on it respectively.
+
+**Publish is held for the beat the new key is in flight.** The save mints a key
+with no answer yet, so for that beat the verdict has no numbers for the version
+Publish would ship — and answering `null` there let the primary button, the ⋯
+menu's _Save & publish_ and an offered bypass all go live with no reason on them.
+The bypass was the serious one: it was gone from `action.onSelect` too, so the
+click published **without** `bypass: true` and met a 403 instead of the
+confirmation. So `useEntryReview` reports `typeKnownProtected` beside the query —
+whether an answer already cached for this entry said a rule is in force, which is
+knowledge about the _type_ and so outlives the version it came with — and the
+verdict returns a **hold with no way through** while that is true and no answer
+is in hand. It carries no numbers forward, deliberately: `keepPreviousData` would
+re-show `Reviewed · N of N` about a version that no longer exists and open a
+bypass dialog stating a count the save had already invalidated.
 
 **The bypass does not publish anything itself.** An administrator who may pass
 a rule sees an ordinary **Publish** — same label, same style — and the click
@@ -136,10 +169,14 @@ it afterwards. The e2e pins it; it failed before this and passes after.
 about the entry; saying it when the truth is "we could not ask" tells somebody
 their draft is unreviewed when it may be approved.
 
-**The guard says nothing while the read is in flight or has failed.** Blocking
-the button on an unreachable API would make a network fault look like a refused
-publish, and the person could not tell them apart. The server refuses regardless,
-with the reason — so silence is the honest client-side default.
+**The guard says nothing while the read has failed, or while nothing is known
+about the type.** Blocking the button on an unreachable API would make a network
+fault look like a refused publish, and the person could not tell them apart. The
+server refuses regardless, with the reason — so silence is the honest client-side
+default. The one in-flight read it does **not** stay silent about is the re-read
+after a save on a type it already knows is protected: see the hold above. "We
+could not ask" and "we are asking again about a rule we know exists" are
+different facts, and only the first one is silence.
 
 ## Names come from the workspace, not from a request
 

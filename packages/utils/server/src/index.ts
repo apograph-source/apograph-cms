@@ -43,6 +43,7 @@ export {
     requireEnv,
     readPositiveInt,
     readOptionalPositiveInt,
+    readNonNegativeInt,
     readList,
     readOptionalList,
     readFlag,

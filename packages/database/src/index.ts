@@ -12,7 +12,9 @@ export type { DatabaseServerPlugin } from './lib/utils/database-plugin';
 export {
     DatabaseModule,
     DATABASE_TOKEN,
-    InjectDatabase
+    InjectDatabase,
+    OUTBOX_RETENTION_DAYS,
+    InjectOutboxRetentionDays
 } from './lib/database.module';
 export {
     createDomainEvent,
@@ -32,7 +34,12 @@ export { UnitOfWork } from './lib/uow/unit-of-work';
 export { OutboxWriter } from './lib/outbox/outbox-writer';
 export {
     OutboxDispatcher,
-    MAX_DELIVERY_ATTEMPTS
+    MAX_DELIVERY_ATTEMPTS,
+    DEFAULT_OUTBOX_RETENTION_DAYS
 } from './lib/outbox/outbox-dispatcher';
 export { outboxEvents } from './lib/schema';
-export type { DeadLetter } from './lib/outbox/outbox-dispatcher';
+export type {
+    DeadLetter,
+    RetriedDeadLetter,
+    RetryDeadLetterResult
+} from './lib/outbox/outbox-dispatcher';

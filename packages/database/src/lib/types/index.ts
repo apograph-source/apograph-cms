@@ -41,4 +41,16 @@ export interface DatabasePluginConfig {
      * let it hold a client.
      */
     statementTimeoutMillis?: number;
+    /**
+     * How long a **delivered** outbox row is kept, in days. Defaults to 30;
+     * `0` never prunes.
+     *
+     * The table used to grow for the life of the deployment — delivered rows
+     * were stamped and nothing ever removed them — so this is the one knob that
+     * decides whether `outbox_events` is a queue or an append-only archive of
+     * every fact the system has emitted. Only delivered rows are in scope: a
+     * pending row is still owed a delivery and a **parked** one is the evidence
+     * of a gap in the audit trail, and neither is ever deleted by age.
+     */
+    outboxRetentionDays?: number;
 }

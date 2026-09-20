@@ -70,9 +70,22 @@ export const outboxEvents = pgTable(
         // on `occurred_at` over exactly the pending rows serves the filter,
         // the order and the limit together, and stays small because delivered
         // rows drop out of it as they are stamped — which is what keeps the
-        // drain cheap on a table nothing prunes.
+        // drain cheap however long the table's tail of delivered rows is.
         index('outbox_events_pending_idx')
             .on(table.occurredAt)
-            .where(sql`${table.dispatchedAt} is null`)
+            .where(sql`${table.dispatchedAt} is null`),
+        // The exact complement, for the retention sweep — which asks the one
+        // question the index above cannot answer: *delivered* rows stamped
+        // before a cutoff. The pending index excludes them by construction and
+        // `0001_outbox_retry_backoff` dropped the old plain
+        // `outbox_events_dispatched_at_idx`, so until this existed the sweep
+        // was a sequential scan of the whole table on every pass, forever.
+        //
+        // Partial for the same reason its twin is: the two together cover the
+        // table without overlapping, and this one holds nothing while the
+        // queue is empty of history.
+        index('outbox_events_dispatched_idx')
+            .on(table.dispatchedAt)
+            .where(sql`${table.dispatchedAt} is not null`)
     ]
 );

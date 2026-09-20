@@ -5,6 +5,7 @@ import { mockContentSchema } from '../support/api/content';
 import {
     failedProposalRun,
     frame,
+    longFailedProposalRun,
     mockCopilotApi
 } from '../support/api/copilot';
 
@@ -475,6 +476,95 @@ test.describe('Agents view — what the run is doing', () => {
                     (alertBox.y + alertBox.height / 2)
             )
         ).toBeLessThanOrEqual(2);
+    });
+
+    test('a long reason scrolls rather than pushing the diff off the card', async ({
+        page,
+        agentsPage
+    }) => {
+        await mockCopilotApi(page, { runBody: longFailedProposalRun });
+        await agentsPage.goto(WORKSPACE_ID);
+        await agentsPage.welcomeHeading().waitFor();
+
+        await agentsPage.ask('Translate that into German');
+
+        const reason = agentsPage.proposalReason(FAILED);
+        // The end of the server's message, so the fixture really is the long
+        // one and not a truncation of it — nothing here shortens `error`.
+        await expect(reason).toContainText('section_20');
+
+        // **The two things the bound exists to protect.** An unbounded reason
+        // made the alert taller than everything above it, so the reader was
+        // left scrolling through an explanation of a change they could no
+        // longer see. `toBeInViewport`, not `toBeVisible`: the whole failure
+        // was about being pushed off the screen, and a laid-out element far
+        // above the fold is "visible" to Playwright.
+        await expect(
+            agentsPage.proposalBadge(FAILED, 'Not saved')
+        ).toBeInViewport();
+        await expect(agentsPage.proposalDiff(FAILED)).toBeInViewport();
+
+        // Bounded **and** scrolling, which is the difference between this and
+        // clipping: the content is taller than the box it is drawn in.
+        const bounded = await agentsPage.proposalReasonScroll(FAILED);
+        expect(bounded.scroll).toBeGreaterThan(bounded.client);
+        // `max-h-56` — 14rem, the same ceiling the tool step's payload uses.
+        expect(bounded.client).toBeLessThanOrEqual(224);
+
+        // **Reachable by keyboard alone** (2.1.1). A scroll container with no
+        // tab stop puts everything past the fold out of reach of someone
+        // without a mouse — on the one block that says why their content did
+        // not change.
+        await reason.focus();
+        await expect(reason).toBeFocused();
+        await page.keyboard.press('End');
+        await expect
+            .poll(
+                async () => (await agentsPage.proposalReasonScroll(FAILED)).top
+            )
+            .toBeGreaterThan(0);
+
+        // **Alignment, the tall case.** `items-center` floated the icon to the
+        // middle of the box, where it pointed at whichever sentence happened to
+        // be halfway down. It belongs beside the first line.
+        const alertBox = laidOut(
+            await agentsPage.proposalError(FAILED).boundingBox(),
+            'the alert'
+        );
+        const iconBox = laidOut(
+            await agentsPage.proposalErrorIcon(FAILED).boundingBox(),
+            'the alert’s icon'
+        );
+        expect(iconBox.y - alertBox.y).toBeLessThanOrEqual(20);
+        expect(iconBox.y + iconBox.height).toBeLessThan(
+            alertBox.y + alertBox.height / 2
+        );
+    });
+
+    test('a one-line reason reserves no space and grows no scrollbar', async ({
+        page,
+        agentsPage
+    }) => {
+        await mockCopilotApi(page, { runBody: failedProposalRun });
+        await agentsPage.goto(WORKSPACE_ID);
+        await agentsPage.welcomeHeading().waitFor();
+
+        await agentsPage.ask('Translate that into German');
+
+        await expect(agentsPage.proposalReason(FAILED)).toBeVisible();
+
+        // The fussy half of the bound. `max-h` reserves nothing and
+        // `overflow-auto` draws nothing while there is nothing to scroll, so
+        // the ordinary reason — which is nearly every reason — is the same one
+        // line it always was. Equal heights is exactly "no scrollbar": a
+        // scrollbar only exists where the content exceeds the box.
+        const short = await agentsPage.proposalReasonScroll(FAILED);
+        expect(short.scroll).toBe(short.client);
+        // One 20px line of `text-sm`, with nothing padded under it.
+        expect(short.client).toBeLessThanOrEqual(24);
+
+        // The icon's own position in this case is asserted by the spacing test
+        // above, which measures it against the banner's centre.
     });
 
     test('a step names the thing it is doing, not just the kind of thing', async ({

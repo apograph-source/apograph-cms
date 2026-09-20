@@ -39,6 +39,7 @@ import {
     contentEntryKey
 } from '../../../application/useContentEntry';
 import { usePublishEntryFlow } from '../../../application/usePublishEntryFlow';
+import { useCreatePrefill } from '../../hooks/useCreatePrefill';
 import { useSlotListParams } from '../../hooks/useSlotListParams';
 import { EntrySlotContextProvider } from '../../hooks/useEntrySlotContext';
 import {
@@ -180,19 +181,6 @@ export function ContentEntryView({
     const queryClient = useQueryClient();
     const typePath = `/workspaces/${workspace.id}/${CONTENT_SEGMENT}/${type.name}`;
 
-    // A slot may open a blank create form pre-seeded from a source record (the
-    // i18n plugin's "create a translation" flow passes the source's values as
-    // `translateFrom`); the shared (non-localized) fields are copied in.
-    const prefillState = location.state as {
-        translateFrom?: Record<string, unknown>;
-        translateFromLocale?: string;
-    } | null;
-    const translateFrom = prefillState?.translateFrom;
-    // The locale the copied shared values were written in. Only meaningful
-    // while they are still a prefill — once saved, `values` is just this row's
-    // data and nothing distinguishes a translated field from an untouched one.
-    const translateFromLocale = prefillState?.translateFromLocale;
-
     const schemaQuery = useContentSchema(type.name);
     const schema = schemaQuery.data;
 
@@ -268,8 +256,11 @@ export function ContentEntryView({
         //
         // `location.state` rides along too: it holds the create-form prefill a
         // slot handed us (`translateFrom`, the source record's shared fields),
-        // and this view re-reads it on every render — so navigating without it
-        // would reset a half-filled translation form to blank.
+        // so a reload — or anything that genuinely remounts this view — still
+        // starts the translation draft from the source record. It is a **seed**,
+        // though, not live input: `useCreatePrefill` snapshots it once per
+        // create session, so carrying it forward no longer re-applies it over
+        // what the author has typed (`ORT-228`).
         navigate(`${editorPath}${segment}${location.search}`, {
             state: location.state
         });
@@ -327,6 +318,15 @@ export function ContentEntryView({
         [mode, entryId, bodySlotParams]
     );
 
+    // A slot may open a blank create form pre-seeded from a source record (the
+    // i18n plugin's "create a translation" flow passes the source's values as
+    // `translateFrom`); the shared (non-localized) fields are copied in. Read
+    // **once per create session** — `editorKey` is that session — because the
+    // seed is where the form starts, not something the route keeps re-applying:
+    // a tab move is a navigation, and re-reading it there overwrote whatever had
+    // been typed (`ORT-228`).
+    const { translateFrom, translateFromLocale } = useCreatePrefill(editorKey);
+
     // The save/publish use case: owns the save→publish/unpublish sequencing, the
     // create→update id continuity, and the shared-kernel publish gate.
     const flow = usePublishEntryFlow(type.name, editorKey);
@@ -342,9 +342,21 @@ export function ContentEntryView({
 
     // Resolve the editor's initial values, the source record (for metadata), and
     // the id we'd update — memoized so the form re-seeds only on identity change.
-    // Relation fields are seeded from the dedicated relations read (covering
-    // many-to-many / inverse links the entry row doesn't carry), so the form
-    // holds the full assigned set.
+    // Relation fields are prepared by `seedRelationValues`, which reads the
+    // **schema** alone: a single relation keeps the FK id the entry row already
+    // carries, and every many/inverse relation is dropped from the values bag,
+    // because those are link-managed — staged as deltas and fed by the dedicated
+    // relations read (`useEntryRelations`), which never reaches this seed.
+    //
+    // An identity change here is not always a new record to show: the entry read
+    // is refetched in the background, so it is also how a colleague's save
+    // arrives. The form decides what to do with one (`useEntryForm`, `ORT-230`)
+    // — it refuses a re-seed over unsaved edits and says so. Keying this memo on
+    // a session instead would be the wrong place: it would have to advance on
+    // every save anyway, it would throw incoming values away even when the form
+    // is pristine and adopting them is free, and freezing the memo freezes
+    // `resolved.entry` with it — the rail's Status, the publish state, the
+    // timestamps all stop tracking the record.
     const resolved = useMemo((): {
         values: Record<string, unknown>;
         entry?: EntryRecord;
@@ -452,6 +464,12 @@ export function ContentEntryView({
             dirty?: boolean;
             /** Whether to publish past a publish guard, forwarded as is. */
             bypass?: boolean;
+            /**
+             * Called as soon as a write lands — forwarded to the flow, which is
+             * the only layer that can tell a landed save from a refused one.
+             * The editor re-arms its form seeding from it.
+             */
+            onWriteLanded?: () => void;
         }
     ) => {
         // Slot-contributed create-body params (e.g. the target locale), from the
@@ -514,7 +532,8 @@ export function ContentEntryView({
                     options.dirty === false &&
                     !options.relations &&
                     Object.keys(extensions).length === 0,
-                bypass: options.bypass
+                bypass: options.bypass,
+                onWriteLanded: options.onWriteLanded
             });
             // The write landed, so every presave step can drop what it consumed
             // (the media plugin revokes its preview URLs and forgets the staged
@@ -640,6 +659,12 @@ export function ContentEntryView({
                 <EntryEditor
                     schema={schema}
                     initialValues={resolved.values}
+                    // Which record these values are *for*. The editor is reused
+                    // across the route moves between records (and between
+                    // `/new` and `/:id`), so this is what tells its form that a
+                    // different record opened — which re-seeds unconditionally
+                    // — from this one being read again, which does not.
+                    seedKey={editorKey}
                     entry={resolved.entry}
                     isCreate={isCreate}
                     publishable={publishable}

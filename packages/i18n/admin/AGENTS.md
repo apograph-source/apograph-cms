@@ -49,25 +49,34 @@ slots the content plugin owns).
   content-admin's shared `entryStatusView` / `ENTRY_STATUS_VIEW_VARIANT` (see
   _Publish state_ below), and the state rides the link's accessible name — the
   badge shows the locale slug, so colour alone would convey nothing.
-- **`ENTRY_SIDEBAR_WIDGET_SLOT` → `LocaleWidget`** — the entry editor's **locale
-  switcher**, live in **both** modes. It renders content-admin's exported
-  **`EntrySidebarSection`** — the editor's rail is one flat Properties panel of
-  divider-separated sections, so a card of our own would be the single floating
-  box in it (content-admin's _The Properties rail_ section is the contract). It lists
-  every configured locale: the current one is marked, a locale whose translation
-  already exists is a switch target (with its publish status, **on a publishable
-  type only** — an always-live type has no publish state, so `LocaleWidget`
-  withholds `status`/`publishedAt` and the row draws no badge → navigates to that
-  sibling's editor, or `?locale=` for singles), and a missing locale is dimmed
-  but selectable → it **re-targets the form** to that locale (a draft create form
-  scoped to that locale + the same group:
-  `/:type/new?locale=<slug>&localeGroupId=<gid>` for collections,
-  `?locale=…&localeGroupId=…` for singles), carrying the source's values in
-  router `state.translateFrom`. Creating the sibling is then just the editor's
-  normal **Save (draft) / Publish** (gated `content:create`) — there is **no**
-  dedicated create-translation call. Every one of those navigations appends the
-  slot context's **`tabSegment`**, so a switch made from the Relations tab lands
-  on the sibling's Relations tab instead of dumping the user back on General.
+- **`ENTRY_HEADER_SLOT` → `LocaleTitleChip`** — the chip beside the entry-editor
+  title **and** the editor's **locale switcher**, live in **both** modes. Shown
+  only when `schema.i18n`. It reads the open locale as **code · name** (e.g.
+  `EN · English`) plus a **translated/total** count, and is a
+  `DropdownMenuTrigger` over a menu of every configured locale. The current
+  locale is resolved by `resolveActiveLocale` (`entry.locale ?? ?locale= ??
+  defaultLocale`) — the plugin's single decision point, which the menu must not
+  duplicate (`i18n:I-05`, `I-06`).
+    - **The count costs no request.** Edit mode counts the `useEntryLocales`
+      items that have an `entry` against all of them; create mode counts the
+      group's live summary members against **`useLocales().locales.length`** — a
+      summary holds only live members, so deriving the total from it reads `2/2`
+      for a group missing two locales. It is withheld, never guessed, while the
+      members are unknown.
+    - A locale whose translation already exists is a switch target (with its
+      publish status, **on a publishable type only** — an always-live type has
+      no publish state, so the chip withholds `status`/`publishedAt` and the row
+      draws no badge) → navigates to that sibling's editor, or `?locale=` for
+      singles. A missing locale **re-targets the form** to that locale (a draft
+      create form scoped to that locale + the same group:
+      `/:type/new?locale=<slug>&localeGroupId=<gid>` for collections,
+      `?locale=…&localeGroupId=…` for singles), carrying the source's values in
+      router `state.translateFrom`. Creating the sibling is then just the
+      editor's normal **Save (draft) / Publish** (gated `content:create`) —
+      there is **no** dedicated create-translation call. Every one of those
+      navigations appends the slot context's **`tabSegment`**, so a switch made
+      from the Relations tab lands on the sibling's Relations tab instead of
+      dumping the user back on General.
     - On a **saved** record the group's members come from `useEntryLocales` (by
       the saved id).
     - On a **new/unsaved** record you can still switch the form's target locale
@@ -76,18 +85,62 @@ slots the content plugin owns).
       the group's members are read by `useLocaleSummaries` (batched by that group
       id) so an already-existing sibling is a live switch target; a fresh create
       (no group) simply re-scopes to the picked locale.
-    - The section carries a **contextual `description`** under its title — a
-      saved-record line vs a create-mode line (keyed on `isCreate`).
-    - A footer surfaces the record's **`localeGroupId`** (the id every locale of
-      the record shares) with an `Info` tooltip explaining what it is; a fresh
-      create with no group yet shows a muted "Assigned when this record is
-      saved." note instead of the id.
-- **`ENTRY_HEADER_SLOT` → `LocaleTitleChip`** — a static `Badge` beside the
-  entry-editor title showing the open locale as **code · name** (e.g.
-  `EN · English`), shown **only when `schema.i18n`**. The current locale is
-  resolved like the widget's (`entry.locale ?? ?locale= ?? defaultLocale`) and
-  the display name comes from `useLocales`; switching stays in the widget /
-  toolbar switcher (the chip is non-interactive).
+    - **The chip owns every piece of state; `LocaleMenuItem` owns none.** A pick
+      does not navigate — `beginLocaleSwitch` schedules the swap behind the
+      cover, and `cancelPendingLocaleSwitch` is registered as the chip's unmount
+      cleanup. Radix unmounts `DropdownMenuContent` the instant an item is
+      selected, i.e. **inside that 220 ms window**, so any query, timer or
+      cleanup living in there would cancel the very pick that unmounted it and
+      the choice would silently do nothing. The chip is mounted by the header
+      slot and survives every open and close, which is where all of it belongs.
+      The switch is driven from `DropdownMenuItem`'s `onSelect`, which Radix
+      fires after its own close sequencing — the same shape content's
+      `EntryMenu` and `CollectionRecordsMenu` use, and what keeps the closing
+      menu's focus restore from fighting the guard dialog's focus trap.
+    - **The trigger is a real `<button>`**, styled with the design system's
+      exported `badgeVariants` — `Badge` is a `<div>` with no `asChild`, and
+      handing Radix a `<div>` would cost the menu its keyboard contract. The
+      current locale is a **checked `DropdownMenuRadioItem`**; an inert one is
+      `aria-disabled`, not `disabled`, because Radix skips a disabled item in
+      arrow navigation and the stated reason would be unreachable for exactly
+      the keyboard user who needs it.
+    - **A failed `useLocales` read costs the choices, not the chip.** The
+      trigger still renders (on a saved record the row's own `locale` names it),
+      and the menu carries an "unavailable + retry" row — the same posture as
+      the records toolbar's switcher, which is the only way back out of a
+      non-default locale.
+    - **Each of its two reads has three states, and the chip branches on all
+      three** (`ReadState` = `pending | failed | known`). This is `i18n:I-30`
+      applied to the read that has not landed yet, and both halves of it were
+      shipped wrong once:
+        - The **locale list** is pending on any deep link into an editor, where
+          the entry read can settle first. Keying the "nothing to choose from"
+          branch on `locales.length === 0` made the menu assert a broken config,
+          and offer a retry for it, while the request was still in flight. A
+          settled-and-empty list is a real state too (a locale dropped from the
+          host config while rows in it still exist), so it gets its own
+          sentence rather than borrowing the failure's.
+        - The **group members** are pending for a moment on every editor open,
+          and until they land every locale resolves to `undefined` — i.e. looks
+          missing. Offering "+ Add" there opens a create form whose save **409s**
+          against the sibling that is already there. The documented precedence
+          (unknown outranks forbidden) covers unknown-because-pending as well as
+          unknown-because-failed; the row states which, because "couldn't load"
+          about a running request sends the reader after a fault that is not
+          there.
+      Both are pinned by `[i18n:I-30]` cases in
+      `apps/admin-e2e/src/content/i18n-resilience.spec.ts`, which hold the
+      request open (`holdLocales` / `mockI18n().holdEntryLocales`) rather than
+      racing a `delayMs`.
+- **`ENTRY_DETAILS_ROW_SLOT` → `LocaleDetailsRow`** — the record's
+  **`localeGroupId`** (the id every locale of it shares) as one row of the
+  editor's **Details** block, beneath the entry id, with an `Info` tooltip
+  explaining what it is; a fresh create with no group yet shows a muted
+  "Assigned when this record is saved." note instead of the id. It renders
+  content-admin's exported **`EntrySidebarRow`** and nothing else — the slot's
+  rows render inside Details' own `<dl>`, so a `<section>` there is invalid
+  markup. One read-only line does not earn a block of the rail to itself, which
+  is the whole reason the slot exists.
 - **`RECORDS_FILTER_FIELDS_SLOT` → `useLocaleFilterFields`** — **Has locale /
   Missing locale / Locale count** filter fields, resolved server-side by the
   i18n plugin's virtual-field subqueries. Empty for a non-i18n type.
@@ -217,14 +270,15 @@ the whole group into that state.
 
 Both wire views therefore carry **`publishedAt`** alongside `status`
 (`EntryLocaleItem.entry`, `LocaleSummaryItem`) — it is the bit that separates the
-two draft states, and without it the widget cannot tell them apart no matter how
+two draft states, and without it the menu cannot tell them apart no matter how
 it renders.
 
-`LocaleWidget` re-reads its panel off the slot context's **`entry.updatedAt`**,
-not `entry.status`: content's write mutations don't know about this plugin's
-queries, and a write that leaves the status where it was still changes the panel
-(a second save keeps it `draft`; a shared-field edit rewrites the _siblings_'
-rows without touching this one's status at all).
+`LocaleTitleChip` re-reads its members off the slot context's
+**`entry.updatedAt`**, not `entry.status`: content's write mutations don't know
+about this plugin's queries, and a write that leaves the status where it was
+still changes the rows and the chip's count (a second save keeps it `draft`; a
+shared-field edit rewrites the _siblings_' rows without touching this one's
+status at all).
 
 ## Data layer
 
@@ -302,7 +356,7 @@ pass-through in every branch of `EntryFieldInput` and is tracked separately.
   `@ortha/design-system` only; wire types **mirror** the server without
   importing across the boundary (`src/lib/types/locale`).
 - **One component per file.** A child used by one parent nests in its folder
-  (e.g. `LocalesColumnCell/LocaleBadge`, `LocaleWidget/LocaleRow`).
+  (e.g. `LocalesColumnCell/LocaleBadge`, `LocaleTitleChip/LocaleMenuItem`).
 - Slot **item ids** and **URL params** are named constants in
   `src/lib/constants` — no magic literals.
 - The plugin factory (`utils/i18nPlugin`) types each slot item **explicitly**

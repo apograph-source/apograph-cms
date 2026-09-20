@@ -481,6 +481,53 @@ describe('a setting written into .env with no value', () => {
  * the environment has to come out of the builder. A default that is merely
  * correct proves nothing here — the broken version had correct defaults too.
  */
+/**
+ * The generated app's outbox retention window.
+ *
+ * `env.tmpl` ships `OUTBOX_RETENTION_DAYS=30` and tells the reader that `0`
+ * keeps delivered events forever. Read through `readPositiveInt` that sentence
+ * was a trap: `0` threw at import, so the documented off-switch stopped a
+ * freshly scaffolded app from booting (ORT-211). The test has to execute the
+ * root config rather than read it, because the throw is in the reader.
+ */
+describe('the outbox retention window', () => {
+    /** Renders a default app and reads its root config back. */
+    function rootConfig(): { database: { outboxRetentionDays: number } } {
+        return load<{
+            default: { database: { outboxRetentionDays: number } };
+        }>(['media-local', 'rest'], 'apps/server/ortha.config').default;
+    }
+
+    beforeEach(() => {
+        process.env['DATABASE_URL'] =
+            'postgresql://ortha:ortha@localhost:5432/my_cms';
+    });
+
+    it('defaults to 30 days when the variable is unset', () => {
+        delete process.env['OUTBOX_RETENTION_DAYS'];
+
+        expect(rootConfig().database.outboxRetentionDays).toBe(30);
+    });
+
+    it('takes 0 as "never prune" instead of refusing to load', () => {
+        process.env['OUTBOX_RETENTION_DAYS'] = '0';
+
+        expect(rootConfig().database.outboxRetentionDays).toBe(0);
+    });
+
+    it('carries a configured window through', () => {
+        process.env['OUTBOX_RETENTION_DAYS'] = '7';
+
+        expect(rootConfig().database.outboxRetentionDays).toBe(7);
+    });
+
+    it('still refuses a negative, which is a typo rather than an off-switch', () => {
+        process.env['OUTBOX_RETENTION_DAYS'] = '-1';
+
+        expect(() => rootConfig()).toThrow(/OUTBOX_RETENTION_DAYS/);
+    });
+});
+
 describe('the webhook URL policy', () => {
     /** Renders a default app and reads the webhooks builder back. */
     function webhooksConfig(): () => {

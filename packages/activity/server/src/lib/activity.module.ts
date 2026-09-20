@@ -2,14 +2,17 @@ import { DynamicModule, Module } from '@nestjs/common';
 import { ACTIVITY_RECORDER } from '@ortha/identity-server';
 import { ListActivityController } from './activity/controllers/list-activity.controller';
 import { DeadLettersController } from './activity/controllers/dead-letters.controller';
+import { RetryDeadLetterController } from './activity/controllers/retry-dead-letter.controller';
 import { EntryActivityController } from './activity/controllers/entry-activity.controller';
 import { ActivityService } from './activity/services/activity.service';
 import { AuditEventSubscriber } from './activity/infrastructure/audit-event.subscriber';
 import { ActivityCopilotToolProvider } from './copilot/activity-tool.provider';
 
 /**
- * NestJS module for the activity plugin. Mounts the read API under
- * `/api/activity`, provides {@link ActivityService}, and provides the
+ * NestJS module for the activity plugin. Mounts the API under `/api/activity`
+ * — three reads plus the dead-letter retry, the one route here that writes
+ * anything, and it writes `outbox_events` rather than this plugin's own table
+ * — provides {@link ActivityService}, and provides the
  * {@link AuditEventSubscriber} — the **live** audit writer, which self-registers
  * with the outbox dispatcher on bootstrap so every audited domain event becomes
  * an `activity_events` row (Wave 3 moved auditing off in-band recording).
@@ -36,7 +39,12 @@ export class ActivityModule {
                 // as the pattern set grows.
                 EntryActivityController,
                 ListActivityController,
-                DeadLettersController
+                DeadLettersController,
+                // The plugin's one writing route. Declared after the list it
+                // belongs to, and separate from it because the two carry
+                // different permissions: reading that something is stuck is
+                // `activity:read`, re-running it is `activity:manage`.
+                RetryDeadLetterController
             ],
             providers: [
                 ActivityService,

@@ -46,7 +46,7 @@ export const CONTENT_PUBLISH = 'content:publish';
 export const SLOT_ITEM_ID = {
     Switcher: 'i18n.localeSwitcher',
     Column: 'i18n.localesColumn',
-    Widget: 'i18n.localeWidget',
+    DetailsRow: 'i18n.localeDetailsRow',
     TitleChip: 'i18n.localeTitleChip',
     FilterFields: 'i18n.filterFields',
     SwitchOverlay: 'i18n.localeSwitchOverlay',

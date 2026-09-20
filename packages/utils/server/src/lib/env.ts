@@ -109,6 +109,42 @@ export function readOptionalPositiveInt(name: string): number | undefined {
 }
 
 /**
+ * As {@link readPositiveInt}, but `0` is a **value** rather than a refusal.
+ *
+ * The form a setting whose off-switch is spelled `0` needs. A retention window
+ * is the case in hand: `OUTBOX_RETENTION_DAYS=0` is documented in four places
+ * as "keep delivered events forever", and read through `readPositiveInt` that
+ * documented off-switch threw at load — so a deployment that took `.env.example`
+ * at its word got a server that refused to start, with a message insisting the
+ * value be positive (ORT-211).
+ *
+ * Only zero moves. A negative, a decimal, exponent and hex notation are refused
+ * exactly as before, because "off" is spelled `0` and nothing else — and the
+ * reason `readPositiveInt` exists is that `Number(x) || default` accepted all
+ * of them in silence.
+ *
+ * Choosing between the two readers is therefore a question about the setting,
+ * not about its type: does `0` mean something here? For a TTL, a step ceiling
+ * or a rate limit it does not, and {@link readPositiveInt} is right — a `0`
+ * there is a typo that would disable the protection it configures.
+ */
+export function readNonNegativeInt(name: string, fallback: number): number {
+    const raw = readEnv(name);
+    if (!raw) {
+        return fallback;
+    }
+    // Plain decimal digits only, as in `readOptionalPositiveInt` — `Number`
+    // would also take `1e9`, `0x20` and `Infinity`.
+    if (!/^\d+$/.test(raw)) {
+        throw new Error(
+            `Environment variable ${name} must be a whole number of zero or ` +
+                `more (got "${raw}").`
+        );
+    }
+    return Number(raw);
+}
+
+/**
  * A comma-separated list setting, trimmed and emptied of blanks.
  *
  * An explicitly empty value yields an empty list rather than the fallback,

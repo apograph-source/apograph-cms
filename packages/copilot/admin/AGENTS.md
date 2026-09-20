@@ -628,6 +628,16 @@ they learn their content changed at all.
   fixes it here without changing the geometry the admin's ~25 other alerts are
   drawn with. The wrapper is `py-3`, not `pt-3`: with no bottom padding the
   banner butted into the footer's rule and read as part of the line below it.
+  The row is `items-start` with the icon nudged 2px down rather than
+  `items-center`, because **the reason is height-bounded** (`max-h-56
+overflow-auto`, the bound `ToolStep`'s payload already uses): a server message
+  that enumerates twenty fields would otherwise be taller than the card and push
+  the diff and the "Not saved" badge off the screen, and centring would then
+  float the icon to the middle of the box. The 2px is exactly what centring gave
+  a 16px glyph on a 20px line, so a one-line reason is drawn unchanged. That
+  scroller is focusable and named ("Why this change was not saved") — overflow a
+  keyboard-only user cannot reach is half a reason (2.1.1) — and `role="group"`,
+  not `region`, so a failed card does not mint a landmark.
   Five other description-only call sites (users, api-tokens) have the same
   alignment defect and are a candidate for a generic `Alert` grid rewrite.
 - **Reopening a thread reattaches the cards.** `useOpenConversation` fetches the

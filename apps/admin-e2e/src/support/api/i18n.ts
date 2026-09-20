@@ -188,10 +188,28 @@ export function spyEntryWrites(page: Page): EntryWrite[] {
 }
 
 /**
+ * What {@link mockI18n} hands back — the hooks that need its **per-call** row
+ * state, which is a closure and deliberately not module-level (see `seeded`).
+ * Every existing caller ignores it.
+ */
+export type I18nMock = {
+    /**
+     * Re-register `GET /api/i18n/content/:type/:id/locales` so it is **held
+     * open** until `release()`, then answers exactly as the healthy route
+     * would — same rows, including any the test has created since.
+     *
+     * Playwright matches routes newest-first, so this wins over the healthy
+     * stub installed by {@link mockI18n}. See {@link holdLocales} for why a
+     * gate and not a `delayMs`.
+     */
+    holdEntryLocales: () => Promise<HeldRequest>;
+};
+
+/**
  * Register every route the i18n suite needs on `page`: the schema list + detail,
  * the locale-scoped records list, and the four `/api/i18n/**` endpoints.
  */
-export async function mockI18n(page: Page): Promise<void> {
+export async function mockI18n(page: Page): Promise<I18nMock> {
     // Rows created during the test (via POST). Kept in-memory so that after a
     // create the editor's canonical read (`/:type/:id`) and the locale panel
     // resolve the brand-new row — letting a spec exercise the full
@@ -505,44 +523,105 @@ export async function mockI18n(page: Page): Promise<void> {
         }
     );
 
+    // One item per **configured** locale, each carrying the group's row in it
+    // or `null`. Shared by the healthy route and the held one, so a test that
+    // proves the pending state still lands on the response the real route
+    // would have given.
+    const entryLocalesBody = (url: string): string => {
+        const segments = new URL(url).pathname.split('/');
+        const id = segments[segments.length - 2];
+        const row = allRows().find((candidate) => candidate.id === id);
+        const groupId = row?.localeGroupId ?? 'G1';
+        const members = liveGroupRows(groupId);
+        return JSON.stringify({
+            localeGroupId: groupId,
+            items: LOCALES.map((locale) => {
+                const member = members.find(
+                    (candidate) => candidate.locale === locale.slug
+                );
+                return {
+                    locale: locale.slug,
+                    dir: locale.dir,
+                    isDefault: locale.isDefault,
+                    entry: member
+                        ? {
+                              id: member.id,
+                              status: member.status,
+                              publishedAt: member.publishedAt,
+                              updatedAt: member.updatedAt
+                          }
+                        : null
+                };
+            })
+        });
+    };
+
     // GET /api/i18n/content/:type/:id/locales — one entry's locale panel.
     await page.route(
         /\/api\/i18n\/content\/[^/]+\/([^/]+)\/locales$/,
         async (route) => {
-            const segments = new URL(route.request().url()).pathname.split('/');
-            const id = segments[segments.length - 2];
-            const row = allRows().find((candidate) => candidate.id === id);
-            const groupId = row?.localeGroupId ?? 'G1';
-            const members = liveGroupRows(groupId);
             await route.fulfill({
                 status: 200,
                 contentType: 'application/json',
-                body: JSON.stringify({
-                    localeGroupId: groupId,
-                    items: LOCALES.map((locale) => {
-                        const member = members.find(
-                            (candidate) => candidate.locale === locale.slug
-                        );
-                        return {
-                            locale: locale.slug,
-                            dir: locale.dir,
-                            isDefault: locale.isDefault,
-                            entry: member
-                                ? {
-                                      id: member.id,
-                                      status: member.status,
-                                      publishedAt: member.publishedAt,
-                                      updatedAt: member.updatedAt
-                                  }
-                                : null
-                        };
-                    })
-                })
+                body: entryLocalesBody(route.request().url())
             });
         }
     );
     // Sibling creation is handled by the POST branch of the /api/content/:name
     // route above (POST + localeGroupId), so there is no i18n write route.
+
+    return {
+        holdEntryLocales: async () => {
+            let open!: () => void;
+            const gate = new Promise<void>((resolve) => {
+                open = resolve;
+            });
+            await page.route(
+                /\/api\/i18n\/content\/[^/]+\/[^/]+\/locales$/,
+                async (route) => {
+                    await gate;
+                    await route.fulfill({
+                        status: 200,
+                        contentType: 'application/json',
+                        body: entryLocalesBody(route.request().url())
+                    });
+                }
+            );
+            return { release: () => open() };
+        }
+    };
+}
+
+/** A held route, and the way to let it answer. */
+export type HeldRequest = {
+    /** Let the held request complete with its normal, healthy response. */
+    release: () => void;
+};
+
+/**
+ * Hold `GET /api/i18n/locales` open until the returned `release()` is called,
+ * then answer it normally. Register **after** {@link mockI18n}.
+ *
+ * **Pending is a third state**, and the only way to assert how a surface
+ * renders it is to stop the request settling. A `delayMs` cannot do that
+ * reliably — the assertion races the timer — so the test holds the door and
+ * opens it itself, which also lets the same case prove the surface *recovers*
+ * rather than only that it waits.
+ */
+export async function holdLocales(page: Page): Promise<HeldRequest> {
+    let open!: () => void;
+    const gate = new Promise<void>((resolve) => {
+        open = resolve;
+    });
+    await page.route(/\/api\/i18n\/locales$/, async (route) => {
+        await gate;
+        await route.fulfill({
+            status: 200,
+            contentType: 'application/json',
+            body: JSON.stringify({ items: LOCALES })
+        });
+    });
+    return { release: () => open() };
 }
 
 /**

@@ -33,9 +33,15 @@ export interface DeadLetterListView {
  * is missing from the trail" is the same question as "what is in it", and the
  * answer names event kinds and aggregate ids.
  *
- * It reports rather than repairs. Replaying a parked row means clearing its
- * `attempts` — a deliberate operator action against a fixed cause, not a button
- * that re-runs whatever failed fifteen times.
+ * It reports; `POST /api/activity/dead-letters/:id/retry` is what repairs, and
+ * the split is deliberate in two directions. Reading the list takes
+ * `activity:read`; putting a row back takes `activity:manage`, because
+ * re-running somebody else's side effect is a different authority from seeing
+ * that it is stuck. And the repair is **one row at a time**: a reset row goes
+ * back to the head of an `ORDER BY occurred_at` claim, so a bulk retry over an
+ * unbounded `total` is a way to stall the queue — and the operator is meant to
+ * read `lastError` and fix the cause first, rather than press a button that
+ * re-runs whatever failed fifteen times.
  */
 @ApiTags('Activity')
 @UseGuards(PermissionsGuard)
@@ -48,7 +54,7 @@ export class DeadLettersController {
     @ApiOperation({
         summary: 'Events that could not be recorded',
         description:
-            'Outbox events that exhausted their delivery attempts and are no longer retried. Most often an audit row that was never written, so a non-zero `total` means the activity log is incomplete. Reports only — replaying one is an operator action against a fixed cause.'
+            'Outbox events that exhausted their delivery attempts and are no longer retried. Most often an audit row that was never written, so a non-zero `total` means the activity log is incomplete. Read-only: putting one back is `POST /activity/dead-letters/{id}/retry`, one row at a time, under `activity:manage`.'
     })
     async list(
         @Query() query: DeadLettersQueryDto

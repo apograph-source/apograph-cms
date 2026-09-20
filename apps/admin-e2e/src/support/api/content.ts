@@ -633,9 +633,23 @@ export const RELATIONS_DETAIL_SEED: Record<string, ContentTypeDetail> = {
                 }
             },
             {
+                // **Required on purpose**, and the only required relation in
+                // this seed: a required many/inverse relation is link-managed,
+                // so it never reaches the values bag the field gate reads. The
+                // editor mirrors the server's `assertRequiredRelations` from
+                // the link *counts* instead, and without a fixture like this
+                // nothing pinned that second, count-based check — which is
+                // exactly the kind of check a rewrite of the gate's rendering
+                // can drop without a single test going red.
+                //
+                // It does not block the Publish button: `announceBlocked`
+                // reads `form.errors`, which a link-managed relation is
+                // absent from by design. So the specs here that publish an
+                // article are unaffected; only the rail's gate and the
+                // Relations tab's marker are.
                 name: 'tags',
                 type: 'relation',
-                required: false,
+                required: true,
                 validation: {},
                 admin: { label: 'Tags' },
                 relation: { to: 'tag', many: true }
@@ -1462,6 +1476,58 @@ export async function mockEntryRelations(
     );
 }
 
+/** The instant every mocked record was created at — a write never moves it. */
+export const ENTRY_CREATED_AT = '2026-01-01T00:00:00.000Z';
+
+/**
+ * The mocked records' `updatedAt`, per page and per `"<type>/<id>"`.
+ *
+ * A real save **stamps** `updatedAt` (`entry-writer.service.ts`, `updatedAt: new
+ * Date()` on every write), and the admin leans on that: the editor primes its
+ * read-one cache with the write's response, and the protection plugin puts the
+ * entry's `updatedAt` in its review key so a save mints a new key and the panel
+ * re-reads. A mock that echoed one frozen timestamp back therefore cannot
+ * exhibit anything that depends on a save being a new version — it looks exactly
+ * like the bug where the timestamp never travelled.
+ *
+ * One clock shared by {@link mockContentEntryWrites}, {@link spyEntrySave} and
+ * {@link mockContentEntryRead}, because those are registered over each other: a
+ * `PATCH` answered by the spy and a later `GET` answered by the write mock must
+ * not disagree about which version is current, or `updatedAt` would travel
+ * backwards and a cache keyed on it would serve the pre-save answer again.
+ * Keyed by `page`, so it resets with the browser context like every other mock.
+ */
+const entryClocks = new WeakMap<Page, Map<string, string>>();
+
+function clockOf(page: Page): Map<string, string> {
+    const existing = entryClocks.get(page);
+    if (existing) return existing;
+    const clock = new Map<string, string>();
+    entryClocks.set(page, clock);
+    return clock;
+}
+
+/**
+ * The record's current `updatedAt` — {@link ENTRY_CREATED_AT} until a write in
+ * this test moved it. Exported so a spec can say what it expects to see rather
+ * than restating the arithmetic.
+ */
+export function entryUpdatedAt(page: Page, type: string, id: string): string {
+    return clockOf(page).get(`${type}/${id}`) ?? ENTRY_CREATED_AT;
+}
+
+/**
+ * Stamps a fresh `updatedAt` on one record and returns it. One second per write,
+ * so the sequence stays deterministic and readable in a failure message.
+ */
+function touchEntry(page: Page, type: string, id: string): string {
+    const next = new Date(
+        Date.parse(entryUpdatedAt(page, type, id)) + 1000
+    ).toISOString();
+    clockOf(page).set(`${type}/${id}`, next);
+    return next;
+}
+
 interface ContentEntryReadOptions {
     /**
      * Values per `"<type>/<id>"`, served by the read-one endpoint. Everything
@@ -1490,7 +1556,6 @@ export async function mockContentEntryRead(
     page: Page,
     { records, locales = {} }: ContentEntryReadOptions
 ): Promise<void> {
-    const now = '2026-01-01T00:00:00.000Z';
     await page.route(
         /\/api\/content\/[^/?]+\/[^/?]+(\?.*)?$/,
         async (route) => {
@@ -1509,8 +1574,10 @@ export async function mockContentEntryRead(
                 body: JSON.stringify({
                     id,
                     status: 'draft',
-                    createdAt: now,
-                    updatedAt: now,
+                    createdAt: ENTRY_CREATED_AT,
+                    // Off the shared clock, so a read after a save reports the
+                    // version the save wrote rather than winding the record back.
+                    updatedAt: entryUpdatedAt(page, name, id),
                     ...(locale ? { locale } : {}),
                     values
                 })
@@ -1690,6 +1757,9 @@ function verdictFor(
  * toast, and invalidate. The create route `fallback()`s non-POST requests so the
  * single-segment list mock ({@link mockContentEntries}) still handles `GET`.
  * Register alongside the list mocks for any test that edits or acts on entries.
+ *
+ * A write **moves the record's `updatedAt`** (see {@link entryUpdatedAt}) the way
+ * a real one does; `createdAt` stays where it was.
  */
 export async function mockContentEntryWrites(
     page: Page,
@@ -1698,8 +1768,6 @@ export async function mockContentEntryWrites(
         blocked = {}
     }: ContentEntryWriteOptions = {}
 ): Promise<void> {
-    const now = '2026-01-01T00:00:00.000Z';
-
     // Multi-segment routes: read-one, item writes, and bulk.
     await page.route(/\/api\/content\/[^/?]+\/.+/, async (route) => {
         const req = route.request();
@@ -1745,11 +1813,14 @@ export async function mockContentEntryWrites(
             return json(route, { count: ids.length });
         }
 
-        const record = (status: 'draft' | 'published') => ({
+        const record = (
+            status: 'draft' | 'published',
+            updatedAt = entryUpdatedAt(page, name, id)
+        ) => ({
             id,
             ...(detail?.publishable ? { status } : {}),
-            createdAt: now,
-            updatedAt: now,
+            createdAt: ENTRY_CREATED_AT,
+            updatedAt,
             values:
                 body.values ??
                 detail?.fields.reduce<Record<string, unknown>>((acc, f) => {
@@ -1760,14 +1831,21 @@ export async function mockContentEntryWrites(
         });
 
         if (method === 'GET') return json(route, record('draft'));
-        if (method === 'PATCH') return json(route, record('draft'));
+        // Every write stamps a new `updatedAt`, a status transition included —
+        // the server's `markPublished` / `markDraft` set it too, and the review
+        // key is keyed on it.
+        if (method === 'PATCH')
+            return json(route, record('draft', touchEntry(page, name, id)));
         if (method === 'DELETE')
             return route.fulfill({ status: 204, body: '' });
         if (method === 'POST') {
             // publish → published; unpublish/restore → draft
             return json(
                 route,
-                record(action === 'publish' ? 'published' : 'draft'),
+                record(
+                    action === 'publish' ? 'published' : 'draft',
+                    touchEntry(page, name, id)
+                ),
                 201
             );
         }
@@ -1791,8 +1869,10 @@ export async function mockContentEntryWrites(
             {
                 id: `${name}-new`,
                 ...(detail?.publishable ? { status: 'draft' } : {}),
-                createdAt: now,
-                updatedAt: now,
+                createdAt: ENTRY_CREATED_AT,
+                // A create is the record's first version: created and updated at
+                // the same instant, and the clock moves from the next write on.
+                updatedAt: entryUpdatedAt(page, name, `${name}-new`),
                 values: body.values ?? {}
             },
             201
@@ -1829,15 +1909,19 @@ export interface EntrySaveSpy {
  * and that a link-managed relation is **not** in `values`). Fulfils like the
  * write mock so the flow continues; non-write methods fall through to the other
  * mocks. Register **after** {@link mockContentEntryWrites} so it wins the match.
+ *
+ * Because it wins the match it also owns the **`updatedAt` stamp** for the saves
+ * it answers, off the same clock {@link mockContentEntryWrites} reads — a spy
+ * that echoed a frozen timestamp would quietly turn every save into "no new
+ * version" for anything keyed on it, however the mock underneath behaves.
  */
 export async function spyEntrySave(page: Page): Promise<EntrySaveSpy> {
     const bodies: CapturedSave[] = [];
-    const now = '2026-01-01T00:00:00.000Z';
-    const record = (id: string, body: CapturedSave) => ({
+    const record = (id: string, body: CapturedSave, updatedAt: string) => ({
         id,
         status: 'draft' as const,
-        createdAt: now,
-        updatedAt: now,
+        createdAt: ENTRY_CREATED_AT,
+        updatedAt,
         values: body.values ?? {}
     });
 
@@ -1853,7 +1937,14 @@ export async function spyEntrySave(page: Page): Promise<EntrySaveSpy> {
         await route.fulfill({
             status: 201,
             contentType: 'application/json',
-            body: JSON.stringify(record(`${name}-new`, body))
+            body: JSON.stringify(
+                record(
+                    `${name}-new`,
+                    body,
+                    // A create is the record's first version.
+                    entryUpdatedAt(page, name, `${name}-new`)
+                )
+            )
         });
     });
 
@@ -1865,13 +1956,18 @@ export async function spyEntrySave(page: Page): Promise<EntrySaveSpy> {
             if (req.method() !== 'PATCH') return route.fallback();
             const body = (req.postDataJSON?.() ?? {}) as CapturedSave;
             bodies.push(body);
-            const id = decodeURIComponent(
-                new URL(req.url()).pathname.split('/').pop() ?? ''
-            );
+            // ['api','content',name,id]
+            const parts = new URL(req.url()).pathname
+                .split('/')
+                .filter(Boolean);
+            const name = decodeURIComponent(parts[2] ?? '');
+            const id = decodeURIComponent(parts[3] ?? '');
             await route.fulfill({
                 status: 200,
                 contentType: 'application/json',
-                body: JSON.stringify(record(id, body))
+                body: JSON.stringify(
+                    record(id, body, touchEntry(page, name, id))
+                )
             });
         }
     );
@@ -2034,6 +2130,147 @@ export async function mockPublishRejection(
                 body: JSON.stringify({
                     message: 'Entry validation failed',
                     issues: [{ field, message }]
+                })
+            });
+        }
+    );
+}
+
+/** The catalogue for the always-live (non-publishable) fixture. */
+export const ALWAYS_LIVE_SCHEMA_SEED: ContentTypeSummary[] = [
+    {
+        name: 'notice',
+        kind: 'collection',
+        label: 'Notices',
+        publishable: false
+    }
+];
+
+/**
+ * A collection with **no publish workflow** (`publishable: false`) — the shape
+ * nothing under `src/` had, which is why the rail's two publishable-only rules
+ * went unpinned: the gate calls itself the **Save gate** there (Save really is
+ * strict on an always-live type, so an incomplete draft is not a thing), and
+ * Details drops its **Status** row, because "Draft" would name a state the type
+ * does not have.
+ *
+ * Deliberately its **own** seed and workspace rather than another type added to
+ * {@link CONTENT_DETAIL_SEED} — the pattern `READ_ONLY_*` and `HIDDEN_FIELD_*`
+ * already follow. The shared seed is the fixture a dozen suites open by
+ * default; a new type in it is a new row in every one of their lists.
+ */
+export const ALWAYS_LIVE_DETAIL_SEED: Record<string, ContentTypeDetail> = {
+    notice: {
+        name: 'notice',
+        kind: 'collection',
+        label: 'Notices',
+        publishable: false,
+        fields: [
+            {
+                name: 'title',
+                type: 'text',
+                required: true,
+                validation: {},
+                admin: { label: 'Title', description: 'Shown in listings.' }
+            },
+            {
+                name: 'note',
+                type: 'text',
+                required: false,
+                validation: {},
+                admin: { label: 'Note' }
+            }
+        ]
+    }
+};
+
+/** The one stored always-live row, complete so the gate reads clear. */
+export const ALWAYS_LIVE_ENTRY_ID = 'notice-1';
+
+/** Rows of {@link ALWAYS_LIVE_DETAIL_SEED}'s collection. */
+export const ALWAYS_LIVE_ENTRIES_SEED: Record<string, EntryRecord[]> = {
+    notice: [
+        seedRow(ALWAYS_LIVE_ENTRY_ID, {
+            title: 'Scheduled maintenance',
+            note: 'Back by 09:00.'
+        })
+    ]
+};
+
+/** A workspace granted only the always-live fixture type. */
+export const ALWAYS_LIVE_WORKSPACE: WorkspaceView = {
+    ...LIBRARY_WORKSPACE,
+    id: 'ws_always_live',
+    name: 'Always live demo',
+    slug: 'always-live-demo',
+    content: ['notice']
+};
+
+/**
+ * Stub `GET /api/content/:name/:id` for **one** record whose stored values
+ * change between reads — the second and every later read answer `after`, as if
+ * somebody else saved over it while this tab was in the background.
+ *
+ * This is the shape a background refetch actually has: the editor asks again,
+ * and the answer is not what it was handed the first time. Register **after**
+ * {@link mockContentEntryWrites}; it claims only `GET`, so writes fall through.
+ *
+ * Deliberately hands back **nothing**. An earlier version exposed a read
+ * counter, and the spec used it as its "the refetch happened" precondition —
+ * which counts the request being *issued*, not its answer being applied, and so
+ * let the spec go green against the very defect it reproduces. Wait on
+ * {@link statusAfter} reaching the screen instead.
+ */
+export async function mockEntryChangedByAnotherSession(
+    page: Page,
+    {
+        typeName,
+        id,
+        before,
+        after,
+        statusBefore = 'draft',
+        statusAfter = 'published'
+    }: {
+        typeName: string;
+        id: string;
+        before: Record<string, unknown>;
+        after: Record<string, unknown>;
+        /**
+         * The record's `status`, which moves with the values. It is what a spec
+         * can watch **outside** the form to know the refetched row reached the
+         * screen — the Details rail reads it off the entry, not off the editor's
+         * state, so it is unaffected by whatever the form decides to do with the
+         * author's input.
+         */
+        statusBefore?: string;
+        statusAfter?: string;
+    }
+): Promise<void> {
+    const now = '2026-01-01T00:00:00.000Z';
+    let reads = 0;
+    await page.route(
+        /\/api\/content\/[^/?]+\/[^/?]+(\?.*)?$/,
+        async (route) => {
+            if (route.request().method() !== 'GET') return route.fallback();
+            const parts = new URL(route.request().url()).pathname
+                .split('/')
+                .filter(Boolean);
+            if (
+                decodeURIComponent(parts[2] ?? '') !== typeName ||
+                decodeURIComponent(parts[3] ?? '') !== id
+            ) {
+                return route.fallback();
+            }
+            reads += 1;
+            await route.fulfill({
+                status: 200,
+                contentType: 'application/json',
+                body: JSON.stringify({
+                    id,
+                    status: reads === 1 ? statusBefore : statusAfter,
+                    createdAt: now,
+                    updatedAt: now,
+                    values: reads === 1 ? before : after
                 })
             });
         }

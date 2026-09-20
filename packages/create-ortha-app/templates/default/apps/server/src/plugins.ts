@@ -203,7 +203,10 @@ export function buildPlugins(config: OrthaConfig): ServerPlugin[] {
 
     return [
         // First: the only plugin that opens a resource in `onPluginInit`.
-        DatabasePlugin({ connectionString: config.database.url }),
+        DatabasePlugin({
+            connectionString: config.database.url,
+            outboxRetentionDays: config.database.outboxRetentionDays
+        }),
         // ortha:if sso
         // Identity, plus the identity providers this app offers. The second
         // argument is where constructed adapters go: `ortha.config.ts` holds

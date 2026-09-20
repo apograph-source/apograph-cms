@@ -1,8 +1,9 @@
 /**
  * The activity plugin's pass over the host's OpenAPI document.
  *
- * Three read routes, three hand-written `interface`s, and therefore three
- * operations the scanner leaves as `{ '200': { description: '' } }` — see
+ * Four routes — three reads and one write — answering four hand-written
+ * `interface`s, and therefore four operations the scanner leaves as
+ * `{ '200': { description: '' } }` — see
  * `packages/bootstrap/server/AGENTS.md` → "The response-schema gap". This
  * writes the schemas on the way past, the way `content-server`'s pass does.
  *
@@ -55,6 +56,14 @@ const ROUTES: Record<string, Record<string, OperationSpec>> = {
             schema: 'ActivityDeadLetterListView',
             description:
                 'The parked events, newest first. `total` ignores `limit`, so a caller can tell "nothing is stuck" from "the first page is full".'
+        }
+    },
+    // The path is keyed exactly as the document writes it — `{id}`, not `:id`.
+    '/dead-letters/{id}/retry': {
+        post: {
+            schema: 'ActivityDeadLetterRetryView',
+            description:
+                'The event, reset in place and claimable again: `attempts` back to 0, `nextAttemptAt` cleared, `lastError` kept.'
         }
     }
 };

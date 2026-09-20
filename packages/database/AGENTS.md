@@ -32,7 +32,7 @@ because the outbox is cross-cutting infrastructure, not any one domain's data).
 
 - `DatabasePlugin(config)` — factory returning a `ServerPlugin`; opens the
   connection in `onPluginInit`
-- `DatabasePluginConfig` — `{ connectionString }`
+- `DatabasePluginConfig` — `{ connectionString, poolMax?, connectionTimeoutMillis?, statementTimeoutMillis?, outboxRetentionDays? }`
 - `Database` — the Drizzle client type the plugin exposes. **Annotate injected
   clients with this**, not the dialect-specific `NodePgDatabase`, so a dialect
   change is a one-line edit in this package.
@@ -76,7 +76,7 @@ injects them without importing the module.
   `MAX_DELIVERY_ATTEMPTS`. A 5s poll backstop covers a lost post-commit drain.
   **Delivery is at-least-once → subscribers must be idempotent.**
 
-### Two things the outbox deliberately bounds
+### Four things the outbox deliberately bounds
 
 - **Retries back off, then stop.** Each failure schedules the row's
   `next_attempt_at` — one second, doubling, plateauing at five minutes — and a
@@ -88,7 +88,14 @@ injects them without importing the module.
   nothing either — drains are triggered by commits, so on a busy server fifteen
   attempts is milliseconds. Parked rows stay in the table:
   `dispatched_at IS NULL AND attempts >= 15` is the dead-letter query, and
-  clearing `attempts` replays one.
+  `OutboxDispatcher.retryDeadLetter(id)` is how one is put back — it resets the
+  **existing** row (`attempts = 0`, `next_attempt_at = NULL`, `last_error`
+  preserved) and never enqueues a copy, because the id is the idempotency key
+  every subscriber deduplicates on. Clearing `attempts` alone is the mistake
+  worth naming: the row is then eligible by the ceiling and refused by the
+  schedule for up to five minutes, so the retry appears to do nothing.
+  `activity/server` hosts the route (`POST /api/activity/dead-letters/:id/retry`,
+  `activity:manage`); the mechanism is here.
 - **A drain in flight survives shutdown.** `onModuleDestroy` clears the poll
   backstop and then **waits** for the drain running at that moment. It used to
   just return, so a drain interrupted by `SIGTERM` died mid-batch with its
@@ -103,6 +110,21 @@ injects them without importing the module.
   a dozen concurrent requests over a backlog, with no timeout and no recovery.
   Cross-process concurrency is unaffected: `SKIP LOCKED` is what makes that
   safe.
+- **Delivered rows are pruned; nothing else ever is.** `OUTBOX_RETENTION_DAYS`
+  (default 30, `0` = never) sets the window, `OutboxDispatcher.pruneDelivered`
+  does the deleting — 1 000 at a time through a `FOR UPDATE SKIP LOCKED`
+  sub-select, at most ten passes a tick — and a private `pruneIfDue` calls it at
+  the tail of a poll tick, at most hourly. No new timer, and no bookkeeping
+  table: `lastPrunedAt` is an in-process field, because this package owns exactly
+  one table and means to keep it that way. The mark is claimed before the sweep
+  (two must not overlap — `pollOnce` has already cleared its `draining` flag by
+  then) and **restored if the sweep throws**, so a momentary failure is retried
+  on the next tick instead of suppressing retention for an hour; `pollOnce`
+  logs it. The predicate is
+  `dispatched_at IS NOT NULL AND dispatched_at < cutoff`, which excludes pending
+  **and parked** rows by construction rather than by a clause about `attempts` —
+  do not "clarify" it into one. The cut is on `dispatched_at`, never
+  `occurred_at`: an event can occur long before it is delivered.
 
 ### Registering a subscriber
 
@@ -111,7 +133,9 @@ A downstream plugin registers at **runtime** from its own
 
 ```typescript
 @Injectable()
-export class MyReactor implements OnApplicationBootstrap, DomainEventSubscriber {
+export class MyReactor
+    implements OnApplicationBootstrap, DomainEventSubscriber
+{
     readonly kinds = ['workspace.created'] as const; // or '*' for all kinds
     constructor(private readonly dispatcher: OutboxDispatcher) {}
     onApplicationBootstrap() {
@@ -135,7 +159,7 @@ co-located subscribers, and is merged with the runtime-registered ones.
   The pool connects lazily (on first query), so booting needs no live DB.
 - **Bounded pool.** `initDatabase` sets `max` (10) and, crucially,
   `connectionTimeoutMillis` (10 s) explicitly. `pg` defaults the latter to `0` —
-  *wait forever* — which turns exhaustion into a process that has silently
+  _wait forever_ — which turns exhaustion into a process that has silently
   stopped answering rather than one failing request anyone can see. Both, plus
   an optional `statement_timeout`, are overridable through
   `DatabasePluginConfig`.
@@ -145,13 +169,12 @@ co-located subscribers, and is merged with the runtime-registered ones.
   the `plugins` array — every other plugin (and the global DI provider) can then
   assume a live db.
 
-  It is closed symmetrically, by the `DatabaseShutdown` provider.
-  `createServer` enables Nest's shutdown hooks, and this is the half that was
-  missing — nothing ended the pool. Invisible in the shipped server (it exits
-  immediately and Postgres reaps the backends) and a real leak for a host that
-  **embeds** `createServer` and keeps running, which is why `createServer` hands
-  the application back at all. Three details, each load-bearing:
-
+    It is closed symmetrically, by the `DatabaseShutdown` provider.
+    `createServer` enables Nest's shutdown hooks, and this is the half that was
+    missing — nothing ended the pool. Invisible in the shipped server (it exits
+    immediately and Postgres reaps the backends) and a real leak for a host that
+    **embeds** `createServer` and keeps running, which is why `createServer` hands
+    the application back at all. Three details, each load-bearing:
     - **`onApplicationShutdown`, not `onModuleDestroy`.** Nest runs every
       `onModuleDestroy` first, so `OutboxDispatcher` gets to finish its
       in-flight drain before the connections underneath it are taken away.
@@ -161,7 +184,7 @@ co-located subscribers, and is merged with the runtime-registered ones.
       dependency — gives the container a **second host for the same class**. A
       class-level hook fires once per host; a provider exists only in the
       dynamic module, so there is exactly one per app.
-    - **`releaseDatabase`, not `closeDatabase`.** The pool is a *process*
+    - **`releaseDatabase`, not `closeDatabase`.** The pool is a _process_
       singleton and `initDatabase` is idempotent, so a second app in the same
       process shares the first's pool. An unconditional close ends the database
       underneath an app that is still answering — and since the memo is cleared
@@ -169,20 +192,34 @@ co-located subscribers, and is merged with the runtime-registered ones.
       anything naming the cause. `releaseDatabase` counts holders and closes for
       the last one out; `closeDatabase` keeps its unconditional meaning for a
       harness that means it.
+
 - **Global DI.** `DatabaseModule.forRoot()` is `global: true`, so any plugin
   module can inject the db without importing it.
 
 ## Configuration
 
-The connection string flows from `apps/server/ortha.config.ts`
-(`database.url`, sourced from `DATABASE_URL`) into the plugin:
+The settings flow from `apps/server/ortha.config.ts` (`database.url` from
+`DATABASE_URL`, `database.outboxRetentionDays` from `OUTBOX_RETENTION_DAYS`)
+into the plugin. The wiring itself lives in **`apps/server/src/plugins.ts`**;
+`main.ts` only calls `buildPlugins(config)`.
 
 ```typescript
-// apps/server/src/main.ts
+// apps/server/src/plugins.ts
 createServer({
-    plugins: [DatabasePlugin({ connectionString: config.database.url })]
+    plugins: [
+        DatabasePlugin({
+            connectionString: config.database.url,
+            outboxRetentionDays: config.database.outboxRetentionDays
+        })
+    ]
 });
 ```
+
+`outboxRetentionDays` is the only one of these the Nest container ever sees:
+`DatabaseModule.forRoot({ outboxRetentionDays })` binds it to the
+`OUTBOX_RETENTION_DAYS` token, and nothing else in the config has a consumer
+inside the container — the connection is opened in `onPluginInit`, before Nest
+exists.
 
 ## Usage (consuming the db in a plugin)
 

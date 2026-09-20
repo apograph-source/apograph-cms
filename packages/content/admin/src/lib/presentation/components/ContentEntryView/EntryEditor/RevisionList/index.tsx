@@ -60,27 +60,24 @@ const messages = defineMessages({
 });
 
 /**
- * The shared revision list — the core of both the sidebar {@link RevisionWidget}
- * and the History-tab timeline. Renders a {@link RevisionRow} per revision and
- * owns the **restore** and **publish-a-version** flows (permission gates,
- * confirmations, and success / failure toasts) so both mount points behave
- * identically. Restore re-applies a snapshot as a new draft; publish makes a
+ * The revision list behind the editor's **History** tab — the entry's whole
+ * version timeline, which is the one place it is read and restored from. It
+ * renders a {@link RevisionRow} per revision and owns the **restore** and
+ * **publish-a-version** flows (permission gates, confirmations, and success /
+ * failure toasts). Restore re-applies a snapshot as a new draft; publish makes a
  * chosen version the live one (an earlier version is restored then published).
  */
 export function RevisionList({
     typeName,
     entryId,
     schema,
-    revisions,
-    compact = false
+    revisions
 }: {
     typeName: string;
     entryId: string;
     /** The type's full field schema — drives the preview diff's labels + values. */
     schema: ContentTypeDetail;
     revisions: RevisionSummary[];
-    /** Icon-only row actions — the compact right-rail widget. */
-    compact?: boolean;
 }) {
     const intl = useIntl();
     const canUpdate = useHasPermission(CONTENT_UPDATE);
@@ -95,8 +92,8 @@ export function RevisionList({
     const [previewing, setPreviewing] = useState<RevisionSummary | null>(null);
 
     // The diff baseline: the newest version equals the live record (every save
-    // appends one). It's always present here — both mount points pass a
-    // newest-first list — but fall back to the highest number defensively.
+    // appends one). It's always present here — the timeline is passed
+    // newest-first — but fall back to the highest number defensively.
     const latestNumber =
         revisions.find((revision) => revision.isLatest)?.number ??
         revisions.reduce((max, r) => Math.max(max, r.number), 0);
@@ -143,7 +140,6 @@ export function RevisionList({
                             onRestore={setPending}
                             onPublish={setPendingPublish}
                             onPreview={() => setPreviewing(revision)}
-                            compact={compact}
                         />
                     </li>
                 ))}

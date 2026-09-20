@@ -159,8 +159,8 @@ favorites:<workspaceId>`), with guarded reads/writes. There is no favorites
   server's filter surface includes a Status filter **only when publishable**
   (a non-publishable type has no publish state). The same rule holds **wherever
   publish state is drawn** — the editor rail's Details **Status** row, the
-  **Revisions** rows' Live/Draft/Superseded badges (and the preview dialog's),
-  and the i18n **Locale** rows' badges are all gated on `publishable`. On an
+  History tab's Live/Draft/Superseded badges (and the preview dialog's),
+  and the i18n **locale menu** rows' badges are all gated on `publishable`. On an
   always-live type those would label a state the type doesn't have; a version
   there was simply saved, so a Revisions row keeps its number, its "Current"
   marker and its time, and nothing else. Sort is a URL param
@@ -242,9 +242,10 @@ favorites:<workspaceId>`), with guarded reads/writes. There is no favorites
   **Save draft**) beside a compact **⋯ menu** (Save draft, Save & publish,
   Unpublish, Delete; each permission-gated) — over a
   live **Publish Gate** (`PublishGateItem[]`, computed by `EntryEditor` from the
-  strict kernel-backed validation — each required/invalid field with its pass/fail,
-  header `blocking`/`ready`; publishable types only) and a static **Details**
-  block (status, created/updated, id). While a save/publish is running, the view
+  strict kernel-backed validation; publishable types only — it renders the
+  **failing** checks only, under a heading reading `{n} blocking`, and collapses
+  to one "Every check passes" line when nothing does) and a static **Details**
+  block (status, created/updated, id, plus any `ENTRY_DETAILS_ROW_SLOT` row). While a save/publish is running, the view
   covers itself with the **`EntryBusyOverlay`** (see _Save/publish flow_ below). `EntryFieldInput` (top-level, shared) renders one **flat** (no-shadow)
   control per field type — `date`/`datetime` use a shadcn `Calendar` popover
   (`EntryFieldInput/DateField`, with a time input for datetime), and
@@ -560,27 +561,33 @@ inside the editor:
 **Why portals and not "hand the shell a node".** React resolves context by where
 a node is _rendered_. Rendered by the shell, this content would be cut off from
 `useCurrentWorkspace` (every entry query needs it), from `EntrySlotContext` (the
-i18n **Locale** widget), and from the editor's own handlers and busy state.
+i18n locale chip), and from the editor's own handlers and busy state.
 `createPortal` moves only the DOM. `ContentNavSection` is the counter-example —
 it renders above `CurrentWorkspaceProvider` and has to re-resolve the workspace
 by hand.
 
 The panel body itself is a **single flat surface**: a run of sections told apart
 by **dividers**, deliberately not a column of cards — every block used to draw
-its own border, tinted background, and heading, so five blocks read as five
-floating boxes stacked on a page rather than one surface with sections.
+its own border, tinted background, and heading, so a stack of blocks read as a
+stack of floating boxes on a page rather than one surface with sections. The
+rail is also kept **short**: the publish gate, Details, and whatever a plugin
+contributes. It is not the place to restate something a tab already owns — a
+truncated Revisions block used to sit here beside a History tab that shows the
+whole timeline with the same actions, and it is gone.
 
 - **`EntrySidebarSection`** (title + optional `action` adornment + optional
   `description`) and **`EntrySidebarRow`** (a `<dt>`/`<dd>` label-left /
   value-right pair, `stacked` for a long value like a UUID) are the panel's whole
   chrome. Both are **exported from the package index** — a plugin filling
-  `ENTRY_SIDEBAR_WIDGET_SLOT` (the i18n **Locale** panel) renders _these_, for the
-  same reason `ChangedBadge` and `EntryStatusBadge` are shared: a widget with a
-  card of its own would be the one floating box left in the panel.
+  `ENTRY_SIDEBAR_WIDGET_SLOT` (the alarms plugin's **Checks** block, protection's
+  **Review** block) renders _these_, for the same reason `ChangedBadge` and
+  `EntryStatusBadge` are shared: a widget with a card of its own would be the one
+  floating box left in the panel. `EntrySidebarRow` is also the contract of
+  `ENTRY_DETAILS_ROW_SLOT`, whose items render inside **Details' own `<dl>`**.
 - **The divider belongs to the rail, not the section.** The blocks sit in a
   `divide-y` wrapper, so a contributed widget is separated exactly like a
   built-in one without drawing a border itself (and a widget that renders `null`
-  — `LocaleWidget` on a non-i18n type — leaves no stray rule behind).
+  when it does not apply to the open type leaves no stray rule behind).
 - **Collapse is the shell's, not ours** — including its persistence, so it
   survives the remounts this editor takes from navigations it doesn't own (a
   locale switch re-targets it at a sibling record; a single's tab segments are
@@ -666,10 +673,120 @@ a third state with no column value spelling it made unavoidable.
   state rather than derived from `isPending` because the chain's two mutations
   are briefly both idle between steps, which would blink the cover mid-flow.
 
+## A background refetch never overwrites what the author typed
+
+The editor's entry read is refetched on window focus, on reconnect and on any
+remount past its `staleTime`, and `useEntryForm` re-seeds whenever the
+`initialValues` identity changes. TanStack's structural sharing hides the
+consequence for as long as the answer keeps coming back deeply equal — but the
+moment a **colleague saves the record**, the refetched row is a new object, the
+`resolved` memo re-keys, and the form used to be re-seeded over unsaved edits.
+Silently: nothing navigated, so the unsaved-changes guard never fired, and it
+could not have, because the re-seed sets `values` to the very object dirtiness
+is measured against and so **disarms** the guard on its way past (`ORT-230`).
+
+So `useEntryForm` **refuses** a re-seed while the form holds edits, and reports
+the refusal (`seedRefused`) rather than swallowing it — a silent refusal is the
+same class of bug as the silent overwrite. The editor draws `EntryChangedNotice`
+under the record title, beside `ReadOnlyNotice`: an `Alert`, because unlike that
+neighbour this is an **event** and its live region is how a screen-reader user
+hears of it at all, and under the title rather than in the Properties rail,
+because the rail collapses and a notice you can hide is not a notice. It takes
+no focus — the author is mid-sentence.
+
+Four things it deliberately does not do, each of which was the tempting version:
+
+- **It does not gate the save.** Nothing here computes anything about the
+  values (`content:I-38`), and it is not routed through the view's error card
+  (`content:I-40`) — `errored` still means the record could not be shown at all,
+  which is what keeps a failed background refetch from blanking a usable form.
+  Saves stay **last-write-wins**: `SaveEntryInput` carries no version or
+  `If-Match`, so the copy says what the next Save will actually do rather than
+  implying the conflict is settled, and points at History, where the overwritten
+  version survives (`content:I-08`/`I-09`/`I-11`).
+- **It does not name who saved it.** `EntryRecord` carries `updatedAt` and no
+  `updatedBy`; impersonal wording beats a guess, and neither is worth a DTO
+  field.
+- **It does not freeze the seed.** "Dirty" means any `setValue` (not
+  differs-from-seed — a needless refusal costs one click, a wrong adoption costs
+  the author their work), but a **pristine** form still adopts: incoming values
+  are free and correct then, and a form that stopped seeding would fail to show
+  a record it had just re-read. Keying the `resolved` memo on a session instead
+  would freeze `resolved.entry` with it, and the rail's Status, the publish state
+  and the timestamps would all stop tracking the record.
+- **It does not leave the save path broken.** This is the trap in the fix:
+  `useSaveEntry` primes the read-one cache with the write's response inside
+  `onSuccess`, which runs **before** the editor's own `.then()` — so the save's
+  seed has already arrived and been refused by the time a save could clear the
+  edit flag. `acceptSeed()` therefore latches an adoption for the next render
+  (the render-time idiom `useCreatePrefill` uses) instead of merely clearing the
+  flag. Without that the editor stays dirty forever after a save that worked.
+
+    **The editor re-arms on the _write_, not on the submit succeeding**, via
+    `SubmitEntryInput.onWriteLanded` — a callback `usePublishEntryFlow` fires
+    the moment a write lands, before a chained publish is attempted. The two
+    come apart precisely when that publish is refused (protection's 409, the
+    server gate's 422): `submit` rejects, the caller's `.then()` never runs, and
+    a record has been written all the same, so re-arming only on success left
+    the author with a refusal toast **and** a conflict banner blaming a
+    colleague for their own save. The editor cannot tell that case from a save
+    that never landed, and guessing the wrong way is destructive — adopting a
+    seed after a plain validation 422 would replace the author's values with the
+    server's. Only the flow knows, so the flow says so. Pinned in
+    `usePublishEntryFlow/index.spec.tsx`, including that it stays silent when
+    the save itself fails.
+
+`seedKey` is the other half. The editor is **reused, not remounted**, as the
+route moves between records, so a changed key (`ContentEntryView`'s `editorKey`
+— mode, id, and the create-body params) means a different record and re-seeds
+unconditionally. Without it, discarding at the unsaved-changes prompt and
+opening a second, already-cached record would leave the first one's values on
+screen under a conflict notice.
+
+**Dirtiness is measured against the form's own seed**, not the `initialValues`
+prop — `useEntryForm` exposes `seedValues` and `EntryEditor.isFieldDirty` reads
+it. The two are the same object until a re-seed is refused, and then the prop is
+the record as the server now holds it while the seed is what this author started
+from. Against the prop, every field the _colleague_ touched reads as this
+author's edit: the "Changed" badges lit up across untouched fields, and the
+shared-field save confirmation ("this also changes the other locales") named
+fields nobody here had typed in. `isDirty` still reads true after a refusal —
+the edit that caused the refusal is an edit against the seed too — which is what
+keeps the unsaved-changes guard armed, the half of `ORT-230` that matters most.
+
+**Scope is the values form.** Staged relation deltas and the presave steps'
+staging (media uploads, audiences) are owned above the form and already survive
+a refetch, so they are untouched here — and the notice's control is worded for
+that: it reads **"Load the newer version"**, with a sentence saying it replaces
+the record's fields and drops the unsaved changes to _them_. A button promising
+to discard everything would over-claim against staging that outlives it and
+rides the next Save, which is the same kind of lie as the overwrite this exists
+to report.
+
+**The control puts focus back by hand.** It unmounts with the banner it sits in,
+so React has nothing to restore onto and focus would be dropped on `<body>` —
+the hazard the saved-view delete dialog and the records table's `onRowGone`
+already deal with the same way. It lands on the first field of the form, whose
+values have just changed under the reader and which announces the new one as it
+takes focus.
+
+Pinned by `apps/admin-e2e/src/content/entry-refetch-overwrite.spec.ts` — whose
+precondition is deliberately **not** a request counter (counting proves the
+request was issued, not that its answer was applied; an earlier draft went green
+against the defect it reproduces) but the rail's Status, read off the refetched
+record rather than off the editor's state — plus the re-seed rule itself in
+`useEntryForm/index.spec.tsx` and the banner's axe scan in `content/a11y.spec.ts`.
+
 ## Revisions (version history)
 
 Every save is versioned (server: `content_entry_revisions`). The editor surfaces
-this in two mount points that share one cached query and one action core:
+this in **one** place — the **History** tab. It used to have two: a truncated
+`RevisionWidget` in the Properties rail as well. A rail block that could only
+ever show the newest handful, beside a tab showing all of them with the same
+Restore, Publish and Preview actions, was a second copy of the same list with a
+second set of loading and error states to keep honest — and it was the tallest
+thing in a rail whose job is properties, not history. It was deleted (`ORT-227`);
+do not reintroduce it.
 
 - **`useEntryRevisions`** (`application/`) reads the timeline
   (`GET /content/:type/:id/revisions`), gated on a saved entry id.
@@ -677,7 +794,7 @@ this in two mount points that share one cached query and one action core:
   and **publish-a-version** (`POST …/revisions/:number/publish`) mutations, both
   invalidating the same caches a save does (records list, read-one, relations, and
   the revisions prefix). Every mutation that changes the timeline invalidates the
-  **revisions prefix** so the widget + History tab refresh immediately:
+  **revisions prefix** so the History tab refreshes immediately:
   `useSaveEntry` (each save appends a version; on a publishable type a save is a
   **draft** — editing a published entry moves it back to draft while its published
   version stays live in history) and `useEntryStatusActions` (publish/unpublish).
@@ -692,11 +809,13 @@ this in two mount points that share one cached query and one action core:
   (publishable type + `content:publish`), and the preview dialog carries a
   **Publish this version** button; both route through a `ConfirmDialog` + toast in
   `RevisionList`. A `422` (an incomplete version) surfaces as an error toast.
-- **`RevisionList`** (`EntryEditor/RevisionList/`) is the shared core — a
+- **`RevisionList`** (`EntryEditor/RevisionList/`) is the timeline itself — a
   `RevisionRow` per version (number, status badge Live/Draft/Superseded, capture
   time) plus the **Restore** flow (permission gate on `content:update`, a
   `ConfirmDialog`, and the success/failure `toast`). Restore re-applies an older
-  snapshot as a **new** revision, so the timeline refreshes in place.
+  snapshot as a **new** revision, so the timeline refreshes in place. It has one
+  caller, so the rows are always the labelled ones; the `compact` (icon-only)
+  variant went with the rail widget.
 - **Preview / compare** (`RevisionList/RevisionPreviewDialog/`): each earlier
   version's row carries a **Preview** action opening a diff dialog. It fetches
   that version's snapshot **and** the latest one (`useRevisionDetail` →
@@ -721,11 +840,9 @@ this in two mount points that share one cached query and one action core:
   A **Restore this version** button hands the number back to the list's restore
   flow (its own `ConfirmDialog`) — never a modal stacked on a modal. The Preview +
   Restore actions are hidden on the newest row (nothing to compare/apply against),
-  and render **icon-only** in the compact right-rail widget (`compact` prop) vs.
-  labelled in the History tab.
-- Two mount points: the right-rail **`RevisionWidget`** (rendered by
-  `EntrySidebar` below Details, a compact first-N view) and the **History tab**
-  **`HistoryTimeline`** (the full list; prompts to save first on a create form).
+  and are labelled buttons.
+- One mount point: the **History tab**'s **`HistoryTimeline`** (the full list;
+  prompts to save first on a create form).
 
 The gateway carries `listRevisions` / `getRevision` / `restoreRevision`; the wire
 types (`RevisionSummary` / `RevisionDetail` / `RevisionListView`) live in
@@ -777,7 +894,7 @@ of the package — `infrastructure/contentInsightsGateway` (the port),
 
 ## Extension slots
 
-The library exposes fifteen named slots (`presentation/slots/contentSlots`, via
+The library exposes sixteen named slots (`presentation/slots/contentSlots`, via
 `createSlot`) another admin plugin contributes into — no coupling beyond the
 contracts, the same idiom as the workspace shell's slots.
 `@ortha/i18n-admin` fills eight; `@ortha/media-admin` fills two
@@ -857,9 +974,23 @@ fetching internally.
   segment (`'/relations'`, or `''` on the default tab) — a slot that navigates
   the user to **another record in this same editor** appends it so they land on
   the tab they were working in.
+- **`ENTRY_DETAILS_ROW_SLOT`** — one **row** of the Details block, for a
+  property of the record that belongs beside its id and timestamps rather than
+  in a section of its own. An item is `{ id, order, appliesTo?, Component }`
+  with the same `EntrySlotContext`, and the `Component` must render an
+  `EntrySidebarRow` (a `<dt>`/`<dd>` pair) or `null` — the rows render inside
+  Details' own `<dl>`, so a `<section>` there is invalid markup.
+    - **`order` is load-bearing.** `Slot.getItems()` returns registration order
+      and does not sort, so `DetailsBlock` sorts on it — the same contract
+      `EntryMenu` and `CollectionRecordsMenu` keep. Built-in rows always come
+      first; contributions follow in `order`.
+    - It exists because a whole rail block for one read-only line is what the
+      rail was being slimmed of: `@ortha/i18n-admin` fills it with the
+      **translation-group id**, which used to be the tail of a Locale panel.
 - **`ENTRY_HEADER_SLOT`** — an inline element in the entry editor's title row,
   rendered **after** the `<h1>` (the heading stays the sole `<h1>`) with the
-  same `EntrySlotContext`. Used for the i18n plugin's current-locale chip.
+  same `EntrySlotContext`. Used for the i18n plugin's locale chip, which is
+  also the **locale menu's** trigger.
   Since `ORT-202` the editor's heading is the shared `ContainerHeader` rather
   than a hand-rolled `<h1>`, so these items ride its `actions` region: still
   after the heading in DOM order, still outside it, and now aligned with the
@@ -1090,6 +1221,14 @@ already surfaces `required`), so a locale plugin needs no field-level slot:
 - `ContentEntryView` create mode reads `location.state.translateFrom` (a source
   record's values) and seeds the blank form with **only the non-localized**
   fields — the "create a translation" prefill; localized fields start empty.
+  It is read through **`presentation/hooks/useCreatePrefill`**, which snapshots
+  it **once per create session** (the same `editorKey` the publish flow is keyed
+  on). A prefill is where the form _starts_, not live input: the editor's tabs
+  are routes, so a tab move is a navigation, and the history API hands the same
+  carried state back as a new object every time — read straight off the
+  location, that identity change re-keyed the initial-values memo and re-seeded
+  the form over what the author had typed (`ORT-228`). The plain create form,
+  with no state to re-read, never showed it.
 - **A save keeps the user on the editor** — success is surfaced via a `toast`,
   not a bounce back to the records list. A brand-new record (any create, incl. a
   translation sibling) navigates to its own editor `${typePath}/${saved.id}` so
