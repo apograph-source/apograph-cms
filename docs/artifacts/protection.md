@@ -631,6 +631,38 @@ key that ignored them would serve the previous page's numbers against the new pa
 which is wrong in a way that looks plausible. A rule write invalidates both the rules list and
 every create form's answer in that workspace.
 
+The entry-review key carries one more thing: the entry's **`updatedAt`**, as its **last**
+component. A save moves the head revision and so changes which approvals count, so the answer
+held against the previous version is about a version that no longer exists — and the editor
+primes its read-one cache with the write's own response, so a new `updatedAt` mints a new key
+and the panel reads afresh. That is the whole mechanism: protection never reaches into
+content's save path, and content never learns protection exists. The position is load-bearing.
+A vote moves no `updatedAt` at all — protection owns no content table — so approve, withdraw,
+request and withdraw-request invalidate the key **without** the version, by prefix; a version
+component anywhere earlier would leave all four silently refreshing nothing. The version is
+`updatedAt` **except** when an answer already cached for the entry says `protected: false`, in
+which case the previous token is reused so no new key is minted and no request is issued:
+`reviewScopeOf` returns a scope for any saved publishable entry and cannot know whether a rule
+exists, and a request per save to be told again that there is nothing to review is exactly the
+inertness I-03/I-04 promise. It is safe because every reader bails on that flag before reading
+another field, so nothing observable can have moved. `entryReviewVersion` is that decision,
+pure and unit-tested. The reviewer-candidate key deliberately **omits** the version: a save
+cannot change who may be asked (I-22).
+
+A new key has no answer for as long as the read takes, and the publish verdict **holds** for
+that beat rather than falling silent — the one in-flight read it does not treat as "no
+opinion". `useEntryReview` reports `typeKnownProtected` beside the query, meaning an answer
+already cached for the entry said a rule is in force; that is knowledge about the type, so it
+outlives the version it arrived with, while a **failed** read and a type nothing is known about
+both stay silence. Without the hold the primary button, the ⋯ menu's _Save & publish_ and an
+offered bypass all went live with no reason on them for that beat (I-21), and the bypass was
+missing from the action too — so the click published without `bypass: true` and the guard
+answered 403 `protection.bypass_refused` where the confirmation should have opened, which is
+exactly the editor-versus-guard disagreement I-18 forbids. The hold carries **no numbers**
+forward: holding the previous answer would re-show a satisfied count about a version that no
+longer exists, and offer an administrator a bypass dialog stating approvals the save had
+already invalidated.
+
 ## 11. Configuration
 
 **There is none.** `ProtectionPlugin()` takes no argument and `forRoot()` takes nothing: the

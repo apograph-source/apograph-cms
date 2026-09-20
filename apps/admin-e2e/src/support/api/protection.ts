@@ -64,23 +64,12 @@ export const UNPROTECTED: EntryReviewSeed = {
     afterSave: { required: 0, given: 0, blocked: false, bypassable: false }
 };
 
-/**
- * Serves one entry's review state, its reviewer candidates, and the write
- * routes — and returns every write it answered.
- *
- * Every field has a default so a test states only what it is about; the
- * defaults describe a **protected, unreviewed** entry, because that is the
- * state the interface has the most to say about.
- */
-export async function mockEntryReview(
-    page: Page,
-    seed: EntryReviewSeed = {}
-): Promise<CapturedReviewWrite[]> {
-    const writes: CapturedReviewWrite[] = [];
+/** The review state one seed describes, as the route returns it. */
+function reviewBodyOf(seed: EntryReviewSeed) {
     const isProtected = seed.protected ?? true;
     const required = seed.required ?? 2;
     const bypassable = seed.bypassable ?? false;
-    const body = {
+    return {
         protected: isProtected,
         required,
         given: seed.given ?? 0,
@@ -106,6 +95,55 @@ export async function mockEntryReview(
         })),
         request: seed.request ?? null
     };
+}
+
+/** The handle {@link mockEntryReview} returns. */
+export interface EntryReviewRecorder {
+    /**
+     * Every write the review routes answered, in order — the request dialog's
+     * `POST …/request` above all.
+     */
+    readonly writes: CapturedReviewWrite[];
+    /**
+     * How many `GET …/entries/:type/:id` reads were answered.
+     *
+     * The assertion this exists for is a **negative** one: after a save on a
+     * type with no rule the editor must ask nothing at all, and no pixel on
+     * screen would say whether it did. Same reason
+     * {@link ReviewStatusRecorder.requests} counts in the mock rather than in a
+     * `page.on('request')` listener — a count that has to be *zero* cannot be
+     * established by waiting for a request that never arrives.
+     */
+    readonly reads: number;
+    /**
+     * What the route answers **from now on**.
+     *
+     * The state a save moves is the server's, not the seed's: an approval counts
+     * before the save and is stale after it, and one body computed at setup can
+     * only ever tell half of that story. Call this between the two assertions to
+     * put the server where the save has just left it — the client is holding the
+     * first answer under the previous version's key, so nothing is re-read until
+     * something mints a new one, which is precisely what is under test.
+     */
+    serve(next: EntryReviewSeed): void;
+}
+
+/**
+ * Serves one entry's review state, its reviewer candidates, and the write
+ * routes — and records what it was asked.
+ *
+ * Every field has a default so a test states only what it is about; the
+ * defaults describe a **protected, unreviewed** entry, because that is the
+ * state the interface has the most to say about.
+ */
+export async function mockEntryReview(
+    page: Page,
+    seed: EntryReviewSeed = {}
+): Promise<EntryReviewRecorder> {
+    const writes: CapturedReviewWrite[] = [];
+    let current = seed;
+    let body = reviewBodyOf(seed);
+    let reads = 0;
 
     await page.route('**/api/protection/entries/**', async (route) => {
         const request = route.request();
@@ -121,18 +159,35 @@ export async function mockEntryReview(
             await route.fulfill({ status: 204, body: '' });
             return;
         }
+        if (action === 'reviewers') {
+            await route.fulfill({
+                status: 200,
+                contentType: 'application/json',
+                body: JSON.stringify({ candidates: current.candidates ?? [] })
+            });
+            return;
+        }
+        // Counted for the panel's own read only — not for `…/reviewers` above,
+        // and not for `…/status`, which `mockReviewStatusByEntry` claims when it
+        // is registered and which falls through to this body when it is not.
+        if (action !== 'status') reads += 1;
         await route.fulfill({
             status: 200,
             contentType: 'application/json',
-            body: JSON.stringify(
-                action === 'reviewers'
-                    ? { candidates: seed.candidates ?? [] }
-                    : body
-            )
+            body: JSON.stringify(body)
         });
     });
 
-    return writes;
+    return {
+        writes,
+        get reads() {
+            return reads;
+        },
+        serve(next: EntryReviewSeed) {
+            current = next;
+            body = reviewBodyOf(next);
+        }
+    };
 }
 
 /**
