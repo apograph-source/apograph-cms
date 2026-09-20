@@ -79,7 +79,7 @@ export interface Feature {
  * adapter for, and it arrives transitively through `mail-server` and
  * `mail-provider-smtp` alike. `mail-provider-console` and
  * `mail-provider-testkit` are the `identity-provider-fake` case
- * ([ADR-0018](https://github.com/apograph-source/apograph-cms/blob/main/docs/adr/0018-mail-provider.md) §6): shipped with every app,
+ * ([ADR-0018](https://github.com/ortha-source/ortha-cms/blob/main/docs/adr/0018-mail-provider.md) §6): shipped with every app,
  * offered in no picker, named by no template — the console adapter is how a
  * developer reads an invitation link out of their own dev log, and it is never
  * a deployment, because a "sent" message nobody receives is worse than one the
@@ -235,7 +235,7 @@ export const MEDIA_PROVIDERS: readonly Feature[] = [
  *
  * A multi-choice group, and picking none is the meaningful default: enabling a
  * hosted provider sends workspace content to a third party, which
- * [ADR-0005](https://github.com/apograph-source/apograph-cms/blob/main/docs/adr/0005-copilot-authority-model.md)
+ * [ADR-0005](https://github.com/ortha-source/ortha-cms/blob/main/docs/adr/0005-copilot-authority-model.md)
  * §10 says is an operator's decision to make explicitly. Pick nothing and the
  * copilot is not registered at all.
  *
@@ -327,7 +327,7 @@ export const SSO_PROVIDERS: readonly Feature[] = [
  *
  * Neither addition brings a credential or a permission of its own: GraphQL is
  * an adapter over the REST API's own services
- * ([ADR-0008](https://github.com/apograph-source/apograph-cms/blob/main/docs/adr/0008-graphql-as-a-protocol-adapter.md)),
+ * ([ADR-0008](https://github.com/ortha-source/ortha-cms/blob/main/docs/adr/0008-graphql-as-a-protocol-adapter.md)),
  * and MCP reuses the same API tokens and scopes. They are opt-in because an
  * endpoint nobody asked for is still an endpoint.
  */
@@ -367,7 +367,7 @@ export const PROTOCOLS: readonly Feature[] = [
  * relay, and plenty of them send through none. Pick nothing and the app behaves
  * as the product always has — the invite response carries the raw link for an
  * administrator to pass on by hand, with no queue, no worker and no
- * `MAIL_PROVIDER` to set ([ADR-0018](https://github.com/apograph-source/apograph-cms/blob/main/docs/adr/0018-mail-provider.md)).
+ * `MAIL_PROVIDER` to set ([ADR-0018](https://github.com/ortha-source/ortha-cms/blob/main/docs/adr/0018-mail-provider.md)).
  *
  * **One entry covers the market**, the way the OIDC adapter covers the identity
  * vendors: Resend, SES, Postmark, SendGrid, Mailgun, Google Workspace,

@@ -66,7 +66,7 @@ const buildDir = join(projectDir, 'dist');
 
 const repoUrl =
     rootPkg.repository?.url ??
-    'git+https://github.com/apograph-source/apograph-cms.git';
+    'git+https://github.com/ortha-source/ortha-cms.git';
 const repoWeb = repoUrl.replace(/^git\+/, '').replace(/\.git$/, '');
 /*
  * The project's website, which is what npm means by `homepage` — the page a

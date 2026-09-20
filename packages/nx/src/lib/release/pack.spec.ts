@@ -52,7 +52,7 @@ function workspace(manifest: Record<string, unknown>): string {
         license: 'MIT',
         repository: {
             type: 'git',
-            url: 'git+https://github.com/apograph-source/apograph-cms.git'
+            url: 'git+https://github.com/ortha-source/ortha-cms.git'
         },
         devDependencies: { tslib: '^2.3.0' }
     });
