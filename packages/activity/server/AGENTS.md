@@ -64,16 +64,43 @@ Under `/api/activity`:
     afterwards "is anything missing from the log" had no answer short of a
     `psql` session, and a hole only visible to a person who thinks to go looking
     is barely a hole that has been noticed. The admin renders a non-zero `total`
-    as a notice above the Activity table. It **reports rather than repairs**:
-    replaying a parked row means clearing its `attempts`, a deliberate operator
-    action against a fixed cause.
+    as a notice above the Activity table.
+
+- `POST /activity/dead-letters/:id/retry` — **the one writing route in this
+  plugin**, and it writes no row of its own. Gated `activity:manage` (admin-only,
+  in no API-token scope) plus `OriginGuard`.
+
+    It resets the outbox row **in place** — `attempts = 0`,
+    `next_attempt_at = NULL`, `last_error` kept — through
+    `OutboxDispatcher.retryDeadLetter`. The mechanism is `@apograph/database`'s;
+    only the route is this plugin's, exactly as the read side is already split.
+    The table it touches is `outbox_events`, not `activity_events`, so
+    `activity:I-01` still holds: nothing here changes or deletes an audit row.
+
+    Both columns are cleared together, and that is the whole of the route's
+    correctness — `attempts` alone leaves a schedule the claim predicate still
+    honours, so the operator presses retry and nothing visibly happens.
+    `last_error` is preserved because it is the only surviving evidence of why
+    the event parked. An unknown id and an already-delivered one both answer
+    **404**, deliberately indistinguishably; a row still climbing its backoff
+    answers **409**.
+
+    So the pair **reports, and repairs exactly one thing**: it does not re-run
+    what failed fifteen times on a hunch, and there is no bulk retry — a reset
+    row goes back to the head of an `ORDER BY occurred_at` claim, which is right
+    for one row and a way to stall the queue for a hundred. The retry is itself
+    audited (`outbox.event_retried`), through the same outbox, which means an
+    outbox broken badly enough to park the audit subscriber will park that event
+    too. Acceptable: it lands in the dead-letter list the operator is already
+    reading.
 
 ## The plugin describes its own responses (`src/lib/docs/`)
 
-`ActivityEventView`, `ActivityListView` and `DeadLetterListView` are TypeScript
-`interface`s, so the OpenAPI scanner emitted a bare `200` with no payload for
-all three routes. `docs.decorate` writes the schemas on instead — the mechanism
-and the reasoning are in
+`ActivityEventView`, `ActivityListView`, `DeadLetterListView` and
+`DeadLetterRetryView` are TypeScript `interface`s (the last a type alias), so the
+OpenAPI scanner emitted a bare `200` with no payload for all four routes.
+`docs.decorate` writes the schemas on instead — the mechanism and the reasoning
+are in
 [`bootstrap/server`](../../bootstrap/server/AGENTS.md#the-response-schema-gap).
 
 Two of the shapes are worth stating rather than inferring:
@@ -109,7 +136,7 @@ audit path now evolve independently.
 
 **A mapper may refuse.** `toAuditRow` returning `null` means "not an audited
 kind, skip it" and the dispatcher marks the event delivered. Throwing
-`UnmappableAuditEventError` means the opposite — this *should* be audited and
+`UnmappableAuditEventError` means the opposite — this _should_ be audited and
 the payload cannot say who it is about — so the outbox row stays undispatched,
 is retried with backoff, and parks at `MAX_DELIVERY_ATTEMPTS` for the
 dead-letter query. `subject_id` is the only handle a row keeps on its subject
@@ -146,17 +173,19 @@ entirely.
   deletes from this table and nothing is meant to: an audit trail that prunes
   itself answers "what happened in March" with silence. But that makes growth
   an operational fact somebody has to plan for, and it is stated here because
-  `outbox_events` states the same thing in the neighbouring package while this
-  section used to say nothing at all.
+  nothing else says it. **Do not read `outbox_events`' retention as a precedent
+  for this table** — the neighbouring package prunes _delivered_ rows, which are
+  spent queue entries whose whole content has already been turned into rows
+  here. This is where they ended up. There is nothing downstream of it.
 - `workspace_id` — nullable, and **not a scoping boundary**. The trail records
   invites, role changes and workspace lifecycle alongside content edits, and
   several of those belong to no workspace at all; `activity:read` is still what
-  bounds the log. What the column buys is the ability to *ask* a
+  bounds the log. What the column buys is the ability to _ask_ a
   workspace-shaped question, which previously had no answer at any price — and
   it is what makes the entry-scoped route above able to fail closed. Filled from
   the emitting event's own `payload.workspaceId`, so a producer that has one
   puts it there.
-- **`meta` may carry a `via`** — *how* an action was performed, lifted off the
+- **`meta` may carry a `via`** — _how_ an action was performed, lifted off the
   actor. A copilot proposal applies under the authority of the person who
   accepted it, so the actor is correctly that human; without `via` the row was
   indistinguishable from one they typed, and under ADR-0009 "Ada updated three
@@ -199,7 +228,7 @@ than a start-up failure.
 oversight.** The trail records invites, role changes and workspace lifecycle
 alongside content edits, and several of those belong to no workspace at all.
 `activity_events` now carries a nullable `workspace_id` (see Schema above), so
-the tool *could* be narrowed where it once could not — but a narrowing that
+the tool _could_ be narrowed where it once could not — but a narrowing that
 silently drops every workspace-less row is not the same as a boundary, and the
 thing that actually bounds this tool is `activity:read`. The description says
 deployment-wide because that is what it is.
@@ -229,7 +258,7 @@ The fence is what makes that safe; omission would only make the tool less useful
 
 - `npx nx test @apograph/activity-server` — the unit suite, DB-free and a couple
   of seconds. Beyond the mapping parity net it holds three checks made of
-  *absences*, which no e2e run can see: `package-shape.spec.ts` reads the source
+  _absences_, which no e2e run can see: `package-shape.spec.ts` reads the source
   tree for a second writer, a connection opened here, a second table, or an
   UPDATE/DELETE against the log; `audit-event.subscriber.spec.ts` pins that the
   subscriber's `kinds` **is** `AUDITED_EVENT_KINDS` rather than `'*'`;

@@ -32,7 +32,9 @@ export function DatabasePlugin(
 ): DatabaseServerPlugin {
     return {
         name: 'database',
-        module: DatabaseModule.forRoot(),
+        module: DatabaseModule.forRoot({
+            outboxRetentionDays: config.outboxRetentionDays
+        }),
         databaseConfig: config,
         onPluginInit() {
             initDatabase(config);

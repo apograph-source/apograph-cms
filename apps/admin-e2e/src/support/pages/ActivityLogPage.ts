@@ -119,6 +119,187 @@ export class ActivityLogPage extends BasePage {
     }
 
     /**
+     * The dead-letter banner — the "N actions were not recorded" warning above
+     * the toolbar.
+     *
+     * Anchored on its title text rather than on `role="alert"` alone: the
+     * page's own load-failure banner shares that role, and the two say opposite
+     * things about whether the table below can be trusted.
+     */
+    deadLetterNotice(): Locator {
+        return this.page
+            .getByRole('alert')
+            .filter({ hasText: /(was|were) not recorded/ });
+    }
+
+    /** The banner's button that opens the dead-letter dialog. */
+    deadLettersTrigger(): Locator {
+        return this.page.getByRole('button', { name: 'Review and retry' });
+    }
+
+    /** The dead-letter dialog itself, named by its `DialogTitle`. */
+    deadLettersDialog(): Locator {
+        return this.page.getByRole('dialog', {
+            name: 'Events that were not recorded'
+        });
+    }
+
+    /** The dialog's table of parked events. */
+    deadLettersTable(): Locator {
+        return this.deadLettersDialog().getByRole('table');
+    }
+
+    /**
+     * One row's Retry button, found by the row-scoped accessible name the
+     * dialog gives it ("Retry {kind} from {when}") — not by five identical
+     * "Retry"s, which is the point of the name existing.
+     */
+    deadLetterRetry(kind: string): Locator {
+        return this.deadLettersDialog().getByRole('button', {
+            name: new RegExp(`^Retry ${kind.replace(/\./g, '\\.')} from `)
+        });
+    }
+
+    /** Every Retry button currently in the dialog. */
+    deadLetterRetryButtons(): Locator {
+        return this.deadLettersDialog().getByRole('button', {
+            name: /^Retry .+ from /
+        });
+    }
+
+    /** The dialog's own error state (distinct from its empty table). */
+    deadLettersError(): Locator {
+        return this.deadLettersDialog()
+            .getByRole('alert')
+            .filter({ hasText: /Couldn’t load the parked events/ });
+    }
+
+    /** The dialog's "Try again" button, inside that error state. */
+    deadLettersReload(): Locator {
+        return this.deadLettersDialog().getByRole('button', {
+            name: 'Try again'
+        });
+    }
+
+    /** The dialog's footer count ("Showing N events of M."). */
+    deadLettersCount(): Locator {
+        return this.deadLettersDialog().getByText(/^Showing /);
+    }
+
+    /**
+     * Dismiss the dead-letter dialog with Escape.
+     *
+     * Escape rather than a click, because **two** controls in it are named
+     * "Close" — the header's `DialogContent` X and the footer's button — so a
+     * locator by name is a strict-mode violation rather than an action. Radix
+     * closes on Escape and hands focus back through the notice's `triggerRef`,
+     * which is the path a keyboard user takes anyway.
+     */
+    async closeDeadLettersDialog(): Promise<void> {
+        await this.page.keyboard.press('Escape');
+    }
+
+    /**
+     * Refetch what the page holds the way a returning tab does — the
+     * background refresh nobody asked for.
+     *
+     * `visibilitychange` on **`window`** is the only event TanStack Query's
+     * focus manager listens to (it dropped the `focus` listener in v5), so
+     * dispatching anything else would silently do nothing and a test would pass
+     * by never having refetched. No clock games are needed here, unlike the
+     * session probe in `private-routes.spec.ts`: the dead-letter query takes
+     * the default `staleTime` of 0, so it is stale the instant it resolves.
+     */
+    async refetchOnWindowFocus(): Promise<void> {
+        await this.page.evaluate(() => {
+            // Typed inline through `globalThis`: this project's tsconfig ships
+            // no DOM lib.
+            const browser = globalThis as unknown as {
+                window: { dispatchEvent(event: unknown): void };
+                Event: new (type: string) => unknown;
+            };
+            browser.window.dispatchEvent(new browser.Event('visibilitychange'));
+        });
+    }
+
+    /** The dialog table's `sr-only` caption — what the table says it lists. */
+    deadLettersCaption(): Locator {
+        return this.deadLettersTable().locator('caption');
+    }
+
+    /**
+     * The `aria-label` on every Retry button in the dialog, in row order.
+     *
+     * Read as attributes rather than as accessible names because the property
+     * under test *is* the attribute: three buttons all reading "Retry" would
+     * pass every naming rule axe has and still be useless to anyone listening
+     * rather than looking.
+     */
+    async deadLetterRetryLabels(): Promise<string[]> {
+        const buttons = this.deadLetterRetryButtons();
+        const count = await buttons.count();
+        const labels: string[] = [];
+        for (let index = 0; index < count; index += 1) {
+            labels.push(
+                (await buttons.nth(index).getAttribute('aria-label')) ?? ''
+            );
+        }
+        return labels;
+    }
+
+    /** The `scope` of each column header in the dialog's table, in order. */
+    async deadLettersHeaderScopes(): Promise<(string | null)[]> {
+        const heads = this.deadLettersTable().locator('thead th');
+        const count = await heads.count();
+        const scopes: (string | null)[] = [];
+        for (let index = 0; index < count; index += 1) {
+            scopes.push(await heads.nth(index).getAttribute('scope'));
+        }
+        return scopes;
+    }
+
+    /** Anything on the page claiming a sort state. Nothing here is sortable. */
+    sortedCells(): Locator {
+        return this.page.locator('[aria-sort]');
+    }
+
+    /** Whether focus currently sits inside the open dialog. */
+    async focusIsInsideDialog(): Promise<boolean> {
+        return this.page.evaluate(() => {
+            const { document } = globalThis as unknown as {
+                document: {
+                    activeElement: unknown;
+                    querySelector(
+                        selector: string
+                    ): { contains(node: unknown): boolean } | null;
+                };
+            };
+            return (
+                document
+                    .querySelector('[role="dialog"]')
+                    ?.contains(document.activeElement) ?? false
+            );
+        });
+    }
+
+    /** The id of whatever holds focus right now (`''` if it has none). */
+    async focusedElementId(): Promise<string> {
+        return this.page.evaluate(() => {
+            const { document } = globalThis as unknown as {
+                document: { activeElement: { id?: string } | null };
+            };
+            return document.activeElement?.id ?? '';
+        });
+    }
+
+    /** A toast by its text — the retry's only announcement. */
+    toast(text: string | RegExp): Locator {
+        return this.page
+            .locator('[data-sonner-toast]')
+            .filter({ hasText: text });
+    }
+
+    /**
      * The Action-column labels currently on screen. Every one should be a
      * localized phrase — a value containing a `.` is a raw wire kind that fell
      * through `formatActivityAction`'s fallback.

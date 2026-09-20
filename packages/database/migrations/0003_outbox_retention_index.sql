@@ -1,0 +1,1 @@
+CREATE INDEX "outbox_events_dispatched_idx" ON "outbox_events" USING btree ("dispatched_at") WHERE "outbox_events"."dispatched_at" is not null;

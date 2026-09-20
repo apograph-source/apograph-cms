@@ -105,7 +105,10 @@ export function buildTestPlugins(
 ): ServerPlugin[] {
     if (options.omitContent) {
         return [
-            DatabasePlugin({ connectionString: config.database.url }),
+            DatabasePlugin({
+                connectionString: config.database.url,
+                outboxRetentionDays: config.database.outboxRetentionDays
+            }),
             IdentityPlugin(config.plugins.identity, {
                 sso: {
                     providers:
@@ -136,7 +139,13 @@ export function buildTestPlugins(
         }
     });
     return [
-        DatabasePlugin({ connectionString: config.database.url }),
+        DatabasePlugin({
+            connectionString: config.database.url,
+            // Off unless a suite asks (`TestConfigOverrides.database`): a
+            // background sweep deleting rows mid-assertion is unreadable
+            // afterwards, the same reason the webhooks sender's timer is 0.
+            outboxRetentionDays: config.database.outboxRetentionDays
+        }),
         // Identity, with the scripted identity provider registered under
         // `fake`. The host registers none by default; the harness registers one
         // so the entire SSO redirect handshake — attempt row, state, PKCE,

@@ -222,7 +222,10 @@ export function buildPlugins(config: ApographConfig): ServerPlugin[] {
         }
     });
     return [
-        DatabasePlugin({ connectionString: config.database.url }),
+        DatabasePlugin({
+            connectionString: config.database.url,
+            outboxRetentionDays: config.database.outboxRetentionDays
+        }),
         // Identity, plus the identity providers this deployment offers.
         //
         // The second argument is where **constructed** adapters go, the same

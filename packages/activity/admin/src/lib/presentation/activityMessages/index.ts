@@ -278,6 +278,10 @@ const actionMessages = defineMessages({
     entryPublishBypassed: {
         id: 'activity.action.entry.publish_bypassed',
         defaultMessage: 'Published without review'
+    },
+    outboxEventRetried: {
+        id: 'activity.action.outbox.event_retried',
+        defaultMessage: 'Retried a stuck event'
     }
 });
 
@@ -364,7 +368,12 @@ export const ACTION_MESSAGES: Record<ActivityKind, MessageDescriptor> = {
     // "without review", not "bypassed": the row exists to be legible to
     // somebody auditing months later, and it should say what happened rather
     // than name the mechanism that allowed it.
-    'entry.publish_bypassed': actionMessages.entryPublishBypassed
+    'entry.publish_bypassed': actionMessages.entryPublishBypassed,
+    // The audit trail's own plumbing — the only kind Activity itself raises.
+    // "a stuck event", not "a dead letter": the row is read months later by
+    // somebody who never met the queue, and what happened is that a delivery
+    // that had given up was put back.
+    'outbox.event_retried': actionMessages.outboxEventRetried
 };
 
 /** Display labels for the `subjectType` column's machine tokens. */
@@ -421,6 +430,10 @@ const subjectTypeMessages = defineMessages({
     protectionRule: {
         id: 'activity.subjectType.protection_rule',
         defaultMessage: 'Protection rule'
+    },
+    outboxEvent: {
+        id: 'activity.subjectType.outbox_event',
+        defaultMessage: 'Queued event'
     }
 });
 
@@ -448,7 +461,11 @@ export const SUBJECT_TYPE_MESSAGES: Record<
     saved_view: subjectTypeMessages.savedView,
     copilot_skill: subjectTypeMessages.copilotSkill,
     copilot_run: subjectTypeMessages.copilotRun,
-    protection_rule: subjectTypeMessages.protectionRule
+    protection_rule: subjectTypeMessages.protectionRule,
+    // The subject is the *delivery* of an event, not the aggregate the event
+    // was about — so the label names the queued item rather than the entry or
+    // the workspace it happens to concern.
+    outbox_event: subjectTypeMessages.outboxEvent
 };
 
 /** Detail-template descriptors for the kinds that render a "Details" string. */

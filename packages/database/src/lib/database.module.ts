@@ -6,17 +6,26 @@ import {
     type OnApplicationShutdown
 } from '@nestjs/common';
 import { getDatabase, releaseDatabase } from './utils/db';
-import { DATABASE_TOKEN } from './database.tokens';
+import { DATABASE_TOKEN, OUTBOX_RETENTION_DAYS } from './database.tokens';
+import type { DatabasePluginConfig } from './types';
 import { DOMAIN_EVENT_SUBSCRIBERS } from './events/domain-event';
 import { UnitOfWork } from './uow/unit-of-work';
 import { OutboxWriter } from './outbox/outbox-writer';
-import { OutboxDispatcher } from './outbox/outbox-dispatcher';
+import {
+    DEFAULT_OUTBOX_RETENTION_DAYS,
+    OutboxDispatcher
+} from './outbox/outbox-dispatcher';
 
 // Re-exported so the historical `@apograph/database` barrel specifier
 // (`export { ..., DATABASE_TOKEN, InjectDatabase } from './lib/database.module'`)
 // stays valid; the definitions live in the dependency-free tokens module to
 // avoid an initialization cycle with the primitives below.
-export { DATABASE_TOKEN, InjectDatabase } from './database.tokens';
+export {
+    DATABASE_TOKEN,
+    InjectDatabase,
+    OUTBOX_RETENTION_DAYS,
+    InjectOutboxRetentionDays
+} from './database.tokens';
 
 /**
  * Gives up this application's claim on the pool when it shuts down.
@@ -78,8 +87,16 @@ export class DatabaseShutdown implements OnApplicationShutdown {
  */
 @Module({})
 export class DatabaseModule {
-    /** Creates a global dynamic module providing the database + primitives. */
-    static forRoot(): DynamicModule {
+    /**
+     * Creates a global dynamic module providing the database + primitives.
+     *
+     * The argument is optional and deliberately narrow: the connection settings
+     * are consumed by `initDatabase` before Nest exists, so the only thing the
+     * container needs from the plugin's config is the outbox retention window.
+     */
+    static forRoot(
+        config: Pick<DatabasePluginConfig, 'outboxRetentionDays'> = {}
+    ): DynamicModule {
         return {
             module: DatabaseModule,
             global: true,
@@ -87,6 +104,12 @@ export class DatabaseModule {
                 {
                     provide: DATABASE_TOKEN,
                     useFactory: () => getDatabase()
+                },
+                {
+                    provide: OUTBOX_RETENTION_DAYS,
+                    useValue:
+                        config.outboxRetentionDays ??
+                        DEFAULT_OUTBOX_RETENTION_DAYS
                 },
                 // Default to an empty array so injection never fails before a
                 // plugin contributes subscribers. Downstream plugins register
@@ -102,6 +125,7 @@ export class DatabaseModule {
             ],
             exports: [
                 DATABASE_TOKEN,
+                OUTBOX_RETENTION_DAYS,
                 UnitOfWork,
                 OutboxWriter,
                 OutboxDispatcher

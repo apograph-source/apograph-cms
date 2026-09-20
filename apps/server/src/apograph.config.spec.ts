@@ -106,6 +106,32 @@ describe('numeric settings', () => {
         );
     });
 
+    it('keeps a documented zero off-switch loadable [database:I-23]', () => {
+        // `OUTBOX_RETENTION_DAYS=0` is documented as "never prune" in
+        // `.env.example`, the scaffolder's `env.tmpl`, this file's comment and
+        // `ApographDatabaseConfig`. Read through `readPositiveInt` it threw, so
+        // the documented way to switch retention off made the server refuse to
+        // start — the value has to arrive at the plugin as `0`, which is the
+        // form `pruneIfDue` reads as "never".
+        expect(
+            loadConfig({ OUTBOX_RETENTION_DAYS: '0' }).database
+                .outboxRetentionDays
+        ).toBe(0);
+        expect(
+            loadConfig({ OUTBOX_RETENTION_DAYS: '7' }).database
+                .outboxRetentionDays
+        ).toBe(7);
+        expect(
+            loadConfig({ OUTBOX_RETENTION_DAYS: undefined }).database
+                .outboxRetentionDays
+        ).toBe(30);
+        // Zero is the only thing that moved: a negative is still a refusal,
+        // because it is a typo rather than an off-switch.
+        expect(loadError({ OUTBOX_RETENTION_DAYS: '-1' })).toContain(
+            'OUTBOX_RETENTION_DAYS'
+        );
+    });
+
     it('rejects exponent notation, which quietly removed the GraphQL cost budget', () => {
         // `Number('1e9')` is a finite integer, so `GRAPHQL_MAX_DEPTH=1e9` passed
         // every check and deleted the bound ADR-0008 relies on in place of the

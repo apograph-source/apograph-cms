@@ -43,7 +43,11 @@ import type { McpPluginConfig } from '@apograph/mcp-server';
 import type { TransferPluginConfig } from '@apograph/transfer-server';
 import type { SegmentsPluginConfig } from '@apograph/segments-server';
 import type { WebhooksPluginConfig } from '@apograph/webhooks-server';
-import { readPositiveInt, requireEnv } from '@apograph/utils-server';
+import {
+    readNonNegativeInt,
+    readPositiveInt,
+    requireEnv
+} from '@apograph/utils-server';
 
 import { bodyLimit, trustProxy } from './config/server';
 import { docsConfig } from './config/docs';
@@ -74,6 +78,11 @@ export type {
 export interface ApographDatabaseConfig {
     /** PostgreSQL connection string. Sourced from `DATABASE_URL`. */
     url: string;
+    /**
+     * How long a delivered outbox event is kept, in days. Sourced from
+     * `OUTBOX_RETENTION_DAYS`; `0` never prunes.
+     */
+    outboxRetentionDays: number;
 }
 
 /** Root server configuration. */
@@ -141,7 +150,16 @@ const config: ApographConfig = {
             'DATABASE_URL',
             'Copy `.env.example` to `.env` and set it (see `README.md`); ' +
                 'the server has no usable default for this value.'
-        )
+        ),
+        // Days of history kept, `0` for "keep everything". It applies to
+        // delivered rows only — a pending or parked event is never deleted by
+        // age.
+        //
+        // `readNonNegativeInt`, not `readPositiveInt`, and that is the whole
+        // point of the setting: `0` is the documented off-switch, and the
+        // positive reader refuses it, so the documented way to turn retention
+        // off stopped the server from booting (ORT-211).
+        outboxRetentionDays: readNonNegativeInt('OUTBOX_RETENTION_DAYS', 30)
     },
     docs: docsConfig(),
     plugins: {

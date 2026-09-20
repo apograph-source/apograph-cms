@@ -1,5 +1,5 @@
 import { AsyncLocalStorage } from 'node:async_hooks';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import type { Database } from '../types';
 import { InjectDatabase } from '../database.tokens';
 import { OutboxDispatcher } from '../outbox/outbox-dispatcher';
@@ -27,6 +27,7 @@ interface UowContext {
 @Injectable()
 export class UnitOfWork {
     private readonly als = new AsyncLocalStorage<UowContext>();
+    private readonly logger = new Logger(UnitOfWork.name);
 
     constructor(
         @InjectDatabase() private readonly db: Database,
@@ -41,6 +42,14 @@ export class UnitOfWork {
      * After the outermost transaction commits, the outbox is drained
      * best-effort: any failure is swallowed because the poll backstop will
      * retry. The state change is already durable at that point.
+     *
+     * **Swallowed, but no longer silent.** A subscriber that throws is caught
+     * and logged inside `drainOnce`, so a rejection reaching here is the drain
+     * itself failing — a lost connection, a pool timeout — and until this line
+     * existed that produced no output at all. Callers that wanted the post-drain
+     * to be visible were logging it themselves around their own `drain()`, which
+     * is the duplication this ends; `warn`, not `error`, because the backstop
+     * will pick the events up and nothing was lost.
      */
     async run<T>(fn: () => Promise<T>): Promise<T> {
         if (this.als.getStore()) {
@@ -52,11 +61,17 @@ export class UnitOfWork {
             this.als.run({ tx }, fn)
         );
 
-        // Post-commit, best-effort drain. Swallow — the poll backstop retries.
+        // Post-commit, best-effort drain. Swallow — the poll backstop retries —
+        // but say so, or a drain that never ran leaves no trace anywhere.
         try {
             await this.dispatcher.drain();
-        } catch {
-            // intentionally ignored; the outbox poll will pick these up
+        } catch (error) {
+            this.logger.warn(
+                'Post-commit outbox drain failed; the poll backstop will ' +
+                    `deliver these events. ${
+                        error instanceof Error ? error.message : String(error)
+                    }`
+            );
         }
 
         return result;

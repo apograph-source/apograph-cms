@@ -7,6 +7,7 @@ import {
     readList,
     readNodeEnv,
     readOptionalList,
+    readNonNegativeInt,
     readOptionalPositiveInt,
     readPositiveInt,
     readTrustProxy,
@@ -127,6 +128,39 @@ describe('environment readers', () => {
             expect(() => readOptionalPositiveInt('APOGRAPH_TEST_N')).toThrow(
                 /positive whole number/
             );
+        });
+    });
+
+    describe('readNonNegativeInt', () => {
+        it('falls back when unset or empty', () => {
+            set('APOGRAPH_TEST_N', undefined);
+            expect(readNonNegativeInt('APOGRAPH_TEST_N', 30)).toBe(30);
+            set('APOGRAPH_TEST_N', '');
+            expect(readNonNegativeInt('APOGRAPH_TEST_N', 30)).toBe(30);
+        });
+
+        it('reads zero as a value, because that is the whole reason it exists', () => {
+            // The ORT-211 defect: `OUTBOX_RETENTION_DAYS=0` is documented in
+            // four places as "never prune", went through `readPositiveInt`, and
+            // so made the documented off-switch a server that refused to boot.
+            set('APOGRAPH_TEST_N', '0');
+            expect(readNonNegativeInt('APOGRAPH_TEST_N', 30)).toBe(0);
+        });
+
+        it('reads a plain decimal integer', () => {
+            set('APOGRAPH_TEST_N', '7');
+            expect(readNonNegativeInt('APOGRAPH_TEST_N', 30)).toBe(7);
+        });
+
+        it('still refuses everything `readPositiveInt` refuses but zero', () => {
+            // Only zero moves. A negative retention window is not an
+            // off-switch, it is a typo that would cut on a future date.
+            for (const raw of ['-1', '1e9', '0x20', 'Infinity', '3.5', 'x']) {
+                set('APOGRAPH_TEST_N', raw);
+                expect(() => readNonNegativeInt('APOGRAPH_TEST_N', 30)).toThrow(
+                    /APOGRAPH_TEST_N/
+                );
+            }
         });
     });
 

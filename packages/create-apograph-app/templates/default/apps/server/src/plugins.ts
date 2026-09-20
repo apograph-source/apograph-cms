@@ -203,7 +203,10 @@ export function buildPlugins(config: ApographConfig): ServerPlugin[] {
 
     return [
         // First: the only plugin that opens a resource in `onPluginInit`.
-        DatabasePlugin({ connectionString: config.database.url }),
+        DatabasePlugin({
+            connectionString: config.database.url,
+            outboxRetentionDays: config.database.outboxRetentionDays
+        }),
         // apograph:if sso
         // Identity, plus the identity providers this app offers. The second
         // argument is where constructed adapters go: `apograph.config.ts` holds
