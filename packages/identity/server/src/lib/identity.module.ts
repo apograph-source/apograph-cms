@@ -1,7 +1,7 @@
 import { DynamicModule, Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerModule } from '@nestjs/throttler';
-import { SSO_REGISTRY, SSO_ROLE_RESOLVER } from '@apograph/identity-domain';
+import { SSO_REGISTRY, SSO_ROLE_RESOLVER } from '@ortha/identity-domain';
 import type { IdentityPluginConfig, IdentityRateLimitConfig } from './types';
 import type { IdentityPluginOptions } from './utils/identity-plugin';
 import { IDENTITY_CONFIG } from './identity.tokens';
@@ -67,7 +67,7 @@ import { ApiTokensController } from './api-tokens/http/controllers/api-tokens.co
  *
  * Provides the resolved config and the RBAC services, and mounts the auth
  * controllers (`/auth/login`, `/auth/me`). The Drizzle client is injected
- * straight from `@apograph/database`'s global `DatabaseModule`
+ * straight from `@ortha/database`'s global `DatabaseModule`
  * (`@InjectDatabase()`), so identity registers no db provider of its own.
  *
  * The invariant-bearing core is layered per ADR-0003: the auth use-cases

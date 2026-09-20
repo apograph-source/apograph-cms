@@ -1,4 +1,4 @@
-import { ScalarFieldType, type FilterSchema } from '@apograph/utils-server';
+import { ScalarFieldType, type FilterSchema } from '@ortha/utils-server';
 
 /**
  * The filterable surface of the audit log for the query-builder engine.

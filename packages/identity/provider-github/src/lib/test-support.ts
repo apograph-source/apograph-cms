@@ -1,12 +1,12 @@
 import type {
     SsoAuthorizeRequest,
     SsoCallback
-} from '@apograph/identity-domain';
+} from '@ortha/identity-domain';
 
 /** What `fetch` accepts as its first argument, from the platform's signature. */
 type FetchInput = Parameters<typeof globalThis.fetch>[0];
 
-export const CLIENT_ID = 'Iv1.apograph';
+export const CLIENT_ID = 'Iv1.ortha';
 export const REDIRECT_URI = 'https://cms.test/api/auth/sso/github/callback';
 
 /** The one-attempt secrets a core would have minted. */

@@ -1,6 +1,6 @@
 /**
  * Runtime configuration for the public GraphQL endpoint. Supplied by the host
- * (`apps/server/apograph.config.ts`, the only reader of `process.env`) and injected
+ * (`apps/server/ortha.config.ts`, the only reader of `process.env`) and injected
  * — this package never reaches for the environment itself.
  */
 

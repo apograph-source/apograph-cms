@@ -12,7 +12,7 @@ import {
     collection,
     field,
     type AnyContentType
-} from '@apograph/content-server/define';
+} from '@ortha/content-server/define';
 import { article } from './article';
 
 export const author = collection('author', {

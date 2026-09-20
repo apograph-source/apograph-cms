@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { Undo2 } from 'lucide-react';
-import { ConfirmDialog, toast } from '@apograph/design-system';
-import { useHasPermission } from '@apograph/identity-admin';
+import { ConfirmDialog, toast } from '@ortha/design-system';
+import { useHasPermission } from '@ortha/identity-admin';
 import {
     ENTRY_STATUS,
     useBulkEntryActions,
     type EntryMenuEntry,
     type EntrySlotContext
-} from '@apograph/content-admin';
+} from '@ortha/content-admin';
 import { CONTENT_PUBLISH } from '../../constants';
 import { localeName } from '../../domain/localePolicy';
 import { useEntryLocales } from '../../api/useEntryLocales';

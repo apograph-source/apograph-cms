@@ -8,10 +8,10 @@ import {
     SegmentedControlItem,
     Skeleton,
     SkeletonRegion
-} from '@apograph/design-system';
-import { useAuth } from '@apograph/identity-admin';
-import { PageTopBar } from '@apograph/shell-admin';
-import { useCurrentWorkspace } from '@apograph/workspaces-admin';
+} from '@ortha/design-system';
+import { useAuth } from '@ortha/identity-admin';
+import { PageTopBar } from '@ortha/shell-admin';
+import { useCurrentWorkspace } from '@ortha/workspaces-admin';
 import { ShieldCheck } from 'lucide-react';
 import { useReviewQueue } from '../../../application/hooks';
 import { splitQueue } from '../../../domain/types';

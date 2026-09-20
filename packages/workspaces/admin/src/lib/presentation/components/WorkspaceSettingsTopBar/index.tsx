@@ -1,7 +1,7 @@
 import { useMatch } from 'react-router-dom';
 import { defineMessages, useIntl } from 'react-intl';
 import { Settings } from 'lucide-react';
-import { PageTopBar, type PageTopBarCrumb } from '@apograph/shell-admin';
+import { PageTopBar, type PageTopBarCrumb } from '@ortha/shell-admin';
 
 /** Intl descriptors for {@link WorkspaceSettingsTopBar}, co-located here. */
 const messages = defineMessages({

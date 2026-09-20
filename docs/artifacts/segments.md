@@ -2,7 +2,7 @@
 
 _Package group · packages/segments_
 
-**Who may read what is published — Apograph reader entitlements**
+**Who may read what is published — Ortha reader entitlements**
 
 Segments answers exactly one question: **which readers are entitled to see a published entry**. This is neither RBAC nor `workspace_content` — those decide _who may touch_ content and exist independently. Here an audience is a named set of reader tags, an entry names the audiences it admits and the ones it refuses, and the entire decision fits into one pure `canRead` function and one SQL predicate applied to every public read.
 
@@ -87,9 +87,9 @@ The `packages/segments` group is three packages. The split is load-bearing: the 
 
 | Package | npm name                  | Role                                                                                                       | What it owns                                                                                                                                                                                      |
 | ------- | ------------------------- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| domain  | @apograph/segments-domain | The framework-free kernel: the model itself and the decision itself                                        | `canRead`, `isOpen`, `sameAccess`, `isOfferedIn`, `segmentIdsForTags`, the `SegmentResolver` port, `validateSegment` + four limits. **Zero dependencies** in its `package.json`                   |
-| server  | @apograph/segments-server | The NestJS plugin: two tables, three controllers, one predicate, four agent tools                          | The schema and migrations, `SegmentReadScope` (the `CONTENT_READ_SCOPE` implementation), `EntryAccessWriteExtension`, `AccessFilterProvider`, the catalogue cache, two `AsyncLocalStorage` stores |
-| admin   | @apograph/segments-admin  | The admin plugin: the audience directory + the “Access” tab + four contributions into other people's slots | `/segments`, `/segments/new`, `/segments/:segmentId`, the chip by the entry's title, the pre-save step, the revision line, the records-list filter fields                                         |
+| domain  | @ortha/segments-domain | The framework-free kernel: the model itself and the decision itself                                        | `canRead`, `isOpen`, `sameAccess`, `isOfferedIn`, `segmentIdsForTags`, the `SegmentResolver` port, `validateSegment` + four limits. **Zero dependencies** in its `package.json`                   |
+| server  | @ortha/segments-server | The NestJS plugin: two tables, three controllers, one predicate, four agent tools                          | The schema and migrations, `SegmentReadScope` (the `CONTENT_READ_SCOPE` implementation), `EntryAccessWriteExtension`, `AccessFilterProvider`, the catalogue cache, two `AsyncLocalStorage` stores |
+| admin   | @ortha/segments-admin  | The admin plugin: the audience directory + the “Access” tab + four contributions into other people's slots | `/segments`, `/segments/new`, `/segments/:segmentId`, the chip by the entry's title, the pre-save step, the revision line, the records-list filter fields                                         |
 
 ### How the files are laid out inside
 
@@ -103,7 +103,7 @@ A layered layout: `domain/types.ts` (the three-state algebra — `stateOf`, `wit
 
 > **Neighbours easily confused with it**
 >
-> **`@apograph/identity-server`** owns the `segments:read` / `segments:manage` permission keys and their distribution to the system roles, plus the API-token scope mapping. **`@apograph/content-server`** owns the `CONTENT_READ_SCOPE` and `EntryWriteExtension` ports and the filter-field registry; Segments _registers_ into them. **`@apograph/copilot-server`** owns the proposal-applier registry. **`@apograph/tools-server`** owns the tool registry and call authorization.
+> **`@ortha/identity-server`** owns the `segments:read` / `segments:manage` permission keys and their distribution to the system roles, plus the API-token scope mapping. **`@ortha/content-server`** owns the `CONTENT_READ_SCOPE` and `EntryWriteExtension` ports and the filter-field registry; Segments _registers_ into them. **`@ortha/copilot-server`** owns the proposal-applier registry. **`@ortha/tools-server`** owns the tool registry and call authorization.
 
 ## 03. Roles and permissions
 
@@ -202,7 +202,7 @@ The full form, as `SegmentReadScope.scope()` assembles it:
 
 ## 05. Data model
 
-The plugin owns **two** tables and ships its own migrations: a `drizzle.config.ts` + committed `migrations/*.sql`, its own journal table `__drizzle_migrations_segments`, and a thunk for the migrations directory so it resolves both when consumed from source and when installed from npm. It opens no database connection: the client is injected from `@apograph/database`.
+The plugin owns **two** tables and ships its own migrations: a `drizzle.config.ts` + committed `migrations/*.sql`, its own journal table `__drizzle_migrations_segments`, and a thunk for the migrations directory so it resolves both when consumed from source and when installed from npm. It opens no database connection: the client is injected from `@ortha/database`.
 
 | Table        | Purpose                                        | Key fields and constraints                                                                                                                                                                                                                                                                                              |
 | ------------ | ---------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -277,7 +277,7 @@ Three transitions, each with its own entry point in the code:
 
 > **Access is not a translatable field**
 >
-> “Who may read this” is a fact about the **entry**, not about its German wording. So access travels as a non-translatable field: set on one locale, set on all. Left per row, it was a hole invisible from any screen: an editor restricted the English article and published the German one to everybody. The locale group is resolved through `localeGroupIds`, which reads content's **own** `locale_group_id` column rather than going to `@apograph/i18n-server`: an entitlement rule must not depend on a plugin a deployment may not have, and the honest fallback (“the entry is alone”) is exactly what a non-localised type already gets. **Soft-deleted** siblings are included deliberately, as in i18n's own propagation: a locale in the trash will come back on restore, and it must come back with the group's access.
+> “Who may read this” is a fact about the **entry**, not about its German wording. So access travels as a non-translatable field: set on one locale, set on all. Left per row, it was a hole invisible from any screen: an editor restricted the English article and published the German one to everybody. The locale group is resolved through `localeGroupIds`, which reads content's **own** `locale_group_id` column rather than going to `@ortha/i18n-server`: an entitlement rule must not depend on a plugin a deployment may not have, and the honest fallback (“the entry is alone”) is exactly what a non-localised type already gets. **Soft-deleted** siblings are included deliberately, as in i18n's own propagation: a locale in the trash will come back on restore, and it must come back with the group's access.
 
 ## 07. Scenarios — how it works, step by step
 
@@ -455,7 +455,7 @@ Workspace-scoped (`WorkspaceGuard`), so an entry id from another workspace canno
 
 ## 09. Agent surfaces — MCP, the copilot, the token
 
-Four tools in the shared `@apograph/tools-server` registry, and the difference between them is entirely about **who is acting**.
+Four tools in the shared `@ortha/tools-server` registry, and the difference between them is entirely about **who is acting**.
 
 | Tool                   | Surfaces                                        | Requires        | Effect             | What it does                                                                                                                                                |
 | ---------------------- | ----------------------------------------------- | --------------- | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -531,7 +531,7 @@ The plugin contributes **three routes** and **six contributions into other peopl
 - **The delete dialog spells out the consequences** and changes its text when nobody names the audience.
 - **The result count is announced into a live region.** A deletion changes the table with no navigation and no heading change — otherwise the change would be silent.
 - **The actions column is named by hidden text.** A header cell with no text is a column a screen reader announces as nothing while reading every row's menu beneath it.
-- **Required fields are marked with the shared `RequiredMark`** from `@apograph/content-admin` (one implementation — the audience form and the entry editor will not drift apart), `aria-hidden`, because the control carries `aria-required` and announcing both would say “required” twice. Name and Key are marked; the reader tags are not: an audience without them responds to its own key. The convention is explained by a line in the page itself rather than by a tooltip — a tooltip is unreachable by keyboard and by touch alike.
+- **Required fields are marked with the shared `RequiredMark`** from `@ortha/content-admin` (one implementation — the audience form and the entry editor will not drift apart), `aria-hidden`, because the control carries `aria-required` and announcing both would say “required” twice. Name and Key are marked; the reader tags are not: an audience without them responds to its own key. The convention is explained by a line in the page itself rather than by a tooltip — a tooltip is unreachable by keyboard and by touch alike.
 - **`noValidate` on the form,** because the messages are ours: the browser's bubble says something different, in a different language, and vanishes on the next keystroke.
 
 ### Both pages load into a skeleton, not a spinner
@@ -562,7 +562,7 @@ Everything else is **data an administrator enters in the admin UI**: the audienc
 >
 > `SegmentsPlugin` is registered **after** `ContentPlugin`, whose `CONTENT_READ_SCOPE` port it binds: binding a read scope only means anything when there is something to bind to. The module is **global**, because `SegmentReadScope` has to reach content-server's read path from wherever a query is assembled. Registration goes through `contentReadScopeRegistrar('segments', …)`, `entryWriteExtensionRegistrar('segments', …)`, `entryFilterProviderRegistrar('segments', …)` and `copilotAppliersRegistrar('segments', …)` rather than DI-token bindings: Nest has no multi-provider, and a second plugin binding the same token would silently replace the first.
 
-> **The example in apps/server/apograph.config.ts**
+> **The example in apps/server/ortha.config.ts**
 >
 > In this repository the `plugins.segments` section is left **empty**, with a commented-out resolver example. That is, the reference build runs in anonymous mode — and that is a deliberate choice: an audience nobody can be resolved into cannot be accidentally admitted. `apps/server-e2e` substitutes a `headerSegmentResolver` reading an `x-reader-tags` header — that is a **production seam** rather than a test hook alongside one: a real deployment writes exactly the same shape.
 
@@ -639,7 +639,7 @@ Statements that must always hold. This is at once a review list and a draft set 
 - **I-14** — An access write is a **full replacement** of both lists, not a merge.
 - **I-41** — Every write path checks that the entry id names a row of **this workspace's** content before writing anything, and answers a foreign id with the same `404` an id that exists nowhere gets. Added after the QA pass — see section 17.
 - **I-42** — Neither list may name more than **200** audiences, on every write path including the entry save's `extensions` bag. Added after the QA pass — see section 17.
-- **I-15** — Access is written across the entry's **whole locale group**, soft-deleted siblings included; the group is resolved from content's own `locale_group_id` column, with no dependency on `@apograph/i18n-server`.
+- **I-15** — Access is written across the entry's **whole locale group**, soft-deleted siblings included; the group is resolved from content's own `locale_group_id` column, with no dependency on `@ortha/i18n-server`.
 - **I-16** — A write arriving in the `extensions` bag runs on the **save's own transaction** — never on a connection of the plugin's own.
 - **I-17** — Changing audiences requires `segments:manage`, checked **in the extension**; a request asking for exactly what is already saved changes nothing and needs no authority.
 - **I-18** — An actor that could not be identified (`PrincipalStore.current()` returned `undefined`) gets a `403`, not a pass.
@@ -662,7 +662,7 @@ Statements that must always hold. This is at once a review list and a draft set 
 - **I-35** — The reader resolver never rejects a request: an exception is caught, logged as a warning, and yields an anonymous reader.
 - **I-36** — The catalogue is loaded in `onApplicationBootstrap`; an unreadable catalogue **aborts the start**. Every write to the directory reloads the catalogue in full.
 - **I-37** — All three virtual filter fields' subqueries are workspace-scoped, and there is no negation among their operators.
-- **I-38** — `@apograph/segments-domain` declares no dependencies at all, and the audience-field validation rules are read from it by both the admin form and the server DTO.
+- **I-38** — `@ortha/segments-domain` declares no dependencies at all, and the audience-field validation rules are read from it by both the admin form and the server DTO.
 - **I-39** — A content type with no `id` column makes `SegmentReadScope` **throw** rather than silently omit the fragment.
 - **I-40** — The middlewares are registered on `{*splat}` (Express 5 / path-to-regexp 8), and `PrincipalMiddleware` never short-circuits.
 
@@ -818,7 +818,7 @@ An entry id names one row in one workspace, and every write path has to say so. 
 
 | Area                                            | Who owns it                                                             | What Segments does                                                                                               |
 | ----------------------------------------------- | ----------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| The database connection and running migrations  | `@apograph/database` + `@apograph/nx`                                   | Owns the schema and migration **files** and its own journal table, but neither the connection nor the apply step |
+| The database connection and running migrations  | `@ortha/database` + `@ortha/nx`                                   | Owns the schema and migration **files** and its own journal table, but neither the connection nor the apply step |
 | Permission keys, roles, API-token scopes        | `identity-server`                                                       | Only **consumes** `PERMISSIONS.SEGMENTS_READ/MANAGE`, `PermissionsGuard`, `OriginGuard`, `ApiTokenGuard`         |
 | Who a reader is                                 | the **host**, through the `SegmentResolver` port                        | Knows nothing about the source; it receives a list of tags and resolves them into audience ids                   |
 | The public read path and the query builder      | `content-server` (`PublicEntriesQuery`, `RelationLinkService`)          | Registers into `CONTENT_READ_SCOPE` and hands over one SQL fragment                                              |
@@ -887,7 +887,7 @@ This dossier was written from the code, and the code has since been read again �
 ### Still open
 
 - **The title chip** still has no browser test. It is no longer untested — `EntryAccessChip/index.spec.tsx` pins **I-30**: nothing rendered while the workspace has no audiences, nothing rendered before there is an entry to describe, and the open and restricted readings — but that is a component in isolation, not the chip beside a real entry's title.
-- **The admin package keeps its own copies** of `sameAccess`, `isOpen` and `EntryAccess` while depending on `@apograph/segments-domain` and importing `validateSegment` from it. They agree today; the domain's own documentation is the argument against it. A decision, not a bug.
+- **The admin package keeps its own copies** of `sameAccess`, `isOpen` and `EntryAccess` while depending on `@ortha/segments-domain` and importing `validateSegment` from it. They agree today; the domain's own documentation is the argument against it. A decision, not a bug.
 - **Two admin checklist rows** remain undriven: switching locale after a save, and resetting the pager when a search is typed on page four. The third — the bulk control past 200 matches — is now driven by `entry-access.spec.ts` → “refuses the bulk set when more matched than an entry can name”, which asserts all three buttons disabled and the reason on screen. The locale row's _mechanism_ is pinned by `useEntryAccessPresave.spec.tsx` (**I-29**: the saved row is seeded and every other cached entry invalidated); what no test drives is the editor actually switching locale afterwards.
 
 > **Recorded, not claimed**

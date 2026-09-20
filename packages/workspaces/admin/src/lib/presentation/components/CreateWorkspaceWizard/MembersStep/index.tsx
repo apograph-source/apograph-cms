@@ -1,7 +1,7 @@
 import { defineMessages, useIntl } from 'react-intl';
-import { useAuth } from '@apograph/identity-admin';
-import { Avatar, AvatarFallback, Separator } from '@apograph/design-system';
-import { initialsOf } from '@apograph/utils-admin';
+import { useAuth } from '@ortha/identity-admin';
+import { Avatar, AvatarFallback, Separator } from '@ortha/design-system';
+import { initialsOf } from '@ortha/utils-admin';
 import type { MemberDraft } from '../../../../domain/types/wizard';
 import { MemberRow } from './MemberRow';
 import { MemberTypeahead } from './MemberTypeahead';

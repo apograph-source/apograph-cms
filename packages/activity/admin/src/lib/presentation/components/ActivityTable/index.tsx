@@ -6,7 +6,7 @@ import {
     TableHead,
     TableHeader,
     TableRow
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import { ActivityRow } from './ActivityRow';
 import type { ActivityEvent } from '../../../types/activityEvent';
 

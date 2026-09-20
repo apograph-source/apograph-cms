@@ -5,7 +5,7 @@
  * what to store).
  *
  * The rules themselves live in the shared kernel
- * (`@apograph/content-domain`'s rich-text module), because emptiness is the
+ * (`@ortha/content-domain`'s rich-text module), because emptiness is the
  * same question the server's `required` and the publish gate ask. What is here
  * is the editor-facing half: what to seed TipTap with, and what a closed editor
  * hands back to the form.
@@ -15,9 +15,9 @@ import {
     isEmptyRichText,
     isRichTextDocument,
     type RichTextDocument
-} from '@apograph/content-domain';
+} from '@ortha/content-domain';
 
-export { isEmptyRichText } from '@apograph/content-domain';
+export { isEmptyRichText } from '@ortha/content-domain';
 
 /**
  * A rich-text value normalized for storage: an empty document collapses to

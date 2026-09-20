@@ -4,8 +4,8 @@ import {
     OP,
     type FilterEnumValue,
     type FilterField
-} from '@apograph/query-builder-admin';
-import type { ContentTypeDetail } from '@apograph/content-admin';
+} from '@ortha/query-builder-admin';
+import type { ContentTypeDetail } from '@ortha/content-admin';
 import { LOCALE_FILTER_FIELD } from '../../constants';
 import { useLocales } from '../../api/useLocales';
 

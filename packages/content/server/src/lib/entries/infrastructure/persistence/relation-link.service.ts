@@ -19,7 +19,7 @@ import {
     type SQL
 } from 'drizzle-orm';
 import type { PgColumn, PgTable } from 'drizzle-orm/pg-core';
-import { InjectDatabase, type Database } from '@apograph/database';
+import { InjectDatabase, type Database } from '@ortha/database';
 import {
     ENTRY_STATUS,
     type AnyContentType,
@@ -188,7 +188,7 @@ interface InversePlan {
 export class RelationLinkService {
     constructor(
         @InjectDatabase() private readonly db: Database,
-        // The bound read scopes (`@apograph/segments-server`'s reader
+        // The bound read scopes (`@ortha/segments-server`'s reader
         // entitlements), consulted about a relation's **target** type on the
         // public reads only. Optional so this service still resolves in a
         // context that binds no scope — an empty registry costs a length check.

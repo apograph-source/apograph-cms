@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { and, eq } from 'drizzle-orm';
-import { UnitOfWork } from '@apograph/database';
+import { UnitOfWork } from '@ortha/database';
 import { ssoIdentities } from '../../schema';
 import type {
     LinkSsoIdentityInput,

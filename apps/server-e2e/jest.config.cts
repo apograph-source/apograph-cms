@@ -31,16 +31,16 @@ export default {
     // negative lookahead keeps the rest of `node_modules` untransformed.
     //
     // `jose` joins it for the same reason, reached through
-    // `@apograph/identity-provider-oidc` in the host's `buildPlugins`.
+    // `@ortha/identity-provider-oidc` in the host's `buildPlugins`.
     transformIgnorePatterns: ['/node_modules/(?!(@scalar|jose)/)'],
     // Workspace packages are consumed from source; map the entry points the
     // harness (and `buildPlugins`) pull in to their `src/index.ts`.
     moduleNameMapper: {
-        '^@apograph/bootstrap-server$':
+        '^@ortha/bootstrap-server$':
             '<rootDir>/../../packages/bootstrap/server/src/index.ts',
-        '^@apograph/database$':
+        '^@ortha/database$':
             '<rootDir>/../../packages/database/src/index.ts',
-        '^@apograph/identity-server$':
+        '^@ortha/identity-server$':
             '<rootDir>/../../packages/identity/server/src/index.ts',
         // Mapped for the same reason as identity-server above: `support/
         // webhooks.ts` reaches two of the plugin's providers by path (they are
@@ -48,7 +48,7 @@ export default {
         // provider if the class the harness holds is the class the module
         // registered. Both sides must resolve into `packages/`, rather than one
         // through the `node_modules` symlink and one through the tree.
-        '^@apograph/webhooks-server$':
+        '^@ortha/webhooks-server$':
             '<rootDir>/../../packages/webhooks/server/src/index.ts'
     },
     moduleFileExtensions: ['ts', 'js', 'html'],

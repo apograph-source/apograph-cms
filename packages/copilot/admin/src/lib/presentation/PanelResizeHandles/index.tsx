@@ -1,5 +1,5 @@
 import { defineMessages, useIntl } from 'react-intl';
-import { cn } from '@apograph/design-system';
+import { cn } from '@ortha/design-system';
 import type { ResizeEdge } from '../../application/panelFrame';
 import {
     keyboardStep,
@@ -9,7 +9,7 @@ import {
 const messages = defineMessages({
     resize: {
         id: 'copilot.panel.resize',
-        defaultMessage: 'Resize Apograph AI'
+        defaultMessage: 'Resize Ortha AI'
     },
     resizeHint: {
         id: 'copilot.panel.resizeHint',

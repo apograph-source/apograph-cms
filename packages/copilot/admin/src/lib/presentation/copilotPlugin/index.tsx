@@ -1,10 +1,10 @@
 import { Suspense, lazy } from 'react';
-import type { AdminPlugin } from '@apograph/bootstrap-admin';
-import { SIDEBAR_FOOTER_SLOT } from '@apograph/shell-admin';
+import type { AdminPlugin } from '@ortha/bootstrap-admin';
+import { SIDEBAR_FOOTER_SLOT } from '@ortha/shell-admin';
 import {
     WORKSPACE_ROUTE_SLOT,
     WORKSPACE_SECTION_SLOT
-} from '@apograph/workspaces-admin';
+} from '@ortha/workspaces-admin';
 import { AGENTS_SEGMENT, SKILLS_SEGMENT } from '../../domain/agentsRoute';
 import { AgentsPageSkeleton, SkillsPageSkeleton } from '../AgentsSkeleton';
 import { CopilotLauncher } from '../CopilotLauncher';

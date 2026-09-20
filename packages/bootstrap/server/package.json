@@ -1,5 +1,5 @@
 {
-    "name": "@apograph/bootstrap-server",
+    "name": "@ortha/bootstrap-server",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",

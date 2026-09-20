@@ -1,6 +1,6 @@
 import { getTableName, SQL } from 'drizzle-orm';
 import { PgDialect } from 'drizzle-orm/pg-core';
-import type { Database } from '@apograph/database';
+import type { Database } from '@ortha/database';
 import { ConversationRepository } from './conversation.repository';
 
 const CONVERSATION = '11111111-1111-4111-8111-111111111111';

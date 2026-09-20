@@ -6,8 +6,8 @@ import {
     PermissionsGuard,
     RequirePermissions,
     type PublicUser
-} from '@apograph/identity-server';
-import { CurrentWorkspace, WorkspaceGuard } from '@apograph/workspaces-server';
+} from '@ortha/identity-server';
+import { CurrentWorkspace, WorkspaceGuard } from '@ortha/workspaces-server';
 import { ReviewQueueService } from '../../application/review-queue.service';
 import { ReviewQueueQueryDto } from '../../application/dto/review-queue-query.dto';
 import type { ReviewQueueView } from '../../types/protection-views';

@@ -10,7 +10,7 @@
  * Pure: takes the document and the serialized types, mutates only `/views`.
  */
 
-import type { OpenApiDocument } from '@apograph/bootstrap-server';
+import type { OpenApiDocument } from '@ortha/bootstrap-server';
 import type { SerializedContentType } from '../registry/content-type-registry';
 import { ref } from './content-schemas';
 import { buildViewsSchemas, SAVED_VIEW_SCHEMA } from './views-schemas';

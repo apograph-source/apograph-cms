@@ -1,9 +1,9 @@
-# @apograph/media-provider-azure
+# @ortha/media-provider-azure
 
 Azure Blob Storage. The one major object store with **no S3 compatibility at
 all** — different protocol, different signature, containers instead of buckets —
 so it needs its own adapter rather than an endpoint in `provider-s3`. It is the
-gap that stopped a Microsoft-shop deployment running Apograph at all.
+gap that stopped a Microsoft-shop deployment running Ortha at all.
 
 ## What it exports
 
@@ -55,7 +55,7 @@ storage account's origin.
 
 ## Testing: what the fake proves, and what it does not
 
-`npx nx test @apograph/media-provider-azure` runs the shared contract
+`npx nx test @ortha/media-provider-azure` runs the shared contract
 (`describeStorageProvider`) plus this adapter's own cases against
 `FakeContainerClient`.
 
@@ -74,6 +74,6 @@ for real with Azurite's published development key.
 
 ## Commands
 
-- `npx nx test @apograph/media-provider-azure` /
-  `npx nx typecheck @apograph/media-provider-azure` /
-  `npx nx lint @apograph/media-provider-azure`
+- `npx nx test @ortha/media-provider-azure` /
+  `npx nx typecheck @ortha/media-provider-azure` /
+  `npx nx lint @ortha/media-provider-azure`

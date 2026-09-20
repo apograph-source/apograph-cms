@@ -1,4 +1,4 @@
-import { Skeleton } from '@apograph/design-system';
+import { Skeleton } from '@ortha/design-system';
 
 /**
  * Loading placeholder for the content sidebar region: a header block with a

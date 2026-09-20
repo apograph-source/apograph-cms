@@ -14,7 +14,7 @@ import { join } from 'node:path';
  * framework.
  *
  * **The accurate claim is "framework-free", not "dependency-free."** `domain/`
- * *does* import `@apograph/database` at runtime, for `DomainEvent` /
+ * *does* import `@ortha/database` at runtime, for `DomainEvent` /
  * `createDomainEvent` (`events/member-events.ts`, `member.ts`). That package is
  * the shared tactical-DDD kernel — a framework-free event contract, explicitly
  * permitted by the rule — so it is outside the four prohibitions rather than an
@@ -73,7 +73,7 @@ describe('domain layer imports', () => {
 
     it('does depend on the shared kernel — framework-free, not dependency-free', () => {
         const kernelUsers = FILES.filter((path) =>
-            specifiersOf(path).includes('@apograph/database')
+            specifiersOf(path).includes('@ortha/database')
         );
         expect(kernelUsers.length).toBeGreaterThan(0);
     });

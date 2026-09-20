@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { SSO_REGISTRY, type SsoRegistry } from '@apograph/identity-domain';
+import { SSO_REGISTRY, type SsoRegistry } from '@ortha/identity-domain';
 import {
     SSO_AUTH_REQUEST_REPOSITORY,
     type SsoAuthRequestRepository

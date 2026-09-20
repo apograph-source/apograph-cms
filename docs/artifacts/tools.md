@@ -4,7 +4,7 @@ _Package · packages/tools/server_
 
 **The single catalogue of what an agent may do to the CMS — and the one place a tool call is authorized**
 
-`@apograph/tools-server` can do nothing by itself. It owns the **tool contract**, the **registry** and **one permission check** that both consumers must pass through: the external MCP endpoint and the copilot's internal run loop. The tools are brought by the application plugins — content, media, locales, the journal, alarms, audiences, members. The package owns no table, makes no network call and does not know the words “HTTP” and “JSON-RPC”.
+`@ortha/tools-server` can do nothing by itself. It owns the **tool contract**, the **registry** and **one permission check** that both consumers must pass through: the external MCP endpoint and the copilot's internal run loop. The tools are brought by the application plugins — content, media, locales, the journal, alarms, audiences, members. The package owns no table, makes no network call and does not know the words “HTTP” and “JSON-RPC”.
 
 - **40** tools in the registry
 - **23** visible to the `mcp` surface
@@ -37,7 +37,7 @@ _Package · packages/tools/server_
 
 ## 01. Business description
 
-Apograph has two fundamentally different audiences of machine client. The first is an **external agent**: Claude Desktop, Cursor, a hand-written SDK client. It arrives over HTTP with a bearer token and wants to ask the server what it can do. The second is the CMS's **own copilot**: it lives inside the process, acts on behalf of the signed-in person, and calls those same operations with no HTTP at all.
+Ortha has two fundamentally different audiences of machine client. The first is an **external agent**: Claude Desktop, Cursor, a hand-written SDK client. It arrives over HTTP with a bearer token and wants to ask the server what it can do. The second is the CMS's **own copilot**: it lives inside the process, acts on behalf of the signed-in person, and calls those same operations with no HTTP at all.
 
 Those two audiences used to be served by two different bodies of code. For a while the repository held two instances of every concept: `ToolSpec` and `ToolDefinition`, `permissions[]` and `requires[]`, `CopilotToolRegistry` and `ToolRegistry` — and, most importantly of all, **two independent implementations of a permission check over the same content**. The `tools/server` package is the decision to collapse them into one (`docs/adr/0007-one-tool-registry-two-surfaces.md`).
 
@@ -83,7 +83,7 @@ The whole package is seven source files and three test files. It is probably the
 
 | File                           | What is in it                                                                                                                                   | Why it exists separately                                                                                                                                                              |
 | ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| src/lib/tool.ts                | `ToolDefinition`, `ToolContext`, `ToolActor`, `ToolEffect`, `ToolSurface`, `ToolOutput`, `JsonSchema`, `ResourceDefinition`, `ResourceContents` | The transport-neutral contracts. Its one external import is `PermissionKey` from `@apograph/identity-server`, so `requires` is a typed union rather than a string                     |
+| src/lib/tool.ts                | `ToolDefinition`, `ToolContext`, `ToolActor`, `ToolEffect`, `ToolSurface`, `ToolOutput`, `JsonSchema`, `ResourceDefinition`, `ResourceContents` | The transport-neutral contracts. Its one external import is `PermissionKey` from `@ortha/identity-server`, so `requires` is a typed union rather than a string                     |
 | src/lib/tool-registry.ts       | `ToolRegistry`: `register`, `all`, `forSurface`, `visibleTo`, `call`, `resources`, `readResource`, `onApplicationBootstrap`                     | The one authorization point and the one place the catalogue is validated at startup                                                                                                   |
 | src/lib/tools.module.ts        | `ToolsModule` — `@Global()`, `providers: [ToolRegistry]`, `exports: [ToolRegistry]`                                                             | The module is **imported by both consumers and provided by neither**. Nest caches a static module by its class, so a double import yields one instance                                |
 | src/lib/tool-provider.ts       | The `ToolProvider` port: `tools()`, plus optional `resources()` and `readResource()`                                                            | The dependency inversion that keeps the package graph acyclic: the registry does not know about content, and content registers itself                                                 |
@@ -94,7 +94,7 @@ The whole package is seven source files and three test files. It is probably the
 
 ### Dependencies
 
-`package.json` declares exactly two: `@nestjs/common` (the `@Injectable`/`@Global` decorators, the exception classes, `Logger`) and `@apograph/identity-server` (`PermissionKey` and `PERMISSION_KEYS`). No Drizzle, no HTTP client, no vendor SDK.
+`package.json` declares exactly two: `@nestjs/common` (the `@Injectable`/`@Global` decorators, the exception classes, `Logger`) and `@ortha/identity-server` (`PermissionKey` and `PERMISSION_KEYS`). No Drizzle, no HTTP client, no vendor SDK.
 
 > **The data model**
 >
@@ -189,7 +189,7 @@ The `ContentToolProvider` class (`src/lib/mcp/content-tools.provider.ts`). All s
 
 > **Resources, not just tools**
 >
-> That same provider is the only one in the repository implementing `resources()` and `readResource()`. Every type granted to the workspace is published as an `apograph://content-type/<name>` resource with the MIME type `application/json`, so a client that understands resources can pull the schema into context without spending a tool call. Reading goes through the same grant gate: an ungranted type 404s here too. These resources **declare no `requires`** — they are already narrowed to the workspace's grants by whoever builds them.
+> That same provider is the only one in the repository implementing `resources()` and `readResource()`. Every type granted to the workspace is published as an `ortha://content-type/<name>` resource with the MIME type `application/json`, so a client that understands resources can pull the schema into context without spending a tool call. Reading goes through the same grant gate: an ungranted type 404s here too. These resources **declare no `requires`** — they are already narrowed to the workspace's grants by whoever builds them.
 
 ### 4.2 Admin content — `content/server`, the `copilot` surface
 
@@ -564,7 +564,7 @@ interface ToolInputValidation {
 
 ```
 interface ResourceDefinition {
-    uri: string;                             // e.g. apograph://content-type/article
+    uri: string;                             // e.g. ortha://content-type/article
     name: string;
     description: string;
     mimeType: string;                        // e.g. application/json
@@ -623,7 +623,7 @@ A deliberate subset of JSON Schema, covering exactly what the generated tool sch
 
 > **A naming trap**
 >
-> The repository has **two different functions called `validateToolInput`**: the JSON Schema subset in `@apograph/tools-server`, and the DTO validation in `packages/content/server/src/lib/mcp/tool-input.ts`, which runs class-validator with the host `ValidationPipe`'s options. The content MCP provider imports the second. The shared name is confusing when reading a diff.
+> The repository has **two different functions called `validateToolInput`**: the JSON Schema subset in `@ortha/tools-server`, and the DTO validation in `packages/content/server/src/lib/mcp/tool-input.ts`, which runs class-validator with the host `ValidationPipe`'s options. The content MCP provider imports the second. The shared name is confusing when reading a diff.
 
 ## 10. Errors and their way out
 
@@ -724,7 +724,7 @@ What is configured is around it — at the consumers, and it is exactly the set 
 | MCP_CALL_TIMEOUT_MS            | `mcp/server`     | 30 000    | The ceiling on a single `tools/call`. Exceeding it gives an `isError` with code `timeout`. **It abandons the wait, it does not cancel the work**        |
 | MCP_MAX_RESULT_BYTES           | `mcp/server`     | 4 194 304 | The ceiling on one tool's serialized result. Exceeding it gives `result_too_large` with both numbers                                                    |
 | MAX_REQUEST_BODY               | host             | 1 MB      | The request body; exceeding it gives an ordinary Nest 413, above the JSON-RPC layer                                                                     |
-| config.name / config.version   | `mcp/server`     | apograph-cms | The identity the server reports to clients at `initialize`                                                                                              |
+| config.name / config.version   | `mcp/server`     | ortha-cms | The identity the server reports to clients at `initialize`                                                                                              |
 | COPILOT_ENABLED                | `copilot/server` | false     | Mirror image: removes the copilot routes without shrinking the shared catalogue                                                                         |
 | DEFAULT_RUN_DECISION_BUDGET_MS | `copilot/server` | 5 min     | How long a parked run waits for a human's answer — **for the whole run**, not per call                                                                  |
 
@@ -735,9 +735,9 @@ What is configured is around it — at the consumers, and it is exactly the set 
 ### Commands
 
 ```
-npx nx typecheck @apograph/tools-server
-npx nx lint      @apograph/tools-server
-npx nx test      @apograph/tools-server
+npx nx typecheck @ortha/tools-server
+npx nx lint      @ortha/tools-server
+npx nx test      @ortha/tools-server
 
 # cross-surface e2e (needs Docker)
 npx nx e2e server-e2e --testPathPatterns=tools
@@ -893,7 +893,7 @@ Phrased as “action → expected result”. Existing suites: unit tests in `pac
 - **Two providers recognize the same URI** → the one registered first wins.
 - **A resource with `requires`, the actor lacks the permission** → hidden from the list AND rejected when read by direct URI.
 - **A resource with no `requires`** → readable by anyone who reached the endpoint.
-- **The schema of a type the workspace was not granted, via `apograph://content-type/…`** → 404, indistinguishable from a non-existent type.
+- **The schema of a type the workspace was not granted, via `ortha://content-type/…`** → 404, indistinguishable from a non-existent type.
 - **A `resources/read` failure** → a JSON-RPC error (not `isError`), with the flattened `ToolError` in the `data` field.
 
 ## 16. Boundaries of responsibility
@@ -949,7 +949,7 @@ Every statement below was checked against the implementation on the current bran
 | apps/server-e2e/.../copilot-fixture-tools.ts, JSDoc     | “phase 1 ships **no write tools at all** — every real tool is `content:read`” and “let the **`apply`-not-opted-in branch** be exercised end to end”             | There are eighteen tools with `readOnly: false` today — ten direct writes and eight proposals. The “apply not permitted” branch was deleted along with the workspace policy (ADR-0009): there is no second gate on `effect` any more                                                                                                                                                          |
 | apps/server-e2e/.../copilot-fixture-tools.ts, the names | `fixture.readThing`, `fixture.proposeThing`, `fixture.applyThing`, `fixture.explodes`                                                                           | **They do not pass `TOOL_NAME_PATTERN`** (`snake_case` only). They fail to blow up solely because they are registered after `app.init()`, once `onApplicationBootstrap` has already run. This is both a divergence and a demonstration of the startup check's boundary                                                                                                                        |
 | docs/adr/0006 and 0007                                  | Both have status `Proposed`                                                                                                                                     | Both are fully implemented; ADR-0007 has also been amended twice (2026-08-11 and 2026-08-17). “Proposed” misleads a reader looking for the decision in force                                                                                                                                                                                                                                  |
-| Identically named functions                             | —                                                                                                                                                               | The repository has **two** `validateToolInput` functions: the JSON Schema subset in `@apograph/tools-server` and the DTO validation via class-validator in `content/server/src/lib/mcp/tool-input.ts`. The content MCP provider imports the second. The name collision is confusing when reading a diff; no document points it out                                                            |
+| Identically named functions                             | —                                                                                                                                                               | The repository has **two** `validateToolInput` functions: the JSON Schema subset in `@ortha/tools-server` and the DTO validation via class-validator in `content/server/src/lib/mcp/tool-input.ts`. The content MCP provider imports the second. The name collision is confusing when reading a diff; no document points it out                                                            |
 
 > **The common denominator**
 >

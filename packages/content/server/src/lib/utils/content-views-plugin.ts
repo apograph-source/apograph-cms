@@ -1,5 +1,5 @@
 import { join } from 'node:path';
-import type { ServerPlugin } from '@apograph/bootstrap-server';
+import type { ServerPlugin } from '@ortha/bootstrap-server';
 import { ContentViewsModule } from '../views/content-views.module';
 import { describeViewsApi } from '../docs/describe-views-api';
 import type { ContentServerPlugin } from './content-plugin';

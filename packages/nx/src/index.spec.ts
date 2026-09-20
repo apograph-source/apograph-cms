@@ -16,7 +16,7 @@ const [glob, createNodes] = createNodesV2;
 let workspaceRoot: string;
 
 beforeEach(() => {
-    workspaceRoot = mkdtempSync(join(tmpdir(), 'apograph-nx-infer-'));
+    workspaceRoot = mkdtempSync(join(tmpdir(), 'ortha-nx-infer-'));
 });
 
 afterEach(() => {
@@ -49,7 +49,7 @@ async function infer(...files: string[]) {
 describe('createNodesV2 glob', () => {
     it('matches the three config files inference dispatches on [nx:I-01]', () => {
         expect(glob).toBe(
-            '**/{drizzle.config.ts,apograph.config.ts,package.json}'
+            '**/{drizzle.config.ts,ortha.config.ts,package.json}'
         );
     });
 });
@@ -60,7 +60,7 @@ describe('db:generate inference', () => {
 
         expect(targets['packages/media/server/drizzle.config.ts']).toEqual({
             'db:generate': {
-                executor: '@apograph/nx:db-generate',
+                executor: '@ortha/nx:db-generate',
                 options: {
                     cwd: 'packages/media/server',
                     config: 'drizzle.config.ts'
@@ -103,21 +103,21 @@ describe('db:generate inference', () => {
 });
 
 describe('db:migrate / db:studio inference', () => {
-    it('attaches both to the project owning apograph.config.ts, uncached [nx:I-03]', async () => {
-        const targets = await infer('apps/server/apograph.config.ts');
+    it('attaches both to the project owning ortha.config.ts, uncached [nx:I-03]', async () => {
+        const targets = await infer('apps/server/ortha.config.ts');
 
-        expect(targets['apps/server/apograph.config.ts']).toEqual({
+        expect(targets['apps/server/ortha.config.ts']).toEqual({
             'db:migrate': {
-                executor: '@apograph/nx:db-migrate',
+                executor: '@ortha/nx:db-migrate',
                 options: {
-                    config: 'apps/server/apograph.config.ts',
+                    config: 'apps/server/ortha.config.ts',
                     plugins: 'apps/server/src/plugins.ts'
                 },
                 cache: false
             },
             'db:studio': {
-                executor: '@apograph/nx:db-studio',
-                options: { config: 'apps/server/apograph.config.ts' },
+                executor: '@ortha/nx:db-studio',
+                options: { config: 'apps/server/ortha.config.ts' },
                 cache: false
             }
         });
@@ -139,7 +139,7 @@ describe('packages/* build, pack and publish inference', () => {
 
     it('gives a publishable package build, pack and a redirected nx-release-publish [nx:I-15] [nx:I-18] [nx:I-19]', async () => {
         const file = stagePackage('packages/utils/admin', {
-            name: '@apograph/utils-admin'
+            name: '@ortha/utils-admin'
         });
 
         const targets = (await infer(file))[file];
@@ -155,7 +155,7 @@ describe('packages/* build, pack and publish inference', () => {
         });
         expect(targets['pack']['cache']).toBe(false);
         expect(targets['nx-release-publish']).toEqual({
-            executor: '@apograph/nx:release-publish',
+            executor: '@ortha/nx:release-publish',
             options: { packageRoot: 'dist/pack/packages/utils/admin' }
         });
     });
@@ -178,12 +178,12 @@ describe('packages/* build, pack and publish inference', () => {
         ) as { targetDefaults: Record<string, { executor?: string }> };
 
         const file = stagePackage('packages/utils/admin', {
-            name: '@apograph/utils-admin'
+            name: '@ortha/utils-admin'
         });
         const inferred = (await infer(file))[file]['nx-release-publish'];
 
         expect(nxJson.targetDefaults['nx-release-publish'].executor).toBe(
-            '@apograph/nx:release-publish'
+            '@ortha/nx:release-publish'
         );
         expect(inferred['executor']).toBe(
             nxJson.targetDefaults['nx-release-publish'].executor
@@ -200,7 +200,7 @@ describe('packages/* build, pack and publish inference', () => {
 
     it('gives a private package build only — workspace tooling is not a distributable [nx:I-17]', async () => {
         const file = stagePackage('packages/nx', {
-            name: '@apograph/nx',
+            name: '@ortha/nx',
             private: true
         });
 
@@ -211,11 +211,11 @@ describe('packages/* build, pack and publish inference', () => {
         [
             'a manifest outside packages/',
             (): string =>
-                stagePackage('apps/admin', { name: '@apograph/admin' })
+                stagePackage('apps/admin', { name: '@ortha/admin' })
         ],
         [
             'the workspace-root manifest',
-            (): string => stagePackage('.', { name: 'apograph-cms' })
+            (): string => stagePackage('.', { name: 'ortha-cms' })
         ],
         [
             'a manifest with no name',
@@ -226,7 +226,7 @@ describe('packages/* build, pack and publish inference', () => {
             (): string =>
                 stagePackage(
                     'packages/nolib',
-                    { name: '@apograph/nolib' },
+                    { name: '@ortha/nolib' },
                     { tsconfig: false }
                 )
         ]

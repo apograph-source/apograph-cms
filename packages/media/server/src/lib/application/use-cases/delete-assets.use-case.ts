@@ -1,12 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { attachActor, OutboxWriter, UnitOfWork } from '@apograph/database';
-import type { PublicUser } from '@apograph/identity-server';
+import { attachActor, OutboxWriter, UnitOfWork } from '@ortha/database';
+import type { PublicUser } from '@ortha/identity-server';
 import { AssetId } from '../../domain/value-objects/asset-id';
 import {
     ASSET_REPOSITORY,
     type AssetRepository
 } from '../../domain/asset.repository';
-import { STORAGE_PROVIDER, type StorageProvider } from '@apograph/media-domain';
+import { STORAGE_PROVIDER, type StorageProvider } from '@ortha/media-domain';
 import { reclaimManyAssetBlobs } from '../reclaim-asset-blobs';
 
 /**

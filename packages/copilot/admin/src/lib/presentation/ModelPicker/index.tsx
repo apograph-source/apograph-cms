@@ -7,7 +7,7 @@ import {
     DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuTrigger
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import {
     modelChoiceKey,
     useCopilotModels,

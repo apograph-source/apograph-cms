@@ -3,7 +3,7 @@
 > **Phase 1.** What is described here is what ships: the port, the queue, the
 > worker, the three transactional messages, `reveal-link`, and the SMTP,
 > console and testkit adapters — plus phase 3's scaffolder question, which
-> `create-apograph-app` now asks. Self-service password recovery, the
+> `create-ortha-app` now asks. Self-service password recovery, the
 > dead-letter API and the Resend and Postmark adapters are phase 2 of
 > [ADR-0018](../adr/0018-mail-provider.md); they are named in section 13 rather
 > than described as if they existed.
@@ -34,11 +34,11 @@ the behaviour the product shipped with (I-01).
 
 | Package                           | What it is                                                                                                                                                                                                                |
 | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `@apograph/mail-domain`           | The kernel. Two ports (`MailProvider` outward, `MailDispatcher` inward), the message and its receipt, `MailPermanentError`, the links, the templates, the retry schedule. **No dependencies at all**, asserted by a test. |
-| `@apograph/mail-server`           | The plugin. One table, the dispatcher adapter, the worker, the boot check.                                                                                                                                                |
-| `@apograph/mail-provider-smtp`    | The backend a deployment runs, over `nodemailer`.                                                                                                                                                                         |
-| `@apograph/mail-provider-console` | Writes messages to the log. Ships with every app, offered by no picker.                                                                                                                                                   |
-| `@apograph/mail-provider-testkit` | Captures messages, and can be told to fail. Same install rule.                                                                                                                                                            |
+| `@ortha/mail-domain`           | The kernel. Two ports (`MailProvider` outward, `MailDispatcher` inward), the message and its receipt, `MailPermanentError`, the links, the templates, the retry schedule. **No dependencies at all**, asserted by a test. |
+| `@ortha/mail-server`           | The plugin. One table, the dispatcher adapter, the worker, the boot check.                                                                                                                                                |
+| `@ortha/mail-provider-smtp`    | The backend a deployment runs, over `nodemailer`.                                                                                                                                                                         |
+| `@ortha/mail-provider-console` | Writes messages to the log. Ships with every app, offered by no picker.                                                                                                                                                   |
+| `@ortha/mail-provider-testkit` | Captures messages, and can be told to fail. Same install rule.                                                                                                                                                            |
 
 There is no `mail/admin`. The admin changes this feature needs are in
 `users-admin`, where the invitation and reset flows already live.
@@ -234,7 +234,7 @@ were first written; the tests that pin one name it in a comment.
 - **Not built (phase 2):** `POST /api/auth/password-recovery` with its four
   rules, the `GET /api/mail/dead-letters` surface, the `mail.delivery_failed`
   event, and the Resend and Postmark adapters.
-- **Built (phase 3):** the `create-apograph-app` question. The scaffolder's
+- **Built (phase 3):** the `create-ortha-app` question. The scaffolder's
   fifth question is single-choice with **"Do not configure"** as its default;
   picking SMTP installs `mail-server` and `mail-provider-smtp` and writes
   `config/mail.ts`, the `mailPlugin()` helper and the `MAIL_*` / `SMTP_*` keys,

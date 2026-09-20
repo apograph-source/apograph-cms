@@ -1,4 +1,4 @@
-import { Separator } from '@apograph/design-system';
+import { Separator } from '@ortha/design-system';
 import { GrantedContentRow, type GrantedContent } from '../GrantedContentRow';
 
 /** Props for {@link GrantedContentGroup}. */

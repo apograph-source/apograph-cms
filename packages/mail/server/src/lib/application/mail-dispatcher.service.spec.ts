@@ -1,4 +1,4 @@
-import { MAIL_KINDS } from '@apograph/mail-domain';
+import { MAIL_KINDS } from '@ortha/mail-domain';
 import { MailDispatcherService } from './mail-dispatcher.service';
 import type {
     MailDeliveryRepository,

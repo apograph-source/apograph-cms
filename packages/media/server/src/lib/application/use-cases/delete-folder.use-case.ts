@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { attachActor, OutboxWriter, UnitOfWork } from '@apograph/database';
-import type { PublicUser } from '@apograph/identity-server';
+import { attachActor, OutboxWriter, UnitOfWork } from '@ortha/database';
+import type { PublicUser } from '@ortha/identity-server';
 import type { Asset } from '../../domain/asset';
 import { FolderId } from '../../domain/value-objects/folder-id';
 import { FolderNotFoundError } from '../../domain/errors/folder-not-found.error';
@@ -12,7 +12,7 @@ import {
     FOLDER_REPOSITORY,
     type FolderRepository
 } from '../../domain/folder.repository';
-import { STORAGE_PROVIDER, type StorageProvider } from '@apograph/media-domain';
+import { STORAGE_PROVIDER, type StorageProvider } from '@ortha/media-domain';
 import { reclaimManyAssetBlobs } from '../reclaim-asset-blobs';
 
 /** What a cascading folder delete removed. */

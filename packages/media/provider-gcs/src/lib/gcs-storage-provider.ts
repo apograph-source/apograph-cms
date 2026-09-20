@@ -2,19 +2,19 @@ import { createHash } from 'node:crypto';
 import { PassThrough, Readable } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
 import { Storage, type Bucket } from '@google-cloud/storage';
-import { ObjectNotFoundError } from '@apograph/media-domain';
+import { ObjectNotFoundError } from '@ortha/media-domain';
 import type {
     DirectUrlOptions,
     PutObject,
     StorageProvider,
     StoredObject
-} from '@apograph/media-domain';
+} from '@ortha/media-domain';
 
 /**
  * Settings for Google Cloud Storage.
  *
  * **You may not need this package.** GCS speaks the S3 XML API in
- * interoperability mode, so `@apograph/media-provider-s3` reaches it today with
+ * interoperability mode, so `@ortha/media-provider-s3` reaches it today with
  * `endpoint: 'https://storage.googleapis.com'` and an HMAC key. This adapter
  * exists for the deployment that cannot use that: HMAC keys are a long-lived
  * secret that many organizations forbid by policy, and they rule out Workload

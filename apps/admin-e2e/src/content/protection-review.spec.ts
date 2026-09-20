@@ -162,7 +162,7 @@ test.describe('Publication protection in the entry editor', () => {
         const writes = await mockEntryReview(page, {
             required: 1,
             given: 0,
-            candidates: [{ userId: 'u_ada', email: 'ada@apograph.dev' }]
+            candidates: [{ userId: 'u_ada', email: 'ada@ortha.dev' }]
         });
         await contentLibraryPage.gotoEntry(WS, TYPE, ENTRY);
 
@@ -170,7 +170,7 @@ test.describe('Publication protection in the entry editor', () => {
         // `fixed bottom-3 right-4` with `z-40` and floats over the bottom of the
         // properties rail, which is where this button sits. It used to
         // intercept the click and this test timed out. The scrollports now
-        // reserve `--apograph-fixed-bottom-gutter`, so the rail can be scrolled
+        // reserve `--ortha-fixed-bottom-gutter`, so the rail can be scrolled
         // clear of the bar — if that regresses, this goes back to timing out.
         await page.getByRole('button', { name: 'Request review' }).click();
         const dialog = page.getByRole('dialog', { name: 'Request review' });

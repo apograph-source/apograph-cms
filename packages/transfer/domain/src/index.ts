@@ -1,5 +1,5 @@
 /**
- * Public API of `@apograph/transfer-domain` — the transfer **kernel**.
+ * Public API of `@ortha/transfer-domain` — the transfer **kernel**.
  *
  * Pure TypeScript (no NestJS, no Drizzle, no React): the document contract both
  * ends of a transfer must agree on, the format implementations, and the

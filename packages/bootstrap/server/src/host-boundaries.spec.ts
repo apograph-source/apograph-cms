@@ -93,7 +93,7 @@ describe('the server host holds no domain logic', () => {
             matching(/@Controller\b|@(Get|Post|Put|Patch|Delete)\s*\(/)
         ).toEqual([]);
         // A table. The one sanctioned host-adjacent table (`outbox_events`)
-        // belongs to `@apograph/database`, which is a plugin like any other.
+        // belongs to `@ortha/database`, which is a plugin like any other.
         expect(matching(/\bpgTable\b|drizzle-orm/)).toEqual([]);
     });
 
@@ -113,10 +113,10 @@ describe('the server host holds no domain logic', () => {
 
         expect(declared).not.toContain('drizzle-orm');
         expect(
-            declared.filter((name) => name.startsWith('@apograph/'))
+            declared.filter((name) => name.startsWith('@ortha/'))
         ).toEqual([]);
         // …and not through an undeclared import either, which is how a phantom
         // dependency gets in (see the express case above).
-        expect(matching(/from '@apograph\//)).toEqual([]);
+        expect(matching(/from '@ortha\//)).toEqual([]);
     });
 });

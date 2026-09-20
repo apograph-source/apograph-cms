@@ -11,7 +11,7 @@ export default defineConfig(() => ({
     cacheDir: '../../../node_modules/.vite/packages/content/admin',
     plugins: [react()],
     test: {
-        name: '@apograph/content-admin',
+        name: '@ortha/content-admin',
         watch: false,
         globals: true,
         environment: 'jsdom',

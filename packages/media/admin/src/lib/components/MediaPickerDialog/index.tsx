@@ -30,7 +30,7 @@ import {
     SelectTrigger,
     SelectValue,
     Skeleton
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import {
     KIND_FILTER_ALL,
     MEDIA_KIND,

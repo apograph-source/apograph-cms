@@ -14,7 +14,7 @@ import { join } from 'node:path';
 
 /**
  * `tools/release/pack.mjs` staging a package that ships a **`bin`** and
- * **`templates/`** — what `create-apograph-app` and `@apograph/cli` need.
+ * **`templates/`** — what `create-ortha-app` and `@ortha/cli` need.
  *
  * Driven as a subprocess against a throwaway workspace rather than imported:
  * the script is an ESM entry point that reads `process.cwd()`, writes to
@@ -45,10 +45,10 @@ function writeText(path: string, contents: string): void {
  * real repo.
  */
 function workspace(manifest: Record<string, unknown>): string {
-    const dir = mkdtempSync(join(tmpdir(), 'apograph-pack-'));
+    const dir = mkdtempSync(join(tmpdir(), 'ortha-pack-'));
 
     writeJson(join(dir, 'package.json'), {
-        name: '@apograph/source',
+        name: '@ortha/source',
         license: 'MIT',
         repository: {
             type: 'git',
@@ -89,7 +89,7 @@ function stagedManifest(): Record<string, never> {
 }
 
 const baseManifest = {
-    name: 'create-apograph-app',
+    name: 'create-ortha-app',
     version: '1.2.3',
     license: 'MIT',
     main: './src/index.ts',
@@ -108,12 +108,12 @@ describe('pack.mjs, for a package that ships a bin', () => {
     it('remaps a bin map onto the build output', () => {
         root = workspace({
             ...baseManifest,
-            bin: { apograph: './src/cli.ts' }
+            bin: { ortha: './src/cli.ts' }
         });
 
         pack();
 
-        expect(stagedManifest().bin).toEqual({ apograph: './dist/cli.js' });
+        expect(stagedManifest().bin).toEqual({ ortha: './dist/cli.js' });
     });
 
     it('remaps the bare-string spelling too', () => {
@@ -140,7 +140,7 @@ describe('pack.mjs, for a package that ships a bin', () => {
     it('refuses to stage a bin the build never emitted', () => {
         root = workspace({
             ...baseManifest,
-            bin: { apograph: './src/missing.ts' }
+            bin: { ortha: './src/missing.ts' }
         });
 
         expect(pack).toThrow();
@@ -323,7 +323,7 @@ describe('pack.mjs, for a plugin that ships migrations', () => {
 
         // Install the staged package the way npm would, and ask the plugin
         // itself where its migrations are.
-        const installed = join(root, 'consumer/node_modules/@apograph/thing');
+        const installed = join(root, 'consumer/node_modules/@ortha/thing');
         mkdirSync(join(installed, '..'), { recursive: true });
         cpSync(join(root, 'dist/pack/packages/scaffolder'), installed, {
             recursive: true
@@ -376,10 +376,10 @@ describe('pack.mjs, resolving what a package depends on', () => {
     it('pins a workspace dependency declared as "*" to its version', () => {
         root = workspace({
             ...baseManifest,
-            dependencies: { '@apograph/database': '*' }
+            dependencies: { '@ortha/database': '*' }
         });
         writeJson(join(root, 'packages/database/package.json'), {
-            name: '@apograph/database',
+            name: '@ortha/database',
             version: '4.5.6'
         });
 
@@ -388,7 +388,7 @@ describe('pack.mjs, resolving what a package depends on', () => {
         // "*" on the registry means "whatever is latest", never what this
         // was built against.
         expect(stagedManifest().dependencies).toEqual({
-            '@apograph/database': '^4.5.6',
+            '@ortha/database': '^4.5.6',
             tslib: '^2.3.0'
         });
     });
@@ -403,7 +403,7 @@ describe('pack.mjs, resolving what a package depends on', () => {
  * That reasoning applies to what the tarball *contains*. Test scaffolding a
  * package excludes from its build — `__test__/harness.tsx`, `test-setup.ts` —
  * is compiled nowhere and shipped nowhere, and reading it refused
- * `@apograph/query-builder-admin` over a `@testing-library/react` import no
+ * `@ortha/query-builder-admin` over a `@testing-library/react` import no
  * consumer could ever reach. The excludes differ per package, so the package's
  * own `tsconfig.lib.json` is what decides.
  */

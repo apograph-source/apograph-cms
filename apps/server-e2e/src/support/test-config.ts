@@ -1,20 +1,20 @@
-import type { TrustProxySetting } from '@apograph/bootstrap-server';
-import type { ContentGraphqlLimits } from '@apograph/content-graphql';
+import type { TrustProxySetting } from '@ortha/bootstrap-server';
+import type { ContentGraphqlLimits } from '@ortha/content-graphql';
 import type {
     IdentityRateLimitConfig,
     IdentityRootAdminConfig,
     IdentitySessionConfig,
     IdentitySsoConfig
-} from '@apograph/identity-server';
-import type { RunLimits } from '@apograph/copilot-domain';
-import type { LocaleDef, OrphanedLocalePolicy } from '@apograph/i18n-server';
-import type { TransferLimits } from '@apograph/transfer-domain';
-import type { WebhooksPluginConfig } from '@apograph/webhooks-server';
-import type { MailPluginConfig } from '@apograph/mail-server';
-import type { ApographConfig } from '../../../server/apograph.config';
+} from '@ortha/identity-server';
+import type { RunLimits } from '@ortha/copilot-domain';
+import type { LocaleDef, OrphanedLocalePolicy } from '@ortha/i18n-server';
+import type { TransferLimits } from '@ortha/transfer-domain';
+import type { WebhooksPluginConfig } from '@ortha/webhooks-server';
+import type { MailPluginConfig } from '@ortha/mail-server';
+import type { OrthaConfig } from '../../../server/ortha.config';
 
 /**
- * The host config the e2e app boots with. Mirrors `apps/server/apograph.config.ts`
+ * The host config the e2e app boots with. Mirrors `apps/server/ortha.config.ts`
  * but with deterministic test values and the testcontainer's connection
  * string — so we exercise the real plugin wiring (`buildPlugins`) without
  * depending on the developer's `.env`.
@@ -115,7 +115,7 @@ export interface TestConfigOverrides {
     /**
      * Configure the root-admin bootstrap. Omitted by default, so the seeder
      * is a no-op and a freshly booted app has no users (matching production
-     * with no `APOGRAPH_ROOT_ADMIN_EMAIL` set).
+     * with no `ORTHA_ROOT_ADMIN_EMAIL` set).
      */
     rootAdmin?: IdentityRootAdminConfig;
     /**
@@ -213,7 +213,7 @@ export interface TestConfigOverrides {
      * `content_*` tables its migrations created are still in the database.
      *
      * A wiring choice, not a config value, so it is forwarded to
-     * `buildTestPlugins` rather than into `ApographConfig`. It is the only way to
+     * `buildTestPlugins` rather than into `OrthaConfig`. It is the only way to
      * reach the workspaces plugin's fail-closed branch: `CONTENT_ENTRY_COUNTER`
      * is bound by `ContentPlugin`, and with nothing bound the counter reports
      * `0` for a workspace whose entries may very much exist — so the two
@@ -225,7 +225,7 @@ export interface TestConfigOverrides {
 export function buildTestConfig(
     connectionString: string,
     overrides: TestConfigOverrides = {}
-): ApographConfig {
+): OrthaConfig {
     return {
         port: 0,
         globalPrefix: 'api',
@@ -312,7 +312,7 @@ export function buildTestConfig(
                       mail: {
                           backend: 'console' as const,
                           appUrl: 'https://cms.test',
-                          from: 'Apograph <no-reply@cms.test>',
+                          from: 'Ortha <no-reply@cms.test>',
                           // The worker is driven explicitly, never by a timer.
                           deliveryIntervalMs: 0,
                           ...overrides.mail
@@ -375,7 +375,7 @@ export function buildTestConfig(
             // kill-switch suite asserts the controller is really unmounted.
             mcp: {
                 enabled: overrides.mcpEnabled ?? true,
-                name: 'apograph-cms-test',
+                name: 'ortha-cms-test',
                 version: '0.0.0-test',
                 callTimeoutMs: overrides.mcpCallTimeoutMs ?? 30_000,
                 maxResultBytes: overrides.mcpMaxResultBytes ?? 4_194_304

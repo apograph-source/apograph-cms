@@ -3,7 +3,7 @@ import { BasePage } from './BasePage';
 
 /**
  * Page object for the Workspaces page at `/workspaces` (from
- * `@apograph/workspaces-admin`).
+ * `@ortha/workspaces-admin`).
  *
  * Unlike the auth suites there is **no `/api` mock for the data**: the page
  * reads from the plugin's in-memory `workspacesClient` stub, whose seed is fixed

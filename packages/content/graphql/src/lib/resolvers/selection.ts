@@ -7,7 +7,7 @@ import {
     PublicEntryQueryDto,
     PublicListEntriesQueryDto,
     type AnyContentType
-} from '@apograph/content-server';
+} from '@ortha/content-server';
 import { validateSync } from 'class-validator';
 import {
     Kind,

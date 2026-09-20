@@ -1,7 +1,7 @@
 /** The copilot — its kill switch, its run ceilings, and its model backends. */
-import type { CopilotPluginConfig } from '@apograph/copilot-server';
-import type { AnthropicProviderConfig } from '@apograph/copilot-provider-anthropic';
-import type { OpenAiProviderConfig } from '@apograph/copilot-provider-openai';
+import type { CopilotPluginConfig } from '@ortha/copilot-server';
+import type { AnthropicProviderConfig } from '@ortha/copilot-provider-anthropic';
+import type { OpenAiProviderConfig } from '@ortha/copilot-provider-openai';
 
 import {
     defined,
@@ -11,7 +11,7 @@ import {
     readOptionalPositiveInt,
     readPositiveInt,
     when
-} from '@apograph/utils-server';
+} from '@ortha/utils-server';
 
 /**
  * Copilot settings, plus the connection settings for the model backends this
@@ -35,7 +35,7 @@ import {
  * registered, and had to be kept in step with the list on every change — while
  * "configured" is a fact this file can read directly.
  */
-export interface ApographCopilotConfig extends CopilotPluginConfig {
+export interface OrthaCopilotConfig extends CopilotPluginConfig {
     /**
      * Model backends, keyed by the name they are registered under, in
      * preference order. Each is absent unless its connection settings are
@@ -58,7 +58,7 @@ export interface ApographCopilotConfig extends CopilotPluginConfig {
 }
 
 /** The copilot kill switch, its run ceilings, and the backends it can reach. */
-export function copilotConfig(): ApographCopilotConfig {
+export function copilotConfig(): OrthaCopilotConfig {
     return defined({
         // Off by default (ADR-0005 §10). Enabling a hosted provider sends
         // workspace content to a third party, so an operator opts in.
@@ -109,7 +109,7 @@ function copilotLimits(): CopilotPluginConfig['limits'] | undefined {
  * instead, it is not in the catalogue, not in the picker, and not a default
  * anybody has to override.
  */
-function copilotProviders(): ApographCopilotConfig['providers'] {
+function copilotProviders(): OrthaCopilotConfig['providers'] {
     const anthropicApiKey = readEnv('ANTHROPIC_API_KEY');
     const openAiBaseUrl = readEnv('COPILOT_OPENAI_BASE_URL');
     return defined({

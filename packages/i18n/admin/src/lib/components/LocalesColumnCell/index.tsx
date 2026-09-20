@@ -1,5 +1,5 @@
 import { defineMessages, useIntl } from 'react-intl';
-import type { RecordsColumnCellContext } from '@apograph/content-admin';
+import type { RecordsColumnCellContext } from '@ortha/content-admin';
 import type { LocaleSummariesData } from '../../api/useLocaleSummaries';
 import { LocaleBadge } from './LocaleBadge';
 

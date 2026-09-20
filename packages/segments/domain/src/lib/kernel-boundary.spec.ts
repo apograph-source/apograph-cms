@@ -37,7 +37,7 @@ const CONSUMERS = {
     )
 };
 
-describe('@apograph/segments-domain is dependency-free', () => {
+describe('@ortha/segments-domain is dependency-free', () => {
     /**
      * The kernel is the one place both a React form and a NestJS DTO can read
      * from, and that is only true while it needs neither of their worlds. A
@@ -87,7 +87,7 @@ describe('the audience field rules have one home', () => {
         (_name, path) => {
             const text = readFileSync(path, 'utf-8');
 
-            expect(text).toContain("from '@apograph/segments-domain'");
+            expect(text).toContain("from '@ortha/segments-domain'");
             for (const constant of [
                 'SEGMENT_KEY_MAX',
                 'SEGMENT_LABEL_MAX',

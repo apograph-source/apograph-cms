@@ -1,4 +1,4 @@
-import type { ServerPlugin } from '@apograph/bootstrap-server';
+import type { ServerPlugin } from '@ortha/bootstrap-server';
 
 const migrate = jest.fn();
 const end = jest.fn();
@@ -21,7 +21,7 @@ jest.mock('drizzle-orm/node-postgres/migrator', () => ({
 
 import { applyPluginMigrations, describeTarget } from './migrate';
 
-const URL = 'postgresql://apograph:secret@localhost:5432/apograph_cms';
+const URL = 'postgresql://ortha:secret@localhost:5432/ortha_cms';
 
 /** The only part of `ServerPlugin` this loop reads. */
 function plugin(name: string, dir = `/migrations/${name}`): ServerPlugin {
@@ -40,11 +40,11 @@ afterEach(() => jest.restoreAllMocks());
 
 describe('describeTarget', () => {
     it('names host, port and database without the credentials [cli:I-09]', () => {
-        expect(describeTarget(URL)).toBe('localhost:5432/apograph_cms');
+        expect(describeTarget(URL)).toBe('localhost:5432/ortha_cms');
     });
 
     it.each([
-        ['postgresql://localhost/apograph', 'localhost/apograph'],
+        ['postgresql://localhost/ortha', 'localhost/ortha'],
         ['postgresql://localhost:5432/', 'localhost:5432/(default)']
     ])('handles %s', (url, expected) => {
         expect(describeTarget(url)).toBe(expected);
@@ -112,7 +112,7 @@ describe('applyPluginMigrations', () => {
         await applyPluginMigrations([plugin('identity')], URL);
 
         expect(console.log).toHaveBeenCalledWith(
-            expect.stringContaining('localhost:5432/apograph_cms')
+            expect.stringContaining('localhost:5432/ortha_cms')
         );
     });
 

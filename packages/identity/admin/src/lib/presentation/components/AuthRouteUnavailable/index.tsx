@@ -7,7 +7,7 @@ import {
     CardDescription,
     CardHeader,
     CardTitle
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 
 /**
  * Intl descriptors for {@link AuthRouteUnavailable}, co-located with the

@@ -8,7 +8,7 @@
  * this file, and everything import does downstream rests on it.
  */
 
-import { CONTENT_FIELD_TYPE } from '@apograph/content-domain';
+import { CONTENT_FIELD_TYPE } from '@ortha/content-domain';
 import type { TransferTypeSchema } from '../schema/type-schema';
 
 /** Where a type's identity fields came from. */

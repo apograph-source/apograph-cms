@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { defineMessages, useIntl } from 'react-intl';
-import { AppLoader } from '@apograph/design-system';
+import { AppLoader } from '@ortha/design-system';
 import { AuthStatus, useAuth } from '../authContext';
 import { AuthUnavailable } from '../../components/AuthUnavailable';
 

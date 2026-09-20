@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { ApiError } from '@apograph/utils-admin';
+import { ApiError } from '@ortha/utils-admin';
 import { httpWebhookGateway } from '../../infrastructure/httpWebhookGateway';
 import { webhooksKeys } from '../../infrastructure/webhooksKeys';
 

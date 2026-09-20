@@ -1,5 +1,5 @@
 {
-    "name": "@apograph/tools-server",
+    "name": "@ortha/tools-server",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -17,6 +17,6 @@
     ],
     "dependencies": {
         "@nestjs/common": "^11.0.0",
-        "@apograph/identity-server": "*"
+        "@ortha/identity-server": "*"
     }
 }

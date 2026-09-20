@@ -1,4 +1,4 @@
-import type { RunLimits } from '@apograph/copilot-domain';
+import type { RunLimits } from '@ortha/copilot-domain';
 
 /**
  * The copilot plugin's host-supplied config.

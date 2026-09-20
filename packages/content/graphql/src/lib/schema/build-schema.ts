@@ -6,7 +6,7 @@ import {
     type AnyContentType,
     type ContentTypeRegistry,
     type PublicEntry
-} from '@apograph/content-server';
+} from '@ortha/content-server';
 import {
     GraphQLBoolean,
     GraphQLID,
@@ -150,7 +150,7 @@ export function buildContentSchema(
         query,
         ...(mutation ? { mutation } : {}),
         description:
-            'The Apograph CMS public content API. Authenticate with `Authorization: Bearer <token>`; pick a workspace with `X-Workspace-Id` when the token covers more than one. This schema describes exactly the content types the resolved workspace was granted — another workspace’s token sees a different one.'
+            'The Ortha CMS public content API. Authenticate with `Authorization: Bearer <token>`; pick a workspace with `X-Workspace-Id` when the token covers more than one. This schema describes exactly the content types the resolved workspace was granted — another workspace’s token sees a different one.'
     });
 }
 

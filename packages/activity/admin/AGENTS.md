@@ -1,4 +1,4 @@
-# @apograph/activity-admin
+# @ortha/activity-admin
 
 The audit-log **admin plugin**: the global **Activity Log** page at `/activity`,
 its sidebar nav entry, and the home dashboard's recent-activity panel. Mirrors
@@ -172,8 +172,8 @@ the home slots). Every `<time datetime>` in this plugin therefore goes through
 
 ## Commands
 
-- `npx nx typecheck @apograph/activity-admin` / `npx nx lint @apograph/activity-admin`
-- `npx nx test @apograph/activity-admin` — the unit suite. `testEnvironment: 'node'`
+- `npx nx typecheck @ortha/activity-admin` / `npx nx lint @ortha/activity-admin`
+- `npx nx test @ortha/activity-admin` — the unit suite. `testEnvironment: 'node'`
   and `testMatch` is `*.spec.ts` only, matching `alarms-admin` / `copilot-admin`:
   what is tested here is the **pure** part — the mapper's refusal to invent a
   timestamp, the `<time datetime>` guard, and `ACTION_MESSAGES` against

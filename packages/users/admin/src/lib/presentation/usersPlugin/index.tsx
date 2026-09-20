@@ -1,6 +1,6 @@
 import { Suspense, lazy } from 'react';
-import type { AdminPlugin } from '@apograph/bootstrap-admin';
-import { SIDEBAR_FOOTER_SLOT, SIDEBAR_NAV_SLOT } from '@apograph/shell-admin';
+import type { AdminPlugin } from '@ortha/bootstrap-admin';
+import { SIDEBAR_FOOTER_SLOT, SIDEBAR_NAV_SLOT } from '@ortha/shell-admin';
 import { Users } from 'lucide-react';
 import {
     InviteMemberPageSkeleton,

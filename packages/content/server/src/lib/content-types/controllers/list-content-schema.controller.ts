@@ -3,7 +3,7 @@ import {
     PERMISSIONS,
     PermissionsGuard,
     RequirePermissions
-} from '@apograph/identity-server';
+} from '@ortha/identity-server';
 import { InjectContentRegistry } from '../../content.tokens';
 import type {
     ContentTypeRegistry,

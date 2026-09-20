@@ -11,7 +11,7 @@
  * carries one.
  */
 
-import type { EntryStatus } from '@apograph/content-domain';
+import type { EntryStatus } from '@ortha/content-domain';
 
 /**
  * Wire version of the document. Bumped when a change would make an older

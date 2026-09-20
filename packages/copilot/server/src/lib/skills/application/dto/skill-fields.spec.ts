@@ -1,7 +1,7 @@
 import { plainToInstance } from 'class-transformer';
 import { getMetadataStorage, validateSync } from 'class-validator';
 import { getTableColumns } from 'drizzle-orm';
-import type { Skill, SkillDefinition } from '@apograph/copilot-domain';
+import type { Skill, SkillDefinition } from '@ortha/copilot-domain';
 import { copilotSkills } from '../../infrastructure/schema/skills';
 import { CreateSkillDto } from './create-skill.dto';
 import { UpdateSkillDto } from './update-skill.dto';

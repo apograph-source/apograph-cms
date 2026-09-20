@@ -1,5 +1,5 @@
-import { apiClient, toApiError } from '@apograph/utils-admin';
-import type { ThemePreference } from '@apograph/design-system';
+import { apiClient, toApiError } from '@ortha/utils-admin';
+import type { ThemePreference } from '@ortha/design-system';
 
 /**
  * The current user's own preferences, as carried over `/api/preferences`.

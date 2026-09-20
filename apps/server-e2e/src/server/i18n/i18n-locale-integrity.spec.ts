@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { OrphanedLocaleChecker } from '@apograph/i18n-server';
+import { OrphanedLocaleChecker } from '@ortha/i18n-server';
 import {
     closeTestApp,
     createTestApp,

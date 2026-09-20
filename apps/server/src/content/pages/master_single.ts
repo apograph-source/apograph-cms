@@ -11,7 +11,7 @@ import {
     single,
     field,
     type AnyContentType
-} from '@apograph/content-server/define';
+} from '@ortha/content-server/define';
 import { author } from '../collections/author';
 import { seo_meta } from '../collections/seo_meta';
 import { tag } from '../collections/tag';

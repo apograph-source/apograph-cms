@@ -1,4 +1,4 @@
-# @apograph/copilot-provider-openai
+# @ortha/copilot-provider-openai
 
 A `ModelProvider` speaking the **OpenAI chat-completions wire format** against a
 configurable `baseUrl`. Ollama, vLLM, llama.cpp, LM Studio, LiteLLM, OpenRouter,
@@ -6,7 +6,7 @@ Azure and OpenAI itself all speak it — which is what makes a local, air-gapped
 install a _configuration choice rather than a fork_
 ([ADR-0004](../../../docs/adr/0004-model-agnostic-copilot-provider.md) §3).
 
-Depends only on `@apograph/copilot-domain` (for the port **type**, erased at
+Depends only on `@ortha/copilot-domain` (for the port **type**, erased at
 runtime) and Node built-ins. No SDK: the surface is `POST /chat/completions` and
 a few lines of SSE parsing, and a dependency for that would not earn its place.
 
@@ -155,6 +155,6 @@ boundary would otherwise grow one string for the whole request budget.
 
 ## Commands
 
-- `npx nx typecheck @apograph/copilot-provider-openai`
-- `npx nx lint @apograph/copilot-provider-openai`
-- `npx nx test @apograph/copilot-provider-openai`
+- `npx nx typecheck @ortha/copilot-provider-openai`
+- `npx nx lint @ortha/copilot-provider-openai`
+- `npx nx test @ortha/copilot-provider-openai`

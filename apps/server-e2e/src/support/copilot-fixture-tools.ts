@@ -1,4 +1,4 @@
-import type { ToolDefinition, ToolProvider } from '@apograph/tools-server';
+import type { ToolDefinition, ToolProvider } from '@ortha/tools-server';
 
 /**
  * Fixture tools, registered by the copilot suite only.

@@ -1,6 +1,6 @@
 import { defineMessages, useIntl } from 'react-intl';
 import { Check, Pin } from 'lucide-react';
-import { DropdownMenuItem, cn } from '@apograph/design-system';
+import { DropdownMenuItem, cn } from '@ortha/design-system';
 import type { SavedView } from '../../../../domain/types/savedView';
 
 /** Intl descriptors for {@link ViewRow}, co-located. */

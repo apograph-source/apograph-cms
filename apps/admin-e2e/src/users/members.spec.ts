@@ -17,7 +17,7 @@ const PENDING_MEMBER = DEFAULT_MEMBERS.filter(
 )[0];
 
 /**
- * The Members page (`/users`, `@apograph/users-admin`): rendering the roster,
+ * The Members page (`/users`, `@ortha/users-admin`): rendering the roster,
  * search and its two empty states, the invite wizard, status-dependent row
  * actions, the failed read, and permission gating — of the page, of the nav
  * entry that points at it, and of the request behind it. The backend is the
@@ -43,10 +43,10 @@ test.describe('Members page', () => {
         await expect(membersPage.nav).toBeVisible();
 
         await expect(membersPage.row('Ada Lovelace')).toBeVisible();
-        await expect(membersPage.row('grace@apograph.dev')).toBeVisible();
+        await expect(membersPage.row('grace@ortha.dev')).toBeVisible();
         // The pending invite renders as a normal row with an "Invited" pill —
         // not a separate tab.
-        await expect(membersPage.row('alan@apograph.dev')).toBeVisible();
+        await expect(membersPage.row('alan@ortha.dev')).toBeVisible();
         await expect(membersPage.statusPill('Invited')).toBeVisible();
         await expect(membersPage.statusPill('Disabled')).toBeVisible();
     });
@@ -197,7 +197,7 @@ test.describe('Members page', () => {
         await expect(membersPage.inviteHeading()).toBeVisible();
 
         // Step 1 — details.
-        await membersPage.inviteEmail().fill('new@apograph.dev');
+        await membersPage.inviteEmail().fill('new@ortha.dev');
         await membersPage.continueToRole().click();
         // Step 2 — role.
         await membersPage.continueToWorkspaces().click();
@@ -210,7 +210,7 @@ test.describe('Members page', () => {
         await expect(membersPage.inviteSentHeading()).toBeVisible();
         await expect(page).toHaveURL(/\/users\/invite$/);
         await expect(
-            membersPage.inviteLinkField('new@apograph.dev')
+            membersPage.inviteLinkField('new@ortha.dev')
         ).toHaveValue(
             new RegExp(`/identity/accept-invite\\?token=${INVITE_TOKEN}$`)
         );
@@ -226,7 +226,7 @@ test.describe('Members page', () => {
         await membersPage.goto();
 
         await membersPage.inviteButton.click();
-        await membersPage.inviteEmail().fill('new@apograph.dev');
+        await membersPage.inviteEmail().fill('new@ortha.dev');
         await membersPage.continueToRole().click();
         await membersPage.continueToWorkspaces().click();
 
@@ -246,7 +246,7 @@ test.describe('Members page', () => {
         await membersPage.goto();
 
         await membersPage.inviteButton.click();
-        await membersPage.inviteEmail().fill('new@apograph.dev');
+        await membersPage.inviteEmail().fill('new@ortha.dev');
         await membersPage.continueToRole().click();
         await membersPage.continueToWorkspaces().click();
 
@@ -299,7 +299,7 @@ test.describe('Members page', () => {
         // From here it does track every keystroke — finishing the address
         // clears the message without a second blur, so the person who is
         // fixing it is not left staring at an error they already corrected.
-        await membersPage.inviteEmail().fill('new@apograph.dev');
+        await membersPage.inviteEmail().fill('new@ortha.dev');
         await expect(page.getByText('Enter a valid email address')).toHaveCount(
             0
         );
@@ -329,7 +329,7 @@ test.describe('Members page', () => {
         membersPage
     }) => {
         await membersPage.goto();
-        await membersPage.openActions('alan@apograph.dev');
+        await membersPage.openActions('alan@ortha.dev');
 
         await expect(membersPage.menuItem('Resend invite')).toBeVisible();
         await expect(membersPage.menuItem('Revoke invite')).toBeVisible();

@@ -3,7 +3,7 @@ import {
     AuthStatus,
     useAuth,
     useHasPermission
-} from '@apograph/identity-admin';
+} from '@ortha/identity-admin';
 import { UserDetailLayout } from '../UserDetailLayout';
 import { UserGeneralPage } from '../../pages/UserGeneralPage';
 import { UserRolesPage } from '../../pages/UserRolesPage';

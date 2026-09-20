@@ -9,24 +9,24 @@
 
 ## Context
 
-Apograph must grow many capabilities (auth, users, workspaces, activity, and
+Ortha must grow many capabilities (auth, users, workspaces, activity, and
 eventually content/AI) across two runtimes (a React admin SPA and a NestJS API)
 without the hosts accumulating domain logic or features becoming entangled.
 
 ## Decision
 
-We will keep the application **hosts** (`@apograph/bootstrap-admin`,
-`@apograph/bootstrap-server`) free of domain logic. Each host turns a _list of
+We will keep the application **hosts** (`@ortha/bootstrap-admin`,
+`@ortha/bootstrap-server`) free of domain logic. Each host turns a _list of
 plugins_ into a running app. Capability lives in plugins, usually shipped as an
 `admin`/`server` pair under `packages/<group>/{admin,server}`. Server plugins own
-their own Drizzle schema and migrations; the shared `@apograph/database` plugin
+their own Drizzle schema and migrations; the shared `@ortha/database` plugin
 owns the single connection but no schema _(amended below — it owns the outbox
 table)_. Plugins integrate through explicit contracts (`AdminPlugin`,
 `ServerPlugin`) and named UI **slots**, never by reaching into each other.
 
 > **Amended by [ADR-0003](0003-tactical-ddd-inside-plugins.md).** "No schema" now
 > has exactly one sanctioned exception: the transactional outbox
-> (`outbox_events`), which `@apograph/database` owns and migrates because the
+> (`outbox_events`), which `@ortha/database` owns and migrates because the
 > `UnitOfWork` that writes it lives there too — an event has to commit in the
 > same transaction as the change that raised it, so the table cannot belong to
 > any one domain plugin. It remains the only table in this package, and adding a

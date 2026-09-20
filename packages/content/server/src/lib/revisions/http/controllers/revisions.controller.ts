@@ -12,10 +12,10 @@ import {
     PERMISSIONS,
     PermissionsGuard,
     RequirePermissions
-} from '@apograph/identity-server';
-import { CurrentWorkspace, WorkspaceGuard } from '@apograph/workspaces-server';
+} from '@ortha/identity-server';
+import { CurrentWorkspace, WorkspaceGuard } from '@ortha/workspaces-server';
 import { ContentGrantGuard } from '../../../entries/http/guards/content-grant.guard';
-import { clampInt } from '@apograph/utils-server';
+import { clampInt } from '@ortha/utils-server';
 import { MAX_PAGE_SIZE } from '../../../entries/entries.constants';
 import { InjectContentRegistry } from '../../../content.tokens';
 import type { ContentTypeRegistry } from '../../../registry/content-type-registry';

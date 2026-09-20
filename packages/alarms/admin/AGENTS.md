@@ -1,4 +1,4 @@
-# @apograph/alarms-admin
+# @ortha/alarms-admin
 
 The admin half of **content alarms** — the workspace's alarms page and rule
 editor, plus the three Content Library slot contributions that put a finding
@@ -314,8 +314,8 @@ locally is a hue nobody measured.
 
 ## Commands
 
-- `npx nx run-many -t typecheck -p @apograph/alarms-admin`
-- `npx nx test @apograph/alarms-admin` — `toolOutput` is unit-tested
+- `npx nx run-many -t typecheck -p @ortha/alarms-admin`
+- `npx nx test @ortha/alarms-admin` — `toolOutput` is unit-tested
   (`testEnvironment: 'node'`, as in copilot-admin: the tested code is pure)
 - `npx eslint packages/alarms/admin`
 - `npx nx e2e admin-e2e -- --project=chromium src/alarms` — the browser suite

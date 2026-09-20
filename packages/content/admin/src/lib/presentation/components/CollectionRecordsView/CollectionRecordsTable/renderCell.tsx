@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { defineMessages, type IntlShape } from 'react-intl';
 import { FileText } from 'lucide-react';
-import { Badge } from '@apograph/design-system';
+import { Badge } from '@ortha/design-system';
 import type { ContentField } from '../../../../domain/types/contentType';
 import { CONTENT_FIELD_TYPE } from '../../../../domain/constants';
 import { richTextExcerpt } from '../../../../domain/richTextExcerpt';

@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { cn } from '@apograph/design-system';
+import { cn } from '@ortha/design-system';
 import { WYSIWYG_PROSE_CLASS } from '../../../domain/constants';
 import { renderRichText } from '../../../infrastructure/renderRichText';
 

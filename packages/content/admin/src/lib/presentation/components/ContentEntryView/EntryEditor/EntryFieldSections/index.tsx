@@ -1,5 +1,5 @@
 import { defineMessages, useIntl } from 'react-intl';
-import { Separator } from '@apograph/design-system';
+import { Separator } from '@ortha/design-system';
 import type { ContentField } from '../../../../../domain/types/contentType';
 import { CONTENT_FIELD_TYPE } from '../../../../../domain/constants';
 import type { EntryFormState } from '../../../../hooks/useEntryForm';

@@ -1,6 +1,6 @@
 import { useEffect, useId, useState } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
-import { useCurrentWorkspace } from '@apograph/workspaces-admin';
+import { useCurrentWorkspace } from '@ortha/workspaces-admin';
 import {
     Button,
     Checkbox,
@@ -16,7 +16,7 @@ import {
     SkeletonRegion,
     Spinner,
     toast
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import {
     useRequestReview,
     useReviewerCandidates,

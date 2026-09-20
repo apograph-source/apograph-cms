@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { PgDialect } from 'drizzle-orm/pg-core';
 import type { SQL } from 'drizzle-orm';
-import type { Database } from '@apograph/database';
+import type { Database } from '@ortha/database';
 import { activityEvents } from '../schema';
 import { ACTIVITY_FILTER_SCHEMA } from './activity-filter';
 import type { ListActivityQueryDto } from './dto/list-activity-query.dto';

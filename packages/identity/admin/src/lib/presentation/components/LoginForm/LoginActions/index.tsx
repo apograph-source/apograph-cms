@@ -4,7 +4,7 @@ import {
     Field,
     FieldDescription,
     Spinner
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 
 /** Intl descriptors for {@link LoginActions}, co-located with the component. */
 const messages = defineMessages({

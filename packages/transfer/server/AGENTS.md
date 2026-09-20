@@ -1,4 +1,4 @@
-# `@apograph/transfer-server`
+# `@ortha/transfer-server`
 
 The export/import **plugin**. Governed by the `server-plugin` skill; what
 follows is what is specific to this one.
@@ -51,7 +51,7 @@ record that exists gets created anyway.
 `locale_group_id` are columns `content/server` defines for any `i18n: true`
 type, so the walk asks "the other rows of this record" generically. On import
 they are passed to `EntryWriterService` and the bound i18n extension validates
-them. **This package must not depend on `@apograph/i18n-server`.**
+them. **This package must not depend on `@ortha/i18n-server`.**
 
 **The archive reader is the security boundary.** Read `archive/zip-reader.ts`
 before touching it. The order of the checks is the defence: the central
@@ -72,7 +72,7 @@ stamped on every write.
 
 `TransferPlugin` contributes a `docs.decorate` pass. The scanner could describe
 none of these five operations: three answer framework-free `interface`s from
-`@apograph/transfer-domain`, and the two downloads write through `@Res()`, which
+`@ortha/transfer-domain`, and the two downloads write through `@Res()`, which
 erases the return type entirely.
 
 Three things about it are worth knowing before changing it:

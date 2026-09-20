@@ -1,6 +1,6 @@
 import { defineMessages, useIntl } from 'react-intl';
 import { Check, Ban, Eraser } from 'lucide-react';
-import { Button } from '@apograph/design-system';
+import { Button } from '@ortha/design-system';
 import { SEGMENT_STATE, type SegmentState } from '../../../domain/types';
 
 const messages = defineMessages({

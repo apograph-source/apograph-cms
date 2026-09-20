@@ -1,7 +1,7 @@
-# @apograph/identity-admin
+# @ortha/identity-admin
 
-The identity **plugin** for the Apograph CMS admin UI — the admin-side counterpart
-to [`@apograph/identity-server`](../server/AGENTS.md). It contributes the
+The identity **plugin** for the Ortha CMS admin UI — the admin-side counterpart
+to [`@ortha/identity-server`](../server/AGENTS.md). It contributes the
 identity screens into the admin host. It ships the **login UI** at
 `/identity/signin` (wired to `POST /api/auth/login` via `useLoginMutation`), the
 **accept-invite UI** at `/identity/accept-invite?token=…`, the
@@ -11,7 +11,7 @@ link an admin generates on a member's Access tab), and
 `AuthProviderContext`), the `AuthProvider` that fetches `GET /api/auth/me`
 (`useCurrentUser`) and publishes the current user, and the `RequireAuth` route
 gate. None of these are contributed to the host via a slot — the host is
-auth-agnostic; the **shell** (`@apograph/shell-admin`) imports `AuthProvider` +
+auth-agnostic; the **shell** (`@ortha/shell-admin`) imports `AuthProvider` +
 `RequireAuth` and composes them into its `layout`. A successful sign-in refreshes
 that state and returns the user to where `RequireAuth` sent them (or `/`). The
 plugin's only `bootstrap-admin` reference is the `AdminPlugin` _type_.
@@ -37,11 +37,11 @@ owns auth). `src/lib` is organized into:
 
 ## Package
 
-- Name: `@apograph/identity-admin`
-- Import: `import { IdentityPlugin } from '@apograph/identity-admin'`
+- Name: `@ortha/identity-admin`
+- Import: `import { IdentityPlugin } from '@ortha/identity-admin'`
 - Grouped package (`packages/identity/admin`), admin-only. Consumed from source
   like the other workspace packages (`exports` → `./src/index.ts`,
-  `customConditions: ["@apograph/source"]`); the admin app's Vite transpiles it
+  `customConditions: ["@ortha/source"]`); the admin app's Vite transpiles it
   directly.
 
 ## Conventions
@@ -139,7 +139,7 @@ owns auth). `src/lib` is organized into:
   to `/` on success.
 - **API layer.** `src/lib/api/useLoginMutation/index.ts` issues the request via the
   shared `apiClient` from
-  [`@apograph/utils-admin`](../../utils/admin/AGENTS.md)
+  [`@ortha/utils-admin`](../../utils/admin/AGENTS.md)
   (`apiClient.post('/auth/login', …)`) and wraps it in a TanStack Query
   `useMutation`. Failures are normalized to that library's `ApiError`
   (`toApiError`); `LoginPage` maps `error.status === HTTP_STATUS.UNAUTHORIZED` to
@@ -159,7 +159,7 @@ owns auth). `src/lib` is organized into:
   because letting someone edit the email on the way in would let them claim an
   identity that was never invited. On success the server has already set the
   session cookie, so the page invalidates `currentUserKey` and navigates to `/`.
-- **Design system.** UI is built from `@apograph/design-system` components
+- **Design system.** UI is built from `@ortha/design-system` components
   (`Card`, `Alert`, `Input`, `Field*`, `Button`, `Logo`), not bespoke markup.
 - **Session lost mid-visit.** A session can die while a tab is open — an admin
   suspends the account (the server revokes its sessions in the same
@@ -242,7 +242,7 @@ owns auth). `src/lib` is organized into:
 - **The tab title names the screen**, through `utils-admin`'s shared
   `useDocumentTitle`. This plugin used to carry a **second, naive copy** that
   snapshot `document.title` on mount and restored it on unmount, bypassing the
-  registry entirely — which is why the sign-in tab said "Apograph CMS" where every
+  registry entirely — which is why the sign-in tab said "Ortha CMS" where every
   registry-composed title said "Admin", and why losing a session on `/workspaces`
   and signing back in restored "Workspaces · Admin" over the home page. It is
   deleted (`ORT-140`); the descriptors here are page names now
@@ -270,8 +270,8 @@ owns auth). `src/lib` is organized into:
 
 ```typescript
 // apps/admin/src/main.tsx
-import { createAdmin } from '@apograph/bootstrap-admin';
-import { IdentityPlugin } from '@apograph/identity-admin';
+import { createAdmin } from '@ortha/bootstrap-admin';
+import { IdentityPlugin } from '@ortha/identity-admin';
 import './styles.css';
 
 createAdmin({
@@ -356,6 +356,6 @@ once they have tried a password, that result is what they are waiting to hear.
 
 ## Commands
 
-- `npm exec nx typecheck @apograph/identity-admin`
-- `npm exec nx lint @apograph/identity-admin`
-- `npm exec nx test @apograph/identity-admin`
+- `npm exec nx typecheck @ortha/identity-admin`
+- `npm exec nx lint @ortha/identity-admin`
+- `npm exec nx test @ortha/identity-admin`

@@ -3,7 +3,7 @@ import {
     asAvatarColor,
     initialsOf,
     toApiError
-} from '@apograph/utils-admin';
+} from '@ortha/utils-admin';
 import type {
     ApiTokenList,
     CreatedApiToken

@@ -1,5 +1,5 @@
 import type { ComponentType } from 'react';
-import { createSlot } from '@apograph/utils-admin';
+import { createSlot } from '@ortha/utils-admin';
 
 /**
  * How wide a widget renders in the Insights grid, in twelfths.

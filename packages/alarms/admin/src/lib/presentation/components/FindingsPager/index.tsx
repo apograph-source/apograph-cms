@@ -1,5 +1,5 @@
 import { defineMessages, useIntl } from 'react-intl';
-import { Button } from '@apograph/design-system';
+import { Button } from '@ortha/design-system';
 
 const messages = defineMessages({
     prev: { id: 'alarms.pager.prev', defaultMessage: 'Previous' },

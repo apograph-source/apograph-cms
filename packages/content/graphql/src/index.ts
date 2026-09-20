@@ -1,4 +1,4 @@
-/** Public API of @apograph/content-graphql. */
+/** Public API of @ortha/content-graphql. */
 
 export { ContentGraphqlPlugin } from './lib/utils/content-graphql-plugin';
 export type {

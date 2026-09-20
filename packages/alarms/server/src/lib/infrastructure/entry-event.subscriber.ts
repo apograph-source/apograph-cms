@@ -7,12 +7,12 @@ import {
     OutboxDispatcher,
     type DomainEvent,
     type DomainEventSubscriber
-} from '@apograph/database';
+} from '@ortha/database';
 import {
     EntryMatchQuery,
     InjectContentRegistry,
     type ContentTypeRegistry
-} from '@apograph/content-server';
+} from '@ortha/content-server';
 import { AlarmEvaluator } from './alarm-evaluator.service';
 import { AlarmFindingStore } from './alarm-finding.store';
 

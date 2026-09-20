@@ -19,7 +19,7 @@ const PACKAGE_ROOT = process.cwd();
 const HERE = join(PACKAGE_ROOT, 'src');
 const GROUP_ROOT = join(PACKAGE_ROOT, '..');
 
-/** Every `@apograph/*` specifier imported anywhere under `src/`. */
+/** Every `@ortha/*` specifier imported anywhere under `src/`. */
 function workspaceImports(dir: string): Set<string> {
     const found = new Set<string>();
     for (const entry of readdirSync(dir, { withFileTypes: true })) {
@@ -30,7 +30,7 @@ function workspaceImports(dir: string): Set<string> {
         }
         if (!/\.tsx?$/.test(entry.name)) continue;
         const source = readFileSync(path, 'utf8');
-        for (const match of source.matchAll(/from\s+'(@apograph\/[^']+)'/g)) {
+        for (const match of source.matchAll(/from\s+'(@ortha\/[^']+)'/g)) {
             found.add(match[1]);
         }
     }
@@ -44,21 +44,21 @@ function workspaceImports(dir: string): Set<string> {
  * owns a widget.
  */
 const ALLOWED = [
-    '@apograph/bootstrap-admin',
-    '@apograph/design-system',
-    '@apograph/identity-admin',
-    '@apograph/utils-admin',
-    '@apograph/workspaces-admin'
+    '@ortha/bootstrap-admin',
+    '@ortha/design-system',
+    '@ortha/identity-admin',
+    '@ortha/utils-admin',
+    '@ortha/workspaces-admin'
 ];
 
-describe('@apograph/insights-admin dependencies', () => {
+describe('@ortha/insights-admin dependencies', () => {
     const manifest = JSON.parse(
         readFileSync(join(PACKAGE_ROOT, 'package.json'), 'utf8')
     ) as { dependencies?: Record<string, string> };
 
     it('declares no feature package as a dependency [insights:I-01]', () => {
         const declared = Object.keys(manifest.dependencies ?? {})
-            .filter((name) => name.startsWith('@apograph/'))
+            .filter((name) => name.startsWith('@ortha/'))
             .sort();
 
         // `content-admin`, `media-admin` and `i18n-admin` depend on *this*
@@ -77,7 +77,7 @@ describe('@apograph/insights-admin dependencies', () => {
     });
 });
 
-describe('@apograph/insights-admin shape', () => {
+describe('@ortha/insights-admin shape', () => {
     it('has no server half and ships no migrations [insights:I-25]', () => {
         // Insights reads endpoints owned by `content-server`, `media-server`
         // and `i18n-server`. Owning a table here would mean owning a
@@ -99,7 +99,7 @@ describe('@apograph/insights-admin shape', () => {
         expect(
             Object.keys(manifest.dependencies ?? {}).filter(
                 (name) =>
-                    name === '@apograph/database' ||
+                    name === '@ortha/database' ||
                     name.endsWith('-server') ||
                     name === 'drizzle-orm'
             )

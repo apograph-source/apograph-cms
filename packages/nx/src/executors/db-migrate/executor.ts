@@ -1,12 +1,12 @@
 import { join } from 'node:path';
 import type { ExecutorContext } from '@nx/devkit';
-import type { ServerPlugin } from '@apograph/bootstrap-server';
-import { applyPluginMigrations } from '@apograph/cli';
+import type { ServerPlugin } from '@ortha/bootstrap-server';
+import { applyPluginMigrations } from '@ortha/cli';
 import { createTsJiti } from '../../lib/jiti';
 
 /** Options for the `db-migrate` executor. */
 export interface DbMigrateExecutorOptions {
-    /** Path to the host's apograph.config.ts (relative to the workspace root). */
+    /** Path to the host's ortha.config.ts (relative to the workspace root). */
     config: string;
     /** Path to the module exporting buildPlugins(config) (relative to root). */
     plugins: string;
@@ -20,7 +20,7 @@ interface HostConfig {
 
 /**
  * Applies all plugin migrations for a host project. Loads the host's
- * apograph.config.ts and its buildPlugins() factory (both TypeScript, loaded
+ * ortha.config.ts and its buildPlugins() factory (both TypeScript, loaded
  * via jiti + swc), constructs the plugin list, and applies each plugin's
  * migrations. Side-effecting — never cached.
  */

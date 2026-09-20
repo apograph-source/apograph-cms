@@ -1,5 +1,5 @@
 import { defineMessages, useIntl } from 'react-intl';
-import { Spinner } from '@apograph/design-system';
+import { Spinner } from '@ortha/design-system';
 import type { ContentTypeDetail } from '../../../../../domain/types/contentType';
 import { useEntryRevisions } from '../../../../../application/useEntryRevisions';
 import { EntrySidebarSection } from '../../../EntrySidebarSection';

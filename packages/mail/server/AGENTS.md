@@ -1,4 +1,4 @@
-# @apograph/mail-server
+# @ortha/mail-server
 
 The plugin that actually sends. Owns one table — `mail_deliveries` — and ships
 its migrations; renders the three transactional messages the product sends;
@@ -6,7 +6,7 @@ hands them to the one provider the deployment configured, from a worker that
 holds no transaction while it waits on a mail server.
 
 **Layout: layered (ADR-0003)** — `application / infrastructure`, with the
-framework-free half in `@apograph/mail-domain`. There is no `domain/` folder
+framework-free half in `@ortha/mail-domain`. There is no `domain/` folder
 here and no aggregate: a queued message is a row with a body and an attempt
 count, and forcing empty `value-objects/` onto it would be a violation of
 ADR-0003 rather than compliance with it.
@@ -80,7 +80,7 @@ which is how a deployment dedicates one node to outgoing traffic.
 
 - Authoring rules: the **`server-plugin`** skill.
 - Generate a migration with
-  `npx nx run @apograph/mail-server:db:generate --name=<change>` and commit the
+  `npx nx run @ortha/mail-server:db:generate --name=<change>` and commit the
   SQL.
 - The e2e suite is `apps/server-e2e/src/server/users/mail-delivery.spec.ts`; it
   boots the harness with `createTestApp({ mail: {} })`, which is the only way to

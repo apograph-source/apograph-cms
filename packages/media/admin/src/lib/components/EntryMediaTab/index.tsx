@@ -2,7 +2,7 @@ import { defineMessages, useIntl } from 'react-intl';
 import {
     CONTENT_FIELD_TYPE,
     type EntryTabContext
-} from '@apograph/content-admin';
+} from '@ortha/content-admin';
 import { MEDIA_PRESAVE_ID } from '../../hooks/usePendingMediaUploads';
 import type { MediaPendingUploads } from '../../types/pendingUpload';
 import { MediaFieldSection } from './MediaFieldSection';

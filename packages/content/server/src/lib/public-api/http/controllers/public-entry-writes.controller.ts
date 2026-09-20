@@ -16,8 +16,8 @@ import {
     PERMISSIONS,
     Public,
     RequirePermissions
-} from '@apograph/identity-server';
-import { CurrentWorkspace } from '@apograph/workspaces-server';
+} from '@ortha/identity-server';
+import { CurrentWorkspace } from '@ortha/workspaces-server';
 import { InjectContentRegistry } from '../../../content.tokens';
 import type { ContentTypeRegistry } from '../../../registry/content-type-registry';
 import { WorkspaceGrantsQuery } from '../../../content-types/queries/workspace-grants.query';

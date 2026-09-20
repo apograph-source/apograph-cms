@@ -1,6 +1,6 @@
 import { Module, type DynamicModule } from '@nestjs/common';
 import { MulterModule } from '@nestjs/platform-express';
-import { resolveLimits, type TransferLimits } from '@apograph/transfer-domain';
+import { resolveLimits, type TransferLimits } from '@ortha/transfer-domain';
 import { ExportEntriesUseCase } from './export/application/export-entries.use-case';
 import { ExportPreviewQuery } from './export/application/export-preview.query';
 import { EntryGraphWalker } from './export/infrastructure/entry-graph.walker';

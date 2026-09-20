@@ -1,7 +1,7 @@
 import { existsSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { dirname, join, resolve } from 'node:path';
-import type { ServerPlugin } from '@apograph/bootstrap-server';
+import type { ServerPlugin } from '@ortha/bootstrap-server';
 
 /**
  * Where a generated app keeps things.
@@ -12,14 +12,14 @@ import type { ServerPlugin } from '@apograph/bootstrap-server';
  * generated app should be is boring.
  *
  * The layout mirrors this repo's own `apps/` folder — `server`, `admin`,
- * `server-e2e`, `admin-e2e` — so someone who has read the Apograph source finds
+ * `server-e2e`, `admin-e2e` — so someone who has read the Ortha source finds
  * the same shape in their own project.
  *
  * The compiled paths follow from `apps/server/tsconfig.json` setting `rootDir`
- * to the app directory: `apps/server/apograph.config.ts` becomes
- * `dist/server/apograph.config.js`, and `apps/server/src/main.ts` becomes
+ * to the app directory: `apps/server/ortha.config.ts` becomes
+ * `dist/server/ortha.config.js`, and `apps/server/src/main.ts` becomes
  * `dist/server/src/main.js`. Change that `rootDir` without changing these and
- * the paths below stop resolving — `apograph start` then reports a missing entry
+ * the paths below stop resolving — `ortha start` then reports a missing entry
  * point rather than a misconfigured one.
  */
 export const LAYOUT = {
@@ -33,10 +33,10 @@ export const LAYOUT = {
     serverOut: 'dist/server',
     /** Built admin bundle — what `staticDir` serves. */
     adminOut: 'dist/admin',
-    /** Compiled entry point `apograph start` runs. */
+    /** Compiled entry point `ortha start` runs. */
     serverEntry: 'dist/server/src/main.js',
     /** Compiled typed config, default-exported. */
-    compiledConfig: 'dist/server/apograph.config.js',
+    compiledConfig: 'dist/server/ortha.config.js',
     /** Compiled plugin factory, exporting `buildPlugins(config)`. */
     compiledPlugins: 'dist/server/src/plugins.js',
     /** Drizzle generation config for the app's own content tables. */
@@ -59,7 +59,7 @@ export interface LoadedHost {
  * Finds the app root — the nearest ancestor with a `package.json` — starting
  * from `from`.
  *
- * Walking up rather than trusting `process.cwd()` means `apograph migrate` works
+ * Walking up rather than trusting `process.cwd()` means `ortha migrate` works
  * from a subdirectory, which is where people actually run it. Everything else
  * in this file resolves against the result, so the app's own relative paths
  * (`migrations/`, `dist/`) mean the same thing wherever the command was typed.
@@ -74,7 +74,7 @@ export function findProjectRoot(from: string = process.cwd()): string {
         if (parent === dir) {
             throw new Error(
                 `No package.json in ${resolve(from)} or any parent directory — ` +
-                    `run this inside an Apograph app.`
+                    `run this inside an Ortha app.`
             );
         }
         dir = parent;
@@ -86,7 +86,7 @@ export function findProjectRoot(from: string = process.cwd()): string {
  *
  * The monorepo reads the same two modules straight from TypeScript, which
  * costs it jiti plus an swc transform hook configured for legacy decorators
- * (`@apograph/nx`'s `createTsJiti`) — the plugin graph is full of decorated
+ * (`@ortha/nx`'s `createTsJiti`) — the plugin graph is full of decorated
  * Nest classes, and jiti's bundled babel defaults to the stage-3 semantics
  * that crash on them. A generated app has a build step of its own, so it can
  * simply build first and require the JavaScript, and the whole transform
@@ -100,7 +100,7 @@ export function loadHost(root: string): LoadedHost {
         if (!existsSync(path)) {
             throw new Error(
                 `${path} does not exist — the app has not been built. ` +
-                    `Run \`apograph build\` first (\`apograph migrate\` does this for you).`
+                    `Run \`ortha build\` first (\`ortha migrate\` does this for you).`
             );
         }
     }
@@ -119,7 +119,7 @@ export function loadHost(root: string): LoadedHost {
     if (!config) {
         throw new Error(
             `${LAYOUT.compiledConfig} has no default export — ` +
-                `apograph.config.ts must \`export default\` the app's config.`
+                `ortha.config.ts must \`export default\` the app's config.`
         );
     }
 

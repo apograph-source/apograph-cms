@@ -10,9 +10,9 @@ import {
     ShieldCheck,
     Trash2
 } from 'lucide-react';
-import { PageTopBar } from '@apograph/shell-admin';
-import { useHasPermission } from '@apograph/identity-admin';
-import { useDebouncedValue, useDocumentTitle } from '@apograph/utils-admin';
+import { PageTopBar } from '@ortha/shell-admin';
+import { useHasPermission } from '@ortha/identity-admin';
+import { useDebouncedValue, useDocumentTitle } from '@ortha/utils-admin';
 import {
     Alert,
     AlertDescription,
@@ -39,7 +39,7 @@ import {
     TableHeader,
     TableRow,
     toast
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import type { Segment } from '../../../domain/types';
 import {
     SEGMENTS_MANAGE,

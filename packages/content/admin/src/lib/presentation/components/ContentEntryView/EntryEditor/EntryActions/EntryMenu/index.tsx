@@ -9,7 +9,7 @@ import {
     DropdownMenuItem,
     DropdownMenuSeparator,
     DropdownMenuTrigger
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import {
     ENTRY_MENU_GROUP,
     ENTRY_MENU_GROUP_ORDER,

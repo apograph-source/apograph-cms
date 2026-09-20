@@ -184,10 +184,10 @@ describe('editorExtensions', () => {
             // The structure is in the markup and the look is in the consuming
             // site's stylesheet. An admin class name here would ship this app's
             // styling into a body that gets published somewhere else — and this
-            // package's own rules all hang off `.apograph-wysiwyg`, which the
+            // package's own rules all hang off `.ortha-wysiwyg`, which the
             // stored content never carries.
             expect([...parsed.body.querySelectorAll('[class]')]).toEqual([]);
-            expect(html).not.toContain('apograph-wysiwyg');
+            expect(html).not.toContain('ortha-wysiwyg');
 
             const callout = parsed.querySelector('aside');
             expect(callout?.hasAttribute('data-callout')).toBe(true);

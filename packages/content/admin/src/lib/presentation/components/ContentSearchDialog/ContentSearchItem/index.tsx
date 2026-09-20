@@ -1,4 +1,4 @@
-import { Badge, CommandItem } from '@apograph/design-system';
+import { Badge, CommandItem } from '@ortha/design-system';
 import type { ContentType } from '../../../../domain/types/contentType';
 
 type ContentSearchItemProps = {

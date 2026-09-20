@@ -11,7 +11,7 @@ export default defineConfig(() => ({
     cacheDir: '../../../node_modules/.vite/packages/workspaces/admin',
     plugins: [react()],
     test: {
-        name: '@apograph/workspaces-admin',
+        name: '@ortha/workspaces-admin',
         watch: false,
         globals: true,
         environment: 'jsdom',

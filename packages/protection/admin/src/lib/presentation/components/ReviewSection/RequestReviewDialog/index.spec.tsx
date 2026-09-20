@@ -18,7 +18,7 @@ vi.mock('../../../../application/hooks', () => ({
     useRequestReview: () => ({ mutate: state.mutate, isPending: false })
 }));
 
-vi.mock('@apograph/workspaces-admin', () => ({
+vi.mock('@ortha/workspaces-admin', () => ({
     useCurrentWorkspace: () => ({
         id: 'ws',
         members: [

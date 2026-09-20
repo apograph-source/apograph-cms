@@ -7,7 +7,7 @@
  * a catalogue.
  */
 
-import type { TransferLimits } from '@apograph/transfer-domain';
+import type { TransferLimits } from '@ortha/transfer-domain';
 
 /** Options for `TransferPlugin`. */
 export interface TransferPluginConfig {

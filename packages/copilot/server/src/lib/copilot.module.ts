@@ -5,9 +5,9 @@ import {
     MODEL_RESOLVER,
     type ModelResolver,
     type SkillDefinition
-} from '@apograph/copilot-domain';
-import { DatabaseModule } from '@apograph/database';
-import { ToolsModule } from '@apograph/tools-server';
+} from '@ortha/copilot-domain';
+import { DatabaseModule } from '@ortha/database';
+import { ToolsModule } from '@ortha/tools-server';
 import { COPILOT_CONFIG, COPILOT_SKILL_REGISTRY } from './copilot.tokens';
 import {
     buildModelRegistry,
@@ -183,7 +183,7 @@ export class CopilotModule {
                 COPILOT_SKILL_REGISTRY,
                 // Exported so the plugins that own writes can register their
                 // proposal appliers. Tools go to the shared `ToolRegistry` in
-                // `@apograph/tools-server`, which the MCP module provides.
+                // `@ortha/tools-server`, which the MCP module provides.
                 ProposalApplierRegistry
             ]
         };

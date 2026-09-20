@@ -1,6 +1,6 @@
-# @apograph/design-system
+# @ortha/design-system
 
-shadcn/ui library. Import as `import { Button, cn } from '@apograph/design-system'`.
+shadcn/ui library. Import as `import { Button, cn } from '@ortha/design-system'`.
 
 ## Adding/editing components
 

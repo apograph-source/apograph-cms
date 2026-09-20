@@ -1,7 +1,7 @@
 import {
     ScalarFieldType,
     type ScalarFieldSchema
-} from '@apograph/utils-server';
+} from '@ortha/utils-server';
 import { CONTENT_FIELD_TYPE, type AnyFieldSpec } from '../../../types/fields';
 
 /**

@@ -13,7 +13,7 @@ export default defineConfig(() => ({
     cacheDir: '../../../node_modules/.vite/packages/shell/admin',
     plugins: [react()],
     test: {
-        name: '@apograph/shell-admin',
+        name: '@ortha/shell-admin',
         watch: false,
         globals: true,
         environment: 'jsdom',

@@ -10,7 +10,7 @@
  * whitespace collapsing a single line needs happens in one place.
  */
 
-import { richTextPlainText } from '@apograph/content-domain';
+import { richTextPlainText } from '@ortha/content-domain';
 
 /**
  * The readable text inside a rich-text value, collapsed to a single line.

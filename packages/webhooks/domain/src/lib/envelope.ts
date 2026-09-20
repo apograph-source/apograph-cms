@@ -1,7 +1,7 @@
 /**
  * The body a webhook POST carries, and how one is built from a domain event.
  *
- * Framework-free on purpose: the server maps `@apograph/database`'s
+ * Framework-free on purpose: the server maps `@ortha/database`'s
  * `DomainEvent` into {@link WebhookSourceEvent} at the edge, so this file — and
  * therefore the contract external receivers depend on — never learns what the
  * outbox looks like.
@@ -64,7 +64,7 @@ export interface WebhookEnvelope {
  * Builds the body for one delivery.
  *
  * `deliveryId` is passed in rather than generated here so the envelope frozen
- * on the delivery row and the `X-Apograph-Delivery` header cannot disagree.
+ * on the delivery row and the `X-Ortha-Delivery` header cannot disagree.
  *
  * The envelope carries **references, not content**: a receiver reads the record
  * back through the public API with its own token, so the read passes through

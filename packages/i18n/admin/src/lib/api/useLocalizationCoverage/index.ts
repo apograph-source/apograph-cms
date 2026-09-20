@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { apiClient, STALE_TIME, toApiError } from '@apograph/utils-admin';
-import { useCurrentWorkspace } from '@apograph/workspaces-admin';
-import { useHasPermission } from '@apograph/identity-admin';
+import { apiClient, STALE_TIME, toApiError } from '@ortha/utils-admin';
+import { useCurrentWorkspace } from '@ortha/workspaces-admin';
+import { useHasPermission } from '@ortha/identity-admin';
 import { CONTENT_READ, I18N_COVERAGE_PATH } from '../../constants';
 import type { I18nCoverageResult } from '../../types/locale';
 

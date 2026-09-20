@@ -5,8 +5,8 @@ import {
     CardContent,
     CardHeader,
     Skeleton
-} from '@apograph/design-system';
-import { HTTP_STATUS, useDocumentTitle } from '@apograph/utils-admin';
+} from '@ortha/design-system';
+import { HTTP_STATUS, useDocumentTitle } from '@ortha/utils-admin';
 import { AuthLayout } from '../../components/AuthLayout';
 import { ResetLinkUnavailable } from '../../components/ResetLinkUnavailable';
 import { ResetLinkLookupFailed } from '../../components/ResetLinkLookupFailed';

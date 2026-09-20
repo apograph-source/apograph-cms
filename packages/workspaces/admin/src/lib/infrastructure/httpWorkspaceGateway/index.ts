@@ -1,4 +1,4 @@
-import { apiClient, toApiError } from '@apograph/utils-admin';
+import { apiClient, toApiError } from '@ortha/utils-admin';
 import type { Workspace } from '../../domain/types/workspace';
 import type {
     ContentType,

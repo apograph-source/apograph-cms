@@ -1,4 +1,4 @@
-import { cn } from '@apograph/design-system';
+import { cn } from '@ortha/design-system';
 
 /**
  * A tiny, non-interactive mock of the admin chrome — a dark sidebar rail beside

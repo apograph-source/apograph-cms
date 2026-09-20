@@ -17,7 +17,7 @@ import {
     htmlToRichTextDocument,
     isRichTextDocument,
     richTextPlainText
-} from '@apograph/content-domain';
+} from '@ortha/content-domain';
 import type {
     TransferAssetRef,
     TransferRecord,

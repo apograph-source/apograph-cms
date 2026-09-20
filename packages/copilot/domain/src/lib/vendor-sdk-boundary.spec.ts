@@ -163,7 +163,7 @@ describe('the vendor SDK boundary', () => {
                     .filter((name) => !name.startsWith('node:'))
             );
 
-            expect([...external]).toEqual(['@apograph/copilot-domain']);
+            expect([...external]).toEqual(['@ortha/copilot-domain']);
         }
     );
 
@@ -192,9 +192,9 @@ describe('the private test fixture', () => {
     it('is published nowhere [copilot:I-37]', () => {
         expect(manifest('provider-fake').private).toBe(true);
         // `private` alone is not enough: the release runs over an
-        // `@apograph/*` glob, so the exclusion has to be written out.
+        // `@ortha/*` glob, so the exclusion has to be written out.
         expect(nxJson().release.projects).toContain(
-            '!@apograph/copilot-provider-fake'
+            '!@ortha/copilot-provider-fake'
         );
     });
 });

@@ -45,7 +45,7 @@ test.describe('Members accessibility (axe, WCAG 2.1 A/AA)', () => {
         await mockWorkspaces(page);
         await membersPage.goto();
         await membersPage.inviteButton.click();
-        await membersPage.inviteEmail().fill('new@apograph.dev');
+        await membersPage.inviteEmail().fill('new@ortha.dev');
         await membersPage.continueToRole().click();
         await membersPage.continueToWorkspaces().click();
         await membersPage.inviteWorkspace('Marketing site').waitFor();

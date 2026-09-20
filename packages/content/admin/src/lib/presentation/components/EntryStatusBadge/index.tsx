@@ -4,7 +4,7 @@ import {
     Tooltip,
     TooltipContent,
     TooltipTrigger
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import {
     entryStatusView,
     ENTRY_STATUS_VIEW,

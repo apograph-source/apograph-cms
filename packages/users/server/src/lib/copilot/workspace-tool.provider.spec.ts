@@ -1,9 +1,9 @@
-import { PERMISSIONS } from '@apograph/identity-server';
+import { PERMISSIONS } from '@ortha/identity-server';
 import type {
     ToolContext,
     ToolDefinition,
     ToolRegistry
-} from '@apograph/tools-server';
+} from '@ortha/tools-server';
 import type { WorkspaceMembersQuery } from '../member/infrastructure/queries/workspace-members.query';
 import { WorkspaceCopilotToolProvider } from './workspace-tool.provider';
 

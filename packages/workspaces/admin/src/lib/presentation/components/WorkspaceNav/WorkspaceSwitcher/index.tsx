@@ -2,7 +2,7 @@ import { useId, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { defineMessages, useIntl } from 'react-intl';
 import { Check, ChevronsUpDown, Plus } from 'lucide-react';
-import { useHasPermission } from '@apograph/identity-admin';
+import { useHasPermission } from '@ortha/identity-admin';
 import {
     Popover,
     PopoverContent,
@@ -11,8 +11,8 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
     cn
-} from '@apograph/design-system';
-import { initialsOf } from '@apograph/utils-admin';
+} from '@ortha/design-system';
+import { initialsOf } from '@ortha/utils-admin';
 import { WorkspaceAvatar } from '../../WorkspaceAvatar';
 import { WORKSPACES_CREATE } from '../../../../domain/permissions';
 import type { Workspace } from '../../../../domain/types/workspace';

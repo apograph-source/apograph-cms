@@ -10,7 +10,7 @@ import {
     sql,
     type SQL
 } from 'drizzle-orm';
-import { InjectDatabase, type Database } from '@apograph/database';
+import { InjectDatabase, type Database } from '@ortha/database';
 import { mediaAsset, mediaKind } from '../schema/media-asset';
 import { InvalidAssetFilterError } from '../../domain/errors/invalid-asset-filter.error';
 import type { AssetListView } from '../../types/asset-view';

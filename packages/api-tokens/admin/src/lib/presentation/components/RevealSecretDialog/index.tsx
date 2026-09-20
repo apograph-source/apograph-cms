@@ -12,7 +12,7 @@ import {
     DialogHeader,
     DialogTitle,
     toast
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 
 const messages = defineMessages({
     title: {

@@ -9,7 +9,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { defineMessages, useIntl } from 'react-intl';
 import { ChevronDown, Filter, UserPlus, Users } from 'lucide-react';
-import { PageTopBar } from '@apograph/shell-admin';
+import { PageTopBar } from '@ortha/shell-admin';
 import {
     QueryBuilderPanel,
     QueryBuilderSummary,
@@ -17,9 +17,9 @@ import {
     jsonFilterToTree,
     treeToJsonFilter,
     type FilterGroup
-} from '@apograph/query-builder-admin';
-import { useHasPermission } from '@apograph/identity-admin';
-import { useTableUrlState, useDocumentTitle } from '@apograph/utils-admin';
+} from '@ortha/query-builder-admin';
+import { useHasPermission } from '@ortha/identity-admin';
+import { useTableUrlState, useDocumentTitle } from '@ortha/utils-admin';
 import {
     Alert,
     AlertDescription,
@@ -27,7 +27,7 @@ import {
     Container,
     ContainerHeader,
     cn
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import { useMembers, DEFAULT_PAGE_SIZE } from '../../../application/useMembers';
 import { MembersTableSkeleton } from '../../components/MembersSkeleton';
 import { MembersEmpty } from '../../components/MembersEmpty';

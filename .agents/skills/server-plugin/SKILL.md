@@ -1,16 +1,16 @@
 ---
 name: server-plugin
-description: Authoring, modifying, or reviewing an Apograph CMS NestJS server plugin (packages/<group>/server, e.g. identity-server). Covers the ServerPlugin factory + dynamic-module pattern, feature-then-kind folder layout, @InjectDatabase DI, config injection, Drizzle schema + migrations descriptor, lifecycle hooks, and the review-critical authorization/data-integrity invariants (permission-by-constant guards, lock contended invariants instead of count-then-write, preserve filters/validation when consolidating endpoints, no enumeration signal). Use when creating a new server plugin, adding controllers/services/schema/DTOs, or reviewing a change to one.
+description: Authoring, modifying, or reviewing an Ortha CMS NestJS server plugin (packages/<group>/server, e.g. identity-server). Covers the ServerPlugin factory + dynamic-module pattern, feature-then-kind folder layout, @InjectDatabase DI, config injection, Drizzle schema + migrations descriptor, lifecycle hooks, and the review-critical authorization/data-integrity invariants (permission-by-constant guards, lock contended invariants instead of count-then-write, preserve filters/validation when consolidating endpoints, no enumeration signal). Use when creating a new server plugin, adding controllers/services/schema/DTOs, or reviewing a change to one.
 user-invocable: false
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash(npx nx *), Bash(npm exec nx *), Bash(npm install), Bash(git mv *)
 ---
 
-# Apograph CMS server plugins
+# Ortha CMS server plugins
 
 A **server plugin** is a workspace package under `packages/<group>/server` (e.g.
-`packages/billing/server` → `@apograph/billing-server`) that contributes
+`packages/billing/server` → `@ortha/billing-server`) that contributes
 features to the NestJS API. It is **not an app**: it exports a factory the host
-(`@apograph/bootstrap-server`) assembles into a running server.
+(`@ortha/bootstrap-server`) assembles into a running server.
 
 > **Reference implementation:** `packages/identity/server` is the fullest
 > worked example in the repo — when a detail here is unclear, read it. The
@@ -18,7 +18,7 @@ features to the NestJS API. It is **not an app**: it exports a factory the host
 > not any one implementation.
 
 > Plugins are consumed **from source** (`exports` → `./src/index.ts`,
-> `customConditions: ["@apograph/source"]`). No build step; the host transpiles
+> `customConditions: ["@ortha/source"]`). No build step; the host transpiles
 > the plugin's TS directly. Never add a build to consume a plugin.
 
 ## When this applies
@@ -57,10 +57,10 @@ or vice-versa. New DB-backed plugins are born in the target layout.
 2. **One global dynamic module per plugin** (`XModule.forRoot(config)`).
 3. **Group code by layer (target) or by feature-then-kind (legacy)** — per the
    package's `AGENTS.md`. The other four non-negotiables hold in both layouts.
-4. **The DB client is injected from `@apograph/database`** — a plugin never
+4. **The DB client is injected from `@ortha/database`** — a plugin never
    opens a connection or registers a db provider.
 5. **Config is injected, never read from `process.env`.** Only
-   `apps/server/apograph.config.ts` reads the environment.
+   `apps/server/ortha.config.ts` reads the environment.
 
 ---
 
@@ -169,7 +169,7 @@ packages/<group>/server/
 `@nestjs/*`, `drizzle-orm`, `class-validator`, `application/dto`, or
 `infrastructure/`. Dependencies point **inward only**:
 `http → application → domain`; `infrastructure` implements `domain` ports. This
-is enforced by the `@apograph/nx` boundary lint, not just convention.
+is enforced by the `@ortha/nx` boundary lint, not just convention.
 
 **What each layer holds:**
 
@@ -179,7 +179,7 @@ is enforced by the `@apograph/nx` boundary lint, not just convention.
   obsession; the repository **interface + Symbol** live here (implementation does
   not). Invariants move **out** of DTO decorators into VOs/aggregates.
 - **application** — use-cases. Each parses input into domain types, opens a
-  **Unit of Work** (`@apograph/database`), loads an aggregate through the repo
+  **Unit of Work** (`@ortha/database`), loads an aggregate through the repo
   port, calls a method, saves, and appends `aggregate.pullEvents()` to the
   outbox. **No business rules here.** Reads that don't mutate use plain query
   services, not the aggregate.
@@ -209,7 +209,7 @@ the legacy `ACTIVITY_RECORDER` rule). In the target layout the aggregate raises
 events, the use-case writes them to the **outbox in the same tx** as the state
 change, and a **post-commit dispatcher** fans them out — the activity log becomes
 one subscriber. `UnitOfWork`, the outbox, and the `DomainEvent` contract come
-from `@apograph/database`; never re-implement them per plugin.
+from `@ortha/database`; never re-implement them per plugin.
 
 **Thin contexts stay thin.** An audit log or analytics read-model gets mappers
 and event subscribers/projections, **not** aggregates. Forcing empty
@@ -224,7 +224,7 @@ not compliance with it.
 
 ```jsonc
 {
-    "name": "@apograph/<group>-server",
+    "name": "@ortha/<group>-server",
     "version": "0.0.1",
     "main": "./src/index.ts",
     "types": "./src/index.ts",
@@ -239,8 +239,8 @@ not compliance with it.
     "files": ["src", "migrations"], // drop "migrations" if no schema
     "dependencies": {
         "@nestjs/common": "^11.0.0",
-        "@apograph/bootstrap-server": "*",
-        "@apograph/database": "*", // only if DB-backed
+        "@ortha/bootstrap-server": "*",
+        "@ortha/database": "*", // only if DB-backed
         "drizzle-orm": "^0.36.0", // only if DB-backed
         "class-validator": "^0.15.1" // only if it has DTOs
     },
@@ -252,7 +252,7 @@ not compliance with it.
 
 Match versions to existing packages (grep the repo) rather than inventing them.
 The npm name stays **hyphenated** regardless of the nested folder
-(`packages/<group>/server` → `@apograph/<group>-server`).
+(`packages/<group>/server` → `@ortha/<group>-server`).
 
 ### 2. Config contract + token
 
@@ -267,7 +267,7 @@ export const X_CONFIG = Symbol('X_CONFIG');
 export const InjectXConfig = (): ParameterDecorator => Inject(X_CONFIG);
 ```
 
-The host supplies the values from `apps/server/apograph.config.ts`
+The host supplies the values from `apps/server/ortha.config.ts`
 (`plugins.<name>`), which is the **only** reader of `process.env`.
 
 ### 3. The dynamic module
@@ -335,14 +335,14 @@ return [
 ];
 ```
 
-Add the typed config block to `apps/server/apograph.config.ts` under
+Add the typed config block to `apps/server/ortha.config.ts` under
 `plugins.x`, env-sourced, with literals for stable tuning.
 
 ### 7. Wire it up
 
 ```bash
 npx nx sync                               # after changing cross-project deps
-npx nx run-many -t typecheck lint -p @apograph/<group>-server server
+npx nx run-many -t typecheck lint -p @ortha/<group>-server server
 ```
 
 ---
@@ -352,7 +352,7 @@ npx nx run-many -t typecheck lint -p @apograph/<group>-server server
 Inject the shared Drizzle client — **never** register your own:
 
 ```ts
-import { InjectDatabase, type Database } from '@apograph/database';
+import { InjectDatabase, type Database } from '@ortha/database';
 
 @Injectable()
 export class WidgetService {
@@ -360,7 +360,7 @@ export class WidgetService {
 }
 ```
 
-- Annotate as **`Database`** (the alias owned by `@apograph/database`), not
+- Annotate as **`Database`** (the alias owned by `@ortha/database`), not
   `NodePgDatabase` — a dialect change then stays a one-line edit there.
 - **Use Drizzle directly in services — _legacy layout only_.** Feature-then-kind
   packages deliberately have **no repository wrapper**. **Migrated (layered)
@@ -380,7 +380,7 @@ export class WidgetService {
 - Generate per-plugin, apply from the host:
 
 ```bash
-npx nx run @apograph/<group>-server:db:generate --name=<change>   # commit the SQL
+npx nx run @ortha/<group>-server:db:generate --name=<change>   # commit the SQL
 npx nx run server:db:migrate                                       # applies all plugins
 ```
 
@@ -392,7 +392,7 @@ npx nx run server:db:migrate                                       # applies all
   default (the reference plugin's seeder follows this pattern).
 - **`onPluginInit?()`** on the `ServerPlugin` — runs **before** the Nest app
   exists, for opening resources other plugins depend on at construction time
-  (only `@apograph/database` needs this). Most plugins leave it unused.
+  (only `@ortha/database` needs this). Most plugins leave it unused.
 
 ## Controllers, DTOs, validation, errors
 
@@ -480,7 +480,7 @@ careful review checks:
 - **No enumeration signal** in security-sensitive responses (also under
   Controllers) — keep "this email exists" out of distinguishable errors/timing.
 - **An agent tool declares who it is for.** If the plugin contributes to the
-  shared `ToolRegistry` (`@apograph/tools-server`), a `ToolDefinition`'s
+  shared `ToolRegistry` (`@ortha/tools-server`), a `ToolDefinition`'s
   `surfaces` field is security-relevant in both directions and **omitting it
   means both consumers** — the copilot *and* the MCP endpoint. Getting it wrong
   either exposes a copilot write to a client that cannot accept it, or keeps a
@@ -524,7 +524,7 @@ plugin needs true cross-origin should a `cors` option be added to `createServer`
 
 ## New-plugin checklist
 
-- [ ] `packages/<group>/server` with `package.json` (`@apograph/<group>-server`,
+- [ ] `packages/<group>/server` with `package.json` (`@ortha/<group>-server`,
       source `exports`, hyphenated name).
 - [ ] `tsconfig.json` / `tsconfig.lib.json` / `tsconfig.spec.json` mirroring an
       existing plugin. **All three**: `tsconfig.lib.json` excludes the specs, so
@@ -549,7 +549,7 @@ plugin needs true cross-origin should a `cors` option be added to `createServer`
 - [ ] Public barrel `src/index.ts`.
 - [ ] Schema + `drizzle.config.ts` + `migrations/` if DB-backed.
 - [ ] Registered in `apps/server/src/plugins.ts` (after `DatabasePlugin`) and
-      `apograph.config.ts`.
+      `ortha.config.ts`.
 - [ ] A `CLAUDE.md` for the package documenting its decisions.
 - [ ] An **e2e suite** in `apps/server-e2e` for any controller it adds — see the
       `server-e2e` skill.

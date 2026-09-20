@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { act, renderHook } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { describe, expect, it, vi } from 'vitest';
-import type { EntryPresaveResult } from '@apograph/content-admin';
+import type { EntryPresaveResult } from '@ortha/content-admin';
 import { segmentsKeys } from '../infrastructure/segmentsGateway';
 import type { EntryAccessStaging } from '../domain/types';
 import { useEntryAccessPresave } from './useEntryAccessPresave';
@@ -18,7 +18,7 @@ function staging(handle: unknown): EntryAccessStaging {
 
 const WORKSPACE = 'w1';
 
-vi.mock('@apograph/workspaces-admin', () => ({
+vi.mock('@ortha/workspaces-admin', () => ({
     useCurrentWorkspace: vi.fn(() => ({ id: WORKSPACE }))
 }));
 

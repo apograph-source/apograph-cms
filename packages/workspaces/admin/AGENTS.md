@@ -1,6 +1,6 @@
-# @apograph/workspaces-admin
+# @ortha/workspaces-admin
 
-The **workspaces feature plugin** for the Apograph CMS admin UI. It owns the
+The **workspaces feature plugin** for the Ortha CMS admin UI. It owns the
 Workspaces management experience: the private `/workspaces` route (a searchable,
 status-filterable **table** of workspaces), the full-page **create wizard** at
 `/workspaces/new`, and its sidebar nav entry + a "Workspaces" quick-list section.
@@ -33,14 +33,14 @@ business truth (ADR-0003 frontend guidance).
 
 ## Package
 
-- Name: `@apograph/workspaces-admin`
-- Import: `import { WorkspacesPlugin } from '@apograph/workspaces-admin'`
+- Name: `@ortha/workspaces-admin`
+- Import: `import { WorkspacesPlugin } from '@ortha/workspaces-admin'`
 - Grouped package (`packages/workspaces/admin`), admin-only. Consumed from source
   (`exports` → `./src/index.ts`); no build step.
 - Register it in `createAdmin({ plugins })` **after** `ShellPlugin()` — it
   contributes its `/workspaces` route into the shell's gated layout and its nav
   item into the shell's `SIDEBAR_NAV_SLOT` (so it depends on
-  `@apograph/shell-admin`).
+  `@ortha/shell-admin`).
 
 ## Key exports
 
@@ -95,7 +95,7 @@ exist", mirroring the API's flat 403.
   area whose nested `<Routes>` are built from `WORKSPACE_ROUTE_SLOT`; landing on
   the base redirects to the lowest-`order` route (the Content Library).
 - `WorkspaceNav` (rendered in the app sidebar, so **above**
-  `CurrentWorkspaceProvider` — it takes `workspace` as a prop) is: a "← Apograph
+  `CurrentWorkspaceProvider` — it takes `workspace` as a prop) is: a "← Ortha
   CMS" back link + a full-width `WorkspaceSwitcher` (design-system `Popover`
   listing workspaces + "New workspace"), then the `WORKSPACE_SECTION_SLOT`
   sections (the Content Library's content-type nav), then the "Workspace"
@@ -158,7 +158,7 @@ exist", mirroring the API's flat 403.
   A contribution names a `path`, a label (`labelId` + `defaultLabel`), an
   `icon`, an `order` and the `element` to render; `WorkspaceSettingsTabs` links
   to it and `WorkspaceSettingsPage` mounts it as a nested route.
-  `@apograph/protection-admin` is the first contributor. Three rules worth
+  `@ortha/protection-admin` is the first contributor. Three rules worth
   knowing:
     - **Contributed tabs sit between Content and Danger zone**, and `order`
       sorts them only against each other. Danger zone is last because it is
@@ -199,7 +199,7 @@ exist", mirroring the API's flat 403.
 - Supporting hooks: `useSlug` (auto-fill + regenerate + availability),
   `useResourceSelection` (controlled `specific`/`all` model), `useBasicsSchema`
   (localized Zod). Generic helpers (`slugify`, `useDebouncedValue`) come from
-  `@apograph/utils-admin`.
+  `@ortha/utils-admin`.
 - Step entrance motion is the `wizard-step-in` keyframe shipped by the
   design-system stylesheet — **transform only** (opacity stays 1), disabled under
   `prefers-reduced-motion`, replayed via `key={step}` on the `WizardStepCard`.
@@ -216,15 +216,15 @@ exist", mirroring the API's flat 403.
   `infrastructure/workspaceMapper` (`toWorkspace`/`toMember`) — the anti-corruption
   layer, deriving presentation-only member `initials`/`color` on the client (the
   server stores neither) via the shared `initialsOf`/`asAvatarColor`/
-  `avatarColorForId` from `@apograph/utils-admin`. Generic helpers (`slugify`,
-  `useDebouncedValue`) live in `@apograph/utils-admin`, not here.
+  `avatarColorForId` from `@ortha/utils-admin`. Generic helpers (`slugify`,
+  `useDebouncedValue`) live in `@ortha/utils-admin`, not here.
 - **Membership is a pure link; there is no per-member role and no owner.** The
   server ignores any role on a member — a user's permissions come from their
   single global role. The Members step adds people (existing or invite-by-email)
   with no role control; the creator is just the first member (added from the
   session), with no special status.
 - **Accent color.** Workspace and member avatars are tinted with the shared
-  `AvatarColor` palette from `@apograph/design-system` (the `--color-avatar-*`
+  `AvatarColor` palette from `@ortha/design-system` (the `--color-avatar-*`
   tokens in the host's `styles.css`) — the only color in the otherwise-neutral
   admin. New tokens/types live in the design-system, not here.
 - **The table row opens the workspace; it has no actions menu and shows no
@@ -262,9 +262,9 @@ exist", mirroring the API's flat 403.
   isn't lost when a step unmounts.
 - presentational/stateful UI hooks live in `src/lib/presentation/hooks/<useThing>/`;
   data hooks (queries/mutations/use-cases) in `src/lib/application/<useThing>/`
-- UI is built only from `@apograph/design-system` components, not bespoke markup
+- UI is built only from `@ortha/design-system` components, not bespoke markup
 
 ## Commands
 
-- `npm exec nx typecheck @apograph/workspaces-admin`
-- `npm exec nx lint @apograph/workspaces-admin`
+- `npm exec nx typecheck @ortha/workspaces-admin`
+- `npm exec nx lint @ortha/workspaces-admin`

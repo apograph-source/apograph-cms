@@ -8,7 +8,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
     cn
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import {
     HIGHLIGHT_COLORS,
     TEXT_COLORS,

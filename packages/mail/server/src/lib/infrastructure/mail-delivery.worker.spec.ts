@@ -1,4 +1,4 @@
-import { createTestkitMailProvider } from '@apograph/mail-provider-testkit';
+import { createTestkitMailProvider } from '@ortha/mail-provider-testkit';
 import { MailDeliveryWorker } from './mail-delivery.worker';
 import type {
     ClaimedMail,
@@ -41,7 +41,7 @@ function workerFor(
     provider = createTestkitMailProvider(),
     overrides: Parameters<typeof resolveMailConfig>[0] = {
         appUrl: 'https://cms.example.com',
-        from: 'Apograph <no-reply@example.com>'
+        from: 'Ortha <no-reply@example.com>'
     }
 ) {
     return {
@@ -72,7 +72,7 @@ describe('the mail delivery worker', () => {
         const repository = fakeRepository([claimed]);
         const { worker, provider } = workerFor(repository, undefined, {
             appUrl: 'https://cms.example.com',
-            from: 'Apograph <no-reply@example.com>',
+            from: 'Ortha <no-reply@example.com>',
             replyTo: 'support@example.com'
         });
 
@@ -82,12 +82,12 @@ describe('the mail delivery worker', () => {
         // so a duplicate carries the same working link as the first copy.
         expect(provider.last()).toMatchObject({
             to: 'ada@example.com',
-            from: 'Apograph <no-reply@example.com>',
+            from: 'Ortha <no-reply@example.com>',
             replyTo: 'support@example.com',
             subject: 'You have been invited',
             text: claimed.bodyText,
             html: '<p>link</p>',
-            headers: { 'X-Apograph-Mail-Kind': 'invite' }
+            headers: { 'X-Ortha-Mail-Kind': 'invite' }
         });
     });
 

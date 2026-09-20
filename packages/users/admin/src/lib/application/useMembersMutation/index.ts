@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { toApiError, type ApiError } from '@apograph/utils-admin';
+import { toApiError, type ApiError } from '@ortha/utils-admin';
 import { membersKeys } from '../../infrastructure/membersKeys';
 
 /**

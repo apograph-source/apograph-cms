@@ -10,13 +10,13 @@ import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem
-} from '@apograph/design-system';
-import { avatarColorForId, initialsOf } from '@apograph/utils-admin';
+} from '@ortha/design-system';
+import { avatarColorForId, initialsOf } from '@ortha/utils-admin';
 import {
     AuthStatus,
     useAuth,
     useLogoutMutation
-} from '@apograph/identity-admin';
+} from '@ortha/identity-admin';
 import { MemberAvatar } from '../MemberAvatar';
 
 /** Intl descriptors for {@link AccountMenu}, co-located with the component. */

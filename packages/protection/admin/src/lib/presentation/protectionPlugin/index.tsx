@@ -1,5 +1,5 @@
 import { Suspense, lazy } from 'react';
-import type { AdminPlugin } from '@apograph/bootstrap-admin';
+import type { AdminPlugin } from '@ortha/bootstrap-admin';
 import {
     ENTRY_HEADER_SLOT,
     ENTRY_PUBLISH_GUARD_SLOT,
@@ -8,16 +8,16 @@ import {
     RECORDS_FILTER_FIELDS_SLOT,
     type ContentTypeDetail,
     type EntryRecord
-} from '@apograph/content-admin';
+} from '@ortha/content-admin';
 import {
     INSIGHTS_SECTION_IDS,
     INSIGHTS_WIDGET_SLOT
-} from '@apograph/insights-admin';
+} from '@ortha/insights-admin';
 import {
     WORKSPACE_NAV_SLOT,
     WORKSPACE_ROUTE_SLOT,
     WORKSPACE_SETTINGS_TAB_SLOT
-} from '@apograph/workspaces-admin';
+} from '@ortha/workspaces-admin';
 import { Shield, ShieldCheck } from 'lucide-react';
 import { ProtectionSettings } from '../components/ProtectionSettings';
 import { ReviewsSkeleton } from '../components/ReviewsSkeleton';

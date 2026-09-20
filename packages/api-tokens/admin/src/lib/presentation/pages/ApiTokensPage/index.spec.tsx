@@ -3,7 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { IntlProvider } from 'react-intl';
 import { MemoryRouter } from 'react-router-dom';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { useHasPermission } from '@apograph/identity-admin';
+import { useHasPermission } from '@ortha/identity-admin';
 import type { ApiToken } from '../../../domain/types/apiToken';
 import { httpApiTokenGateway } from '../../../infrastructure/httpApiTokenGateway';
 import { ApiTokensPage } from './index';
@@ -52,13 +52,13 @@ vi.mock('../../../infrastructure/httpApiTokenGateway', () => ({
     }
 }));
 
-vi.mock('@apograph/identity-admin', () => ({
+vi.mock('@ortha/identity-admin', () => ({
     useHasPermission: vi.fn()
 }));
 
 // The top bar drags in the shell's page-chrome context, which this page neither
 // owns nor is under test here.
-vi.mock('@apograph/shell-admin', () => ({
+vi.mock('@ortha/shell-admin', () => ({
     PageTopBar: () => null
 }));
 

@@ -10,7 +10,7 @@ import {
     Trash2,
     Undo2
 } from 'lucide-react';
-import { useHasPermission } from '@apograph/identity-admin';
+import { useHasPermission } from '@ortha/identity-admin';
 import {
     Button,
     ConfirmDialog,
@@ -20,7 +20,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
     toast
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import type { EntryRecord } from '../../../../../domain/types/contentType';
 import {
     CONTENT_DELETE,

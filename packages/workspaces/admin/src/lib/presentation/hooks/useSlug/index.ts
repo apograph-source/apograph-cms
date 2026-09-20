@@ -1,4 +1,4 @@
-import { slugify } from '@apograph/utils-admin';
+import { slugify } from '@ortha/utils-admin';
 import { useSlugAvailability } from '../../../application/useSlugAvailability';
 import type { SlugStatus, WizardData } from '../../../domain/types/wizard';
 

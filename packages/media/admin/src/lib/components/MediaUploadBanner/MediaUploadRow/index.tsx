@@ -1,5 +1,5 @@
 import { defineMessages, useIntl } from 'react-intl';
-import { Button, Progress, Spinner, cn } from '@apograph/design-system';
+import { Button, Progress, Spinner, cn } from '@ortha/design-system';
 import { AlertCircle, Check, RotateCcw, X } from 'lucide-react';
 import { UPLOAD_STATUS } from '../../../constants';
 import type { UploadItem } from '../../../types/upload';

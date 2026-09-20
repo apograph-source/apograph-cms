@@ -415,7 +415,7 @@ test.describe('Session lost mid-visit', () => {
         // A write, not a read: the mutation rejects mid-flight while the tree
         // that fired it is being unmounted by the redirect.
         await mockUnauthorized(page, '**/api/users/*/invites/resend');
-        await membersPage.openActions('alan@apograph.dev');
+        await membersPage.openActions('alan@ortha.dev');
         await membersPage.menuItem('Resend invite').click();
 
         await expect(page).toHaveURL(/\/identity\/signin$/);

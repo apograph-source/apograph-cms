@@ -1,5 +1,5 @@
 {
-    "name": "@apograph/content-graphql",
+    "name": "@ortha/content-graphql",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -19,10 +19,10 @@
         "@graphql-yoga/render-graphiql": "^5.21.2",
         "@nestjs/common": "^11.0.0",
         "@nestjs/swagger": "^11.4.6",
-        "@apograph/bootstrap-server": "*",
-        "@apograph/content-server": "*",
-        "@apograph/identity-server": "*",
-        "@apograph/workspaces-server": "*",
+        "@ortha/bootstrap-server": "*",
+        "@ortha/content-server": "*",
+        "@ortha/identity-server": "*",
+        "@ortha/workspaces-server": "*",
         "class-validator": "^0.15.1",
         "express": "^5.0.0",
         "graphql": "^16.14.2"

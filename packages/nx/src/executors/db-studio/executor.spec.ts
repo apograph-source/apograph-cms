@@ -3,7 +3,7 @@ import type { ExecutorContext } from '@nx/devkit';
 const runDrizzleKitStudio = jest.fn();
 const jitiImport = jest.fn();
 
-jest.mock('@apograph/cli', () => ({
+jest.mock('@ortha/cli', () => ({
     runDrizzleKitStudio: (...args: unknown[]) => runDrizzleKitStudio(...args)
 }));
 jest.mock('../../lib/jiti', () => ({
@@ -12,9 +12,9 @@ jest.mock('../../lib/jiti', () => ({
 
 import dbStudioExecutor from './executor';
 
-const options = { config: 'apps/server/apograph.config.ts' };
+const options = { config: 'apps/server/ortha.config.ts' };
 const context = { root: '/repo' } as ExecutorContext;
-const URL = 'postgresql://apograph:secret@localhost:5432/apograph_cms';
+const URL = 'postgresql://ortha:secret@localhost:5432/ortha_cms';
 
 function hostConfig(url: string | undefined) {
     jitiImport.mockResolvedValue({
@@ -32,7 +32,7 @@ describe('db-studio executor', () => {
             success: true
         });
         expect(jitiImport).toHaveBeenCalledWith(
-            '/repo/apps/server/apograph.config.ts'
+            '/repo/apps/server/ortha.config.ts'
         );
         expect(runDrizzleKitStudio).toHaveBeenCalledWith(URL, {
             host: undefined,

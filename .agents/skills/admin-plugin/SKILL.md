@@ -1,16 +1,16 @@
 ---
 name: admin-plugin
-description: Authoring, modifying, or reviewing an Apograph CMS admin plugin (packages/<group>/admin, e.g. users-admin). Covers the AdminPlugin factory (routes/layout/slots), the per-module `<name>/index.ts(x)` folder layout, lazy code-split routes, the per-hook data layer (apiClient + TanStack Query, each hook owning its request fn), useHasPermission gating, co-located react-intl messages, slot contributions, and the review-critical data/page pitfalls (clamp page to pageCount after mutations, error-vs-empty state, mapper fallbacks that silently rewrite data, over-invalidation). Use when creating a new admin plugin, adding a page/route/hook/component, or reviewing a change to one. Companion to server-plugin (the API side), accessibility, and admin-e2e.
+description: Authoring, modifying, or reviewing an Ortha CMS admin plugin (packages/<group>/admin, e.g. users-admin). Covers the AdminPlugin factory (routes/layout/slots), the per-module `<name>/index.ts(x)` folder layout, lazy code-split routes, the per-hook data layer (apiClient + TanStack Query, each hook owning its request fn), useHasPermission gating, co-located react-intl messages, slot contributions, and the review-critical data/page pitfalls (clamp page to pageCount after mutations, error-vs-empty state, mapper fallbacks that silently rewrite data, over-invalidation). Use when creating a new admin plugin, adding a page/route/hook/component, or reviewing a change to one. Companion to server-plugin (the API side), accessibility, and admin-e2e.
 user-invocable: false
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash(npx nx *), Bash(npm exec nx *), Bash(npm install), Bash(git mv *)
 ---
 
-# Apograph CMS admin plugins
+# Ortha CMS admin plugins
 
 An **admin plugin** is a workspace package under `packages/<group>/admin` (e.g.
-`packages/billing/admin` → `@apograph/billing-admin`) that contributes features
+`packages/billing/admin` → `@ortha/billing-admin`) that contributes features
 to the React admin SPA. It is **not an app**: it exports a factory the host
-(`@apograph/bootstrap-admin`) assembles into a running SPA via `createAdmin`.
+(`@ortha/bootstrap-admin`) assembles into a running SPA via `createAdmin`.
 
 > **Reference implementations:** `packages/users/admin` is the fullest worked
 > example (routes, slot nav entry, a per-hook data layer with shared mapper +
@@ -22,7 +22,7 @@ to the React admin SPA. It is **not an app**: it exports a factory the host
 > the closest one.
 
 > Plugins are consumed **from source** (`exports` → `./src/index.ts`,
-> `customConditions: ["@apograph/source"]`). No build step; the admin app's
+> `customConditions: ["@ortha/source"]`). No build step; the admin app's
 > Vite transpiles the plugin's TS/TSX directly. Never add a build to consume one.
 
 This skill is the admin-side sibling of **`server-plugin`** (same philosophy,
@@ -86,7 +86,7 @@ mode** and author/review in that mode.
    `application/`. Either way there is **no god-object API client** — the
    difference is whether the seam is a per-hook fn or a gateway port.
 4. **Gate on permissions with `useHasPermission`** (from
-   `@apograph/identity-admin`) — the UI mirror of the server's RBAC. A read
+   `@ortha/identity-admin`) — the UI mirror of the server's RBAC. A read
    page disables its query (`enabled`) until the permission is confirmed;
    write controls render only when permitted.
 5. **i18n is co-located.** Each component declares its own module-level
@@ -203,7 +203,7 @@ packages/<group>/admin/
 **Dependency rule:** `presentation → application → domain`; `infrastructure`
 implements `domain` gateway ports. Presentation imports the gateway **port**, not
 `apiClient`; only `infrastructure/` touches `apiClient`. Enforced by the
-`@apograph/nx` boundary lint.
+`@ortha/nx` boundary lint.
 
 **Do this in the target layout:**
 
@@ -215,7 +215,7 @@ implements `domain` gateway ports. Presentation imports the gateway **port**, no
   components; presentational enrichment (initials, color) stays in the mapper.
 - **Value objects for instant-feedback rules.** `Email.create()`, `Slug.create()`
   give field-level validation from the **same rule the server enforces** — for
-  `content`, import that rule from `@apograph/content-domain` rather than
+  `content`, import that rule from `@ortha/content-domain` rather than
   hand-mirroring it.
 - **Use-case hooks for multi-step flows.** An invite/create wizard's
   orchestration (validate → submit → assign → invalidate → clamp page) lives in
@@ -237,7 +237,7 @@ both layouts; the boundary moves *inside* the hooks, not around them.
 
 ```jsonc
 {
-    "name": "@apograph/<group>-admin",
+    "name": "@ortha/<group>-admin",
     "version": "0.0.1",
     "main": "./src/index.ts",
     "types": "./src/index.ts",
@@ -251,11 +251,11 @@ both layouts; the boundary moves *inside* the hooks, not around them.
     },
     "files": ["src"],
     "dependencies": {
-        "@apograph/bootstrap-admin": "*",
-        "@apograph/design-system": "*",
-        "@apograph/identity-admin": "*", // if it gates on permissions
-        "@apograph/shell-admin": "*", // if it contributes a nav slot
-        "@apograph/utils-admin": "*", // apiClient / queryClient / createSlot
+        "@ortha/bootstrap-admin": "*",
+        "@ortha/design-system": "*",
+        "@ortha/identity-admin": "*", // if it gates on permissions
+        "@ortha/shell-admin": "*", // if it contributes a nav slot
+        "@ortha/utils-admin": "*", // apiClient / queryClient / createSlot
         "@tanstack/react-query": "^5.0.0",
         "@tanstack/react-form": "^1.0.0", // only if it has forms
         "lucide-react": "^1.17.0",
@@ -272,7 +272,7 @@ both layouts; the boundary moves *inside* the hooks, not around them.
 
 Match versions to existing admin packages (grep the repo) rather than inventing
 them. The npm name stays **hyphenated** regardless of the nested folder
-(`packages/<group>/admin` → `@apograph/<group>-admin`). Mirror an existing
+(`packages/<group>/admin` → `@ortha/<group>-admin`). Mirror an existing
 admin package's `tsconfig.json` / `tsconfig.lib.json`.
 
 ### 2. The plugin factory (the package's entry point)
@@ -280,9 +280,9 @@ admin package's `tsconfig.json` / `tsconfig.lib.json`.
 ```tsx
 // src/lib/utils/<plugin>Plugin/index.tsx
 import { Suspense, lazy } from 'react';
-import type { AdminPlugin } from '@apograph/bootstrap-admin';
-import { NAVBAR_START_SLOT } from '@apograph/shell-admin';
-import { Spinner } from '@apograph/design-system';
+import type { AdminPlugin } from '@ortha/bootstrap-admin';
+import { NAVBAR_START_SLOT } from '@ortha/shell-admin';
+import { Spinner } from '@ortha/design-system';
 import { Boxes } from 'lucide-react';
 
 // Lazy so each page is code-split into its own chunk, fetched only when a
@@ -380,7 +380,7 @@ Each hook then owns its own request fn + endpoint types:
 ```ts
 // src/lib/api/useWidgets/index.ts — request fn + envelope type + the hook
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
-import { apiClient } from '@apograph/utils-admin';
+import { apiClient } from '@ortha/utils-admin';
 import type { WidgetList } from '../../types/widget';
 import { widgetsKeys, type WidgetsListParams } from '../../utils/widgetsKeys';
 import { toWidget, type WidgetResponse } from '../../utils/toWidget';
@@ -411,7 +411,7 @@ export function useWidgets(params: WidgetsListParams, enabled = true) {
 ```ts
 // src/lib/api/useCreateWidget/index.ts — a mutation hook, same shape
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { apiClient } from '@apograph/utils-admin';
+import { apiClient } from '@ortha/utils-admin';
 import type { Widget } from '../../types/widget';
 import { widgetsKeys } from '../../utils/widgetsKeys';
 import { toWidget, type WidgetResponse } from '../../utils/toWidget';
@@ -437,7 +437,7 @@ export function useCreateWidget() {
 }
 ```
 
-- **`apiClient`** (axios, from `@apograph/utils-admin`) targets the `/api`
+- **`apiClient`** (axios, from `@ortha/utils-admin`) targets the `/api`
   prefix via the dev proxy — request paths omit `/api` (`apiClient.get('/widgets')`).
 - **The request fn stays module-private** to its hook (no `export`); only the
   input/output **types** are exported where a component needs them.
@@ -449,7 +449,7 @@ export function useCreateWidget() {
 ### 5. Permission gating
 
 ```tsx
-import { useHasPermission } from '@apograph/identity-admin';
+import { useHasPermission } from '@ortha/identity-admin';
 
 export function WidgetsPage() {
     const canRead = useHasPermission('widgets:read');
@@ -525,7 +525,7 @@ createAdmin({
 
 ```bash
 npx nx sync                                   # after changing cross-project deps
-npx nx run-many -t typecheck lint -p @apograph/<group>-admin
+npx nx run-many -t typecheck lint -p @ortha/<group>-admin
 ```
 
 ---
@@ -555,7 +555,7 @@ The recurring admin-side mistakes a careful review catches:
 
 ## Design-system & UI
 
-- Build UI from `@apograph/design-system` primitives (`Button`, `Container`,
+- Build UI from `@ortha/design-system` primitives (`Button`, `Container`,
   `Select`, `Dialog`, …) — never hand-roll a styled element that exists there.
   Adding/changing a design-system component is the **`shadcn`** skill's job.
 - Generic multi-step **wizard chrome** (`Stepper`, `WizardStepCard`,
@@ -578,7 +578,7 @@ The recurring admin-side mistakes a careful review catches:
 
 ## New-plugin checklist
 
-- [ ] `packages/<group>/admin` with `package.json` (`@apograph/<group>-admin`,
+- [ ] `packages/<group>/admin` with `package.json` (`@ortha/<group>-admin`,
       source `exports`, hyphenated name) + `tsconfig.json` /
       `tsconfig.lib.json` / `tsconfig.spec.json`. **All three**:
       `tsconfig.lib.json` excludes the specs, so without the third project
@@ -609,7 +609,7 @@ The recurring admin-side mistakes a careful review catches:
 
 ## Commands
 
-- `npx nx run-many -t typecheck lint -p @apograph/<group>-admin`
+- `npx nx run-many -t typecheck lint -p @ortha/<group>-admin`
 - `npx nx sync` — after changing cross-project dependencies.
 - `npx nx serve admin` — run the SPA with the plugin mounted.
 - `npx nx e2e admin-e2e -- --project=chromium` — exercise the page in a browser.

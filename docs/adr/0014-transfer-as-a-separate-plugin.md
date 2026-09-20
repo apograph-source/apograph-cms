@@ -35,7 +35,7 @@ they touch would put the depth rule in four places.
 
 ### A separate plugin, adapting the existing surfaces
 
-`@apograph/transfer-{domain,server,admin}` — a protocol adapter over content,
+`@ortha/transfer-{domain,server,admin}` — a protocol adapter over content,
 the same role `content/graphql` plays for GraphQL
 ([ADR-0008](0008-graphql-as-a-protocol-adapter.md)). It reads through
 `EntriesService` / `EntryWriterService` and the content registry, and writes

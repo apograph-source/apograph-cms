@@ -117,7 +117,7 @@ const EXPECTED_READS = [
     // A dependency's own manifest, for its `bin` field.
     "src/lib/run.ts: createRequire(join(root, 'package.json'))",
     "src/lib/run.ts: readFileSync(manifestPath, 'utf8')",
-    // This package's manifest, for `apograph --version`.
+    // This package's manifest, for `ortha --version`.
     "src/lib/version.ts: readFileSync(manifest, 'utf8')",
     // The rest are `LAYOUT` paths: the admin entry, the drizzle config, the server bundle.
     'src/lib/commands/build.ts: existsSync(join(root, LAYOUT.adminIndex))',

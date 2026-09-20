@@ -11,7 +11,7 @@
  * Pure: it takes the document and mutates only the paths this plugin owns.
  */
 
-import type { OpenApiDocument } from '@apograph/bootstrap-server';
+import type { OpenApiDocument } from '@ortha/bootstrap-server';
 import type { OpenApiSchema } from './media-schemas';
 import { buildMediaSchemas, ref } from './media-schemas';
 

@@ -1,6 +1,6 @@
 @import 'tailwindcss';
 @import '../../../packages/design-system/src/styles.css';
-/* The rich-text scope (`.apograph-wysiwyg`) shared by the WYSIWYG plugin's editor
+/* The rich-text scope (`.ortha-wysiwyg`) shared by the WYSIWYG plugin's editor
    and its previews. It reads the `--color-*` tokens declared below at runtime,
    so it follows light/dark like the rest of the admin. */
 @import '../../../packages/wysiwyg/admin/src/styles.css';

@@ -1,11 +1,11 @@
-# @apograph/media-provider-gcs
+# @ortha/media-provider-gcs
 
 Google Cloud Storage, natively.
 
 ## You may not need this package
 
 GCS speaks the **S3 XML API** in interoperability mode, so
-`@apograph/media-provider-s3` reaches it today:
+`@ortha/media-provider-s3` reaches it today:
 
 ```typescript
 createS3StorageProvider({
@@ -60,7 +60,7 @@ on a deployment that cannot honour it.
 
 ## Testing: what the fake proves, and what it does not
 
-`npx nx test @apograph/media-provider-gcs` runs the shared contract plus this
+`npx nx test @ortha/media-provider-gcs` runs the shared contract plus this
 adapter's own cases against `FakeBucket`, whose `createReadStream` opens lazily
 exactly like the real one — which is what makes the metadata-first rule
 testable.
@@ -75,6 +75,6 @@ speak for.
 
 ## Commands
 
-- `npx nx test @apograph/media-provider-gcs` /
-  `npx nx typecheck @apograph/media-provider-gcs` /
-  `npx nx lint @apograph/media-provider-gcs`
+- `npx nx test @ortha/media-provider-gcs` /
+  `npx nx typecheck @ortha/media-provider-gcs` /
+  `npx nx lint @ortha/media-provider-gcs`

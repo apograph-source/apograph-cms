@@ -9,8 +9,8 @@ import {
     type EventActor,
     OutboxWriter,
     UnitOfWork
-} from '@apograph/database';
-import { type EntryStatus } from '@apograph/content-domain';
+} from '@ortha/database';
+import { type EntryStatus } from '@ortha/content-domain';
 import type { AnyContentType } from '../../../types/content-type';
 import { EntryValidationService } from '../../../validation/services/entry-validation.service';
 import { EntryWriterService } from '../../infrastructure/persistence/entry-writer.service';

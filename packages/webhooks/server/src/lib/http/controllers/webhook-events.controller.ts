@@ -4,11 +4,11 @@ import {
     PERMISSIONS,
     PermissionsGuard,
     RequirePermissions
-} from '@apograph/identity-server';
+} from '@ortha/identity-server';
 import {
     WEBHOOK_EVENTS,
     type WebhookEventDescriptor
-} from '@apograph/webhooks-domain';
+} from '@ortha/webhooks-domain';
 
 /**
  * `GET /api/webhook-events` — the catalogue of subscribable event kinds.

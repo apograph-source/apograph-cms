@@ -26,7 +26,7 @@ import {
  */
 
 /** localStorage key the panel's open/collapsed preference is kept under. */
-const STORAGE_KEY = 'apograph:right-panel';
+const STORAGE_KEY = 'ortha:right-panel';
 
 /**
  * A context provided *by the page*, below the shell. Every real one behaves this

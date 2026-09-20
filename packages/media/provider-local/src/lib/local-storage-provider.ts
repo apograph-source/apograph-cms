@@ -4,12 +4,12 @@ import { mkdir, open, rename, rm, rmdir } from 'node:fs/promises';
 import { dirname, isAbsolute, join, relative, resolve, sep } from 'node:path';
 import { PassThrough, type Readable } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
-import { ObjectNotFoundError } from '@apograph/media-domain';
+import { ObjectNotFoundError } from '@ortha/media-domain';
 import type {
     PutObject,
     StorageProvider,
     StoredObject
-} from '@apograph/media-domain';
+} from '@ortha/media-domain';
 
 /** Local filesystem provider settings. */
 export interface LocalStorageConfig {

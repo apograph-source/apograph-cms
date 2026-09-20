@@ -1,4 +1,4 @@
-import type { DomainEvent } from '@apograph/database';
+import type { DomainEvent } from '@ortha/database';
 import { EntryEventSubscriber } from './entry-event.subscriber';
 
 /**

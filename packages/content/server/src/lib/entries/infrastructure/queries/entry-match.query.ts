@@ -1,8 +1,8 @@
 import { Inject, Injectable, Optional } from '@nestjs/common';
 import { and, count, eq, inArray, isNull, type AnyColumn } from 'drizzle-orm';
 import type { PgColumn } from 'drizzle-orm/pg-core';
-import { InjectDatabase, type Database } from '@apograph/database';
-import { applyFilterTree, parseFilterTree } from '@apograph/utils-server';
+import { InjectDatabase, type Database } from '@ortha/database';
+import { applyFilterTree, parseFilterTree } from '@ortha/utils-server';
 import {
     CONTENT_ENTRY_EXTENSION,
     type ContentEntryExtension
@@ -45,7 +45,7 @@ export interface EntryMatchOptions {
  * without reaching for the database or rebuilding the surface: the filterable
  * paths, the relation-hop budget, the workspace scoping of every relation
  * subquery, and the 400 on a malformed tree are all inherited rather than
- * re-implemented. `@apograph/alarms-server` evaluates its rules through this,
+ * re-implemented. `@ortha/alarms-server` evaluates its rules through this,
  * which is what makes "the rule I saved from the list means what the list
  * showed me" true by construction rather than by review.
  *

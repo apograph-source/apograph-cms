@@ -8,7 +8,7 @@ import { join, relative } from 'node:path';
  * Both are made of absences. A `import.meta.url` slipping in breaks nothing a
  * jest run notices, because jest transpiles these files itself; it breaks Nx
  * `require`-ing the executor out of the CJS build, at release time. And the
- * `!@apograph/nx` in `nx.json` is not code at all: drop it and every test in
+ * `!@ortha/nx` in `nx.json` is not code at all: drop it and every test in
  * this package still passes, right up until the next release publishes the
  * workspace's build tooling to npm.
  *
@@ -88,7 +88,7 @@ const nxJson = JSON.parse(readFileSync(join(REPO, 'nx.json'), 'utf8')) as {
     targetDefaults: Record<string, { executor?: string }>;
 };
 
-describe('the shape of @apograph/nx', () => {
+describe('the shape of @ortha/nx', () => {
     const PACKAGE_CODE = codeLines(sourceFiles(PACKAGE_SRC));
 
     it('reads the package at all', () => {
@@ -100,7 +100,7 @@ describe('the shape of @apograph/nx', () => {
     describe('not a distributable [nx:I-31]', () => {
         it('is marked private in its own manifest [nx:I-31]', () => {
             expect([manifest.name, manifest.private]).toEqual([
-                '@apograph/nx',
+                '@ortha/nx',
                 true
             ]);
         });
@@ -110,10 +110,10 @@ describe('the shape of @apograph/nx', () => {
             // half: `private: true` only stops the *publish*, and only because
             // the release-publish executor checks it. The release's project
             // list is what decides whether this package is versioned and
-            // tagged with the rest at all — `@apograph/*` sweeps it in, so the
+            // tagged with the rest at all — `@ortha/*` sweeps it in, so the
             // negation is the one thing keeping workspace tooling out of a
             // release the moment either guard is relaxed.
-            expect(nxJson.release.projects).toContain('!@apograph/nx');
+            expect(nxJson.release.projects).toContain('!@ortha/nx');
         });
 
         it('states the exclusion after the glob that would otherwise take it [nx:I-31]', () => {
@@ -122,9 +122,9 @@ describe('the shape of @apograph/nx', () => {
             // that makes the entry above mean anything.
             const projects = nxJson.release.projects;
 
-            expect(projects).toContain('@apograph/*');
-            expect(projects.indexOf('!@apograph/nx')).toBeGreaterThan(
-                projects.indexOf('@apograph/*')
+            expect(projects).toContain('@ortha/*');
+            expect(projects.indexOf('!@ortha/nx')).toBeGreaterThan(
+                projects.indexOf('@ortha/*')
             );
         });
     });

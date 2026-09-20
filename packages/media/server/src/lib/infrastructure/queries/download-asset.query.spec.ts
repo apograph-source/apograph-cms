@@ -1,6 +1,6 @@
 import { Readable } from 'node:stream';
-import type { Database } from '@apograph/database';
-import type { StorageProvider } from '@apograph/media-domain';
+import type { Database } from '@ortha/database';
+import type { StorageProvider } from '@ortha/media-domain';
 import { DownloadAssetQuery, type AssetLocation } from './download-asset.query';
 
 const bytes = () => Readable.from([Buffer.from('the bytes')]);

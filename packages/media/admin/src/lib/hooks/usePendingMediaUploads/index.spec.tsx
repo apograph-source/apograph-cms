@@ -12,11 +12,11 @@ vi.mock('../../infrastructure/httpMediaGateway', () => ({
     httpMediaGateway: { uploadFile: vi.fn() }
 }));
 
-vi.mock('@apograph/design-system', () => ({
+vi.mock('@ortha/design-system', () => ({
     toast: { error: vi.fn(), success: vi.fn() }
 }));
 
-vi.mock('@apograph/workspaces-admin', () => ({
+vi.mock('@ortha/workspaces-admin', () => ({
     useCurrentWorkspace: () => ({ id: 'ws-1', name: 'Alpha', slug: 'a' })
 }));
 

@@ -24,7 +24,7 @@ const PRIVATE_PATH = '/workspaces';
 function signedInUser(): AuthUser {
     return {
         id: 'usr_1',
-        email: 'ada@apograph.dev',
+        email: 'ada@ortha.dev',
         name: 'Ada Lovelace',
         permissions: []
     };

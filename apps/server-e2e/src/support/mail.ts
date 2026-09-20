@@ -2,8 +2,8 @@ import type { INestApplication } from '@nestjs/common';
 import {
     createTestkitMailProvider,
     type TestkitMailProvider
-} from '@apograph/mail-provider-testkit';
-import { MailDeliveryWorker } from '@apograph/mail-server';
+} from '@ortha/mail-provider-testkit';
+import { MailDeliveryWorker } from '@ortha/mail-server';
 
 /**
  * The capturing mail backend the harness boots with, when a suite asks for one.

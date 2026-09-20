@@ -174,7 +174,7 @@ describe('Public GraphQL API (/api/v1/graphql)', () => {
         it('401s on an unknown bearer token', async () => {
             await request(harness.server)
                 .post('/api/v1/graphql')
-                .set('Authorization', 'Bearer apograph_not-a-real-token')
+                .set('Authorization', 'Bearer ortha_not-a-real-token')
                 .send({ query: '{ contentTypes { name } }' })
                 .expect(401);
         });

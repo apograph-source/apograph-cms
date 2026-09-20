@@ -4,12 +4,12 @@ import {
     MODEL_REGISTRY,
     type ModelChoice,
     type ModelRegistry
-} from '@apograph/copilot-domain';
+} from '@ortha/copilot-domain';
 import {
     PERMISSIONS,
     PermissionsGuard,
     RequirePermissions
-} from '@apograph/identity-server';
+} from '@ortha/identity-server';
 
 /** What the model picker renders. */
 export interface ModelCatalogue {

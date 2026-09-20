@@ -1,9 +1,9 @@
-import { MailPermanentError } from '@apograph/mail-domain';
+import { MailPermanentError } from '@ortha/mail-domain';
 import { createTestkitMailProvider } from './testkit-mail-provider';
 
 const message = {
     to: 'ada@example.com',
-    from: 'Apograph <no-reply@example.com>',
+    from: 'Ortha <no-reply@example.com>',
     subject: 'You have been invited',
     text: 'https://cms.example.com/identity/accept-invite?token=s3cret'
 };

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { and, asc, eq, inArray } from 'drizzle-orm';
-import { UnitOfWork } from '@apograph/database';
+import { UnitOfWork } from '@ortha/database';
 import { Workspace } from '../../domain/workspace';
 import type { WorkspaceId } from '../../domain/value-objects/workspace-id';
 import type { WorkspaceRepository } from '../../domain/workspace.repository';

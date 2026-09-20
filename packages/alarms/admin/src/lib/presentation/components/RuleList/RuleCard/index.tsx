@@ -6,7 +6,7 @@ import {
     Badge,
     Button,
     Spinner
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import { Pencil, RefreshCw, TriangleAlert, Trash2 } from 'lucide-react';
 import type { AlarmRule } from '../../../../types/alarm';
 import { SeverityBadge } from '../../SeverityBadge';

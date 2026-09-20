@@ -1,7 +1,7 @@
 import request from 'supertest';
 import { eq } from 'drizzle-orm';
-import { getDatabase } from '@apograph/database';
-import { workspaceContent } from '@apograph/workspaces-server';
+import { getDatabase } from '@ortha/database';
+import { workspaceContent } from '@ortha/workspaces-server';
 import {
     closeTestApp,
     createTestApp,

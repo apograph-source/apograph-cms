@@ -3,7 +3,7 @@ import {
     SSO_PROVIDER_CONFORMANCE_CHECKS,
     type SsoProviderConformanceCase,
     type SsoProviderConformanceReport
-} from '@apograph/identity-domain';
+} from '@ortha/identity-domain';
 import { createGithubProvider } from './github-provider';
 import {
     callbackWith,

@@ -1,5 +1,5 @@
 /** The content locales, and what to do about rows left in a removed one. */
-import type { I18nPluginConfig } from '@apograph/i18n-server';
+import type { I18nPluginConfig } from '@ortha/i18n-server';
 
 /** The content locales, and what to do about rows left in a removed one. */
 export function i18nConfig(): I18nPluginConfig {

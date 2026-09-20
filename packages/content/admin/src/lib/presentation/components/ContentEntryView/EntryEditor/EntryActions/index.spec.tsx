@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { IntlProvider } from 'react-intl';
-import { TooltipProvider } from '@apograph/design-system';
+import { TooltipProvider } from '@ortha/design-system';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import type { ContentTypeDetail } from '../../../../../domain/types/contentType';
 import { ENTRY_MODE } from '../../../../../domain/constants';
@@ -50,7 +50,7 @@ if (!Element.prototype.hasPointerCapture) {
 
 // The editor's permission gate. Every case here is a writer who may publish —
 // what is under test is the guard slot, not the RBAC that runs before it.
-vi.mock('@apograph/identity-admin', () => ({
+vi.mock('@ortha/identity-admin', () => ({
     useHasPermission: () => true
 }));
 

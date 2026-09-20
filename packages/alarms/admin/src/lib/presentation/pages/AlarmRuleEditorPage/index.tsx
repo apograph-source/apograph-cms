@@ -18,7 +18,7 @@ import {
     Spinner,
     Textarea,
     toast
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import {
     QueryBuilderPanel,
     QueryBuilderSummary,
@@ -26,7 +26,7 @@ import {
     jsonFilterToTree,
     treeToJsonFilter,
     type FilterGroup
-} from '@apograph/query-builder-admin';
+} from '@ortha/query-builder-admin';
 import {
     RECORDS_FILTER_FIELDS_SLOT,
     RelationValuePicker,
@@ -35,10 +35,10 @@ import {
     useContentTypes,
     useFilterFields,
     type ContentTypeDetail
-} from '@apograph/content-admin';
-import { useHasPermission } from '@apograph/identity-admin';
-import { PageTopBar } from '@apograph/shell-admin';
-import { useCurrentWorkspace } from '@apograph/workspaces-admin';
+} from '@ortha/content-admin';
+import { useHasPermission } from '@ortha/identity-admin';
+import { PageTopBar } from '@ortha/shell-admin';
+import { useCurrentWorkspace } from '@ortha/workspaces-admin';
 import { BellRing, SlidersHorizontal, TriangleAlert } from 'lucide-react';
 import { useAlarmRules } from '../../../application/useAlarmRules';
 import {

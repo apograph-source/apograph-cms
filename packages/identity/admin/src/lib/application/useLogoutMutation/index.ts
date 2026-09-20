@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { defineMessages, useIntl } from 'react-intl';
-import { toast } from '@apograph/design-system';
-import type { ApiError } from '@apograph/utils-admin';
+import { toast } from '@ortha/design-system';
+import type { ApiError } from '@ortha/utils-admin';
 import { httpAuthGateway } from '../../infrastructure/httpAuthGateway';
 import { currentUserKey } from '../useCurrentUser';
 import { resetSessionCache } from '../resetSessionCache';

@@ -29,12 +29,12 @@ import {
     type SkillRef,
     type ToolResultBlock,
     type ToolUseBlock
-} from '@apograph/copilot-domain';
+} from '@ortha/copilot-domain';
 import {
     ToolRegistry,
     validateToolInput,
     type ToolDefinition
-} from '@apograph/tools-server';
+} from '@ortha/tools-server';
 import { COPILOT_RUN_LIMITS, InjectCopilotConfig } from '../../copilot.tokens';
 import type { CopilotPluginConfig } from '../../types/copilot-config';
 import { ConversationRepository } from '../infrastructure/persistence/conversation.repository';

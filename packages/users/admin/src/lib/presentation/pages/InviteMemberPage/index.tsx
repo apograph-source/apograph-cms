@@ -2,8 +2,8 @@ import { useState, type ReactNode } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { Link, Navigate } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, Info, Search, Users } from 'lucide-react';
-import { PageTopBar } from '@apograph/shell-admin';
-import { useHasPermission } from '@apograph/identity-admin';
+import { PageTopBar } from '@ortha/shell-admin';
+import { useHasPermission } from '@ortha/identity-admin';
 import {
     Alert,
     AlertDescription,
@@ -29,7 +29,7 @@ import {
     WizardFooter,
     WizardStepCard,
     cn
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import { useInviteMemberFlow } from '../../../application/useInviteMemberFlow';
 import { useWorkspaceOptions } from '../../../application/useWorkspaceOptions';
 import { Email } from '../../../domain/value-objects/email';
@@ -37,7 +37,7 @@ import type { MemberRole } from '../../../domain/types/member';
 import { MemberAvatar } from '../../components/MemberAvatar';
 import { InviteSent } from '../../components/InviteSent';
 import { WorkspaceOptionsSkeleton } from '../../components/MembersSkeleton';
-import { useDocumentTitle } from '@apograph/utils-admin';
+import { useDocumentTitle } from '@ortha/utils-admin';
 
 const messages = defineMessages({
     title: { id: 'users.invitePage.title', defaultMessage: 'Invite a member' },
@@ -53,7 +53,7 @@ const messages = defineMessages({
     subtitle: {
         id: 'users.invitePage.subtitle',
         defaultMessage:
-            'Add someone to Apograph in three short steps: who they are, what they can do, and which workspaces they can reach.'
+            'Add someone to Ortha in three short steps: who they are, what they can do, and which workspaces they can reach.'
     },
     back: { id: 'users.invitePage.back', defaultMessage: 'Back to members' },
     crumbMembers: {
@@ -136,7 +136,7 @@ const messages = defineMessages({
     roleAdminHint: {
         id: 'users.invitePage.roleAdminHint',
         defaultMessage:
-            'Full control of Apograph. Manages members, roles, and settings, and can reach every workspace and all of its content.'
+            'Full control of Ortha. Manages members, roles, and settings, and can reach every workspace and all of its content.'
     },
     roleContributor: {
         id: 'users.role.contributor',
@@ -156,7 +156,7 @@ const messages = defineMessages({
     roleInfo: {
         id: 'users.invitePage.roleInfo',
         defaultMessage:
-            'A member has one global role that applies across Apograph — it isn’t set per workspace. You can change it later from the members list.'
+            'A member has one global role that applies across Ortha — it isn’t set per workspace. You can change it later from the members list.'
     },
     continueToWorkspaces: {
         id: 'users.invitePage.continueToWorkspaces',

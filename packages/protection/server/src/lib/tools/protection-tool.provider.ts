@@ -4,7 +4,7 @@ import {
     type ToolContext,
     type ToolDefinition,
     type ToolProvider
-} from '@apograph/tools-server';
+} from '@ortha/tools-server';
 import {
     InjectContentRegistry,
     InjectRevisionStore,
@@ -12,8 +12,8 @@ import {
     type ContentTypeRegistry,
     type RevisionStore,
     type SnapshotFieldChange
-} from '@apograph/content-server';
-import { PERMISSIONS } from '@apograph/identity-server';
+} from '@ortha/content-server';
+import { PERMISSIONS } from '@ortha/identity-server';
 import { ReviewStatusQuery } from '../application/review-status.query';
 import { EntryReviewService } from '../application/entry-review.service';
 import { ReviewApprovalRepository } from '../infrastructure/review-approval.repository';

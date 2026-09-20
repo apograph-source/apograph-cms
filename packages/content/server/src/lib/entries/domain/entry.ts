@@ -1,10 +1,10 @@
-import type { DomainEvent } from '@apograph/database';
+import type { DomainEvent } from '@ortha/database';
 import {
     ENTRY_STATUS,
     assertTransition,
     type EntryStatus,
     type ValidationIssue
-} from '@apograph/content-domain';
+} from '@ortha/content-domain';
 import {
     ENTRY_EVENT_KINDS,
     entryEvent,
@@ -52,8 +52,8 @@ export interface PublishGate {
  * applies a transition here (raising the domain event), and the infrastructure
  * persists the new status.
  *
- * Framework-free: imports only `@apograph/content-domain` (the pure kernel) and
- * `@apograph/database`'s framework-free `createDomainEvent`/`DomainEvent` —
+ * Framework-free: imports only `@ortha/content-domain` (the pure kernel) and
+ * `@ortha/database`'s framework-free `createDomainEvent`/`DomainEvent` —
  * nothing from `@nestjs/*`, `drizzle-orm`, `class-validator`, or the
  * infrastructure layer (ADR-0003's one hard rule).
  */

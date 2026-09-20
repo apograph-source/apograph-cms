@@ -17,12 +17,12 @@ import {
     SelectTrigger,
     SelectValue,
     Textarea
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import {
     MAX_SKILL_DESCRIPTION_LENGTH,
     MAX_SKILL_INSTRUCTIONS_LENGTH,
     SKILL_NAME_PATTERN
-} from '@apograph/copilot-domain';
+} from '@ortha/copilot-domain';
 import type { CopilotSkillDetail } from '../../../application/useManageSkills';
 
 const messages = defineMessages({
@@ -37,7 +37,7 @@ const messages = defineMessages({
     explain: {
         id: 'copilot.skills.form.explain',
         defaultMessage:
-            'Instructions Apograph AI follows while this skill is on. Everyone in this workspace can use it.'
+            'Instructions Ortha AI follows while this skill is on. Everyone in this workspace can use it.'
     },
     title: { id: 'copilot.skills.form.title', defaultMessage: 'Name' },
     titleHint: {
@@ -56,7 +56,7 @@ const messages = defineMessages({
     descriptionHint: {
         id: 'copilot.skills.form.descriptionHint',
         defaultMessage:
-            'One or two sentences. Apograph AI reads this to decide whether to suggest the skill.'
+            'One or two sentences. Ortha AI reads this to decide whether to suggest the skill.'
     },
     instructions: {
         id: 'copilot.skills.form.instructions',

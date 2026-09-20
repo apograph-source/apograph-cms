@@ -10,7 +10,7 @@ import * as entryPoint from '../index';
  * the behaviour of the app, and each fails **silently**: the lazy boundary
  * shows up only as ~460 kB more in the entry chunk, a `domain/` layer that has
  * started importing TipTap still works, and a style rule that escaped
- * `.apograph-wysiwyg` only shows up on whatever unrelated page it lands on. So
+ * `.ortha-wysiwyg` only shows up on whatever unrelated page it lands on. So
  * they are asserted against the tree itself, the way
  * `packages/identity/domain`'s manifest test asserts its zero-dependency rule.
  */

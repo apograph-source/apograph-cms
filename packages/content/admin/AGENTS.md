@@ -1,7 +1,7 @@
-# @apograph/content-admin
+# @ortha/content-admin
 
-The **Content Library feature plugin** for the Apograph CMS admin UI. It is the
-admin counterpart to `@apograph/content-server` (which owns the content
+The **Content Library feature plugin** for the Ortha CMS admin UI. It is the
+admin counterpart to `@ortha/content-server` (which owns the content
 registry, schema, and `CONTENT_CATALOG`). It mounts **inside a workspace** at
 `/workspaces/:id/content/*` and ships the library's **navigation + landing**:
 the **Content section of the app sidebar** (listing the workspace's content
@@ -54,8 +54,8 @@ per-hook `api/` + `utils/` layout:
 ### Single validation source — the shared kernel
 
 Field-value validation and the publish gate are **not** hand-mirrored in the
-admin anymore. They live once, in `@apograph/content-domain` (the shared
-**kernel**, per ADR-0003), which `@apograph/content-server` validates against
+admin anymore. They live once, in `@ortha/content-domain` (the shared
+**kernel**, per ADR-0003), which `@ortha/content-server` validates against
 too — so the admin and server can't drift. `presentation/entryValidation` is a
 thin **i18n anti-corruption layer**: it runs the kernel's `validateFieldValue`
 over each field (via the `entryFieldSpec` adapter) and renders the kernel's
@@ -117,11 +117,11 @@ global ⌘K / Ctrl+K shortcut (both owned by `ContentNavSection`).
   same `permission`).
 - **Scoped to the workspace.** The schema list is global, so the page filters it
   to the open workspace's granted content slugs — `Workspace.content` from
-  `@apograph/workspaces-admin` (surfaced by `GET /api/workspaces`, sourced from
+  `@ortha/workspaces-admin` (surfaced by `GET /api/workspaces`, sourced from
   the `workspace_content` grants written by the create wizard). Only related
   collections/pages show; an ungranted `:typeName` renders the not-found state.
 - `useContentFavorites` (`presentation/hooks/useContentFavorites/`) persists pinned
-  type-names in `localStorage`, **keyed per workspace** (`apograph:content:
+  type-names in `localStorage`, **keyed per workspace** (`ortha:content:
 favorites:<workspaceId>`), with guarded reads/writes. There is no favorites
   server yet — that is the planned migration point.
 - **Records table data layer** (per-collection): `useContentSchema`
@@ -167,7 +167,7 @@ favorites:<workspaceId>`), with guarded reads/writes. There is no favorites
   (`?sort=<columnId>` asc, `?sort=-<columnId>`
   desc); a header click cycles asc → desc → off, sets `aria-sort` on the
   `<th>`, and resets the page. URL state (search/filter/sort/page) is owned by
-  `useTableUrlState` (`@apograph/utils-admin`),
+  `useTableUrlState` (`@ortha/utils-admin`),
   mirroring the Members page. `useEntryColumns` holds the **ordered** visible
   columns in component state (**not persisted** — the choice lasts the session
   and resets on reload) — the array is both the visibility set and the display
@@ -211,7 +211,7 @@ favorites:<workspaceId>`), with guarded reads/writes. There is no favorites
   that case, since the string isn't blank. The excerpt is only ever rendered as
   text, so tag-stripping by regex carries no injection risk; rendering rich text
   as _markup_ is a different problem with a different answer
-  (`@apograph/wysiwyg-admin`'s `renderRichText`).
+  (`@ortha/wysiwyg-admin`'s `renderRichText`).
 - Column **order and visibility** are both chosen in
   `CollectionRecordsColumnPicker` — a `Popover` (not a `DropdownMenu`, whose menu
   semantics fight dnd-kit's keyboard sensor) listing visible columns first as
@@ -408,7 +408,7 @@ staged.added`), not the values bag it doesn't live in — mirroring the server's
       being absent, and a bug that dropped the whole form would pass them all.
 - The design-system `command` + `collapsible` + `tabs` + `calendar` +
   `multi-select` primitives this plugin relies on were added there via the
-  shadcn skill (consumed from `@apograph/design-system`).
+  shadcn skill (consumed from `@ortha/design-system`).
 
 ## Saved views — the switcher in the records toolbar
 
@@ -542,7 +542,7 @@ than just being dead.
 ## The Properties panel + the editor's actions live in the app chrome
 
 The entry editor no longer draws its own rail or its own action bar. Both render
-into **shell-owned regions** (`@apograph/shell-admin`), filled by portal from
+into **shell-owned regions** (`@ortha/shell-admin`), filled by portal from
 inside the editor:
 
 - **`RightPanelPortal title="Properties"`** ← `EntrySidebar`, the panel body.
@@ -631,7 +631,7 @@ a third state with no column value spelling it made unavoidable.
   `invalidateQueries({ queryKey: ['content'] })` matches **nothing**:
   `'content' !== 'content-entries'`. It throws no error and reports no count, so
   the mutation succeeds, the toast appears, and the table never moves —
-  `@apograph/transfer-admin` shipped exactly that after an import. A plugin that
+  `@ortha/transfer-admin` shipped exactly that after an import. A plugin that
   writes entries should call the exported **`refreshEntryCaches`** rather than
   spell a key of its own; the two exported key builders
   (`contentEntriesPrefix`, `contentEntryKey`) are for the cases it doesn't cover.
@@ -736,7 +736,7 @@ above), not an in-form staging preview; restore remains the switch-back path.
 ## Insights widgets
 
 This plugin contributes the **content cards** on the Insights page via
-`@apograph/insights-admin`'s `INSIGHTS_WIDGET_SLOT` — content owns the data, so
+`@ortha/insights-admin`'s `INSIGHTS_WIDGET_SLOT` — content owns the data, so
 it owns the widgets; the Insights plugin ships only the page, the grid and the
 card shell and knows nothing about entries.
 
@@ -780,15 +780,15 @@ of the package — `infrastructure/contentInsightsGateway` (the port),
 The library exposes fifteen named slots (`presentation/slots/contentSlots`, via
 `createSlot`) another admin plugin contributes into — no coupling beyond the
 contracts, the same idiom as the workspace shell's slots.
-`@apograph/i18n-admin` fills eight; `@apograph/media-admin` fills two
+`@ortha/i18n-admin` fills eight; `@ortha/media-admin` fills two
 (`ENTRY_TAB_SLOT`, the Media tab, and `ENTRY_PRESAVE_SLOT`, its staged uploads);
-`@apograph/wysiwyg-admin` fills one (`ENTRY_FIELD_CONTROL_SLOT`, the rich-text
-editor); `@apograph/transfer-admin` fills three (`ENTRY_MENU_SLOT` and
+`@ortha/wysiwyg-admin` fills one (`ENTRY_FIELD_CONTROL_SLOT`, the rich-text
+editor); `@ortha/transfer-admin` fills three (`ENTRY_MENU_SLOT` and
 `RECORDS_BULK_ACTION_SLOT` to export, `RECORDS_MENU_SLOT` to import);
-`@apograph/segments-admin` fills three (`ENTRY_HEADER_SLOT`, the restricted chip;
+`@ortha/segments-admin` fills three (`ENTRY_HEADER_SLOT`, the restricted chip;
 `ENTRY_TAB_SLOT`, the Access tab; and `ENTRY_PRESAVE_SLOT`, which is what applies
 an entry's audiences on Save rather than on a button of its own);
-`@apograph/activity-admin` fills one (`ENTRY_TAB_SLOT`, the **Activity** tab —
+`@ortha/activity-admin` fills one (`ENTRY_TAB_SLOT`, the **Activity** tab —
 who did what to this record, which the revision-timeline History tab cannot
 answer).
 **Slot items are boot-frozen**
@@ -822,7 +822,7 @@ fetching internally.
     - **The trigger renders only when something resolves** — a contributed item
       or `trashHref` — so an install with neither sees no ⋯ opening onto
       nothing.
-    - `@apograph/transfer-admin` fills it with **Import…**.
+    - `@ortha/transfer-admin` fills it with **Import…**.
 - **`RECORDS_BULK_ACTION_SLOT`** — an item in the records **selection bar's**
   ⋯ menu, after the built-in Publish / Unpublish / Delete (and, in the trash,
   Restore / Delete permanently). `useItem` receives the selected `ids` and
@@ -840,7 +840,7 @@ fetching internally.
       open calls `onDone` on success, never on open.
     - **The trigger renders only when an item resolves** — a viewer with neither
       publish nor delete, and no contribution, sees no ⋯ button.
-    - `@apograph/transfer-admin` fills it with **Export**.
+    - `@ortha/transfer-admin` fills it with **Export**.
 - **`RECORDS_COLUMN_SLOT`** — an extension table column (`COLUMN_KIND.Extension`)
   that joins the column picker like any column (non-sortable header); optional
   `useRowsData` batches per-page data once for all its cells.
@@ -895,7 +895,7 @@ fetching internally.
       entry's resolved `mediaRefs` — so a contributed tab renders controls bound to
       the editor's shared form: a field edited there rides Save, the Changed badge,
       the publish gate, and the 422→field mapping exactly like a General-tab field.
-      `@apograph/media-admin` fills it with the **Media** tab (media fields live in
+      `@ortha/media-admin` fills it with the **Media** tab (media fields live in
       the values bag; the tab is only their rendering surface). `useSaveEntry` also
       invalidates the entry-media cache so the tab reflects the saved set. The
       context also carries **`presave`** — the handles below, so a tab reaches state
@@ -917,7 +917,7 @@ fetching internally.
       menu content unmounts the instant the menu closes — precisely when a
       dialog opened from it is meant to appear — so an item's dialog cannot live
       inside it.
-    - `@apograph/i18n-admin` fills it with **Publish all locales** / **Unpublish
+    - `@ortha/i18n-admin` fills it with **Publish all locales** / **Unpublish
       all locales**.
 - **`ENTRY_PRESAVE_SLOT`** — a plugin's participation in the **save itself**:
   `usePresave()` is mounted once per `ContentEntryView` and returns
@@ -928,12 +928,12 @@ fetching internally.
   under the cover, and is handed the saved `entry` + `schema` + `created` +
   `published` — so a step may finish a write of its own there, which is the only
   place it can: on a create there is no entry id until the row exists.
-  `@apograph/segments-admin` applies an entry's audiences from it. A `settle`
+  `@ortha/segments-admin` applies an entry's audiences from it. A `settle`
   that throws cannot abort anything (the entry is written), so the loop swallows
   it and the step owns surfacing its own failure, exactly as `commit` does.
   `handle` is published to contributed tabs as `EntryTabContext.presave[id]`,
   opaque, each tab reading only its own key.
-  This is what lets `@apograph/media-admin` **defer uploads to Save**: files
+  This is what lets `@ortha/media-admin` **defer uploads to Save**: files
   chosen on a media field are staged under a placeholder uuid (which the values
   bag holds, so validation and the publish gate treat them like any asset id),
   and `commit` uploads them and swaps in the real ids. The staging lives in the
@@ -943,7 +943,7 @@ fetching internally.
   button, and the admin-side counterpart of content-server's
   `CONTENT_PUBLISH_GUARD` port. `useVerdict(context, { dirty })` returns
   `{ blocked, reason?, action?, overlay? }`, or `null` for no opinion.
-  `@apograph/protection-server`'s admin half fills it with an approval rule.
+  `@ortha/protection-server`'s admin half fills it with an approval rule.
     - **`dirty` is part of the question.** Publish saves anything unsaved
       first, and a save is a new version — so a guard whose verdict is bound
       to a version has to answer for the one about to be written.
@@ -1001,7 +1001,7 @@ fetching internally.
       side absent there is still something to say — restoring a version that
       knows nothing leaves today's answer standing, which is exactly what the
       reader needs told.
-    - `@apograph/segments-admin` fills it with the entry's audiences, so "what
+    - `@ortha/segments-admin` fills it with the entry's audiences, so "what
       would restoring this version change" includes who could read it.
 - **`ENTRY_FIELD_CONTROL_SLOT`** — a per-field **control override**. An item is
   `{ id, appliesTo(field), Component }`; `EntryFieldInput` resolves the **first**
@@ -1034,7 +1034,7 @@ fetching internally.
       `EntryFieldSections` and `FieldGroup`, neither of which has any interest in
       it. An item with no `FullView` never expands, and its control's
       `setExpanded` is a no-op.
-    - `@apograph/wysiwyg-admin` fills it for `richtext`: the `Component` is a
+    - `@ortha/wysiwyg-admin` fills it for `richtext`: the `Component` is a
       rendered preview of the body, the `FullView` is the TipTap editor it
       expands into.
     - **A contributed control's own `<form>` cannot submit the record.** The
@@ -1100,14 +1100,14 @@ already surfaces `required`), so a locale plugin needs no field-level slot:
 
 ## Package
 
-- Name: `@apograph/content-admin`
-- Import: `import { ContentPlugin } from '@apograph/content-admin'`
+- Name: `@ortha/content-admin`
+- Import: `import { ContentPlugin } from '@ortha/content-admin'`
 - Grouped package (`packages/content/admin`), admin-only. Consumed from source
   (`exports` → `./src/index.ts`); no build step.
 - Register it in `createAdmin({ plugins })` **after** `WorkspacesPlugin()` — it
   contributes only to the workspace shell's slots
   (`WORKSPACE_SECTION_SLOT` + `WORKSPACE_ROUTE_SLOT`), which `WorkspacesPlugin`
-  owns, so it depends on `@apograph/workspaces-admin`.
+  owns, so it depends on `@ortha/workspaces-admin`.
 
 ## Lives strictly inside a workspace
 
@@ -1117,7 +1117,7 @@ the **Content section** (`WORKSPACE_SECTION_SLOT`, its `ContentNavSection`) and 
 workspace's default landing) to the workspace shell — so it only ever renders
 under `/workspaces/:id/content`. The page reads the open workspace via
 `useCurrentWorkspace()` from
-`@apograph/workspaces-admin`.
+`@ortha/workspaces-admin`.
 
 ## Refusal, absence, and failure are three different states
 
@@ -1171,7 +1171,7 @@ offers no per-option label to use instead.
 Follows the workspaces-admin conventions: `type` over `interface`; JSDoc on
 exports; `<name>/index.ts(x)` folders (pages in `presentation/pages/<Name>/`, the
 factory in `presentation/contentPlugin/`); co-located `react-intl` messages
-namespaced `content.<area>.<key>`; UI from `@apograph/design-system` only.
+namespaced `content.<area>.<key>`; UI from `@ortha/design-system` only.
 
 - **One component per file.** Never define a second React component in the same
   file — not as a `renderItem` closure, not as a sibling `function Foo()` above
@@ -1194,5 +1194,5 @@ namespaced `content.<area>.<key>`; UI from `@apograph/design-system` only.
 
 ## Commands
 
-- `npm exec nx typecheck @apograph/content-admin`
-- `npm exec nx lint @apograph/content-admin`
+- `npm exec nx typecheck @ortha/content-admin`
+- `npm exec nx lint @ortha/content-admin`

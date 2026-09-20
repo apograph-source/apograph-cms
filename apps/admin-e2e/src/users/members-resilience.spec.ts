@@ -33,7 +33,7 @@ test.describe('Members resilience', () => {
         )!;
         return [
             ...manyMembers(20),
-            { ...pending, id: 'u_tail', email: 'tail@apograph.dev' }
+            { ...pending, id: 'u_tail', email: 'tail@ortha.dev' }
         ];
     }
 
@@ -49,9 +49,9 @@ test.describe('Members resilience', () => {
         await page.goto('/users?page=3');
 
         await expect(membersPage.pageReadout()).toHaveText('Page 3 of 3');
-        await expect(membersPage.row('tail@apograph.dev')).toBeVisible();
+        await expect(membersPage.row('tail@ortha.dev')).toBeVisible();
 
-        await membersPage.openActions('tail@apograph.dev');
+        await membersPage.openActions('tail@ortha.dev');
         await membersPage.menuItem('Revoke invite').click();
         await membersPage.confirmAction('Delete invite').click();
 
@@ -81,7 +81,7 @@ test.describe('Members resilience', () => {
 
         // And once it lands, page 3 is what opens — a shared link survives.
         await expect(membersPage.pageReadout()).toHaveText('Page 3 of 3');
-        await expect(membersPage.row('tail@apograph.dev')).toBeVisible();
+        await expect(membersPage.row('tail@ortha.dev')).toBeVisible();
         await expect(page).toHaveURL(/[?&]page=3\b/);
     });
 });

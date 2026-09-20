@@ -1,5 +1,5 @@
 import { defineMessages, useIntl } from 'react-intl';
-import { Card, CardContent } from '@apograph/design-system';
+import { Card, CardContent } from '@ortha/design-system';
 import { MemberAvatar } from '../../MemberAvatar';
 import { MemberRoleChip } from '../../MembersTable/MemberRoleChip';
 import { MemberStatusBadge } from '../../MembersTable/MemberStatusBadge';

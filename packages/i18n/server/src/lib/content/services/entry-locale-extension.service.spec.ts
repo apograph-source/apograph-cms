@@ -2,7 +2,7 @@ import {
     CONTENT_FIELD_TYPE,
     type AnyContentType,
     type EntryTransaction
-} from '@apograph/content-server';
+} from '@ortha/content-server';
 import { EntryLocaleExtensionService } from './entry-locale-extension.service';
 
 /**

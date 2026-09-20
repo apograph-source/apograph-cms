@@ -1,7 +1,7 @@
 import {
     SsoVerificationError,
     type SsoProfile
-} from '@apograph/identity-domain';
+} from '@ortha/identity-domain';
 import {
     DEFAULT_EMAIL_ATTRIBUTES,
     DEFAULT_NAME_ATTRIBUTES,

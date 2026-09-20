@@ -1,4 +1,4 @@
-import { getPool } from '@apograph/database';
+import { getPool } from '@ortha/database';
 
 /**
  * Telling "the database went away" apart from "the code is wrong".

@@ -1,14 +1,14 @@
 /**
  * This app's reading of the environment.
  *
- * The readers themselves are not here — they live in `@apograph/utils-server`,
+ * The readers themselves are not here — they live in `@ortha/utils-server`,
  * shared with the scaffolder's template so a generated app validates its
  * environment exactly as this one does. Builders in this folder import them
  * directly, so this file is not a barrel in front of them; what is left here is
  * the one derivation this host makes on top of them.
  */
 
-import { isProduction as readIsProduction } from '@apograph/utils-server';
+import { isProduction as readIsProduction } from '@ortha/utils-server';
 
 /**
  * True only in a deployment that said so, with the spelling checked.

@@ -5,8 +5,8 @@ import {
     InjectContentRegistry,
     type AnyContentType,
     type ContentTypeRegistry
-} from '@apograph/content-server';
-import { FilterException } from '@apograph/utils-server';
+} from '@ortha/content-server';
+import { FilterException } from '@ortha/utils-server';
 import { InjectAlarmsConfig } from '../alarms.tokens';
 import type { ResolvedAlarmsConfig } from '../types/alarms-config';
 import type { AlarmScanResultView } from '../types/alarm-views';

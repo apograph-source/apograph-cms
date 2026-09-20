@@ -19,7 +19,7 @@ import { expectNoA11yViolations } from '../support/a11y';
 
 /**
  * The relation picker in the entry editor's Relations tab (from
- * `@apograph/content-admin`): assigning single + many relations by **title**,
+ * `@ortha/content-admin`): assigning single + many relations by **title**,
  * searching and lazily scrolling candidates, the query-builder filter drawer,
  * removing links, and accessibility. The schema **and** the candidate rows are
  * mocked at the network layer — candidates come from `GET /api/content/:type`
@@ -222,15 +222,15 @@ test.describe('Relation picker', () => {
         await expect(relationsEditorPage.section('Articles')).toBeVisible();
         await relationsEditorPage.addRelatedButton.click();
         await expect(
-            relationsEditorPage.candidate('Getting started with Apograph')
+            relationsEditorPage.candidate('Getting started with Ortha')
         ).toBeVisible();
         await relationsEditorPage
-            .candidate('Getting started with Apograph')
+            .candidate('Getting started with Ortha')
             .click();
         await relationsEditorPage.addSelectedButton.click();
 
         await expect(
-            relationsEditorPage.assignedRemove('Getting started with Apograph')
+            relationsEditorPage.assignedRemove('Getting started with Ortha')
         ).toBeVisible();
     });
 

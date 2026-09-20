@@ -10,7 +10,7 @@
  * Pure: it takes the document and mutates only this plugin's paths.
  */
 
-import type { OpenApiDocument } from '@apograph/bootstrap-server';
+import type { OpenApiDocument } from '@ortha/bootstrap-server';
 import { buildAlarmSchemas, ref, type OpenApiSchema } from './alarm-schemas';
 
 /** An operation object, as far as this pass needs to see one. */

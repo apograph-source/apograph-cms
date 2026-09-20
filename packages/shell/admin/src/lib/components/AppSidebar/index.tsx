@@ -1,6 +1,6 @@
 import { defineMessages, useIntl } from 'react-intl';
-import { Sidebar, SidebarFooter } from '@apograph/design-system';
-import { byOrder } from '@apograph/utils-admin';
+import { Sidebar, SidebarFooter } from '@ortha/design-system';
+import { byOrder } from '@ortha/utils-admin';
 import { SIDEBAR_FOOTER_SLOT } from '../../slots/sidebarSlots';
 import { useSidebarContentOverride } from '../../utils/sidebarContent';
 import { GlobalSidebar } from './GlobalSidebar';
@@ -13,7 +13,7 @@ const messages = defineMessages({
     },
     mobileDescription: {
         id: 'shell.sidebar.mobileDescription',
-        defaultMessage: 'The main navigation for Apograph CMS.'
+        defaultMessage: 'The main navigation for Ortha CMS.'
     },
     label: {
         id: 'shell.sidebar.label',

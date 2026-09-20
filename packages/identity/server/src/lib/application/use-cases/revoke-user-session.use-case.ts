@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { attachActor, OutboxWriter, UnitOfWork } from '@apograph/database';
+import { attachActor, OutboxWriter, UnitOfWork } from '@ortha/database';
 import {
     IDENTITY_EVENT_KINDS,
     identityEvent

@@ -9,7 +9,7 @@ import {
     BreadcrumbSeparator,
     TopBar,
     TopBarIcon
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import { ROOT_FOLDER_ID } from '../../constants';
 import type { MediaFolder } from '../../types/mediaFolder';
 

@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { cn } from '@apograph/design-system';
+import { cn } from '@ortha/design-system';
 import { SEQUENTIAL_TONES, toneBackground } from '../../../utils/chartTone';
 
 /** Props for {@link RampLegend}. */

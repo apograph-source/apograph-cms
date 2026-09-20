@@ -1,4 +1,4 @@
-import type { OpenApiDocument } from '@apograph/bootstrap-server';
+import type { OpenApiDocument } from '@ortha/bootstrap-server';
 import { describeMediaInsightsApi } from './describe-media-insights-api';
 
 /** The three widget routes, as the swagger scanner leaves them. */

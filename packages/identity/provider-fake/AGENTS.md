@@ -1,4 +1,4 @@
-# @apograph/identity-provider-fake
+# @ortha/identity-provider-fake
 
 A **scripted identity provider**: no network, no tenant, no clock skew, the same
 answer every run.
@@ -59,6 +59,6 @@ error one call later.
 
 ## Package
 
-- Name: `@apograph/identity-provider-fake`
-- Import: `import { createFakeSsoProvider } from '@apograph/identity-provider-fake'`
-- Depends only on `@apograph/identity-domain` (the port) and `node:crypto`.
+- Name: `@ortha/identity-provider-fake`
+- Import: `import { createFakeSsoProvider } from '@ortha/identity-provider-fake'`
+- Depends only on `@ortha/identity-domain` (the port) and `node:crypto`.

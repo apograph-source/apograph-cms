@@ -10,7 +10,7 @@ import {
     UseGuards
 } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
-import { MODEL_REGISTRY, type ModelRegistry } from '@apograph/copilot-domain';
+import { MODEL_REGISTRY, type ModelRegistry } from '@ortha/copilot-domain';
 import {
     CurrentUser,
     OriginGuard,
@@ -18,8 +18,8 @@ import {
     PermissionsGuard,
     RequirePermissions,
     type PublicUser
-} from '@apograph/identity-server';
-import { CurrentWorkspace, WorkspaceGuard } from '@apograph/workspaces-server';
+} from '@ortha/identity-server';
+import { CurrentWorkspace, WorkspaceGuard } from '@ortha/workspaces-server';
 import {
     ConversationRepository,
     type ConversationView

@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@apograph/identity-admin';
-import { initialsOf } from '@apograph/utils-admin';
-import { toast } from '@apograph/design-system';
+import { useAuth } from '@ortha/identity-admin';
+import { initialsOf } from '@ortha/utils-admin';
+import { toast } from '@ortha/design-system';
 import { Slug } from '../../domain/slug';
 import type { WorkspaceMember } from '../../domain/types/workspace';
 import type { WizardSnapshot } from '../../domain/types/wizard';

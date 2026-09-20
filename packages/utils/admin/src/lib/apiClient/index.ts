@@ -99,7 +99,7 @@ let unauthorizedHandler: (() => void) | null = null;
  * revoked, expired, or its account was suspended out from under the open tab.
  *
  * The handler lives here, in the transport, but the **auth state it flips** does
- * not: `@apograph/identity-admin` owns that and installs a handler that drops
+ * not: `@ortha/identity-admin` owns that and installs a handler that drops
  * the cached current user, which settles the route gate on "unauthenticated" and
  * redirects to sign-in. Keeping only the seam here is what stops this leaf
  * package from depending on the identity plugin.

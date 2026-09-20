@@ -9,7 +9,7 @@ import {
     DialogHeader,
     DialogTitle,
     RadioGroup
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import { Folder, Home } from 'lucide-react';
 import { ROOT_FOLDER_ID } from '../../constants';
 import type { MediaFolder } from '../../types/mediaFolder';

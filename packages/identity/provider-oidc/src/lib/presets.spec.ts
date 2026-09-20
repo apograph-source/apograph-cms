@@ -127,12 +127,12 @@ describe('presets build the right issuer', () => {
     });
 
     it('Keycloak, from base URL and realm', async () => {
-        const issuer = 'https://sso.acme.com/realms/apograph';
+        const issuer = 'https://sso.acme.com/realms/ortha';
         const { fetchStub, seen } = await discoveryFor(issuer);
         const provider = createKeycloakProvider({
             clientId: CLIENT_ID,
             baseUrl: 'https://sso.acme.com/',
-            realm: 'apograph',
+            realm: 'ortha',
             fetch: fetchStub
         });
 

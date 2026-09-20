@@ -62,7 +62,7 @@ Does not touch shell at all. Puts an entry into a slot, a route into `routes`, o
 
 - **It is not authentication.** `AuthProvider`, `RequireAuth`, `useHasPermission`, the sign-in screen — all of that is `identity-admin`. Shell only _places_ two of them in the right order.
 - **It is not the router.** Splitting routes into public and private, the ordering, path collisions, the catch-all — that is `bootstrap-admin`.
-- **It is not the design system.** `Sidebar`, `SidebarProvider`, `TopBar`, `CommandDialog`, the sidebar-state cookie, ⌘B, the mobile breakpoint — those are `@apograph/design-system` primitives. Shell composes them and translates their labels.
+- **It is not the design system.** `Sidebar`, `SidebarProvider`, `TopBar`, `CommandDialog`, the sidebar-state cookie, ⌘B, the mobile breakpoint — those are `@ortha/design-system` primitives. Shell composes them and translates their labels.
 - **It is not the workspace shell.** The sidebar's contextual area inside `/workspaces/:id/*` is taken over entirely by `workspaces-admin` through `useSidebarContent`. At that moment shell draws only the footer.
 - **It is not search.** The palette is a shell: the “Go to” list is built from the navigation slot, and everything else is supplied by plugins.
 
@@ -72,7 +72,7 @@ Does not touch shell at all. Puts an entry into a slot, a route into `routes`, o
 
 ## 02. Package composition and place in the system
 
-This is a **grouped** package with a single group member: `packages/shell/admin` → `@apograph/shell-admin`. There is no server half and none is intended — shell owns neither tables nor API routes. It resolves from source (`exports` → `./src/index.ts`) and needs no build.
+This is a **grouped** package with a single group member: `packages/shell/admin` → `@ortha/shell-admin`. There is no server half and none is intended — shell owns neither tables nor API routes. It resolves from source (`exports` → `./src/index.ts`) and needs no build.
 
 ### 2.1 Modules
 
@@ -100,16 +100,16 @@ This is a **grouped** package with a single group member: `packages/shell/admin`
 
 | Dependency                | Why this one specifically                                                                                                                                        |
 | ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| @apograph/identity-admin  | `AuthProvider`, `RequireAuth` (the layout), `useHasPermission` (the row gate), `useAuth` + `AuthStatus` (the name in the greeting, recomputing group visibility) |
-| @apograph/design-system   | `Sidebar`/`SidebarProvider`/`SidebarInset`/`SidebarTrigger`, `TopBar`, `CommandDialog`, `Container`, `Logo`, `Kbd`, `useIsMobile`, `cn`                          |
-| @apograph/utils-admin     | `createSlot`, `byOrder`, `useDocumentTitle`, `isComposingText`                                                                                                   |
-| @apograph/bootstrap-admin | only the `AdminPlugin` type                                                                                                                                      |
+| @ortha/identity-admin  | `AuthProvider`, `RequireAuth` (the layout), `useHasPermission` (the row gate), `useAuth` + `AuthStatus` (the name in the greeting, recomputing group visibility) |
+| @ortha/design-system   | `Sidebar`/`SidebarProvider`/`SidebarInset`/`SidebarTrigger`, `TopBar`, `CommandDialog`, `Container`, `Logo`, `Kbd`, `useIsMobile`, `cn`                          |
+| @ortha/utils-admin     | `createSlot`, `byOrder`, `useDocumentTitle`, `isComposingText`                                                                                                   |
+| @ortha/bootstrap-admin | only the `AdminPlugin` type                                                                                                                                      |
 | lucide-react              | icons (`HomeIcon`, `Search`, `PanelRightOpen`, `PanelRightClose`)                                                                                                |
 | react-intl                | 27 keys, `defineMessages` co-located in every component, the `shell.` prefix                                                                                     |
 
 > **The direction of the dependency**
 >
-> Shell depends on `identity-admin`, but **not the other way round**, and no feature plugin is imported by shell. The reverse direction — plugins importing slots from `@apograph/shell-admin` — is the entire extension mechanism. There are no cycles: a slot is pure data, and there is no React in the slot module.
+> Shell depends on `identity-admin`, but **not the other way round**, and no feature plugin is imported by shell. The reverse direction — plugins importing slots from `@ortha/shell-admin` — is the entire extension mechanism. There are no cycles: a slot is pure data, and there is no React in the slot module.
 
 ### 2.3 Load order
 
@@ -158,7 +158,7 @@ So four of the six rows are gated. “Home” and “Workspaces” are visible t
 
 ## 04. Slot map
 
-A slot is a named extension point created by `createSlot<T>(name)` from `@apograph/utils-admin`. It is pure data: the slot module imports no React and knows nothing about who writes into it or who reads it. A plugin declares its contributions declaratively in the `slots` field, and the host registers them all at once before the first render.
+A slot is a named extension point created by `createSlot<T>(name)` from `@ortha/utils-admin`. It is pure data: the slot module imports no React and knows nothing about who writes into it or who reads it. A plugin declares its contributions declaratively in the `slots` field, and the host registers them all at once before the first render.
 
 ### 4.1 The mechanics — what to know before reading the tables
 
@@ -192,7 +192,7 @@ Fifteen entries from eight packages — seven contributing plugins and shell its
 | SIDEBAR_NAV     | segments-admin   | Segments (`/segments`)        | 40         | Reader audiences; purple accent; the `segments:read` permission                                                                                                               |
 | SIDEBAR_SECTION | workspaces-admin | workspaces.quicklist          | 10         | A quick list of active workspaces; the heading works as a collapse trigger (Radix `Collapsible`), and “+” leads to creation given the `workspaces:create` permission          |
 | SIDEBAR_FOOTER  | users-admin      | users.themeSync               | 0          | Renders nothing: it pulls in the user's saved theme. It lives in the footer precisely because sidebar sections disappear when the area is overridden, and the footer does not |
-| SIDEBAR_FOOTER  | copilot-admin    | copilot                       | 10         | The Apograph AI dock: the single entry point into the chat, ⌘J; silent outside a workspace and without `copilot:use`                                                             |
+| SIDEBAR_FOOTER  | copilot-admin    | copilot                       | 10         | The Ortha AI dock: the single entry point into the chat, ⌘J; silent outside a workspace and without `copilot:use`                                                             |
 | SIDEBAR_FOOTER  | users-admin      | users.account                 | 10         | The account: avatar, name, email, and the “My profile” / “Sign out” menu                                                                                                      |
 | HOME_SECTION    | workspaces-admin | workspaces.home.stats         | 10 · stat  | Workspace metric tiles — the dashboard's top row                                                                                                                              |
 | HOME_SECTION    | workspaces-admin | workspaces.home.panel         | 10 · panel | The “Workspaces” panel — the left column                                                                                                                                      |
@@ -282,7 +282,7 @@ A `Container` with top padding, an `<h1>` heading — a greeting based on the lo
 
 #### The sidebar
 
-Three regions: the **header** (the “Apograph CMS” brand, the “Hide navigation” trigger, search), the **contextual area** (global navigation or an override), and the **permanent footer** from a slot. The panel is a `complementary` landmark named “Sidebar”; inside it sits `<nav aria-label="Primary">`. On mobile it is a Radix `Sheet` named “Navigation” with a description.
+Three regions: the **header** (the “Ortha CMS” brand, the “Hide navigation” trigger, search), the **contextual area** (global navigation or an override), and the **permanent footer** from a slot. The panel is a `complementary` landmark named “Sidebar”; inside it sits `<nav aria-label="Primary">`. On mobile it is a Radix `Sheet` named “Navigation” with a description.
 
 #### The command palette
 
@@ -362,7 +362,7 @@ A `CommandDialog`: an input field, the static “Go to” group from the navigat
 The control belongs to `copilot-admin` and is rendered into `WORKSPACE_SECTION_SLOT` with `order: 5` — that is, below the workspace switcher and above the content navigation.
 
 1. **It is present in both modes.** The full-page “Agents” view, arrived at from a navigation row, is the sort of place people do not know how to leave. A segmented control visible in both places says that there are two modes and which one you are in, and costs one click in either direction.
-2. **While you are in the CMS, the path is remembered.** An effect writes `pathname + search` into `sessionStorage` under the key `apograph:agents:return:<workspaceId>`. `sessionStorage` specifically: the control unmounts and remounts on every rebuild of the contextual area, and “where I was” has no business surviving until next week.
+2. **While you are in the CMS, the path is remembered.** An effect writes `pathname + search` into `sessionStorage` under the key `ortha:agents:return:<workspaceId>`. `sessionStorage` specifically: the control unmounts and remounts on every rebuild of the contextual area, and “where I was” has no business surviving until next week.
 3. **Switching to Agents** is `navigate(agentsPath(workspaceId))`.
 4. **Returning to the CMS goes to the same page you left:** `readCmsPath(workspaceId) ?? '/workspaces/:id'`. Interrupted mid-edit on an entry to ask a question — you come back to it, not to the default section.
 5. **Clicking the active half again is ignored.** Radix clears the value when the selected item is clicked; that is a deselection, not a toggle, and there is no third state.
@@ -403,7 +403,7 @@ The control belongs to `copilot-admin` and is rendered into `WORKSPACE_SECTION_S
 | What `toggleSidebar` does | `setOpen(!open)`                                                                       | `setOpenMobile(!openMobile)`                                                                            |
 | When collapsed            | the panel stays in the DOM, shifted past the left edge, marked `inert` + `aria-hidden` | the `Sheet`'s content is unmounted                                                                      |
 | The floating toggle       | visible only when `collapsed` and only on a page without a `TopBar`                    | always visible (except on pages with a `TopBar`) — `isMobile` bypasses the `state === 'expanded'` check |
-| The screen-reader name    | `complementary` “Sidebar”                                                              | the “Navigation” dialog + the description “The main navigation for Apograph CMS.”                          |
+| The screen-reader name    | `complementary` “Sidebar”                                                              | the “Navigation” dialog + the description “The main navigation for Ortha CMS.”                          |
 
 **`SidebarRail` is deliberately not rendered.** It is an invisible 16px strip hanging off the edge of the panel. In `offcanvas` mode it ends up _outside_ the panel and, on hover, paints a hairline and a `bg-sidebar` block — that is, it reads as a stray strip in the page that nothing explains. On top of that it is `tabIndex={-1}`, that is, a purely mouse-only duplicate of the three toggles that already exist.
 
@@ -435,8 +435,8 @@ The control belongs to `copilot-admin` and is rendered into `WORKSPACE_SECTION_S
 | What                         | Where          | Key                       | Lifetime                                  | Owner                    |
 | ---------------------------- | -------------- | ------------------------- | ----------------------------------------- | ------------------------ |
 | Sidebar open/collapsed       | cookie         | sidebar_state             | 7 days, `path=/`, `SameSite=Lax`          | design-system            |
-| Right panel open/collapsed   | localStorage   | apograph:right-panel         | indefinite; not written below 768px       | shell (`pageChrome`)     |
-| Where to return from Agents  | sessionStorage | apograph:agents:return:\<id> | the tab                                   | copilot-admin            |
+| Right panel open/collapsed   | localStorage   | ortha:right-panel         | indefinite; not written below 768px       | shell (`pageChrome`)     |
+| Where to return from Agents  | sessionStorage | ortha:agents:return:\<id> | the tab                                   | copilot-admin            |
 | The sidebar's mobile `Sheet` | —              | —                         | in memory only                            | design-system            |
 | The contextual-area override | —              | —                         | while the overriding component is mounted | shell (`sidebarContent`) |
 
@@ -453,7 +453,7 @@ Every read and every write is wrapped in `try/catch`: private mode, disabled sit
 
 ## 08. The tab title and its registry
 
-The registry lives in `@apograph/utils-admin` (`src/lib/documentTitle`), but shell is its first and exemplary consumer, and it is shell's frame that makes the tab title the only stable landmark when switching windows.
+The registry lives in `@ortha/utils-admin` (`src/lib/documentTitle`), but shell is its first and exemplary consumer, and it is shell's frame that makes the tab title the only stable landmark when switching windows.
 
 ### 8.1 How it works
 
@@ -499,7 +499,7 @@ Shell has **no** configurable parameters. `ShellPlugin()` takes no arguments, th
 | --------------- | -------------------------- | ------------- | -------------------------------------------------------------------------------------------------- |
 | MAIN_CONTENT_ID | 'main-content'             | AppShell      | The skip link's target, the `id` of the `<main>` landmark                                          |
 | RIGHT_PANEL_ID  | 'app-right-panel'          | pageChrome    | The `aria-controls` link between the bar's button and the panel; the exclusion in the Esc selector |
-| STORAGE_KEY     | 'apograph:right-panel'        | pageChrome    | The values `'open'` / `'collapsed'`                                                                |
+| STORAGE_KEY     | 'ortha:right-panel'        | pageChrome    | The values `'open'` / `'collapsed'`                                                                |
 | PANEL_SLIDE_MS  | 330                        | pageChrome    | Slightly more than `duration-300` — the window in which animation is allowed                       |
 | MOBILE_QUERY    | '(max-width: 767px)'       | pageChrome    | Matches `useIsMobile`'s breakpoint (768px already counts as desktop)                               |
 | GROUPS          | \['overview','directory'\] | GlobalSidebar | The fixed order of the navigation groups                                                           |
@@ -654,7 +654,7 @@ The wording is “action → expected result”, so items can go into a test cas
 - **Collapse the panel from the keyboard** → focus on the “Show {title}” button in the bar.
 - **Expand it from the keyboard** → focus on the “Hide {title}” button inside the panel.
 - **Collapse the panel, work in the form, expand it** → the panel's content is in the same state and no requests were repeated.
-- **Collapse it and reload the page** → the panel stays collapsed (`apograph:right-panel=collapsed`).
+- **Collapse it and reload the page** → the panel stays collapsed (`ortha:right-panel=collapsed`).
 - **Open the same entry on a phone** → the panel is collapsed regardless of what was saved; `localStorage` is **unchanged**.
 - **After that phone visit, open it on the desktop** → the panel is open, just as it was.
 - **Expand the panel on a narrow screen** → an overlay on top of the page, `role="dialog"` + `aria-modal`, everything beneath it `inert`; Tab does not escape onto the page and does not wrap to the skip link.
@@ -675,7 +675,7 @@ The wording is “action → expected result”, so items can go into a test cas
 
 - **The first Tab on any private page** → a visible “Skip to main content” link.
 - **Activate it** → focus inside `<main>`; the next Tab does not return to the sidebar.
-- **Navigate by landmarks** → complementary “Sidebar”, navigation “Primary” (or “Tools” in a workspace), main; the “Apograph CMS” brand is **inside** the sidebar's landmark.
+- **Navigate by landmarks** → complementary “Sidebar”, navigation “Primary” (or “Tools” in a workspace), main; the “Ortha CMS” brand is **inside** the sidebar's landmark.
 - **Tab as far as the scroll port** → the stop is named “Page content”; the arrow keys scroll it.
 - **Load the application with `locale: 'de'`** → the mobile sidebar is not announced with the English “Sidebar”; missing translations are logged once per key rather than on every render.
 - **Run axe on the home page, inside a workspace, and with the panel open** → no violations; in particular, no dangling `aria-controls` on the collapsible workspace list.

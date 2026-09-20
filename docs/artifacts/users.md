@@ -35,7 +35,7 @@ Users is the CMS's **HR department**. Identity answers “who has arrived and wh
 
 ## 01. Business description
 
-You cannot sign up for Apograph. The only door in is an invitation, and it is this plugin that issues it. Everything that happens to a person after they become a member of the editorial team — a role change, being disabled, a link reissued, a password recovered — is here too. Identity can check a pass; users decides who gets a pass and who has one taken away.
+You cannot sign up for Ortha. The only door in is an invitation, and it is this plugin that issues it. Everything that happens to a person after they become a member of the editorial team — a role change, being disabled, a link reissued, a password recovered — is here too. Identity can check a pass; users decides who gets a pass and who has one taken away.
 
 ### The problem it solves
 
@@ -80,8 +80,8 @@ The `packages/users` group is **two** packages, a server one and an admin one. T
 
 | Package | npm name               | Role                                                                                                                      | What it owns                                                                                                                                                                                    |
 | ------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| server  | @apograph/users-server | The NestJS plugin: 9 routes under `/api/users`, 6 use cases, the aggregate, the ports and adapters, the read model        | The `Member` aggregate, the “last admin” and “not on yourself” invariants, the two one-time-token services, the `workspace_members_list` copilot tool. **Not one table and not one migration.** |
-| admin   | @apograph/users-admin  | The admin plugin: 3 routes (`/users`, `/users/invite`, `/users/:id/*`), 9 screens, 3 contributions into the shell's slots | The members screen, the invitation wizard, the member's card with seven tabs, the account menu in the sidebar's footer, the invisible theme synchroniser                                        |
+| server  | @ortha/users-server | The NestJS plugin: 9 routes under `/api/users`, 6 use cases, the aggregate, the ports and adapters, the read model        | The `Member` aggregate, the “last admin” and “not on yourself” invariants, the two one-time-token services, the `workspace_members_list` copilot tool. **Not one table and not one migration.** |
+| admin   | @ortha/users-admin  | The admin plugin: 3 routes (`/users`, `/users/invite`, `/users/:id/*`), 9 screens, 3 contributions into the shell's slots | The members screen, the invitation wizard, the member's card with seven tabs, the account menu in the sidebar's footer, the invisible theme synchroniser                                        |
 
 ### The layered layout (ADR-0003)
 
@@ -109,7 +109,7 @@ Importantly, it reads **not** the general directory but a separate query, `Works
 
 > **Neighbours that are easy to confuse**
 >
-> **`@apograph/identity-server`** — sign-in, sessions, RBAC, the `users`/`roles`/`tokens`/`sessions` tables, redeeming an invitation (`POST /api/auth/invite/accept`) and a reset (`POST /api/auth/reset`), plus the member-session and personal-preference routes that users' admin UI is the one to render. **`@apograph/workspaces-server`** — the `workspaces`/`memberships` tables and the routes for adding and removing a workspace member, which the “Workspaces” tab calls. **`@apograph/activity-*`** — the log: an outbox subscriber translates `member.*` into `user.*` and renders the “Activity” tab.
+> **`@ortha/identity-server`** — sign-in, sessions, RBAC, the `users`/`roles`/`tokens`/`sessions` tables, redeeming an invitation (`POST /api/auth/invite/accept`) and a reset (`POST /api/auth/reset`), plus the member-session and personal-preference routes that users' admin UI is the one to render. **`@ortha/workspaces-server`** — the `workspaces`/`memberships` tables and the routes for adding and removing a workspace member, which the “Workspaces” tab calls. **`@ortha/activity-*`** — the log: an outbox subscriber translates `member.*` into `user.*` and renders the “Activity” tab.
 
 ## 03. Roles and permissions
 
@@ -156,7 +156,7 @@ That is not an omission but a consequence of how the contexts are laid out: the 
 | sessions      | identity-server    | **Writes.** Exactly one action: `revoked_at = now()` across all of the user's rows when they are disabled, through the `SESSION_REVOKER` port, inside the same transaction                                                                                                                                                         |
 | workspaces    | workspaces-server  | **Reads only.** Filters the identifiers passed at invitation time down to the ones that really exist; reads the name, description and colour for the member's card                                                                                                                                                                 |
 | memberships   | workspaces-server  | **Writes.** Insert only, at invitation time, through the `WORKSPACE_LINKER` port, with an `onConflictDoNothing`. Removing a membership is a workspaces route                                                                                                                                                                       |
-| outbox_events | @apograph/database | **Writes.** Through the `OutboxWriter`, in each use case's transaction: eight kinds of `member.*` event                                                                                                                                                                                                                            |
+| outbox_events | @ortha/database | **Writes.** Through the `OutboxWriter`, in each use case's transaction: eight kinds of `member.*` event                                                                                                                                                                                                                            |
 
 ### The read model: what the API actually returns
 
@@ -742,7 +742,7 @@ Users is a plugin where **almost everything adjacent belongs to a neighbour**. T
 | The action journal                                           | `activity`                            | Emits `member.*` events into the outbox; the `user.*` rows are written by activity's subscriber, and the “Activity” tab is drawn by its hook                                                                                                                                       |
 | Sending email                                                | `mail-server`, optionally             | Queues the invite, resend and reset messages through the `MAIL_DISPATCHER` port inside the token's own transaction. Injected `@Optional()`: with no mail plugin registered nothing is bound, nothing is sent, and the raw token is returned to the calling administrator as before |
 | The agent tool registry                                      | `tools-server`                        | Registers one tool in it, optionally — with no registry present, the registration simply does not happen                                                                                                                                                                           |
-| The database connection and running migrations               | `@apograph/database` + `@apograph/nx` | Gets the client through DI, and transactions through `UnitOfWork`                                                                                                                                                                                                                  |
+| The database connection and running migrations               | `@ortha/database` + `@ortha/nx` | Gets the client through DI, and transactions through `UnitOfWork`                                                                                                                                                                                                                  |
 
 ### The boundary with identity, in one sentence
 

@@ -18,7 +18,7 @@ import {
 const SETTLED = { timeout: 20_000 };
 
 /**
- * The API tokens page at `/api-tokens` (`@apograph/api-tokens-admin`): the
+ * The API tokens page at `/api-tokens` (`@ortha/api-tokens-admin`): the
  * table's derived states, the four page states, the create dialog's contract
  * with the server, revocation, and the URL-backed pager.
  *
@@ -56,7 +56,7 @@ test.describe('API tokens page', () => {
         // The Token column carries the non-secret lookup prefix only — never a
         // usable credential.
         await expect(apiTokensPage.row('Production website')).toContainText(
-            'apograph_aa11bb'
+            'ortha_aa11bb'
         );
         await expect(apiTokensPage.row('Production website')).toContainText(
             'Read-only'

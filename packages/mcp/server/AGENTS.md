@@ -1,8 +1,8 @@
-# @apograph/mcp-server
+# @ortha/mcp-server
 
 > **The tool registry moved out.** `ToolDefinition` / `ToolContext` /
 > `ToolProvider` / `ToolRegistry` / `createToolContext` / `toToolError` now live
-> in [`@apograph/tools-server`](../../tools/server/AGENTS.md)
+> in [`@ortha/tools-server`](../../tools/server/AGENTS.md)
 > ([ADR-0007](../../../docs/adr/0007-one-tool-registry-two-surfaces.md)). This
 > package owns the **protocol** and nothing else — the endpoint, bearer auth,
 > workspace resolution, JSON-RPC dispatch. It imports `ToolsModule` for the
@@ -51,7 +51,7 @@ src/lib/
 
 `ToolDefinition` / `ToolContext` / `ToolProvider` / `ToolRegistry` /
 `createToolContext` / `toToolError` all live in
-[`@apograph/tools-server`](../../tools/server/AGENTS.md) and are imported from
+[`@ortha/tools-server`](../../tools/server/AGENTS.md) and are imported from
 there — this package defines none of them.
 
 ## Who contributes tools
@@ -237,7 +237,7 @@ would tell a reader nothing.
 McpPlugin({
     config: {
         enabled: true,
-        name: 'apograph-cms',
+        name: 'ortha-cms',
         version: '1.0.0',
         callTimeoutMs: 30_000,
         maxResultBytes: 4_194_304
@@ -266,7 +266,7 @@ maintain:
 ```json
 {
     "mcpServers": {
-        "apograph-cms": {
+        "ortha-cms": {
             "command": "npx",
             "args": [
                 "-y",
@@ -286,8 +286,8 @@ which tools the agent can even see.
 
 ## Commands
 
-- `npx nx typecheck @apograph/mcp-server` / `npx nx lint @apograph/mcp-server`
-- `npx nx test @apograph/mcp-server` — unit tests (registry authorization,
+- `npx nx typecheck @ortha/mcp-server` / `npx nx lint @ortha/mcp-server`
+- `npx nx test @ortha/mcp-server` — unit tests (registry authorization,
   bearer + workspace rules, error mapping, plugin validation)
 - `npx nx e2e server-e2e --testPathPatterns=mcp` — the wire-level suite (needs
   Docker), which drives raw JSON-RPC because that is the contract clients depend on

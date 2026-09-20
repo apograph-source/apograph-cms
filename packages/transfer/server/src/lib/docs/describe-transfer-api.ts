@@ -2,7 +2,7 @@
  * The transfer plugin's pass over the host's OpenAPI document.
  *
  * Five operations, and the scanner could describe none of them: three answer
- * framework-free `interface`s from `@apograph/transfer-domain`, and two stream
+ * framework-free `interface`s from `@ortha/transfer-domain`, and two stream
  * a file through `@Res()`, which erases the return type entirely.
  *
  * Pure: takes the document and mutates only the five paths this plugin serves.
@@ -10,11 +10,11 @@
  * The `typeName` path parameter is deliberately **not** touched here. These
  * routes are mounted under content's `/content/{typeName}` namespace and it is
  * content's registry that decides which names are valid, so
- * `@apograph/content-server`'s own pass writes the enum onto them — see the
+ * `@ortha/content-server`'s own pass writes the enum onto them — see the
  * `FOREIGN` entries in its route table.
  */
 
-import type { OpenApiDocument } from '@apograph/bootstrap-server';
+import type { OpenApiDocument } from '@ortha/bootstrap-server';
 import {
     addErrorResponse,
     ref,

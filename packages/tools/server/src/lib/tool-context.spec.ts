@@ -1,5 +1,5 @@
-import { PERMISSIONS, PERMISSION_KEYS } from '@apograph/identity-server';
-import type { PermissionKey } from '@apograph/identity-server';
+import { PERMISSIONS, PERMISSION_KEYS } from '@ortha/identity-server';
+import type { PermissionKey } from '@ortha/identity-server';
 import { createToolContext } from './tool-context';
 import type { ToolActor } from './tool';
 

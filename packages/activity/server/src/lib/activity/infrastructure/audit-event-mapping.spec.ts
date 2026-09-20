@@ -3,8 +3,8 @@ import {
     createDomainEvent,
     type DomainEvent,
     type EventActor
-} from '@apograph/database';
-import { IDENTITY_ACTIVITY_KINDS } from '@apograph/identity-server';
+} from '@ortha/database';
+import { IDENTITY_ACTIVITY_KINDS } from '@ortha/identity-server';
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import {
@@ -90,7 +90,7 @@ function base(): Pick<
  * the server's kind strings because it genuinely cannot import a server plugin
  * — the SPA would pull NestJS into its bundle — so something has to keep the
  * two lists in step. An `import` across the package boundary would do it and
- * would also put `@apograph/activity-admin` in this package's **project
+ * would also put `@ortha/activity-admin` in this package's **project
  * graph**: `nx sync` immediately adds a TypeScript project reference, and the
  * audit-log plugin starts depending on a React package. Reading the file
  * creates no such edge.
@@ -603,7 +603,7 @@ describe('toAuditRow — event → audit-row parity', () => {
                         name: 'CI',
                         scope: 'read',
                         workspaceIds: [WORKSPACE_ID],
-                        lookupPrefix: 'apograph_abc123',
+                        lookupPrefix: 'ortha_abc123',
                         expiresAt: null
                     },
                     { id: TARGET_USER_ID, email: 'admin@example.com' }
@@ -622,7 +622,7 @@ describe('toAuditRow — event → audit-row parity', () => {
                     name: 'CI',
                     scope: 'read',
                     workspaceIds: [WORKSPACE_ID],
-                    lookupPrefix: 'apograph_abc123'
+                    lookupPrefix: 'ortha_abc123'
                 },
                 at: AT
             });
@@ -638,7 +638,7 @@ describe('toAuditRow — event → audit-row parity', () => {
                         name: 'CI',
                         scope: 'full',
                         workspaceIds: [WORKSPACE_ID],
-                        lookupPrefix: 'apograph_abc123'
+                        lookupPrefix: 'ortha_abc123'
                     },
                     { id: TARGET_USER_ID, email: 'admin@example.com' }
                 )
@@ -650,7 +650,7 @@ describe('toAuditRow — event → audit-row parity', () => {
                 meta: {
                     name: 'CI',
                     scope: 'full',
-                    lookupPrefix: 'apograph_abc123'
+                    lookupPrefix: 'ortha_abc123'
                 }
             });
         });
@@ -665,8 +665,8 @@ describe('toAuditRow — event → audit-row parity', () => {
                     name: 'CI',
                     scope: 'read',
                     workspaceIds: [],
-                    lookupPrefix: 'apograph_abc123',
-                    secret: 'apograph_the-actual-secret',
+                    lookupPrefix: 'ortha_abc123',
+                    secret: 'ortha_the-actual-secret',
                     tokenHash: 'f'.repeat(64)
                 })
             );
@@ -1086,7 +1086,7 @@ describe('toAuditRow — event → audit-row parity', () => {
             role: 'editor',
             scope: 'read',
             workspaceIds: [WORKSPACE_ID],
-            lookupPrefix: 'apograph_abc123',
+            lookupPrefix: 'ortha_abc123',
             sessionsRevoked: 1,
             sessionId: 'session-1',
             method: 'password',

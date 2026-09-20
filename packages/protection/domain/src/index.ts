@@ -1,5 +1,5 @@
 /**
- * Public API of `@apograph/protection-domain` — may **this person** ship this
+ * Public API of `@ortha/protection-domain` — may **this person** ship this
  * entry now, decided by one pure function over a rule, a head revision and the
  * votes recorded against it.
  *

@@ -8,7 +8,7 @@ import {
     CardTitle,
     FieldGroup,
     cn
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import type { LoginCredentials } from '../../../../types/auth';
 import { useLoginSchema } from './useLoginSchema';
 import { AuthField } from '../AuthField';

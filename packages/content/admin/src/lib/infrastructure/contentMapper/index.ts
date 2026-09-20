@@ -3,7 +3,7 @@ import {
     FIELD_TYPE,
     type FieldType,
     type FilterField
-} from '@apograph/query-builder-admin';
+} from '@ortha/query-builder-admin';
 import type {
     ContentType,
     ContentTypeSummaryResponse,

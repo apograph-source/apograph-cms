@@ -1,15 +1,15 @@
-# @apograph/identity-domain
+# @ortha/identity-domain
 
 The **framework-free core of identity's SSO seam**: the `SsoProvider` port, the
 normalised `SsoProfile`, the errors both sides speak, the open-redirect guard,
 and the conformance kit every adapter must pass.
 
 It exists as its own package for one reason: an adapter
-(`@apograph/identity-provider-oidc`, `…-fake`, later `…-github` / `…-saml`)
+(`@ortha/identity-provider-oidc`, `…-fake`, later `…-github` / `…-saml`)
 must be able to depend on the port **without** depending on
-`@apograph/identity-server` — which would drag in NestJS, Drizzle, bcrypt and
+`@ortha/identity-server` — which would drag in NestJS, Drizzle, bcrypt and
 the 108 import sites that pin identity's public barrel. This is the same split
-`@apograph/copilot-domain` makes for `ModelProvider`, for the same reason
+`@ortha/copilot-domain` makes for `ModelProvider`, for the same reason
 ([ADR-0013](../../../docs/adr/0013-sso-provider-port.md) §1).
 
 ## The one hard rule
@@ -67,8 +67,8 @@ else; `//host`, backslashes, control characters and absolute URLs all fall back.
 
 ## Package
 
-- Name: `@apograph/identity-domain`
-- Import: `import type { SsoProvider } from '@apograph/identity-domain'`
+- Name: `@ortha/identity-domain`
+- Import: `import type { SsoProvider } from '@ortha/identity-domain'`
 - Grouped package (`packages/identity/domain`), consumed from source like the
   rest of the workspace (`exports` → `./src/index.ts`,
-  `customConditions: ["@apograph/source"]`).
+  `customConditions: ["@ortha/source"]`).

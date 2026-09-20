@@ -6,7 +6,7 @@ import {
     TooltipContent,
     TooltipTrigger,
     cn
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 
 /**
  * The button that opens one of the toolbar's dropdowns (text style, colors,

@@ -6,7 +6,7 @@ import {
     CollapsibleContent,
     CollapsibleTrigger,
     Spinner
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import type { ChatToolStep } from '../../domain/types/chat';
 import { toolResultRendererFor } from '../slots/copilotSlots';
 import { humanizeToolName, toolPhrase, toolSubject } from './labels';

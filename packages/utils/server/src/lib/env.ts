@@ -1,7 +1,7 @@
 /**
  * Reading `process.env` into typed configuration.
  *
- * A host's `apograph.config.ts` is the one file allowed to touch the environment,
+ * A host's `ortha.config.ts` is the one file allowed to touch the environment,
  * and every deployment writes the same handful of readers to do it: a required
  * string, a bounded number, a comma list, `TRUST_PROXY`, `NODE_ENV`. They were
  * duplicated between this repo's host and the scaffolder's template, where the
@@ -132,7 +132,7 @@ export function readList(name: string, fallback: string): string[] {
  * ignoring forwarded headers entirely.
  *
  * Returns the union structurally rather than importing `TrustProxySetting`
- * from `@apograph/bootstrap-server`: this is a leaf helper package, and the
+ * from `@ortha/bootstrap-server`: this is a leaf helper package, and the
  * host importing it must not become a dependency of it. The host's own
  * `trustProxy?: TrustProxySetting` field is what checks the two agree.
  */
@@ -153,7 +153,7 @@ export function readTrustProxy(
     return raw;
 }
 
-/** The deployment modes an Apograph app recognises. */
+/** The deployment modes an Ortha app recognises. */
 export const NODE_ENVS = ['development', 'test', 'production'] as const;
 
 /** One of {@link NODE_ENVS}. */

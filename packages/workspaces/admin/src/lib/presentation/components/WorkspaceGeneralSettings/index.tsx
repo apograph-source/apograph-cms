@@ -19,8 +19,8 @@ import {
     Textarea,
     toast,
     type AvatarColor
-} from '@apograph/design-system';
-import { initialsOf } from '@apograph/utils-admin';
+} from '@ortha/design-system';
+import { initialsOf } from '@ortha/utils-admin';
 import type { Workspace } from '../../../domain/types/workspace';
 import { useWorkspaceProfileSchema } from '../../hooks/useWorkspaceProfileSchema';
 import { useUpdateWorkspace } from '../../../application/useUpdateWorkspace';

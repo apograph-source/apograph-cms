@@ -1,4 +1,4 @@
-import { createDomainEvent, type DomainEvent } from '@apograph/database';
+import { createDomainEvent, type DomainEvent } from '@ortha/database';
 
 /**
  * The domain events a saved view raises.

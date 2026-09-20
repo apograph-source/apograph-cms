@@ -97,7 +97,7 @@ export interface SsoCallback {
  *
  * The **back-channel** logout: the provider posts here directly, with no
  * browser involved, which is why it works when the person has already closed
- * the tab — and why it is the only mechanism that ends an Apograph session
+ * the tab — and why it is the only mechanism that ends an Ortha session
  * promptly when someone is offboarded.
  */
 export interface SsoLogoutNotice {
@@ -118,13 +118,13 @@ export interface SsoLogoutNotice {
 export interface SsoLogoutRequest {
     /** Where the provider should return the user after signing them out. */
     returnTo: string;
-    /** The provider session the Apograph session was opened from, if recorded. */
+    /** The provider session the Ortha session was opened from, if recorded. */
     sessionId?: string | null;
 }
 
 /**
  * The identity-provider boundary. Implementations live in separate packages
- * (`@apograph/identity-provider-oidc`, `@apograph/identity-provider-fake`, …)
+ * (`@ortha/identity-provider-oidc`, `@ortha/identity-provider-fake`, …)
  * and are registered at the composition root. The identity plugin depends only
  * on this interface — never on a protocol library
  * ([ADR-0013](../../../../../../docs/adr/0013-sso-provider-port.md) §1).

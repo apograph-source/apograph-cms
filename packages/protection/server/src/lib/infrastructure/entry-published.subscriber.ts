@@ -7,7 +7,7 @@ import {
     OutboxDispatcher,
     type DomainEvent,
     type DomainEventSubscriber
-} from '@apograph/database';
+} from '@ortha/database';
 import { ReviewRequestRepository } from './review-request.repository';
 
 /** The one lifecycle event that answers an open review request. */

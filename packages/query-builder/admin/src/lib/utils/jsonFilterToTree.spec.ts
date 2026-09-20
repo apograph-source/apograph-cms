@@ -20,7 +20,7 @@ describe('jsonFilterToTree — operators the server accepts', () => {
     /**
      * `like` is the case-sensitive half of the `~~` family. `parseFilterTree`
      * accepts it on every text field (`PATTERN_OPERATORS` in
-     * `@apograph/utils-server`), and the list pages send the **raw** `?filter=`
+     * `@ortha/utils-server`), and the list pages send the **raw** `?filter=`
      * param to the API — so a link carrying it filters the table correctly
      * while the builder above the table showed nothing at all.
      *

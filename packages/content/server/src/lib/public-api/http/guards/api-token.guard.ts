@@ -13,7 +13,7 @@ import {
     PERMISSIONS_KEY,
     tokenActor,
     type PermissionKey
-} from '@apograph/identity-server';
+} from '@ortha/identity-server';
 import type { ApiTokenRequest } from '../api-token-request';
 
 /** The scheme the `Authorization` header must use, case-insensitively. */

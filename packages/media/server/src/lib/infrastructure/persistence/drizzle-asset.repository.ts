@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { and, eq, inArray } from 'drizzle-orm';
-import { UnitOfWork } from '@apograph/database';
+import { UnitOfWork } from '@ortha/database';
 import { Asset } from '../../domain/asset';
 import type { AssetId } from '../../domain/value-objects/asset-id';
 import type { FolderId } from '../../domain/value-objects/folder-id';

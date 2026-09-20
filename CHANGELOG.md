@@ -2,7 +2,7 @@
 
 ### 🩹 Fixes
 
-- **create-apograph-app:** configure the plugins the template only registered ([#250](https://github.com/apograph-source/apograph-cms/pull/250))
+- **create-ortha-app:** configure the plugins the template only registered ([#250](https://github.com/apograph-source/apograph-cms/pull/250))
 
 ### ❤️ Thank You
 
@@ -28,7 +28,7 @@
 - **activity:** audit the contexts that raised no events at all ([599485a5](https://github.com/apograph-source/apograph-cms/commit/599485a5))
 - **activity:** make the trail's gaps and one entry's history reachable ([57e3cd02](https://github.com/apograph-source/apograph-cms/commit/57e3cd02))
 - **activity-admin:** render every kind the server writes, and pin it ([e9d1640b](https://github.com/apograph-source/apograph-cms/commit/e9d1640b))
-- **cli:** add `apograph --version` ([68564167](https://github.com/apograph-source/apograph-cms/commit/68564167))
+- **cli:** add `ortha --version` ([68564167](https://github.com/apograph-source/apograph-cms/commit/68564167))
 - **design-system:** let MultiSelect add what was typed, and use it ([364fa2b7](https://github.com/apograph-source/apograph-cms/commit/364fa2b7))
 - **users-admin:** filter Members through the inline panel, not a drawer ([8a440191](https://github.com/apograph-source/apograph-cms/commit/8a440191))
 - **webhooks:** deliver content changes to configured endpoints ([9246ffb4](https://github.com/apograph-source/apograph-cms/commit/9246ffb4))
@@ -44,11 +44,11 @@
 - **alarms:** say the severity on the two surfaces that had stopped ([4940789b](https://github.com/apograph-source/apograph-cms/commit/4940789b))
 - **api-tokens:** answer honestly about an expiry, a scope, and an empty bucket ([37934330](https://github.com/apograph-source/apograph-cms/commit/37934330))
 - **api-tokens-admin:** keep a credential from being minted twice, and give focus somewhere to land ([275b5df9](https://github.com/apograph-source/apograph-cms/commit/275b5df9))
-- **cli:** answer `apograph --help` instead of "Unknown command" ([25ca4018](https://github.com/apograph-source/apograph-cms/commit/25ca4018))
+- **cli:** answer `ortha --help` instead of "Unknown command" ([25ca4018](https://github.com/apograph-source/apograph-cms/commit/25ca4018))
 - **config:** read the environment only through readEnv, so a blank key means absent ([f9c1a50f](https://github.com/apograph-source/apograph-cms/commit/f9c1a50f))
 - **content:** describe the public content API in the OpenAPI document ([f36b0ade](https://github.com/apograph-source/apograph-cms/commit/f36b0ade))
 - **copilot:** keep a partial answer when a run ends mid-stream ([21ea4223](https://github.com/apograph-source/apograph-cms/commit/21ea4223))
-- **create-apograph-app:** expect the plugins the template actually registers ([66649d4a](https://github.com/apograph-source/apograph-cms/commit/66649d4a))
+- **create-ortha-app:** expect the plugins the template actually registers ([66649d4a](https://github.com/apograph-source/apograph-cms/commit/66649d4a))
 - **design-system:** drop the dropdown exit animation, which kept closed overlays live ([13622011](https://github.com/apograph-source/apograph-cms/commit/13622011))
 - **design-system:** the spinner stops rotating under reduced motion, without stopping ([ab4f6aed](https://github.com/apograph-source/apograph-cms/commit/ab4f6aed))
 - **e2e:** stop the memory advisory crying wolf on macOS ([bb11484f](https://github.com/apograph-source/apograph-cms/commit/bb11484f))
@@ -108,7 +108,7 @@
 - **alarms:** rebuild the alarms UI around what people actually reported ([e8311ae5](https://github.com/apograph-source/apograph-cms/commit/e8311ae5))
 - **alarms:** drop the dead space under a group that does not page ([a1f76dc9](https://github.com/apograph-source/apograph-cms/commit/a1f76dc9))
 - **content:** apply the read scope inside relation windows, not only on hydration ([bb379d58](https://github.com/apograph-source/apograph-cms/commit/bb379d58))
-- **create-apograph-app:** refuse a feature id no group defines ([b6c4a98c](https://github.com/apograph-source/apograph-cms/commit/b6c4a98c))
+- **create-ortha-app:** refuse a feature id no group defines ([b6c4a98c](https://github.com/apograph-source/apograph-cms/commit/b6c4a98c))
 - **release:** stop pack leaving a broken package staged ([b2e085ec](https://github.com/apograph-source/apograph-cms/commit/b2e085ec))
 - **segments:** space badge icons in the design system, validate the segment form ([da7a3191](https://github.com/apograph-source/apograph-cms/commit/da7a3191))
 - **segments:** bind reader/audience ids as one uuid[] parameter ([f4bf6dd5](https://github.com/apograph-source/apograph-cms/commit/f4bf6dd5))
@@ -127,7 +127,7 @@
 
 ### 🩹 Fixes
 
-- **create-apograph-app:** make Tailwind actually scan the installed packages ([8951c7e2](https://github.com/apograph-source/apograph-cms/commit/8951c7e2))
+- **create-ortha-app:** make Tailwind actually scan the installed packages ([8951c7e2](https://github.com/apograph-source/apograph-cms/commit/8951c7e2))
 
 ### ❤️ Thank You
 
@@ -138,7 +138,7 @@
 
 ### 🩹 Fixes
 
-- **create-apograph-app:** let a second picker read the keyboard ([b47c1e70](https://github.com/apograph-source/apograph-cms/commit/b47c1e70))
+- **create-ortha-app:** let a second picker read the keyboard ([b47c1e70](https://github.com/apograph-source/apograph-cms/commit/b47c1e70))
 - **release:** declare the phantom deps that kept two packages off npm ([7232e0c6](https://github.com/apograph-source/apograph-cms/commit/7232e0c6))
 
 ### ❤️ Thank You
@@ -151,14 +151,14 @@
 
 ### 🚀 Features
 
-- **cli:** add `apograph` and `npx create-apograph-app` ([5c056f81](https://github.com/apograph-source/apograph-cms/commit/5c056f81))
+- **cli:** add `ortha` and `npx create-ortha-app` ([5c056f81](https://github.com/apograph-source/apograph-cms/commit/5c056f81))
 - **content-admin:** a ⋯ menu for the collection, and move Import into it ([#201](https://github.com/apograph-source/apograph-cms/issues/201))
 - **content-admin:** move the ⋯ menu right, and fold bulk actions into one ([c5aaaec0](https://github.com/apograph-source/apograph-cms/commit/c5aaaec0))
-- **create-apograph-app:** pick features at scaffold time, in a proper wizard ([860b424f](https://github.com/apograph-source/apograph-cms/commit/860b424f))
-- **create-apograph-app:** ship the copilot by default, ask about protocols ([4af15060](https://github.com/apograph-source/apograph-cms/commit/4af15060))
-- **create-apograph-app:** declare every reachable package in a new app ([17a97fbd](https://github.com/apograph-source/apograph-cms/commit/17a97fbd))
-- **create-apograph-app:** ship a working test setup in the generated app ([ea90aa47](https://github.com/apograph-source/apograph-cms/commit/ea90aa47))
-- **create-apograph-app:** split e2e into server and admin suites ([70411c97](https://github.com/apograph-source/apograph-cms/commit/70411c97))
+- **create-ortha-app:** pick features at scaffold time, in a proper wizard ([860b424f](https://github.com/apograph-source/apograph-cms/commit/860b424f))
+- **create-ortha-app:** ship the copilot by default, ask about protocols ([4af15060](https://github.com/apograph-source/apograph-cms/commit/4af15060))
+- **create-ortha-app:** declare every reachable package in a new app ([17a97fbd](https://github.com/apograph-source/apograph-cms/commit/17a97fbd))
+- **create-ortha-app:** ship a working test setup in the generated app ([ea90aa47](https://github.com/apograph-source/apograph-cms/commit/ea90aa47))
+- **create-ortha-app:** split e2e into server and admin suites ([70411c97](https://github.com/apograph-source/apograph-cms/commit/70411c97))
 - **identity:** SSO phase 0 — the provider seam, with no real IdP in it ([3afa9655](https://github.com/apograph-source/apograph-cms/commit/3afa9655))
 - **identity:** SSO phase 1 — a real identity provider ([c48b13ee](https://github.com/apograph-source/apograph-cms/commit/c48b13ee))
 - **identity:** SSO phase 2 — what a sign-in is allowed to do ([67a88113](https://github.com/apograph-source/apograph-cms/commit/67a88113))
@@ -186,7 +186,7 @@
 - **content-graphql:** bound SchemaCache, which kept one schema per grant set ever seen ([a3bde042](https://github.com/apograph-source/apograph-cms/commit/a3bde042))
 - **copilot-admin:** make the transcript and the composer one column ([33a8c2a6](https://github.com/apograph-source/apograph-cms/commit/33a8c2a6))
 - **copilot-provider-openai:** retry a transient upstream failure, as anthropic does ([d54d4153](https://github.com/apograph-source/apograph-cms/commit/d54d4153))
-- **create-apograph-app:** classify the two provider-authoring packages ([94a294d8](https://github.com/apograph-source/apograph-cms/commit/94a294d8))
+- **create-ortha-app:** classify the two provider-authoring packages ([94a294d8](https://github.com/apograph-source/apograph-cms/commit/94a294d8))
 - **database:** drain the pool and the in-flight outbox batch on shutdown ([ac173ef8](https://github.com/apograph-source/apograph-cms/commit/ac173ef8))
 - **identity-server:** drop sessionSecret and tokenSecret, which nothing read ([2d5b9b6c](https://github.com/apograph-source/apograph-cms/commit/2d5b9b6c))
 - **media-server:** map the media tools' domain errors, so a bad argument is a 400 not an opaque 500 ([474a7ead](https://github.com/apograph-source/apograph-cms/commit/474a7ead))

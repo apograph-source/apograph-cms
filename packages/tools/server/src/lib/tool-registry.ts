@@ -5,7 +5,7 @@ import {
     UnprocessableEntityException,
     type OnApplicationBootstrap
 } from '@nestjs/common';
-import { PERMISSION_KEYS } from '@apograph/identity-server';
+import { PERMISSION_KEYS } from '@ortha/identity-server';
 import type {
     ResourceContents,
     ResourceDefinition,

@@ -9,12 +9,12 @@ import {
     type SQL
 } from 'drizzle-orm';
 import type { PgTable } from 'drizzle-orm/pg-core';
-import { InjectDatabase, type Database } from '@apograph/database';
-import { InjectContentRegistry } from '@apograph/content-server';
+import { InjectDatabase, type Database } from '@ortha/database';
+import { InjectContentRegistry } from '@ortha/content-server';
 import type {
     AnyContentType,
     ContentTypeRegistry
-} from '@apograph/content-server';
+} from '@ortha/content-server';
 import { LocaleRegistryService } from '../../../locales/services/locale-registry.service';
 import type {
     ContentTypeCoverageView,

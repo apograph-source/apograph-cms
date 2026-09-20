@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto';
 import { Readable } from 'node:stream';
-import { ObjectNotFoundError } from '@apograph/media-domain';
-import type { StorageProvider } from '@apograph/media-domain';
+import { ObjectNotFoundError } from '@ortha/media-domain';
+import type { StorageProvider } from '@ortha/media-domain';
 
 /** How the kit builds and tears down the provider under test. */
 export interface StorageProviderHarness {

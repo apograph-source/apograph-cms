@@ -1,5 +1,5 @@
 import type { Response } from 'express';
-import type { CopilotRunEvent } from '@apograph/copilot-domain';
+import type { CopilotRunEvent } from '@ortha/copilot-domain';
 
 /**
  * How often to send a comment frame while nothing else is happening. A model

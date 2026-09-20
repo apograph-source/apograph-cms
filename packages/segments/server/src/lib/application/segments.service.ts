@@ -12,7 +12,7 @@ import {
     type Database,
     type DomainEvent,
     type EventActor
-} from '@apograph/database';
+} from '@ortha/database';
 import { segments } from '../schema/segments';
 import { entryAccess } from '../schema/entry-access';
 import { SegmentCatalogService } from './segment-catalog.service';

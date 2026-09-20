@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import type {
     AuthenticatedRequest,
     PublicUser
-} from '@apograph/identity-server';
+} from '@ortha/identity-server';
 
 /**
  * Who is **acting** on the current request — the counterpart of

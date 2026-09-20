@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { and, count, eq, inArray, sql } from 'drizzle-orm';
-import { UnitOfWork, type Database } from '@apograph/database';
-import { isUniqueViolation } from '@apograph/utils-server';
+import { UnitOfWork, type Database } from '@ortha/database';
+import { isUniqueViolation } from '@ortha/utils-server';
 import { AlarmRuleNotFoundError } from '../domain/errors';
 import { filterTreeSegments } from '../domain/filter-tree-segments';
 import { FINDING_STATE } from '../domain/finding-state';

@@ -1,7 +1,7 @@
 import { Injectable, Optional, type OnModuleInit } from '@nestjs/common';
-import { PERMISSIONS } from '@apograph/identity-server';
-import { ToolRegistry } from '@apograph/tools-server';
-import type { ToolDefinition, ToolProvider } from '@apograph/tools-server';
+import { PERMISSIONS } from '@ortha/identity-server';
+import { ToolRegistry } from '@ortha/tools-server';
+import type { ToolDefinition, ToolProvider } from '@ortha/tools-server';
 import { InjectContentRegistry } from '../content.tokens';
 import type { ContentTypeRegistry } from '../registry/content-type-registry';
 import { EntriesService } from '../entries/infrastructure/queries/entries.service';

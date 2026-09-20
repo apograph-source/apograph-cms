@@ -1,13 +1,13 @@
 /**
- * Public API of `@apograph/media-domain` — the **storage port**, and nothing
+ * Public API of `@ortha/media-domain` — the **storage port**, and nothing
  * else.
  *
  * This package exists so that installing a storage adapter installs a storage
- * adapter. Every `@apograph/media-provider-*` needs two things from the core:
+ * adapter. Every `@ortha/media-provider-*` needs two things from the core:
  * the port's types, and `ObjectNotFoundError` — which is a *value*, because
  * `get` promises a particular rejection rather than merely some rejection. Both
- * used to live behind `@apograph/media-server`'s root barrel, which re-exports
- * `MediaModule`, so `require('@apograph/media-provider-s3')` loaded NestJS and
+ * used to live behind `@ortha/media-server`'s root barrel, which re-exports
+ * `MediaModule`, so `require('@ortha/media-provider-s3')` loaded NestJS and
  * `npm i` of one adapter pulled NestJS, Drizzle, Express and Sharp along with
  * it. An adapter is a hundred lines over a vendor SDK; it should cost that.
  *
@@ -16,11 +16,11 @@
  * by all seven adapters and by the server that hosts them.
  *
  * Scope is deliberately the adapter seam, not everything domain-shaped in
- * media — the same scope `@apograph/identity-domain` has, which holds the
+ * media — the same scope `@ortha/identity-domain` has, which holds the
  * `SsoProvider` port and no other part of identity's domain layer. The asset
  * and folder aggregates, their value objects and their events stay in
- * `@apograph/media-server`'s `domain/` layer: they are framework-free too, but
- * they depend on `@apograph/database` for the `DomainEvent` contract, and no
+ * `@ortha/media-server`'s `domain/` layer: they are framework-free too, but
+ * they depend on `@ortha/database` for the `DomainEvent` contract, and no
  * adapter has ever needed them.
  */
 

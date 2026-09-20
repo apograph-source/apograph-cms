@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import type { AvatarColor } from '@apograph/design-system';
+import type { AvatarColor } from '@ortha/design-system';
 import { useContentTypes } from '../../../application/useContentTypes';
 import type {
     ContentMode,

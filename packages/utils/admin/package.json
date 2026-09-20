@@ -1,5 +1,5 @@
 {
-    "name": "@apograph/utils-admin",
+    "name": "@ortha/utils-admin",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -16,7 +16,7 @@
         "src"
     ],
     "dependencies": {
-        "@apograph/design-system": "*",
+        "@ortha/design-system": "*",
         "@tanstack/react-query": "^5.0.0",
         "axios": "^1.6.0",
         "react": "^19.0.0"

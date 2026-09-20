@@ -5,7 +5,7 @@ import {
     WidgetCard,
     WidgetChip,
     type BarRowSpec
-} from '@apograph/insights-admin';
+} from '@ortha/insights-admin';
 import { useContentUnshipped } from '../../../application/useContentInsights';
 
 /** Intl descriptors for the unshipped-changes widget, co-located here. */

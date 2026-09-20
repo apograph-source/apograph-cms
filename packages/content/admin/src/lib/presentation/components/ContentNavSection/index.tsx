@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useMatch } from 'react-router-dom';
-import { useHasPermission } from '@apograph/identity-admin';
-import { useWorkspaces } from '@apograph/workspaces-admin';
-import { isComposingText } from '@apograph/utils-admin';
+import { useHasPermission } from '@ortha/identity-admin';
+import { useWorkspaces } from '@ortha/workspaces-admin';
+import { isComposingText } from '@ortha/utils-admin';
 import { useContentTypes } from '../../../application/useContentTypes';
 import { useContentFavorites } from '../../hooks/useContentFavorites';
 import { ContentSidebar } from '../ContentSidebar';

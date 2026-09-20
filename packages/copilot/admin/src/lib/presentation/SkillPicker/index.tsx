@@ -10,7 +10,7 @@ import {
     PopoverContent,
     PopoverTrigger,
     cn
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import type { CopilotSkill } from '../../application/useSkills';
 
 const messages = defineMessages({
@@ -29,7 +29,7 @@ const messages = defineMessages({
     explain: {
         id: 'copilot.skills.explain',
         defaultMessage:
-            'Working instructions Apograph AI follows while they are on.'
+            'Working instructions Ortha AI follows while they are on.'
     },
     filter: {
         id: 'copilot.skills.filter',

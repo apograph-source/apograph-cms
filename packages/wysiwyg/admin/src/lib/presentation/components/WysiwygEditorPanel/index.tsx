@@ -4,8 +4,8 @@ import { EditorContent, useEditor } from '@tiptap/react';
 import {
     inspectRichText,
     type RichTextDocument
-} from '@apograph/content-domain';
-import { Button } from '@apograph/design-system';
+} from '@ortha/content-domain';
+import { Button } from '@ortha/design-system';
 import { WYSIWYG_PROSE_CLASS } from '../../../domain/constants';
 import { normalizeRichText } from '../../../domain/richTextValue';
 import { editorExtensions } from '../../../infrastructure/editorExtensions';

@@ -4,7 +4,7 @@ import type { PgColumn } from 'drizzle-orm/pg-core';
 import type {
     ContentReadScope,
     ContentReadScopeContext
-} from '@apograph/content-server';
+} from '@ortha/content-server';
 import { entryAccess } from '../schema/entry-access';
 import { SegmentCatalogService } from '../application/segment-catalog.service';
 import { ReaderStore } from '../application/reader.store';

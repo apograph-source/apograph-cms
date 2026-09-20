@@ -73,8 +73,8 @@ const ROOT = '/apps/my-cms';
 const originalArgv = process.argv;
 
 /** Runs the binary as the shell would, and waits for `main` to settle. */
-async function apograph(...argv: string[]): Promise<void> {
-    process.argv = ['node', '/n_m/.bin/apograph', ...argv];
+async function ortha(...argv: string[]): Promise<void> {
+    process.argv = ['node', '/n_m/.bin/ortha', ...argv];
     jest.resetModules();
     // `require`, not `await import()`: this package is CommonJS, and under
     // `nodenext` a dynamic import would have to name `./cli.js` — a file that
@@ -105,13 +105,13 @@ describe('the .env is read once, before anything is dispatched', () => {
     /**
      * `.env` is loaded here and nowhere else. Nx loads it before a target runs;
      * a generated app has no task runner, so if this did not happen before the
-     * command, `apograph migrate` would fail on a `DATABASE_URL` sitting right
+     * command, `ortha migrate` would fail on a `DATABASE_URL` sitting right
      * there in the file — and the `tsc`, `vite` and `node` processes the
      * commands spawn inherit the values only because they were put on
      * `process.env` first.
      */
     it('loads it after finding the root and before the command [cli:I-15]', async () => {
-        await apograph('migrate');
+        await ortha('migrate');
 
         expect(calls).toEqual([
             'findProjectRoot',
@@ -121,7 +121,7 @@ describe('the .env is read once, before anything is dispatched', () => {
     });
 
     it('loads it exactly once, whichever command was asked for [cli:I-15]', async () => {
-        await apograph('dev');
+        await ortha('dev');
 
         expect(loadEnv).toHaveBeenCalledTimes(1);
         expect(loadEnv).toHaveBeenCalledWith(ROOT);
@@ -130,7 +130,7 @@ describe('the .env is read once, before anything is dispatched', () => {
     it('loads it for every command, not only the database ones [cli:I-15]', async () => {
         for (const command of ['dev', 'build', 'start', 'generate', 'studio']) {
             jest.clearAllMocks();
-            await apograph(command);
+            await ortha(command);
 
             expect(loadEnv).toHaveBeenCalledWith(ROOT);
         }
@@ -142,12 +142,12 @@ describe('the .env is read once, before anything is dispatched', () => {
      * exists.
      */
     it('does not go looking for an app to answer --help or --version', async () => {
-        await apograph('--help');
+        await ortha('--help');
         expect(findProjectRoot).not.toHaveBeenCalled();
         expect(loadEnv).not.toHaveBeenCalled();
         expect(console.log).toHaveBeenCalledWith(USAGE);
 
-        await apograph('--version');
+        await ortha('--version');
         expect(findProjectRoot).not.toHaveBeenCalled();
         expect(loadEnv).not.toHaveBeenCalled();
     });
@@ -155,13 +155,13 @@ describe('the .env is read once, before anything is dispatched', () => {
 
 describe('dispatch', () => {
     it('hands each command the project root', async () => {
-        await apograph('start');
+        await ortha('start');
 
         expect(startCommand).toHaveBeenCalledWith(ROOT);
     });
 
     it('reads the build flags off the arguments after the command', async () => {
-        await apograph('build', '--server');
+        await ortha('build', '--server');
 
         expect(buildCommand).toHaveBeenCalledWith(ROOT, {
             serverOnly: true,
@@ -180,13 +180,13 @@ describe('dispatch', () => {
         ['--server', { serverOnly: true, adminOnly: false }],
         ['--admin', { serverOnly: false, adminOnly: true }]
     ])('reads dev’s %s the same way build’s is read', async (arg, expected) => {
-        await apograph('dev', arg);
+        await ortha('dev', arg);
 
         expect(devCommand).toHaveBeenCalledWith(ROOT, expected);
     });
 
     it('runs both halves when dev is given neither flag', async () => {
-        await apograph('dev');
+        await ortha('dev');
 
         expect(devCommand).toHaveBeenCalledWith(ROOT, {
             serverOnly: false,
@@ -197,7 +197,7 @@ describe('dispatch', () => {
     it.each(['dev', 'build'])(
         'refuses %s --server --admin, which asks for neither half',
         async (command) => {
-            await apograph(command, '--server', '--admin');
+            await ortha(command, '--server', '--admin');
 
             expect(console.error).toHaveBeenCalledWith(
                 expect.stringContaining('asks for neither half')
@@ -208,19 +208,19 @@ describe('dispatch', () => {
     );
 
     it('passes the migration name through', async () => {
-        await apograph('generate', '--name', 'add_posts');
+        await ortha('generate', '--name', 'add_posts');
 
         expect(generateCommand).toHaveBeenCalledWith(ROOT, 'add_posts');
     });
 
     it('turns the studio port into a number, leaving an unasked-for one undefined', async () => {
-        await apograph('studio', '--host=0.0.0.0', '--port=5000');
+        await ortha('studio', '--host=0.0.0.0', '--port=5000');
         expect(studioCommand).toHaveBeenCalledWith(ROOT, {
             host: '0.0.0.0',
             port: 5000
         });
 
-        await apograph('studio');
+        await ortha('studio');
         expect(studioCommand).toHaveBeenLastCalledWith(ROOT, {
             host: undefined,
             port: undefined
@@ -235,7 +235,7 @@ describe('dispatch', () => {
      * value actually reaches.
      */
     it('carries a --port=0 through to the command instead of dropping it', async () => {
-        await apograph('studio', '--port=0');
+        await ortha('studio', '--port=0');
 
         expect(studioCommand).toHaveBeenCalledWith(ROOT, {
             host: undefined,
@@ -244,7 +244,7 @@ describe('dispatch', () => {
     });
 
     it('reports a --port that is not a number, and runs nothing', async () => {
-        await apograph('studio', '--port=abc');
+        await ortha('studio', '--port=abc');
 
         expect(console.error).toHaveBeenCalledWith(
             expect.stringContaining('must be a whole number')
@@ -253,7 +253,7 @@ describe('dispatch', () => {
     });
 
     it('names an unknown command, prints the usage, and fails', async () => {
-        await apograph('buld');
+        await ortha('buld');
 
         expect(console.error).toHaveBeenCalledWith('Unknown command "buld".\n');
         expect(console.log).toHaveBeenCalledWith(USAGE);
@@ -273,7 +273,7 @@ describe('an exception reaching the top', () => {
         const error = new Error('DATABASE_URL is not set — migrating needs…');
         migrateCommand.mockRejectedValueOnce(error);
 
-        await apograph('migrate');
+        await ortha('migrate');
 
         expect(console.error).toHaveBeenCalledTimes(1);
         expect(console.error).toHaveBeenCalledWith(
@@ -290,7 +290,7 @@ describe('an exception reaching the top', () => {
     it('prints a thrown non-Error as itself [cli:I-19]', async () => {
         migrateCommand.mockRejectedValueOnce('drizzle-kit went missing');
 
-        await apograph('migrate');
+        await ortha('migrate');
 
         expect(console.error).toHaveBeenCalledWith('drizzle-kit went missing');
         expect(process.exit).toHaveBeenCalledWith(1);
@@ -303,7 +303,7 @@ describe('an exception reaching the top', () => {
             );
         });
 
-        await apograph('generate');
+        await ortha('generate');
 
         expect(console.error).toHaveBeenCalledWith(
             'No apps/server/drizzle.config.ts in /apps/my-cms.'
@@ -312,7 +312,7 @@ describe('an exception reaching the top', () => {
     });
 
     it('leaves a command that succeeds alone [cli:I-19]', async () => {
-        await apograph('migrate');
+        await ortha('migrate');
 
         expect(console.error).not.toHaveBeenCalled();
         expect(process.exit).not.toHaveBeenCalled();

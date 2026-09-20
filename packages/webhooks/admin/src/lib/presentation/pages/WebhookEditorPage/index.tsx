@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Webhook } from 'lucide-react';
-import { PageTopBar } from '@apograph/shell-admin';
-import { useHasPermission } from '@apograph/identity-admin';
-import { useDocumentTitle } from '@apograph/utils-admin';
+import { PageTopBar } from '@ortha/shell-admin';
+import { useHasPermission } from '@ortha/identity-admin';
+import { useDocumentTitle } from '@ortha/utils-admin';
 import {
     Alert,
     AlertDescription,
@@ -13,7 +13,7 @@ import {
     ContainerHeader,
     Spinner,
     toast
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import { useWebhookEndpoint } from '../../../application/useWebhookEndpoints';
 import { useWebhookEvents } from '../../../application/useWebhookEvents';
 import { useWorkspaceOptions } from '../../../application/useWorkspaceOptions';

@@ -64,13 +64,13 @@ Expands the “JSON preview” block, copies the payload and pastes it into a cu
 
 ## 02. Its place in the system and its consumers
 
-There is one package — `packages/query-builder/admin`, published as `@apograph/query-builder-admin`. The group has no server half and none is intended: the grammar is parsed on the server by `parseFilterTree` from `@apograph/utils-server`, and that is a _different_ package the builder knows nothing about — the only thing linking them is the JSON format.
+There is one package — `packages/query-builder/admin`, published as `@ortha/query-builder-admin`. The group has no server half and none is intended: the grammar is parsed on the server by `parseFilterTree` from `@ortha/utils-server`, and that is a _different_ package the builder knows nothing about — the only thing linking them is the JSON format.
 
 ### What depends on what
 
 | Dependency              | Role                                                                                                                            |
 | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| @apograph/design-system | Button, Input, Select, Checkbox, Popover, Drawer, SegmentedControl, Alert, Spinner — everything visible is assembled from these |
+| @ortha/design-system | Button, Input, Select, Checkbox, Popover, Drawer, SegmentedControl, Alert, Spinner — everything visible is assembled from these |
 | lucide-react            | The icons: Plus, X, Check, ChevronDown/Right, Copy                                                                              |
 | react-intl              | Every label is a `MessageDescriptor`. Each component keeps its own `defineMessages` next to it                                  |
 | react / react-dom       | Peer dependencies, ^19                                                                                                          |
@@ -429,7 +429,7 @@ No identifiers, no labels, no types — only what is needed to build a WHERE. Th
 
 ## 07. The component's API
 
-One import: `import { QueryBuilder, QueryBuilderPanel, type FilterField } from '@apograph/query-builder-admin'`. The public surface is four components, eight utilities and a set of types.
+One import: `import { QueryBuilder, QueryBuilderPanel, type FilterField } from '@ortha/query-builder-admin'`. The public surface is four components, eight utilities and a set of types.
 
 ### QueryBuilder — the headless controlled component
 
@@ -854,7 +854,7 @@ Every statement above was checked against the implementation. Below are the plac
 
 > **What this dossier does not contain**
 >
-> The analysis of translating a tree into SQL (`tree-to-drizzle.ts`, `relation-exists.ts`, the five relation kinds and their `scope`) is described here only as far as is needed to understand an operator's meaning. That is `@apograph/utils-server`'s responsibility and the subject of a dossier of its own. Content's saved views and the alarms engine are likewise not covered — they appear here only as _consumers_ of the grammar.
+> The analysis of translating a tree into SQL (`tree-to-drizzle.ts`, `relation-exists.ts`, the five relation kinds and their `scope`) is described here only as far as is needed to understand an operator's meaning. That is `@ortha/utils-server`'s responsibility and the subject of a dossier of its own. Content's saved views and the alarms engine are likewise not covered — they appear here only as _consumers_ of the grammar.
 
 ---
 

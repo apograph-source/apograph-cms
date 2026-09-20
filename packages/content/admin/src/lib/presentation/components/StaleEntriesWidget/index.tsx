@@ -6,7 +6,7 @@ import {
     WidgetChip,
     type BarRowSpec,
     type ChartTone
-} from '@apograph/insights-admin';
+} from '@ortha/insights-admin';
 import { useContentStale } from '../../../application/useContentInsights';
 
 /** Intl descriptors for the stale-content widget, co-located here. */

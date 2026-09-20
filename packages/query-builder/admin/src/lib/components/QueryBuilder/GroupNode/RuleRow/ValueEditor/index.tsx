@@ -6,7 +6,7 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import {
     FIELD_TYPE,
     type FieldType,

@@ -5,7 +5,7 @@ import { Email } from './email';
  * The domain side of the identity dossier's I-12 — the login email is unique
  * case-insensitively at the database level, and the value object is what makes
  * that index agree with domain equality: it normalizes on construction, so
- * `ADA@Apograph.DEV` and `ada@apograph.dev` are one address everywhere above the SQL.
+ * `ADA@Ortha.DEV` and `ada@ortha.dev` are one address everywhere above the SQL.
  * Uncited on purpose — drop the unique index and every test below still passes,
  * so I-12 is pinned against a real schema in
  * `apps/server-e2e/src/server/auth/email-uniqueness.spec.ts`. The shape check is deliberately lenient
@@ -15,15 +15,15 @@ import { Email } from './email';
 describe('Email', () => {
     describe('create', () => {
         it('trims and lower-cases the address', () => {
-            expect(Email.create(' ADA@Apograph.DEV ').value).toBe(
-                'ada@apograph.dev'
+            expect(Email.create(' ADA@Ortha.DEV ').value).toBe(
+                'ada@ortha.dev'
             );
         });
 
         it.each([
-            'ada@apograph.dev',
-            'ada.lovelace@apograph.dev',
-            'ada+invites@mail.apograph.co.uk'
+            'ada@ortha.dev',
+            'ada.lovelace@ortha.dev',
+            'ada+invites@mail.ortha.co.uk'
         ])('accepts %p', (value) => {
             expect(Email.create(value).value).toBe(value);
         });
@@ -34,9 +34,9 @@ describe('Email', () => {
             ['a space in the local part', 'a b@c.d'],
             ['an empty string', ''],
             ['blank input', '   '],
-            ['no at sign', 'ada.apograph.dev'],
-            ['an empty local part', '@apograph.dev'],
-            ['two at signs', 'ada@@apograph.dev']
+            ['no at sign', 'ada.ortha.dev'],
+            ['an empty local part', '@ortha.dev'],
+            ['two at signs', 'ada@@ortha.dev']
         ])('rejects %s', (_case, value) => {
             expect(() => Email.create(value)).toThrow(InvalidEmailError);
         });
@@ -45,13 +45,13 @@ describe('Email', () => {
     describe('equals', () => {
         it('is structural on the normalized address', () => {
             expect(
-                Email.create('ADA@Apograph.dev').equals(
-                    Email.create(' ada@apograph.dev ')
+                Email.create('ADA@Ortha.dev').equals(
+                    Email.create(' ada@ortha.dev ')
                 )
             ).toBe(true);
             expect(
-                Email.create('ada@apograph.dev').equals(
-                    Email.create('grace@apograph.dev')
+                Email.create('ada@ortha.dev').equals(
+                    Email.create('grace@ortha.dev')
                 )
             ).toBe(false);
         });

@@ -9,7 +9,7 @@ import {
     DrawerHeader,
     DrawerTitle,
     DrawerTrigger
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import type {
     FilterField,
     RelationValueEditor

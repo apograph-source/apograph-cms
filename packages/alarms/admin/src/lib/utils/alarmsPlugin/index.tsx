@@ -1,17 +1,17 @@
 import { Suspense, lazy } from 'react';
-import type { AdminPlugin } from '@apograph/bootstrap-admin';
+import type { AdminPlugin } from '@ortha/bootstrap-admin';
 import {
     ENTRY_SIDEBAR_WIDGET_SLOT,
     RECORDS_COLUMN_SLOT,
     RECORDS_TOOLBAR_SLOT,
     type ContentTypeDetail,
     type EntryRecord
-} from '@apograph/content-admin';
+} from '@ortha/content-admin';
 import {
     WORKSPACE_NAV_SLOT,
     WORKSPACE_ROUTE_SLOT
-} from '@apograph/workspaces-admin';
-import { COPILOT_TOOL_RESULT_SLOT } from '@apograph/copilot-admin';
+} from '@ortha/workspaces-admin';
+import { COPILOT_TOOL_RESULT_SLOT } from '@ortha/copilot-admin';
 import { BellRing } from 'lucide-react';
 import { AlarmsSkeleton } from '../../presentation/components/AlarmsSkeleton';
 import { AlarmsColumnCell } from '../../presentation/components/AlarmsColumnCell';

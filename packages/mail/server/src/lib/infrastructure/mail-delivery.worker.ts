@@ -10,7 +10,7 @@ import {
     isExhausted,
     nextAttemptDelayMs,
     type MailProvider
-} from '@apograph/mail-domain';
+} from '@ortha/mail-domain';
 import { Inject } from '@nestjs/common';
 import { InjectMailConfig } from '../mail.tokens';
 import type { ResolvedMailConfig } from '../types/mail-config';
@@ -138,7 +138,7 @@ export class MailDeliveryWorker
                 // duplicate message would invalidate the copy that arrived.
                 text: mail.bodyText,
                 ...(mail.bodyHtml ? { html: mail.bodyHtml } : {}),
-                headers: { 'X-Apograph-Mail-Kind': mail.kind }
+                headers: { 'X-Ortha-Mail-Kind': mail.kind }
             });
             await this.deliveries.markDelivered(mail.id);
             return;

@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useCurrentWorkspace } from '@apograph/workspaces-admin';
+import { useCurrentWorkspace } from '@ortha/workspaces-admin';
 import { alarmsKeys } from '../../infrastructure/alarmsKeys';
 import { httpAlarmsGateway } from '../../infrastructure/httpAlarmsGateway';
 import type {

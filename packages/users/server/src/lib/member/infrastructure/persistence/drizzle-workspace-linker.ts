@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { inArray } from 'drizzle-orm';
-import { UnitOfWork } from '@apograph/database';
-import { memberships, workspaces } from '@apograph/workspaces-server';
+import { UnitOfWork } from '@ortha/database';
+import { memberships, workspaces } from '@ortha/workspaces-server';
 import type { WorkspaceLinker } from '../../application/ports/workspace-linker.port';
 
 /**

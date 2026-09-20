@@ -16,7 +16,7 @@ import {
 const SETTLED = { timeout: 20_000 };
 
 /**
- * The webhooks pages (`@apograph/webhooks-admin`): the list's derived states,
+ * The webhooks pages (`@ortha/webhooks-admin`): the list's derived states,
  * the four page states, the editor's "All …" toggles, the one-time secret, and
  * the detail page's two tabs.
  */
@@ -348,7 +348,7 @@ test.describe('Webhooks', () => {
             await webhooksPage.addHeaderButton().click();
             // Overwriting this would let a delivery claim to be signed by
             // someone else.
-            await webhooksPage.headerNameField().fill('X-Apograph-Signature');
+            await webhooksPage.headerNameField().fill('X-Ortha-Signature');
             await webhooksPage.headerValueField().fill('t=1,v1=deadbeef');
 
             await expect(webhooksPage.headerError()).toBeVisible();

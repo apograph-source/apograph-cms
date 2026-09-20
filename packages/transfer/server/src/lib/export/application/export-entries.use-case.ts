@@ -8,8 +8,8 @@
 
 import { Inject, Injectable, Optional } from '@nestjs/common';
 import { Readable } from 'node:stream';
-import { STORAGE_PROVIDER, type StorageProvider } from '@apograph/media-server';
-import type { AnyContentType } from '@apograph/content-server';
+import { STORAGE_PROVIDER, type StorageProvider } from '@ortha/media-server';
+import type { AnyContentType } from '@ortha/content-server';
 import {
     TRANSFER_FORMAT,
     TRANSFER_FORMAT_CAPABILITIES,
@@ -18,7 +18,7 @@ import {
     type TransferDepth,
     type TransferDocument,
     type TransferFormat
-} from '@apograph/transfer-domain';
+} from '@ortha/transfer-domain';
 import { createZipStream, type ZipMember } from '../../archive/zip-writer';
 import { TransferSchemaCatalog } from '../../schema/schema-catalog.service';
 import {

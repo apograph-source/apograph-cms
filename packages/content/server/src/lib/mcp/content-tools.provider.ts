@@ -4,7 +4,7 @@ import {
     OnModuleInit,
     Optional
 } from '@nestjs/common';
-import { PERMISSIONS } from '@apograph/identity-server';
+import { PERMISSIONS } from '@ortha/identity-server';
 import {
     ToolRegistry,
     type ResourceContents,
@@ -12,7 +12,7 @@ import {
     type ToolContext,
     type ToolDefinition,
     type ToolProvider
-} from '@apograph/tools-server';
+} from '@ortha/tools-server';
 import { InjectContentRegistry } from '../content.tokens';
 import { toToolEventActor } from '../public-api/infrastructure/token-actor';
 import type {
@@ -56,7 +56,7 @@ import {
 } from './tool-schemas';
 
 /** URI prefix for the per-content-type schema resources. */
-const TYPE_RESOURCE_PREFIX = 'apograph://content-type/';
+const TYPE_RESOURCE_PREFIX = 'ortha://content-type/';
 
 /**
  * The content plugin's contribution to the shared agent tool registry — the

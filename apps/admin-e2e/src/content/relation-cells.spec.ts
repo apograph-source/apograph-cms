@@ -54,7 +54,7 @@ const AUTHOR_PREVIEW: PreviewSeed = {
 const ARTICLES_URL = `/workspaces/${RELATIONS_WORKSPACE.id}/content/article`;
 
 /**
- * Relation **columns in the records table** (from `@apograph/content-admin`):
+ * Relation **columns in the records table** (from `@ortha/content-admin`):
  * a relation cell renders its linked records as a titled dropdown of links to
  * those records, rather than the raw FK id the values bag carries.
  *

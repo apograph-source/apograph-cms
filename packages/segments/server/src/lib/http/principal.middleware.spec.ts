@@ -1,5 +1,5 @@
 import type { NextFunction, Response } from 'express';
-import type { AuthenticatedRequest } from '@apograph/identity-server';
+import type { AuthenticatedRequest } from '@ortha/identity-server';
 import { PrincipalMiddleware } from './principal.middleware';
 import { PrincipalStore } from '../application/principal.store';
 

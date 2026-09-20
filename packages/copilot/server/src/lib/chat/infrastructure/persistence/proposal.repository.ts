@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { and, desc, eq } from 'drizzle-orm';
-import { InjectDatabase, type Database } from '@apograph/database';
+import { InjectDatabase, type Database } from '@ortha/database';
 import type {
     ProposalChange,
     ProposalStatus,
     ProposalTarget
-} from '@apograph/copilot-domain';
+} from '@ortha/copilot-domain';
 import { copilotProposals } from '../schema/proposals';
 
 /** One proposal as the chat panel and the review queue render it. */

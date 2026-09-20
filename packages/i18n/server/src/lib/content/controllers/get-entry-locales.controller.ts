@@ -9,10 +9,10 @@ import {
     PERMISSIONS,
     PermissionsGuard,
     RequirePermissions
-} from '@apograph/identity-server';
-import { CurrentWorkspace, WorkspaceGuard } from '@apograph/workspaces-server';
-import { InjectContentRegistry } from '@apograph/content-server';
-import type { ContentTypeRegistry } from '@apograph/content-server';
+} from '@ortha/identity-server';
+import { CurrentWorkspace, WorkspaceGuard } from '@ortha/workspaces-server';
+import { InjectContentRegistry } from '@ortha/content-server';
+import type { ContentTypeRegistry } from '@ortha/content-server';
 import {
     LocaleGroupService,
     type EntryLocalesView

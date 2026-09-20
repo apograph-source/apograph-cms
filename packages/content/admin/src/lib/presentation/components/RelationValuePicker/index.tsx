@@ -16,11 +16,11 @@ import {
     PopoverTrigger,
     Spinner,
     cn
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import {
     usePortalContainer,
     type RelationValueEditorProps
-} from '@apograph/query-builder-admin';
+} from '@ortha/query-builder-admin';
 import { useContentSchema } from '../../../application/useContentSchema';
 import { useRelationCandidates } from '../../../application/useRelationCandidates';
 

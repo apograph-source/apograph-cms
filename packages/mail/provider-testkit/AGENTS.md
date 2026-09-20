@@ -1,9 +1,9 @@
-# @apograph/mail-provider-testkit
+# @ortha/mail-provider-testkit
 
 Captures messages in memory instead of sending them, and can be told to fail —
 retryably or permanently — so the worker's backoff and its dead-letter path are
 exercisable without a mail server. The counterpart of
-`@apograph/media-provider-testkit`, installed under the same rule as the console
+`@ortha/media-provider-testkit`, installed under the same rule as the console
 adapter: shipped with every app, offered by no picker, registered by no
 template.
 

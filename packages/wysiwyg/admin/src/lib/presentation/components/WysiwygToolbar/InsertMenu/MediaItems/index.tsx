@@ -3,7 +3,7 @@ import { Film, Image as ImageIcon } from 'lucide-react';
 import {
     DropdownMenuItem,
     DropdownMenuSeparator
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import {
     WYSIWYG_MEDIA_KIND,
     type WysiwygMediaKind

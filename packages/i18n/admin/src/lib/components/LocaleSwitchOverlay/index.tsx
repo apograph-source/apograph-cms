@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { defineMessages, useIntl } from 'react-intl';
 import { useIsFetching } from '@tanstack/react-query';
 import { Languages } from 'lucide-react';
-import { Spinner, cn } from '@apograph/design-system';
+import { Spinner, cn } from '@ortha/design-system';
 import {
     getLocaleSwitch,
     settleLocaleSwitch,

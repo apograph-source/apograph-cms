@@ -6,7 +6,7 @@ import {
     EmptyHeader,
     EmptyMedia,
     EmptyTitle
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import { LibraryBig } from 'lucide-react';
 
 /** Intl descriptors for the content-library landing, co-located here. */

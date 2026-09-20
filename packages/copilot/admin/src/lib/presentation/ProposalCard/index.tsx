@@ -1,6 +1,6 @@
 import { defineMessages, useIntl } from 'react-intl';
 import { CircleAlert, Sparkles } from 'lucide-react';
-import { Alert, AlertDescription, Badge } from '@apograph/design-system';
+import { Alert, AlertDescription, Badge } from '@ortha/design-system';
 import type { ChatProposal } from '../../domain/types/chat';
 
 const messages = defineMessages({
@@ -39,7 +39,7 @@ const messages = defineMessages({
     failedGeneric: {
         id: 'copilot.proposal.failedGeneric',
         defaultMessage:
-            'Apograph AI could not make this change, so your content is unchanged. Try asking again.'
+            'Ortha AI could not make this change, so your content is unchanged. Try asking again.'
     },
     wasRejected: {
         id: 'copilot.proposal.wasRejected',

@@ -1,6 +1,6 @@
 import { Readable } from 'node:stream';
-import { ObjectNotFoundError } from '@apograph/media-domain';
-import { describeStorageProvider } from '@apograph/media-provider-testkit';
+import { ObjectNotFoundError } from '@ortha/media-domain';
+import { describeStorageProvider } from '@ortha/media-provider-testkit';
 import { FakeS3Client } from './fake-s3-client';
 import { createS3StorageProvider } from './s3-storage-provider';
 

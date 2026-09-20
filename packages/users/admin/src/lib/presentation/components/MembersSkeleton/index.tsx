@@ -9,7 +9,7 @@ import {
     TableHeader,
     TableRow,
     WizardPageSkeleton
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 
 /** Intl descriptors for the members skeletons, co-located here. */
 const messages = defineMessages({

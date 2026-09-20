@@ -1,4 +1,4 @@
-# `@apograph/protection-domain`
+# `@ortha/protection-domain`
 
 The **publication-protection kernel** — may this person ship this entry now,
 decided by one pure function over a rule, the head revision and the votes

@@ -6,7 +6,7 @@ import {
     InputGroup,
     InputGroupAddon,
     InputGroupInput
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import { Search } from 'lucide-react';
 import { useResourceSelection } from '../../../../hooks/useResourceSelection';
 import type { ResourceSelection } from '../../../../../domain/types/wizard';

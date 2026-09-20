@@ -1,5 +1,5 @@
 import { BadRequestException, type ExecutionContext } from '@nestjs/common';
-import type { AuthenticatedRequest } from '@apograph/identity-server';
+import type { AuthenticatedRequest } from '@ortha/identity-server';
 import type { MembershipCheckQuery } from '../../infrastructure/queries/membership-check.query';
 import { WorkspaceGuard, WORKSPACE_HEADER } from './workspace.guard';
 

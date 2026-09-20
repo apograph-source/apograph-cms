@@ -27,7 +27,7 @@
  * which is what keeps them from describing each other's routes.
  */
 
-import type { OpenApiDocument } from '@apograph/bootstrap-server';
+import type { OpenApiDocument } from '@ortha/bootstrap-server';
 import type { OpenApiSchema } from './identity-schemas';
 import { IDENTITY_SCHEMAS, ref } from './identity-schemas';
 

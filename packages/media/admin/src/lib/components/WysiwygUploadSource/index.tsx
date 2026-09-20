@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { useQueryClient } from '@tanstack/react-query';
-import { toast } from '@apograph/design-system';
-import { useCurrentWorkspace } from '@apograph/workspaces-admin';
-import type { WysiwygMediaSourceContext } from '@apograph/wysiwyg-admin';
+import { toast } from '@ortha/design-system';
+import { useCurrentWorkspace } from '@ortha/workspaces-admin';
+import type { WysiwygMediaSourceContext } from '@ortha/wysiwyg-admin';
 import { ROOT_FOLDER_ID } from '../../constants';
 import { httpMediaGateway } from '../../infrastructure/httpMediaGateway';
 import { mediaKeys } from '../../infrastructure/mediaKeys';

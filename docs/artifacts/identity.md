@@ -2,7 +2,7 @@
 
 _Package group · packages/identity_
 
-**Who this is and what they may do — the foundation of access in Apograph**
+**Who this is and what they may do — the foundation of access in Ortha**
 
 Identity answers the two questions without which no other plugin works: **who has arrived** (authentication) and **what they are allowed to do** (roles and permissions). It owns accounts, sessions, roles, one-time links, external API tokens and sign-in through a corporate provider. There is no signing up off the street: the only way into the system is an administrator's invitation.
 
@@ -76,17 +76,17 @@ The `packages/identity` group is seven packages. The split is not cosmetic: a pr
 
 | Package         | npm name                           | Role                                                                                                                           | What it owns                                                                         |
 | --------------- | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
-| server          | @apograph/identity-server          | The NestJS plugin: routes, use cases, guards, the database schema, migrations, seeders                                         | 11 tables, 19 routes, RBAC, sessions, API tokens, the SSO core                       |
-| admin           | @apograph/identity-admin           | The admin plugin: the sign-in and one-time-link screens plus the "auth kit" (context, provider, route gate)                    | `/identity/*`, `AuthProvider`, `RequireAuth`, `useHasPermission`                     |
-| domain          | @apograph/identity-domain          | The framework-free core of the SSO seam: the `SsoProvider` port, the profile, open-redirect protection, a conformance test set | The contract every adapter must fulfil. **Zero dependencies** in its `package.json`  |
-| provider-oidc   | @apograph/identity-provider-oidc   | Generic OpenID Connect plus 5 presets (Google, Entra, Okta, Auth0, Keycloak)                                                   | Authorization Code + PKCE, id-token verification through `jose`/JWKS                 |
-| provider-github | @apograph/identity-provider-github | GitHub and GitHub Enterprise — OAuth2 with no id token                                                                         | Exchanging the code for a token, reading `/user/emails`, subject = the numeric id    |
-| provider-saml   | @apograph/identity-provider-saml   | SAML 2.0: the request by redirect, the response by POST form                                                                   | XML signature verification (`@node-saml/node-saml`), `RelayState` instead of `state` |
-| provider-fake   | @apograph/identity-provider-fake   | A scriptable provider for e2e and local development                                                                            | The whole handshake is deterministic, but the signature and nonce checks are real    |
+| server          | @ortha/identity-server          | The NestJS plugin: routes, use cases, guards, the database schema, migrations, seeders                                         | 11 tables, 19 routes, RBAC, sessions, API tokens, the SSO core                       |
+| admin           | @ortha/identity-admin           | The admin plugin: the sign-in and one-time-link screens plus the "auth kit" (context, provider, route gate)                    | `/identity/*`, `AuthProvider`, `RequireAuth`, `useHasPermission`                     |
+| domain          | @ortha/identity-domain          | The framework-free core of the SSO seam: the `SsoProvider` port, the profile, open-redirect protection, a conformance test set | The contract every adapter must fulfil. **Zero dependencies** in its `package.json`  |
+| provider-oidc   | @ortha/identity-provider-oidc   | Generic OpenID Connect plus 5 presets (Google, Entra, Okta, Auth0, Keycloak)                                                   | Authorization Code + PKCE, id-token verification through `jose`/JWKS                 |
+| provider-github | @ortha/identity-provider-github | GitHub and GitHub Enterprise — OAuth2 with no id token                                                                         | Exchanging the code for a token, reading `/user/emails`, subject = the numeric id    |
+| provider-saml   | @ortha/identity-provider-saml   | SAML 2.0: the request by redirect, the response by POST form                                                                   | XML signature verification (`@node-saml/node-saml`), `RelayState` instead of `state` |
+| provider-fake   | @ortha/identity-provider-fake   | A scriptable provider for e2e and local development                                                                            | The whole handshake is deterministic, but the signature and nonce checks are real    |
 
 > **Neighbours that are easy to confuse**
 >
-> **`@apograph/users-server` / `users-admin`** — issuing invitations (`POST /api/users/invites`), disabling and re-enabling a member, issuing a reset link (`POST /api/users/:id/password-reset`), the members screen. **`@apograph/api-tokens-admin`** — the token UI; the token server, meanwhile, lives inside `identity-server`. **`@apograph/shell-admin`** — it is what assembles `AuthProvider` + `RequireAuth` into the layout; the host itself knows nothing about authorisation.
+> **`@ortha/users-server` / `users-admin`** — issuing invitations (`POST /api/users/invites`), disabling and re-enabling a member, issuing a reset link (`POST /api/users/:id/password-reset`), the members screen. **`@ortha/api-tokens-admin`** — the token UI; the token server, meanwhile, lives inside `identity-server`. **`@ortha/shell-admin`** — it is what assembles `AuthProvider` + `RequireAuth` into the layout; the host itself knows nothing about authorisation.
 
 ## 03. Roles and permissions
 
@@ -133,7 +133,7 @@ The three system roles are created at application start idempotently (`ON CONFLI
 
 ## 04. Data model
 
-Identity owns eleven tables and **carries its own migrations** (`drizzle.config.ts` plus committed `migrations/*.sql`, applied by the host through `nx run server:db:migrate`, with its own migration journal table `__drizzle_migrations_identity`). The plugin opens no database connection — the client is injected from `@apograph/database`.
+Identity owns eleven tables and **carries its own migrations** (`drizzle.config.ts` plus committed `migrations/*.sql`, applied by the host through `nx run server:db:migrate`, with its own migration journal table `__drizzle_migrations_identity`). The plugin opens no database connection — the client is injected from `@ortha/database`.
 
 | Table                | Purpose                                              | Key columns and constraints                                                                                                                                                                                                                                                                                         |
 | -------------------- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -191,7 +191,7 @@ Issuing the link is the `users` plugin; redeeming it is Identity. In between: th
 5. **Submission.** `POST /api/auth/invite/accept` with `{ token, password, confirmPassword }`. Any extra field is rejected by the global `ValidationPipe` (`whitelist` + `forbidNonWhitelisted`) before the controller.
 6. **The server consumes the token first of all.** Inside one transaction: find an unconsumed, unexpired token → a **conditional** `UPDATE … WHERE consumed_at IS NULL RETURNING` → if no row came back, somebody got there first and this is a refusal. Only then is the bcrypt hash computed (so that a useless link does not cost ~250 ms of CPU).
    _that is the single-use guarantee — not "read, then write"_
-7. **The account is activated and a session is issued straight away.** The response is `{ ok: true }` plus the `apograph_session` cookie. The invitee is inside the application with no separate sign-in.
+7. **The account is activated and a session is issued straight away.** The response is `{ ok: true }` plus the `ortha_session` cookie. The invitee is inside the application with no separate sign-in.
 8. **The admin UI clears its cache and goes to "/".** `resetSessionCache` removes everything except its own `auth` namespace, so the tab does not inherit the previous user's data.
 
 > **Every refusal looks identical**
@@ -206,7 +206,7 @@ Issuing the link is the `users` plugin; redeeming it is Identity. In between: th
 3. **Finding the user and comparing.** The comparison is **always** performed: if there is no user, or they have no hash, a pre-computed "empty" hash is used. Response time must not distinguish "no such address" from "wrong password".
 4. **A single refusal.** An unknown email, a pending invitee (`password_hash = null`), a disabled status, a wrong password — one `InvalidCredentialsError` → `401 Invalid credentials`. No session is created.
 5. **Success: one transaction.** A session is issued (32 random bytes; the database holds their SHA-256) and an `auth.signed_in` event with the actor goes into the transactional outbox. The event is committed if and only if the session is.
-6. **The cookie is set by the controller.** `apograph_session`: `httpOnly`, with `secure` and `sameSite` from the configuration, `maxAge` = the session TTL, `path=/`.
+6. **The cookie is set by the controller.** `ortha_session`: `httpOnly`, with `secure` and `sameSite` from the configuration, `maxAge` = the session TTL, `path=/`.
 7. **The admin UI refreshes "who am I" and goes where it was heading.** It invalidates `['auth','me']`, then navigates to the address the `RequireAuth` gate saved, or to `/`.
 
 ### 6.3 Checking the session on every request
@@ -245,7 +245,7 @@ The flow is entirely administrative: `POST /api/users/:id/password-reset` (permi
 ### 6.7 Signing in through an external provider (SSO)
 
 1. **The sign-in page shows the buttons.** `GET /api/auth/sso` returns the registered providers; an empty list is an **answer**, not a 404. The buttons do not depend on the address entered: an endpoint that changed with the email would be an oracle for enumerating accounts.
-2. **Starting an attempt.** `GET /api/auth/sso/:provider/start?redirect=…&invite=…`: the core (not the adapter!) generates the `state`, the `nonce` and the PKCE verifier, writes an `sso_auth_requests` row, sets the short-lived `apograph_sso_request` cookie and issues a `302` to the provider.
+2. **Starting an attempt.** `GET /api/auth/sso/:provider/start?redirect=…&invite=…`: the core (not the adapter!) generates the `state`, the `nonce` and the PKCE verifier, writes an `sso_auth_requests` row, sets the short-lived `ortha_sso_request` cookie and issues a `302` to the provider.
    _the redirect goes through safeRedirectPath — only an absolute path on the same origin is accepted_
 3. **The provider sends the person back.** `GET …/callback` — or `POST …/callback` for SAML, where the response arrives as a form. The two handlers differ in exactly one thing: where the parameters were taken from.
 4. **The core's checks, in order:** the cookie exists → the attempt is alive → the provider is the same one → the `state` echo matches → **the attempt is consumed before the token exchange**. The order is load-bearing: consuming after the exchange would allow a replay, and exchanging inside the transaction would hold a row lock for the duration of a third-party call.
@@ -312,7 +312,7 @@ All paths carry the global `/api` prefix the host applies. Access legend: `publi
 
 | Method and path                             | Access and guards                              | Input                                                        | Success                                                   | Failures                                                                                 |
 | ------------------------------------------- | ---------------------------------------------- | ------------------------------------------------------------ | --------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| POST /auth/login                            | `public` Throttler, Origin                     | `{ email, password }`                                        | `200 { ok: true }` + `Set-Cookie: apograph_session`       | `401` for everything; `403` a foreign Origin; `429` the rate limit; `400` an invalid DTO |
+| POST /auth/login                            | `public` Throttler, Origin                     | `{ email, password }`                                        | `200 { ok: true }` + `Set-Cookie: ortha_session`       | `401` for everything; `403` a foreign Origin; `429` the rate limit; `400` an invalid DTO |
 | POST /auth/logout                           | `public` Origin                                | — (reads the cookie)                                         | `200 { ok: true }`, the cookie cleared                    | `403` a foreign Origin. With no session it is still a 200                                |
 | GET /auth/me                                | `session`                                      | —                                                            | `{ id, email, name, roleId, status, permissions[] }`      | `401`                                                                                    |
 | GET /auth/invite/:token                     | `public` Throttler                             | the token in the path                                        | `{ email, name }`                                         | `404` — one shape for unknown / expired / consumed                                       |
@@ -320,7 +320,7 @@ All paths carry the global `/api` prefix the host applies. Access legend: `publi
 | GET /auth/reset/:token                      | `public` Throttler                             | the token in the path                                        | `{ email, name }`                                         | `404` — including the "the account is no longer active" case                             |
 | POST /auth/reset                            | `public` Throttler, Origin                     | `{ token, password, confirmPassword }`                       | `200 { ok: true }`, **no cookie**, every session revoked  | `404`; `400`; `403`; `429`                                                               |
 | GET /auth/sso                               | `public` Throttler                             | —                                                            | `[{ name, label, kind }]`, possibly `[]`                  | —                                                                                        |
-| GET /auth/sso/:provider/start               | `public` Throttler                             | `?redirect=`, `?invite=`                                     | `302` to the provider + the `apograph_sso_request` cookie | `404` an unregistered provider                                                           |
+| GET /auth/sso/:provider/start               | `public` Throttler                             | `?redirect=`, `?invite=`                                     | `302` to the provider + the `ortha_sso_request` cookie | `404` an unregistered provider                                                           |
 | GET /auth/sso/:provider/callback            | `public` Throttler; **deliberately no Origin** | the provider's query                                         | `302` into the admin UI + a session                       | `302` to `?error=sso` — on any failure                                                   |
 | POST /auth/sso/:provider/callback           | `public` Throttler                             | a form post (SAML)                                           | the same as the GET callback                              | the same                                                                                 |
 | POST /auth/sso/:provider/backchannel-logout | `public` Throttler                             | `{ logout_token }`                                           | `200 { revoked: N }`, `cache-control: no-store`           | `400 { error: "invalid_request" }`; `404` if the provider cannot verify                  |
@@ -402,7 +402,7 @@ Other details that are easy to break: the tab title goes through the shared `use
 
 ## 09. Configuration
 
-Configuration flows from `apps/server/apograph.config.ts` (the `plugins.identity` section, with values from environment variables) into the `IdentityPlugin(config, options)` factory. The first argument is a typed view of the environment; the second is what is not environment at all (SSO adapter instances and the role-mapping handler).
+Configuration flows from `apps/server/ortha.config.ts` (the `plugins.identity` section, with values from environment variables) into the `IdentityPlugin(config, options)` factory. The first argument is a typed view of the environment; the second is what is not environment at all (SSO adapter instances and the role-mapping handler).
 
 | Field                                          | Type / default          | Meaning                                                                                                                                                      |
 | ---------------------------------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -518,7 +518,7 @@ Phrased as "action → expected result", so they can go into a test case without
 
 ### Sign-in and sessions
 
-- **Correct credentials** → 200, an `apograph_session` cookie with `HttpOnly`, a `sessions` row in the database, and the cookie's value ≠ `sessions.id`.
+- **Correct credentials** → 200, an `ortha_session` cookie with `HttpOnly`, a `sessions` row in the database, and the cookie's value ≠ `sessions.id`.
 - **A non-existent email with a well-formed password** → 401 with the same body and comparable timing as an existing email with a wrong password.
 - **An account in status `pending`** → 401, no session created.
 - **A `disabled` account** → 401.
@@ -608,7 +608,7 @@ Phrased as "action → expected result", so they can go into a test case without
 
 | Area                                                 | Who owns it                           | What Identity does                                                                      |
 | ---------------------------------------------------- | ------------------------------------- | --------------------------------------------------------------------------------------- |
-| The database connection and running migrations       | `@apograph/database` + `@apograph/nx` | Owns the schema and migration **files**, but not the connection and not the apply step  |
+| The database connection and running migrations       | `@ortha/database` + `@ortha/nx` | Owns the schema and migration **files**, but not the connection and not the apply step  |
 | Issuing invitations and reset links, the member list | `users-server` / `users-admin`        | Owns the `tokens` table and the **redemption** of links                                 |
 | Sending email                                        | nobody (not implemented)              | Hands the raw token to the calling administrator; sends nothing itself                  |
 | The activity log                                     | `activity`                            | Produces the events and owns the `ACTIVITY_RECORDER` port                               |

@@ -1,4 +1,4 @@
-import { SsoVerificationError } from '@apograph/identity-domain';
+import { SsoVerificationError } from '@ortha/identity-domain';
 import { createOidcProvider } from './oidc-provider';
 import {
     BACKCHANNEL_LOGOUT_EVENT,
@@ -45,7 +45,7 @@ describe('createOidcProvider — configuration', () => {
     it('allows plain HTTP on localhost, for development', () => {
         expect(() =>
             createOidcProvider({
-                issuer: 'http://localhost:8080/realms/apograph',
+                issuer: 'http://localhost:8080/realms/ortha',
                 clientId: CLIENT_ID
             })
         ).not.toThrow();

@@ -1,6 +1,6 @@
 import { defineMessages, useIntl } from 'react-intl';
 import { FileStack, Layers, Users } from 'lucide-react';
-import { StatTile } from '@apograph/design-system';
+import { StatTile } from '@ortha/design-system';
 import { useWorkspaces } from '../../../application/useWorkspaces';
 import { isActiveWorkspace } from '../../../domain/isActiveWorkspace';
 

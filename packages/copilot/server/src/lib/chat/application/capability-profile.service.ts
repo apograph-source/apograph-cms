@@ -1,17 +1,17 @@
 import { Injectable } from '@nestjs/common';
-import { PermissionsService } from '@apograph/identity-server';
+import { PermissionsService } from '@ortha/identity-server';
 import {
     createToolContext,
     ToolRegistry,
     type ToolActor,
     type ToolContext,
     type ToolDefinition
-} from '@apograph/tools-server';
+} from '@ortha/tools-server';
 import {
     resolveCapabilityProfile,
     type CapabilityProfile,
     type CopilotActor
-} from '@apograph/copilot-domain';
+} from '@ortha/copilot-domain';
 
 /** A run's authority: the profile the model is offered, and the tool context. */
 export interface RunAuthority {

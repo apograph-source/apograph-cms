@@ -24,7 +24,7 @@ import {
     type TransferFile,
     type TransferFormat,
     type TransferLimits
-} from '@apograph/transfer-domain';
+} from '@ortha/transfer-domain';
 import {
     ZipReadError,
     looksLikeZip,

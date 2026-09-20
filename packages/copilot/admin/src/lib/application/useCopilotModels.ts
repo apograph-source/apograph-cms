@@ -4,7 +4,7 @@ import {
     HTTP_STATUS,
     STALE_TIME,
     toApiError
-} from '@apograph/utils-admin';
+} from '@ortha/utils-admin';
 
 /** One selectable backend: a registered provider plus one of its models. */
 export interface CopilotModelChoice {

@@ -11,7 +11,7 @@
  * Pure: it takes the document and mutates only its own paths.
  */
 
-import type { OpenApiDocument } from '@apograph/bootstrap-server';
+import type { OpenApiDocument } from '@ortha/bootstrap-server';
 import {
     buildWebhookSchemas,
     ref,

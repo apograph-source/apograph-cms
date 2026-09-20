@@ -1,5 +1,5 @@
-import type { ToolContext, ToolDefinition } from '@apograph/tools-server';
-import type { ProposalDraft } from '@apograph/copilot-domain';
+import type { ToolContext, ToolDefinition } from '@ortha/tools-server';
+import type { ProposalDraft } from '@ortha/copilot-domain';
 import { TranslationProposalToolProvider } from './translation-proposal.provider';
 import type { EntryLocalesView } from '../content/services/locale-group.service';
 

@@ -4,12 +4,12 @@ import {
     OutboxWriter,
     UnitOfWork,
     type EventActor
-} from '@apograph/database';
+} from '@ortha/database';
 import {
     InjectContentRegistry,
     WorkspaceGrantsQuery,
     type ContentTypeRegistry
-} from '@apograph/content-server';
+} from '@ortha/content-server';
 import { UnknownProtectedContentTypeError } from '../domain/errors';
 import { protectionRuleEvent } from '../protection.events';
 import { ProtectionRuleRepository } from '../infrastructure/protection-rule.repository';
@@ -45,7 +45,7 @@ const RULE_DEFAULTS = {
  * content model.
  *
  * The decision the rules feed — may this person publish this entry — is
- * `evaluateProtection` in `@apograph/protection-domain`, and it is not
+ * `evaluateProtection` in `@ortha/protection-domain`, and it is not
  * duplicated here. This service does not read approvals or revisions at all.
  */
 @Injectable()

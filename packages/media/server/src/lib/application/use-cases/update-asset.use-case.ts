@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { attachActor, OutboxWriter, UnitOfWork } from '@apograph/database';
-import type { EventActor } from '@apograph/database';
+import { attachActor, OutboxWriter, UnitOfWork } from '@ortha/database';
+import type { EventActor } from '@ortha/database';
 import type { StoredMediaTrack } from '../../infrastructure/schema/media-asset';
 import { AssetId } from '../../domain/value-objects/asset-id';
 import { FolderId } from '../../domain/value-objects/folder-id';

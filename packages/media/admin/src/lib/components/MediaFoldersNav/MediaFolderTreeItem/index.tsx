@@ -4,7 +4,7 @@ import {
     CollapsibleContent,
     CollapsibleTrigger,
     cn
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import { ChevronRight, Folder } from 'lucide-react';
 import type { MediaFolder } from '../../../types/mediaFolder';
 

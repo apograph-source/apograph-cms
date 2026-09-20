@@ -1,5 +1,5 @@
-import type { OpenApiDocument } from '@apograph/bootstrap-server';
-import { IMPORT_REASON } from '@apograph/transfer-domain';
+import type { OpenApiDocument } from '@ortha/bootstrap-server';
+import { IMPORT_REASON } from '@ortha/transfer-domain';
 import { describeTransferApi } from './describe-transfer-api';
 
 /**

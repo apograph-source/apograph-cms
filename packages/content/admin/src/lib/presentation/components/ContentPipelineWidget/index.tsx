@@ -4,7 +4,7 @@ import {
     WidgetCard,
     toneBackground,
     type BarRowSpec
-} from '@apograph/insights-admin';
+} from '@ortha/insights-admin';
 import { useContentPipeline } from '../../../application/useContentInsights';
 
 /** Intl descriptors for the pipeline widget, co-located here. */

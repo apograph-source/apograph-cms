@@ -1,4 +1,4 @@
-import { ApiError } from '@apograph/utils-admin';
+import { ApiError } from '@ortha/utils-admin';
 
 /**
  * The message the **server** wrote, when it wrote one.

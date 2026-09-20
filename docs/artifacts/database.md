@@ -60,7 +60,7 @@ Put without the technology: **no consequence must occur without a cause, and no 
 - **It is not an ORM and not a repository layer.** The package hands out the Drizzle client as it is. Repositories, mappers and aggregates live inside their own plugins (ADR-0003).
 - **It is not the schema's owner.** There is not a single domain table here. Its only table of its own is `outbox_events`, and that is a _sanctioned exception_: the outbox is shared infrastructure, not any domain's data.
 - **It is not a message broker.** There are no topics, no delivery ordering between aggregates, no consumer acknowledgements, no cross-process delivery over the network. There is a table and a poll.
-- **It is not a migration tool.** The `db:generate` / `db:migrate` targets belong to `@apograph/nx` and `@apograph/cli`; there is only its own migrations descriptor here.
+- **It is not a migration tool.** The `db:generate` / `db:migrate` targets belong to `@ortha/nx` and `@ortha/cli`; there is only its own migrations descriptor here.
 - **It is not a domain layer.** There is no `domain/` folder in the package and by design there should not be — this is infrastructure that domain layers _use_.
 
 ### Who sees it
@@ -79,7 +79,7 @@ Sets `DATABASE_URL` and, if needed, the pool ceiling and `statement_timeout`. Lo
 
 ## 02. Composition and place in the system
 
-The package is **flat** — `packages/database`, with no `admin`/`server` pair: it has no admin half and cannot have one. It is published as `@apograph/database` and consumed from source (its `exports` point at `./src/index.ts`).
+The package is **flat** — `packages/database`, with no `admin`/`server` pair: it has no admin half and cannot have one. It is published as `@ortha/database` and consumed from source (its `exports` point at `./src/index.ts`).
 
 | File                            | What is in it                                                                | Role                                                                      |
 | ------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
@@ -97,7 +97,7 @@ The package is **flat** — `packages/database`, with no `admin`/`server` pair: 
 
 ### The package's dependencies
 
-Modest and deliberate: `@nestjs/common`, `@apograph/bootstrap-server` (only for the `ServerPlugin` type), `drizzle-orm`, `pg`. There is not, and cannot be, a single consuming plugin among the dependencies — the graph points strictly from the plugins to the database.
+Modest and deliberate: `@nestjs/common`, `@ortha/bootstrap-server` (only for the `ServerPlugin` type), `drizzle-orm`, `pg`. There is not, and cannot be, a single consuming plugin among the dependencies — the graph points strictly from the plugins to the database.
 
 ### Who uses what
 
@@ -206,7 +206,7 @@ A **partial** index on `occurred_at` over undelivered rows only. An ordinary ind
 | 0001_outbox_retry_backoff | Drops the old index, adds `next_attempt_at`, creates the partial `outbox_events_pending_idx` |
 | 0002_outbox_last_error    | Adds `last_error`, so a parked row records why it stopped being retried                      |
 
-Tracked in their own `__drizzle_migrations_database` table, exactly as for any other plugin. Generated with `nx run @apograph/database:db:generate --name=<change>` (with no database connection) and applied by the host through `nx run server:db:migrate`.
+Tracked in their own `__drizzle_migrations_database` table, exactly as for any other plugin. Generated with `nx run @ortha/database:db:generate --name=<change>` (with no database connection) and applied by the host through `nx run server:db:migrate`.
 
 > **What the table does not have**
 >
@@ -375,7 +375,7 @@ WHERE id = '...';
 
 > **Why this stopped being SQL-only**
 >
-> A parked row is very often an **audit row that was never written**, and a hole in an audit trail that is only visible to somebody who thinks to run a query is barely a hole that has been noticed. So `@apograph/activity-server` serves this method at `GET /api/activity/dead-letters` under `activity:read`, and its admin page renders a non-zero `total` as a notice above the log — on the page whose whole job is being the record of record.
+> A parked row is very often an **audit row that was never written**, and a hole in an audit trail that is only visible to somebody who thinks to run a query is barely a hole that has been noticed. So `@ortha/activity-server` serves this method at `GET /api/activity/dead-letters` under `activity:read`, and its admin page renders a non-zero `total` as a notice above the log — on the page whose whole job is being the record of record.
 >
 > The route **reports rather than repairs**: replaying still means the `UPDATE` above, a deliberate operator action against a fixed cause, not a button that re-runs whatever failed fifteen times. Database owns the query and the column; it owns no HTTP route, here as everywhere.
 
@@ -581,7 +581,7 @@ Before this fix, a drain caught by `SIGTERM` died mid-batch along with its conne
 
 ## 09. Configuration and environment
 
-The plugin's configuration is one required parameter and three optional ones. The package reads no environment variables at all: `apps/server/apograph.config.ts` is the only place that touches `process.env`, and it hands the plugin an already-typed value.
+The plugin's configuration is one required parameter and three optional ones. The package reads no environment variables at all: `apps/server/ortha.config.ts` is the only place that touches `process.env`, and it hands the plugin an already-typed value.
 
 | `DatabasePluginConfig` field | Required | Default | Comment                                                                                |
 | ---------------------------- | -------- | ------- | -------------------------------------------------------------------------------------- |
@@ -594,9 +594,9 @@ The plugin's configuration is one required parameter and three optional ones. Th
 
 | Variable     | Who reads it                                                                              | Example                                           |
 | ------------ | ----------------------------------------------------------------------------------------- | ------------------------------------------------- |
-| DATABASE_URL | `apograph.config.ts`, through `requireEnv` — mandatory; without it the server does not start | postgresql://apograph:apograph@localhost:5432/apograph_cms |
+| DATABASE_URL | `ortha.config.ts`, through `requireEnv` — mandatory; without it the server does not start | postgresql://ortha:ortha@localhost:5432/ortha_cms |
 
-`poolMax`, `connectionTimeoutMillis` and `statementTimeoutMillis` have **no environment variables** — today they are literals in the host's code, if it sets them at all. A deployment that needs a different pool ceiling will have to edit `apograph.config.ts` or its own composition root.
+`poolMax`, `connectionTimeoutMillis` and `statementTimeoutMillis` have **no environment variables** — today they are literals in the host's code, if it sets them at all. A deployment that needs a different pool ceiling will have to edit `ortha.config.ts` or its own composition root.
 
 ### Wiring it up in the host
 
@@ -612,16 +612,16 @@ return [
 
 ### Parallel stacks
 
-Several working copies share **one** Postgres container — isolation comes from `CREATE DATABASE`, not from five containers that would not fit in memory. Slot _n_ fixes the API on `:300n`, the admin UI on `:420n` and the database `apograph_cms_an`; `npm run worktree -- provision <slot>` creates the database and writes a `.env` with the right `DATABASE_URL`. None of this changes anything for the package — it only ever sees a connection string.
+Several working copies share **one** Postgres container — isolation comes from `CREATE DATABASE`, not from five containers that would not fit in memory. Slot _n_ fixes the API on `:300n`, the admin UI on `:420n` and the database `ortha_cms_an`; `npm run worktree -- provision <slot>` creates the database and writes a `.env` with the right `DATABASE_URL`. None of this changes anything for the package — it only ever sees a connection string.
 
 ### Commands
 
 | Command                                                | What it does                                                                                                                          |
 | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------- |
-| nx run @apograph/database:db:generate --name=\<change> | Generates an SQL migration from `src/lib/schema/index.ts`. It **does not connect** to the database — it only diffs against a snapshot |
+| nx run @ortha/database:db:generate --name=\<change> | Generates an SQL migration from `src/lib/schema/index.ts`. It **does not connect** to the database — it only diffs against a snapshot |
 | nx run server:db:migrate                               | Applies _every_ plugin's migrations, in the host array's order, each into its own tracking table                                      |
-| nx test @apograph/database                             | Unit specs without a database: the event envelope, the connection singleton, the backoff, the promise ordering at shutdown            |
-| nx typecheck / build @apograph/database                | Type checking and building                                                                                                            |
+| nx test @ortha/database                             | Unit specs without a database: the event envelope, the connection singleton, the backoff, the promise ordering at shutdown            |
+| nx typecheck / build @ortha/database                | Type checking and building                                                                                                            |
 
 ## 10. Reliability and performance
 
@@ -777,10 +777,10 @@ The package is deliberately narrow. Everything that could be handed outwards has
 | Event kinds and their payloads                           | no    | The event helpers of the six publishing contexts                                      |
 | Reactions to events                                      | no    | `activity/server`, `alarms/server` — registered at runtime                            |
 | Auditing and the activity log                            | no    | `activity/server`: the subscriber + the `activity_events` table                       |
-| The `db:generate` / `db:migrate` targets                 | no    | `@apograph/nx` (target inference) on top of `@apograph/cli` (`applyPluginMigrations`) |
+| The `db:generate` / `db:migrate` targets                 | no    | `@ortha/nx` (target inference) on top of `@ortha/cli` (`applyPluginMigrations`) |
 | The order in which migrations are applied                | no    | The host's `plugins` array — `apps/server/src/plugins.ts`                             |
-| Reading environment variables                            | no    | `apps/server/apograph.config.ts` — the only place that reads `process.env`               |
-| Enabling Nest's shutdown hooks                           | no    | `createServer` in `@apograph/bootstrap-server`                                        |
+| Reading environment variables                            | no    | `apps/server/ortha.config.ts` — the only place that reads `process.env`               |
+| Enabling Nest's shutdown hooks                           | no    | `createServer` in `@ortha/bootstrap-server`                                        |
 | Pruning old outbox rows                                  | no    | Nobody's. An operations task                                                          |
 | Metrics, health checks, a queue UI                       | no    | Absent. Only logs and SQL                                                             |
 
@@ -789,9 +789,9 @@ The package is deliberately narrow. Everything that could be handed outwards has
 The “Tactical DDD inside plugins” ADR lists eight decisions; this package implements the **sixth** in full and is the foundation for the fifth:
 
 - **Decision 5** — “the use case owns the transaction boundary through a shared Unit of Work”. The shared `UnitOfWork` lives here.
-- **Decision 6** — “replace in-band audit writes with domain events plus an outbox”. Verbatim: “the `UnitOfWork`, the outbox and the `DomainEvent` contract live once — in `@apograph/database`”.
+- **Decision 6** — “replace in-band audit writes with domain events plus an outbox”. Verbatim: “the `UnitOfWork`, the outbox and the `DomainEvent` contract live once — in `@ortha/database`”.
 - **The dependency rule** — `domain/` imports no Nest, no Drizzle, no React. That is exactly why the event envelope and its builder sit in a file with not a single framework import: an aggregate _is allowed_ to use them.
-- **What was left as “follow-up”** — the ADR promises ESLint module-boundary rules inferred by `@apograph/nx` for layered packages. They do not apply to this package: there are no layers here by definition.
+- **What was left as “follow-up”** — the ADR promises ESLint module-boundary rules inferred by `@ortha/nx` for layered packages. They do not apply to this package: there are no layers here by definition.
 
 > **How to read “infrastructure without a domain”**
 >

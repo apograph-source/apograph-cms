@@ -9,7 +9,7 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import { FolderPlus, Search, UploadCloud } from 'lucide-react';
 import {
     KIND_FILTER_ALL,

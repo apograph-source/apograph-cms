@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
-import { Button } from '@apograph/design-system';
+import { Button } from '@ortha/design-system';
 
 /** Intl descriptors for {@link CollectionRecordsSelectionBar}, co-located. */
 const messages = defineMessages({

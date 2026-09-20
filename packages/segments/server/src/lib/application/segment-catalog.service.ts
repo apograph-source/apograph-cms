@@ -4,8 +4,8 @@ import {
     type OnApplicationBootstrap
 } from '@nestjs/common';
 import { asc } from 'drizzle-orm';
-import { InjectDatabase, type Database } from '@apograph/database';
-import { segmentIdsForTags, type Segment } from '@apograph/segments-domain';
+import { InjectDatabase, type Database } from '@ortha/database';
+import { segmentIdsForTags, type Segment } from '@ortha/segments-domain';
 import { segments } from '../schema/segments';
 
 /**

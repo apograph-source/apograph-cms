@@ -5,7 +5,7 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import type { OpId } from '../../../../../types/filter-tree.type';
 import { OP_LABELS } from '../../../../../utils/operators';
 

@@ -8,7 +8,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
     cn
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import type { CopilotConversation } from '../../../../application/useConversations';
 
 const messages = defineMessages({

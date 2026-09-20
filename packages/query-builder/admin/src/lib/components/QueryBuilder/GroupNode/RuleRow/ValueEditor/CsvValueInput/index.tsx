@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Input } from '@apograph/design-system';
+import { Input } from '@ortha/design-system';
 
 /** Props for {@link CsvValueInput}. */
 export type CsvValueInputProps = {

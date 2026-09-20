@@ -1,4 +1,4 @@
-/** Public API of @apograph/transfer-admin. */
+/** Public API of @ortha/transfer-admin. */
 
 export { transferAdminPlugin } from './lib/utils/transferAdminPlugin';
 

@@ -4,7 +4,7 @@ import {
     Logger,
     type OnApplicationBootstrap
 } from '@nestjs/common';
-import { MAIL_PROVIDER, type MailProvider } from '@apograph/mail-domain';
+import { MAIL_PROVIDER, type MailProvider } from '@ortha/mail-domain';
 import { InjectMailConfig } from '../mail.tokens';
 import type { ResolvedMailConfig } from '../types/mail-config';
 

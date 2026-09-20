@@ -1,4 +1,4 @@
-import type { AvatarColor } from '@apograph/design-system';
+import type { AvatarColor } from '@ortha/design-system';
 
 /** A workspace as the create-token dialog's workspace selector renders it. */
 export type WorkspaceOption = {

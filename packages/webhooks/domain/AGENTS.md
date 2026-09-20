@@ -1,4 +1,4 @@
-# @apograph/webhooks-domain
+# @ortha/webhooks-domain
 
 The framework-free kernel behind outgoing webhooks. Everything a delivery
 _means_ lives here: which events can be subscribed to, whether one belongs to an
@@ -7,7 +7,7 @@ attempt is retried, and which URLs this server may be talked into reaching.
 
 **Imports no framework.** No NestJS, no Drizzle, no React, no HTTP client. The
 only Node built-in it uses is `node:crypto`, for the HMAC — the same latitude
-`@apograph/database`'s `createDomainEvent` takes. That is what makes all of it
+`@ortha/database`'s `createDomainEvent` takes. That is what makes all of it
 testable without a database, a socket or a clock, and it is why the contract
 external receivers depend on cannot accidentally acquire a dependency on how the
 outbox happens to store an event today.
@@ -100,5 +100,5 @@ guessing is how a blocklist gets walked around.
 
 ## Commands
 
-- `npx nx test @apograph/webhooks-domain`
-- `npx nx run-many -t typecheck lint -p @apograph/webhooks-domain`
+- `npx nx test @ortha/webhooks-domain`
+- `npx nx run-many -t typecheck lint -p @ortha/webhooks-domain`

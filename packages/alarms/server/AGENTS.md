@@ -1,4 +1,4 @@
-# @apograph/alarms-server
+# @ortha/alarms-server
 
 The **alarms plugin** — non-blocking content rules and the findings they
 produce. A workspace declares what it considers wrong ("a published article
@@ -42,7 +42,7 @@ schema, where `EntryValidationService` enforces it.
   instead of re-parsing a string.
 
 Never add a parallel condition format. If a rule needs something the filter
-engine cannot express, extend the engine — `@apograph/utils-server`'s
+engine cannot express, extend the engine — `@ortha/utils-server`'s
 `FilterOperator` and content's `buildEntryFilterSurface`, which are built in one
 traversal precisely so the picker and the parser cannot disagree.
 
@@ -167,7 +167,7 @@ deployment's content model.
 ## The copilot can read findings
 
 `AlarmsCopilotToolProvider` registers one tool with the shared registry
-(`@apograph/tools-server`): **`admin_alarms_findings`**, a read over the same
+(`@ortha/tools-server`): **`admin_alarms_findings`**, a read over the same
 `AlarmFindingStore` the HTTP routes use. It exists because the feature's whole
 claim is that "what is wrong with this workspace's content?" is now answerable,
 and until it the copilot could search entries and read revisions while knowing
@@ -197,7 +197,7 @@ so the model's natural next call is `admin_content_get`.
   312") — a JSON filter tree on a card is not something a reviewer can
   meaningfully approve.
 
-`@apograph/alarms-admin` renders the result rather than leaving it as JSON —
+`@ortha/alarms-admin` renders the result rather than leaving it as JSON —
 see its AGENTS.md.
 
 ## The reference describes the filter tree
@@ -212,7 +212,7 @@ records-list filter **verbatim**, and that tree is recursive — groups holding
 rules and groups — so it is described as three named components that reference
 each other (`AlarmFilterNode` → `AlarmFilterGroup` → `AlarmFilterNode`) rather
 than flattened or left as a bare `object`. The operator list comes from
-`@apograph/utils-server`'s `FilterOperator`, so extending the engine extends the
+`@ortha/utils-server`'s `FilterOperator`, so extending the engine extends the
 published grammar in the same edit, and `within_last` is in it for the reason
 decision 2 gives: a stored filter keeps the operator where a shared link
 resolves it.
@@ -230,6 +230,6 @@ names, exactly like `activity_events.actor_id`.
 
 ## Commands
 
-- `npx nx run-many -t typecheck lint test -p @apograph/alarms-server`
-- `npx nx run @apograph/alarms-server:db:generate --name=<change>` (commit the SQL)
+- `npx nx run-many -t typecheck lint test -p @ortha/alarms-server`
+- `npx nx run @ortha/alarms-server:db:generate --name=<change>` (commit the SQL)
 - `npx nx run server:db:migrate` applies it with every other plugin's

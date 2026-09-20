@@ -1,7 +1,7 @@
 import { defineMessages, useIntl } from 'react-intl';
 import { Mail, X } from 'lucide-react';
-import { Avatar, AvatarFallback, Badge, Button } from '@apograph/design-system';
-import { initialsOf } from '@apograph/utils-admin';
+import { Avatar, AvatarFallback, Badge, Button } from '@ortha/design-system';
+import { initialsOf } from '@ortha/utils-admin';
 import type { MemberDraft } from '../../../../../domain/types/wizard';
 
 const messages = defineMessages({

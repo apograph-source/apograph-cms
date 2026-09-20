@@ -6,7 +6,7 @@ import {
     AlertDescription,
     Button,
     toast
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 
 /** Intl descriptors for {@link InviteLinkPanel}, co-located with the component. */
 const messages = defineMessages({

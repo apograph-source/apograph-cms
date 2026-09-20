@@ -1,4 +1,4 @@
-import type { DomainEvent, OutboxWriter, UnitOfWork } from '@apograph/database';
+import type { DomainEvent, OutboxWriter, UnitOfWork } from '@ortha/database';
 import type { SessionRepository } from '../../domain/session.repository';
 import type { UserLookupQuery } from '../../infrastructure/queries/user-lookup.query';
 import { LogoutUseCase } from './logout.use-case';

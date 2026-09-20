@@ -18,13 +18,13 @@ import {
     WorkspaceGrantsQuery,
     type ContentTypeRegistry,
     type PublicApiToken
-} from '@apograph/content-server';
+} from '@ortha/content-server';
 import {
     PERMISSIONS,
     Public,
     RequirePermissions
-} from '@apograph/identity-server';
-import { CurrentWorkspace } from '@apograph/workspaces-server';
+} from '@ortha/identity-server';
+import { CurrentWorkspace } from '@ortha/workspaces-server';
 import { EntryAccessService } from '../application/entry-access.service';
 import { PublicEntryAccessDto } from './segments.dto';
 

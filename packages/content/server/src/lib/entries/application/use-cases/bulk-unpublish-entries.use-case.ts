@@ -4,8 +4,8 @@ import {
     type EventActor,
     OutboxWriter,
     UnitOfWork
-} from '@apograph/database';
-import { ENTRY_STATUS } from '@apograph/content-domain';
+} from '@ortha/database';
+import { ENTRY_STATUS } from '@ortha/content-domain';
 import type { AnyContentType } from '../../../types/content-type';
 import { EntryWriterService } from '../../infrastructure/persistence/entry-writer.service';
 import type { BulkActionResult } from '../../types/bulk-publish';

@@ -1,7 +1,7 @@
 import { Injectable, Optional, type OnModuleInit } from '@nestjs/common';
-import { PERMISSIONS } from '@apograph/identity-server';
-import { ToolRegistry } from '@apograph/tools-server';
-import type { ToolDefinition, ToolProvider } from '@apograph/tools-server';
+import { PERMISSIONS } from '@ortha/identity-server';
+import { ToolRegistry } from '@ortha/tools-server';
+import type { ToolDefinition, ToolProvider } from '@ortha/tools-server';
 import { ActivityService } from '../activity/services/activity.service';
 
 /** Events a single `activity_recent` call may return. */

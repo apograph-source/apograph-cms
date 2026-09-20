@@ -1,4 +1,4 @@
-import type { OpenApiDocument } from '@apograph/bootstrap-server';
+import type { OpenApiDocument } from '@ortha/bootstrap-server';
 import { describeProtectionApi } from './describe-protection-api';
 import {
     ENTRY_REVIEW_SCHEMA,

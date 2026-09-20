@@ -1,5 +1,5 @@
 import { BadRequestException, HttpException } from '@nestjs/common';
-import type { ToolContext, ToolDefinition } from '@apograph/tools-server';
+import type { ToolContext, ToolDefinition } from '@ortha/tools-server';
 import { InvalidAssetFilterError } from '../domain/errors';
 import type { DownloadAssetQuery } from '../infrastructure/queries/download-asset.query';
 import type { ListAssetsQuery } from '../infrastructure/queries/list-assets.query';

@@ -4,13 +4,13 @@ import {
     Injectable,
     UnauthorizedException
 } from '@nestjs/common';
-import { ApiTokenService, scopePermissions } from '@apograph/identity-server';
+import { ApiTokenService, scopePermissions } from '@ortha/identity-server';
 import {
     WORKSPACE_HEADER,
     WORKSPACE_ID_PATTERN
-} from '@apograph/workspaces-server';
-import type { ToolContext } from '@apograph/tools-server';
-import { createToolContext } from '@apograph/tools-server';
+} from '@ortha/workspaces-server';
+import type { ToolContext } from '@ortha/tools-server';
+import { createToolContext } from '@ortha/tools-server';
 
 /** The scheme the `Authorization` header must use, case-insensitively. */
 const BEARER = 'bearer';

@@ -1,7 +1,7 @@
 import type { CSSProperties, ReactNode, Ref } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { ChevronDown, ChevronUp, ExternalLink, X } from 'lucide-react';
-import { Badge, Button, buttonVariants, cn } from '@apograph/design-system';
+import { Badge, Button, buttonVariants, cn } from '@ortha/design-system';
 import type { EntryStatus } from '../../../../../../domain/types/contentType';
 import { ENTRY_STATUS } from '../../../../../../domain/constants';
 

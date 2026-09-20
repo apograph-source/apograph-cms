@@ -1,5 +1,5 @@
 import { Injectable, type NestMiddleware } from '@nestjs/common';
-import type { AuthenticatedRequest } from '@apograph/identity-server';
+import type { AuthenticatedRequest } from '@ortha/identity-server';
 import type { NextFunction, Response } from 'express';
 import { PrincipalStore } from '../application/principal.store';
 

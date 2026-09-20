@@ -1,5 +1,5 @@
 {
-    "name": "@apograph/mail-provider-testkit",
+    "name": "@ortha/mail-provider-testkit",
     "version": "0.5.2",
     "license": "MIT",
     "main": "./src/index.ts",
@@ -16,6 +16,6 @@
         "src"
     ],
     "dependencies": {
-        "@apograph/mail-domain": "*"
+        "@ortha/mail-domain": "*"
     }
 }

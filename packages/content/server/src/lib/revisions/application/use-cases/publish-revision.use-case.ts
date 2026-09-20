@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import type { EventActor } from '@apograph/database';
+import type { EventActor } from '@ortha/database';
 import type { AnyContentType } from '../../../types/content-type';
 import { PublishEntryUseCase } from '../../../entries/application/use-cases/publish-entry.use-case';
 import type { EntryRecord } from '../../../entries/types/entry-list-view';

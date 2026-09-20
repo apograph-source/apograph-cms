@@ -13,7 +13,7 @@
  * trace at all.
  */
 
-import { createDomainEvent, type DomainEvent } from '@apograph/database';
+import { createDomainEvent, type DomainEvent } from '@ortha/database';
 
 /** Transfer event kinds, as dotted names. */
 export const TRANSFER_EVENT_KINDS = {

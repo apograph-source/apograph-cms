@@ -10,7 +10,7 @@ import {
     type Database,
     type DomainEvent,
     type DomainEventSubscriber
-} from '@apograph/database';
+} from '@ortha/database';
 import {
     closeTestApp,
     createTestApp,

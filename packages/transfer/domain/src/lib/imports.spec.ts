@@ -13,7 +13,7 @@ import { join } from 'node:path';
  * quietly welds the kernel to a runtime.
  *
  * **Framework-free, not dependency-free.** The package legitimately imports
- * `@apograph/content-domain` — the field-type vocabulary and the rich-text
+ * `@ortha/content-domain` — the field-type vocabulary and the rich-text
  * helpers the CSV flattener runs on — and that is its *only* dependency, which
  * is the second half of what is asserted here.
  *
@@ -58,7 +58,7 @@ describe('transfer-domain is a framework-free kernel', () => {
         ['react', (spec) => spec === 'react' || spec.startsWith('react/')],
         ['react-intl', (spec) => spec === 'react-intl'],
         ['class-validator', (spec) => spec === 'class-validator'],
-        ['a database package', (spec) => spec === '@apograph/database'],
+        ['a database package', (spec) => spec === '@ortha/database'],
         ['a node built-in', (spec) => spec.startsWith('node:')]
     ];
 
@@ -86,7 +86,7 @@ describe('transfer-domain is a framework-free kernel', () => {
         expect(offenders).toEqual([]);
     });
 
-    it('depends on @apograph/content-domain and on nothing else [transfer:I-37]', () => {
+    it('depends on @ortha/content-domain and on nothing else [transfer:I-37]', () => {
         const external = new Set<string>();
         for (const path of FILES) {
             for (const spec of specifiersOf(path)) {
@@ -101,7 +101,7 @@ describe('transfer-domain is a framework-free kernel', () => {
             }
         }
 
-        expect([...external].sort()).toEqual(['@apograph/content-domain']);
+        expect([...external].sort()).toEqual(['@ortha/content-domain']);
     });
 
     it('declares that single dependency in its manifest too', () => {
@@ -113,7 +113,7 @@ describe('transfer-domain is a framework-free kernel', () => {
         ) as { dependencies?: Record<string, string> };
 
         expect(Object.keys(manifest.dependencies ?? {})).toEqual([
-            '@apograph/content-domain'
+            '@ortha/content-domain'
         ]);
     });
 

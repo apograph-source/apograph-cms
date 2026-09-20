@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { useDebouncedValue } from '@apograph/utils-admin';
+import { useDebouncedValue } from '@ortha/utils-admin';
 import type { DirectoryUser } from '../../domain/types/wizard';
 import { httpWorkspaceGateway } from '../../infrastructure/httpWorkspaceGateway';
 

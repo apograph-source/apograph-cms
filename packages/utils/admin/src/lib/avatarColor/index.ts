@@ -1,4 +1,4 @@
-import { AVATAR_COLORS, type AvatarColor } from '@apograph/design-system';
+import { AVATAR_COLORS, type AvatarColor } from '@ortha/design-system';
 
 /**
  * Narrows an arbitrary color string — e.g. a persisted `color` returned by an

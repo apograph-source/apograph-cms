@@ -16,7 +16,7 @@ import {
     TableHeader,
     TableRow,
     toast
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import { DELIVERY_STATUSES } from '../../../domain/types/webhook';
 import {
     DEFAULT_PAGE_SIZE,

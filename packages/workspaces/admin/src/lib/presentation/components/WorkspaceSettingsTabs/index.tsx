@@ -7,7 +7,7 @@ import {
     TriangleAlert,
     Users
 } from 'lucide-react';
-import { TabNav, TabNavLink } from '@apograph/design-system';
+import { TabNav, TabNavLink } from '@ortha/design-system';
 import { WORKSPACE_SETTINGS_TAB_SLOT } from '../../slots/workspaceSlots';
 import { SettingsTabLink } from './SettingsTabLink';
 

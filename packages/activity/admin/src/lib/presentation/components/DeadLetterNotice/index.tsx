@@ -1,6 +1,6 @@
 import { defineMessages, useIntl } from 'react-intl';
 import { AlertTriangle } from 'lucide-react';
-import { Alert, AlertDescription, AlertTitle } from '@apograph/design-system';
+import { Alert, AlertDescription, AlertTitle } from '@ortha/design-system';
 import { useDeadLetters } from '../../../application/useDeadLetters';
 
 /** Intl descriptors for {@link DeadLetterNotice}, co-located here. */

@@ -8,12 +8,12 @@ import {
     Tooltip,
     TooltipContent,
     TooltipTrigger
-} from '@apograph/design-system';
+} from '@ortha/design-system';
 import {
     ChangedBadge,
     type ContentField,
     type MediaRef
-} from '@apograph/content-admin';
+} from '@ortha/content-admin';
 import { MediaFieldControl } from '../../MediaFieldControl';
 import type { MediaPendingUploads } from '../../../types/pendingUpload';
 import type { MediaAccept } from '../../../utils/mediaAccept';

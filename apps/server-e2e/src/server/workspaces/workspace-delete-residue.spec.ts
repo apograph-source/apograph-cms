@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import request from 'supertest';
-import { getPool } from '@apograph/database';
+import { getPool } from '@ortha/database';
 import {
     closeTestApp,
     createTestApp,

@@ -1,5 +1,5 @@
 import type { ComponentType, ReactNode } from 'react';
-import { createSlot } from '@apograph/utils-admin';
+import { createSlot } from '@ortha/utils-admin';
 
 /**
  * A navigation entry in the workspace sidebar's "Workspace" section, rendered
@@ -150,7 +150,7 @@ export const WORKSPACE_ROUTE_SLOT =
  * a page `workspaces-admin` owns, without that package learning what the
  * section is for.
  *
- * `@apograph/protection-admin` is the first contributor (the Protection tab
+ * `@ortha/protection-admin` is the first contributor (the Protection tab
  * and its rule editor). With nothing registered the tab bar and its routes are
  * byte for byte what they were before the slot existed, which
  * `WorkspaceSettingsTabs`' own spec pins — an empty slot is the state this

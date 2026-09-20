@@ -27,13 +27,13 @@ import {
     type Database,
     type DomainEvent,
     type EventActor
-} from '@apograph/database';
-import { lockWorkspaceShared } from '@apograph/workspaces-server';
+} from '@ortha/database';
+import { lockWorkspaceShared } from '@ortha/workspaces-server';
 import {
     isForeignKeyViolation,
     violatedConstraint
-} from '@apograph/utils-server';
-import { mediaValueIds } from '@apograph/content-domain';
+} from '@ortha/utils-server';
+import { mediaValueIds } from '@ortha/content-domain';
 import {
     CONTENT_ENTRY_EXTENSION,
     type ContentEntryExtension

@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { Download } from 'lucide-react';
-import { useHasPermission } from '@apograph/identity-admin';
+import { useHasPermission } from '@ortha/identity-admin';
 import type {
     RecordsBulkActionEntry,
     RecordsBulkContext
-} from '@apograph/content-admin';
+} from '@ortha/content-admin';
 import { CONTENT_EXPORT } from '../../constants';
 import { ExportDialog } from '../../components/ExportDialog';
 

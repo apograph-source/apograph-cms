@@ -7,7 +7,7 @@ import {
     RELATION_POLICY,
     type ConflictPolicy,
     type RelationPolicy
-} from '@apograph/transfer-domain';
+} from '@ortha/transfer-domain';
 
 /**
  * Body for the import routes, alongside the uploaded file.
