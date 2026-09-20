@@ -1,11 +1,13 @@
-import { test } from '../support/fixtures';
+import { test, expect } from '../support/fixtures';
 import { mockSignedIn } from '../support/api/auth';
 import { mockWorkspaces } from '../support/api/workspaces';
 import {
     LIBRARY_WORKSPACE,
     mockContentSchema,
     mockContentSchemaDetail,
-    mockContentEntries
+    mockContentEntries,
+    mockContentEntryWrites,
+    mockEntryChangedByAnotherSession
 } from '../support/api/content';
 import {
     NEEDS_REVIEW_VIEW,
@@ -101,6 +103,65 @@ test.describe('Content Library accessibility (axe, WCAG 2.1 A/AA)', () => {
             .locator('[data-sonner-toast]')
             .waitFor({ state: 'detached', timeout: 15_000 });
         await expectNoA11yViolations(makeAxe());
+    });
+
+    test('entry editor — the record changed elsewhere', async ({
+        page,
+        contentLibraryPage,
+        makeAxe
+    }) => {
+        // The refused-re-seed banner (`ORT-230`): a warning `Alert` under the
+        // record title, carrying a button, over a form the author is still
+        // typing into. Registered after the `beforeEach` mocks so these win the
+        // match — `page.route` resolves last-registered first.
+        await mockContentEntryWrites(page, {});
+        await mockEntryChangedByAnotherSession(page, {
+            typeName: 'blog_post',
+            id: 'post-contended',
+            before: { title: 'Winter release notes' },
+            after: { title: 'Winter release notes (rewritten elsewhere)' }
+        });
+        await contentLibraryPage.gotoEntry(
+            LIBRARY_WORKSPACE.id,
+            'blog_post',
+            'post-contended'
+        );
+        await contentLibraryPage.fieldTextbox('Title').fill('My rewrite');
+        await contentLibraryPage.entryChangedNotice.waitFor({
+            state: 'detached'
+        });
+
+        const loadedAt = await page.evaluate(() => Date.now());
+        await page.clock.setFixedTime(loadedAt + 5 * 60_000);
+        await page.evaluate(() => {
+            const browser = globalThis as unknown as {
+                window: { dispatchEvent(event: unknown): void };
+                Event: new (type: string) => unknown;
+            };
+            browser.window.dispatchEvent(new browser.Event('visibilitychange'));
+        });
+        await contentLibraryPage.entryChangedNotice.waitFor();
+
+        // **Announced, not thrust upon you.** The banner's `role="alert"` is a
+        // live region, which is the whole reason a reader hears about this at
+        // all — but the author is mid-sentence, and pulling the caret out of
+        // the field they are typing in would be a worse interruption than the
+        // one it reports. So the focused element is still the Title box, and
+        // its discard control is an ordinary button waiting in the tab order
+        // (driven for real by `entry-refetch-overwrite.spec.ts`).
+        await expect(contentLibraryPage.fieldTextbox('Title')).toBeFocused();
+        await expect(contentLibraryPage.entryChangedDiscard).toBeEnabled();
+
+        await expectNoA11yViolations(makeAxe());
+
+        // **And focus is put somewhere deliberate when it is used.** The button
+        // unmounts with the banner it sits in, so React has nothing to restore
+        // onto and focus would be dropped on `<body>` — a keyboard reader would
+        // be back at the top of the document with the page silently rewritten
+        // under them. It lands in the form whose values just changed instead,
+        // which also announces the newly loaded value as it arrives.
+        await contentLibraryPage.entryChangedDiscard.click();
+        await expect(contentLibraryPage.fieldTextbox('Title')).toBeFocused();
     });
 
     test('saved-view switcher — menu open', async ({

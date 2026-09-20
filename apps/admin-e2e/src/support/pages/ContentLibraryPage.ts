@@ -312,6 +312,33 @@ export class ContentLibraryPage extends BasePage {
     }
 
     /**
+     * The banner over an editor whose record was saved elsewhere while the
+     * author was typing — the refused re-seed (`ORT-230`).
+     *
+     * Anchored on the `alert` role it is announced through, narrowed by its
+     * title: `role="alert"` is shared with every field error and with the
+     * read-only banner's neighbours, so the role alone matches several things.
+     */
+    get entryChangedNotice(): Locator {
+        return this.page
+            .getByRole('alert')
+            .filter({ hasText: 'This record changed while you were editing' });
+    }
+
+    /**
+     * That banner's way out — load the newer record over the author's edits.
+     *
+     * Named for what arrives rather than what goes: it reloads the **values
+     * form** only, so a label promising to discard everything would over-claim
+     * against staged relation links and pending uploads, which survive it.
+     */
+    get entryChangedDiscard(): Locator {
+        return this.entryChangedNotice.getByRole('button', {
+            name: 'Load the newer version'
+        });
+    }
+
+    /**
      * The control carrying a field's id — a `select`'s trigger, a date field's
      * button. Located by id rather than by role because the assertion these
      * serve is about the element's *disabled* state, and a handle that resolves
@@ -907,15 +934,15 @@ export class ContentLibraryPage extends BasePage {
      * read the rest of the panel.
      */
     gateBlock(title: 'Publish gate' | 'Save gate'): Locator {
-        return this.propertiesPanel
-            .locator('section')
-            .filter({
-                has: this.page.getByRole('heading', { name: title, level: 3 })
-            });
+        return this.propertiesPanel.locator('section').filter({
+            has: this.page.getByRole('heading', { name: title, level: 3 })
+        });
     }
 
     /** The gate's failing rows. Empty when nothing blocks — that is the point. */
-    gateFailures(title: 'Publish gate' | 'Save gate' = 'Publish gate'): Locator {
+    gateFailures(
+        title: 'Publish gate' | 'Save gate' = 'Publish gate'
+    ): Locator {
         return this.gateBlock(title).getByRole('listitem');
     }
 

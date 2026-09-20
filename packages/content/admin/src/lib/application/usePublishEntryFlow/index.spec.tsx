@@ -174,3 +174,65 @@ describe('usePublishEntryFlow — a guard’s bypass [protection:I-20]', () => {
         });
     });
 });
+
+/**
+ * Who learns that a write **landed**, as opposed to that the submit succeeded.
+ *
+ * Those are different questions the moment a publish is chained after a save:
+ * the save has written a row and primed the read-one cache with it, and that
+ * response reaches the editor's form as a fresh seed — which the form refuses,
+ * because it is dirty with the very edits that were just written (`ORT-230`).
+ * The editor has to adopt a seed it caused, and it cannot tell one from a
+ * colleague's. Only this hook can: it is holding the saved record when the
+ * publish rejects.
+ */
+describe('usePublishEntryFlow — announcing a landed write [ORT-230]', () => {
+    it('announces the save before the chained publish is even attempted', async () => {
+        const landed = vi.fn(() => {
+            calls.order.push('landed');
+        });
+
+        await submit({ entry: ENTRY, unchanged: false, onWriteLanded: landed });
+
+        expect(calls.order).toEqual(['save', 'landed', 'publish']);
+    });
+
+    it('announces a save whose chained publish is then refused', async () => {
+        // The trap this exists for: `submit` rejects, so the caller's `.then()`
+        // never runs — and a record has been written all the same. An editor
+        // that re-armed only on the success path would sit there dirty, with a
+        // conflict banner blaming a colleague for the author's own save.
+        const landed = vi.fn();
+        publish.mutateAsync.mockRejectedValue(new Error('refused'));
+
+        await expect(
+            submit({ entry: ENTRY, unchanged: false, onWriteLanded: landed })
+        ).rejects.toThrow('refused');
+
+        expect(landed).toHaveBeenCalledTimes(1);
+    });
+
+    it('says nothing when the save itself fails', async () => {
+        // Nothing was written, so nothing primed the cache and there is no seed
+        // to adopt. Announcing here would make the editor replace the author's
+        // values with the server's on an ordinary validation error.
+        const landed = vi.fn();
+        save.mutateAsync.mockRejectedValue(new Error('422'));
+
+        await expect(
+            submit({ entry: ENTRY, unchanged: false, onWriteLanded: landed })
+        ).rejects.toThrow('422');
+
+        expect(landed).not.toHaveBeenCalled();
+    });
+
+    it('announces the publish that an unchanged record makes on its own', async () => {
+        // That response primes the read-one too, so it is a seed like any other.
+        const landed = vi.fn();
+
+        await submit({ entry: ENTRY, unchanged: true, onWriteLanded: landed });
+
+        expect(calls.order).toEqual(['publish']);
+        expect(landed).toHaveBeenCalledTimes(1);
+    });
+});

@@ -673,6 +673,110 @@ a third state with no column value spelling it made unavoidable.
   state rather than derived from `isPending` because the chain's two mutations
   are briefly both idle between steps, which would blink the cover mid-flow.
 
+## A background refetch never overwrites what the author typed
+
+The editor's entry read is refetched on window focus, on reconnect and on any
+remount past its `staleTime`, and `useEntryForm` re-seeds whenever the
+`initialValues` identity changes. TanStack's structural sharing hides the
+consequence for as long as the answer keeps coming back deeply equal — but the
+moment a **colleague saves the record**, the refetched row is a new object, the
+`resolved` memo re-keys, and the form used to be re-seeded over unsaved edits.
+Silently: nothing navigated, so the unsaved-changes guard never fired, and it
+could not have, because the re-seed sets `values` to the very object dirtiness
+is measured against and so **disarms** the guard on its way past (`ORT-230`).
+
+So `useEntryForm` **refuses** a re-seed while the form holds edits, and reports
+the refusal (`seedRefused`) rather than swallowing it — a silent refusal is the
+same class of bug as the silent overwrite. The editor draws `EntryChangedNotice`
+under the record title, beside `ReadOnlyNotice`: an `Alert`, because unlike that
+neighbour this is an **event** and its live region is how a screen-reader user
+hears of it at all, and under the title rather than in the Properties rail,
+because the rail collapses and a notice you can hide is not a notice. It takes
+no focus — the author is mid-sentence.
+
+Four things it deliberately does not do, each of which was the tempting version:
+
+- **It does not gate the save.** Nothing here computes anything about the
+  values (`content:I-38`), and it is not routed through the view's error card
+  (`content:I-40`) — `errored` still means the record could not be shown at all,
+  which is what keeps a failed background refetch from blanking a usable form.
+  Saves stay **last-write-wins**: `SaveEntryInput` carries no version or
+  `If-Match`, so the copy says what the next Save will actually do rather than
+  implying the conflict is settled, and points at History, where the overwritten
+  version survives (`content:I-08`/`I-09`/`I-11`).
+- **It does not name who saved it.** `EntryRecord` carries `updatedAt` and no
+  `updatedBy`; impersonal wording beats a guess, and neither is worth a DTO
+  field.
+- **It does not freeze the seed.** "Dirty" means any `setValue` (not
+  differs-from-seed — a needless refusal costs one click, a wrong adoption costs
+  the author their work), but a **pristine** form still adopts: incoming values
+  are free and correct then, and a form that stopped seeding would fail to show
+  a record it had just re-read. Keying the `resolved` memo on a session instead
+  would freeze `resolved.entry` with it, and the rail's Status, the publish state
+  and the timestamps would all stop tracking the record.
+- **It does not leave the save path broken.** This is the trap in the fix:
+  `useSaveEntry` primes the read-one cache with the write's response inside
+  `onSuccess`, which runs **before** the editor's own `.then()` — so the save's
+  seed has already arrived and been refused by the time a save could clear the
+  edit flag. `acceptSeed()` therefore latches an adoption for the next render
+  (the render-time idiom `useCreatePrefill` uses) instead of merely clearing the
+  flag. Without that the editor stays dirty forever after a save that worked.
+
+    **The editor re-arms on the _write_, not on the submit succeeding**, via
+    `SubmitEntryInput.onWriteLanded` — a callback `usePublishEntryFlow` fires
+    the moment a write lands, before a chained publish is attempted. The two
+    come apart precisely when that publish is refused (protection's 409, the
+    server gate's 422): `submit` rejects, the caller's `.then()` never runs, and
+    a record has been written all the same, so re-arming only on success left
+    the author with a refusal toast **and** a conflict banner blaming a
+    colleague for their own save. The editor cannot tell that case from a save
+    that never landed, and guessing the wrong way is destructive — adopting a
+    seed after a plain validation 422 would replace the author's values with the
+    server's. Only the flow knows, so the flow says so. Pinned in
+    `usePublishEntryFlow/index.spec.tsx`, including that it stays silent when
+    the save itself fails.
+
+`seedKey` is the other half. The editor is **reused, not remounted**, as the
+route moves between records, so a changed key (`ContentEntryView`'s `editorKey`
+— mode, id, and the create-body params) means a different record and re-seeds
+unconditionally. Without it, discarding at the unsaved-changes prompt and
+opening a second, already-cached record would leave the first one's values on
+screen under a conflict notice.
+
+**Dirtiness is measured against the form's own seed**, not the `initialValues`
+prop — `useEntryForm` exposes `seedValues` and `EntryEditor.isFieldDirty` reads
+it. The two are the same object until a re-seed is refused, and then the prop is
+the record as the server now holds it while the seed is what this author started
+from. Against the prop, every field the _colleague_ touched reads as this
+author's edit: the "Changed" badges lit up across untouched fields, and the
+shared-field save confirmation ("this also changes the other locales") named
+fields nobody here had typed in. `isDirty` still reads true after a refusal —
+the edit that caused the refusal is an edit against the seed too — which is what
+keeps the unsaved-changes guard armed, the half of `ORT-230` that matters most.
+
+**Scope is the values form.** Staged relation deltas and the presave steps'
+staging (media uploads, audiences) are owned above the form and already survive
+a refetch, so they are untouched here — and the notice's control is worded for
+that: it reads **"Load the newer version"**, with a sentence saying it replaces
+the record's fields and drops the unsaved changes to _them_. A button promising
+to discard everything would over-claim against staging that outlives it and
+rides the next Save, which is the same kind of lie as the overwrite this exists
+to report.
+
+**The control puts focus back by hand.** It unmounts with the banner it sits in,
+so React has nothing to restore onto and focus would be dropped on `<body>` —
+the hazard the saved-view delete dialog and the records table's `onRowGone`
+already deal with the same way. It lands on the first field of the form, whose
+values have just changed under the reader and which announces the new one as it
+takes focus.
+
+Pinned by `apps/admin-e2e/src/content/entry-refetch-overwrite.spec.ts` — whose
+precondition is deliberately **not** a request counter (counting proves the
+request was issued, not that its answer was applied; an earlier draft went green
+against the defect it reproduces) but the rail's Status, read off the refetched
+record rather than off the editor's state — plus the re-seed rule itself in
+`useEntryForm/index.spec.tsx` and the banner's axe scan in `content/a11y.spec.ts`.
+
 ## Revisions (version history)
 
 Every save is versioned (server: `content_entry_revisions`). The editor surfaces

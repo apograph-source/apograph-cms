@@ -2123,3 +2123,74 @@ export const ALWAYS_LIVE_WORKSPACE: WorkspaceView = {
     slug: 'always-live-demo',
     content: ['notice']
 };
+
+/**
+ * Stub `GET /api/content/:name/:id` for **one** record whose stored values
+ * change between reads — the second and every later read answer `after`, as if
+ * somebody else saved over it while this tab was in the background.
+ *
+ * This is the shape a background refetch actually has: the editor asks again,
+ * and the answer is not what it was handed the first time. Register **after**
+ * {@link mockContentEntryWrites}; it claims only `GET`, so writes fall through.
+ *
+ * Deliberately hands back **nothing**. An earlier version exposed a read
+ * counter, and the spec used it as its "the refetch happened" precondition —
+ * which counts the request being *issued*, not its answer being applied, and so
+ * let the spec go green against the very defect it reproduces. Wait on
+ * {@link statusAfter} reaching the screen instead.
+ */
+export async function mockEntryChangedByAnotherSession(
+    page: Page,
+    {
+        typeName,
+        id,
+        before,
+        after,
+        statusBefore = 'draft',
+        statusAfter = 'published'
+    }: {
+        typeName: string;
+        id: string;
+        before: Record<string, unknown>;
+        after: Record<string, unknown>;
+        /**
+         * The record's `status`, which moves with the values. It is what a spec
+         * can watch **outside** the form to know the refetched row reached the
+         * screen — the Details rail reads it off the entry, not off the editor's
+         * state, so it is unaffected by whatever the form decides to do with the
+         * author's input.
+         */
+        statusBefore?: string;
+        statusAfter?: string;
+    }
+): Promise<void> {
+    const now = '2026-01-01T00:00:00.000Z';
+    let reads = 0;
+    await page.route(
+        /\/api\/content\/[^/?]+\/[^/?]+(\?.*)?$/,
+        async (route) => {
+            if (route.request().method() !== 'GET') return route.fallback();
+            const parts = new URL(route.request().url()).pathname
+                .split('/')
+                .filter(Boolean);
+            if (
+                decodeURIComponent(parts[2] ?? '') !== typeName ||
+                decodeURIComponent(parts[3] ?? '') !== id
+            ) {
+                return route.fallback();
+            }
+            reads += 1;
+            await route.fulfill({
+                status: 200,
+                contentType: 'application/json',
+                body: JSON.stringify({
+                    id,
+                    status: reads === 1 ? statusBefore : statusAfter,
+                    createdAt: now,
+                    updatedAt: now,
+                    values: reads === 1 ? before : after
+                })
+            });
+        }
+    );
+}
