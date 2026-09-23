@@ -75,7 +75,7 @@ describe('the admin host’s boundaries', () => {
         // the gate without touching `packages/bootstrap`.
         expect(declared).not.toContain('@orthacms/identity-admin');
 
-        expect(matching(/@ortha\/identity-admin/)).toEqual([]);
+        expect(matching(/@orthacms\/identity-admin/)).toEqual([]);
         // The three words the dossier names, as imported symbols rather than
         // prose: `createAdmin`'s comments discuss `RequireAuth` at length, and
         // must go on being able to.
@@ -111,7 +111,7 @@ describe('the admin host holds no domain logic', () => {
             sourceFiles().flatMap((file) =>
                 [
                     ...readFileSync(file, 'utf8').matchAll(
-                        /from '(@ortha\/[a-z0-9-]+)'/g
+                        /from '(@orthacms\/[a-z0-9-]+)'/g
                     )
                 ].map(([, specifier]) => specifier)
             )

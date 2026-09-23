@@ -205,13 +205,13 @@ const DELIVERY: OpenApiSchema = {
         id: {
             ...UUID,
             description:
-                'The delivery’s own id, sent as `X-Ortha-Delivery`. A redelivery gets a new one.'
+                'The delivery’s own id, sent as `X-Orthacms-Delivery`. A redelivery gets a new one.'
         },
         endpointId: UUID,
         eventId: {
             ...UUID,
             description:
-                'The originating outbox event, sent as `X-Ortha-Event-Id`. Stable across every redelivery — this is the key a receiver deduplicates on.'
+                'The originating outbox event, sent as `X-Orthacms-Event-Id`. Stable across every redelivery — this is the key a receiver deduplicates on.'
         },
         eventKind: { type: 'string' },
         workspaceId: { ...UUID, nullable: true },
@@ -264,7 +264,7 @@ const DELIVERY_DETAIL: OpenApiSchema = {
 const ENVELOPE: OpenApiSchema = {
     type: 'object',
     description:
-        'The JSON body POSTed to a receiver, signed with the endpoint’s secret in `X-Ortha-Signature`.',
+        'The JSON body POSTed to a receiver, signed with the endpoint’s secret in `X-Orthacms-Signature`.',
     required: [
         'id',
         'event',

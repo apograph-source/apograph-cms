@@ -35,7 +35,7 @@ const roots = new Map<string, string>();
 // covers: media:I-06, media:I-09
 describeStorageProvider('media-provider-local', {
     create() {
-        const rootDir = mkdtempSync(join(tmpdir(), 'ortha-media-contract-'));
+        const rootDir = mkdtempSync(join(tmpdir(), 'orthacms-media-contract-'));
         const provider = createLocalStorageProvider({ rootDir });
         roots.set(provider.id, rootDir);
         return provider;

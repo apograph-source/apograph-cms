@@ -2,8 +2,8 @@
 
 The admin-side copilot plugin — **two surfaces onto one chat**.
 
-> **The product is called Ortha AI; this package is called `copilot`.** Every
-> `defaultMessage` a user reads says "Ortha AI"; the message **ids**, component
+> **The product is called Ortha CMS AI; this package is called `copilot`.** Every
+> `defaultMessage` a user reads says "Ortha CMS AI"; the message **ids**, component
 > names, routes and permission keys all keep `copilot`. Deliberate — see the
 > naming note at the top of
 > [`docs/design/copilot.md`](../../../docs/design/copilot.md). When you add a
@@ -116,14 +116,14 @@ presentation/
   button, and then the sidebar row went too. A round button could only ever mean
   "the panel", singular; a sidebar row duplicated what the dock already says
   while spending a permanent navigation slot on it. With no chats open the dock
-  _is_ a labelled Ortha AI button in the corner — carrying the shortcut hint,
+  _is_ a labelled Ortha CMS AI button in the corner — carrying the shortcut hint,
   which is where the shortcut is now discoverable — and as soon as there are
   chats it becomes the bar listing them. The hint's glyph is **derived from the
   platform** (`domain/shortcut.ts`): it was the literal `⌘J` everywhere, telling
   every Windows and Linux reader to press a key they do not have, on the one
   affordance whose whole job is to teach the shortcut. That button's accessible
-  name also **contains its visible label** ("Ortha AI — new chat"): it was the
-  constant "New chat", so the two had nothing in common and "click Ortha AI" did
+  name also **contains its visible label** ("Ortha CMS AI — new chat"): it was the
+  constant "New chat", so the two had nothing in common and "click Ortha CMS AI" did
   not work by voice (2.5.3). The Agents view is reached the other way, through
   the sidebar's `ViewSwitcher`, and the dock's button stands down while you are
   on it.
@@ -137,7 +137,7 @@ presentation/
   handed the ref, so minimizing dropped focus on `<body>` and the next Tab
   restarted from the top of the document). The window is named by its own
   `<h2>`, i.e. the thread's title: a constant `aria-label` made every open
-  window one indistinguishable "Ortha AI" in a screen reader's dialog list.
+  window one indistinguishable "Ortha CMS AI" in a screen reader's dialog list.
   **Escape collapses to the dock rather than closing** — discarding a chat and
   cancelling its run is too much to hang off the key people press to dismiss
   things, and the chat keeps streaming as a pill.

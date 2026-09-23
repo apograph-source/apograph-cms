@@ -201,7 +201,7 @@ unique, well-formed slugs (`^[a-z]{2,3}(-[a-z0-9]+)*$`); **exactly one**
 default; a `dir` that is `ltr` or `rtl` if given. A misconfigured host fails
 before boot. `LocaleRegistryService` exposes `all()` / `get(slug)` /
 `default()` / `resolve(slug?)` (the uniform unknown-→400 gate). Register it in
-`apps/server/ortha.config.ts` under `plugins.i18n` and in `buildPlugins`
+`apps/server/orthacms.config.ts` under `plugins.i18n` and in `buildPlugins`
 **after** `ContentPlugin` (it binds content's port and reads its
 `CONTENT_REGISTRY`).
 

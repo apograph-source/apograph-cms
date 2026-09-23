@@ -53,7 +53,7 @@ const messages = defineMessages({
     subtitle: {
         id: 'users.invitePage.subtitle',
         defaultMessage:
-            'Add someone to Ortha in three short steps: who they are, what they can do, and which workspaces they can reach.'
+            'Add someone to Ortha CMS in three short steps: who they are, what they can do, and which workspaces they can reach.'
     },
     back: { id: 'users.invitePage.back', defaultMessage: 'Back to members' },
     crumbMembers: {
@@ -136,7 +136,7 @@ const messages = defineMessages({
     roleAdminHint: {
         id: 'users.invitePage.roleAdminHint',
         defaultMessage:
-            'Full control of Ortha. Manages members, roles, and settings, and can reach every workspace and all of its content.'
+            'Full control of Ortha CMS. Manages members, roles, and settings, and can reach every workspace and all of its content.'
     },
     roleContributor: {
         id: 'users.role.contributor',
@@ -156,7 +156,7 @@ const messages = defineMessages({
     roleInfo: {
         id: 'users.invitePage.roleInfo',
         defaultMessage:
-            'A member has one global role that applies across Ortha — it isn’t set per workspace. You can change it later from the members list.'
+            'A member has one global role that applies across Ortha CMS — it isn’t set per workspace. You can change it later from the members list.'
     },
     continueToWorkspaces: {
         id: 'users.invitePage.continueToWorkspaces',

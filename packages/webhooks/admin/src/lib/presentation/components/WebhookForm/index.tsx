@@ -474,7 +474,7 @@ export function WebhookForm({
                     label={intl.formatMessage(messages.url)}
                     value={values.url}
                     type="url"
-                    placeholder="https://example.com/hooks/ortha"
+                    placeholder="https://example.com/hooks/orthacms"
                     description={intl.formatMessage(messages.urlHint)}
                     error={urlError}
                     onChange={(event) =>

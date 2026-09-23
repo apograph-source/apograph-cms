@@ -50,11 +50,11 @@ const messages = defineMessages({
     intro: {
         id: 'copilot.skills.page.intro',
         defaultMessage:
-            'Reusable instructions Ortha AI can work under. People turn a skill on for a chat from the message box; an always-on skill applies to every chat in this workspace.'
+            'Reusable instructions Ortha CMS AI can work under. People turn a skill on for a chat from the message box; an always-on skill applies to every chat in this workspace.'
     },
     back: {
         id: 'copilot.skills.page.back',
-        defaultMessage: 'Back to Ortha AI'
+        defaultMessage: 'Back to Ortha CMS AI'
     },
     create: { id: 'copilot.skills.page.create', defaultMessage: 'New skill' },
     tableLabel: {
@@ -99,7 +99,7 @@ const messages = defineMessages({
     emptyBody: {
         id: 'copilot.skills.page.emptyBody',
         defaultMessage:
-            'A skill is a short set of instructions — a house style, a review checklist — that Ortha AI follows while it is on.'
+            'A skill is a short set of instructions — a house style, a review checklist — that Ortha CMS AI follows while it is on.'
     },
     forbiddenTitle: {
         id: 'copilot.skills.page.forbiddenTitle',
@@ -112,12 +112,12 @@ const messages = defineMessages({
     },
     offTitle: {
         id: 'copilot.skills.page.offTitle',
-        defaultMessage: 'Ortha AI is turned off'
+        defaultMessage: 'Ortha CMS AI is turned off'
     },
     offBody: {
         id: 'copilot.skills.page.offBody',
         defaultMessage:
-            'This deployment doesn’t run Ortha AI, so there are no skills to manage.'
+            'This deployment doesn’t run Ortha CMS AI, so there are no skills to manage.'
     },
     deleteTitle: {
         id: 'copilot.skills.page.deleteTitle',

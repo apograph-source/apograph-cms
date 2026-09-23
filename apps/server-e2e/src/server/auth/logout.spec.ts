@@ -11,11 +11,11 @@ import { TEST_ALLOWED_ORIGIN } from '../../support/test-config';
 const EMAIL = 'logout-test@example.com';
 const PASSWORD = 'SecurePass123!';
 
-/** Extract the `ortha_session=value` pair from a login response. */
+/** Extract the `orthacms_session=value` pair from a login response. */
 function sessionCookie(res: Response): string {
     const setCookie = res.headers['set-cookie'] as unknown as string[];
     const cookie = setCookie
-        .find((c) => c.startsWith('ortha_session='))
+        .find((c) => c.startsWith('orthacms_session='))
         ?.split(';')[0];
     if (!cookie) {
         throw new Error('login did not set a session cookie');
@@ -23,12 +23,12 @@ function sessionCookie(res: Response): string {
     return cookie;
 }
 
-/** Grab the raw Set-Cookie string for `ortha_session` (with attributes). */
+/** Grab the raw Set-Cookie string for `orthacms_session` (with attributes). */
 function rawSetCookie(res: Response): string | undefined {
     const setCookie = res.headers['set-cookie'] as unknown as
         | string[]
         | undefined;
-    return setCookie?.find((c) => c.startsWith('ortha_session='));
+    return setCookie?.find((c) => c.startsWith('orthacms_session='));
 }
 
 /** `POST /api/auth/logout` — revokes the current session and clears the cookie. */
@@ -72,7 +72,7 @@ describe('POST /api/auth/logout', () => {
         const cleared = rawSetCookie(res);
         expect(cleared).toBeDefined();
         // Emptied value + a past expiry is how the browser is told to drop it.
-        expect(cleared).toMatch(/^ortha_session=;/);
+        expect(cleared).toMatch(/^orthacms_session=;/);
         expect(cleared).toMatch(/Expires=Thu, 01 Jan 1970/i);
     });
 
@@ -91,7 +91,7 @@ describe('POST /api/auth/logout', () => {
 
     it('is idempotent with a bogus session cookie [identity:I-07]', async () => {
         const res = await logout()
-            .set('Cookie', 'ortha_session=not-a-real-token')
+            .set('Cookie', 'orthacms_session=not-a-real-token')
             .expect(201);
         expect(res.body).toEqual({ ok: true });
     });

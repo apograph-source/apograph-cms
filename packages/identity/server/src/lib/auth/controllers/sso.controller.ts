@@ -191,7 +191,7 @@ export class SsoController {
      * `POST /api/auth/sso/:provider/backchannel-logout` — the identity provider
      * telling us, with no browser involved, that a session on its side ended.
      *
-     * The one mechanism that ends an Ortha session promptly when somebody is
+     * The one mechanism that ends an Ortha CMS session promptly when somebody is
      * offboarded: a session here is a row with a TTL, and a directory disabling
      * an account does not otherwise reach it.
      *

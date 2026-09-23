@@ -68,7 +68,7 @@ application picking one backend does not pay for the other five. It reads every
 or imports `@nestjs/*`, `react`, `drizzle-orm`, `class-validator`, `express` or
 `@orthacms/database`; that every non-relative import is a node built-in or a
 package that manifest declares (a denylist only bans what someone thought of);
-and that the one Ortha package an adapter reaches for is `@orthacms/media-domain`.
+and that the one Ortha CMS package an adapter reaches for is `@orthacms/media-domain`.
 
 Then it walks the **whole import graph** out of each adapter's entry point,
 through the workspace packages it reaches, and fails if a forbidden package

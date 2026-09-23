@@ -34,7 +34,7 @@ function withQueryClient() {
     };
 }
 
-const credentials = { email: 'ada@ortha.dev', password: 'correct horse' };
+const credentials = { email: 'ada@orthacms.dev', password: 'correct horse' };
 
 /**
  * Signing in. The request itself is the gateway's business; what belongs to

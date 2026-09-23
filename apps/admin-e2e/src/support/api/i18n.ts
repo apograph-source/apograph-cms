@@ -21,7 +21,7 @@ export const I18N_WORKSPACE: WorkspaceView = {
     description: 'Workspace used by the i18n e2e suite.',
     color: 'violet',
     status: 'active',
-    members: [{ id: 'u_ada', name: 'Ada Lovelace', email: 'ada@ortha.dev' }],
+    members: [{ id: 'u_ada', name: 'Ada Lovelace', email: 'ada@orthacms.dev' }],
     content: ['localized_post']
 };
 

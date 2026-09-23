@@ -1,15 +1,15 @@
 # @orthacms/cli
 
-The `ortha` command — how an **installed** Ortha CMS app is built, run and
+The `orthacms` command — how an **installed** Ortha CMS app is built, run and
 migrated. The counterpart to [`@orthacms/nx`](../nx/AGENTS.md), which does the
 same jobs inside this monorepo.
 
 ## Package
 
 - Name: `@orthacms/cli`
-- Binary: `ortha`
+- Binary: `orthacms`
 - A devDependency of a generated app (see
-  [`create-ortha-app`](../create-ortha-app/AGENTS.md)), and a dependency of
+  [`create-orthacms-app`](../create-orthacms-app/AGENTS.md)), and a dependency of
   `@orthacms/nx`.
 - **CommonJS** (no `"type": "module"`), so `require`/`__dirname` are available
   and `import.meta` is not.
@@ -31,14 +31,14 @@ get the most destructive operation in the system wrong.
 
 | Command | Notes |
 | --- | --- |
-| `ortha dev` | `tsc --watch`, `node --watch`, and Vite in one terminal. `--server` / `--admin` run one half |
-| `ortha build` | `tsc` for the server, Vite for the admin. `--server` / `--admin` narrow it |
-| `ortha start` | Runs `dist/server/main.js` |
-| `ortha migrate` | Builds the server, then applies every plugin's migrations |
-| `ortha generate --name=<n>` | drizzle-kit against the app's own `drizzle.config.ts` |
-| `ortha studio` | Drizzle Studio on the app's database. `--port=0` is refused, not dropped — drizzle-kit prints the port it was asked for, never the one it bound |
-| `ortha --help` | Usage — also `-h` and a bare `help`. Answered before `findProjectRoot`, so it works outside an app |
-| `ortha --version` | The installed version, read from the package manifest at runtime. Also `-v`, and checked before `--help` |
+| `orthacms dev` | `tsc --watch`, `node --watch`, and Vite in one terminal. `--server` / `--admin` run one half |
+| `orthacms build` | `tsc` for the server, Vite for the admin. `--server` / `--admin` narrow it |
+| `orthacms start` | Runs `dist/server/main.js` |
+| `orthacms migrate` | Builds the server, then applies every plugin's migrations |
+| `orthacms generate --name=<n>` | drizzle-kit against the app's own `drizzle.config.ts` |
+| `orthacms studio` | Drizzle Studio on the app's database. `--port=0` is refused, not dropped — drizzle-kit prints the port it was asked for, never the one it bound |
+| `orthacms --help` | Usage — also `-h` and a bare `help`. Answered before `findProjectRoot`, so it works outside an app |
+| `orthacms --version` | The installed version, read from the package manifest at runtime. Also `-v`, and checked before `--help` |
 
 ## Architecture
 
@@ -47,8 +47,8 @@ get the most destructive operation in the system wrong.
   argv, and `src/index.ts` re-exports it for `@orthacms/nx`. The specs sit
   beside the code and mock at the process boundary (`node:child_process`, `pg`),
   so the package tests without a database.
-- **Compile first, then read JavaScript.** `ortha migrate` builds the server and
-  `require`s `dist/server/{ortha.config,plugins}.js`. The monorepo cannot do
+- **Compile first, then read JavaScript.** `orthacms migrate` builds the server and
+  `require`s `dist/server/{orthacms.config,plugins}.js`. The monorepo cannot do
   this — Nx runs against source, so it needs `jiti` plus an swc transform hook
   configured for legacy decorators, because the plugin graph is full of
   decorated Nest classes and jiti's bundled babel crashes on them. A generated
@@ -69,7 +69,7 @@ get the most destructive operation in the system wrong.
       here stop resolving.
 
 - **`.env` is loaded by this package.** Nothing else does it. Nx loads `.env`
-  before a target runs, so `ortha.config.ts` can just read `process.env` — a
+  before a target runs, so `orthacms.config.ts` can just read `process.env` — a
   generated app has no task runner, and without `loadEnv` every command fails on
   a `DATABASE_URL` sitting in the file. `process.loadEnvFile` does not overwrite
   variables already exported, which is the precedence a deployment needs.

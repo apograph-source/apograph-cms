@@ -67,7 +67,7 @@ export interface ProposalDraft {
  * Since [ADR-0009](../../../../../docs/adr/0009-copilot-applies-directly.md)
  * the engine applies every proposal as it is drafted, so a *new* row only ever
  * lands `accepted`, or stays `pending` because the apply failed — which the UI
- * reads as "Ortha AI could not make this change". `rejected` is no longer
+ * reads as "Ortha CMS AI could not make this change". `rejected` is no longer
  * produced and is kept only because rows written before that change still carry
  * it; a reader must still handle all three.
  */

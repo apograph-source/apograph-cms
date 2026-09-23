@@ -121,7 +121,7 @@ global ⌘K / Ctrl+K shortcut (both owned by `ContentNavSection`).
   the `workspace_content` grants written by the create wizard). Only related
   collections/pages show; an ungranted `:typeName` renders the not-found state.
 - `useContentFavorites` (`presentation/hooks/useContentFavorites/`) persists pinned
-  type-names in `localStorage`, **keyed per workspace** (`ortha:content:
+  type-names in `localStorage`, **keyed per workspace** (`orthacms:content:
 favorites:<workspaceId>`), with guarded reads/writes. There is no favorites
   server yet — that is the planned migration point.
 - **Records table data layer** (per-collection): `useContentSchema`

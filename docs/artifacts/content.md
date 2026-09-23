@@ -2,7 +2,7 @@
 
 _Package group · packages/content_
 
-**The content model, the editor and the public API — Ortha's heart**
+**The content model, the editor and the public API — Ortha CMS's heart**
 
 Content answers the question a CMS exists for: **what kinds of content there are** (types declared in code), **who edits them and how** (the editor, versions, publication) and **how the outside world takes them** (REST, GraphQL, MCP). Content types are declared in TypeScript and turn into real Postgres tables; everything else — the editor, the filters, the API, the agent tools — is generated from one registry.
 
@@ -439,7 +439,7 @@ ADR-0008. A resolver translates a GraphQL field into the very DTO the public RES
 1. **Every handler delegates to the objects the public controllers call** — `resolveGrantedType`, `PublicEntriesQuery`, `PublicEntryWritesService`. That is the whole design: published-only reads, the grant gate, the locale rules, publication-time validation, version numbering and the outbox are not restated and therefore cannot drift. The provider adds descriptions, argument validation and mapping — and nothing else.
 2. **Which is why the tools live here and not in the MCP package.** Those services are internal to content, and exporting them so another package can drive the read path is exactly how a second, diverging copy of the visibility rules appears.
 3. **Sixteen generic tools, not a set per type.** `typeName` is an argument, exactly as it is a path segment on the HTTP routes. Generating `article_create`, `author_create`, … would put the whole content model into every conversation's context (a client loads every tool schema on connect) and still could not be a fixed set, because which types are visible depends on the token's grants.
-4. **The model learns a type's shape on demand** through `content_type_get`, whose `valuesSchema` comes from the same `docs/field-schema.ts` as the OpenAPI document. Granted types are additionally available as MCP **resources** at `ortha://content-type/<name>` — through the same grant gate.
+4. **The model learns a type's shape on demand** through `content_type_get`, whose `valuesSchema` comes from the same `docs/field-schema.ts` as the OpenAPI document. Granted types are additionally available as MCP **resources** at `orthacms://content-type/<name>` — through the same grant gate.
 5. **Arguments are validated by the real HTTP DTOs.** `validateToolInput` runs `PublicListEntriesQueryDto`/`PublicSaveEntryDto` with the host's `ValidationPipe` options. A hand-rolled check would fork the contract at the first boundary shift — `pageSize` would cap at 100 on the route and at something else on the tool. Unknown arguments are rejected rather than ignored, and that matters more to a model than to a developer: a silently dropped typo produces a plausible-looking wrong answer.
 6. **The one authorization decision inside a handler** is `assertDraftVisibility`, because it is a rule about an _argument_ (`status=draft|any` requires `content:update`) rather than about an operation. Everything else is `requires` declarations checked by `ToolRegistry.call`.
 7. **On `content_update` the `locale` argument is _addressing_** and is passed separately, never folded into the save DTO: `body.locale` applies to creation only, and reading it for addressing is exactly how updating the German row by group silently rewrites the English one.

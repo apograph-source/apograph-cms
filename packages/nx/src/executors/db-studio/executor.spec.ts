@@ -12,9 +12,9 @@ jest.mock('../../lib/jiti', () => ({
 
 import dbStudioExecutor from './executor';
 
-const options = { config: 'apps/server/ortha.config.ts' };
+const options = { config: 'apps/server/orthacms.config.ts' };
 const context = { root: '/repo' } as ExecutorContext;
-const URL = 'postgresql://ortha:secret@localhost:5432/ortha_cms';
+const URL = 'postgresql://orthacms:secret@localhost:5432/orthacms';
 
 function hostConfig(url: string | undefined) {
     jitiImport.mockResolvedValue({
@@ -32,7 +32,7 @@ describe('db-studio executor', () => {
             success: true
         });
         expect(jitiImport).toHaveBeenCalledWith(
-            '/repo/apps/server/ortha.config.ts'
+            '/repo/apps/server/orthacms.config.ts'
         );
         expect(runDrizzleKitStudio).toHaveBeenCalledWith(URL, {
             host: undefined,

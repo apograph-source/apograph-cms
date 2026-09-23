@@ -42,9 +42,9 @@ export const WORKSPACES_SEED: WorkspaceView[] = [
         color: 'violet',
         status: 'active',
         members: [
-            member('u_ada', 'Ada Lovelace', 'ada@ortha.dev'),
-            member('u_grace', 'Grace Hopper', 'grace@ortha.dev'),
-            member('u_alan', 'Alan Turing', 'alan@ortha.dev')
+            member('u_ada', 'Ada Lovelace', 'ada@orthacms.dev'),
+            member('u_grace', 'Grace Hopper', 'grace@orthacms.dev'),
+            member('u_alan', 'Alan Turing', 'alan@orthacms.dev')
         ],
         // Granted content types (slugs line up with the content support mock's
         // CONTENT_SCHEMA_SEED) so opening this workspace renders the Content
@@ -60,11 +60,11 @@ export const WORKSPACES_SEED: WorkspaceView[] = [
         color: 'teal',
         status: 'active',
         members: [
-            member('u_grace', 'Grace Hopper', 'grace@ortha.dev'),
-            member('u_linus', 'Linus Torvalds', 'linus@ortha.dev'),
-            member('u_margaret', 'Margaret Hamilton', 'margaret@ortha.dev'),
-            member('u_dennis', 'Dennis Ritchie', 'dennis@ortha.dev'),
-            member('u_katherine', 'Katherine Johnson', 'katherine@ortha.dev')
+            member('u_grace', 'Grace Hopper', 'grace@orthacms.dev'),
+            member('u_linus', 'Linus Torvalds', 'linus@orthacms.dev'),
+            member('u_margaret', 'Margaret Hamilton', 'margaret@orthacms.dev'),
+            member('u_dennis', 'Dennis Ritchie', 'dennis@orthacms.dev'),
+            member('u_katherine', 'Katherine Johnson', 'katherine@orthacms.dev')
         ]
     },
     {
@@ -76,8 +76,8 @@ export const WORKSPACES_SEED: WorkspaceView[] = [
         color: 'green',
         status: 'active',
         members: [
-            member('u_margaret', 'Margaret Hamilton', 'margaret@ortha.dev'),
-            member('u_alan', 'Alan Turing', 'alan@ortha.dev')
+            member('u_margaret', 'Margaret Hamilton', 'margaret@orthacms.dev'),
+            member('u_alan', 'Alan Turing', 'alan@orthacms.dev')
         ]
     },
     {
@@ -89,10 +89,10 @@ export const WORKSPACES_SEED: WorkspaceView[] = [
         color: 'amber',
         status: 'active',
         members: [
-            member('u_ada', 'Ada Lovelace', 'ada@ortha.dev'),
-            member('u_dennis', 'Dennis Ritchie', 'dennis@ortha.dev'),
-            member('u_grace', 'Grace Hopper', 'grace@ortha.dev'),
-            member('u_katherine', 'Katherine Johnson', 'katherine@ortha.dev')
+            member('u_ada', 'Ada Lovelace', 'ada@orthacms.dev'),
+            member('u_dennis', 'Dennis Ritchie', 'dennis@orthacms.dev'),
+            member('u_grace', 'Grace Hopper', 'grace@orthacms.dev'),
+            member('u_katherine', 'Katherine Johnson', 'katherine@orthacms.dev')
         ]
     },
     {
@@ -103,7 +103,7 @@ export const WORKSPACES_SEED: WorkspaceView[] = [
             'Retired experiments and old design explorations kept for reference.',
         color: 'slate',
         status: 'archived',
-        members: [member('u_alan', 'Alan Turing', 'alan@ortha.dev')]
+        members: [member('u_alan', 'Alan Turing', 'alan@orthacms.dev')]
     },
     {
         id: 'ws_events',
@@ -117,9 +117,9 @@ export const WORKSPACES_SEED: WorkspaceView[] = [
             member(
                 'u_katherine',
                 'Katherine Johnson',
-                'katherine@ortha.dev'
+                'katherine@orthacms.dev'
             ),
-            member('u_linus', 'Linus Torvalds', 'linus@ortha.dev')
+            member('u_linus', 'Linus Torvalds', 'linus@orthacms.dev')
         ]
     }
 ];
@@ -154,7 +154,7 @@ export function manyWorkspaces(
             description: `Seeded workspace number ${index + 1}.`,
             color: colors[index % colors.length],
             status: 'active',
-            members: [member('u_ada', 'Ada Lovelace', 'ada@ortha.dev')],
+            members: [member('u_ada', 'Ada Lovelace', 'ada@orthacms.dev')],
             content: []
         } satisfies WorkspaceView;
     });
@@ -175,9 +175,9 @@ const CONTENT_TYPES = [
 ];
 
 const DIRECTORY: WorkspaceMemberView[] = [
-    member('u_barbara', 'Barbara Liskov', 'barbara@ortha.dev'),
-    member('u_edsger', 'Edsger Dijkstra', 'edsger@ortha.dev'),
-    member('u_donald', 'Donald Knuth', 'donald@ortha.dev')
+    member('u_barbara', 'Barbara Liskov', 'barbara@orthacms.dev'),
+    member('u_edsger', 'Edsger Dijkstra', 'edsger@orthacms.dev'),
+    member('u_donald', 'Donald Knuth', 'donald@orthacms.dev')
 ];
 
 const json = (body: unknown) => ({

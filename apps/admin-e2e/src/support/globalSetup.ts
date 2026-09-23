@@ -38,7 +38,7 @@ export default async function assertHarnessPreconditions(
         const html = index.ok() ? await index.text() : '';
         if (!html.includes('id="root"')) {
             throw new Error(
-                `${baseURL} answered ${index.status()}, but it is not the Ortha admin ` +
+                `${baseURL} answered ${index.status()}, but it is not the Ortha CMS admin ` +
                     `(no #root element in the served document).\n\n` +
                     `\`webServer.reuseExistingServer\` is true, so Playwright adopted whatever ` +
                     `was already listening on that port instead of starting the admin. Every ` +

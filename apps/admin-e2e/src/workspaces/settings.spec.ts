@@ -26,8 +26,8 @@ function seed(): WorkspaceView {
         color: 'violet',
         status: 'active',
         members: [
-            { id: 'u_ada', name: 'Ada Lovelace', email: 'ada@ortha.dev' },
-            { id: 'u_grace', name: 'Grace Hopper', email: 'grace@ortha.dev' }
+            { id: 'u_ada', name: 'Ada Lovelace', email: 'ada@orthacms.dev' },
+            { id: 'u_grace', name: 'Grace Hopper', email: 'grace@orthacms.dev' }
         ],
         // blog_post + product granted; home + about are addable. product is
         // "locked" (still has entries) in the not-empty test below.
@@ -149,7 +149,7 @@ test.describe('Workspace settings page', () => {
                 workspaceSettingsPage.toast(/was added to the workspace/)
             ).toBeVisible();
             await expect(
-                workspaceSettingsPage.memberRow('barbara@ortha.dev')
+                workspaceSettingsPage.memberRow('barbara@orthacms.dev')
             ).toBeVisible();
 
             // Remove a member through the confirm dialog.
@@ -161,7 +161,7 @@ test.describe('Workspace settings page', () => {
                 workspaceSettingsPage.toast(/was removed from the workspace/)
             ).toBeVisible();
             await expect(
-                workspaceSettingsPage.memberRow('grace@ortha.dev')
+                workspaceSettingsPage.memberRow('grace@orthacms.dev')
             ).toBeHidden();
         });
 
@@ -420,7 +420,7 @@ test.describe('Workspace settings page', () => {
 
             // The refusal left the roster alone.
             await expect(
-                workspaceSettingsPage.memberRow('ada@ortha.dev')
+                workspaceSettingsPage.memberRow('ada@orthacms.dev')
             ).toBeVisible();
         });
     });

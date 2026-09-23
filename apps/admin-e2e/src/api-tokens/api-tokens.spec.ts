@@ -56,7 +56,7 @@ test.describe('API tokens page', () => {
         // The Token column carries the non-secret lookup prefix only — never a
         // usable credential.
         await expect(apiTokensPage.row('Production website')).toContainText(
-            'ortha_aa11bb'
+            'orthacms_aa11bb'
         );
         await expect(apiTokensPage.row('Production website')).toContainText(
             'Read-only'

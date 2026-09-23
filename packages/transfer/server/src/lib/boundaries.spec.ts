@@ -95,7 +95,7 @@ describe('transfer does not depend on the i18n plugin [transfer:I-21]', () => {
         // that has no locales — the common case.
         const offenders = sourceFiles(join(GROUP_ROOT, name, 'src'))
             .filter((path) =>
-                /from\s+'@ortha\/i18n-/.test(readFileSync(path, 'utf8'))
+                /from\s+'@orthacms\/i18n-/.test(readFileSync(path, 'utf8'))
             )
             .map((path) => path.slice(GROUP_ROOT.length + 1));
 

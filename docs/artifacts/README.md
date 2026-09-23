@@ -46,7 +46,7 @@ will diverge from these.
 | utils               | [utils.md](utils.md)                             |
 | nx                  | [nx.md](nx.md)                                   |
 | cli                 | [cli.md](cli.md)                                 |
-| create-ortha-app | [create-ortha-app.md](create-ortha-app.md) |
+| create-orthacms-app | [create-orthacms-app.md](create-orthacms-app.md) |
 
 ## Structure of a dossier
 
@@ -149,7 +149,7 @@ the config file, and the CLI runs it from the project root, so `out: ../../migra
 two levels above the root (the correct target is `<root>/migrations`, which the template's own
 plugin comment already uses). The same file also still points at the pre-`apps/` layout
 (`src/server/plugins.ts` for `apps/server/src/plugins.ts`), and nothing tests its contents —
-only that it exists. The other two are **fixed**: `ortha --help`, `-h`, bare `help` and empty
+only that it exists. The other two are **fixed**: `orthacms --help`, `-h`, bare `help` and empty
 argv all print usage and exit 0 before the project root is even looked up, with regression
 tests in `args.spec.ts` and `cli.spec.ts`; and `npm test` in a freshly created app is green —
 `EXPECTED_PLUGINS` carries `content-views` and `webhooks` on both halves, and
@@ -169,7 +169,7 @@ package as dependency-free, and every one of them is reading the checked-in `pac
 `tools/release/pack.mjs` writes `tslib` into every staged manifest — unconditionally, because
 `importHelpers` is on workspace-wide and the emitted JS reaches for the helper runtime whether
 or not the source ever mentions it. So `npm i @orthacms/media-provider-s3` fetches four
-packages, and `npx create-ortha-app` — whose empty `dependencies` field is a deliberate choice
+packages, and `npx create-orthacms-app` — whose empty `dependencies` field is a deliberate choice
 about how long the very first command takes — fetches two. The gap is a few kilobytes and a
 whole sentence, and nothing pinned it: `tslib` appeared in `pack.spec.ts` only as a fixture
 value. Now pinned by "pack.mjs, resolving what a package depends on" (three cases,

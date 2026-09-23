@@ -180,4 +180,4 @@ export const HIGHLIGHT_COLORS: readonly Required<SwatchOption>[] = [
  * the rest of the admin — and the two surfaces are guaranteed to render the
  * same HTML the same way, which is the whole promise of a preview.
  */
-export const WYSIWYG_PROSE_CLASS = 'ortha-wysiwyg';
+export const WYSIWYG_PROSE_CLASS = 'orthacms-wysiwyg';

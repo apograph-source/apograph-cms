@@ -54,8 +54,8 @@ describe('useLoginSchema', () => {
         it.each([
             ['no domain at all', 'notanemail'],
             ['a domain with no dot', 'ada@localhost'],
-            ['no local part', '@ortha.dev'],
-            ['an inner space', 'ada lovelace@ortha.dev']
+            ['no local part', '@orthacms.dev'],
+            ['an inner space', 'ada lovelace@orthacms.dev']
         ])('reports the format of %s', (_case, email) => {
             expect(
                 messagesFor('email', { email, password: 'hunter2' })
@@ -65,7 +65,7 @@ describe('useLoginSchema', () => {
         it('accepts a well-shaped address', () => {
             expect(
                 messagesFor('email', {
-                    email: 'ada@ortha.dev',
+                    email: 'ada@orthacms.dev',
                     password: 'hunter2'
                 })
             ).toEqual([]);
@@ -79,7 +79,7 @@ describe('useLoginSchema', () => {
         it('asks for a password when the box is empty', () => {
             expect(
                 messagesFor('password', {
-                    email: 'ada@ortha.dev',
+                    email: 'ada@orthacms.dev',
                     password: ''
                 })
             ).toEqual(['Password is required']);
@@ -88,7 +88,7 @@ describe('useLoginSchema', () => {
         it('does not second-guess the length of an existing password', () => {
             expect(
                 messagesFor('password', {
-                    email: 'ada@ortha.dev',
+                    email: 'ada@orthacms.dev',
                     password: 'x'
                 })
             ).toEqual([]);

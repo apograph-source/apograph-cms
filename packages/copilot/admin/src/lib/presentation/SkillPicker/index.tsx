@@ -29,7 +29,7 @@ const messages = defineMessages({
     explain: {
         id: 'copilot.skills.explain',
         defaultMessage:
-            'Working instructions Ortha AI follows while they are on.'
+            'Working instructions Ortha CMS AI follows while they are on.'
     },
     filter: {
         id: 'copilot.skills.filter',

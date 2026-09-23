@@ -54,7 +54,7 @@ The only role that sees the "API Tokens" item in the sidebar at all. Issues a to
 
 #### Integration developer
 
-Never sees this page. Receives a string of the form `ortha_…` from an administrator and puts it in their secret manager. From then on they call with `Authorization: Bearer` and, if the token covers more than one workspace, with an `X-Workspace-Id` header.
+Never sees this page. Receives a string of the form `orthacms_…` from an administrator and puts it in their secret manager. From then on they call with `Authorization: Bearer` and, if the token covers more than one workspace, with an `X-Workspace-Id` header.
 
 #### Contributor and viewer
 
@@ -239,7 +239,7 @@ Not an idle question: the page is global, while all the rest of the CMS's conten
 8. **Submission.** `POST /api/api-tokens` with `{ name, workspaceIds, scope, expiresAt? }`. While the request is in flight the button is disabled and shows a spinner — there will be no double issue.
 9. **The server collapses duplicates and checks the workspaces.** `[...new Set(workspaceIds)]`, then `assertWorkspacesExist` through the port. A non-existent id → `UnknownWorkspaceError` → `400` listing the "bad" ids.
    _naming them is safe: the caller sent them, and only an administrator can get this far_
-10. **The secret is generated.** `'ortha_'` + 32 random bytes in base64url — 256 bits of entropy. What goes into the database is the SHA-256 of that value and a `lookup_prefix` — the first 15 characters (`ortha_` plus 6 characters of the secret).
+10. **The secret is generated.** `'orthacms_'` + 32 random bytes in base64url — 256 bits of entropy. What goes into the database is the SHA-256 of that value and a `lookup_prefix` — the first 15 characters (`orthacms_` plus 6 characters of the secret).
 11. **The token row and its workspace set are written in one transaction**, and into the same transaction's **outbox** goes the `api_token.created` event. A token that exists with no audit row behind it is exactly the key nobody can account for.
     _in the event payload: name, scope, workspaceIds, lookupPrefix, expiresAt — and never the secret or its hash_
 12. **The response carries the metadata plus the `secret`.** The issue dialog closes, the secret goes into page state, and the reveal dialog opens immediately.
@@ -273,7 +273,7 @@ The same outcome follows from any break between the server and the eye: if the `
 
 This half belongs to `content-server` and its neighbours; it is here so the lifecycle is described end to end.
 
-1. **The client sends `Authorization: Bearer ortha_…`** to `/api/v1/…`. The routes are marked `@Public()`, so the global session `AuthGuard` lets them through, and all of the authentication is `ApiTokenGuard`.
+1. **The client sends `Authorization: Bearer orthacms_…`** to `/api/v1/…`. The routes are marked `@Public()`, so the global session `AuthGuard` lets them through, and all of the authentication is `ApiTokenGuard`.
 2. **The header scheme is parsed case-insensitively.** No header, a different scheme, an empty value — all give one and the same bare `401`.
 3. **The token is verified by hash.** `ApiTokenService.verify` computes the SHA-256 of the presented value, looks up the row, and rejects a revoked or expired one. **Unknown, revoked and expired are indistinguishable** — otherwise the endpoint would become an enumeration tool.
 4. **A session cookie is not accepted in place of a token.** Deliberately: a cookie rides along with the request by itself, which is what makes CSRF possible; a bearer never does. Accepting both on an endpoint whose purpose is to let an agent write content would put CSRF back where it was removed from.
@@ -396,7 +396,7 @@ The plugin contributes **one** private route and **one** sidebar item. Everythin
 | ---------- | -------------- | --------------------------------------------------------------------------------------------------------------------- |
 | Name       | `name`         | Bold text                                                                                                             |
 | Workspaces | `workspaceIds` | **One badge per workspace.** The name is resolved from the `useWorkspaceOptions` cache; on a miss the raw id is shown |
-| Token      | `lookupPrefix` | `ortha_ab12cd…` in monospace — recognise the key without seeing the secret                                         |
+| Token      | `lookupPrefix` | `orthacms_ab12cd…` in monospace — recognise the key without seeing the secret                                         |
 | Access     | `scope`        | A badge: `full` is the accented `default`, `read` the muted `secondary`                                               |
 | Status     | derived        | A badge: active → `default`, expired → `secondary`, revoked → `outline`                                               |
 | Expires    | `expiresAt`    | `dateStyle: 'medium'` in the locale, or "Never"                                                                       |
@@ -427,7 +427,7 @@ This package has no configuration at all: `ApiTokensPlugin()` takes no arguments
 
 | Quantity                     | Value                        | Where it is declared                      | Meaning                                                                                                    |
 | ---------------------------- | ---------------------------- | ----------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| TOKEN_PREFIX                 | `ortha_`                  | identity-server                           | A human-readable prefix: the string is recognisable as an Ortha key in somebody else's config              |
+| TOKEN_PREFIX                 | `orthacms_`                  | identity-server                           | A human-readable prefix: the string is recognisable as an Ortha CMS key in somebody else's config              |
 | TOKEN_ENTROPY_BYTES          | `32` (256 bits)              | identity-server                           | The random part of the secret, in base64url                                                                |
 | LOOKUP_PREFIX_LENGTH         | `15` = 9 + 6                 | identity-server                           | How many characters of the raw token are kept as a non-secret label                                        |
 | LAST_USED_TOUCH_INTERVAL_MS  | `60 000`                     | identity-server                           | Throttling of the `last_used_at` write: a burst of calls must not write a row per request                  |
@@ -520,7 +520,7 @@ Phrased as "action → expected result". The server side is exercised with `curl
 
 ### Issuing
 
-- **Issue a token for one workspace** → the response contains a `secret` starting with `ortha_`; the database holds only the hash and the prefix; the log holds a `token.created` row.
+- **Issue a token for one workspace** → the response contains a `secret` starting with `orthacms_`; the database holds only the hash and the prefix; the log holds a `token.created` row.
 - **Issue a token for several workspaces** → `api_token_workspaces` holds as many rows as were selected; the table shows as many badges.
 - **Pass the same id twice** → the duplicate is collapsed and the response set has no repeats.
 - **An empty `workspaceIds`** → 400; and the form's submit button is not even enabled.

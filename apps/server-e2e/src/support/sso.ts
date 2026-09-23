@@ -13,7 +13,7 @@ export const SSO_SUBJECTS = {
     linked: 'idp-subject-linked',
     /** Matches a seeded account, but the provider will not vouch for the address. */
     unverified: 'idp-subject-unverified',
-    /** Verified, but no Ortha account holds the address. */
+    /** Verified, but no Ortha CMS account holds the address. */
     stranger: 'idp-subject-stranger',
     /**
      * Verified, no account — and in a domain that merely *ends with* an allowed

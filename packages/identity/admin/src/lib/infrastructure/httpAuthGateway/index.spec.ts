@@ -105,7 +105,7 @@ describe('httpAuthGateway', () => {
 
     describe('describeInvite', () => {
         it('asks for the invite the token names', async () => {
-            get.mockResolvedValue({ data: { email: 'ada@ortha.dev' } });
+            get.mockResolvedValue({ data: { email: 'ada@orthacms.dev' } });
 
             await httpAuthGateway.describeInvite('tok_1');
 
@@ -122,7 +122,7 @@ describe('httpAuthGateway', () => {
             ['a space', 'a b', '/auth/invite/a%20b'],
             ['a traversal attempt', '../me', '/auth/invite/..%2Fme']
         ])('escapes %s in the token', async (_case, token, expected) => {
-            get.mockResolvedValue({ data: { email: 'ada@ortha.dev' } });
+            get.mockResolvedValue({ data: { email: 'ada@orthacms.dev' } });
 
             await httpAuthGateway.describeInvite(token);
 

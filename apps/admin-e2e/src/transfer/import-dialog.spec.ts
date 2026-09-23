@@ -281,7 +281,7 @@ test.describe('Content import dialog', () => {
         await mockTransferImport(page, {
             applyStatus: 400,
             applyMessage:
-                'This file was written by a newer version of Ortha (2).'
+                'This file was written by a newer version of Ortha CMS (2).'
         });
         await mockContentEntries(page, {
             entries: { blog_post: [row('post-1', 'Hello world')] }
@@ -297,7 +297,7 @@ test.describe('Content import dialog', () => {
         await transferPage.importButton.click();
 
         await expect(transferPage.importError).toHaveText(
-            /written by a newer version of Ortha/
+            /written by a newer version of Ortha CMS/
         );
         await expect(transferPage.importDialog).toBeVisible();
         await expect(transferPage.importButton).toBeVisible();

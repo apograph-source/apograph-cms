@@ -24,7 +24,7 @@ const CONTRIBUTOR_EMAIL = 'media-file-contributor@example.com';
 const PASSWORD = 'SecurePass123!';
 
 /**
- * `media_propose_file` end to end — Ortha AI authoring a report into the media
+ * `media_propose_file` end to end — Ortha CMS AI authoring a report into the media
  * library, from the offer through the permission prompt to a real asset with
  * real bytes behind it.
  *

@@ -1,7 +1,7 @@
 /* Global stylesheet shipped by @orthacms/wysiwyg-admin. Import it once from the
    host, after the design-system's.
 
-   Everything here hangs off a single `.ortha-wysiwyg` scope, which the editor
+   Everything here hangs off a single `.orthacms-wysiwyg` scope, which the editor
    surface and every preview both carry. Two reasons it is one block of CSS
    rather than Tailwind classes on the components:
 
@@ -20,7 +20,7 @@
    put: those are content, not chrome.
 --------------------------------------------------------------------------- */
 
-.ortha-wysiwyg {
+.orthacms-wysiwyg {
     color: var(--color-foreground);
     font-size: 0.9375rem;
     line-height: 1.7;
@@ -29,89 +29,89 @@
 
 /* The editor surface is focus-managed by ProseMirror; the ring lives on the
    dialog's panel, not on the contenteditable. */
-.ortha-wysiwyg:focus,
-.ortha-wysiwyg:focus-visible {
+.orthacms-wysiwyg:focus,
+.orthacms-wysiwyg:focus-visible {
     outline: none;
 }
 
-.ortha-wysiwyg > :first-child {
+.orthacms-wysiwyg > :first-child {
     margin-top: 0;
 }
 
-.ortha-wysiwyg > :last-child {
+.orthacms-wysiwyg > :last-child {
     margin-bottom: 0;
 }
 
 /* --- Blocks ------------------------------------------------------------- */
 
-.ortha-wysiwyg p {
+.orthacms-wysiwyg p {
     margin: 0.75em 0;
 }
 
-.ortha-wysiwyg h1,
-.ortha-wysiwyg h2,
-.ortha-wysiwyg h3,
-.ortha-wysiwyg h4 {
+.orthacms-wysiwyg h1,
+.orthacms-wysiwyg h2,
+.orthacms-wysiwyg h3,
+.orthacms-wysiwyg h4 {
     font-weight: 600;
     line-height: 1.25;
     margin: 1.4em 0 0.5em;
     text-wrap: balance;
 }
 
-.ortha-wysiwyg h1 {
+.orthacms-wysiwyg h1 {
     font-size: 1.875rem;
     letter-spacing: -0.02em;
 }
 
-.ortha-wysiwyg h2 {
+.orthacms-wysiwyg h2 {
     font-size: 1.5rem;
     letter-spacing: -0.015em;
 }
 
-.ortha-wysiwyg h3 {
+.orthacms-wysiwyg h3 {
     font-size: 1.25rem;
 }
 
-.ortha-wysiwyg h4 {
+.orthacms-wysiwyg h4 {
     font-size: 1.0625rem;
 }
 
 /* Preflight strips the markers and the indent; both come back here. */
-.ortha-wysiwyg ul,
-.ortha-wysiwyg ol {
+.orthacms-wysiwyg ul,
+.orthacms-wysiwyg ol {
     margin: 0.75em 0;
     padding-left: 1.5rem;
 }
 
-.ortha-wysiwyg ul {
+.orthacms-wysiwyg ul {
     list-style: disc;
 }
 
-.ortha-wysiwyg ol {
+.orthacms-wysiwyg ol {
     list-style: decimal;
 }
 
-.ortha-wysiwyg li {
+.orthacms-wysiwyg li {
     margin: 0.25em 0;
 }
 
-.ortha-wysiwyg li > ul,
-.ortha-wysiwyg li > ol {
+.orthacms-wysiwyg li > ul,
+.orthacms-wysiwyg li > ol {
     margin: 0.25em 0;
 }
 
-.ortha-wysiwyg li > p {
+.orthacms-wysiwyg li > p {
     margin: 0;
 }
 
-.ortha-wysiwyg blockquote {
+.orthacms-wysiwyg blockquote {
     border-left: 3px solid var(--color-border);
     color: var(--color-muted-foreground);
     margin: 1em 0;
     padding: 0.125em 0 0.125em 1rem;
 }
 
-.ortha-wysiwyg hr {
+.orthacms-wysiwyg hr {
     border: 0;
     border-top: 1px solid var(--color-border);
     margin: 1.75em 0;
@@ -119,8 +119,8 @@
 
 /* --- Embedded media ----------------------------------------------------- */
 
-.ortha-wysiwyg img,
-.ortha-wysiwyg video {
+.orthacms-wysiwyg img,
+.orthacms-wysiwyg video {
     border-radius: var(--radius);
     display: block;
     height: auto;
@@ -132,7 +132,7 @@
    or re-rendered by a template, where a `style` may not) — but the element's
    own `max-width: 100%` still wins on a narrow screen, so a 1200px image never
    forces a horizontal scrollbar on a phone. */
-.ortha-wysiwyg figure {
+.orthacms-wysiwyg figure {
     margin: 1.25em 0;
     max-width: 100%;
     /* Shrink to what is inside it. Without this the figure is a full-width
@@ -147,8 +147,8 @@
    `data-sized` is the node view saying a width was chosen; an unsized figure is
    sized *by* the media, which is what a bare `<img>` does everywhere else this
    HTML lands. */
-.ortha-wysiwyg figure[data-sized] > img,
-.ortha-wysiwyg figure[data-sized] > video {
+.orthacms-wysiwyg figure[data-sized] > img,
+.orthacms-wysiwyg figure[data-sized] > video {
     width: 100%;
 }
 
@@ -161,22 +161,22 @@
    `<figure>`, while a preview — and any consumer of the stored HTML — aligns
    the bare `<img>` / `<video>` that carries the very same attribute. `left` is
    absent because it is where a block already sits. */
-.ortha-wysiwyg figure[data-align='center'],
-.ortha-wysiwyg img[data-align='center'],
-.ortha-wysiwyg video[data-align='center'] {
+.orthacms-wysiwyg figure[data-align='center'],
+.orthacms-wysiwyg img[data-align='center'],
+.orthacms-wysiwyg video[data-align='center'] {
     margin-inline: auto;
 }
 
-.ortha-wysiwyg figure[data-align='right'],
-.ortha-wysiwyg img[data-align='right'],
-.ortha-wysiwyg video[data-align='right'] {
+.orthacms-wysiwyg figure[data-align='right'],
+.orthacms-wysiwyg img[data-align='right'],
+.orthacms-wysiwyg video[data-align='right'] {
     margin-inline-end: 0;
     margin-inline-start: auto;
 }
 
 /* Editor-only: the node view's selection ring and resize handle. A preview
    renders the same `<img>` with none of this. */
-.ortha-wysiwyg .ortha-wysiwyg-media {
+.orthacms-wysiwyg .orthacms-wysiwyg-media {
     /* The wrapper is a block in the flow spanning the full measure; the figure
        inside it is what carries the width and the alignment. */
     display: block;
@@ -184,23 +184,23 @@
 
 /* --- Inline ------------------------------------------------------------- */
 
-.ortha-wysiwyg strong {
+.orthacms-wysiwyg strong {
     font-weight: 600;
 }
 
-.ortha-wysiwyg em {
+.orthacms-wysiwyg em {
     font-style: italic;
 }
 
-.ortha-wysiwyg s {
+.orthacms-wysiwyg s {
     text-decoration: line-through;
 }
 
-.ortha-wysiwyg u {
+.orthacms-wysiwyg u {
     text-decoration: underline;
 }
 
-.ortha-wysiwyg mark {
+.orthacms-wysiwyg mark {
     background-color: #fef08a;
     border-radius: 0.125rem;
     /* Author-picked highlights are pale, so the text on them must stay dark
@@ -213,14 +213,14 @@
 /* `a` in the editor, `[data-link]` in a preview — the preview flattens anchors
    so nothing inside it is a tab stop (see renderRichText). Same look either
    way, because a link that stops looking like one stops being reviewable. */
-.ortha-wysiwyg a,
-.ortha-wysiwyg [data-link] {
+.orthacms-wysiwyg a,
+.orthacms-wysiwyg [data-link] {
     color: var(--color-brand-text);
     text-decoration: underline;
     text-underline-offset: 2px;
 }
 
-.ortha-wysiwyg code {
+.orthacms-wysiwyg code {
     background-color: var(--color-muted);
     border-radius: 0.25rem;
     font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -228,7 +228,7 @@
     padding: 0.125em 0.3em;
 }
 
-.ortha-wysiwyg pre {
+.orthacms-wysiwyg pre {
     background-color: var(--color-muted);
     border: 1px solid var(--color-border);
     border-radius: var(--radius);
@@ -237,7 +237,7 @@
     padding: 0.875rem 1rem;
 }
 
-.ortha-wysiwyg pre code {
+.orthacms-wysiwyg pre code {
     background: none;
     border-radius: 0;
     font-size: 0.8125rem;
@@ -248,24 +248,24 @@
 
 /* ProseMirror wraps a resizable table so it can scroll without the page doing
    so. Without the wrapper rule a wide table pushes the dialog's layout out. */
-.ortha-wysiwyg .tableWrapper {
+.orthacms-wysiwyg .tableWrapper {
     margin: 1em 0;
     overflow-x: auto;
 }
 
-.ortha-wysiwyg table {
+.orthacms-wysiwyg table {
     border-collapse: collapse;
     margin: 1em 0;
     table-layout: fixed;
     width: 100%;
 }
 
-.ortha-wysiwyg .tableWrapper > table {
+.orthacms-wysiwyg .tableWrapper > table {
     margin: 0;
 }
 
-.ortha-wysiwyg th,
-.ortha-wysiwyg td {
+.orthacms-wysiwyg th,
+.orthacms-wysiwyg td {
     border: 1px solid var(--color-border);
     padding: 0.5rem 0.625rem;
     position: relative;
@@ -273,13 +273,13 @@
     vertical-align: top;
 }
 
-.ortha-wysiwyg th {
+.orthacms-wysiwyg th {
     background-color: var(--color-muted);
     font-weight: 600;
 }
 
-.ortha-wysiwyg th > p,
-.ortha-wysiwyg td > p {
+.orthacms-wysiwyg th > p,
+.orthacms-wysiwyg td > p {
     margin: 0;
 }
 
@@ -287,7 +287,7 @@
    tint has to sit *behind* the text, hence a positioned pseudo-element rather
    than a background on the cell (which a merged cell's own background would
    otherwise cover). */
-.ortha-wysiwyg .selectedCell::after {
+.orthacms-wysiwyg .selectedCell::after {
     background-color: color-mix(
         in oklab,
         var(--color-brand) 18%,
@@ -302,7 +302,7 @@
 
 /* The drag target between two columns. Editor-only — a preview has no view to
    resize with. */
-.ortha-wysiwyg .column-resize-handle {
+.orthacms-wysiwyg .column-resize-handle {
     background-color: var(--color-brand);
     bottom: -1px;
     pointer-events: none;
@@ -312,14 +312,14 @@
     width: 3px;
 }
 
-.ortha-wysiwyg.resize-cursor,
-.ortha-wysiwyg .resize-cursor {
+.orthacms-wysiwyg.resize-cursor,
+.orthacms-wysiwyg .resize-cursor {
     cursor: col-resize;
 }
 
 /* --- Callouts ----------------------------------------------------------- */
 
-.ortha-wysiwyg [data-callout] {
+.orthacms-wysiwyg [data-callout] {
     background-color: var(--color-info-soft);
     border-left: 3px solid var(--color-info);
     border-radius: var(--radius);
@@ -328,27 +328,27 @@
     padding: 0.75rem 1rem;
 }
 
-.ortha-wysiwyg [data-callout] > :first-child {
+.orthacms-wysiwyg [data-callout] > :first-child {
     margin-top: 0;
 }
 
-.ortha-wysiwyg [data-callout] > :last-child {
+.orthacms-wysiwyg [data-callout] > :last-child {
     margin-bottom: 0;
 }
 
-.ortha-wysiwyg [data-callout][data-tone='success'] {
+.orthacms-wysiwyg [data-callout][data-tone='success'] {
     background-color: var(--color-success-soft);
     border-left-color: var(--color-success);
     color: var(--color-success-soft-foreground);
 }
 
-.ortha-wysiwyg [data-callout][data-tone='warning'] {
+.orthacms-wysiwyg [data-callout][data-tone='warning'] {
     background-color: var(--color-warning-soft);
     border-left-color: var(--color-warning);
     color: var(--color-warning-soft-foreground);
 }
 
-.ortha-wysiwyg [data-callout][data-tone='danger'] {
+.orthacms-wysiwyg [data-callout][data-tone='danger'] {
     background-color: var(--color-destructive-soft);
     border-left-color: var(--color-destructive);
     color: var(--color-destructive-soft-foreground);
@@ -356,49 +356,49 @@
 
 /* --- Columns ------------------------------------------------------------ */
 
-.ortha-wysiwyg [data-columns] {
+.orthacms-wysiwyg [data-columns] {
     display: grid;
     gap: 1.25rem;
     grid-template-columns: repeat(var(--wysiwyg-columns, 2), minmax(0, 1fr));
     margin: 1em 0;
 }
 
-.ortha-wysiwyg [data-columns='2'] {
+.orthacms-wysiwyg [data-columns='2'] {
     --wysiwyg-columns: 2;
 }
 
-.ortha-wysiwyg [data-columns='3'] {
+.orthacms-wysiwyg [data-columns='3'] {
     --wysiwyg-columns: 3;
 }
 
-.ortha-wysiwyg [data-columns='4'] {
+.orthacms-wysiwyg [data-columns='4'] {
     --wysiwyg-columns: 4;
 }
 
 /* Columns stack on a narrow viewport. A three-column layout inside a dialog on
    a laptop is already tight; on a phone it is three words per line. */
 @media (max-width: 48rem) {
-    .ortha-wysiwyg [data-columns] {
+    .orthacms-wysiwyg [data-columns] {
         grid-template-columns: minmax(0, 1fr);
     }
 }
 
-.ortha-wysiwyg [data-column] > :first-child {
+.orthacms-wysiwyg [data-column] > :first-child {
     margin-top: 0;
 }
 
-.ortha-wysiwyg [data-column] > :last-child {
+.orthacms-wysiwyg [data-column] > :last-child {
     margin-bottom: 0;
 }
 
 /* An empty column has no height, so there is nothing to click into. Both rules
    are scoped to `[contenteditable]` — the editor surface — because a preview
    should show the layout, not the scaffolding around it. */
-.ortha-wysiwyg[contenteditable] [data-column] {
+.orthacms-wysiwyg[contenteditable] [data-column] {
     min-height: 1.5rem;
 }
 
-.ortha-wysiwyg[contenteditable] [data-columns] {
+.orthacms-wysiwyg[contenteditable] [data-columns] {
     outline: 1px dashed var(--color-border);
     outline-offset: 0.5rem;
 }
@@ -408,7 +408,7 @@
 /* The Placeholder extension marks the empty node and carries the text in a
    data attribute. `float: left; height: 0` keeps it from taking any space, so
    the caret sits where the first character will. */
-.ortha-wysiwyg p.is-editor-empty:first-child::before {
+.orthacms-wysiwyg p.is-editor-empty:first-child::before {
     color: var(--color-muted-foreground);
     content: attr(data-placeholder);
     float: left;
@@ -417,13 +417,13 @@
 }
 
 /* A selected block node (a divider, an image). */
-.ortha-wysiwyg .ProseMirror-selectednode {
+.orthacms-wysiwyg .ProseMirror-selectednode {
     outline: 2px solid var(--color-ring);
     outline-offset: 2px;
 }
 
 /* The caret ProseMirror shows between two block nodes with no text position
    between them — e.g. after a table at the very end of the document. */
-.ortha-wysiwyg .ProseMirror-gapcursor::after {
+.orthacms-wysiwyg .ProseMirror-gapcursor::after {
     border-top-color: var(--color-foreground);
 }

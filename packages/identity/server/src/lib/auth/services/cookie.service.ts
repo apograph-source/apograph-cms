@@ -4,14 +4,14 @@ import type { IdentityPluginConfig } from '../../types';
 import { InjectIdentityConfig } from '../../identity.tokens';
 
 /** Name of the opaque session cookie. */
-export const SESSION_COOKIE = 'ortha_session';
+export const SESSION_COOKIE = 'orthacms_session';
 
 /**
  * Name of the short-lived cookie that ties a browser to one in-flight SSO
  * sign-in attempt. Holds an opaque token; everything else about the attempt
  * lives in `sso_auth_requests`.
  */
-export const SSO_REQUEST_COOKIE = 'ortha_sso_request';
+export const SSO_REQUEST_COOKIE = 'orthacms_sso_request';
 
 /**
  * Owns the session cookie's transport concerns so domain services stay free of

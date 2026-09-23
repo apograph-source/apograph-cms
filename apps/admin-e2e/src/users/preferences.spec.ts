@@ -25,7 +25,7 @@ test.describe('User preferences (theme)', () => {
     const SELF = {
         id: 'u_ada',
         name: 'Ada Lovelace',
-        email: 'ada@ortha.dev'
+        email: 'ada@orthacms.dev'
     };
 
     test.beforeEach(async ({ page }) => {

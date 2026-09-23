@@ -56,7 +56,7 @@ function isReservedPath(path: string, reserved: readonly string[]): boolean {
  *
  * A missing or unbuilt directory is a warning rather than a throw. The server
  * is fully functional without a UI, and failing boot here would mean a
- * deployment that forgot `ortha build` loses its API too — with a stack trace
+ * deployment that forgot `orthacms build` loses its API too — with a stack trace
  * that says nothing about the admin bundle.
  */
 export function serveAdmin(

@@ -39,7 +39,7 @@ export const apiTokens = pgTable('api_tokens', {
     tokenHash: text('token_hash').notNull().unique(),
     /**
      * The non-secret leading characters of the raw token (e.g.
-     * `ortha_ab12cd`). Safe to display so an admin can recognise a token
+     * `orthacms_ab12cd`). Safe to display so an admin can recognise a token
      * in the list without ever seeing the secret again.
      */
     lookupPrefix: text('lookup_prefix').notNull(),

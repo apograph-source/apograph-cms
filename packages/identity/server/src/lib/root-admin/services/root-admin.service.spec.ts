@@ -81,6 +81,6 @@ describe('RootAdminService.bootstrapFromConfig', () => {
             .catch((e) => e);
 
         expect(error.message).toContain('root@example.com');
-        expect(error.message).toContain('ORTHA_ROOT_ADMIN_PASSWORD');
+        expect(error.message).toContain('ORTHACMS_ROOT_ADMIN_PASSWORD');
     });
 });

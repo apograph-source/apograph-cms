@@ -9,7 +9,7 @@ jest.mock('node:child_process', () => ({
 
 import { runDrizzleKitStudio } from './studio';
 
-const URL = 'postgresql://ortha:secret@localhost:5432/ortha_cms';
+const URL = 'postgresql://orthacms:secret@localhost:5432/orthacms';
 
 /** The temp config path drizzle-kit was pointed at, and its contents. */
 function ephemeralConfig(): { path: string; contents: string } {
@@ -42,7 +42,7 @@ describe('runDrizzleKitStudio', () => {
 
         expect(contents).toContain('process.env.DATABASE_URL');
         expect(contents).not.toContain('secret');
-        expect(contents).not.toContain('ortha_cms');
+        expect(contents).not.toContain('orthacms');
     });
 
     it('passes the URL through the child’s environment instead [cli:I-10] [nx:I-10]', () => {
@@ -127,14 +127,14 @@ describe('runDrizzleKitStudio', () => {
 
         it('refuses before it writes the ephemeral config, so nothing is left behind', () => {
             const before = readdirSync(tmpdir()).filter((entry) =>
-                entry.startsWith('ortha-studio-')
+                entry.startsWith('orthacms-studio-')
             );
 
             expect(() => runDrizzleKitStudio(URL, { port: 0 })).toThrow();
 
             expect(
                 readdirSync(tmpdir()).filter((entry) =>
-                    entry.startsWith('ortha-studio-')
+                    entry.startsWith('orthacms-studio-')
                 )
             ).toEqual(before);
         });

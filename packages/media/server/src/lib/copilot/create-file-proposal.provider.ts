@@ -14,7 +14,7 @@ import {
 import { MEDIA_PROPOSAL_KINDS } from './proposal-kinds';
 
 /**
- * Largest file Ortha AI may author, in UTF-8 bytes.
+ * Largest file Ortha CMS AI may author, in UTF-8 bytes.
  *
  * Far below `maxUploadBytes` (50 MB by default) on purpose. The content arrives
  * as a **tool argument**, so it was generated token by token — a megabyte of it
@@ -28,7 +28,7 @@ export const MAX_AUTHORED_BYTES = 1024 * 1024;
 const PREVIEW_CHARS = 2000;
 
 /**
- * `media_propose_file` — Ortha AI writes a report, summary or export into the
+ * `media_propose_file` — Ortha CMS AI writes a report, summary or export into the
  * media library as an ordinary asset.
  *
  * **It writes nothing.** Like every `propose` tool it returns a `ProposalDraft`

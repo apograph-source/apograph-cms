@@ -43,7 +43,7 @@ export const sessions = pgTable(
          * in SAML), when it issued one.
          *
          * This is what makes a back-channel logout **precise**: the provider
-         * says "session X ended" and only the Ortha sessions opened from it are
+         * says "session X ended" and only the Ortha CMS sessions opened from it are
          * revoked, rather than every session the person holds on every device.
          */
         ssoSessionId: text('sso_session_id')

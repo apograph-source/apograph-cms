@@ -148,9 +148,9 @@ export function buildSystemPrompt(input: SystemPromptInput): string {
     const sections: string[] = [
         // The model introduces itself by the **product** name, not the package
         // name. Bump SYSTEM_PROMPT_VERSION with any change to this text.
-        'You are Ortha AI, the assistant built into the Ortha CMS admin. ' +
+        'You are Ortha CMS AI, the assistant built into the Ortha CMS admin. ' +
             'You help the signed-in person find and understand the content they ' +
-            'already have access to. If asked what you are, say you are Ortha AI.',
+            'already have access to. If asked what you are, say you are Ortha CMS AI.',
 
         // The authority model, stated to the model as well as enforced around
         // it. The enforcement is what holds; saying it out loud stops the model
@@ -259,7 +259,7 @@ export function buildSystemPrompt(input: SystemPromptInput): string {
 }
 
 /**
- * How Ortha models content — the handful of facts that are true of **every**
+ * How Ortha CMS models content — the handful of facts that are true of **every**
  * deployment and that no single tool description can carry.
  *
  * This section exists because the rest of the prompt describes what the
@@ -337,7 +337,7 @@ function describeContentModel(toolNames: readonly string[]): string {
         );
     }
 
-    return 'HOW ORTHA WORKS\n' + lines.map((line) => `- ${line}`).join('\n');
+    return 'HOW ORTHACMS WORKS\n' + lines.map((line) => `- ${line}`).join('\n');
 }
 
 /**
@@ -381,7 +381,7 @@ function describeBatchRule(toolNames: readonly string[]): string {
  * The write-side restatement of the shared-field rule — one bullet inside
  * MAKING CHANGES, or nothing.
  *
- * HOW ORTHA WORKS already states the fact; this says what to *do* with it,
+ * HOW ORTHACMS WORKS already states the fact; this says what to *do* with it,
  * which is only worth prompt budget on a run that can write. It is worth it
  * there because the tools do not enforce it: the i18n propose tools refuse a
  * non-localized field name outright, while `content_propose_create` /
@@ -394,7 +394,7 @@ function describeBatchRule(toolNames: readonly string[]): string {
  *
  * Conditional on the tool being on offer, like the locale-slug line: naming a
  * tool a deployment without the i18n plugin does not have buys a call that can
- * only fail, and the unconditional HOW ORTHA WORKS line still carries the fact
+ * only fail, and the unconditional HOW ORTHACMS WORKS line still carries the fact
  * for those runs. Returns a bullet **with its trailing newline** so it can be
  * spliced into the section or vanish without leaving a blank line behind.
  */

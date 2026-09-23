@@ -14,7 +14,7 @@ import {
 function signedInUser(permissions: string[]): AuthUser {
     return {
         id: 'usr_1',
-        email: 'ada@ortha.dev',
+        email: 'ada@orthacms.dev',
         name: 'Ada Lovelace',
         permissions
     };

@@ -18,7 +18,7 @@ import { tmpdir } from 'node:os';
  * the file it wrote, never the shared directory, so finishing first cannot
  * delete another run's handoff out from under it.
  */
-const URL_DIR = join(tmpdir(), 'ortha-server-e2e');
+const URL_DIR = join(tmpdir(), 'orthacms-server-e2e');
 const URL_FILE = join(
     URL_DIR,
     `database-url-${createHash('sha256')

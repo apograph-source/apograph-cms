@@ -34,7 +34,7 @@ import { isProduction } from './env';
  * and every SSO failure deliberately looks the same, so the person clicking it
  * learns nothing.
  */
-export interface OrthaIdentityConfig extends IdentityPluginConfig {
+export interface OrthaCmsIdentityConfig extends IdentityPluginConfig {
     /**
      * Identity providers, keyed by the name they are registered under. That
      * name appears in the sign-in URL and in every `sso_identities` row, so
@@ -77,7 +77,7 @@ function defaultAdminOrigin(): string {
 }
 
 /** Identity — sessions, tokens, the SSO handshake, and the SSO providers. */
-export function identityConfig(): OrthaIdentityConfig {
+export function identityConfig(): OrthaCmsIdentityConfig {
     return {
         // Origins allowed to call state-changing endpoints (login-CSRF
         // defense). Comma-separated; defaults to the dev admin origin —
@@ -106,13 +106,13 @@ export function identityConfig(): OrthaIdentityConfig {
         },
         // Read through `readEnv`, so all three are trimmed and a whitespace-only
         // value is nothing rather than a value. That matters most for the
-        // password: `ORTHA_ROOT_ADMIN_PASSWORD='   '` used to provision an
+        // password: `ORTHACMS_ROOT_ADMIN_PASSWORD='   '` used to provision an
         // administrator whose password was three spaces, silently. Blank, it
         // now trips `MissingRootAdminPasswordError`, which names the account.
         rootAdmin: {
-            email: readEnv('ORTHA_ROOT_ADMIN_EMAIL') ?? '',
-            password: readEnv('ORTHA_ROOT_ADMIN_PASSWORD') ?? '',
-            name: readEnv('ORTHA_ROOT_ADMIN_NAME') ?? ''
+            email: readEnv('ORTHACMS_ROOT_ADMIN_EMAIL') ?? '',
+            password: readEnv('ORTHACMS_ROOT_ADMIN_PASSWORD') ?? '',
+            name: readEnv('ORTHACMS_ROOT_ADMIN_NAME') ?? ''
         },
         sso: ssoConfig(),
         ssoProviders: defined({

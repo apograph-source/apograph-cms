@@ -45,7 +45,7 @@ export class SaveWebhookEndpointDto {
         description:
             'Where deliveries are POSTed. Must be https:// and resolve to a public address unless the deployment allows otherwise.',
         maxLength: URL_MAX,
-        example: 'https://example.com/hooks/ortha'
+        example: 'https://example.com/hooks/orthacms'
     })
     @IsString()
     @MinLength(1)
@@ -112,7 +112,7 @@ export class SaveWebhookEndpointDto {
 
     @ApiPropertyOptional({
         description:
-            'Extra static headers sent with every delivery. Delivery metadata headers (X-Ortha-*) and transport headers cannot be set.',
+            'Extra static headers sent with every delivery. Delivery metadata headers (X-Ortha CMS-*) and transport headers cannot be set.',
         type: 'object',
         additionalProperties: { type: 'string' },
         example: { Authorization: 'Bearer …' }

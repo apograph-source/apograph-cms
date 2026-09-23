@@ -60,7 +60,7 @@ or vice-versa. New DB-backed plugins are born in the target layout.
 4. **The DB client is injected from `@orthacms/database`** — a plugin never
    opens a connection or registers a db provider.
 5. **Config is injected, never read from `process.env`.** Only
-   `apps/server/ortha.config.ts` reads the environment.
+   `apps/server/orthacms.config.ts` reads the environment.
 
 ---
 
@@ -267,7 +267,7 @@ export const X_CONFIG = Symbol('X_CONFIG');
 export const InjectXConfig = (): ParameterDecorator => Inject(X_CONFIG);
 ```
 
-The host supplies the values from `apps/server/ortha.config.ts`
+The host supplies the values from `apps/server/orthacms.config.ts`
 (`plugins.<name>`), which is the **only** reader of `process.env`.
 
 ### 3. The dynamic module
@@ -335,7 +335,7 @@ return [
 ];
 ```
 
-Add the typed config block to `apps/server/ortha.config.ts` under
+Add the typed config block to `apps/server/orthacms.config.ts` under
 `plugins.x`, env-sourced, with literals for stable tuning.
 
 ### 7. Wire it up
@@ -549,7 +549,7 @@ plugin needs true cross-origin should a `cors` option be added to `createServer`
 - [ ] Public barrel `src/index.ts`.
 - [ ] Schema + `drizzle.config.ts` + `migrations/` if DB-backed.
 - [ ] Registered in `apps/server/src/plugins.ts` (after `DatabasePlugin`) and
-      `ortha.config.ts`.
+      `orthacms.config.ts`.
 - [ ] A `CLAUDE.md` for the package documenting its decisions.
 - [ ] An **e2e suite** in `apps/server-e2e` for any controller it adds — see the
       `server-e2e` skill.

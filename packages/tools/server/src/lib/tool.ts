@@ -201,7 +201,7 @@ export interface ToolDefinition {
 
 /** One readable resource — a document a client can pull in without a call. */
 export interface ResourceDefinition {
-    /** Stable URI, e.g. `ortha://content-type/article`. */
+    /** Stable URI, e.g. `orthacms://content-type/article`. */
     uri: string;
     /** Short human name. */
     name: string;

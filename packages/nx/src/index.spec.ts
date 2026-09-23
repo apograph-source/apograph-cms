@@ -16,7 +16,7 @@ const [glob, createNodes] = createNodesV2;
 let workspaceRoot: string;
 
 beforeEach(() => {
-    workspaceRoot = mkdtempSync(join(tmpdir(), 'ortha-nx-infer-'));
+    workspaceRoot = mkdtempSync(join(tmpdir(), 'orthacms-nx-infer-'));
 });
 
 afterEach(() => {
@@ -49,7 +49,7 @@ async function infer(...files: string[]) {
 describe('createNodesV2 glob', () => {
     it('matches the three config files inference dispatches on [nx:I-01]', () => {
         expect(glob).toBe(
-            '**/{drizzle.config.ts,ortha.config.ts,package.json}'
+            '**/{drizzle.config.ts,orthacms.config.ts,package.json}'
         );
     });
 });
@@ -103,21 +103,21 @@ describe('db:generate inference', () => {
 });
 
 describe('db:migrate / db:studio inference', () => {
-    it('attaches both to the project owning ortha.config.ts, uncached [nx:I-03]', async () => {
-        const targets = await infer('apps/server/ortha.config.ts');
+    it('attaches both to the project owning orthacms.config.ts, uncached [nx:I-03]', async () => {
+        const targets = await infer('apps/server/orthacms.config.ts');
 
-        expect(targets['apps/server/ortha.config.ts']).toEqual({
+        expect(targets['apps/server/orthacms.config.ts']).toEqual({
             'db:migrate': {
                 executor: '@orthacms/nx:db-migrate',
                 options: {
-                    config: 'apps/server/ortha.config.ts',
+                    config: 'apps/server/orthacms.config.ts',
                     plugins: 'apps/server/src/plugins.ts'
                 },
                 cache: false
             },
             'db:studio': {
                 executor: '@orthacms/nx:db-studio',
-                options: { config: 'apps/server/ortha.config.ts' },
+                options: { config: 'apps/server/orthacms.config.ts' },
                 cache: false
             }
         });
@@ -215,7 +215,7 @@ describe('packages/* build, pack and publish inference', () => {
         ],
         [
             'the workspace-root manifest',
-            (): string => stagePackage('.', { name: 'ortha-cms' })
+            (): string => stagePackage('.', { name: 'orthacms' })
         ],
         [
             'a manifest with no name',

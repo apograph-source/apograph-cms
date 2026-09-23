@@ -31,31 +31,31 @@ export function isTerminal(status: DeliveryStatus): boolean {
 /** The headers every delivery carries, beyond `Content-Type`. */
 export const DELIVERY_HEADERS = {
     /** The event kind, so a receiver can route without parsing the body. */
-    EVENT: 'X-Ortha-Event',
+    EVENT: 'X-Orthacms-Event',
     /** This delivery's id — a redelivery gets a new one. */
-    DELIVERY: 'X-Ortha-Delivery',
+    DELIVERY: 'X-Orthacms-Delivery',
     /** The originating event's id — **stable across redeliveries**, so this is
      * the one a receiver deduplicates on. */
-    EVENT_ID: 'X-Ortha-Event-Id',
+    EVENT_ID: 'X-Orthacms-Event-Id',
     /** The owning workspace, omitted when the event has none. */
-    WORKSPACE: 'X-Ortha-Workspace',
+    WORKSPACE: 'X-Orthacms-Workspace',
     /** Which attempt this is, 1-based. */
-    ATTEMPT: 'X-Ortha-Attempt',
+    ATTEMPT: 'X-Orthacms-Attempt',
     /** `t=<unix seconds>,v1=<hex hmac>`. */
-    SIGNATURE: 'X-Ortha-Signature'
+    SIGNATURE: 'X-Orthacms-Signature'
 } as const;
 
 /** The User-Agent every delivery is sent with. */
-export const DELIVERY_USER_AGENT = 'Ortha-Webhooks/1';
+export const DELIVERY_USER_AGENT = 'Orthacms-Webhooks/1';
 
 /**
  * Header names an endpoint's custom headers may never set.
  *
- * Without this an operator could overwrite `X-Ortha-Event` or the signature and
+ * Without this an operator could overwrite `X-Orthacms-Event` or the signature and
  * make a delivery claim to be something it is not — and `Host` is how a request
  * aimed at one virtual host is served by another.
  */
-export const RESERVED_HEADER_PREFIXES: readonly string[] = ['x-ortha-'];
+export const RESERVED_HEADER_PREFIXES: readonly string[] = ['x-orthacms-'];
 
 /** Header names an endpoint's custom headers may never set, in full. */
 export const RESERVED_HEADER_NAMES: readonly string[] = [

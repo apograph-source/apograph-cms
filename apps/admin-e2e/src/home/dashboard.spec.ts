@@ -14,7 +14,7 @@ test.describe('Home dashboard', () => {
     test.beforeEach(async ({ page }) => {
         await mockSignedIn(page, {
             name: 'Amara Okafor',
-            email: 'amara@ortha.dev'
+            email: 'amara@orthacms.dev'
         });
         await mockWorkspaces(page);
         await mockActivity(page);

@@ -195,7 +195,7 @@ export class WebhookEndpointsService {
      *
      * The body is copied rather than rebuilt, so the receiver gets exactly what
      * it was sent before — with one substitution: `id` becomes the new delivery
-     * id, because that is also what the `X-Ortha-Delivery` header will say, and
+     * id, because that is also what the `X-Orthacms-Delivery` header will say, and
      * a body naming a different delivery than its own header is a bug waiting
      * to be found by whoever writes the receiver.
      *

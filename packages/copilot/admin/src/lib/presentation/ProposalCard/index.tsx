@@ -39,7 +39,7 @@ const messages = defineMessages({
     failedGeneric: {
         id: 'copilot.proposal.failedGeneric',
         defaultMessage:
-            'Ortha AI could not make this change, so your content is unchanged. Try asking again.'
+            'Ortha CMS AI could not make this change, so your content is unchanged. Try asking again.'
     },
     reason: {
         id: 'copilot.proposal.reason',

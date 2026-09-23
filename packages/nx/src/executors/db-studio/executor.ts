@@ -5,7 +5,7 @@ import { createTsJiti } from '../../lib/jiti';
 
 /** Options for the `db-studio` executor. */
 export interface DbStudioExecutorOptions {
-    /** Path to the host's ortha.config.ts (relative to the workspace root). */
+    /** Path to the host's orthacms.config.ts (relative to the workspace root). */
     config: string;
     /** Host interface Studio's local server binds to. */
     host?: string;
@@ -21,7 +21,7 @@ interface HostConfig {
 
 /**
  * Launches Drizzle Studio against the host database. Resolves the connection
- * URL from the host's `ortha.config.ts` (the single place that reads
+ * URL from the host's `orthacms.config.ts` (the single place that reads
  * `DATABASE_URL`), the same source `db:migrate` uses, then hands it to
  * drizzle-kit via an ephemeral config. Side-effecting and long-running —
  * never cached.

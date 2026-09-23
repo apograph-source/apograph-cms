@@ -1,0 +1,245 @@
+# __APP_TITLE__
+
+An [Ortha CMS](https://github.com/ortha-source/ortha-cms) app.
+
+## Getting started
+
+```sh
+docker compose up -d   # Postgres
+npm run migrate        # create the schema
+npm run dev            # API on :3000, admin on :4200
+```
+
+Sign in at <http://localhost:4200> with the admin credentials in `.env`
+(`ORTHACMS_ROOT_ADMIN_EMAIL` / `ORTHACMS_ROOT_ADMIN_PASSWORD`). That account is
+provisioned on boot, idempotently — clear those two variables once you have it.
+
+## Commands
+
+| Command | What it does |
+| --- | --- |
+| `npm run dev` | `tsc --watch`, `node --watch`, and the Vite dev server together |
+| `npm run build` | Compiles the server and builds the admin bundle |
+| `npm start` | Runs the built server — API **and** admin, one process, one origin |
+| `npm run migrate` | Applies every plugin's pending migrations |
+| `npm run generate -- --name=<name>` | Generates a migration for your own content tables — needs a `drizzle.config.ts` first, see below |
+| `npm run studio` | Opens Drizzle Studio on this app's database |
+| `npm test` | Unit tests — both halves |
+| `npm run e2e` | Both end-to-end suites |
+| `npm run e2e:server` | API tests against a real database |
+| `npm run e2e:admin` | Browser tests against a mocked API |
+| `npm run typecheck` | Both TypeScript projects |
+
+## Tests
+
+**Unit tests** run under two runners, one per half, each matching its own
+toolchain:
+
+- **`apps/server/**/*.spec.ts`** → Jest with `@swc/jest` (`apps/server/jest.config.js`).
+  Jest rather than Vitest because NestJS DI reads `emitDecoratorMetadata`, and
+  Vitest's esbuild transform does not emit it — providers resolve as
+  `undefined`, with no error naming the cause.
+- **`apps/admin/src/**/*.spec.tsx`** → Vitest with jsdom, configured inside
+  `apps/admin/vite.config.mts` so tests resolve modules exactly the way the app does.
+
+Neither touches a database: `jest.setup.js` supplies placeholder secrets so
+`npm test` runs anywhere, including CI with no `.env`.
+
+The two shipped specs assert the things that break quietly — the plugin lists
+and their order. Server-side that is migration order (a plugin whose tables
+reference another's must come after it, which fails only on a *fresh*
+database); admin-side it is that exactly one plugin contributes a `layout`, and
+that it is the shell's, because the host mounts the first one it finds and the
+shell's is what composes the auth gate.
+
+**End-to-end tests** come in two suites, split the way the app is:
+
+### `apps/server-e2e` — the API, for real
+
+Jest + supertest, booting **this app** through `createServer` with the real
+plugin list against a real Postgres. `apps/server-e2e/src/support/test-app.ts` gives you
+`createTestApp()` / `closeTestApp()`.
+
+It manages its own database. `<your database>_e2e` is created and migrated on
+first run, using the same `applyPluginMigrations` that `orthacms migrate` calls —
+so the schema under test is the real one. It never touches the database
+`DATABASE_URL` names, because it **truncates every table** between suites;
+`E2E_DATABASE_URL` overrides the derivation, and pointing it at your
+development database is refused rather than obeyed.
+
+```sh
+docker compose up -d
+npm run e2e:server
+```
+
+### `apps/admin-e2e` — the UI, in a browser
+
+Playwright against the Vite dev server with `/api` mocked at the network layer
+(`apps/admin-e2e/src/support/seed.ts`). No backend, no database, no migration — a run is
+fast and hermetic, and when it fails it is the UI that is wrong. API behaviour
+belongs in `apps/server-e2e`, where a failure names the endpoint instead of blaming
+a page.
+
+```sh
+npx playwright install chromium   # once
+npm run e2e:admin
+```
+
+Anything the seed does not mock returns `404` on purpose: a silent empty `200`
+makes a page render its empty state and pass, which is the false green this
+exists to avoid.
+
+## What you own
+
+Almost nothing, on purpose — the CMS is the `@orthacms/*` packages, and this app
+is the composition of them.
+
+```
+apps/
+├── server/       the API — orthacms.config.ts, src/{main,plugins}.ts
+├── admin/        the UI — index.html, vite.config.mts, src/
+├── server-e2e/   API tests against a real database
+└── admin-e2e/    browser tests against a mocked API
+```
+
+The same four apps Ortha CMS itself is built from, so anything you read in its
+source lands in the same place here.
+
+| File | Why you would open it |
+| --- | --- |
+| `apps/server/src/plugins.ts` | Which plugins the API runs, and **in what order** |
+| `apps/admin/src/plugins.ts` | Which plugins the admin UI runs |
+| `apps/server/orthacms.config.ts` | Every setting, typed — with `apps/server/config/`, the only reader of the environment |
+| `apps/admin/src/styles.css` | The theme tokens: this app's whole visual identity |
+
+Upgrading is a version bump. Keep the `@orthacms/*` versions **in step with each
+other** — they are released together, and a partial upgrade can leave two copies
+of a shared package in `node_modules`, which means two React context instances
+and UI that silently stops talking to itself.
+
+### Writing your own plugin
+
+A server plugin is a `ServerPlugin` from `@orthacms/bootstrap-server` — a name,
+a NestJS module, and optionally its own migrations — added to the array in
+`apps/server/src/plugins.ts`. `@InjectDatabase()` from `@orthacms/database` gives it
+the shared connection. An admin plugin is an `AdminPlugin` from
+`@orthacms/bootstrap-admin`, added to `apps/admin/src/plugins.ts`.
+
+`@orthacms/utils-server` and `@orthacms/utils-admin` hold the shared toolkit
+(filter parsing, `apiClient`, slots, table URL state), and
+`@orthacms/design-system` the UI primitives. All three are already declared here.
+
+The extension points are declared too, so you can import them directly:
+`@orthacms/content-domain` (the content kernel's types), `@orthacms/tools-server`
+(register an agent tool), `@orthacms/copilot-domain`,
+`@orthacms/query-builder-admin`.
+
+If you add an `@orthacms/*` package this app does not already list — a copilot
+backend, the GraphQL adapter — install it at **the same version as the rest**.
+Keeping them in step is what stops npm nesting a second copy of a shared
+package, which means two React context instances and UI that silently stops
+talking to itself.
+
+## What this app was scaffolded with
+
+### AI copilot
+
+Installed, and **off** until you turn it on: set `COPILOT_ENABLED=true` in
+`.env`. Off means off — with it `false` the app registers no `/api/copilot`
+route, so those endpoints 404 and the admin's chat panel, Agents view and
+Skills page are not there. Whether this app offers an AI assistant at all is a
+decision rather than a default.
+
+It is not the switch that keeps your content in-house, though. A backend is
+registered only when its settings are present (below), so an app with no key
+reaches no third party either way.
+
+Backends are registered in `apps/server/src/plugins.ts`, and **the order is the
+setting** — there is no `defaultProvider`. The first registered backend serves a
+run that names none, and it is what the admin's model picker opens on. A backend
+is only registered when its connection settings are present, so an unconfigured
+one never appears as an option that fails on the first message.
+
+There is no offline stand-in. Configure no backend and the copilot has nothing
+to call, so leave `COPILOT_ENABLED=false` until you have one — turning it on
+with an empty provider list refuses to boot rather than shipping a chat that
+cannot answer.
+<!-- orthacms:if mail -->
+### Outgoing mail
+
+Installed, and **off** until `MAIL_PROVIDER=smtp` is set in `.env`. With it
+empty this app sends nothing: no queue, no worker, and the invite and reset
+routes hand the raw link back for you to pass on — which is a complete
+configuration, and the one a fresh app runs in, so `npm run dev` works before
+you have a relay.
+
+Setting it makes two more variables required, and the app refuses to boot
+without them: `APP_URL`, because every link in a message is built from it, and
+`MAIL_FROM`, because a message with no sender is refused by every relay. The
+URL is deliberately not taken from the request — the caller controls the `Host`
+header, and an invitation is the one message a recipient is certain to click.
+
+It also changes the API: with mail configured the invite and reset routes stop
+returning the link, because two copies of an account-takeover secret are worse
+than one. `POST /api/users/:id/reveal-link` is the audited way to see one when a
+message does not arrive.
+<!-- orthacms:end -->
+<!-- orthacms:if graphql -->
+### GraphQL
+
+`POST /api/v1/graphql`, alongside REST. It is a protocol adapter over the same
+services, not a second API: same bearer tokens, same scopes, same visibility
+rules. The schema is built per workspace content-grant set, so introspection
+cannot enumerate types a workspace was not granted.
+
+GraphiQL rides the same switch as the API reference (`API_DOCS`).
+<!-- orthacms:end -->
+<!-- orthacms:if mcp -->
+### MCP
+
+`POST /api/v1/mcp`, off until `MCP_ENABLED=true`. It lets an external agent do
+content CRUD with an API token — mint one on the API Tokens page, `read` scope
+for a retrieval-only agent, `full` for one that authors.
+<!-- orthacms:end -->
+
+## Adding content types
+
+This app starts with none. To add some:
+
+1. Write them under `apps/server/src/content/` and export a `contentTypes` array.
+2. Pass them to `ContentPlugin({ types: contentTypes, migrations: … })` in
+   `apps/server/src/plugins.ts` — the comment there has the exact shape.
+3. Add `apps/server/drizzle.config.ts`:
+
+    ```ts
+    import { defineConfig } from 'drizzle-kit';
+
+    export default defineConfig({
+        dialect: 'postgresql',
+        schema: 'apps/server/src/content/index.ts',
+        out: 'migrations'
+    });
+    ```
+
+    Both paths are relative to **this app's root**, not to the config file.
+    drizzle-kit resolves `schema` and `out` from the working directory, and
+    `orthacms generate` runs it from the root — so `out: 'migrations'` is the
+    same `migrations/` the plugin's descriptor in step 2 points at, and a
+    `../../` in front of it would write two levels above your project.
+
+    No `dbCredentials`: generating a migration only diffs the schema against
+    the last snapshot and never connects, so there is no secret to put here.
+
+4. `npm run generate -- --name=add_content_types && npm run migrate`
+
+## Deploying
+
+`npm run build && npm start` is the whole thing: one process serving the API and
+the admin bundle on one origin. Set in the environment:
+
+- `DATABASE_URL` — required
+- `NODE_ENV=production` — spelled exactly; anything else drops `Secure` from the
+  session cookie and publishes the API reference
+- `TRUST_PROXY` — required behind a load balancer, or every client shares one
+  rate-limit bucket
+- `MEDIA_LOCAL_ROOT` — a persistent volume, or uploads vanish on each deploy

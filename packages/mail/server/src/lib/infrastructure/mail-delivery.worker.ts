@@ -138,7 +138,7 @@ export class MailDeliveryWorker
                 // duplicate message would invalidate the copy that arrived.
                 text: mail.bodyText,
                 ...(mail.bodyHtml ? { html: mail.bodyHtml } : {}),
-                headers: { 'X-Ortha-Mail-Kind': mail.kind }
+                headers: { 'X-Orthacms-Mail-Kind': mail.kind }
             });
             await this.deliveries.markDelivered(mail.id);
             return;

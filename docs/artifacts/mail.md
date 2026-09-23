@@ -3,7 +3,7 @@
 > **Phase 1.** What is described here is what ships: the port, the queue, the
 > worker, the three transactional messages, `reveal-link`, and the SMTP,
 > console and testkit adapters — plus phase 3's scaffolder question, which
-> `create-ortha-app` now asks. Self-service password recovery, the
+> `create-orthacms-app` now asks. Self-service password recovery, the
 > dead-letter API and the Resend and Postmark adapters are phase 2 of
 > [ADR-0018](../adr/0018-mail-provider.md); they are named in section 13 rather
 > than described as if they existed.
@@ -234,7 +234,7 @@ were first written; the tests that pin one name it in a comment.
 - **Not built (phase 2):** `POST /api/auth/password-recovery` with its four
   rules, the `GET /api/mail/dead-letters` surface, the `mail.delivery_failed`
   event, and the Resend and Postmark adapters.
-- **Built (phase 3):** the `create-ortha-app` question. The scaffolder's
+- **Built (phase 3):** the `create-orthacms-app` question. The scaffolder's
   fifth question is single-choice with **"Do not configure"** as its default;
   picking SMTP installs `mail-server` and `mail-provider-smtp` and writes
   `config/mail.ts`, the `mailPlugin()` helper and the `MAIL_*` / `SMTP_*` keys,

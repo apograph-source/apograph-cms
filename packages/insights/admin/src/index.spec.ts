@@ -30,7 +30,7 @@ function workspaceImports(dir: string): Set<string> {
         }
         if (!/\.tsx?$/.test(entry.name)) continue;
         const source = readFileSync(path, 'utf8');
-        for (const match of source.matchAll(/from\s+'(@ortha\/[^']+)'/g)) {
+        for (const match of source.matchAll(/from\s+'(@orthacms\/[^']+)'/g)) {
             found.add(match[1]);
         }
     }

@@ -689,7 +689,7 @@ describe('the admin palette', () => {
     const PALETTES = {
         'apps/admin': 'apps/admin/src/styles.css',
         'the scaffolder template':
-            'packages/create-ortha-app/templates/default/apps/admin/src/styles.css'
+            'packages/create-orthacms-app/templates/default/apps/admin/src/styles.css'
     };
 
     /** Token prefixes that are the same colour in both themes, on purpose. */

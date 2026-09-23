@@ -3,7 +3,7 @@
 Azure Blob Storage. The one major object store with **no S3 compatibility at
 all** — different protocol, different signature, containers instead of buckets —
 so it needs its own adapter rather than an endpoint in `provider-s3`. It is the
-gap that stopped a Microsoft-shop deployment running Ortha at all.
+gap that stopped a Microsoft-shop deployment running Ortha CMS at all.
 
 ## What it exports
 

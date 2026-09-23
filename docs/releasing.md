@@ -1,6 +1,6 @@
 # Releasing to npm
 
-Every package under `packages/` is published to the `@ortha` scope in one
+Every package under `packages/` is published to the `@orthacms` scope in one
 lockstep release: one version, one tag, one GitHub Release, 37 tarballs.
 
 ## Running a release from your machine
@@ -28,7 +28,7 @@ wins over it.
 
 |                |                                                                                                                                                                                                                               |
 | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `NPM_TOKEN`    | An npm automation token with publish rights on the `@ortha` scope. It is handed to npm as configuration in the child process, never written to an `.npmrc`. Leave it empty to publish as whoever `npm login` logged in as. |
+| `NPM_TOKEN`    | An npm automation token with publish rights on the `@orthacms` scope. It is handed to npm as configuration in the child process, never written to an `.npmrc`. Leave it empty to publish as whoever `npm login` logged in as. |
 | `GITHUB_TOKEN` | A token with `repo` access. `nx release` creates the GitHub Release with it.                                                                                                                                                  |
 
 ### What it refuses to do
@@ -64,20 +64,20 @@ the reference host, not a distributable.
 
 ### The scaffolder's template needs no version edit
 
-`create-ortha-app` writes every `@orthacms/*` dependency as `__ORTHA_VERSION__`
+`create-orthacms-app` writes every `@orthacms/*` dependency as `__ORTHACMS_VERSION__`
 and stamps it with **its own version** at scaffold time, so a release carries
 the generated app forward with nothing to update by hand. There is no list of
 versions in the template to fall behind.
 
 What a release _does_ assume is that the template knows about every package.
 Adding one to the workspace without classifying it in
-[`packages/create-ortha-app/src/lib/features.ts`](../packages/create-ortha-app/src/lib/features.ts)
-fails `create-ortha-app`'s tests — deliberately, so the decision "does a new app
+[`packages/create-orthacms-app/src/lib/features.ts`](../packages/create-orthacms-app/src/lib/features.ts)
+fails `create-orthacms-app`'s tests — deliberately, so the decision "does a new app
 get this?" is made when the package is written rather than discovered by a user
 months later.
 
-`create-ortha-app` is the one published package **outside** the `@ortha`
-scope — unscoped so `npx create-ortha-app` works — so it is named explicitly in
+`create-orthacms-app` is the one published package **outside** the `@orthacms`
+scope — unscoped so `npx create-orthacms-app` works — so it is named explicitly in
 `release.projects` and in the `preVersionCommand` rather than being picked up by
 the `@orthacms/*` glob. It ships in lockstep for a reason beyond tidiness: it
 stamps its own version into every `@orthacms/*` dependency of the app it
@@ -146,10 +146,10 @@ doubling to a 5 minute ceiling. That adds roughly three minutes to a clean
 release. To go slower (or faster) for one run:
 
 ```sh
-ORTHA_PUBLISH_DELAY=10000 ORTHA_PUBLISH_RETRIES=8 npm run release
+ORTHACMS_PUBLISH_DELAY=10000 ORTHACMS_PUBLISH_RETRIES=8 npm run release
 ```
 
-`ORTHA_PUBLISH_RETRY_BACKOFF` moves the first backoff. A dry run waits for
+`ORTHACMS_PUBLISH_RETRY_BACKOFF` moves the first backoff. A dry run waits for
 nothing — it writes nothing there is a limit on.
 
 Two consequences worth knowing:

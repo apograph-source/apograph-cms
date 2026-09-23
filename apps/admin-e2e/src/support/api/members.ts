@@ -57,7 +57,7 @@ const ROLES: Record<string, RoleSeed> = {
 export const DEFAULT_MEMBERS: MemberSeed[] = [
     {
         id: 'u_ada',
-        email: 'ada@ortha.dev',
+        email: 'ada@orthacms.dev',
         name: 'Ada Lovelace',
         role: ROLES.admin,
         status: 'active',
@@ -83,7 +83,7 @@ export const DEFAULT_MEMBERS: MemberSeed[] = [
     },
     {
         id: 'u_grace',
-        email: 'grace@ortha.dev',
+        email: 'grace@orthacms.dev',
         name: 'Grace Hopper',
         role: ROLES.contributor,
         status: 'active',
@@ -101,7 +101,7 @@ export const DEFAULT_MEMBERS: MemberSeed[] = [
     },
     {
         id: 'u_alan',
-        email: 'alan@ortha.dev',
+        email: 'alan@orthacms.dev',
         name: null,
         role: ROLES.viewer,
         status: 'pending',
@@ -111,7 +111,7 @@ export const DEFAULT_MEMBERS: MemberSeed[] = [
     },
     {
         id: 'u_katherine',
-        email: 'katherine@ortha.dev',
+        email: 'katherine@orthacms.dev',
         name: 'Katherine Johnson',
         role: ROLES.viewer,
         status: 'disabled',
@@ -125,7 +125,7 @@ export const DEFAULT_MEMBERS: MemberSeed[] = [
 export function manyMembers(count: number): MemberSeed[] {
     return Array.from({ length: count }, (_, index) => ({
         id: `u_gen_${index}`,
-        email: `gen-${index}@ortha.dev`,
+        email: `gen-${index}@orthacms.dev`,
         name: `Generated ${String(index).padStart(2, '0')}`,
         role: ROLES.viewer,
         status: 'active' as const,

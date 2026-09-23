@@ -153,7 +153,7 @@ describe('User sessions (admin)', () => {
             .post('/api/auth/login')
             .send({ email: TARGET_EMAIL, password: PASSWORD })
             .expect(201);
-        const token = /ortha_session=([^;]+)/.exec(
+        const token = /orthacms_session=([^;]+)/.exec(
             res.get('Set-Cookie')?.[0] ?? ''
         )?.[1];
         expect(token).toBeTruthy();

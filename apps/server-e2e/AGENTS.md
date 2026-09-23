@@ -74,7 +74,7 @@ Set **`E2E_DATABASE_URL`** to point the run at an already-running Postgres and
 migrations first). For a sandbox or a Docker-less CI runner:
 
 ```bash
-E2E_DATABASE_URL=postgres://user@127.0.0.1:5432/ortha_e2e npx nx e2e server-e2e
+E2E_DATABASE_URL=postgres://user@127.0.0.1:5432/orthacms_e2e npx nx e2e server-e2e
 ```
 
 **The database it names is truncated between every test.** That is why it is its
@@ -181,7 +181,7 @@ The guards are asserted by `src/harness/harness-guards.spec.ts`.
 - **Seed through DI**, never raw bcrypt/SQL for credentials.
 - **Cookie flows** use a `supertest.agent(harness.server)` so `Set-Cookie` from
   login is carried into the next request; for single requests forward the
-  `ortha_session=...` pair explicitly via `.set('Cookie', …)`.
+  `orthacms_session=...` pair explicitly via `.set('Cookie', …)`.
 - `src/support/**` is exempt from `@nx/enforce-module-boundaries` (it
   deliberately imports the host app and a plugin internal); **specs are not** —
   keep cross-project imports in the support harness. (This is why the copilot

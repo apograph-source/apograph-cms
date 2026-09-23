@@ -12,7 +12,7 @@ const context: MailTemplateContext = {
     actorName: 'Grace Hopper',
     link: 'https://cms.example.com/identity/accept-invite?token=s3cret',
     expiresAt: new Date('2026-09-20T08:30:00.000Z'),
-    productName: 'Ortha'
+    productName: 'Ortha CMS'
 };
 
 describe('the shipped templates', () => {

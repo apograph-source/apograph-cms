@@ -129,7 +129,7 @@ describe('POST /api/widgets', () => {
 - Use **`request.agent(harness.server)`** to carry `Set-Cookie` from login into
   later requests.
 - For a single request, forward the cookie explicitly:
-  `.set('Cookie', 'ortha_session=<value>')` — extract it from the login
+  `.set('Cookie', 'orthacms_session=<value>')` — extract it from the login
   response's `set-cookie` header.
 - Simulate session states with `expireUserSessions` / `revokeUserSessions` /
   `deleteUser`, then assert the protected route returns 401.

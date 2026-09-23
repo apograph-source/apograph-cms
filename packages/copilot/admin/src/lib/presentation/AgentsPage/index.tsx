@@ -21,7 +21,7 @@ import { useDocumentTitle } from '@orthacms/utils-admin';
 const messages = defineMessages({
     heading: {
         id: 'copilot.agents.heading',
-        defaultMessage: 'Ortha AI'
+        defaultMessage: 'Ortha CMS AI'
     },
     forbiddenTitle: {
         id: 'copilot.agents.forbiddenTitle',
@@ -29,16 +29,16 @@ const messages = defineMessages({
     },
     forbiddenBody: {
         id: 'copilot.agents.forbiddenBody',
-        defaultMessage: 'You don’t have permission to use Ortha AI here.'
+        defaultMessage: 'You don’t have permission to use Ortha CMS AI here.'
     },
     offTitle: {
         id: 'copilot.agents.offTitle',
-        defaultMessage: 'Ortha AI is turned off'
+        defaultMessage: 'Ortha CMS AI is turned off'
     },
     offBody: {
         id: 'copilot.agents.offBody',
         defaultMessage:
-            'This deployment doesn’t run Ortha AI. An administrator can turn it on.'
+            'This deployment doesn’t run Ortha CMS AI. An administrator can turn it on.'
     }
 });
 

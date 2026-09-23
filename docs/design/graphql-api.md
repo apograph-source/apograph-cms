@@ -466,7 +466,7 @@ Small and mostly mechanical — the point of §1 is that this list stays short:
   `PublicListEntriesQueryDto` / `PublicSaveEntryDto` types.
 - `packages/identity/server` — export `tokenActor` (§8) and refactor
   `ApiTokenGuard` onto it.
-- `apps/server/ortha.config.ts` + `src/plugins.ts` — register the plugin and its
+- `apps/server/orthacms.config.ts` + `src/plugins.ts` — register the plugin and its
   config block (`enabled`, `maxDepth`, `maxComplexity`, `graphiql`).
 - `apps/server-e2e/src/support/plugins.ts` — same registration for tests.
 - Root `package.json` — `graphql`.

@@ -22,15 +22,15 @@ import {
     type ApiTokenRecord
 } from '../infrastructure/persistence/drizzle-api-token.repository';
 
-/** Human-readable prefix so a raw token is recognisable as an Ortha API key. */
-const TOKEN_PREFIX = 'ortha_';
+/** Human-readable prefix so a raw token is recognisable as an Ortha CMS API key. */
+const TOKEN_PREFIX = 'orthacms_';
 
 /** Bytes of entropy in the secret portion of a token (256-bit). */
 const TOKEN_ENTROPY_BYTES = 32;
 
 /**
  * Characters of the raw token stored as the non-secret display prefix — the
- * literal `ortha_` plus the first few secret chars, enough for an admin to
+ * literal `orthacms_` plus the first few secret chars, enough for an admin to
  * tell two tokens apart without ever seeing the secret again.
  */
 const LOOKUP_PREFIX_LENGTH = TOKEN_PREFIX.length + 6;

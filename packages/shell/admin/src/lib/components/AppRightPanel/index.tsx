@@ -176,7 +176,7 @@ export function AppRightPanel() {
                         // Same gutter the main scrollport reserves: this column
                         // reaches the bottom of the viewport, and the entry
                         // rail's own controls sit at the bottom of it.
-                        className="min-h-0 flex-1 overflow-y-auto overscroll-contain pb-[var(--ortha-fixed-bottom-gutter,0px)]"
+                        className="min-h-0 flex-1 overflow-y-auto overscroll-contain pb-[var(--orthacms-fixed-bottom-gutter,0px)]"
                     />
                 </div>
             </aside>

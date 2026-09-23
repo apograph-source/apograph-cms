@@ -26,11 +26,11 @@ import type {
 const messages = defineMessages({
     generic: {
         id: 'copilot.chat.error.generic',
-        defaultMessage: 'Ortha AI could not answer. Please try again.'
+        defaultMessage: 'Ortha CMS AI could not answer. Please try again.'
     },
     rejectedTitle: {
         id: 'copilot.chat.error.rejectedTitle',
-        defaultMessage: 'Ortha AI could not start'
+        defaultMessage: 'Ortha CMS AI could not start'
     },
     signedOut: {
         id: 'copilot.chat.error.signedOut',

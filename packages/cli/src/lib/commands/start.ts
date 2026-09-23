@@ -12,7 +12,7 @@ export async function startCommand(root: string): Promise<void> {
 
     if (!existsSync(entry)) {
         throw new Error(
-            `${LAYOUT.serverEntry} does not exist — run \`ortha build\` first.`
+            `${LAYOUT.serverEntry} does not exist — run \`orthacms build\` first.`
         );
     }
 

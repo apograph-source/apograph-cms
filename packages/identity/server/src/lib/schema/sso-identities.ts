@@ -9,7 +9,7 @@ import {
 import { users } from './users';
 
 /**
- * The link between an Ortha account and a person at an external identity
+ * The link between an Ortha CMS account and a person at an external identity
  * provider — the row that turns "this IdP says subject X signed in" into "sign
  * in user Y".
  *
@@ -19,7 +19,7 @@ import { users } from './users';
  *   never an email address (see `SsoProfile.subject`): a person's address can
  *   be reassigned to a colleague, and a link keyed on it would hand over the
  *   account with the mailbox. It is unique so one provider identity can never
- *   resolve to two Ortha accounts.
+ *   resolve to two Ortha CMS accounts.
  * - **`(provider, user_id)`** caps an account at one identity per provider.
  *   Without it a mis-firing link path could accumulate rows, and "which Google
  *   account is this user?" would stop having an answer.

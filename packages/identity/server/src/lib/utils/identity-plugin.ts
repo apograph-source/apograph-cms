@@ -160,7 +160,7 @@ export function IdentityPlugin(
                 apiToken: {
                     type: 'http',
                     scheme: 'bearer',
-                    bearerFormat: 'ortha_<random>',
+                    bearerFormat: 'orthacms_<random>',
                     description:
                         'External API token minted by `POST /api/api-tokens`, shown once at mint time. Scoped to one or more workspaces; a request picks which one it targets with the `X-Workspace-Id` header (optional when the token covers exactly one). Authenticates the public content API (`/api/v1/...`).'
                 }

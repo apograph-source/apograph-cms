@@ -27,7 +27,7 @@ describe('probeRegistry', () => {
         await probeRegistry(request);
 
         expect(String(fetchMock.mock.calls[0][0])).toBe(
-            'https://registry.npmjs.org/@ortha%2fmedia-server'
+            'https://registry.npmjs.org/@orthacms%2fmedia-server'
         );
     });
 
@@ -37,7 +37,7 @@ describe('probeRegistry', () => {
         await probeRegistry({ ...request, registry: 'https://r.example' });
 
         expect(String(fetchMock.mock.calls[0][0])).toBe(
-            'https://r.example/@ortha%2fmedia-server'
+            'https://r.example/@orthacms%2fmedia-server'
         );
     });
 

@@ -74,7 +74,7 @@ const repoWeb = repoUrl.replace(/^git\+/, '').replace(/\.git$/, '');
  * at GitHub, so a tarball says where the source is and where a bug goes
  * without conflating either with where the product is explained.
  */
-const website = rootPkg.homepage ?? 'https://ortha.com';
+const website = rootPkg.homepage ?? 'https://orthacms.com';
 
 if (!existsSync(buildDir)) {
     fail(`${pkg.name} has no dist/ — run \`nx build ${pkg.name}\` first`);
@@ -128,7 +128,7 @@ if (existsSync(migrations)) {
     cpSync(migrations, join(stagingDir, 'migrations'), { recursive: true });
 }
 
-// Scaffolding templates (`create-ortha-app`). They are data, not source —
+// Scaffolding templates (`create-orthacms-app`). They are data, not source —
 // deliberately outside `src/` so `tsc --build` never tries to compile an
 // app-shaped file against this workspace's resolve-from-source setup — so
 // nothing else in this script would carry them over.

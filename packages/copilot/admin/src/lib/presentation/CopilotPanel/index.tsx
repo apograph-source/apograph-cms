@@ -33,7 +33,7 @@ import {
 import type { RouteContext } from '../../application/readRouteContext';
 import { ContextChip } from '../ContextChip';
 
-// Product name is **Ortha AI**; the code keeps `copilot`. See the naming note
+// Product name is **Ortha CMS AI**; the code keeps `copilot`. See the naming note
 // in `docs/design/copilot.md`.
 const messages = defineMessages({
     openInAgents: {
@@ -42,12 +42,12 @@ const messages = defineMessages({
     },
     title: {
         id: 'copilot.panel.title',
-        defaultMessage: 'Ortha AI'
+        defaultMessage: 'Ortha CMS AI'
     },
     description: {
         id: 'copilot.panel.description',
         defaultMessage:
-            'Ask about the content in this workspace. Ortha AI acts with your permissions.'
+            'Ask about the content in this workspace. Ortha CMS AI acts with your permissions.'
     },
     newChat: {
         id: 'copilot.panel.newChat',
@@ -75,7 +75,7 @@ const messages = defineMessages({
     },
     move: {
         id: 'copilot.panel.move',
-        defaultMessage: 'Move Ortha AI'
+        defaultMessage: 'Move Ortha CMS AI'
     },
     moveHint: {
         id: 'copilot.panel.moveHint',
@@ -341,7 +341,7 @@ export function CopilotPanel({
             // the rest of the page is inert when it isn't.
             //
             // Named by its own `<h2>`, which already carries the thread title.
-            // A constant "Ortha AI" made all three windows one indistinguishable
+            // A constant "Ortha CMS AI" made all three windows one indistinguishable
             // name in a screen reader's dialog list, while the *visible* name
             // told them apart — the ambiguity this package already fixed for
             // dock pills ("Untitled chat", never "New chat").

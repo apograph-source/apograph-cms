@@ -584,7 +584,7 @@ describe('OutboxDispatcher (drain, retry ceiling, concurrency)', () => {
 
             // No copy. A fresh id would be a different fact to every
             // subscriber — the activity insert deduplicates on this PK and
-            // webhook receivers on `X-Ortha-Event-Id` — so a partly
+            // webhook receivers on `X-Orthacms-Event-Id` — so a partly
             // succeeded delivery would be applied twice.
             expect(await countOutbox('qa.unpark')).toBe(1);
 

@@ -222,15 +222,15 @@ test.describe('Relation picker', () => {
         await expect(relationsEditorPage.section('Articles')).toBeVisible();
         await relationsEditorPage.addRelatedButton.click();
         await expect(
-            relationsEditorPage.candidate('Getting started with Ortha')
+            relationsEditorPage.candidate('Getting started with Ortha CMS')
         ).toBeVisible();
         await relationsEditorPage
-            .candidate('Getting started with Ortha')
+            .candidate('Getting started with Ortha CMS')
             .click();
         await relationsEditorPage.addSelectedButton.click();
 
         await expect(
-            relationsEditorPage.assignedRemove('Getting started with Ortha')
+            relationsEditorPage.assignedRemove('Getting started with Ortha CMS')
         ).toBeVisible();
     });
 

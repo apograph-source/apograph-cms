@@ -18,7 +18,7 @@ test.describe('Command palette', () => {
         await mockSignedIn(page, {
             id: 'u_amara',
             name: 'Amara Okafor',
-            email: 'amara@ortha.dev'
+            email: 'amara@orthacms.dev'
         });
         await mockWorkspaces(page);
         await mockMembers(page);
@@ -156,7 +156,7 @@ test.describe('the ⌘K binding', () => {
         await mockSignedIn(page, {
             id: 'u_amara',
             name: 'Amara Okafor',
-            email: 'amara@ortha.dev'
+            email: 'amara@orthacms.dev'
         });
         await mockWorkspaces(page);
         await mockMembers(page);

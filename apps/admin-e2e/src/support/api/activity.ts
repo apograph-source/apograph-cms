@@ -24,7 +24,7 @@ export const DEFAULT_ACTIVITY: ActivitySeed[] = [
         subjectType: 'user',
         subjectId: 'u_ada',
         actorId: 'u_ada',
-        actorEmail: 'ada@ortha.dev',
+        actorEmail: 'ada@orthacms.dev',
         meta: null,
         at: '2026-06-10T09:00:00.000Z'
     },
@@ -34,7 +34,7 @@ export const DEFAULT_ACTIVITY: ActivitySeed[] = [
         subjectType: 'user',
         subjectId: 'u_grace',
         actorId: 'u_ada',
-        actorEmail: 'ada@ortha.dev',
+        actorEmail: 'ada@orthacms.dev',
         meta: { from: 'viewer', to: 'contributor' },
         at: '2026-06-10T10:00:00.000Z'
     },
@@ -44,7 +44,7 @@ export const DEFAULT_ACTIVITY: ActivitySeed[] = [
         subjectType: 'user',
         subjectId: 'u_katherine',
         actorId: 'u_grace',
-        actorEmail: 'grace@ortha.dev',
+        actorEmail: 'grace@orthacms.dev',
         meta: null,
         at: '2026-06-11T08:30:00.000Z'
     },
@@ -55,7 +55,7 @@ export const DEFAULT_ACTIVITY: ActivitySeed[] = [
         subjectId: 'u_alan',
         actorId: null,
         actorEmail: null,
-        meta: { email: 'alan@ortha.dev' },
+        meta: { email: 'alan@orthacms.dev' },
         at: '2026-06-11T12:00:00.000Z'
     }
 ];
@@ -87,10 +87,10 @@ export const DEFAULT_ACTIVITY: ActivitySeed[] = [
  * broken in the cell is a different failure.
  */
 export const ALL_KINDS_ACTIVITY: ActivitySeed[] = [
-    ['user.invited', 'user', { email: 'alan@ortha.dev' }],
-    ['user.invite_resent', 'user', { email: 'alan@ortha.dev' }],
-    ['user.invite_revoked', 'user', { email: 'alan@ortha.dev' }],
-    ['user.password_reset_issued', 'user', { email: 'alan@ortha.dev' }],
+    ['user.invited', 'user', { email: 'alan@orthacms.dev' }],
+    ['user.invite_resent', 'user', { email: 'alan@orthacms.dev' }],
+    ['user.invite_revoked', 'user', { email: 'alan@orthacms.dev' }],
+    ['user.password_reset_issued', 'user', { email: 'alan@orthacms.dev' }],
     ['user.activated', 'user', null],
     ['user.profile_updated', 'user', { name: { from: 'Ada L', to: 'Ada B' } }],
     ['user.role_changed', 'user', { from: 'viewer', to: 'contributor' }],
@@ -157,7 +157,7 @@ export const ALL_KINDS_ACTIVITY: ActivitySeed[] = [
     ['media.folder.created', 'media_folder', { name: 'Brand', parentId: null }],
     ['media.folder.renamed', 'media_folder', { name: 'Brand assets' }],
     ['media.folder.deleted', 'media_folder', {}],
-    ['token.used', 'api_token', { name: 'CI', lookupPrefix: 'ortha_abc' }],
+    ['token.used', 'api_token', { name: 'CI', lookupPrefix: 'orthacms_abc' }],
     [
         'transfer.content.exported',
         'content_type',
@@ -216,7 +216,7 @@ export const ALL_KINDS_ACTIVITY: ActivitySeed[] = [
     subjectType: subjectType as string,
     subjectId: `subj_${index}`,
     actorId: 'u_ada',
-    actorEmail: 'ada@ortha.dev',
+    actorEmail: 'ada@orthacms.dev',
     meta: meta as Record<string, unknown> | null,
     // Descending, so the log reads newest-first like the server's default.
     at: new Date(Date.UTC(2026, 5, 1, 12, 0, 0) - index * 60_000).toISOString()
@@ -429,7 +429,7 @@ export const ENTRY_ACTIVITY: ActivitySeed[] = [
         subjectType: 'content_entry',
         subjectId: 'blog_post-01',
         actorId: 'u_ada',
-        actorEmail: 'ada@ortha.dev',
+        actorEmail: 'ada@orthacms.dev',
         meta: null,
         at: '2026-06-12T11:30:00.000Z'
     },
@@ -439,7 +439,7 @@ export const ENTRY_ACTIVITY: ActivitySeed[] = [
         subjectType: 'content_entry',
         subjectId: 'blog_post-01',
         actorId: 'u_grace',
-        actorEmail: 'grace@ortha.dev',
+        actorEmail: 'grace@orthacms.dev',
         meta: null,
         at: '2026-06-11T15:05:00.000Z'
     },

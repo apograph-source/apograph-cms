@@ -28,7 +28,7 @@ import { ContentToolProvider } from './content-tools.provider';
  * it was never registered — and asks both for the same URI.
  *
  * That distinction is exactly what the server-e2e suite is missing today: its
- * `-32002` case reads `ortha://content-type/never_granted`, a name no registry
+ * `-32002` case reads `orthacms://content-type/never_granted`, a name no registry
  * holds, which pins *unknown URI* and would pass unchanged against a
  * `readResource` that consulted no grant set at all. Only a type that exists
  * and was withheld can tell the gate apart from its absence.
@@ -105,7 +105,7 @@ const withheld = () =>
 /** The same name, in a deployment where no such content type was ever defined. */
 const nonexistent = () => world(['test_granted'], ['test_granted']);
 
-const UNGRANTED_URI = 'ortha://content-type/test_ungranted';
+const UNGRANTED_URI = 'orthacms://content-type/test_ungranted';
 
 /** A context holding every permission, so nothing but the grant gate can refuse. */
 function context(): ToolContext {
@@ -142,11 +142,11 @@ describe('ContentToolProvider resource reads', () => {
 
         await expect(
             provider.readResource(
-                'ortha://content-type/test_granted',
+                'orthacms://content-type/test_granted',
                 context()
             )
         ).resolves.toMatchObject({
-            uri: 'ortha://content-type/test_granted',
+            uri: 'orthacms://content-type/test_granted',
             mimeType: 'application/json'
         });
         expect(serializedNames).toEqual(['test_granted']);
@@ -222,7 +222,7 @@ describe('ContentToolProvider resource reads', () => {
         // and what makes the registry's own "Unknown resource" 404 reachable.
         await expect(
             withheld().provider.readResource(
-                'ortha://media-asset/1',
+                'orthacms://media-asset/1',
                 context()
             )
         ).resolves.toBeUndefined();

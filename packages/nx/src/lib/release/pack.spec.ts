@@ -14,7 +14,7 @@ import { join } from 'node:path';
 
 /**
  * `tools/release/pack.mjs` staging a package that ships a **`bin`** and
- * **`templates/`** — what `create-ortha-app` and `@orthacms/cli` need.
+ * **`templates/`** — what `create-orthacms-app` and `@orthacms/cli` need.
  *
  * Driven as a subprocess against a throwaway workspace rather than imported:
  * the script is an ESM entry point that reads `process.cwd()`, writes to
@@ -45,7 +45,7 @@ function writeText(path: string, contents: string): void {
  * real repo.
  */
 function workspace(manifest: Record<string, unknown>): string {
-    const dir = mkdtempSync(join(tmpdir(), 'ortha-pack-'));
+    const dir = mkdtempSync(join(tmpdir(), 'orthacms-pack-'));
 
     writeJson(join(dir, 'package.json'), {
         name: '@orthacms/source',
@@ -89,7 +89,7 @@ function stagedManifest(): Record<string, never> {
 }
 
 const baseManifest = {
-    name: 'create-ortha-app',
+    name: 'create-orthacms-app',
     version: '1.2.3',
     license: 'MIT',
     main: './src/index.ts',
@@ -108,12 +108,12 @@ describe('pack.mjs, for a package that ships a bin', () => {
     it('remaps a bin map onto the build output', () => {
         root = workspace({
             ...baseManifest,
-            bin: { ortha: './src/cli.ts' }
+            bin: { orthacms: './src/cli.ts' }
         });
 
         pack();
 
-        expect(stagedManifest().bin).toEqual({ ortha: './dist/cli.js' });
+        expect(stagedManifest().bin).toEqual({ orthacms: './dist/cli.js' });
     });
 
     it('remaps the bare-string spelling too', () => {
@@ -140,7 +140,7 @@ describe('pack.mjs, for a package that ships a bin', () => {
     it('refuses to stage a bin the build never emitted', () => {
         root = workspace({
             ...baseManifest,
-            bin: { ortha: './src/missing.ts' }
+            bin: { orthacms: './src/missing.ts' }
         });
 
         expect(pack).toThrow();

@@ -75,7 +75,7 @@ describe('SSO authority', () => {
                 sso: {
                     provisioning: {
                         // `example.com` is the domain the scripted people are
-                        // in; `stranger` is the one with no Ortha account.
+                        // in; `stranger` is the one with no Ortha CMS account.
                         domains: ['example.com'],
                         defaultRole: 'viewer'
                     }

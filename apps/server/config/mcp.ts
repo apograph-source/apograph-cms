@@ -15,7 +15,7 @@ export function mcpConfig(): McpPluginConfig {
         enabled: readFlag('MCP_ENABLED', false),
         // Stable product configuration, so literals: this is the identity MCP
         // clients display in their connector lists.
-        name: 'ortha-cms',
+        name: 'orthacms',
         version: '1.0.0',
         // A request/response transport owes its caller an answer. The registry
         // has no deadline of its own, so without this the only bound on a

@@ -3,7 +3,7 @@ import { createTestkitMailProvider } from './testkit-mail-provider';
 
 const message = {
     to: 'ada@example.com',
-    from: 'Ortha <no-reply@example.com>',
+    from: 'Ortha CMS <no-reply@example.com>',
     subject: 'You have been invited',
     text: 'https://cms.example.com/identity/accept-invite?token=s3cret'
 };

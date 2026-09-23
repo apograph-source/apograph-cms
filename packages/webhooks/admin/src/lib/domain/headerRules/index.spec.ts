@@ -9,8 +9,8 @@ describe('which headers an endpoint may set', () => {
     it('refuses the delivery’s own metadata', () => {
         // Overwriting these would let a delivery claim to be something it is
         // not — a different event, or one signed by someone else.
-        expect(rejectionFor('X-Ortha-Signature')).toBe('reserved');
-        expect(rejectionFor('x-ortha-event')).toBe('reserved');
+        expect(rejectionFor('X-Orthacms-Signature')).toBe('reserved');
+        expect(rejectionFor('x-orthacms-event')).toBe('reserved');
     });
 
     it('refuses headers the transport owns', () => {

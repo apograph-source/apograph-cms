@@ -1,0 +1,51 @@
+{
+    "name": "__APP_NAME__",
+    "version": "0.1.0",
+    "private": true,
+    "type": "commonjs",
+    "scripts": {
+        "dev": "orthacms dev",
+        "build": "orthacms build",
+        "start": "orthacms start",
+        "migrate": "orthacms migrate",
+        "generate": "orthacms generate",
+        "studio": "orthacms studio",
+        "test": "npm run test:server && npm run test:admin",
+        "test:server": "jest --config apps/server/jest.config.js",
+        "test:admin": "vitest run --config apps/admin/vite.config.mts",
+        "e2e": "npm run e2e:server && npm run e2e:admin",
+        "typecheck": "tsc --build tsconfig.json",
+        "e2e:server": "jest --config apps/server-e2e/jest.config.js",
+        "e2e:admin": "playwright test --config apps/admin-e2e/playwright.config.ts"
+    },
+    "dependencies": {
+        "react": "^19.0.0",
+        "react-dom": "^19.0.0",
+        "react-router-dom": "6.30.3",
+        "reflect-metadata": "^0.1.13",
+        "rxjs": "^7.8.0"
+    },
+    "devDependencies": {
+        "@playwright/test": "^1.36.0",
+        "@swc/core": "~1.15.5",
+        "@swc/jest": "~0.2.38",
+        "@tailwindcss/vite": "^4.3.0",
+        "@testing-library/dom": "10.4.0",
+        "@testing-library/react": "16.3.0",
+        "@types/jest": "~30.0.0",
+        "@types/node": "^20.19.9",
+        "@types/pg": "^8.11.0",
+        "@types/react": "^19.0.0",
+        "@types/react-dom": "^19.0.0",
+        "@types/supertest": "^6.0.0",
+        "@vitejs/plugin-react": "^6.0.0",
+        "jest": "~30.3.0",
+        "jsdom": "~22.1.0",
+        "pg": "^8.13.0",
+        "supertest": "^7.0.0",
+        "tailwindcss": "^4.3.0",
+        "typescript": "~5.9.2",
+        "vite": "^8.0.0",
+        "vitest": "~4.1.0"
+    }
+}

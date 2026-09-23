@@ -603,7 +603,7 @@ describe('toAuditRow — event → audit-row parity', () => {
                         name: 'CI',
                         scope: 'read',
                         workspaceIds: [WORKSPACE_ID],
-                        lookupPrefix: 'ortha_abc123',
+                        lookupPrefix: 'orthacms_abc123',
                         expiresAt: null
                     },
                     { id: TARGET_USER_ID, email: 'admin@example.com' }
@@ -622,7 +622,7 @@ describe('toAuditRow — event → audit-row parity', () => {
                     name: 'CI',
                     scope: 'read',
                     workspaceIds: [WORKSPACE_ID],
-                    lookupPrefix: 'ortha_abc123'
+                    lookupPrefix: 'orthacms_abc123'
                 },
                 at: AT
             });
@@ -638,7 +638,7 @@ describe('toAuditRow — event → audit-row parity', () => {
                         name: 'CI',
                         scope: 'full',
                         workspaceIds: [WORKSPACE_ID],
-                        lookupPrefix: 'ortha_abc123'
+                        lookupPrefix: 'orthacms_abc123'
                     },
                     { id: TARGET_USER_ID, email: 'admin@example.com' }
                 )
@@ -650,7 +650,7 @@ describe('toAuditRow — event → audit-row parity', () => {
                 meta: {
                     name: 'CI',
                     scope: 'full',
-                    lookupPrefix: 'ortha_abc123'
+                    lookupPrefix: 'orthacms_abc123'
                 }
             });
         });
@@ -665,8 +665,8 @@ describe('toAuditRow — event → audit-row parity', () => {
                     name: 'CI',
                     scope: 'read',
                     workspaceIds: [],
-                    lookupPrefix: 'ortha_abc123',
-                    secret: 'ortha_the-actual-secret',
+                    lookupPrefix: 'orthacms_abc123',
+                    secret: 'orthacms_the-actual-secret',
                     tokenHash: 'f'.repeat(64)
                 })
             );
@@ -1087,7 +1087,7 @@ describe('toAuditRow — event → audit-row parity', () => {
             role: 'editor',
             scope: 'read',
             workspaceIds: [WORKSPACE_ID],
-            lookupPrefix: 'ortha_abc123',
+            lookupPrefix: 'orthacms_abc123',
             sessionsRevoked: 1,
             sessionId: 'session-1',
             method: 'password',

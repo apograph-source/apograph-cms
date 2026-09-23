@@ -14,7 +14,7 @@ import { readEnv, readPositiveInt } from '@orthacms/utils-server';
  * config type costs no new coupling — and switching storage is that import plus
  * the type named below, with nothing to change inside the media packages.
  */
-export interface OrthaMediaConfig extends MediaPluginConfig {
+export interface OrthaCmsMediaConfig extends MediaPluginConfig {
     /**
      * Whatever the constructed provider needs. Typed by the factory
      * `plugins.ts` calls — `LocalStorageConfig` today; swapping to
@@ -24,7 +24,7 @@ export interface OrthaMediaConfig extends MediaPluginConfig {
 }
 
 /** The storage backend `plugins.ts` constructs, plus the upload ceilings. */
-export function mediaConfig(): OrthaMediaConfig {
+export function mediaConfig(): OrthaCmsMediaConfig {
     return {
         // Settings for the storage backend `plugins.ts` constructs. There is no
         // variable naming which backend runs: that is decided by the factory the

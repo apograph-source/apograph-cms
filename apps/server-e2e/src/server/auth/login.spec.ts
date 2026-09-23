@@ -17,13 +17,13 @@ import { TEST_ALLOWED_ORIGIN } from '../../support/test-config';
 const EMAIL = 'login-test@example.com';
 const PASSWORD = 'SecurePass123!';
 
-/** Pull the `ortha_session` cookie (name=value, no attributes) from a response. */
+/** Pull the `orthacms_session` cookie (name=value, no attributes) from a response. */
 function sessionCookie(res: Response): string | undefined {
     const setCookie = res.headers['set-cookie'] as unknown as
         | string[]
         | undefined;
     return setCookie
-        ?.find((c) => c.startsWith('ortha_session='))
+        ?.find((c) => c.startsWith('orthacms_session='))
         ?.split(';')[0];
 }
 
@@ -70,7 +70,7 @@ describe('POST /api/auth/login', () => {
                 .expect(201);
             const cookie = sessionCookie(res);
             expect(cookie).toBeDefined();
-            expect(cookie).toMatch(/^ortha_session=.+/);
+            expect(cookie).toMatch(/^orthacms_session=.+/);
         });
 
         it('cookie carries the configured attributes (HttpOnly, Lax, Path, Max-Age, not Secure)', async () => {
@@ -79,7 +79,7 @@ describe('POST /api/auth/login', () => {
                 .expect(201);
             const setCookie = res.headers['set-cookie'] as unknown as string[];
             const raw = setCookie.find((c) =>
-                c.startsWith('ortha_session=')
+                c.startsWith('orthacms_session=')
             );
             expect(raw).toBeDefined();
             expect(raw).toMatch(/HttpOnly/i);

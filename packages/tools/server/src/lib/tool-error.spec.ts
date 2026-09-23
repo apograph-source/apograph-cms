@@ -58,7 +58,7 @@ describe('toToolError', () => {
     // tool result is read by a third-party model.
     it('reports a non-HTTP error as an opaque internal error [tools:I-20]', () => {
         const error = toToolError(
-            new Error('connect ECONNREFUSED 10.0.0.5:5432 (db "ortha_prod")')
+            new Error('connect ECONNREFUSED 10.0.0.5:5432 (db "orthacms_prod")')
         );
 
         expect(error).toEqual({

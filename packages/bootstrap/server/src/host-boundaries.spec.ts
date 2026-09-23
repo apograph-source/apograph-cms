@@ -117,6 +117,6 @@ describe('the server host holds no domain logic', () => {
         ).toEqual([]);
         // …and not through an undeclared import either, which is how a phantom
         // dependency gets in (see the express case above).
-        expect(matching(/from '@ortha\//)).toEqual([]);
+        expect(matching(/from '@orthacms\//)).toEqual([]);
     });
 });

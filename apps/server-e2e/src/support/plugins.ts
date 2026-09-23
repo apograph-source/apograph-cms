@@ -18,7 +18,7 @@ import { MediaServerPlugin } from '@orthacms/media-server';
 import { UsersPlugin } from '@orthacms/users-server';
 import { WebhooksPlugin } from '@orthacms/webhooks-server';
 import { WorkspacesPlugin } from '@orthacms/workspaces-server';
-import type { OrthaConfig } from '../../../server/ortha.config';
+import type { OrthaCmsConfig } from '../../../server/orthacms.config';
 import { testContentTypes } from './content';
 import { fakeAltProvider, fakeProvider, testCodeSkills } from './copilot';
 import { fakeSsoProvider, ssoRoleResolver } from './sso';
@@ -100,7 +100,7 @@ export interface BuildTestPluginsOptions {
  * ports), and i18n after content (binds content's extension port).
  */
 export function buildTestPlugins(
-    config: OrthaConfig,
+    config: OrthaCmsConfig,
     options: BuildTestPluginsOptions = {}
 ): ServerPlugin[] {
     if (options.omitContent) {
@@ -177,7 +177,7 @@ export function buildTestPlugins(
                       provider: testMailProvider,
                       config: config.plugins.mail ?? {
                           appUrl: 'https://cms.test',
-                          from: 'Ortha <no-reply@cms.test>',
+                          from: 'Ortha CMS <no-reply@cms.test>',
                           deliveryIntervalMs: 0
                       }
                   })

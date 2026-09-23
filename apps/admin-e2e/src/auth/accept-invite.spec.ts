@@ -83,13 +83,13 @@ test.describe('accept an invite', () => {
         page,
         acceptInvitePage
     }) => {
-        await mockInvite(page, { email: 'nameless@ortha.dev', name: null });
+        await mockInvite(page, { email: 'nameless@orthacms.dev', name: null });
         await acceptInvitePage.goto();
 
         await expect(acceptInvitePage.heading).toBeVisible();
         await expect(acceptInvitePage.nameField()).toHaveCount(0);
         await expect(acceptInvitePage.emailField()).toHaveValue(
-            'nameless@ortha.dev'
+            'nameless@orthacms.dev'
         );
     });
 
@@ -307,7 +307,7 @@ test.describe('accept an invite', () => {
         await mockSignedIn(page, {
             id: 'u_root',
             name: 'Root Admin',
-            email: 'root@ortha.com'
+            email: 'root@orthacms.com'
         });
         await mockInvite(page);
         await spyAcceptInvite(page);
@@ -326,7 +326,7 @@ test.describe('accept an invite', () => {
         await expect(
             page.getByText(DEFAULT_INVITE.email).first()
         ).toBeVisible();
-        await expect(page.getByText('root@ortha.com')).toHaveCount(0);
+        await expect(page.getByText('root@orthacms.com')).toHaveCount(0);
     });
 
     test('shows the dead-link state for a rejected token', async ({
@@ -394,7 +394,7 @@ test.describe('accept an invite', () => {
         // the description interpolates it — assert both places show the
         // characters rather than acting on them (EC-10).
         const name = '<script>alert(1)</script>';
-        await mockInvite(page, { email: 'script@ortha.dev', name });
+        await mockInvite(page, { email: 'script@orthacms.dev', name });
         await acceptInvitePage.goto();
 
         await expect(acceptInvitePage.heading).toBeVisible();
@@ -411,7 +411,7 @@ test.describe('accept an invite', () => {
         acceptInvitePage
     }) => {
         const name = 'عائشة الأنصاري';
-        await mockInvite(page, { email: 'rtl@ortha.dev', name });
+        await mockInvite(page, { email: 'rtl@orthacms.dev', name });
         await acceptInvitePage.goto();
 
         await expect(acceptInvitePage.nameField()).toHaveValue(name);

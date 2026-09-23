@@ -198,7 +198,7 @@ co-located subscribers, and is merged with the runtime-registered ones.
 
 ## Configuration
 
-The settings flow from `apps/server/ortha.config.ts` (`database.url` from
+The settings flow from `apps/server/orthacms.config.ts` (`database.url` from
 `DATABASE_URL`, `database.outboxRetentionDays` from `OUTBOX_RETENTION_DAYS`)
 into the plugin. The wiring itself lives in **`apps/server/src/plugins.ts`**;
 `main.ts` only calls `buildPlugins(config)`.

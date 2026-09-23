@@ -4,7 +4,7 @@ _Package group · packages/bootstrap_
 
 **The two hosts that turn a list of plugins into a running application**
 
-Bootstrap is the one part of Ortha that has **no product feature in it at all**. No authentication, no content, no tables, no business routes. It is two composition roots — `createServer` for the NestJS API and `createAdmin` for the React admin UI — that take an array of plugins and assemble an application out of it, setting the cross-cutting rules exactly once along the way: the prefix, validation, proxy trust, the request-body ceiling, OpenAPI generation, the React root, the router, the providers, the error boundary and the announcing of navigation.
+Bootstrap is the one part of Ortha CMS that has **no product feature in it at all**. No authentication, no content, no tables, no business routes. It is two composition roots — `createServer` for the NestJS API and `createAdmin` for the React admin UI — that take an array of plugins and assemble an application out of it, setting the cross-cutting rules exactly once along the way: the prefix, validation, proxy trust, the request-body ceiling, OpenAPI generation, the React root, the router, the providers, the error boundary and the announcing of navigation.
 
 - **2** packages in the group
 - **5** fields in the ServerPlugin contract
@@ -34,12 +34,12 @@ Bootstrap is the one part of Ortha that has **no product feature in it at all**.
 
 ## 01. Business description
 
-Ortha is not a monolith with features bolted on. It is a small, deliberately stupid **host** that turns a _list of plugins_ into an application. The host knows no domain at all: not what a user is, not what a content entry is, not what a workspace is. All of that lives in plugins. The decision is recorded in ADR-0002 “Plugin-based architecture” and is the defining one for the whole architecture.
+Ortha CMS is not a monolith with features bolted on. It is a small, deliberately stupid **host** that turns a _list of plugins_ into an application. The host knows no domain at all: not what a user is, not what a content entry is, not what a workspace is. All of that lives in plugins. The decision is recorded in ADR-0002 “Plugin-based architecture” and is the defining one for the whole architecture.
 
 ### What it buys the product
 
 - **An installation is assembled for the customer, not trimmed down for them.** A deployment that needs neither the AI copilot nor MCP nor GraphQL simply does not register those plugins. Nothing is “switched off by a flag”, nothing hangs around as dead code in the bundle — the corresponding routes, tables and screens are physically absent from that build.
-- **The product can be handed out.** It is precisely because an application _is_ a list of plugins that `npx create-ortha-app` exists: the generated application is the same `createServer` and the same `createAdmin`, only with a different list. The host does not distinguish “a plugin from the monorepo” from “a plugin installed from npm”: both present one interface.
+- **The product can be handed out.** It is precisely because an application _is_ a list of plugins that `npx create-orthacms-app` exists: the generated application is the same `createServer` and the same `createAdmin`, only with a different list. The host does not distinguish “a plugin from the monorepo” from “a plugin installed from npm”: both present one interface.
 - **A new capability does not touch existing code.** Adding a feature means adding a package and one line to `apps/server/src/plugins.ts` or `apps/admin/src/plugins.ts`. The host's own files are never opened. That is not an aesthetic point: it is the reason the fifteenth feature costs what the second one did.
 - **Cross-cutting rules apply once, to everyone.** Strict body validation, the ceiling on its size, the global prefix, proxy trust, a graceful shutdown on SIGTERM — all set in one place. A plugin cannot “forget” to apply them, because it has nothing to apply.
 
@@ -113,7 +113,7 @@ The admin package depends on `@orthacms/design-system`, `@orthacms/utils-admin`,
 
 ## 03. The `ServerPlugin` contract
 
-This is the central interface of the entire system: everything the server side of Ortha can do arrives in the application through it. There are exactly **five** fields, of which **two** are required. That narrowness is deliberate: the less the host knows about a plugin, the fewer reasons a plugin has to depend on the host.
+This is the central interface of the entire system: everything the server side of Ortha CMS can do arrives in the application through it. There are exactly **five** fields, of which **two** are required. That narrowness is deliberate: the less the host knows about a plugin, the fewer reasons a plugin has to depend on the host.
 
 ```
 export interface ServerPlugin {
@@ -156,7 +156,7 @@ export class ServerModule {
 }
 ```
 
-There is no filtering here, no sorting, no duplicate check. Which is exactly why **a plugin's position in the array decides almost nothing for DI**: plugin modules in Ortha are global, and Nest builds the whole graph before instantiating. Measured: moving `IdentityPlugin` above `DatabasePlugin` yields a fully working server.
+There is no filtering here, no sorting, no duplicate check. Which is exactly why **a plugin's position in the array decides almost nothing for DI**: plugin modules in Ortha CMS are global, and Nest builds the whole graph before instantiating. Measured: moving `IdentityPlugin` above `DatabasePlugin` yields a fully working server.
 
 The standard form is a factory returning a dynamic module with the configuration inside:
 
@@ -242,7 +242,7 @@ docs: {
         apiToken: {
             type: 'http',
             scheme: 'bearer',
-            bearerFormat: 'ortha_<random>',
+            bearerFormat: 'orthacms_<random>',
             description: 'External API token minted by `POST /api/api-tokens` …'
         }
     },
@@ -685,7 +685,7 @@ The order in `apps/admin/src/plugins.ts`: identity first (the only contributor o
 
 ## 09. Configuration and environment
 
-Neither host **reads `process.env` even once** — with one exception, covered below. The typed configuration is assembled by the application: `apps/server/ortha.config.ts` is the only place that touches the environment, and it hands `createServer` finished values.
+Neither host **reads `process.env` even once** — with one exception, covered below. The typed configuration is assembled by the application: `apps/server/orthacms.config.ts` is the only place that touches the environment, and it hands `createServer` finished values.
 
 ```
 // apps/server/src/main.ts
@@ -705,13 +705,13 @@ createServer({
 
 | Variable         | Read by                                | What it becomes                                                                | Default                           |
 | ---------------- | -------------------------------------- | ------------------------------------------------------------------------------ | --------------------------------- |
-| PORT             | ortha.config.ts                        | `createServer.port`                                                            | 3000                              |
-| TRUST_PROXY      | ortha.config.ts                        | `trustProxy`: a hop count → a boolean → a preset string, checked in that order | unset — proxy headers are ignored |
-| MAX_REQUEST_BODY | ortha.config.ts                        | `bodyLimit`                                                                    | `'1mb'`                           |
-| API_DOCS         | ortha.config.ts                        | `docs.enabled`                                                                 | `NODE_ENV !== 'production'`       |
+| PORT             | orthacms.config.ts                        | `createServer.port`                                                            | 3000                              |
+| TRUST_PROXY      | orthacms.config.ts                        | `trustProxy`: a hop count → a boolean → a preset string, checked in that order | unset — proxy headers are ignored |
+| MAX_REQUEST_BODY | orthacms.config.ts                        | `bodyLimit`                                                                    | `'1mb'`                           |
+| API_DOCS         | orthacms.config.ts                        | `docs.enabled`                                                                 | `NODE_ENV !== 'production'`       |
 | NODE_ENV         | **the host itself**, in `setupApiDocs` | the default for `docs.enabled` when the option is not passed                   | —                                 |
-| DATABASE_URL     | ortha.config.ts                        | the `database` plugin's configuration, not the host's                          | required                          |
-| ADMIN_PORT       | ortha.config.ts                        | the dev admin UI's origin, for plugin settings; nothing to do with the host    | 4200                              |
+| DATABASE_URL     | orthacms.config.ts                        | the `database` plugin's configuration, not the host's                          | required                          |
+| ADMIN_PORT       | orthacms.config.ts                        | the dev admin UI's origin, for plugin settings; nothing to do with the host    | 4200                              |
 
 > **The one environment read inside the host**
 >
@@ -972,4 +972,4 @@ Found while reconciling this dossier with the sources. Not product bugs in thems
 
 **A dossier on the `packages/bootstrap` group.** The structure: business description → composition → the `ServerPlugin` contract → the `AdminPlugin` contract → starting the server → starting the admin UI → slots → order and collisions → configuration → security → invariants → checklist → boundaries → divergences. The “data model”, “HTTP API” and “roles and permissions” sections are deliberately absent: the hosts have no tables, no routes and no permissions — and that is the main thing to know about them.
 
-The source is the source code: all of `packages/bootstrap/server/src/**` and `packages/bootstrap/admin/src/**`, `packages/utils/admin/src/lib/slot`, the composition roots `apps/server/src/{main.ts,plugins.ts}`, `apps/admin/src/{main.tsx,plugins.ts}`, `apps/server/ortha.config.ts`, the migration-descriptor consumer `packages/cli/src/lib/migrate.ts`, the `docs` contributions from `identity-server` and `content-server`, plus the `apps/server-e2e/src/harness/*` and `apps/admin-e2e/src/host/*` suites. The `AGENTS.md` and `ARCHITECTURE.md` documents and ADR-0002 were used as the frame, but every claim was checked against the implementation — the divergences are gathered in section 14.
+The source is the source code: all of `packages/bootstrap/server/src/**` and `packages/bootstrap/admin/src/**`, `packages/utils/admin/src/lib/slot`, the composition roots `apps/server/src/{main.ts,plugins.ts}`, `apps/admin/src/{main.tsx,plugins.ts}`, `apps/server/orthacms.config.ts`, the migration-descriptor consumer `packages/cli/src/lib/migrate.ts`, the `docs` contributions from `identity-server` and `content-server`, plus the `apps/server-e2e/src/harness/*` and `apps/admin-e2e/src/host/*` suites. The `AGENTS.md` and `ARCHITECTURE.md` documents and ADR-0002 were used as the frame, but every claim was checked against the implementation — the divergences are gathered in section 14.

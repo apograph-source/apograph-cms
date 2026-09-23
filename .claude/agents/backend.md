@@ -1,6 +1,6 @@
 ---
 name: backend
-description: Implements the server half of an Ortha ticket — packages/*/server, packages/*/domain, Drizzle schema and migrations, and the server-e2e suites that cover it. Delegate for API work the ticket plan assigns to the backend role, or for a read-only analysis pass over the server surface.
+description: Implements the server half of an Ortha CMS ticket — packages/*/server, packages/*/domain, Drizzle schema and migrations, and the server-e2e suites that cover it. Delegate for API work the ticket plan assigns to the backend role, or for a read-only analysis pass over the server surface.
 tools: Read, Glob, Grep, Edit, Write, Bash, mcp__github__get_file_contents
 model: inherit
 ---

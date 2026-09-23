@@ -17,7 +17,7 @@ import {
  * will ever move.
  */
 export function panelFrameStorageKey(slot: number): string {
-    return `ortha.copilot.panel-frame.${slot}`;
+    return `orthacms.copilot.panel-frame.${slot}`;
 }
 
 /** How far one arrow key moves or resizes the panel, in pixels. */

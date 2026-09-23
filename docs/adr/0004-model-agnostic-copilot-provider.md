@@ -14,7 +14,7 @@
 We are adding an AI copilot to the admin: a chat that can search, export, draft
 and edit content on the signed-in user's behalf. It needs a language model.
 
-Ortha is **self-hosted**. The operator — not us — runs the infrastructure and
+Ortha CMS is **self-hosted**. The operator — not us — runs the infrastructure and
 owns the policy about where their content may travel. That single fact drives
 everything here:
 
@@ -88,7 +88,7 @@ identical to media storage.
    `copilot:configure` may register a model at runtime — adapter kind, base URL,
    model id, credential, limits — persisted in `copilot_model_configs`.
    Credentials are **encrypted at rest** under a key sourced from
-   `ortha.config.ts`, are never serialized to the browser, and the admin UI
+   `orthacms.config.ts`, are never serialized to the browser, and the admin UI
    learns only a model's name and probed capabilities.
 
 ## Consequences
@@ -117,7 +117,7 @@ identical to media storage.
 
 **Follow-up work this commits us to:**
 
-- An encryption key in `ortha.config.ts` plus a documented rotation procedure.
+- An encryption key in `orthacms.config.ts` plus a documented rotation procedure.
 - A small offline eval set (fixture workspace + expected tool calls) so a prompt
   change is reviewable like code, and so an operator can measure a swapped-in
   model before trusting it.

@@ -99,7 +99,7 @@ describe('halves', () => {
 
     /**
      * `--server` skips the admin and `--admin` skips the server, so together
-     * they ask for neither: `ortha build --server --admin` used to compile
+     * they ask for neither: `orthacms build --server --admin` used to compile
      * nothing, build nothing and exit 0 — a build that looks like it worked.
      */
     it('refuses both at once, naming what each of them skips', () => {

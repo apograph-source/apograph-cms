@@ -7,7 +7,7 @@ import type { CreateNodesV2, TargetConfiguration } from '@nx/devkit';
  * infers `typecheck` from a tsconfig:
  *
  * - a project with a `drizzle.config.ts` gets `db:generate`
- * - a project with an `ortha.config.ts` (the host) gets `db:migrate` and
+ * - a project with an `orthacms.config.ts` (the host) gets `db:migrate` and
  *   `db:studio`
  * - a package under `packages/` gets `build`, and a publishable one also
  *   gets `pack` plus an `nx-release-publish` pointed at what `pack` staged
@@ -45,7 +45,7 @@ import type { CreateNodesV2, TargetConfiguration } from '@nx/devkit';
  * reason: they are side-effecting.
  */
 export const createNodesV2: CreateNodesV2 = [
-    '**/{drizzle.config.ts,ortha.config.ts,package.json}',
+    '**/{drizzle.config.ts,orthacms.config.ts,package.json}',
     async (configFiles, _, context) => {
         return configFiles.map((file) => {
             const projectRoot = dirname(file);

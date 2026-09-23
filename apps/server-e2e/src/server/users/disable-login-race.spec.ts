@@ -17,14 +17,14 @@ import {
 const ADMIN_EMAIL = 'race-admin@example.com';
 const PASSWORD = 'SecurePass123!';
 
-/** The `ortha_session=value` pair from a login response, if one was set. */
+/** The `orthacms_session=value` pair from a login response, if one was set. */
 function sessionCookie(res: Response): string | null {
     const setCookie = res.headers['set-cookie'] as unknown as
         | string[]
         | undefined;
     return (
         setCookie
-            ?.find((cookie) => cookie.startsWith('ortha_session='))
+            ?.find((cookie) => cookie.startsWith('orthacms_session='))
             ?.split(';')[0] ?? null
     );
 }

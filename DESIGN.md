@@ -10,7 +10,7 @@ opposed to the *how* of [`ARCHITECTURE.md`](ARCHITECTURE.md).
 
 ## Product vision
 
-<!-- TODO: One paragraph — what is Ortha for, and who is it for? -->
+<!-- TODO: One paragraph — what is Ortha CMS for, and who is it for? -->
 
 ## Target users & jobs-to-be-done
 

@@ -29,7 +29,7 @@ const errorToast = vi.mocked(toast.error);
 
 const signedIn: CurrentUser = {
     id: 'usr_1',
-    email: 'ada@ortha.dev',
+    email: 'ada@orthacms.dev',
     name: 'Ada Lovelace',
     roleId: 'role_admin',
     status: 'Active',

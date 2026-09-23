@@ -9,7 +9,7 @@ import {
 const messages = defineMessages({
     resize: {
         id: 'copilot.panel.resize',
-        defaultMessage: 'Resize Ortha AI'
+        defaultMessage: 'Resize Ortha CMS AI'
     },
     resizeHint: {
         id: 'copilot.panel.resizeHint',

@@ -72,7 +72,7 @@ function importedWorkspacePackages(): string[] {
     const found = new Set<string>();
     for (const file of sourceFiles(join(PACKAGE_ROOT, 'src'))) {
         const source = readFileSync(file, 'utf8');
-        for (const match of source.matchAll(/from\s+'(@ortha\/[^'/]+)/g)) {
+        for (const match of source.matchAll(/from\s+'(@orthacms\/[^'/]+)/g)) {
             found.add(match[1]);
         }
     }

@@ -1378,7 +1378,7 @@ not be a fixed set anyway, since visible types depend on the token's grants. A
 model discovers one type's shape on demand with `content_type_get`, whose
 `valuesSchema` comes from the same `docs/field-schema.ts` the OpenAPI document
 uses. Granted types are also exposed as MCP **resources**
-(`ortha://content-type/<name>`), through the same grant gate.
+(`orthacms://content-type/<name>`), through the same grant gate.
 
 **Authorization is declared, not implemented.** Each tool names its permissions
 in `requires`, and `ToolRegistry.call` enforces them before dispatch — the

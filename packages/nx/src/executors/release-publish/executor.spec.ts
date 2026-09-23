@@ -48,9 +48,9 @@ const manifest = { name: '@orthacms/media-server', version: '0.3.0' };
 
 beforeEach(() => {
     jest.clearAllMocks();
-    root = mkdtempSync(join(tmpdir(), 'ortha-publish-'));
-    delete process.env.ORTHA_PUBLISH_DELAY;
-    delete process.env.ORTHA_PUBLISH_RETRIES;
+    root = mkdtempSync(join(tmpdir(), 'orthacms-publish-'));
+    delete process.env.ORTHACMS_PUBLISH_DELAY;
+    delete process.env.ORTHACMS_PUBLISH_RETRIES;
     delete process.env.NX_DRY_RUN;
     probeRegistry.mockResolvedValue('name-exists');
     publishWithRetry.mockResolvedValue({ status: 'published', output: 'ok' });
@@ -205,8 +205,8 @@ describe('numeric precedence — env beats the target option beats the default',
         env: string | undefined,
         option: number | undefined
     ): Promise<number> {
-        if (env === undefined) delete process.env.ORTHA_PUBLISH_RETRIES;
-        else process.env.ORTHA_PUBLISH_RETRIES = env;
+        if (env === undefined) delete process.env.ORTHACMS_PUBLISH_RETRIES;
+        else process.env.ORTHACMS_PUBLISH_RETRIES = env;
 
         const packageRoot = stage(manifest);
         await releasePublishExecutor(

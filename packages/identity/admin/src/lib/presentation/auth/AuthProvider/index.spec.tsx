@@ -136,7 +136,7 @@ describe('AuthProvider', () => {
             probeReturns({
                 data: {
                     id: 'usr_1',
-                    email: 'ada@ortha.dev',
+                    email: 'ada@orthacms.dev',
                     name: 'Ada Lovelace',
                     permissions: ['workspaces:read', 'workspaces:create']
                 }
@@ -148,7 +148,7 @@ describe('AuthProvider', () => {
                 status: AuthStatus.Authenticated,
                 user: {
                     id: 'usr_1',
-                    email: 'ada@ortha.dev',
+                    email: 'ada@orthacms.dev',
                     name: 'Ada Lovelace',
                     permissions: ['workspaces:read', 'workspaces:create']
                 }
@@ -215,7 +215,7 @@ describe('AuthProvider', () => {
             probeReturns({
                 data: {
                     id: 'usr_1',
-                    email: 'ada@ortha.dev',
+                    email: 'ada@orthacms.dev',
                     name: null,
                     permissions: []
                 },
@@ -239,7 +239,7 @@ describe('AuthProvider', () => {
             const { queryClient } = renderProvider();
             queryClient.setQueryData(currentUserKey, {
                 id: 'usr_1',
-                email: 'ada@ortha.dev',
+                email: 'ada@orthacms.dev',
                 name: 'Ada Lovelace',
                 permissions: []
             });
@@ -282,7 +282,7 @@ describe('AuthProvider', () => {
                 probeReturns({
                     data: {
                         id: 'usr_1',
-                        email: 'ada@ortha.dev',
+                        email: 'ada@orthacms.dev',
                         name: 'Ada Lovelace',
                         permissions: []
                     }
@@ -321,7 +321,7 @@ describe('AuthProvider', () => {
                 probeReturns({
                     data: {
                         id: 'usr_1',
-                        email: 'ada@ortha.dev',
+                        email: 'ada@orthacms.dev',
                         name: null,
                         permissions: []
                     }
@@ -343,7 +343,7 @@ describe('AuthProvider', () => {
                 probeReturns({
                     data: {
                         id: 'usr_1',
-                        email: 'ada@ortha.dev',
+                        email: 'ada@orthacms.dev',
                         name: null,
                         permissions: []
                     }
@@ -365,7 +365,7 @@ describe('AuthProvider', () => {
                 probeReturns({
                     data: {
                         id: 'usr_1',
-                        email: 'ada@ortha.dev',
+                        email: 'ada@orthacms.dev',
                         name: null,
                         permissions: []
                     }

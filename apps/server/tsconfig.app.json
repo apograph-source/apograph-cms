@@ -8,7 +8,7 @@
         "emitDecoratorMetadata": true,
         "target": "es2021"
     },
-    "include": ["src/**/*.ts", "config/**/*.ts", "ortha.config.ts"],
+    "include": ["src/**/*.ts", "config/**/*.ts", "orthacms.config.ts"],
     "exclude": [
         "out-tsc",
         "dist",

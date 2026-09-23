@@ -21,7 +21,7 @@ module.exports = {
     externals: [
         nodeExternals({
             modulesDir: join(__dirname, '../../node_modules'),
-            allowlist: [/^@ortha\//]
+            allowlist: [/^@orthacms\//]
         })
     ],
     output: {

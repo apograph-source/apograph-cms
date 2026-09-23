@@ -95,7 +95,7 @@ exist", mirroring the API's flat 403.
   area whose nested `<Routes>` are built from `WORKSPACE_ROUTE_SLOT`; landing on
   the base redirects to the lowest-`order` route (the Content Library).
 - `WorkspaceNav` (rendered in the app sidebar, so **above**
-  `CurrentWorkspaceProvider` — it takes `workspace` as a prop) is: a "← Ortha
+  `CurrentWorkspaceProvider` — it takes `workspace` as a prop) is: a "← Ortha CMS
   CMS" back link + a full-width `WorkspaceSwitcher` (design-system `Popover`
   listing workspaces + "New workspace"), then the `WORKSPACE_SECTION_SLOT`
   sections (the Content Library's content-type nav), then the "Workspace"

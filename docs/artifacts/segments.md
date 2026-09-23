@@ -2,7 +2,7 @@
 
 _Package group · packages/segments_
 
-**Who may read what is published — Ortha reader entitlements**
+**Who may read what is published — Ortha CMS reader entitlements**
 
 Segments answers exactly one question: **which readers are entitled to see a published entry**. This is neither RBAC nor `workspace_content` — those decide _who may touch_ content and exist independently. Here an audience is a named set of reader tags, an entry names the audiences it admits and the ones it refuses, and the entire decision fits into one pure `canRead` function and one SQL predicate applied to every public read.
 
@@ -562,7 +562,7 @@ Everything else is **data an administrator enters in the admin UI**: the audienc
 >
 > `SegmentsPlugin` is registered **after** `ContentPlugin`, whose `CONTENT_READ_SCOPE` port it binds: binding a read scope only means anything when there is something to bind to. The module is **global**, because `SegmentReadScope` has to reach content-server's read path from wherever a query is assembled. Registration goes through `contentReadScopeRegistrar('segments', …)`, `entryWriteExtensionRegistrar('segments', …)`, `entryFilterProviderRegistrar('segments', …)` and `copilotAppliersRegistrar('segments', …)` rather than DI-token bindings: Nest has no multi-provider, and a second plugin binding the same token would silently replace the first.
 
-> **The example in apps/server/ortha.config.ts**
+> **The example in apps/server/orthacms.config.ts**
 >
 > In this repository the `plugins.segments` section is left **empty**, with a commented-out resolver example. That is, the reference build runs in anonymous mode — and that is a deliberate choice: an audience nobody can be resolved into cannot be accidentally admitted. `apps/server-e2e` substitutes a `headerSegmentResolver` reading an `x-reader-tags` header — that is a **production seam** rather than a test hook alongside one: a real deployment writes exactly the same shape.
 

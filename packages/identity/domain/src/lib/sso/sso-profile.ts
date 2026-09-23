@@ -42,7 +42,7 @@ export interface SsoProfile {
     /**
      * The provider's own session identifier (`sid` in OIDC, `SessionIndex` in
      * SAML), when it issues one. Recorded so a back-channel logout can find the
-     * Ortha sessions a given provider session opened.
+     * Ortha CMS sessions a given provider session opened.
      */
     sessionId?: string | null;
 }

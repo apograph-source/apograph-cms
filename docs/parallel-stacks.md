@@ -10,9 +10,9 @@ database.
 
 | slot | API    | admin  | database       |
 | ---- | ------ | ------ | -------------- |
-| 0    | `3000` | `4200` | `ortha_cms`    |
-| 1    | `3001` | `4201` | `ortha_cms_a1` |
-| _n_  | `300n` | `420n` | `ortha_cms_an` |
+| 0    | `3000` | `4200` | `orthacms`    |
+| 1    | `3001` | `4201` | `orthacms_a1` |
+| _n_  | `300n` | `420n` | `orthacms_an` |
 
 Slot 0 is the main checkout and is managed by hand — the defaults every command
 already assumes. Slots 1–9 are provisioned by
@@ -57,7 +57,7 @@ whether anything is listening, plus any databases no worktree still claims.
 When a ticket is done:
 
 ```sh
-node tools/worktree/slot.mjs release 1 --yes   # drops ortha_cms_a1
+node tools/worktree/slot.mjs release 1 --yes   # drops orthacms_a1
 git worktree remove ../ortha-cms-ort-101
 ```
 
@@ -72,7 +72,7 @@ checkout:
   admin would serve its own UI while reading and writing the **first**
   worktree's database. `strictPort` is on, so a taken port fails instead of
   drifting to the next free one behind an agent's back.
-- [`apps/server/ortha.config.ts`](../apps/server/ortha.config.ts) — the
+- [`apps/server/orthacms.config.ts`](../apps/server/orthacms.config.ts) — the
   `ALLOWED_ORIGINS` default follows `ADMIN_PORT`.
 - [`apps/admin-e2e/playwright.config.ts`](../apps/admin-e2e/playwright.config.ts)
   — `baseURL` and the `webServer` URL follow `ADMIN_PORT`, so a suite tests its

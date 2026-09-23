@@ -45,7 +45,7 @@ describe('createOidcProvider — configuration', () => {
     it('allows plain HTTP on localhost, for development', () => {
         expect(() =>
             createOidcProvider({
-                issuer: 'http://localhost:8080/realms/ortha',
+                issuer: 'http://localhost:8080/realms/orthacms',
                 clientId: CLIENT_ID
             })
         ).not.toThrow();

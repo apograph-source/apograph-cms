@@ -12,14 +12,14 @@ import type { ServerPlugin } from '@orthacms/bootstrap-server';
  * generated app should be is boring.
  *
  * The layout mirrors this repo's own `apps/` folder — `server`, `admin`,
- * `server-e2e`, `admin-e2e` — so someone who has read the Ortha source finds
+ * `server-e2e`, `admin-e2e` — so someone who has read the Ortha CMS source finds
  * the same shape in their own project.
  *
  * The compiled paths follow from `apps/server/tsconfig.json` setting `rootDir`
- * to the app directory: `apps/server/ortha.config.ts` becomes
- * `dist/server/ortha.config.js`, and `apps/server/src/main.ts` becomes
+ * to the app directory: `apps/server/orthacms.config.ts` becomes
+ * `dist/server/orthacms.config.js`, and `apps/server/src/main.ts` becomes
  * `dist/server/src/main.js`. Change that `rootDir` without changing these and
- * the paths below stop resolving — `ortha start` then reports a missing entry
+ * the paths below stop resolving — `orthacms start` then reports a missing entry
  * point rather than a misconfigured one.
  */
 export const LAYOUT = {
@@ -33,10 +33,10 @@ export const LAYOUT = {
     serverOut: 'dist/server',
     /** Built admin bundle — what `staticDir` serves. */
     adminOut: 'dist/admin',
-    /** Compiled entry point `ortha start` runs. */
+    /** Compiled entry point `orthacms start` runs. */
     serverEntry: 'dist/server/src/main.js',
     /** Compiled typed config, default-exported. */
-    compiledConfig: 'dist/server/ortha.config.js',
+    compiledConfig: 'dist/server/orthacms.config.js',
     /** Compiled plugin factory, exporting `buildPlugins(config)`. */
     compiledPlugins: 'dist/server/src/plugins.js',
     /** Drizzle generation config for the app's own content tables. */
@@ -59,7 +59,7 @@ export interface LoadedHost {
  * Finds the app root — the nearest ancestor with a `package.json` — starting
  * from `from`.
  *
- * Walking up rather than trusting `process.cwd()` means `ortha migrate` works
+ * Walking up rather than trusting `process.cwd()` means `orthacms migrate` works
  * from a subdirectory, which is where people actually run it. Everything else
  * in this file resolves against the result, so the app's own relative paths
  * (`migrations/`, `dist/`) mean the same thing wherever the command was typed.
@@ -74,7 +74,7 @@ export function findProjectRoot(from: string = process.cwd()): string {
         if (parent === dir) {
             throw new Error(
                 `No package.json in ${resolve(from)} or any parent directory — ` +
-                    `run this inside an Ortha app.`
+                    `run this inside an Ortha CMS app.`
             );
         }
         dir = parent;
@@ -100,7 +100,7 @@ export function loadHost(root: string): LoadedHost {
         if (!existsSync(path)) {
             throw new Error(
                 `${path} does not exist — the app has not been built. ` +
-                    `Run \`ortha build\` first (\`ortha migrate\` does this for you).`
+                    `Run \`orthacms build\` first (\`orthacms migrate\` does this for you).`
             );
         }
     }
@@ -119,7 +119,7 @@ export function loadHost(root: string): LoadedHost {
     if (!config) {
         throw new Error(
             `${LAYOUT.compiledConfig} has no default export — ` +
-                `ortha.config.ts must \`export default\` the app's config.`
+                `orthacms.config.ts must \`export default\` the app's config.`
         );
     }
 

@@ -64,7 +64,7 @@ export interface WebhookEnvelope {
  * Builds the body for one delivery.
  *
  * `deliveryId` is passed in rather than generated here so the envelope frozen
- * on the delivery row and the `X-Ortha-Delivery` header cannot disagree.
+ * on the delivery row and the `X-Orthacms-Delivery` header cannot disagree.
  *
  * The envelope carries **references, not content**: a receiver reads the record
  * back through the public API with its own token, so the read passes through

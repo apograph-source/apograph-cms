@@ -133,11 +133,11 @@ describe('Webhook delivery', () => {
             expect(receiver.received).toHaveLength(1);
             const [delivery] = receiver.received;
 
-            expect(delivery.headers['x-ortha-event']).toBe(
+            expect(delivery.headers['x-orthacms-event']).toBe(
                 'entry.published'
             );
-            expect(delivery.headers['x-ortha-workspace']).toBe(workspaceId);
-            expect(delivery.headers['x-ortha-attempt']).toBe('1');
+            expect(delivery.headers['x-orthacms-workspace']).toBe(workspaceId);
+            expect(delivery.headers['x-orthacms-attempt']).toBe('1');
             expect(delivery.headers['content-type']).toContain(
                 'application/json'
             );
@@ -148,7 +148,7 @@ describe('Webhook delivery', () => {
             expect(
                 verifySignature(
                     secret,
-                    delivery.headers['x-ortha-signature'] as string,
+                    delivery.headers['x-orthacms-signature'] as string,
                     delivery.raw
                 )
             ).toBe(true);
@@ -187,8 +187,8 @@ describe('Webhook delivery', () => {
             );
 
             expect(sent?.body['id']).toBe(published?.id);
-            expect(sent?.headers['x-ortha-delivery']).toBe(published?.id);
-            expect(sent?.headers['x-ortha-event-id']).toBe(
+            expect(sent?.headers['x-orthacms-delivery']).toBe(published?.id);
+            expect(sent?.headers['x-orthacms-event-id']).toBe(
                 published?.eventId
             );
         });
@@ -298,7 +298,7 @@ describe('Webhook delivery', () => {
             const [recovered] = await getDeliveries(endpointId);
             expect(recovered.status).toBe('succeeded');
             expect(recovered.attempts).toBe(2);
-            expect(receiver.received[1].headers['x-ortha-attempt']).toBe(
+            expect(receiver.received[1].headers['x-orthacms-attempt']).toBe(
                 '2'
             );
         });
@@ -483,7 +483,7 @@ describe('Webhook delivery', () => {
                 verifySignature(
                     secret,
                     receiver.received[0].headers[
-                        'x-ortha-signature'
+                        'x-orthacms-signature'
                     ] as string,
                     receiver.received[0].raw
                 )

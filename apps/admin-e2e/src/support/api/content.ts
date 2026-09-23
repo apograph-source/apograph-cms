@@ -457,7 +457,7 @@ export const WYSIWYG_HOSTILE_ENTRY_ID = 'article-hostile';
 export const WYSIWYG_HOSTILE_IMAGE_SRC = '/wysiwyg-hostile-pixel.png';
 
 /** The global {@link WYSIWYG_HOSTILE_BODY}'s payloads set if anything runs. */
-export const WYSIWYG_HOSTILE_FLAG = '__orthaWysiwygXss';
+export const WYSIWYG_HOSTILE_FLAG = '__orthacmsWysiwygXss';
 
 /**
  * The stored HTML {@link WYSIWYG_HOSTILE_ENTRY_ID} comes back with — the
@@ -829,22 +829,22 @@ export const RELATIONS_ENTRIES_SEED: Record<string, EntryRecord[]> = {
     article: [
         seedRow(
             'article-getting-started',
-            { text: 'Getting started with Ortha' },
+            { text: 'Getting started with Ortha CMS' },
             'published'
         ),
         seedRow('article-scaling', { text: 'Scaling Postgres' }, 'draft'),
         seedRow('article-design', { text: 'Designing the CMS' }, 'published')
     ],
     seo_meta: [
-        seedRow('seo-home', { metaTitle: 'Home — Ortha' }),
-        seedRow('seo-blog', { metaTitle: 'Blog — Ortha' })
+        seedRow('seo-home', { metaTitle: 'Home — Ortha CMS' }),
+        seedRow('seo-blog', { metaTitle: 'Blog — Ortha CMS' })
     ]
 };
 
 const ADA: WorkspaceView['members'][number] = {
     id: 'u_ada',
     name: 'Ada Lovelace',
-    email: 'ada@ortha.dev'
+    email: 'ada@orthacms.dev'
 };
 
 /** A workspace granted every content type — the default Content Library seed. */
@@ -906,7 +906,7 @@ export const READ_ONLY_ENTRIES_SEED: Record<string, EntryRecord[]> = {
         seedRow(
             READ_ONLY_ENTRY_ID,
             {
-                title: 'Welcome to Ortha',
+                title: 'Welcome to Ortha CMS',
                 subtitle: 'The CMS that gets out of the way',
                 accentColor: '#4f46e5',
                 variant: 'b',

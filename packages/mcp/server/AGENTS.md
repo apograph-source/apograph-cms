@@ -237,7 +237,7 @@ would tell a reader nothing.
 McpPlugin({
     config: {
         enabled: true,
-        name: 'ortha-cms',
+        name: 'orthacms',
         version: '1.0.0',
         callTimeoutMs: 30_000,
         maxResultBytes: 4_194_304
@@ -266,7 +266,7 @@ maintain:
 ```json
 {
     "mcpServers": {
-        "ortha-cms": {
+        "orthacms": {
             "command": "npx",
             "args": [
                 "-y",

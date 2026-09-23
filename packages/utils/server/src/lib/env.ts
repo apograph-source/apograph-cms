@@ -1,7 +1,7 @@
 /**
  * Reading `process.env` into typed configuration.
  *
- * A host's `ortha.config.ts` is the one file allowed to touch the environment,
+ * A host's `orthacms.config.ts` is the one file allowed to touch the environment,
  * and every deployment writes the same handful of readers to do it: a required
  * string, a bounded number, a comma list, `TRUST_PROXY`, `NODE_ENV`. They were
  * duplicated between this repo's host and the scaffolder's template, where the
@@ -189,7 +189,7 @@ export function readTrustProxy(
     return raw;
 }
 
-/** The deployment modes an Ortha app recognises. */
+/** The deployment modes an Ortha CMS app recognises. */
 export const NODE_ENVS = ['development', 'test', 'production'] as const;
 
 /** One of {@link NODE_ENVS}. */

@@ -4,7 +4,7 @@ import { MailServerPlugin, type MailPluginOptions } from './mail-plugin';
 
 const config = {
     appUrl: 'https://cms.example.com',
-    from: 'Ortha <no-reply@example.com>'
+    from: 'Ortha CMS <no-reply@example.com>'
 };
 
 const options = (overrides: Partial<MailPluginOptions> = {}) =>

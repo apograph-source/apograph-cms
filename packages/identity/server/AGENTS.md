@@ -295,7 +295,7 @@ error, and type the barrel exports keeps its path, so no consumer import moved.
 - `IdentityPlugin(config)` — factory returning a `ServerPlugin`; register it
   **after** `DatabasePlugin` (identity injects the db from that plugin's global
   module). Its `docs` contribution declares the API's two security schemes —
-  `session` (the `ortha_session` cookie) and `apiToken` (bearer) — which the
+  `session` (the `orthacms_session` cookie) and `apiToken` (bearer) — which the
   host merges into the OpenAPI document; identity owns authentication, so it
   owns their description too
 - `IdentityPluginConfig` — secrets + session/token settings (public contract)
@@ -312,7 +312,7 @@ error, and type the barrel exports keeps its path, so no consumer import moved.
   **144 bytes**) and bcrypt then hashes only the first half of the passphrase.
   `HashingService.hashPassword` throws `PasswordTooLongError` as the backstop for
   the paths that have no DTO (`ChangePasswordUseCase`, the root-admin bootstrap
-  reading `ORTHA_ROOT_ADMIN_PASSWORD`)
+  reading `ORTHACMS_ROOT_ADMIN_PASSWORD`)
 - `IdentityServerPlugin` — the plugin shape, with `identityConfig` attached
 - `IdentityModule` — global NestJS module; provides config and the RBAC services
   (`RolesService`, `SystemRolesSeeder`)
@@ -444,7 +444,7 @@ error, and type the barrel exports keeps its path, so no consumer import moved.
   either.** Measured: booting with both empty issues a working session, and a
   cookie minted under the previous "real" secret is still accepted after the
   reboot — the tell that the secret was never part of the answer. Both are now
-  gone from the config type, the host's `ortha.config.ts`, `.env.example` and
+  gone from the config type, the host's `orthacms.config.ts`, `.env.example` and
   the scaffolder.
 
   The defect was never the mechanism; it was a configuration surface describing
@@ -482,7 +482,7 @@ error, and type the barrel exports keeps its path, so no consumer import moved.
 Identity also **authenticates against an external identity provider**. The port
 itself lives in `@orthacms/identity-domain` so an adapter can depend on it
 without depending on this package; what lives here is everything that turns a
-verified profile into an Ortha session
+verified profile into an Ortha CMS session
 ([ADR-0013](../../../docs/adr/0013-sso-provider-port.md)).
 
 Three routes, all `@Public()` and rate-limited:
@@ -644,7 +644,7 @@ error and nothing in the response would say why.
 
 ## Configuration
 
-Config flows from `apps/server/ortha.config.ts` (`plugins.identity`, env-sourced)
+Config flows from `apps/server/orthacms.config.ts` (`plugins.identity`, env-sourced)
 into the plugin:
 
 ```typescript

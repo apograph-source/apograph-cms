@@ -87,7 +87,7 @@ describe('archives written by other tools', () => {
     })();
 
     (zipAvailable ? it : it.skip)('reads a CLI-produced archive', () => {
-        const dir = mkdtempSync(join(tmpdir(), 'ortha-zip-'));
+        const dir = mkdtempSync(join(tmpdir(), 'orthacms-zip-'));
         mkdirSync(join(dir, 'entries'));
         writeFileSync(join(dir, 'manifest.json'), '{"version":1}');
         writeFileSync(

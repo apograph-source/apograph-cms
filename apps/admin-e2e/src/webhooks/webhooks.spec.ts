@@ -348,7 +348,7 @@ test.describe('Webhooks', () => {
             await webhooksPage.addHeaderButton().click();
             // Overwriting this would let a delivery claim to be signed by
             // someone else.
-            await webhooksPage.headerNameField().fill('X-Ortha-Signature');
+            await webhooksPage.headerNameField().fill('X-Orthacms-Signature');
             await webhooksPage.headerValueField().fill('t=1,v1=deadbeef');
 
             await expect(webhooksPage.headerError()).toBeVisible();

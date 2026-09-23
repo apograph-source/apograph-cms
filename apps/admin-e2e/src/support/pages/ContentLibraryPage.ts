@@ -912,7 +912,7 @@ export class ContentLibraryPage extends BasePage {
     }
 
     /**
-     * The shell's persisted right-panel preference (`ortha:right-panel`).
+     * The shell's persisted right-panel preference (`orthacms:right-panel`).
      *
      * Read from storage rather than inferred from the column, because the defect
      * this exists for is invisible on screen at the moment it happens: a narrow
@@ -922,7 +922,7 @@ export class ContentLibraryPage extends BasePage {
     async storedRightPanelState(): Promise<string | null> {
         return this.page.evaluate(() =>
             (globalThis as unknown as BrowserGlobals).localStorage.getItem(
-                'ortha:right-panel'
+                'orthacms:right-panel'
             )
         );
     }

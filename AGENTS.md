@@ -1,4 +1,4 @@
-# Ortha — Nx monorepo
+# Ortha CMS — Nx monorepo
 
 > **This is the canonical context file for AI agents.** It is tool-agnostic and
 > read natively by Cursor, OpenAI Codex, Gemini CLI, and others. Claude Code
@@ -140,7 +140,7 @@
   `OutboxDispatcher` calls subscribers inside its claim transaction, so fan-out
   only queues delivery rows and a worker claims them, commits, and then POSTs
   with nothing open. Delivery is at-least-once and unordered; receivers
-  deduplicate on `X-Ortha-Event-Id`. Administrator-only, because an endpoint
+  deduplicate on `X-Orthacms-Event-Id`. Administrator-only, because an endpoint
   spans every workspace it names and holds a signing secret.
 - `packages/mail/*` — outgoing **mail**: the invitation, the resend and the
   password-reset link, sent instead of relayed by hand. `domain` is the
@@ -171,13 +171,13 @@
   tooling) plus the release targets. Registered in `nx.json`. The database
   executors are adapters over `@orthacms/cli`, so this repo and a generated app
   migrate through one implementation.
-- `packages/cli` — `@orthacms/cli`, the **`ortha` command**: how an app
+- `packages/cli` — `@orthacms/cli`, the **`orthacms` command**: how an app
   installed from npm is built, run and migrated (`dev` / `build` / `start` /
   `migrate` / `generate` / `studio`). Compiles first and reads the compiled
   config, so it needs none of the jiti/swc machinery the Nx executors use to
   read TypeScript from source.
-- `packages/create-ortha-app` — the **scaffolder** behind
-  `npx create-ortha-app my-cms`. One template, no sample content types, plus a
+- `packages/create-orthacms-app` — the **scaffolder** behind
+  `npx create-orthacms-app my-cms`. One template, no sample content types, plus a
   keyboard wizard for the five genuine choices (storage adapter, hosted copilot
   backends, single sign-on providers, which protocols the content API speaks —
   REST always, GraphQL and MCP optional — and the mail backend, whose default
@@ -187,7 +187,7 @@
   makes a generated app a consistent lockstep set — so a release needs no
   template edit, while **adding a package does**: every published package must
   be classified in its `features.ts`, and a test fails until it is. The only
-  published package outside the `@ortha` scope.
+  published package outside the `@orthacms` scope.
 
 ## Package layout
 
@@ -240,7 +240,7 @@ package; the admin app's Vite transpiles the design-system source directly.
 
 - **Parallel stacks** — `npm run dev` is not limited to one checkout. A **slot**
   fixes a worktree's ports and database (slot _n_: API `:300n`, admin `:420n`,
-  database `ortha_cms_an`), so several tickets can each hold a live app to
+  database `orthacms_an`), so several tickets can each hold a live app to
   verify against. `npm run worktree -- provision <slot> --path <worktree>`
   creates the database and writes the port-adjusted `.env`; `-- list` shows who
   holds what; `-- release <slot> --yes` drops the database. Slots share **one**
@@ -270,7 +270,7 @@ package; the admin app's Vite transpiles the design-system source directly.
       Drizzle migration from its schema (per-plugin; commit the emitted SQL).
       Inferred on any project with a `drizzle.config.ts`. Needs no database.
     - `npx nx run server:db:migrate` — apply every plugin's pending migrations.
-      Inferred on the host (the project with `ortha.config.ts`).
+      Inferred on the host (the project with `orthacms.config.ts`).
     - `npx nx run server:db:studio` — open Drizzle Studio on the host database
       (introspects the live DB; needs `DATABASE_URL`). Also inferred on the
       host. Optional `--host` / `--port` to change where Studio binds.

@@ -20,7 +20,7 @@ import type { ApiTokenRequest } from '../api-token-request';
 const WORKSPACE_A = '11111111-1111-4111-8111-111111111111';
 
 /** The live secret the fake service resolves; everything else is unknown. */
-const GOOD = 'ortha_good-secret';
+const GOOD = 'orthacms_good-secret';
 
 /** Stand-in route handler and controller — only their identity is reflected. */
 const handler = () => undefined;
@@ -34,7 +34,7 @@ function record(over: Partial<ApiTokenRecord> = {}): ApiTokenRecord {
         scope: 'read',
         workspaceIds: [WORKSPACE_A],
         tokenHash: 'a'.repeat(64),
-        lookupPrefix: 'ortha_goo',
+        lookupPrefix: 'orthacms_goo',
         expiresAt: null,
         lastUsedAt: null,
         revokedAt: null,
@@ -148,9 +148,9 @@ describe('ApiTokenGuard', () => {
             // expired. Today it rests on nobody rewording one of the three.
             const bodies = [];
             for (const secret of [
-                'ortha_never-minted',
-                'ortha_revoked-yesterday',
-                'ortha_expired-last-month'
+                'orthacms_never-minted',
+                'orthacms_revoked-yesterday',
+                'orthacms_expired-last-month'
             ]) {
                 const { guard, context } = harness({
                     headers: { authorization: `Bearer ${secret}` }
@@ -177,7 +177,7 @@ describe('ApiTokenGuard', () => {
             const bare = harness({ headers: {} });
             const missing = await refusal(bare.guard, bare.context);
             const bad = harness({
-                headers: { authorization: 'Bearer ortha_nope' }
+                headers: { authorization: 'Bearer orthacms_nope' }
             });
             const invalid = await refusal(bad.guard, bad.context);
 

@@ -14,7 +14,7 @@ Server-side shared utilities for Ortha CMS. Three concerns:
 - **Environment readers** (`env.ts`) — `readEnv`, `requireEnv`,
   `readPositiveInt` / `readOptionalPositiveInt`, `readList` /
   `readOptionalList`, `readFlag`, `readTrustProxy`, `readNodeEnv` /
-  `isProduction`, plus `when` and `defined`. What a host's `ortha.config.ts`
+  `isProduction`, plus `when` and `defined`. What a host's `orthacms.config.ts`
   turns `process.env` into. Here rather than in each host because this repo's
   host and the scaffolder's template had a copy each and they had already
   drifted; see below.

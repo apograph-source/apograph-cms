@@ -97,7 +97,7 @@ export interface SsoCallback {
  *
  * The **back-channel** logout: the provider posts here directly, with no
  * browser involved, which is why it works when the person has already closed
- * the tab — and why it is the only mechanism that ends an Ortha session
+ * the tab — and why it is the only mechanism that ends an Ortha CMS session
  * promptly when someone is offboarded.
  */
 export interface SsoLogoutNotice {
@@ -118,7 +118,7 @@ export interface SsoLogoutNotice {
 export interface SsoLogoutRequest {
     /** Where the provider should return the user after signing them out. */
     returnTo: string;
-    /** The provider session the Ortha session was opened from, if recorded. */
+    /** The provider session the Ortha CMS session was opened from, if recorded. */
     sessionId?: string | null;
 }
 

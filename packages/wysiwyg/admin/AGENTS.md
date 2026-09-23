@@ -230,7 +230,7 @@ kB. If a change moves the first number, the lazy boundary has been broken.
 
 ## Styling: one scope, shared by the editor and the preview
 
-`src/styles.css` hangs everything off `.ortha-wysiwyg`, which the editor surface
+`src/styles.css` hangs everything off `.orthacms-wysiwyg`, which the editor surface
 and every preview both carry. The host imports it once
 (`apps/admin/src/styles.css`), after the design-system's.
 
@@ -412,7 +412,7 @@ they now have none and lean on the bar's `gap`.
    moves focus out of the editor, collapsing the selection the command was about
    to act on — the classic "I selected a word, hit Bold, nothing happened".
 5. If it introduces a new element in the stored HTML, style it in
-   `src/styles.css` under `.ortha-wysiwyg`.
+   `src/styles.css` under `.orthacms-wysiwyg`.
 
 The bar is a `role="group"`, not `role="toolbar"`, on purpose: the ARIA toolbar
 pattern promises arrow-key navigation with a single tab stop, and promising it
@@ -430,7 +430,7 @@ is an ordinary tab stop.
   reshaping, media insertion — each a transform whose failure is invisible on
   screen and only shows in the stored document), and the structural claims a
   browser cannot see: the lazy boundary, the layering, and the single
-  `.ortha-wysiwyg` style scope. Anything about **pointers** belongs in
+  `.orthacms-wysiwyg` style scope. Anything about **pointers** belongs in
   `admin-e2e`; so does anything about focus that a browser can actually be
   asked about. Where the caret *starts* is the exception, and it is here
   (`WysiwygEditorPanel/index.spec.tsx`): `autofocus` is resolved to a

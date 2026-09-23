@@ -135,7 +135,7 @@ export class CreateRunController {
                 stream.send({
                     type: 'error',
                     message:
-                        'Ortha AI is turned off for this deployment. An administrator can enable it.'
+                        'Ortha CMS AI is turned off for this deployment. An administrator can enable it.'
                 });
             } else if (
                 error instanceof AttachmentError ||
@@ -157,7 +157,7 @@ export class CreateRunController {
                 );
                 stream.send({
                     type: 'error',
-                    message: 'Ortha AI could not complete this run.'
+                    message: 'Ortha CMS AI could not complete this run.'
                 });
             }
             // Always terminate with `done`, whatever went wrong: the client's

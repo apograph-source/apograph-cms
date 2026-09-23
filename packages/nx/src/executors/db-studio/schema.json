@@ -7,7 +7,7 @@
     "properties": {
         "config": {
             "type": "string",
-            "description": "Path to the host's ortha.config.ts (relative to the workspace root)."
+            "description": "Path to the host's orthacms.config.ts (relative to the workspace root)."
         },
         "host": {
             "type": "string",

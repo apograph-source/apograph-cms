@@ -143,7 +143,7 @@ const SSO_PROVIDER_SCHEMA: OpenApiSchema = {
 const SSO_BACKCHANNEL_LOGOUT_SCHEMA: OpenApiSchema = {
     type: 'object',
     description:
-        'How many Ortha sessions the notification ended. `0` is a normal answer: the endpoint is idempotent, because a provider retrying a notification is expected.',
+        'How many Ortha CMS sessions the notification ended. `0` is a normal answer: the endpoint is idempotent, because a provider retrying a notification is expected.',
     required: ['revoked'],
     properties: { revoked: { type: 'integer', minimum: 0 } }
 };
@@ -212,7 +212,7 @@ const API_TOKEN_SCHEMA: OpenApiSchema = {
         lookupPrefix: {
             type: 'string',
             description:
-                "The token's non-secret leading characters (e.g. `ortha_0TYI4Q`), so a person can tell two tokens apart in a list."
+                "The token's non-secret leading characters (e.g. `orthacms_0TYI4Q`), so a person can tell two tokens apart in a list."
         },
         expiresAt: NULLABLE_DATE_TIME,
         lastUsedAt: NULLABLE_DATE_TIME,

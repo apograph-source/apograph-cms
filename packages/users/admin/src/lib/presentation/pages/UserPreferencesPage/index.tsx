@@ -29,7 +29,7 @@ const messages = defineMessages({
     themeDescription: {
         id: 'users.preferences.themeDescription',
         defaultMessage:
-            'Choose how Ortha looks. This is personal to your account and applies immediately on every device you sign in on. “System” follows your device’s appearance setting.'
+            'Choose how Ortha CMS looks. This is personal to your account and applies immediately on every device you sign in on. “System” follows your device’s appearance setting.'
     },
     lightLabel: { id: 'users.preferences.lightLabel', defaultMessage: 'Light' },
     lightHint: {

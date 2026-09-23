@@ -25,10 +25,10 @@ describe('buildSystemPrompt', () => {
     it('always states the product name, the authority model and the content model', () => {
         const prompt = build();
 
-        expect(prompt).toContain('You are Ortha AI');
+        expect(prompt).toContain('You are Ortha CMS AI');
         expect(prompt).toContain('AUTHORITY');
         expect(prompt).toContain('SECURITY');
-        expect(prompt).toContain('HOW ORTHA WORKS');
+        expect(prompt).toContain('HOW ORTHACMS WORKS');
         expect(prompt).toContain('ANSWERING');
     });
 
@@ -36,12 +36,12 @@ describe('buildSystemPrompt', () => {
         expect(build({ uiLocale: 'de' })).toContain('"de"');
     });
 
-    describe('HOW ORTHA WORKS', () => {
+    describe('HOW ORTHACMS WORKS', () => {
         it('frames an ungranted type as unavailable rather than non-existent', () => {
             expect(build()).toContain('not available in this workspace');
         });
 
-        it('rules out the states Ortha does not have', () => {
+        it('rules out the states Ortha CMS does not have', () => {
             expect(build()).toContain(
                 'there is no archived or unpublished state'
             );
@@ -236,7 +236,7 @@ describe('buildSystemPrompt', () => {
             ).not.toContain('Never write a translation into a shared');
         });
 
-        // No i18n plugin, no tool to name — the unconditional HOW ORTHA WORKS
+        // No i18n plugin, no tool to name — the unconditional HOW ORTHACMS WORKS
         // line still carries the fact for these runs.
         it('names no translation tool when none is on offer', () => {
             expect(build({ hasWriteTools: true })).not.toContain(

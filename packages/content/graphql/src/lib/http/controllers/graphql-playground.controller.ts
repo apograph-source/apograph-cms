@@ -101,7 +101,7 @@ function endpointFor(request: Request): string {
 const DEFAULT_QUERY = `# Ortha CMS content API
 #
 # 1. Add your bearer token in the "Headers" tab below:
-#      { "Authorization": "Bearer ortha_…" }
+#      { "Authorization": "Bearer orthacms_…" }
 #    Mint one in the admin under API Tokens.
 #
 # 2. If the token covers more than one workspace, also send:

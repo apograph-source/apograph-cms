@@ -37,7 +37,7 @@ const messages = defineMessages({
     explain: {
         id: 'copilot.skills.form.explain',
         defaultMessage:
-            'Instructions Ortha AI follows while this skill is on. Everyone in this workspace can use it.'
+            'Instructions Ortha CMS AI follows while this skill is on. Everyone in this workspace can use it.'
     },
     title: { id: 'copilot.skills.form.title', defaultMessage: 'Name' },
     titleHint: {
@@ -56,7 +56,7 @@ const messages = defineMessages({
     descriptionHint: {
         id: 'copilot.skills.form.descriptionHint',
         defaultMessage:
-            'One or two sentences. Ortha AI reads this to decide whether to suggest the skill.'
+            'One or two sentences. Ortha CMS AI reads this to decide whether to suggest the skill.'
     },
     instructions: {
         id: 'copilot.skills.form.instructions',

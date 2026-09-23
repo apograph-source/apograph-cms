@@ -104,13 +104,13 @@ export interface CompletedSsoSignIn {
  *    the *next* attempt a path that skips the verified-email check entirely.
  *
  * **What it will not do (this phase).** It signs in accounts that already
- * exist. It creates none, and it changes nobody's role. Ortha is invite-only by
+ * exist. It creates none, and it changes nobody's role. Ortha CMS is invite-only by
  * design, and this replaces the credential check rather than the way in.
  *
  * Every failure raises the same {@link SsoLoginFailedError}. The caller is
  * anonymous and the identity provider is not: told apart, these failures would
  * let anyone who can authenticate at a public provider discover which addresses
- * hold Ortha accounts.
+ * hold Ortha CMS accounts.
  */
 @Injectable()
 export class CompleteSsoUseCase {
@@ -395,7 +395,7 @@ export class CompleteSsoUseCase {
      *
      * **A verified address is required either way.** Without it, any provider
      * that lets a person type an unverified address becomes an
-     * account-takeover path into every matching Ortha account, and a
+     * account-takeover path into every matching Ortha CMS account, and a
      * registration form for every address they can think of.
      */
     private async claimOrProvision(
@@ -451,7 +451,7 @@ export class CompleteSsoUseCase {
     ): Promise<{ userId: string; email: string }> {
         const settings = this.config.sso?.provisioning;
         if (!settings) {
-            // The default. Ortha is invite-only, and SSO replaces the
+            // The default. Ortha CMS is invite-only, and SSO replaces the
             // credential check rather than the way in.
             throw this.fail('no account holds that address');
         }

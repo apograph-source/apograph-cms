@@ -10,7 +10,7 @@
  * The distinction matters more here than on the password path, because the
  * caller is anonymous and the provider is not: someone who can authenticate at
  * a public identity provider could otherwise use this route to learn which
- * addresses hold Ortha accounts, without ever holding one themselves.
+ * addresses hold Ortha CMS accounts, without ever holding one themselves.
  *
  * `reason` is for the server log.
  */

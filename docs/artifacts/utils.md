@@ -19,9 +19,9 @@ Utils is the one group in the monorepo that **does nothing itself**. It boots no
 
 - [01. Business description](#01-business-description)
 - [02. Composition of the group](#02-composition-of-the-group)
-- [03. Inventory of the exports: @orthacms/utils-admin](#03-inventory-of-the-exports-orthautils-admin)
+- [03. Inventory of the exports: @orthacms/utils-admin](#03-inventory-of-the-exports-orthacmsutils-admin)
 - [04. The admin UI's load-bearing seams](#04-the-admin-uis-load-bearing-seams)
-- [05. Inventory of the exports: @orthacms/utils-server](#05-inventory-of-the-exports-orthautils-server)
+- [05. Inventory of the exports: @orthacms/utils-server](#05-inventory-of-the-exports-orthacmsutils-server)
 - [06. The filter grammar and its limits](#06-the-filter-grammar-and-its-limits)
 - [07. Scenarios — how it works, step by step](#07-scenarios-how-it-works-step-by-step)
 - [08. Rules for authors: what belongs here and what does not](#08-rules-for-authors-what-belongs-here-and-what-does-not)
@@ -95,7 +95,7 @@ Both packages are consumed **from source**: their `exports` point at `./src/inde
 
 > **Both packages are the scaffolder's CORE_PACKAGES**
 >
-> In `packages/create-ortha-app/src/lib/features.ts` both are listed in the unconditional core, even though the template barely uses them. The reason is named right there: it is the first thing the author of their own page or their own plugin reaches for, and relying on npm hoisting is a phantom dependency that works until the first version conflict and never works under pnpm.
+> In `packages/create-orthacms-app/src/lib/features.ts` both are listed in the unconditional core, even though the template barely uses them. The reason is named right there: it is the first thing the author of their own page or their own plugin reaches for, and relying on npm hoisting is a phantom dependency that works until the first version conflict and never works under pnpm.
 
 ### File layout
 

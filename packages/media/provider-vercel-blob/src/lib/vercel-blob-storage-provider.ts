@@ -192,7 +192,7 @@ export function createVercelBlobStorageProvider(
             // the store are good, while a bad token raises something else and
             // fails the boot.
             try {
-                await api.head('__ortha_verify__/does-not-exist', token);
+                await api.head('__orthacms_verify__/does-not-exist', token);
             } catch (error) {
                 if (isMissing(error)) return;
                 throw error;

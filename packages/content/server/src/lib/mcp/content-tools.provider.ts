@@ -56,7 +56,7 @@ import {
 } from './tool-schemas';
 
 /** URI prefix for the per-content-type schema resources. */
-const TYPE_RESOURCE_PREFIX = 'ortha://content-type/';
+const TYPE_RESOURCE_PREFIX = 'orthacms://content-type/';
 
 /**
  * The content plugin's contribution to the shared agent tool registry — the

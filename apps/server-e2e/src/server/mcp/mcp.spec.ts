@@ -182,7 +182,7 @@ describe('MCP endpoint (/api/v1/mcp)', () => {
         });
 
         it('401s on an unknown bearer token', async () => {
-            await rpc('ortha_not-a-real-token', 'tools/list').expect(401);
+            await rpc('orthacms_not-a-real-token', 'tools/list').expect(401);
         });
 
         // A cookie rides along ambiently, which is exactly what makes a
@@ -312,7 +312,7 @@ describe('MCP endpoint (/api/v1/mcp)', () => {
                 capabilities: Record<string, unknown>;
             };
             expect(result.serverInfo).toEqual({
-                name: 'ortha-cms-test',
+                name: 'orthacms-test',
                 version: '0.0.0-test'
             });
             expect(result.capabilities).toHaveProperty('tools');
@@ -799,10 +799,10 @@ describe('MCP endpoint (/api/v1/mcp)', () => {
             ).resources;
 
             expect(resources.map((entry) => entry.uri)).toContain(
-                'ortha://content-type/test_article'
+                'orthacms://content-type/test_article'
             );
             expect(resources.map((entry) => entry.uri)).not.toContain(
-                'ortha://content-type/test_page'
+                'orthacms://content-type/test_page'
             );
         });
 
@@ -810,7 +810,7 @@ describe('MCP endpoint (/api/v1/mcp)', () => {
             const { secret } = await mintToken();
 
             const res = await rpc(secret, 'resources/read', {
-                uri: 'ortha://content-type/test_article'
+                uri: 'orthacms://content-type/test_article'
             }).expect(200);
 
             const contents = (
@@ -1213,7 +1213,7 @@ describe('MCP endpoint (/api/v1/mcp)', () => {
             const { secret } = await mintToken();
 
             const res = await rpc(secret, 'resources/read', {
-                uri: 'ortha://content-type/never_granted'
+                uri: 'orthacms://content-type/never_granted'
             }).expect(200);
 
             const body = res.body as RpcResponse & {

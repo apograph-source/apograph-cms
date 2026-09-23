@@ -8,12 +8,12 @@ import {
     shortcutModifierGlyph
 } from '../../domain/shortcut';
 
-// The product is **Ortha AI**; the code keeps `copilot`. See the naming note in
+// The product is **Ortha CMS AI**; the code keeps `copilot`. See the naming note in
 // `docs/design/copilot.md`.
 const messages = defineMessages({
     label: {
         id: 'copilot.dock.label',
-        defaultMessage: 'Ortha AI chats'
+        defaultMessage: 'Ortha CMS AI chats'
     },
     newChat: {
         id: 'copilot.dock.newChat',
@@ -21,15 +21,15 @@ const messages = defineMessages({
     },
     start: {
         id: 'copilot.dock.start',
-        defaultMessage: 'Ortha AI'
+        defaultMessage: 'Ortha CMS AI'
     },
-    // With nothing open this button *reads* "Ortha AI" and used to *announce*
+    // With nothing open this button *reads* "Ortha CMS AI" and used to *announce*
     // "New chat", so its visible label was not in its accessible name at all —
-    // WCAG 2.5.3, and the exact thing that stops "click Ortha AI" working for
+    // WCAG 2.5.3, and the exact thing that stops "click Ortha CMS AI" working for
     // anyone driving the admin by voice. Now the name contains the visible text.
     startFull: {
         id: 'copilot.dock.startFull',
-        defaultMessage: 'Ortha AI — new chat'
+        defaultMessage: 'Ortha CMS AI — new chat'
     },
     // Deliberately not "New chat": that is the name of the button beside it,
     // and two controls in one toolbar answering to the same name is ambiguous
@@ -126,7 +126,7 @@ export function CopilotDock({
             // than touching it.
             const gutter = node.offsetHeight + 12 * 2;
             root.style.setProperty(
-                '--ortha-fixed-bottom-gutter',
+                '--orthacms-fixed-bottom-gutter',
                 `${gutter}px`
             );
         };
@@ -135,7 +135,7 @@ export function CopilotDock({
         observer.observe(node);
         return () => {
             observer.disconnect();
-            root.style.removeProperty('--ortha-fixed-bottom-gutter');
+            root.style.removeProperty('--orthacms-fixed-bottom-gutter');
         };
     }, []);
 

@@ -161,7 +161,7 @@ describe('SSO sign-in', () => {
 
             const session = (
                 done.headers['set-cookie'] as unknown as string[]
-            ).find((cookie) => cookie.startsWith('ortha_session='));
+            ).find((cookie) => cookie.startsWith('orthacms_session='));
             expect(session).toBeDefined();
             expect(session).toContain('HttpOnly');
 

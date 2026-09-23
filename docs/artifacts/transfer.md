@@ -561,7 +561,7 @@ Separately, outside `TransferLimits`: `MAX_EXPORT_IDS = 1000`, the selection cei
 
 > **How these should be turned**
 >
-> `maxEntries` and `maxBytes` are raised for a deliberate bulk migration. The import archive ceilings are a **security boundary, not a capacity setting**: lowering them costs nothing, raising them must be deliberate. The template `create-ortha-app` lays down registers no content types, so there `identity: {}` and `limits: {}`.
+> `maxEntries` and `maxBytes` are raised for a deliberate bulk migration. The import archive ceilings are a **security boundary, not a capacity setting**: lowering them costs nothing, raising them must be deliberate. The template `create-orthacms-app` lays down registers no content types, so there `identity: {}` and `limits: {}`.
 
 ### DI tokens
 
@@ -842,4 +842,4 @@ Found while reconciling this dossier with the sources. Some are the document div
 
 **The series' frame.** This dossier follows the `packages/identity` one: business description → composition → permissions → formats → what travels → data → lifecycle → scenarios → API → admin UI → configuration → security → invariants → checklist → boundaries → divergences. Two sections were added for this package's specifics — the format matrix and the “what travels and what stays a reference” table; the database-tables section is compressed into one box, because the plugin has no tables.
 
-The source is the source code: `packages/transfer/{domain,server,admin}`, `docs/adr/0014-transfer-as-a-separate-plugin.md`, the plugin registrations in `apps/server/src/plugins.ts` and `apps/admin/src/plugins.ts`, the configuration in `apps/server/ortha.config.ts`, the permission set in `packages/identity/server/src/lib/rbac/system-roles.ts`, and the tests in `apps/server-e2e/src/server/transfer/`. The `AGENTS.md` files were used as the frame, but every claim was checked against the implementation — the divergences are gathered in section 16.
+The source is the source code: `packages/transfer/{domain,server,admin}`, `docs/adr/0014-transfer-as-a-separate-plugin.md`, the plugin registrations in `apps/server/src/plugins.ts` and `apps/admin/src/plugins.ts`, the configuration in `apps/server/orthacms.config.ts`, the permission set in `packages/identity/server/src/lib/rbac/system-roles.ts`, and the tests in `apps/server-e2e/src/server/transfer/`. The `AGENTS.md` files were used as the frame, but every claim was checked against the implementation — the divergences are gathered in section 16.

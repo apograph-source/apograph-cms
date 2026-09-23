@@ -12,7 +12,7 @@ const ROW = {
     id: TOKEN,
     name: 'CI',
     tokenHash: 'a'.repeat(64),
-    lookupPrefix: 'ortha_abc',
+    lookupPrefix: 'orthacms_abc',
     scope: 'read',
     expiresAt: null,
     createdBy: 'user-1',

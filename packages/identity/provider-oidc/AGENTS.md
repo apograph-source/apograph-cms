@@ -59,7 +59,7 @@ Two notes on the dependency:
   omitting it is the single most common way to get a working discovery document
   and a token that will not verify.
 - **The discovery path is appended to the issuer's path**, not to its origin.
-  `https://sso.acme.com/realms/ortha` discovers at `…/realms/ortha/.well-known/…`.
+  `https://sso.acme.com/realms/orthacms` discovers at `…/realms/orthacms/.well-known/…`.
   Treating an issuer as a bare origin is how this works against Google and fails
   against Keycloak, Auth0 custom domains, and every multi-tenant provider.
 - **A failed discovery is never cached.** Caching it would turn a transient

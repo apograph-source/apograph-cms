@@ -386,7 +386,7 @@ and `system-prompt.spec.ts` pins the structure. Three rules for editing it:
   count for exactly this reason.
 - **Per-tool mechanics belong in the tool's `description`, not here.** The
   prompt costs tokens on every run; a description costs them on the runs that
-  read it, and arrives in context. HOW ORTHA WORKS carries only what is true of
+  read it, and arrives in context. HOW ORTHACMS WORKS carries only what is true of
   every deployment and what no single tool can say — the workspace grant
   boundary, `draft`/`published` being the whole state set, **publish state being
   the `status` + `publishedAt` pair**, **what a save must contain**, numbered
@@ -412,7 +412,7 @@ and `system-prompt.spec.ts` pins the structure. Three rules for editing it:
   refusing one that omits a required field. Both propose tools take the same
   `values` bag whatever the type, so a model has no way to tell the two apart
   from a schema; without the rule it learns the difference from a 422 naming
-  fields it never asked the user about. HOW ORTHA WORKS carries the fact (and
+  fields it never asked the user about. HOW ORTHACMS WORKS carries the fact (and
   points at `admin_content_types`, which reports `publishable` and `required`);
   MAKING CHANGES carries the instruction, because the useful part is what to do
   when a required value is unknown — **ask**, rather than invent one or write
@@ -427,7 +427,7 @@ and `system-prompt.spec.ts` pins the structure. Three rules for editing it:
   entry in front of it and rewrite every locale at once. (The other half of that
   gap **was** closed in code, which is the point: the content tools no longer
   offer a `localeGroupId`, so joining a group now goes through the i18n tools
-  that inherit the source's shared values.) HOW ORTHA WORKS states the fact
+  that inherit the source's shared values.) HOW ORTHACMS WORKS states the fact
   unconditionally; MAKING CHANGES restates it as an instruction only when
   `i18n_propose_translation` is actually on offer. It stays **prose**: the rule
   is about which fields carry a flag, and answering it in the prompt would mean
@@ -564,7 +564,7 @@ Structurally identical to media storage, by decision
 **This package knows no adapter exists.** It does not import a vendor SDK, a
 factory, _or_ an adapter config type — so a Bedrock adapter is a package plus
 one entry in `plugins.ts`. Provider _connection_ settings live with the host, in
-`apps/server/ortha.config.ts`.
+`apps/server/orthacms.config.ts`.
 
 A run may name a `provider` and `model`; an explicitly requested provider wins
 over the host's `resolve` handler, because the resolver expresses a default

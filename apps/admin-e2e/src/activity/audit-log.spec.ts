@@ -34,7 +34,7 @@ test.describe('Activity Log page', () => {
         await expect(activityLogPage.row('Changed role')).toBeVisible();
         // An actor email shows in its row.
         await expect(
-            activityLogPage.row('ada@ortha.dev').first()
+            activityLogPage.row('ada@orthacms.dev').first()
         ).toBeVisible();
     });
 
@@ -93,9 +93,9 @@ test.describe('Activity Log page', () => {
 
         // Only Grace's suspension event matches the actor-email filter.
         await expect(
-            activityLogPage.row('grace@ortha.dev').first()
+            activityLogPage.row('grace@orthacms.dev').first()
         ).toBeVisible();
-        await expect(activityLogPage.row('ada@ortha.dev')).toHaveCount(0);
+        await expect(activityLogPage.row('ada@orthacms.dev')).toHaveCount(0);
     });
 
     test('deep-links the active search into the URL [activity:I-30]', async ({
@@ -237,7 +237,7 @@ test.describe('Activity Log resilience', () => {
             actorId: 'u_ada',
             // One event in the set belongs to somebody else, so a search for
             // them narrows sixty results down to a single page.
-            actorEmail: index === 0 ? 'grace@ortha.dev' : 'ada@ortha.dev',
+            actorEmail: index === 0 ? 'grace@orthacms.dev' : 'ada@orthacms.dev',
             meta: null,
             at: '2026-06-10T09:00:00.000Z'
         }));
@@ -254,7 +254,7 @@ test.describe('Activity Log resilience', () => {
             await activityLogPage.emailSearch.fill('grace');
 
             await expect(
-                activityLogPage.row('grace@ortha.dev').first()
+                activityLogPage.row('grace@orthacms.dev').first()
             ).toBeVisible();
             // The address is corrected too — a URL that says page three while
             // showing page one is a link that reopens wrong.
@@ -297,7 +297,7 @@ test.describe('Activity Log resilience', () => {
             subjectType: 'user',
             subjectId: 'u_ada',
             actorId: 'u_ada',
-            actorEmail: 'ada@ortha.dev',
+            actorEmail: 'ada@orthacms.dev',
             meta: null,
             at: '2026-06-10T09:00:00.000Z'
         }));
@@ -528,9 +528,9 @@ test.describe('Activity Log keyboard operability', () => {
         await activityLogPage.emailSearch.pressSequentially('grace');
 
         await expect(
-            activityLogPage.row('grace@ortha.dev').first()
+            activityLogPage.row('grace@orthacms.dev').first()
         ).toBeVisible();
-        await expect(activityLogPage.row('ada@ortha.dev')).toHaveCount(0);
+        await expect(activityLogPage.row('ada@orthacms.dev')).toHaveCount(0);
     });
 
     test('a row expands from the keyboard', async ({

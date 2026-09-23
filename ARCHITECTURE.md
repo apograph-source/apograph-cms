@@ -1,6 +1,6 @@
 # Architecture
 
-How Ortha is built. For the _why_ behind these choices, see
+How Ortha CMS is built. For the _why_ behind these choices, see
 [`docs/adr/`](docs/adr/README.md). For the project inventory and glossary, see
 [`CONTEXT-MAP.md`](CONTEXT-MAP.md).
 
@@ -10,7 +10,7 @@ a plugin owns — are derived from the code and checked by
 
 ## 1. The big idea: a plugin host
 
-Ortha is not a monolith with features bolted on. It is a small, dumb **host**
+Ortha CMS is not a monolith with features bolted on. It is a small, dumb **host**
 that turns _a list of plugins_ into a running application. The host owns no
 domain logic — no auth, no users, no content. All capability lives in plugins.
 

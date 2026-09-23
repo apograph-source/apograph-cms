@@ -124,7 +124,7 @@ describe('outgoing mail', () => {
             expect(sent).toHaveLength(1);
             expect(sent[0]).toMatchObject({
                 to: 'ada@example.com',
-                from: 'Ortha <no-reply@cms.test>'
+                from: 'Ortha CMS <no-reply@cms.test>'
             });
             expect(sent[0].text).toContain('/identity/accept-invite?token=');
             // The row existed only to survive a crash between commit and send.

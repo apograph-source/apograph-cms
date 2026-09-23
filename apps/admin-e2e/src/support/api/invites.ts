@@ -10,7 +10,7 @@ export interface InviteSeed {
 
 /** The default invite the accept suite works with. */
 export const DEFAULT_INVITE: InviteSeed = {
-    email: 'ada@ortha.dev',
+    email: 'ada@orthacms.dev',
     name: 'Ada Lovelace'
 };
 

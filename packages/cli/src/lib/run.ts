@@ -9,7 +9,7 @@ import { basename, dirname, join } from 'node:path';
  *
  * Two things this has to get right.
  *
- * It resolves from the app, not from this package: `ortha` is installed into
+ * It resolves from the app, not from this package: `orthacms` is installed into
  * the app it builds, so the TypeScript and Vite that app declares are the ones
  * that must run — resolving from the CLI's own tree would compile someone's
  * app with whatever version npm happened to hoist next to it.
@@ -99,8 +99,8 @@ export function run(
  * Keeps a set of watch processes alive until one exits or the user interrupts,
  * then takes the rest down with it.
  *
- * Without the teardown, ending `ortha dev` leaves an orphaned `tsc --watch`
- * and a `node --watch` still holding the API port — so the next `ortha dev`
+ * Without the teardown, ending `orthacms dev` leaves an orphaned `tsc --watch`
+ * and a `node --watch` still holding the API port — so the next `orthacms dev`
  * fails on a port already in use, blamed on a process the user cannot see.
  */
 export function superviseUntilExit(children: ChildProcess[]): Promise<void> {

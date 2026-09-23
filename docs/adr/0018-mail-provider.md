@@ -95,7 +95,7 @@ click.
 
 **6. The offline adapters are installed unconditionally and registered by
 nobody.** `mail-provider-console` and `mail-provider-testkit` follow the
-`identity-provider-fake` pattern already in `create-ortha-app`: shipped with
+`identity-provider-fake` pattern already in `create-orthacms-app`: shipped with
 every app, offered in no picker, named by no template. `ORT-148` records what
 the alternative costs — the copilot's fake provider became the production
 default and nothing prevented it. Here the failure is quieter and worse:

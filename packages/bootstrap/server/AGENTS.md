@@ -160,7 +160,7 @@ registered **first**, so it still wins when it lives under the UI mount.
   The default is **fail-open**, and exactly: the comparison is a literal string
   match, so `NODE_ENV=Production` and `NODE_ENV=prod` publish the reference just
   as an unset `NODE_ENV` does. It is the same missing variable that leaves the
-  session cookie without `Secure` (`ortha.config.ts`) and turns on the GraphiQL
+  session cookie without `Secure` (`orthacms.config.ts`) and turns on the GraphiQL
   playground — treat "is `NODE_ENV` exactly `production`?" as one deployment
   check, not three.
 - **Grouped by resource, not by controller.** `autoTagControllers` is disabled
@@ -177,7 +177,7 @@ registered **first**, so it still wins when it lives under the UI mount.
   security schemes: a plugin declares its own through `ServerPlugin.docs`
   (`securitySchemes` + `defaultSecurity`), and `setupApiDocs` merges every
   plugin's contribution. `@orthacms/identity-server` contributes the
-  `ortha_session` cookie and the bearer API token.
+  `orthacms_session` cookie and the bearer API token.
 - **A plugin with a dynamic contract describes itself.** `ServerPlugin.docs`
   also takes a `decorate(document)` hook, run last (after tagging), in
   registration order. It exists because the scanner only sees static
@@ -263,7 +263,7 @@ will be stale until the last plugin lands; re-measure against
 
 ## Configuration
 
-Options flow from `apps/server/ortha.config.ts` (the single reader of
+Options flow from `apps/server/orthacms.config.ts` (the single reader of
 `process.env`) into `createServer`:
 
 ```typescript

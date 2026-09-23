@@ -42,7 +42,7 @@ export function runDrizzleKitStudio(
     // resolve the package's main entry and locate the sibling bin.
     const bin = join(dirname(require.resolve('drizzle-kit')), 'bin.cjs');
 
-    const dir = mkdtempSync(join(tmpdir(), 'ortha-studio-'));
+    const dir = mkdtempSync(join(tmpdir(), 'orthacms-studio-'));
     const configPath = join(dir, 'drizzle.config.ts');
     writeFileSync(
         configPath,

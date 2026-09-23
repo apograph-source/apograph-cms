@@ -34,7 +34,7 @@ export class AgentsPage extends BasePage {
         // A `complementary`, not a `toolbar` or a bare `group` — see
         // `CopilotDockPage` for both halves of why.
         this.dock = page.getByRole('complementary', {
-            name: 'Ortha AI chats'
+            name: 'Ortha CMS AI chats'
         });
     }
 

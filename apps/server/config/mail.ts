@@ -33,7 +33,7 @@ export type MailBackend = 'smtp' | 'console';
  * `plugins.ts` already imports the adapter factory, so importing its config
  * type costs no new coupling.
  */
-export interface OrthaMailConfig extends MailPluginConfig {
+export interface OrthaCmsMailConfig extends MailPluginConfig {
     /** Which adapter `plugins.ts` constructs. */
     backend: MailBackend;
     /** Whatever the SMTP adapter needs; absent on `console`. */
@@ -69,7 +69,7 @@ function backend(): MailBackend | undefined {
  *   and the refusal would otherwise surface on somebody's first invitation
  *   rather than at boot.
  */
-export function mailConfig(): OrthaMailConfig | undefined {
+export function mailConfig(): OrthaCmsMailConfig | undefined {
     const selected = backend();
     if (!selected) return undefined;
 
@@ -83,7 +83,7 @@ export function mailConfig(): OrthaMailConfig | undefined {
         from: requireEnv(
             'MAIL_FROM',
             'Mail is configured (MAIL_PROVIDER is set), so messages need a sender — e.g. ' +
-                '"Ortha <no-reply@example.com>".'
+                '"Ortha CMS <no-reply@example.com>".'
         ),
         replyTo: readEnv('MAIL_REPLY_TO'),
         productName: readEnv('MAIL_PRODUCT_NAME'),

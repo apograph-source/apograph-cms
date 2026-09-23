@@ -600,7 +600,7 @@ function SidebarInset({
                     // the layout an app without such chrome has: a scrollport
                     // whose last row cannot be scrolled clear of a bar covering
                     // it is a control a pointer cannot reach.
-                    className="flex min-h-0 flex-1 flex-col overflow-y-auto pb-[var(--ortha-fixed-bottom-gutter,0px)] focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset focus-visible:outline-none"
+                    className="flex min-h-0 flex-1 flex-col overflow-y-auto pb-[var(--orthacms-fixed-bottom-gutter,0px)] focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset focus-visible:outline-none"
                 >
                     {children}
                 </div>

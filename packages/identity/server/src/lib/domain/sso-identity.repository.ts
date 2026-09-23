@@ -1,4 +1,4 @@
-/** A stored link between an Ortha account and a provider identity. */
+/** A stored link between an Ortha CMS account and a provider identity. */
 export interface SsoIdentityLink {
     /** The link row's id. */
     id: string;

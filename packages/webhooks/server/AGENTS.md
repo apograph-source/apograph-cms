@@ -43,7 +43,7 @@ keeps the original `event_id` on purpose, because that is what a receiver
 deduplicates on — is exempt.
 
 The delivery id is minted by the **caller**, not by the database, because the
-envelope carries it: the body and the `X-Ortha-Delivery` header have to name the
+envelope carries it: the body and the `X-Orthacms-Delivery` header have to name the
 same delivery.
 
 ### 3. The secret is stored in the clear, and that is the honest answer

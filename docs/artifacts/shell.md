@@ -192,7 +192,7 @@ Fifteen entries from eight packages — seven contributing plugins and shell its
 | SIDEBAR_NAV     | segments-admin   | Segments (`/segments`)        | 40         | Reader audiences; purple accent; the `segments:read` permission                                                                                                               |
 | SIDEBAR_SECTION | workspaces-admin | workspaces.quicklist          | 10         | A quick list of active workspaces; the heading works as a collapse trigger (Radix `Collapsible`), and “+” leads to creation given the `workspaces:create` permission          |
 | SIDEBAR_FOOTER  | users-admin      | users.themeSync               | 0          | Renders nothing: it pulls in the user's saved theme. It lives in the footer precisely because sidebar sections disappear when the area is overridden, and the footer does not |
-| SIDEBAR_FOOTER  | copilot-admin    | copilot                       | 10         | The Ortha AI dock: the single entry point into the chat, ⌘J; silent outside a workspace and without `copilot:use`                                                             |
+| SIDEBAR_FOOTER  | copilot-admin    | copilot                       | 10         | The Ortha CMS AI dock: the single entry point into the chat, ⌘J; silent outside a workspace and without `copilot:use`                                                             |
 | SIDEBAR_FOOTER  | users-admin      | users.account                 | 10         | The account: avatar, name, email, and the “My profile” / “Sign out” menu                                                                                                      |
 | HOME_SECTION    | workspaces-admin | workspaces.home.stats         | 10 · stat  | Workspace metric tiles — the dashboard's top row                                                                                                                              |
 | HOME_SECTION    | workspaces-admin | workspaces.home.panel         | 10 · panel | The “Workspaces” panel — the left column                                                                                                                                      |
@@ -362,7 +362,7 @@ A `CommandDialog`: an input field, the static “Go to” group from the navigat
 The control belongs to `copilot-admin` and is rendered into `WORKSPACE_SECTION_SLOT` with `order: 5` — that is, below the workspace switcher and above the content navigation.
 
 1. **It is present in both modes.** The full-page “Agents” view, arrived at from a navigation row, is the sort of place people do not know how to leave. A segmented control visible in both places says that there are two modes and which one you are in, and costs one click in either direction.
-2. **While you are in the CMS, the path is remembered.** An effect writes `pathname + search` into `sessionStorage` under the key `ortha:agents:return:<workspaceId>`. `sessionStorage` specifically: the control unmounts and remounts on every rebuild of the contextual area, and “where I was” has no business surviving until next week.
+2. **While you are in the CMS, the path is remembered.** An effect writes `pathname + search` into `sessionStorage` under the key `orthacms:agents:return:<workspaceId>`. `sessionStorage` specifically: the control unmounts and remounts on every rebuild of the contextual area, and “where I was” has no business surviving until next week.
 3. **Switching to Agents** is `navigate(agentsPath(workspaceId))`.
 4. **Returning to the CMS goes to the same page you left:** `readCmsPath(workspaceId) ?? '/workspaces/:id'`. Interrupted mid-edit on an entry to ask a question — you come back to it, not to the default section.
 5. **Clicking the active half again is ignored.** Radix clears the value when the selected item is clicked; that is a deselection, not a toggle, and there is no third state.
@@ -435,8 +435,8 @@ The control belongs to `copilot-admin` and is rendered into `WORKSPACE_SECTION_S
 | What                         | Where          | Key                       | Lifetime                                  | Owner                    |
 | ---------------------------- | -------------- | ------------------------- | ----------------------------------------- | ------------------------ |
 | Sidebar open/collapsed       | cookie         | sidebar_state             | 7 days, `path=/`, `SameSite=Lax`          | design-system            |
-| Right panel open/collapsed   | localStorage   | ortha:right-panel         | indefinite; not written below 768px       | shell (`pageChrome`)     |
-| Where to return from Agents  | sessionStorage | ortha:agents:return:\<id> | the tab                                   | copilot-admin            |
+| Right panel open/collapsed   | localStorage   | orthacms:right-panel         | indefinite; not written below 768px       | shell (`pageChrome`)     |
+| Where to return from Agents  | sessionStorage | orthacms:agents:return:\<id> | the tab                                   | copilot-admin            |
 | The sidebar's mobile `Sheet` | —              | —                         | in memory only                            | design-system            |
 | The contextual-area override | —              | —                         | while the overriding component is mounted | shell (`sidebarContent`) |
 
@@ -499,7 +499,7 @@ Shell has **no** configurable parameters. `ShellPlugin()` takes no arguments, th
 | --------------- | -------------------------- | ------------- | -------------------------------------------------------------------------------------------------- |
 | MAIN_CONTENT_ID | 'main-content'             | AppShell      | The skip link's target, the `id` of the `<main>` landmark                                          |
 | RIGHT_PANEL_ID  | 'app-right-panel'          | pageChrome    | The `aria-controls` link between the bar's button and the panel; the exclusion in the Esc selector |
-| STORAGE_KEY     | 'ortha:right-panel'        | pageChrome    | The values `'open'` / `'collapsed'`                                                                |
+| STORAGE_KEY     | 'orthacms:right-panel'        | pageChrome    | The values `'open'` / `'collapsed'`                                                                |
 | PANEL_SLIDE_MS  | 330                        | pageChrome    | Slightly more than `duration-300` — the window in which animation is allowed                       |
 | MOBILE_QUERY    | '(max-width: 767px)'       | pageChrome    | Matches `useIsMobile`'s breakpoint (768px already counts as desktop)                               |
 | GROUPS          | \['overview','directory'\] | GlobalSidebar | The fixed order of the navigation groups                                                           |
@@ -654,7 +654,7 @@ The wording is “action → expected result”, so items can go into a test cas
 - **Collapse the panel from the keyboard** → focus on the “Show {title}” button in the bar.
 - **Expand it from the keyboard** → focus on the “Hide {title}” button inside the panel.
 - **Collapse the panel, work in the form, expand it** → the panel's content is in the same state and no requests were repeated.
-- **Collapse it and reload the page** → the panel stays collapsed (`ortha:right-panel=collapsed`).
+- **Collapse it and reload the page** → the panel stays collapsed (`orthacms:right-panel=collapsed`).
 - **Open the same entry on a phone** → the panel is collapsed regardless of what was saved; `localStorage` is **unchanged**.
 - **After that phone visit, open it on the desktop** → the panel is open, just as it was.
 - **Expand the panel on a narrow screen** → an overlay on top of the page, `role="dialog"` + `aria-modal`, everything beneath it `inert`; Tab does not escape onto the page and does not wrap to the skip link.

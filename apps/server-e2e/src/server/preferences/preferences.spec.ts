@@ -11,11 +11,11 @@ import { TEST_ALLOWED_ORIGIN } from '../../support/test-config';
 const EMAIL = 'preferences-test@example.com';
 const PASSWORD = 'SecurePass123!';
 
-/** Extract the `ortha_session=value` pair from a login response. */
+/** Extract the `orthacms_session=value` pair from a login response. */
 function sessionCookie(res: Response): string {
     const setCookie = res.headers['set-cookie'] as unknown as string[];
     const cookie = setCookie
-        .find((c) => c.startsWith('ortha_session='))
+        .find((c) => c.startsWith('orthacms_session='))
         ?.split(';')[0];
     if (!cookie) {
         throw new Error('login did not set a session cookie');

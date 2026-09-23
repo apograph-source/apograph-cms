@@ -95,7 +95,7 @@ describe('setupApiDocs — the document’s authentication', () => {
                             session: {
                                 type: 'apiKey',
                                 in: 'cookie',
-                                name: 'ortha_session'
+                                name: 'orthacms_session'
                             },
                             apiToken: { type: 'http', scheme: 'bearer' }
                         },

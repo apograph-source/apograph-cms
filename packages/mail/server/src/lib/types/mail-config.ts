@@ -105,7 +105,7 @@ export interface ResolvedMailConfig {
 
 /** Defaults chosen to be unsurprising next to somebody else's relay. */
 export const MAIL_DEFAULTS = {
-    productName: 'Ortha',
+    productName: 'Ortha CMS',
     revealLinks: false,
     deliveryIntervalMs: 2_000,
     batchSize: 20,

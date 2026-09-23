@@ -34,7 +34,7 @@ const messages = defineMessages({
     emptyHint: {
         id: 'copilot.chat.emptyHint',
         defaultMessage:
-            'Ortha AI can only see and change what your own role allows. Every change it makes is recorded and can be undone.'
+            'Ortha CMS AI can only see and change what your own role allows. Every change it makes is recorded and can be undone.'
     },
     thinking: {
         id: 'copilot.chat.thinking',
@@ -103,7 +103,7 @@ const messages = defineMessages({
     },
     assistantSaid: {
         id: 'copilot.chat.turn.assistant',
-        defaultMessage: 'Ortha AI'
+        defaultMessage: 'Ortha CMS AI'
     },
     // The phases the status region announces.
     statusLabel: {

@@ -237,7 +237,7 @@ describe('WebhookHttpClient — the delivery headers', () => {
             'attempt',
             'signature'
         ]) {
-            expect(sent[`x-ortha-${field}`]).toBeDefined();
+            expect(sent[`x-orthacms-${field}`]).toBeDefined();
         }
     });
 
@@ -246,9 +246,9 @@ describe('WebhookHttpClient — the delivery headers', () => {
         await client(OPEN).send({ ...delivery(url), workspaceId: null });
 
         const sent = receiver.headers[0];
-        expect(sent['x-ortha-workspace']).toBeUndefined();
+        expect(sent['x-orthacms-workspace']).toBeUndefined();
         // Still sent, so an absent workspace is not mistaken for no headers.
-        expect(sent['x-ortha-event']).toBe('entry.published');
+        expect(sent['x-orthacms-event']).toBe('entry.published');
     });
 });
 

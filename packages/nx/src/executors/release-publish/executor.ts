@@ -65,7 +65,7 @@ const DEFAULTS = {
  *
  * Tuning without touching code, for a CI run that hits a stricter limit:
  *
- *     ORTHA_PUBLISH_DELAY=10000 ORTHA_PUBLISH_RETRIES=8 npm run release
+ *     ORTHACMS_PUBLISH_DELAY=10000 ORTHACMS_PUBLISH_RETRIES=8 npm run release
  *
  * Every publish is preceded by a registry probe, which costs a `GET` — not a
  * metered write — and answers the two questions worth knowing first: whether
@@ -157,7 +157,7 @@ export default async function releasePublishExecutor(
                 dryRun || blockedByPeer()
                     ? 0
                     : numeric(
-                          process.env.ORTHA_PUBLISH_DELAY,
+                          process.env.ORTHACMS_PUBLISH_DELAY,
                           options.delay,
                           DEFAULTS.delay
                       ),
@@ -180,12 +180,12 @@ export default async function releasePublishExecutor(
                 },
                 {
                     retries: numeric(
-                        process.env.ORTHA_PUBLISH_RETRIES,
+                        process.env.ORTHACMS_PUBLISH_RETRIES,
                         options.retries,
                         DEFAULTS.retries
                     ),
                     backoff: numeric(
-                        process.env.ORTHA_PUBLISH_RETRY_BACKOFF,
+                        process.env.ORTHACMS_PUBLISH_RETRY_BACKOFF,
                         options.retryBackoff,
                         DEFAULTS.retryBackoff
                     ),

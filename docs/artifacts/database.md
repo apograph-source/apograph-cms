@@ -596,7 +596,7 @@ Before this fix, a drain caught by `SIGTERM` died mid-batch along with its conne
 
 ## 09. Configuration and environment
 
-The plugin's configuration is one required parameter and three optional ones. The package reads no environment variables at all: `apps/server/ortha.config.ts` is the only place that touches `process.env`, and it hands the plugin an already-typed value.
+The plugin's configuration is one required parameter and three optional ones. The package reads no environment variables at all: `apps/server/orthacms.config.ts` is the only place that touches `process.env`, and it hands the plugin an already-typed value.
 
 | `DatabasePluginConfig` field | Required | Default | Comment                                                                                |
 | ---------------------------- | -------- | ------- | -------------------------------------------------------------------------------------- |
@@ -609,9 +609,9 @@ The plugin's configuration is one required parameter and three optional ones. Th
 
 | Variable     | Who reads it                                                                                 | Example                                                    |
 | ------------ | -------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
-| DATABASE_URL | `ortha.config.ts`, through `requireEnv` — mandatory; without it the server does not start | postgresql://ortha:ortha@localhost:5432/ortha_cms |
+| DATABASE_URL | `orthacms.config.ts`, through `requireEnv` — mandatory; without it the server does not start | postgresql://orthacms:orthacms@localhost:5432/orthacms |
 
-`poolMax`, `connectionTimeoutMillis` and `statementTimeoutMillis` have **no environment variables** — today they are literals in the host's code, if it sets them at all. A deployment that needs a different pool ceiling will have to edit `ortha.config.ts` or its own composition root.
+`poolMax`, `connectionTimeoutMillis` and `statementTimeoutMillis` have **no environment variables** — today they are literals in the host's code, if it sets them at all. A deployment that needs a different pool ceiling will have to edit `orthacms.config.ts` or its own composition root.
 
 ### Wiring it up in the host
 
@@ -627,7 +627,7 @@ return [
 
 ### Parallel stacks
 
-Several working copies share **one** Postgres container — isolation comes from `CREATE DATABASE`, not from five containers that would not fit in memory. Slot _n_ fixes the API on `:300n`, the admin UI on `:420n` and the database `ortha_cms_an`; `npm run worktree -- provision <slot>` creates the database and writes a `.env` with the right `DATABASE_URL`. None of this changes anything for the package — it only ever sees a connection string.
+Several working copies share **one** Postgres container — isolation comes from `CREATE DATABASE`, not from five containers that would not fit in memory. Slot _n_ fixes the API on `:300n`, the admin UI on `:420n` and the database `orthacms_an`; `npm run worktree -- provision <slot>` creates the database and writes a `.env` with the right `DATABASE_URL`. None of this changes anything for the package — it only ever sees a connection string.
 
 ### Commands
 
@@ -798,7 +798,7 @@ The package is deliberately narrow. Everything that could be handed outwards has
 | Auditing and the activity log                            | no    | `activity/server`: the subscriber + the `activity_events` table                       |
 | The `db:generate` / `db:migrate` targets                 | no    | `@orthacms/nx` (target inference) on top of `@orthacms/cli` (`applyPluginMigrations`) |
 | The order in which migrations are applied                | no    | The host's `plugins` array — `apps/server/src/plugins.ts`                             |
-| Reading environment variables                            | no    | `apps/server/ortha.config.ts` — the only place that reads `process.env`            |
+| Reading environment variables                            | no    | `apps/server/orthacms.config.ts` — the only place that reads `process.env`            |
 | Enabling Nest's shutdown hooks                           | no    | `createServer` in `@orthacms/bootstrap-server`                                        |
 | Pruning old outbox rows                                  | yes   | `OutboxDispatcher.pruneDelivered` + the hourly `pruneIfDue`; delivered rows only      |
 | Metrics, health checks, a queue UI                       | no    | Absent. Only logs and SQL                                                             |

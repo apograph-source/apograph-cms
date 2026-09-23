@@ -100,7 +100,7 @@
     "release": {
         "projects": [
             "@orthacms/*",
-            "create-ortha-app",
+            "create-orthacms-app",
             "!@orthacms/nx",
             "!@orthacms/copilot-provider-fake"
         ],
@@ -108,7 +108,7 @@
         "releaseTagPattern": "v{version}",
         "version": {
             "conventionalCommits": true,
-            "preVersionCommand": "npx nx run-many -t build --projects=@orthacms/*,create-ortha-app",
+            "preVersionCommand": "npx nx run-many -t build --projects=@orthacms/*,create-orthacms-app",
             "fallbackCurrentVersionResolver": "disk"
         },
         "changelog": {

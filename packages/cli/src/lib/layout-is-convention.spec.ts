@@ -16,7 +16,7 @@ import { LAYOUT } from './project';
  *
  * What the checkable half buys is not tidiness. Every one of these paths is
  * load-bearing at a distance: `serverEntry` follows from `apps/server/
- * tsconfig.json`'s `rootDir`, and a copy that drifted would have `ortha start`
+ * tsconfig.json`'s `rootDir`, and a copy that drifted would have `orthacms start`
  * report a missing entry point for an app that had built perfectly.
  */
 

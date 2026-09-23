@@ -35,7 +35,7 @@ Users is the CMS's **HR department**. Identity answers “who has arrived and wh
 
 ## 01. Business description
 
-You cannot sign up for Ortha. The only door in is an invitation, and it is this plugin that issues it. Everything that happens to a person after they become a member of the editorial team — a role change, being disabled, a link reissued, a password recovered — is here too. Identity can check a pass; users decides who gets a pass and who has one taken away.
+You cannot sign up for Ortha CMS. The only door in is an invitation, and it is this plugin that issues it. Everything that happens to a person after they become a member of the editorial team — a role change, being disabled, a link reissued, a password recovered — is here too. Identity can check a pass; users decides who gets a pass and who has one taken away.
 
 ### The problem it solves
 

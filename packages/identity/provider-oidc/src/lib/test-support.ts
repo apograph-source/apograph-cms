@@ -15,7 +15,7 @@ import type {
 } from '@orthacms/identity-domain';
 
 export const ISSUER = 'https://idp.test';
-export const CLIENT_ID = 'ortha-cms';
+export const CLIENT_ID = 'orthacms';
 export const REDIRECT_URI = 'https://cms.test/api/auth/sso/idp/callback';
 
 /** The one-attempt secrets a core would have minted. */

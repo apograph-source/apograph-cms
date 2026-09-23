@@ -9,7 +9,7 @@
 
 ## Context
 
-Ortha must grow many capabilities (auth, users, workspaces, activity, and
+Ortha CMS must grow many capabilities (auth, users, workspaces, activity, and
 eventually content/AI) across two runtimes (a React admin SPA and a NestJS API)
 without the hosts accumulating domain logic or features becoming entangled.
 

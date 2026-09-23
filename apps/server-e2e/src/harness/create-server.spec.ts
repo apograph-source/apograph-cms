@@ -313,7 +313,7 @@ describe('createServer (the host bootstrap)', () => {
         let bundle: string;
 
         beforeEach(() => {
-            bundle = mkdtempSync(join(tmpdir(), 'ortha-admin-'));
+            bundle = mkdtempSync(join(tmpdir(), 'orthacms-admin-'));
             writeFileSync(join(bundle, 'index.html'), '<!doctype html>ADMIN');
             mkdirSync(join(bundle, 'assets'));
             writeFileSync(join(bundle, 'assets/app.js'), 'export const x = 1;');

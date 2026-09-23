@@ -6,7 +6,7 @@ import { createTsJiti } from '../../lib/jiti';
 
 /** Options for the `db-migrate` executor. */
 export interface DbMigrateExecutorOptions {
-    /** Path to the host's ortha.config.ts (relative to the workspace root). */
+    /** Path to the host's orthacms.config.ts (relative to the workspace root). */
     config: string;
     /** Path to the module exporting buildPlugins(config) (relative to root). */
     plugins: string;
@@ -20,7 +20,7 @@ interface HostConfig {
 
 /**
  * Applies all plugin migrations for a host project. Loads the host's
- * ortha.config.ts and its buildPlugins() factory (both TypeScript, loaded
+ * orthacms.config.ts and its buildPlugins() factory (both TypeScript, loaded
  * via jiti + swc), constructs the plugin list, and applies each plugin's
  * migrations. Side-effecting — never cached.
  */

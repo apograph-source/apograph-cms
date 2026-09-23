@@ -79,7 +79,7 @@ export const mediaAsset = pgTable(
          * layer**: `MediaKind` has no `caption` category, so a WebVTT file
          * uploaded as a second asset was `kind: 'document'` with no link back to
          * the video it belonged to, and nothing downstream could find it. Video
-         * published through Ortha therefore had no captions available to it —
+         * published through Ortha CMS therefore had no captions available to it —
          * WCAG 1.2.2 / 1.2.3, 508 503.4 (`ORT-92`).
          *
          * A `jsonb` list of pointers rather than a self-referencing column,

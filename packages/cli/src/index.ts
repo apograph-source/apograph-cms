@@ -1,7 +1,7 @@
 /**
  * Public API of `@orthacms/cli`.
  *
- * The commands themselves are reached through the `ortha` binary; what is
+ * The commands themselves are reached through the `orthacms` binary; what is
  * exported here is the layer underneath, so `@orthacms/nx` can drive the same
  * implementations from its Nx executors. That sharing is the point: the
  * monorepo and every generated app then migrate through one code path, rather

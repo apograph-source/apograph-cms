@@ -2,7 +2,7 @@
 
 _Package group · packages/activity_
 
-**Who did what and when — the Ortha activity log**
+**Who did what and when — the Ortha CMS activity log**
 
 Activity is the **shared audit sink**. It knows nothing about content, the media library or accounts: it subscribes to the transactional outbox and turns other plugins' domain events into rows of a single `activity_events` table. The schema is deliberately open — `kind` and `meta` — because the catalogue of event kinds belongs to whoever produces them, not to whoever stores them. Hence the package's main rule: **adding a producer means adding a mapper here**, and an event with no mapper is lost silently.
 

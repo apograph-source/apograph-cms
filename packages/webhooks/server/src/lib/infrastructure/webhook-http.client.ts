@@ -26,7 +26,7 @@ export interface WebhookRequest {
     deliveryId: string;
     eventId: string;
     workspaceId: string | null;
-    /** 1-based, sent as `X-Ortha-Attempt`. */
+    /** 1-based, sent as `X-Orthacms-Attempt`. */
     attempt: number;
 }
 

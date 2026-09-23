@@ -20,7 +20,7 @@ test.describe('Account menu', () => {
         await mockSignedIn(page, {
             id: 'u_ada',
             name: 'Ada Lovelace',
-            email: 'ada@ortha.dev'
+            email: 'ada@orthacms.dev'
         });
         await mockMembers(page);
         await mockWorkspaces(page);
@@ -40,7 +40,7 @@ test.describe('Account menu', () => {
         // opening it `aria-hidden`s the page root and the trigger drops out of
         // the accessibility tree, taking every role-based locator with it.
         await expect(
-            membersPage.accountMenuEmail('ada@ortha.dev')
+            membersPage.accountMenuEmail('ada@orthacms.dev')
         ).toBeVisible();
 
         await membersPage.openAccountMenu();
@@ -72,13 +72,13 @@ test.describe('Account menu', () => {
         await mockSignedIn(page, {
             id: 'u_ada',
             name: null,
-            email: 'ada@ortha.dev'
+            email: 'ada@orthacms.dev'
         });
         await membersPage.goto();
 
         await expect(membersPage.accountMenuTrigger()).toBeVisible();
         await expect(
-            membersPage.accountMenuTrigger().getByText('ada@ortha.dev')
+            membersPage.accountMenuTrigger().getByText('ada@orthacms.dev')
         ).toHaveCount(2);
         await expect(page.getByText('null', { exact: true })).toHaveCount(0);
     });

@@ -1,7 +1,7 @@
 import config, {
-    type OrthaConfig,
-    type OrthaCopilotConfig
-} from '../ortha.config';
+    type OrthaCmsConfig,
+    type OrthaCmsCopilotConfig
+} from '../orthacms.config';
 import {
     buildPlugins,
     copilotProviders,
@@ -129,8 +129,8 @@ describe('buildPlugins()', () => {
 describe('mailProvider()', () => {
     /** The shipped config with a mail block substituted in. */
     const withMail = (
-        mail: OrthaConfig['plugins']['mail']
-    ): OrthaConfig => ({
+        mail: OrthaCmsConfig['plugins']['mail']
+    ): OrthaCmsConfig => ({
         ...config,
         plugins: { ...config.plugins, mail }
     });
@@ -209,8 +209,8 @@ describe('mailProvider()', () => {
 describe('ssoProviders()', () => {
     /** The shipped config with an identity provider set substituted in. */
     const withSso = (
-        ssoProviders: OrthaConfig['plugins']['identity']['ssoProviders']
-    ): OrthaConfig => ({
+        ssoProviders: OrthaCmsConfig['plugins']['identity']['ssoProviders']
+    ): OrthaCmsConfig => ({
         ...config,
         plugins: {
             ...config.plugins,
@@ -220,8 +220,8 @@ describe('ssoProviders()', () => {
 
     const oidc = {
         name: 'keycloak',
-        issuer: 'https://sso.example.com/realms/ortha',
-        clientId: 'ortha-cms',
+        issuer: 'https://sso.example.com/realms/orthacms',
+        clientId: 'orthacms',
         clientSecret: 'secret',
         label: 'Keycloak'
     };
@@ -278,8 +278,8 @@ describe('ssoProviders()', () => {
 describe('copilotProviders()', () => {
     /** The shipped config with a copilot provider set substituted in. */
     const withProviders = (
-        providers: OrthaCopilotConfig['providers']
-    ): OrthaConfig => ({
+        providers: OrthaCmsCopilotConfig['providers']
+    ): OrthaCmsConfig => ({
         ...config,
         plugins: {
             ...config.plugins,

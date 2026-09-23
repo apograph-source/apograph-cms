@@ -17,7 +17,7 @@ const ROOT_PASSWORD = 'RootSecret123!';
 /**
  * Root-admin bootstrap (Option B, self-hosted). The app boots WITH a
  * `rootAdmin` config, so `RootAdminSeeder` provisions the account during
- * `app.init()` — exactly as a real boot with `ORTHA_ROOT_ADMIN_EMAIL` set.
+ * `app.init()` — exactly as a real boot with `ORTHACMS_ROOT_ADMIN_EMAIL` set.
  *
  * One app per spec file: the `@orthacms/database` pool is a per-file
  * singleton, so this suite does not `resetDb` (that would wipe the

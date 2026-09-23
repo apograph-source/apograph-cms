@@ -4,12 +4,12 @@ import { describeSmtpError, isPermanentSmtpError } from './smtp-error';
 
 const message = {
     to: 'ada@example.com',
-    from: 'Ortha <no-reply@example.com>',
+    from: 'Ortha CMS <no-reply@example.com>',
     replyTo: 'support@example.com',
     subject: 'You have been invited',
     text: 'https://cms.example.com/identity/accept-invite?token=s3cret',
     html: '<p>link</p>',
-    headers: { 'X-Ortha-Mail-Kind': 'invite' }
+    headers: { 'X-Orthacms-Mail-Kind': 'invite' }
 };
 
 /** A nodemailer double: records what it was asked to send. */
@@ -52,13 +52,13 @@ describe('the SMTP mail provider', () => {
         const receipt = await provider.send(message);
 
         expect(transport.sent[0]).toEqual({
-            from: 'Ortha <no-reply@example.com>',
+            from: 'Ortha CMS <no-reply@example.com>',
             to: 'ada@example.com',
             replyTo: 'support@example.com',
             subject: 'You have been invited',
             text: message.text,
             html: '<p>link</p>',
-            headers: { 'X-Ortha-Mail-Kind': 'invite' }
+            headers: { 'X-Orthacms-Mail-Kind': 'invite' }
         });
         expect(receipt).toEqual({ providerMessageId: '<queued@relay>' });
     });

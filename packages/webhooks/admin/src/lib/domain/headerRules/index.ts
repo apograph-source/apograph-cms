@@ -9,7 +9,7 @@
  */
 
 /** Header prefixes reserved for the delivery's own metadata. */
-const RESERVED_PREFIXES = ['x-ortha-'];
+const RESERVED_PREFIXES = ['x-orthacms-'];
 
 /** Headers the transport owns, which an endpoint may never overwrite. */
 const RESERVED_NAMES = [
@@ -30,7 +30,7 @@ export type HeaderRejection = 'malformed' | 'reserved';
 /**
  * Checks one header name.
  *
- * Overwriting `X-Ortha-Signature` or `X-Ortha-Event` would let a delivery claim
+ * Overwriting `X-Orthacms-Signature` or `X-Orthacms-Event` would let a delivery claim
  * to be something it is not, and `Host` is how a request aimed at one virtual
  * host gets served by another — so both are refused rather than silently
  * dropped at send time.

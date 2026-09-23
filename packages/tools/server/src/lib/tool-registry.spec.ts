@@ -315,7 +315,7 @@ describe('ToolRegistry', () => {
             read: { value: boolean } = { value: false }
         ): ToolProvider {
             const definition = {
-                uri: 'ortha://secret',
+                uri: 'orthacms://secret',
                 name: 'secret',
                 description: 'secret',
                 mimeType: 'application/json',
@@ -351,7 +351,7 @@ describe('ToolRegistry', () => {
 
             await expect(
                 registry.readResource(
-                    'ortha://secret',
+                    'orthacms://secret',
                     contextWith(PERMISSIONS.CONTENT_READ)
                 )
             ).rejects.toBeInstanceOf(ForbiddenException);
@@ -370,7 +370,7 @@ describe('ToolRegistry', () => {
 
             await expect(
                 registry.readResource(
-                    'ortha://secret',
+                    'orthacms://secret',
                     contextWith(PERMISSIONS.CONTENT_READ)
                 )
             ).rejects.toBeInstanceOf(ForbiddenException);
@@ -380,7 +380,7 @@ describe('ToolRegistry', () => {
             // run for an actor who holds the permission, so the assertion above
             // is about the gate rather than about a spy nothing ever trips.
             await registry.readResource(
-                'ortha://secret',
+                'orthacms://secret',
                 contextWith(PERMISSIONS.USERS_READ)
             );
             expect(read.value).toBe(true);
@@ -394,7 +394,7 @@ describe('ToolRegistry', () => {
                 1
             );
             await expect(
-                registry.readResource('ortha://secret', permitted)
+                registry.readResource('orthacms://secret', permitted)
             ).resolves.toMatchObject({ text: '{"secret":true}' });
         });
 
@@ -402,7 +402,7 @@ describe('ToolRegistry', () => {
             registry.register(gated([]));
 
             await expect(
-                registry.readResource('ortha://secret', contextWith())
+                registry.readResource('orthacms://secret', contextWith())
             ).resolves.toMatchObject({ text: '{"secret":true}' });
         });
     });
@@ -626,13 +626,13 @@ describe('ToolRegistry', () => {
             registry.register(provider(tool('a', [])));
 
             await expect(
-                registry.readResource('ortha://nope', contextWith())
+                registry.readResource('orthacms://nope', contextWith())
             ).rejects.toBeInstanceOf(NotFoundException);
         });
 
         it('returns the first provider that claims the uri', async () => {
             const contents = {
-                uri: 'ortha://content-type/article',
+                uri: 'orthacms://content-type/article',
                 mimeType: 'application/json',
                 text: '{}'
             };
@@ -653,12 +653,12 @@ describe('ToolRegistry', () => {
 
         it('flattens resource lists across providers', async () => {
             const one = {
-                uri: 'ortha://a',
+                uri: 'orthacms://a',
                 name: 'a',
                 description: 'a',
                 mimeType: 'application/json'
             };
-            const two = { ...one, uri: 'ortha://b', name: 'b' };
+            const two = { ...one, uri: 'orthacms://b', name: 'b' };
             registry.register({
                 tools: () => [],
                 resources: async () => [one]

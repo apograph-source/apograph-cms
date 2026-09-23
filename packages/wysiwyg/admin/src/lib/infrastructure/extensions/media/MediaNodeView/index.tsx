@@ -112,7 +112,7 @@ export function MediaNodeView({
 
     return (
         <NodeViewWrapper
-            className="ortha-wysiwyg-media"
+            className="orthacms-wysiwyg-media"
             data-selected={selected || undefined}
         >
             <figure

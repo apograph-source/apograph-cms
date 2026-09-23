@@ -28,7 +28,7 @@ import { WebhooksPlugin } from '@orthacms/webhooks-server';
 import { createLocalStorageProvider } from '@orthacms/media-provider-local';
 import { UsersPlugin } from '@orthacms/users-server';
 import { WorkspacesPlugin } from '@orthacms/workspaces-server';
-import type { OrthaConfig } from '../ortha.config';
+import type { OrthaCmsConfig } from '../orthacms.config';
 import type { SsoRegistration } from '@orthacms/identity-domain';
 import type { MailProvider } from '@orthacms/mail-domain';
 import { contentTypes } from './content';
@@ -37,7 +37,7 @@ import { contentTypes } from './content';
  * The copilot backends this deployment can actually reach, in preference
  * order.
  *
- * **Only what is configured is registered.** `ortha.config.ts` omits a
+ * **Only what is configured is registered.** `orthacms.config.ts` omits a
  * provider whose connection settings are absent, and an unconfigured backend
  * is not registered here either: the first entry is what a run that names no
  * provider gets, so a keyless `claude` at the top of the list would be the
@@ -60,7 +60,7 @@ import { contentTypes } from './content';
  * repo.
  */
 export function copilotProviders(
-    config: OrthaConfig
+    config: OrthaCmsConfig
 ): ProviderRegistration[] {
     const { claude, ollama } = config.plugins.copilot.providers;
     return [
@@ -76,7 +76,7 @@ export function copilotProviders(
 /**
  * The identity providers this deployment can actually reach.
  *
- * **Only what is configured is registered.** `ortha.config.ts` omits a provider
+ * **Only what is configured is registered.** `orthacms.config.ts` omits a provider
  * whose issuer or client id is missing, and an unconfigured provider is not
  * registered here either — it would appear on the sign-in page as a button that
  * can only fail, and every SSO failure deliberately looks the same, so the
@@ -103,7 +103,7 @@ export function copilotProviders(
  * the provider — exact because most providers match that string byte for byte,
  * and a trailing slash makes it a different URL to them.
  */
-export function ssoProviders(config: OrthaConfig): SsoRegistration[] {
+export function ssoProviders(config: OrthaCmsConfig): SsoRegistration[] {
     const { oidc, github, saml } = config.plugins.identity.ssoProviders;
     const registrations: SsoRegistration[] = [];
 
@@ -130,7 +130,7 @@ export function ssoProviders(config: OrthaConfig): SsoRegistration[] {
  * The mail backend this deployment sends through, or `null` for one that sends
  * nothing.
  *
- * **Only what is configured is constructed.** `ortha.config.ts` returns no
+ * **Only what is configured is constructed.** `orthacms.config.ts` returns no
  * mail config at all unless `MAIL_PROVIDER` names a backend, and this returns
  * `null` in that case — so a fresh clone registers no mail plugin, keeps the
  * invite and reset routes returning the raw token, and behaves exactly as the
@@ -143,7 +143,7 @@ export function ssoProviders(config: OrthaConfig): SsoRegistration[] {
  * `mailConfig`, not its provider, so a config threaded into the wrong factory
  * here would otherwise pass every test in the repo.
  */
-export function mailProvider(config: OrthaConfig): MailProvider | null {
+export function mailProvider(config: OrthaCmsConfig): MailProvider | null {
     const mail = config.plugins.mail;
     if (!mail) return null;
     if (mail.backend === 'console') {
@@ -202,14 +202,14 @@ export function mailProvider(config: OrthaConfig): MailProvider | null {
  * stays a flat array of registrations rather than growing a conditional inside
  * the one literal that is meant to read as "what this deployment runs".
  */
-function mailPlugin(config: OrthaConfig): ServerPlugin[] {
+function mailPlugin(config: OrthaCmsConfig): ServerPlugin[] {
     const provider = mailProvider(config);
     const mail = config.plugins.mail;
     if (!provider || !mail) return [];
     return [MailServerPlugin({ provider, config: mail })];
 }
 
-export function buildPlugins(config: OrthaConfig): ServerPlugin[] {
+export function buildPlugins(config: OrthaCmsConfig): ServerPlugin[] {
     const content = ContentPlugin({
         types: contentTypes,
         // The HOST owns the generated collection tables (drizzle.config.ts
@@ -229,7 +229,7 @@ export function buildPlugins(config: OrthaConfig): ServerPlugin[] {
         // Identity, plus the identity providers this deployment offers.
         //
         // The second argument is where **constructed** adapters go, the same
-        // way the copilot's model backends do: `ortha.config.ts` holds the
+        // way the copilot's model backends do: `orthacms.config.ts` holds the
         // typed view of the environment, and an adapter instance is not an
         // environment value. A default install configures none, so
         // `GET /api/auth/sso` answers `[]` and the sign-in page shows only the

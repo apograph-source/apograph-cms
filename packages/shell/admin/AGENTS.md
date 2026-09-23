@@ -38,7 +38,7 @@ does, from inside its own tree:
   the column is zero-width and `inert`. Collapsed, the column disappears and the
   reopen button appears in the top bar's actions region, because the panel has
   no width left to draw a control in. The open/collapsed state lives in
-  `PageChromeProvider` (persisted, `ortha:right-panel`) rather than with the
+  `PageChromeProvider` (persisted, `orthacms:right-panel`) rather than with the
   filler, since the control that flips it is chrome.
 
   **The toggle pair hands focus between its halves**, and this is not optional.

@@ -33,7 +33,7 @@ const messages = defineMessages({
     description: {
         id: 'transfer.import.description',
         defaultMessage:
-            'Choose a file exported from Ortha, or a CSV matching this collection’s columns. Nothing is written until you’ve seen what will change.'
+            'Choose a file exported from Ortha CMS, or a CSV matching this collection’s columns. Nothing is written until you’ve seen what will change.'
     },
     file: { id: 'transfer.import.file', defaultMessage: 'File' },
     fileHint: {

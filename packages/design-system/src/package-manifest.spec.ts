@@ -84,7 +84,7 @@ describe('@orthacms/design-system package manifest', () => {
 
     it('depends on nothing server-side [design-system:I-37]', () => {
         const serverSide = dependencyNames.filter((name) =>
-            /^@nestjs\/|^drizzle|^pg$|^express$|^@ortha\/(database|.*-server)$/.test(
+            /^@nestjs\/|^drizzle|^pg$|^express$|^@orthacms\/(database|.*-server)$/.test(
                 name
             )
         );

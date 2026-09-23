@@ -14,7 +14,7 @@ jest.mock('../../lib/jiti', () => ({
 import dbMigrateExecutor from './executor';
 
 const options = {
-    config: 'apps/server/ortha.config.ts',
+    config: 'apps/server/orthacms.config.ts',
     plugins: 'apps/server/src/plugins.ts'
 };
 const context = { root: '/repo' } as ExecutorContext;
@@ -23,7 +23,7 @@ const buildPlugins = jest.fn(() => ['a-plugin']);
 /** Wires jiti to answer with a host config carrying `url`. */
 function hostConfig(url: string | undefined) {
     jitiImport.mockImplementation(async (path: string) =>
-        path.endsWith('ortha.config.ts')
+        path.endsWith('orthacms.config.ts')
             ? { default: { database: url === undefined ? {} : { url } } }
             : { buildPlugins }
     );
@@ -33,12 +33,12 @@ beforeEach(() => jest.clearAllMocks());
 
 describe('db-migrate executor', () => {
     it('loads the host config and its plugin factory from the workspace root [nx:I-33]', async () => {
-        hostConfig('postgresql://localhost/ortha_cms');
+        hostConfig('postgresql://localhost/orthacms');
 
         await dbMigrateExecutor(options, context);
 
         expect(jitiImport).toHaveBeenCalledWith(
-            '/repo/apps/server/ortha.config.ts'
+            '/repo/apps/server/orthacms.config.ts'
         );
         expect(jitiImport).toHaveBeenCalledWith(
             '/repo/apps/server/src/plugins.ts'
@@ -46,19 +46,19 @@ describe('db-migrate executor', () => {
     });
 
     it('applies the plugins the host built, against the configured URL [cli:I-01] [nx:I-32]', async () => {
-        hostConfig('postgresql://localhost/ortha_cms');
+        hostConfig('postgresql://localhost/orthacms');
 
         await expect(dbMigrateExecutor(options, context)).resolves.toEqual({
             success: true
         });
         expect(applyPluginMigrations).toHaveBeenCalledWith(
             ['a-plugin'],
-            'postgresql://localhost/ortha_cms'
+            'postgresql://localhost/orthacms'
         );
     });
 
     /**
-     * Regression: an unset `DATABASE_URL` resolves to `''` in `ortha.config.ts`,
+     * Regression: an unset `DATABASE_URL` resolves to `''` in `orthacms.config.ts`,
      * and `new Pool({ connectionString: '' })` falls through to libpq's
      * environment defaults. Measured before this guard: with `DATABASE_URL`
      * unset and `PGDATABASE` pointing elsewhere, `db:migrate` reported

@@ -31,7 +31,7 @@
 > deleted `copilot:configure` and the policy it gated; the global `enabled`
 > flag is the whole of it now. And its stated reason — "enabling a hosted
 > provider sends workspace content to a third party" — is no longer what the
-> flag protects: since ADR-0004's provider registrations, `ortha.config.ts`
+> flag protects: since ADR-0004's provider registrations, `orthacms.config.ts`
 > builds a provider entry only when its credentials exist and `plugins.ts`
 > registers only what was built, with the offline `fake` adapter last, so a
 > deployment holding no key reaches no third party whatever this flag says.

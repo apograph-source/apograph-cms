@@ -13,7 +13,7 @@ import type { ChatPermissionRequest } from '../../domain/types/chat';
 const messages = defineMessages({
     asks: {
         id: 'copilot.permission.asks',
-        defaultMessage: 'Ortha AI wants to change your content'
+        defaultMessage: 'Ortha CMS AI wants to change your content'
     },
     deciding: {
         id: 'copilot.permission.deciding',

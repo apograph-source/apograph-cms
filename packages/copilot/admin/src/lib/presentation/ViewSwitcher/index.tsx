@@ -15,7 +15,7 @@ import {
     isAgentsPath
 } from '../../domain/agentsRoute';
 
-// The product is **Ortha AI**; the code keeps `copilot`. See the naming note in
+// The product is **Ortha CMS AI**; the code keeps `copilot`. See the naming note in
 // `docs/design/copilot.md`.
 const messages = defineMessages({
     label: {
@@ -38,7 +38,7 @@ const AGENTS = 'agents';
 
 /** Where the CMS half of the switcher goes back to, per workspace. */
 const returnKey = (workspaceId: string) =>
-    `ortha:agents:return:${workspaceId}`;
+    `orthacms:agents:return:${workspaceId}`;
 
 /**
  * Records the CMS page the user was last on.

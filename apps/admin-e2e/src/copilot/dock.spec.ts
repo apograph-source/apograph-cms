@@ -22,7 +22,7 @@ const WORKSPACE_ID = 'ws_marketing';
  * case below is about that chrome, or about the one rule the whole design rests
  * on: **closing a chat is what ends its run, and nothing else is.**
  */
-test.describe('Ortha AI dock', () => {
+test.describe('Ortha CMS AI dock', () => {
     test.beforeEach(async ({ page, contentLibraryPage }) => {
         await mockSignedIn(page);
         await mockWorkspaces(page);
@@ -40,7 +40,7 @@ test.describe('Ortha AI dock', () => {
         // hint — which is where that shortcut is discoverable at all. The
         // glyph is platform-derived; which one is right for *this* browser is
         // asserted on its own below.
-        await expect(copilotDockPage.dock).toContainText('Ortha AI');
+        await expect(copilotDockPage.dock).toContainText('Ortha CMS AI');
         await expect(copilotDockPage.dock).toContainText(/(⌘|Ctrl)J/);
 
         await copilotDockPage.startChat();
@@ -312,7 +312,7 @@ test.describe('Ortha AI dock', () => {
  * below opens a collection's records table rather than the library's front page:
  * `readRouteContext` has nothing to offer where there is no content type.
  */
-test.describe('Ortha AI dock — the attached page', () => {
+test.describe('Ortha CMS AI dock — the attached page', () => {
     /** A collection whose records table gives the URL a content type. */
     const TYPE = 'blog_post';
 
@@ -410,7 +410,7 @@ test.describe('Ortha AI dock — the attached page', () => {
  * the smallest case that fails without the fix. Three are about **who a control
  * announces itself as**, and one is about a chat existing twice.
  */
-test.describe('Ortha AI dock — regressions', () => {
+test.describe('Ortha CMS AI dock — regressions', () => {
     test.beforeEach(async ({ page, contentLibraryPage }) => {
         await mockSignedIn(page);
         await mockWorkspaces(page);
@@ -440,7 +440,7 @@ test.describe('Ortha AI dock — regressions', () => {
         // becoming a second, immediately-diverging view of one server-side
         // transcript.
         await expect(copilotDockPage.panelTitle(0)).toHaveText(THREAD);
-        await expect(copilotDockPage.panelTitle(1)).toHaveText('Ortha AI');
+        await expect(copilotDockPage.panelTitle(1)).toHaveText('Ortha CMS AI');
         await expect(copilotDockPage.pill(THREAD)).toHaveCount(1);
     });
 
@@ -473,11 +473,11 @@ test.describe('Ortha AI dock — regressions', () => {
     }) => {
         const start = copilotDockPage.newChat();
 
-        // 2.5.3 Label in Name: the visible text is "Ortha AI" and the
+        // 2.5.3 Label in Name: the visible text is "Ortha CMS AI" and the
         // accessible name was the constant "New chat", so the two had nothing
-        // in common — "click Ortha AI" did not work by voice.
-        await expect(start).toHaveText(/Ortha AI/);
-        await expect(start).toHaveAccessibleName(/Ortha AI/);
+        // in common — "click Ortha CMS AI" did not work by voice.
+        await expect(start).toHaveText(/Ortha CMS AI/);
+        await expect(start).toHaveAccessibleName(/Ortha CMS AI/);
 
         // Both accepted chords are advertised, so assistive tech announces the
         // one its user can press rather than whichever glyph is drawn.
@@ -571,7 +571,7 @@ test.describe('Ortha AI dock — regressions', () => {
             1
         );
 
-        // Both windows used to answer to the accessible name "Ortha AI", so a
+        // Both windows used to answer to the accessible name "Ortha CMS AI", so a
         // screen-reader user enumerating dialogs heard one name for every open
         // chat — while the visible headings told them apart.
         await expect(copilotDockPage.panel(0)).toHaveAccessibleName(
@@ -583,7 +583,7 @@ test.describe('Ortha AI dock — regressions', () => {
     });
 });
 
-test.describe('Ortha AI dock accessibility (axe, WCAG 2.1 A/AA)', () => {
+test.describe('Ortha CMS AI dock accessibility (axe, WCAG 2.1 A/AA)', () => {
     test.beforeEach(async ({ page, contentLibraryPage }) => {
         await mockSignedIn(page);
         await mockWorkspaces(page);

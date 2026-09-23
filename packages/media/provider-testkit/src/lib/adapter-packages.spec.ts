@@ -153,12 +153,12 @@ describe('the storage adapter packages', () => {
 
     // covers: media:I-34
     it.each(ADAPTERS.map((a) => [a.name, a] as const))(
-        '%s reaches for one Ortha package — the port, and nothing else',
+        '%s reaches for one Ortha CMS package — the port, and nothing else',
         (_name, adapter) => {
             // The testkit is the exception the manifests already record: an
             // adapter keeps it in `devDependencies` to run the shared contract
             // suite, so it never travels with the shipped package.
-            const ortha = adapter.sources.flatMap((path) =>
+            const orthacms = adapter.sources.flatMap((path) =>
                 specifiersOf(path)
                     .map(packageOf)
                     .filter((name) => name.startsWith('@orthacms/'))
@@ -167,7 +167,7 @@ describe('the storage adapter packages', () => {
                     )
             );
 
-            expect([...new Set(ortha)]).toEqual(['@orthacms/media-domain']);
+            expect([...new Set(orthacms)]).toEqual(['@orthacms/media-domain']);
         }
     );
 
@@ -302,23 +302,23 @@ describe('the storage adapter packages', () => {
 
     // covers: media:I-34
     it.each(ADAPTERS.map((a) => [a.name, a] as const))(
-        '%s pulls in one Ortha package transitively — the port, and what it needs',
+        '%s pulls in one Ortha CMS package transitively — the port, and what it needs',
         (_name, adapter) => {
             const entry = fileFor(
                 join(GROUP, adapter.name, 'src', 'index.ts')
             ) as string;
 
-            const ortha = [...reachableFrom(entry).externals]
+            const orthacms = [...reachableFrom(entry).externals]
                 .filter((name) => name.startsWith('@orthacms/'))
                 .filter((name) => name !== '@orthacms/media-provider-testkit')
                 .sort();
 
-            // Not "no Ortha package but the port": "no Ortha package the port
+            // Not "no Ortha CMS package but the port": "no Ortha CMS package the port
             // does not itself pull in". `@orthacms/media-domain` declares no
             // dependencies (asserted in its own `package-manifest.spec.ts`), so
             // today those are the same list — and if the port ever grows one,
             // this fails here rather than in someone's install.
-            expect(ortha).toEqual(['@orthacms/media-domain']);
+            expect(orthacms).toEqual(['@orthacms/media-domain']);
         }
     );
 });

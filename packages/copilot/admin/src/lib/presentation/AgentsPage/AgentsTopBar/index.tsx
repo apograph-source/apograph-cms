@@ -23,7 +23,7 @@ import { useConversations } from '../../../application/useConversations';
 import { readAgentThreadId } from '../../../domain/agentsRoute';
 import { AgentsRailList } from '../AgentsRailList';
 
-// The product is **Ortha AI**; the code keeps `copilot`. See the naming note in
+// The product is **Ortha CMS AI**; the code keeps `copilot`. See the naming note in
 // `docs/design/copilot.md`.
 const messages = defineMessages({
     nav: {
@@ -32,7 +32,7 @@ const messages = defineMessages({
     },
     root: {
         id: 'copilot.agents.topbar.root',
-        defaultMessage: 'Ortha AI'
+        defaultMessage: 'Ortha CMS AI'
     },
     newChat: {
         id: 'copilot.agents.topbar.newChat',
@@ -51,7 +51,7 @@ const messages = defineMessages({
 export interface AgentsTopBarProps {
     /** The workspace whose threads this bar titles. */
     workspaceId: string;
-    /** Where the "Ortha AI" crumb links — a new chat. */
+    /** Where the "Ortha CMS AI" crumb links — a new chat. */
     basePath: string;
 }
 

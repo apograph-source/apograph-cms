@@ -7,7 +7,7 @@ export class MissingRootAdminPasswordError extends Error {
     constructor(email: string) {
         super(
             `Root admin "${email}" is configured without a password. ` +
-                'Set ORTHA_ROOT_ADMIN_PASSWORD.'
+                'Set ORTHACMS_ROOT_ADMIN_PASSWORD.'
         );
         this.name = 'MissingRootAdminPasswordError';
     }

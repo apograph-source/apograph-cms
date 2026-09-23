@@ -12,10 +12,10 @@ describe('Email', () => {
     describe('isValid', () => {
         it.each([
             'a@b.co',
-            'ada@ortha.dev',
+            'ada@orthacms.dev',
             'ada.lovelace+invites@mail.example.co.uk',
             "o'hara@example.com",
-            'ADA@ORTHA.DEV',
+            'ADA@ORTHACMS.DEV',
             'ünïcode@exämple.dev'
         ])('accepts %s', (value) => {
             expect(Email.isValid(value)).toBe(true);
@@ -25,15 +25,15 @@ describe('Email', () => {
             ['an empty string', ''],
             ['no domain at all', 'notanemail'],
             ['a domain with no dot', 'ada@localhost'],
-            ['no local part', '@ortha.dev'],
+            ['no local part', '@orthacms.dev'],
             ['no domain after the @', 'ada@'],
-            ['a leading space', ' ada@ortha.dev'],
+            ['a leading space', ' ada@orthacms.dev'],
             // The browser strips a trailing space from `<input type="email">`
             // before the validator ever sees it, so this can only be reached
             // programmatically — it is still the rule.
-            ['a trailing space', 'ada@ortha.dev '],
-            ['an inner space', 'ada lovelace@ortha.dev'],
-            ['two @ signs', 'ada@@ortha.dev'],
+            ['a trailing space', 'ada@orthacms.dev '],
+            ['an inner space', 'ada lovelace@orthacms.dev'],
+            ['two @ signs', 'ada@@orthacms.dev'],
             ['only whitespace', '   ']
         ])('rejects %s', (_case, value) => {
             expect(Email.isValid(value)).toBe(false);
@@ -44,16 +44,16 @@ describe('Email', () => {
         // is the safe direction — it can only refuse to send something the
         // server would have refused to store.
         it('accepts an address of exactly 320 characters', () => {
-            const local = 'a'.repeat(320 - '@ortha.dev'.length);
-            const value = `${local}@ortha.dev`;
+            const local = 'a'.repeat(320 - '@orthacms.dev'.length);
+            const value = `${local}@orthacms.dev`;
 
             expect(value).toHaveLength(320);
             expect(Email.isValid(value)).toBe(true);
         });
 
         it('rejects an address of 321 characters', () => {
-            const local = 'a'.repeat(321 - '@ortha.dev'.length);
-            const value = `${local}@ortha.dev`;
+            const local = 'a'.repeat(321 - '@orthacms.dev'.length);
+            const value = `${local}@orthacms.dev`;
 
             expect(value).toHaveLength(321);
             expect(Email.isValid(value)).toBe(false);
@@ -65,7 +65,7 @@ describe('Email', () => {
         it('rejects a very long value without hanging', () => {
             const started = Date.now();
 
-            expect(Email.isValid(`${'a'.repeat(100_000)}@ortha.dev`)).toBe(
+            expect(Email.isValid(`${'a'.repeat(100_000)}@orthacms.dev`)).toBe(
                 false
             );
 
@@ -75,14 +75,14 @@ describe('Email', () => {
 
     describe('create', () => {
         it('wraps a valid address and exposes it unchanged', () => {
-            expect(Email.create('ada@ortha.dev').value).toBe(
-                'ada@ortha.dev'
+            expect(Email.create('ada@orthacms.dev').value).toBe(
+                'ada@orthacms.dev'
             );
         });
 
         it('does not normalize case or whitespace — it only validates', () => {
-            expect(Email.create('ADA@Ortha.dev').value).toBe(
-                'ADA@Ortha.dev'
+            expect(Email.create('ADA@Orthacms.dev').value).toBe(
+                'ADA@Orthacms.dev'
             );
         });
 
