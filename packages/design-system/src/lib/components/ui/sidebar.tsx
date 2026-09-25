@@ -1045,5 +1045,6 @@ export {
     SidebarTrigger,
     useSidebar,
     useOptionalSidebar,
-    useInsetTopBarHost
+    useInsetTopBarHost,
+    SIDEBAR_WIDTH
 };

@@ -148,6 +148,15 @@ export interface CopilotPanelProps {
      * on the first.
      */
     slot: number;
+    /**
+     * Room an un-dragged window keeps clear on the viewport's left — the open
+     * sidebar's width, while the dock lives in its footer. Tiled windows walk
+     * leftwards, and the third on a 1440px screen used to land across the
+     * sidebar's footer, covering the very button that opens another chat.
+     * With this set, a slot that would cross it stops at its edge instead and
+     * overlaps its neighbour, which the user can drag.
+     */
+    leftInset?: string;
     /** Collapses this chat to the dock. It keeps running. */
     onMinimize(): void;
     /** Closes this chat for good. */
@@ -242,6 +251,7 @@ export function CopilotPanel({
     title,
     open,
     slot,
+    leftInset = '0px',
     onMinimize,
     onClose,
     onNewChat,
@@ -361,9 +371,12 @@ export function CopilotPanel({
                     ? frame.style
                     : {
                           bottom: DOCK_CLEARANCE,
+                          // Clamped so the window's left edge never crosses
+                          // `leftInset` (420px is the docked width below),
+                          // and never below the `1rem` a first window gets.
                           right: expanded
                               ? '1rem'
-                              : `calc(1rem + ${slot} * ${SLOT_PITCH})`
+                              : `max(1rem, min(calc(1rem + ${slot} * ${SLOT_PITCH}), calc(100vw - ${leftInset} - 420px - 1rem)))`
                       }
             }
             className={cn(

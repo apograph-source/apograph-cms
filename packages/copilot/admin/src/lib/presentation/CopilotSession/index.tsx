@@ -27,6 +27,7 @@ export function CopilotSession({
     workspaceId,
     routeContext,
     slot,
+    leftInset,
     onMinimize,
     onClose,
     onNewChat,
@@ -45,6 +46,8 @@ export function CopilotSession({
     routeContext: RouteContext;
     /** Which visible window this is; `-1` while collapsed to the dock. */
     slot: number;
+    /** Room the window keeps clear on the left — see `CopilotPanelProps`. */
+    leftInset?: string;
     onMinimize(): void;
     onClose(): void;
     onNewChat(): void;
@@ -131,6 +134,7 @@ export function CopilotSession({
             // A collapsed window is mid-exit-transition and about to unmount;
             // keeping it at slot 0 stops it sliding sideways on the way out.
             slot={Math.max(slot, 0)}
+            {...(leftInset ? { leftInset } : {})}
             onMinimize={onMinimize}
             onClose={onClose}
             onNewChat={onNewChat}

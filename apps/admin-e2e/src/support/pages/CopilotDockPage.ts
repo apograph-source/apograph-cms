@@ -3,10 +3,11 @@ import { BasePage } from './BasePage';
 
 /**
  * Page object for the **docked panel** (`@orthacms/copilot-admin`) — the
- * bottom-right dock, the windows it opens, and their chrome. Seed it with
- * `mockSignedIn`, `mockWorkspaces` and `mockCopilotApi`, then open any page
- * inside a workspace: the dock is contributed to the sidebar's footer slot and
- * portalled to `<body>`, so it is there on every workspace page.
+ * dock, the windows it opens, and their chrome. Seed it with `mockSignedIn`,
+ * `mockWorkspaces` and `mockCopilotApi`, then open any page inside a
+ * workspace: the dock is contributed to the sidebar's footer slot and sits
+ * there (floating bottom-right only while the sidebar is collapsed), so it is
+ * there on every workspace page.
  *
  * The sibling of {@link AgentsPage}, which covers the full-page surface. The two
  * share their transcript, composer and cards; what only exists here is the
@@ -23,15 +24,17 @@ export class CopilotDockPage extends BasePage {
 
     constructor(page: Page) {
         super(page);
-        // A `complementary`, not a `toolbar`: the role was downgraded once it
-        // was clear the dock implements none of the composite-widget keyboard
-        // model a toolbar promises (no roving tabindex, no arrow keys) — every
-        // pill is its own tab stop. It became a **landmark** rather than a plain
-        // `group` because the dock is portalled to `<body>`, so without one its
-        // pills sat outside every landmark on the page (`ORT-170`).
-        this.dock = page.getByRole('complementary', {
-            name: 'Ortha CMS AI chats'
-        });
+        // Never a `toolbar`: the dock implements none of the composite-widget
+        // keyboard model a toolbar promises (no roving tabindex, no arrow keys)
+        // — every pill is its own tab stop. Its role depends on where it is:
+        // a `group` in the sidebar's footer, which is already a landmark, and
+        // a `complementary` landmark while it floats over the page with the
+        // sidebar collapsed — portalled to `<body>`, so without one its pills
+        // would sit outside every landmark (`ORT-170`). Same name in both.
+        const name = 'Ortha CMS AI chats';
+        this.dock = page
+            .getByRole('group', { name, exact: true })
+            .or(page.getByRole('complementary', { name, exact: true }));
     }
 
     // --- the dock ---------------------------------------------------------

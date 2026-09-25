@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { SIDEBAR_WIDTH, useSidebar } from '@orthacms/design-system';
 import { useHasPermission } from '@orthacms/identity-admin';
 import { isComposingText } from '@orthacms/utils-admin';
 import { useCopilotAvailable } from '../../application/useCopilotModels';
@@ -29,9 +30,10 @@ import { CopilotSession } from '../CopilotSession';
  * a sidebar row beside it; both are gone. A round button could only ever mean
  * "the panel", singular, and a sidebar row duplicated what the dock already
  * says while spending a permanent slot in navigation on it. With no chats open
- * the dock *is* a labelled Ortha CMS AI button in the corner, and as soon as there
- * are chats it becomes the bar listing them — one control that grows into the
- * thing it opens.
+ * the dock *is* a labelled Ortha CMS AI button, and as soon as there are chats
+ * it becomes the list of them — one control that grows into the thing it
+ * opens. It sits in this slot's footer while the sidebar is open and floats
+ * bottom-right only while it is collapsed (see `CopilotDock`).
  *
  * `⌘J` is still the shortcut. Its discoverability moved onto the dock's own
  * button, which shows the hint while it is the only thing there.
@@ -74,6 +76,22 @@ export function CopilotLauncher() {
     // truthful while the dock is out of sight, and what has the pills already
     // correct the moment the user navigates away again.
     const dockStandsDown = isAgentsPath(pathname);
+
+    // In the footer while the sidebar is showing; floating only while it is
+    // collapsed, since `offcanvas` slides the footer off-screen with the rest.
+    // On mobile the sidebar is a sheet, and this component only exists while
+    // it is open, so the footer is where the dock belongs there too.
+    const sidebar = useSidebar();
+    const dockPlacement =
+        !sidebar.isMobile && sidebar.state === 'collapsed'
+            ? 'floating'
+            : 'sidebar';
+    // While the dock is in the (desktop) sidebar, the windows keep off it —
+    // the third tiled one would otherwise land on the dock's own buttons.
+    const windowLeftInset =
+        dockPlacement === 'sidebar' && !sidebar.isMobile
+            ? SIDEBAR_WIDTH
+            : undefined;
 
     // The tab badge lives here for the same reason the dock does: this is the
     // one copilot component mounted for the whole session, so it can count
@@ -154,11 +172,25 @@ export function CopilotLauncher() {
         return null;
     }
 
-    // Nothing is rendered into the sidebar slot itself any more — only the
-    // portalled dock and its windows. The slot contribution stays because it is
-    // what mounts this component at all.
+    const dock = (
+        <CopilotDock
+            sessions={sessions.dock}
+            onToggle={sessions.toggle}
+            onClose={sessions.close}
+            onNewChat={() => sessions.start()}
+            newChatRef={newChatRef}
+            placement={dockPlacement}
+        />
+    );
+
+    // The windows are always portalled; the dock is portalled only while it
+    // floats. In the sidebar it is meant to inherit the sidebar's styling —
+    // that is the whole of what the portal protects the floating chrome from.
     return (
         <>
+            {dockPlacement === 'sidebar' && (
+                <div hidden={dockStandsDown}>{dock}</div>
+            )}
             {/* Portalled to `<body>`. This component is contributed to the
                 sidebar's footer slot, so without a portal the fixed-position
                 chrome below stays a DOM *descendant of the sidebar* — and
@@ -188,6 +220,9 @@ export function CopilotLauncher() {
                             workspaceId={workspaceId}
                             routeContext={routeContext}
                             slot={slotOf(session.id)}
+                            {...(windowLeftInset
+                                ? { leftInset: windowLeftInset }
+                                : {})}
                             // Focus has to land somewhere when a window goes
                             // away, and the dock's new-chat button is the one
                             // control guaranteed to still be there. The panel
@@ -237,13 +272,7 @@ export function CopilotLauncher() {
                         />
                     ))}
 
-                    <CopilotDock
-                        sessions={sessions.dock}
-                        onToggle={sessions.toggle}
-                        onClose={sessions.close}
-                        onNewChat={() => sessions.start()}
-                        newChatRef={newChatRef}
-                    />
+                    {dockPlacement === 'floating' && dock}
                 </div>,
                 document.body
             )}

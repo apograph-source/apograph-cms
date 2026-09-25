@@ -166,12 +166,11 @@ test.describe('Publication protection in the entry editor', () => {
         });
         await contentLibraryPage.gotoEntry(WS, TYPE, ENTRY);
 
-        // A plain pointer click, and it is the assertion: the copilot dock is
-        // `fixed bottom-3 right-4` with `z-40` and floats over the bottom of the
-        // properties rail, which is where this button sits. It used to
-        // intercept the click and this test timed out. The scrollports now
-        // reserve `--orthacms-fixed-bottom-gutter`, so the rail can be scrolled
-        // clear of the bar — if that regresses, this goes back to timing out.
+        // A plain pointer click, and it is the assertion: this button sits at
+        // the bottom of the properties rail, where the copilot dock used to
+        // float (`fixed bottom-3 right-4`, `z-40`) and intercept the click, and
+        // this test timed out. The dock now lives in the sidebar's footer —
+        // if it ever floats over the rail again, this goes back to timing out.
         await page.getByRole('button', { name: 'Request review' }).click();
         const dialog = page.getByRole('dialog', { name: 'Request review' });
         await expect(dialog).toBeVisible();

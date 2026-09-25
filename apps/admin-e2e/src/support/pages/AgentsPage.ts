@@ -31,11 +31,12 @@ export class AgentsPage extends BasePage {
         super(page);
         this.main = page.getByRole('main');
         this.rail = page.getByRole('complementary', { name: 'Chats' });
-        // A `complementary`, not a `toolbar` or a bare `group` — see
-        // `CopilotDockPage` for both halves of why.
-        this.dock = page.getByRole('complementary', {
-            name: 'Ortha CMS AI chats'
-        });
+        // A `group` in the sidebar's footer, a `complementary` while it floats
+        // with the sidebar collapsed — see `CopilotDockPage` for why each.
+        const name = 'Ortha CMS AI chats';
+        this.dock = page
+            .getByRole('group', { name, exact: true })
+            .or(page.getByRole('complementary', { name, exact: true }));
     }
 
     // --- navigation -------------------------------------------------------
