@@ -1,7 +1,14 @@
 import { useLayoutEffect, useRef } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { Plus, Sparkles, X } from 'lucide-react';
-import { cn, Kbd } from '@orthacms/design-system';
+import {
+    cn,
+    Kbd,
+    SidebarMenu,
+    SidebarMenuAction,
+    SidebarMenuButton,
+    SidebarMenuItem
+} from '@orthacms/design-system';
 import type { CopilotSession } from '../../application/sessions';
 import {
     NEW_CHAT_KEY_SHORTCUTS,
@@ -77,16 +84,27 @@ const messages = defineMessages({
  *   rather than an unlabelled ×, because closing ends a run and discards a
  *   window, and it sits a few pixels from the thing that merely hides it.
  *
- * Bottom-**right**, not full width: it sits where the floating button was, and
- * a bar spanning the viewport would cover page content across every screen for
- * the sake of at most a handful of chats.
+ * **It lives in the sidebar's footer**, above the account, whenever the
+ * sidebar is open. It used to float bottom-right over the page, and anything
+ * floating there covers whatever is beneath it — so every scroll container had
+ * to reserve a strip the width of the page for a chip the width of a button,
+ * and that strip was an empty band at the foot of every screen. The sidebar
+ * has the room and is already persistent chrome, so the dock costs the page
+ * nothing there.
+ *
+ * **It floats only while the sidebar is collapsed**, because the sidebar is
+ * `offcanvas` and takes its footer with it: without a fallback, hiding the nav
+ * would hide every minimized chat. Only then does it publish the bottom gutter
+ * (see below). The pills are the same in both placements, and so are their
+ * names — only the chrome around them changes.
  */
 export function CopilotDock({
     sessions,
     onToggle,
     onClose,
     onNewChat,
-    newChatRef
+    newChatRef,
+    placement
 }: {
     sessions: readonly CopilotSession[];
     onToggle(id: string): void;
@@ -94,10 +112,34 @@ export function CopilotDock({
     onNewChat(): void;
     /** Focus lands here when a chat closes, so it never falls to `<body>`. */
     newChatRef?: React.RefObject<HTMLButtonElement | null>;
+    /**
+     * `sidebar`: rendered in place, in the sidebar's footer. `floating`: the
+     * fixed bar bottom-right, for while the sidebar is collapsed — the caller
+     * portals it, since a fixed element must not inherit the sidebar's styling.
+     */
+    placement: 'sidebar' | 'floating';
 }) {
     const intl = useIntl();
     const empty = sessions.length === 0;
     const bar = useRef<HTMLDivElement | null>(null);
+
+    // The marker is in the name, not only in the dot — and `awaiting` outranks
+    // `unread`, because a chat blocked on a question is the one to open first.
+    const titleOf = (session: CopilotSession) =>
+        session.title ?? intl.formatMessage(messages.untitled);
+    const pillName = (session: CopilotSession) => {
+        const title = titleOf(session);
+        if (session.awaiting) {
+            return intl.formatMessage(messages.awaiting, { title });
+        }
+        if (session.unread) {
+            return intl.formatMessage(messages.unread, { title });
+        }
+        return title;
+    };
+    const newChatName = intl.formatMessage(
+        empty ? messages.startFull : messages.newChat
+    );
 
     /**
      * Publishes how much room this bar takes at the bottom of the viewport, so
@@ -115,8 +157,13 @@ export function CopilotDock({
      * unset and every reader falls back to `0px`, which is the layout those
      * deployments have today. Measured rather than hard-coded so the pills'
      * own type scale cannot drift away from the gutter reserved for them.
+     *
+     * **Floating only.** In the sidebar the dock covers nothing, so there is
+     * nothing to reserve — and reserving anyway is exactly the empty band this
+     * placement exists to remove.
      */
     useLayoutEffect(() => {
+        if (placement !== 'floating') return;
         const node = bar.current;
         if (!node) return;
         const root = document.documentElement;
@@ -137,7 +184,98 @@ export function CopilotDock({
             observer.disconnect();
             root.style.removeProperty('--orthacms-fixed-bottom-gutter');
         };
-    }, []);
+    }, [placement]);
+
+    if (placement === 'sidebar') {
+        return (
+            <div
+                // A `group`, not the floating bar's `complementary`: here it is
+                // inside the sidebar, which is already a named landmark, and a
+                // complementary nested in another is an axe violation that also
+                // adds nothing — the sidebar is how a screen-reader user gets
+                // here. The name is the same in both placements.
+                role="group"
+                aria-label={intl.formatMessage(messages.label)}
+            >
+                <SidebarMenu>
+                    {sessions.map((session) => {
+                        const title = titleOf(session);
+                        return (
+                            <SidebarMenuItem key={session.id}>
+                                <SidebarMenuButton
+                                    size="sm"
+                                    onClick={() => onToggle(session.id)}
+                                    aria-pressed={!session.minimized}
+                                    aria-label={pillName(session)}
+                                    title={title}
+                                    isActive={!session.minimized}
+                                >
+                                    <Sparkles aria-hidden />
+                                    <span className="min-w-0 flex-1 truncate">
+                                        {title}
+                                    </span>
+                                    {(session.awaiting || session.unread) && (
+                                        <span
+                                            aria-hidden
+                                            className={cn(
+                                                'size-1.5 shrink-0 rounded-full',
+                                                session.awaiting
+                                                    ? 'bg-warning'
+                                                    : 'bg-primary'
+                                            )}
+                                        />
+                                    )}
+                                </SidebarMenuButton>
+                                <SidebarMenuAction
+                                    onClick={() => onClose(session.id)}
+                                    aria-label={intl.formatMessage(
+                                        messages.close,
+                                        { title }
+                                    )}
+                                >
+                                    <X aria-hidden />
+                                </SidebarMenuAction>
+                            </SidebarMenuItem>
+                        );
+                    })}
+                    <SidebarMenuItem>
+                        <SidebarMenuButton
+                            ref={newChatRef}
+                            onClick={onNewChat}
+                            aria-label={newChatName}
+                            title={newChatName}
+                            // Both accepted chords, so assistive tech announces
+                            // the one its user can actually press.
+                            aria-keyshortcuts={NEW_CHAT_KEY_SHORTCUTS}
+                        >
+                            {empty ? (
+                                <Sparkles aria-hidden />
+                            ) : (
+                                <Plus aria-hidden />
+                            )}
+                            <span className="min-w-0 flex-1 truncate">
+                                {intl.formatMessage(
+                                    empty ? messages.start : messages.newChat
+                                )}
+                            </span>
+                            {/* Styled like the content search's `⌘K` a few
+                                rows up, so the sidebar's two shortcut hints
+                                read as one convention. Decorative: the chord
+                                is in `aria-keyshortcuts` above. */}
+                            {empty && (
+                                <kbd
+                                    aria-hidden
+                                    className="ml-auto hidden rounded border border-sidebar-border bg-sidebar px-1.5 font-sans text-[10px] text-sidebar-foreground/70 sm:inline"
+                                >
+                                    {`${shortcutModifierGlyph()}J`}
+                                </kbd>
+                            )}
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+                </SidebarMenu>
+            </div>
+        );
+    }
 
     return (
         <div

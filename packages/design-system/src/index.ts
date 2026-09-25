@@ -265,7 +265,11 @@ export {
     SidebarSeparator,
     SidebarTrigger,
     useSidebar,
-    useOptionalSidebar
+    useOptionalSidebar,
+    // The expanded sidebar's width, for fixed chrome that must keep clear of
+    // it (the copilot's chat windows) and so cannot read `--sidebar-width`,
+    // which is set on the provider's wrapper rather than the root.
+    SIDEBAR_WIDTH
 } from './lib/components/ui/sidebar';
 // The one breakpoint the chrome branches on (768px), so a consumer that must lay
 // out differently on a phone reads the *same* boundary the sidebar does instead
