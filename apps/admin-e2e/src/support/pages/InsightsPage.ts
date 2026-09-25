@@ -29,9 +29,18 @@ export class InsightsPage extends BasePage {
         return this.page.getByRole('heading', { name: 'Insights', level: 1 });
     }
 
-    /** A section band's heading (e.g. "Content", "Team"). */
+    /**
+     * A section band's heading (e.g. "Content", "Team").
+     *
+     * Scoped to `main` and matched exactly: the workspace sidebar has its own
+     * `h2` "Content" group heading, which renders once the content schema
+     * loads — so an unscoped locator passes or trips strict mode depending on
+     * which lands first.
+     */
     section(name: string): Locator {
-        return this.page.getByRole('heading', { name, level: 2 });
+        return this.page
+            .getByRole('main')
+            .getByRole('heading', { name, level: 2, exact: true });
     }
 
     /**
