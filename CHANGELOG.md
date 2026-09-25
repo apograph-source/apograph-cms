@@ -1,3 +1,43 @@
+## 0.6.0 (2026-09-25)
+
+### 🚀 Features
+
+- **agents:** add the tiered ticket pipeline, and restore open-pr as a skill ([#273](https://github.com/ortha-source/ortha-cms/pull/273))
+- **content-admin, i18n-admin:** slim the entry editor's Properties rail ([#276](https://github.com/ortha-source/ortha-cms/pull/276))
+- **create-apograph-app:** ask for a mail backend, and wire what it answers ([#275](https://github.com/ortha-source/ortha-cms/pull/275))
+- **database, activity:** prune delivered outbox rows, retry a parked one ([#280](https://github.com/ortha-source/ortha-cms/pull/280))
+- **mail:** send invitations and reset links instead of relaying them by hand ([#272](https://github.com/ortha-source/ortha-cms/pull/272))
+- **protection:** add the publication-protection domain kernel ([#255](https://github.com/ortha-source/ortha-cms/pull/255))
+- **protection:** publication protection — plugin, review, publish guard, admin (ORT-226) ([#265](https://github.com/ortha-source/ortha-cms/pull/265), [#256](https://github.com/ortha-source/ortha-cms/issues/256), [#258](https://github.com/ortha-source/ortha-cms/issues/258), [#259](https://github.com/ortha-source/ortha-cms/issues/259), [#260](https://github.com/ortha-source/ortha-cms/issues/260), [#263](https://github.com/ortha-source/ortha-cms/issues/263))
+- **protection:** review requests name reviewers; drop notes, request changes and bypass reasons ([2d494cac](https://github.com/ortha-source/ortha-cms/commit/2d494cac))
+
+### 🩹 Fixes
+
+- rename the scope in the one file grep classified as binary ([cd254670](https://github.com/ortha-source/ortha-cms/commit/cd254670))
+- rename the 49 files that carry the name only in upper or title case ([fa0d577a](https://github.com/ortha-source/ortha-cms/commit/fa0d577a))
+- **content:** the publish verdict answers for a staged audience too ([084fc1ae](https://github.com/ortha-source/ortha-cms/commit/084fc1ae))
+- **content-admin:** refuse a background refetch's re-seed over unsaved edits ([93433214](https://github.com/ortha-source/ortha-cms/commit/93433214))
+- **content-admin:** address the four review findings on the refused re-seed ([e2b0b9ed](https://github.com/ortha-source/ortha-cms/commit/e2b0b9ed))
+- **copilot-admin:** bound the change card's failure reason ([#278](https://github.com/ortha-source/ortha-cms/pull/278))
+- **deps:** restore sharp's platform binaries in the lock file ([2bf50a0b](https://github.com/ortha-source/ortha-cms/commit/2bf50a0b))
+- **protection:** publish no longer stales its own approval; ordinary Publish for bypass ([7fbd9811](https://github.com/ortha-source/ortha-cms/commit/7fbd9811))
+- **protection:** send the overdue threshold with the queue instead of restating it ([41b0a494](https://github.com/ortha-source/ortha-cms/commit/41b0a494))
+- **protection:** the queue's empty-page assertions carry the new field ([12780a34](https://github.com/ortha-source/ortha-cms/commit/12780a34))
+- **protection:** declare the shell-admin dependency the Reviews page imports ([419d71d2](https://github.com/ortha-source/ortha-cms/commit/419d71d2))
+- **protection-admin:** key the entry review by the entry's version ([1215f953](https://github.com/ortha-source/ortha-cms/commit/1215f953))
+- **protection-admin:** hold Publish while the review key is re-read ([6b14dbc5](https://github.com/ortha-source/ortha-cms/commit/6b14dbc5))
+- **release:** let reserve-names run again straight after a batch ([c6a49cfc](https://github.com/ortha-source/ortha-cms/commit/c6a49cfc))
+- **server-e2e:** clear mail_deliveries between tests ([f8db838b](https://github.com/ortha-source/ortha-cms/commit/f8db838b))
+- **shell:** reserve the gutter the copilot dock covers, and close four coverage gaps ([6a837c11](https://github.com/ortha-source/ortha-cms/commit/6a837c11))
+
+### ❤️ Thank You
+
+- Claude
+- Claude Opus 5
+- Claude Opus 5 (1M context)
+- Pavel Makhanko @pmknk
+- pmknk
+
 ## 0.5.2 (2026-09-07)
 
 ### 🩹 Fixes

@@ -1,6 +1,6 @@
 {
     "name": "@orthacms/cli",
-    "version": "0.5.2",
+    "version": "0.6.0",
     "license": "MIT",
     "description": "The `orthacms` command — build, run and migrate an Ortha CMS app.",
     "bin": {
